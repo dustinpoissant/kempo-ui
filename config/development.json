@@ -1,0 +1,14 @@
+{
+  "customRoutes": {
+    "/": "./docs/index.html",
+    "/kempo.min.css": "./node_modules/kempo-css/dist/kempo.min.css",
+    "/kempo-vars.css": "./src/kempo-vars.css",
+    "/src/*": "./src/*"
+  },
+  "middleware": {
+    "logging": {
+      "enabled": true,
+      "includeResponseTime": true
+    }
+  }
+}
