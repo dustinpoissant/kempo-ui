@@ -30,6 +30,7 @@
         <a href="#requirements">Requirements</a><br />
         <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
+        <a href="#cssCustomProperties">CSS Custom Properties</a><br />
         <a href="#methods">Methods</a><br />
       </div>
     </details>
@@ -91,20 +92,28 @@
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">LazyComponent</a></h6>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
     <h5>
       <code>new ShowMore()</code>
     </h5>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./component.html">Component</a></li>
-      <li><a href="./lazy-component.html">LazyComponent</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a></li>
     </ul>
 
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
     <h5><code>opened<i>: boolean</i></code></h5>
     <p>Whether the content is expanded.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>opened<i>: boolean</i></code></h5>
+    <p>Whether the content is expanded. Reflects to the <code>opened</code> attribute.</p>
+
+    <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
+    <h5><code>--closed_height</code></h5>
+    <p>The height of the content when in the collapsed state. Default is <code>7rem</code>.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>more()<i>: void</i></code></h5>
