@@ -32,6 +32,7 @@
         <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
       </div>
     </details>
 
@@ -135,17 +136,30 @@
 
     <h2 id="jsRef">JavaScript Reference</h2>
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
     <h5><code>new Tabs()</code></h5>
+    
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./component.html">Component</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
     </ul>
+    
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
     <h5><code>active<i>: string</i></code></h5>
     <p>The name of the active tab.</p>
     <h5><code>fixed-height<i>: boolean</i></code></h5>
     <p>When true, the tabs component will fill its container height and enable content scrolling.</p>
+    
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>active<i>: string</i></code></h5>
+    <p>The name of the active tab. Reflects to the <code>active</code> attribute.</p>
+    <h5><code>fixedHeight<i>: boolean</i></code></h5>
+    <p>Whether the tabs component uses fixed height mode. Reflects to the <code>fixed-height</code> attribute.</p>
+    <h5><code>contents<i>: TabContent[]</i></code></h5>
+    <p>Returns an array of all tab content elements.</p>
+    <h5><code>tabs<i>: Tab[]</i></code></h5>
+    <p>Returns an array of all tab elements.</p>
+    
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>getActiveTab()<i>: Tab</i></code></h5>
     <p>Returns the currently active tab.</p>
@@ -155,6 +169,14 @@
     <p>Returns the currently active tab content.</p>
     <h5><code>getContent(id)<i>: TabContent</i></code></h5>
     <p>Returns the tab content with the specified id.</p>
+    <h5><code>updateActiveElements()<i>: void</i></code></h5>
+    <p>Updates the active state of tabs and content based on the current active property.</p>
+    <h5><code>updateScrollIndicators()<i>: void</i></code></h5>
+    <p>Updates the visibility of scroll indicators based on tab overflow.</p>
+    
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>tab</code></h5>
+    <p>Fired when the active tab changes. Detail contains <code>{ tab }</code> with the name of the new active tab.</p>
   </main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Tabs.js"></script>
