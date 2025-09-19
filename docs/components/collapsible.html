@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collapsible - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />`n  <link rel="stylesheet" href="../styles.css" />
+  <script type="module">
+    import Import from '../src/components/Import.js';
+    import Icon from '../src/components/Icon.js';
+    Import.replacements.root = '../';
+    Icon.pathToIcons = ['../icons'];
+  </script>
+</head>
+<body>
+  <k-import src="../nav.inc.html"></k-import>
+  <h1 class="ta-center">Collapsible</h1>
+  <main>
+    <details class="b r mb">
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#defaultOpen">Default Open</a><br />
+        <a href="#customLabel">Custom Label</a><br />
+        <a href="#customIcon">Custom Icon</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#attributes">Attributes</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#slots">Slots</a><br />
+      </div>
+    </details>
+
+    <h3>Description</h3>
+    <p>The Collapsible component provides a way to show/hide content with a clickable label header. It features a rotating chevron icon and smooth transitions. The component extends the <a href="./component.html">ShadowComponent</a> class and supports customizable labels and icons through slots.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Use the collapsible component to create expandable content sections. Click the label to toggle the content visibility.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Click to expand<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This content can be collapsed or expanded.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Add any content here that you want to show/hide.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-collapsible>
+            <span slot="label">Click to expand</span>
+            <p>This content can be collapsed or expanded.</p>
+            <p>Add any content here that you want to show/hide.</p>
+          </k-collapsible>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="defaultOpen"><a href="#defaultOpen" class="no-link">Default Open</a></h3>
+    <p>Set the <code>opened</code> attribute to have the collapsible start in an expanded state.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span> <span class="hljs-attr">opened</span>=<span class="hljs-string">"true"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Already expanded<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This collapsible starts in an open state.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-collapsible opened="true">
+            <span slot="label">Already expanded</span>
+            <p>This collapsible starts in an open state.</p>
+          </k-collapsible>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customLabel"><a href="#customLabel" class="no-link">Custom Label</a></h3>
+    <p>You can put any content in the label slot, including formatted text, icons, or even other components.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Advanced Settings<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"opacity-50 ml"</span>&gt;</span>(Optional)<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Configure advanced options here.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-collapsible>
+            <div slot="label">
+              <strong>Advanced Settings</strong>
+              <small class="opacity-50 ml">(Optional)</small>
+            </div>
+            <p>Configure advanced options here.</p>
+          </k-collapsible>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customIcon"><a href="#customIcon" class="no-link">Custom Icon</a></h3>
+    <p>Replace the default chevron icon with your own content using the <code>labelIcon</code> slot.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Custom Icon<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"labelIcon"</span>&gt;</span>▼<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Using a custom arrow icon.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-collapsible>
+            <span slot="label">Custom Icon</span>
+            <span slot="labelIcon">▼</span>
+            <p>Using a custom arrow icon.</p>
+          </k-collapsible>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
+    <h5>
+      <code>new Collapsible()</code>
+    </h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./component.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a></li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
+    <h5><code>opened<i>: boolean</i></code></h5>
+    <p>Whether the collapsible content is currently expanded. The default value is <code>false</code>.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>opened<i>: boolean</i></code></h5>
+    <p>Gets or sets whether the collapsible is currently expanded. Reflects to the <code>opened</code> attribute. Changing this property will trigger the appropriate events and visual state changes.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>open()<i>: void</i></code></h5>
+    <p>Expands the collapsible to show its content. Sets <code>opened</code> to <code>true</code>.</p>
+
+    <h5><code>close()<i>: void</i></code></h5>
+    <p>Collapses the collapsible to hide its content. Sets <code>opened</code> to <code>false</code>.</p>
+    
+    <h5><code>toggle()<i>: void</i></code></h5>
+    <p>Toggles the collapsible state (expands if collapsed, collapses if expanded). Dispatches an <code>openedtoggled</code> event.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>openedchanged</code></h5>
+    <p>Fired when the opened state changes. The event detail contains the string <code>"open"</code> or <code>"close"</code>.</p>
+    
+    <h5><code>open</code></h5>
+    <p>Fired when the collapsible is expanded.</p>
+    
+    <h5><code>close</code></h5>
+    <p>Fired when the collapsible is collapsed.</p>
+    
+    <h5><code>openedtoggled</code></h5>
+    <p>Fired when the <code>toggle()</code> method is called (typically when the label is clicked).</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>Default Slot</code></h5>
+    <p>The main content area that can be collapsed or expanded.</p>
+    
+    <h5><code>label</code></h5>
+    <p>The clickable label content. This is what users click to toggle the collapsible state.</p>
+    
+    <h5><code>labelIcon</code></h5>
+    <p>Custom content for the toggle icon. Defaults to a right-pointing chevron that rotates when expanded. The icon automatically gets hover effects and rotation animations.</p>
+    
+  </main>
+	<div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script> 
+  <script type="module" src="../src/components/Collapsible.js"></script> 
+</body>
+</html>

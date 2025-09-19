@@ -31,6 +31,7 @@
         <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
       </div>
     </details>
 
@@ -79,43 +80,101 @@
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
     <h5>
       <code>new Accordion()</code><br />
     </h5>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="../utils/element.html">utils/element.js</a></li>
+      <li><a href="./component.html">ShadowComponent</a></li>
     </ul>
 
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>forPanel: string</code></h5>
-    <p>Specifies the panel associated with the header.</p>
-    <h5><code>active: boolean</code></h5>
-    <p>Indicates whether the panel or header is active.</p>
-    <h5><code>transitioning: boolean</code></h5>
-    <p>Indicates whether the panel is in the process of transitioning.</p>
+    
+    <h4>AccordionHeader</h4>
+    <h5><code>for-panel<i>: string</i></code></h5>
+    <p>Specifies the panel name that this header controls. This attribute reflects the <code>forPanel</code> property.</p>
+    <h5><code>active<i>: boolean</i></code></h5>
+    <p>Indicates whether this header is currently active (its associated panel is open). Automatically managed by the accordion.</p>
+
+    <h4>AccordionPanel</h4>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>Unique identifier for this panel. Must match the <code>for-panel</code> attribute of its associated header.</p>
+    <h5><code>active<i>: boolean</i></code></h5>
+    <p>Indicates whether this panel is currently open. Automatically managed by the accordion.</p>
+    <h5><code>transitioning<i>: boolean</i></code></h5>
+    <p>Indicates whether this panel is currently animating (opening or closing). Automatically managed during transitions.</p>
 
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <h5><code>activeHeader: HTMLElement</code></h5>
-    <p>Returns the currently active header element.</p>
-    <h5><code>activePanel: HTMLElement</code></h5>
-    <p>Returns the currently active panel element.</p>
+    
+    <h4>Accordion (Main Component)</h4>
+    <h5><code>activeHeader<i>: HTMLElement | null</i></code></h5>
+    <p>Returns the currently active header element, or <code>null</code> if no panel is open.</p>
+    <h5><code>activePanel<i>: HTMLElement | null</i></code></h5>
+    <p>Returns the currently active panel element, or <code>null</code> if no panel is open.</p>
+
+    <h4>AccordionHeader</h4>
+    <h5><code>forPanel<i>: string</i></code></h5>
+    <p>The panel name that this header controls. Reflects to the <code>for-panel</code> attribute.</p>
+    <h5><code>active<i>: boolean</i></code></h5>
+    <p>Whether this header is currently active. Reflects to the <code>active</code> attribute.</p>
+    <h5><code>accordion<i>: Accordion | null</i></code></h5>
+    <p>Returns the parent accordion component, or <code>null</code> if not inside an accordion.</p>
+
+    <h4>AccordionPanel</h4>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>Unique identifier for this panel. Reflects to the <code>name</code> attribute.</p>
+    <h5><code>active<i>: boolean</i></code></h5>
+    <p>Whether this panel is currently open. Reflects to the <code>active</code> attribute.</p>
+    <h5><code>transitioning<i>: boolean</i></code></h5>
+    <p>Whether this panel is currently animating. Reflects to the <code>transitioning</code> attribute.</p>
+    <h5><code>accordion<i>: Accordion | null</i></code></h5>
+    <p>Returns the parent accordion component, or <code>null</code> if not inside an accordion.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>getHeader(panelName: string): HTMLElement</code></h5>
-    <p>Returns the header element associated with the specified panel name.</p>
-    <h5><code>getPanel(panelName: string): HTMLElement</code></h5>
-    <p>Returns the panel element associated with the specified panel name.</p>
-    <h5><code>openPanel(panelName: string): void</code></h5>
-    <p>Opens the panel associated with the specified panel name.</p>
-    <h5><code>closePanel(panelName: string): void</code></h5>
-    <p>Closes the panel associated with the specified panel name.</p>
-    <h5><code>togglePanel(panelName: string): void</code></h5>
-    <p>Toggles the panel associated with the specified panel name.</p>
+    
+    <h4>Accordion (Main Component)</h4>
+    <h5><code>getHeader(panelName)<i>: HTMLElement | null</i></code></h5>
+    <p>Returns the header element associated with the specified panel name, or <code>null</code> if not found.</p>
+    <ul>
+      <li><strong>panelName</strong> <code>string</code> - The name of the panel whose header to retrieve</li>
+    </ul>
+
+    <h5><code>getPanel(panelName)<i>: HTMLElement | null</i></code></h5>
+    <p>Returns the panel element with the specified name, or <code>null</code> if not found.</p>
+    <ul>
+      <li><strong>panelName</strong> <code>string</code> - The name of the panel to retrieve</li>
+    </ul>
+
+    <h5><code>openPanel(panelName)<i>: void</i></code></h5>
+    <p>Opens the panel with the specified name. Closes any currently open panel first. Dispatches an <code>openpanel</code> event.</p>
+    <ul>
+      <li><strong>panelName</strong> <code>string</code> - The name of the panel to open</li>
+    </ul>
+
+    <h5><code>closePanel(panelName)<i>: void</i></code></h5>
+    <p>Closes the panel with the specified name. Dispatches a <code>closepanel</code> event.</p>
+    <ul>
+      <li><strong>panelName</strong> <code>string</code> - The name of the panel to close</li>
+    </ul>
+
+    <h5><code>togglePanel(panelName)<i>: void</i></code></h5>
+    <p>Toggles the panel with the specified name (opens if closed, closes if open). Dispatches a <code>togglepanel</code> event.</p>
+    <ul>
+      <li><strong>panelName</strong> <code>string</code> - The name of the panel to toggle</li>
+    </ul>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>openpanel</code></h5>
+    <p>Fired when a panel is opened. The event detail contains <code>{ panelName }</code>.</p>
+    <h5><code>closepanel</code></h5>
+    <p>Fired when a panel is closed. The event detail contains <code>{ panelName }</code>.</p>
+    <h5><code>togglepanel</code></h5>
+    <p>Fired when a panel is toggled. The event detail contains <code>{ panelName }</code>.</p>
     
   </main>
+  <div style="height:33vh"></div>
   <script type="module" src="../src/components/Import.js"></script>
   <script type="module" src="../src/components/Accordion.js"></script>
 </body>

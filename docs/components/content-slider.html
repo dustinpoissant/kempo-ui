@@ -34,11 +34,13 @@
         <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#slots">Slots</a><br />
       </div>
     </details>
 
     <h3>Description</h3>
-    <p>description</p>
+    <p>The ContentSlider component provides a way to display multiple content slides with navigation controls. Users can navigate through slides using previous/next buttons, keyboard arrows, or programmatically. It extends the <a href="./component.html">ShadowComponent</a> class and supports looping, keyboard controls, and customizable navigation.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <div class="row -mx">
@@ -141,50 +143,93 @@
     <h2 id="jsRef">JavaScript Refrerence</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./lazy-component.html">LazyComponent</a></h6>
+    <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
     <h5>
-      <code>new ContentSlider()</code><br />
-      <code>new ContentSlider(<i>&lt;Array>HTMLElement</i> content)</code><br/>
-      <code>new ContentSlider(<i>&lt;Array>HTMLElement</i> content, <i>Object</i> init_attrs)</code>
+      <code>new ContentSlider()</code>
     </h5>
-
-    <h4>Paramters</h4>
-    <h5><code>content<i>: &lt;Array>HTMLElement></i></code></h5>
-    <p>An array of <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement" target="_blank">HTMLElement</a>s that will be the contents of this slider.</p>
-    <h5><code>init_attrs<i>: Object</i></code></h5>
-    <p>An options object that may contain the initial values of the attributes (see attributes below).</p>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="">LazyComponent Class</a></li>
-      <li><a href="">elements.js Util</a></li>
+      <li><a href="./component.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a></li>
     </ul>
 
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
     <h5><code>index<i>: number</i></code></h5>
-    <p>The index of the currently active slide (base <code>0</code>). The default value is <code>0</code>.</p>
+    <p>The index of the currently active slide (zero-based). Automatically validates to stay within bounds. The default value is <code>0</code>.</p>
 
     <h5><code>controls<i>: boolean</i></code></h5>
-    <p>A boolean that indicates if the control buttons should be shown. The default value is <code>true</code>.</p>
+    <p>Whether the previous/next control buttons should be visible. The default value is <code>true</code>.</p>
 
-    <h5><code>keyboardControls<i>: boolean</i></code></h5>
-    <p>A boolean that indicates if the left and right arrows should be used to control the slider. The default value is <code>true</code>.</p>
+    <h5><code>keyboard-controls<i>: boolean</i></code></h5>
+    <p>Whether the left and right arrow keys should control the slider when focused. The default value is <code>true</code>.</p>
 
-    <h5><code>globalControls<i>: boolean</i></code></h5>
-    <p>A boolean that indicates if the left and right arrows should be used to control the slider even when it is not focused (the listener is on the window). The default value is <code>false</code>.</p>
+    <h5><code>global-controls<i>: boolean</i></code></h5>
+    <p>Whether the left and right arrow keys should control the slider globally (even when not focused). Use with caution - recommended only for prominent sliders. The default value is <code>false</code>.</p>
 
     <h5><code>loop<i>: boolean</i></code></h5>
-    <p>A boolean that indicates index should loop. When true, after the last side it will go back to the first, and when on the first slide the previous slide will be the last. The default value is <code>false</code>.</p>
+    <p>Whether the slider should loop continuously (after the last slide, go to the first; before the first slide, go to the last). The default value is <code>false</code>.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>index<i>: number</i></code></h5>
+    <p>Gets or sets the current slide index. Automatically validates to stay within bounds. Reflects to the <code>index</code> attribute.</p>
+
+    <h5><code>controls<i>: boolean</i></code></h5>
+    <p>Gets or sets whether control buttons are visible. Reflects to the <code>controls</code> attribute.</p>
+
+    <h5><code>keyboardControls<i>: boolean</i></code></h5>
+    <p>Gets or sets whether keyboard controls are enabled. Reflects to the <code>keyboard-controls</code> attribute.</p>
+
+    <h5><code>globalControls<i>: boolean</i></code></h5>
+    <p>Gets or sets whether global keyboard controls are enabled. Reflects to the <code>global-controls</code> attribute.</p>
+
+    <h5><code>loop<i>: boolean</i></code></h5>
+    <p>Gets or sets whether the slider loops continuously. Reflects to the <code>loop</code> attribute.</p>
+
+    <h5><code>content<i>: Array&lt;HTMLElement&gt;</i></code></h5>
+    <p>Array of child elements that serve as slides. Automatically updated when the component is connected.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>previous()<i>: undefined</i></code></h5>
-    <p>Goes to the previous slide.</p>
+    <h5><code>previous()<i>: void</i></code></h5>
+    <p>Navigates to the previous slide. If <code>loop</code> is enabled and currently on the first slide, goes to the last slide. Dispatches a <code>previous</code> event.</p>
 
-    <h5><code>next()<i>: undefined</i></code></h5>
-    <p>Goes to the next slide.</p>
+    <h5><code>next()<i>: void</i></code></h5>
+    <p>Navigates to the next slide. If <code>loop</code> is enabled and currently on the last slide, goes to the first slide. Dispatches a <code>next</code> event.</p>
     
-    <h5><code>goto(<i>number<i> index)<i>: undefined</i></code></h5>
-    <p>Goes to the specified slide. If the index is more than the number of slides the last side will be shown. If the index is below 0, the first slide will be shown.</p>
+    <h5><code>goto(index)<i>: void</i></code></h5>
+    <p>Navigates to the slide at the specified index. Index is automatically validated to stay within bounds. Dispatches a <code>goto</code> event.</p>
+    <ul>
+      <li><strong>index</strong> <code>number</code> - The zero-based index of the slide to navigate to</li>
+    </ul>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fired when the active slide changes. The event detail contains <code>{ index }</code>.</p>
+    
+    <h5><code>previous</code></h5>
+    <p>Fired when the previous button is clicked or previous navigation is triggered. The event detail contains <code>{ index }</code> of the target slide.</p>
+    
+    <h5><code>next</code></h5>
+    <p>Fired when the next button is clicked or next navigation is triggered. The event detail contains <code>{ index }</code> of the target slide.</p>
+    
+    <h5><code>goto</code></h5>
+    <p>Fired when programmatic navigation to a specific slide occurs. The event detail contains <code>{ index }</code> of the target slide.</p>
+    
+    <h5><code>keyleft</code></h5>
+    <p>Fired when the left arrow key is pressed (before triggering previous navigation).</p>
+    
+    <h5><code>keyright</code></h5>
+    <p>Fired when the right arrow key is pressed (before triggering next navigation).</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>Default Slot</code></h5>
+    <p>The main content area where slide elements are placed. Each direct child element becomes a slide.</p>
+    
+    <h5><code>prev</code></h5>
+    <p>Custom content for the previous button. Defaults to a left chevron icon if not provided.</p>
+    
+    <h5><code>next</code></h5>
+    <p>Custom content for the next button. Defaults to a right chevron icon if not provided.</p>
     
   </main>
   <script type="module" src="../src/components/Import.js"></script> 
