@@ -29,7 +29,7 @@
         <a href="#requirements">Requirements</a><br />
         <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
+        <a href="#slots">Slots</a><br />
       </div>
     </details>
 
@@ -77,14 +77,14 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />  <span class="hljs-attr">dimention</span>=<span class="hljs-string">"width"</span><br />&gt;</span><br />  Resize Width<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />  <span class="hljs-attr">dimension</span>=<span class="hljs-string">"width"</span><br />&gt;</span><br />  Resize Width<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Output*" class="pb">
           <k-resize
             style="height: 200px; width: 200px;"
-            dimention="width"
+            dimension="width"
           >
             <p class="p">
               Resize Width
@@ -96,14 +96,14 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />  <span class="hljs-attr">dimention</span>=<span class="hljs-string">"height"</span><br />&gt;</span><br />  Resize Height<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />  <span class="hljs-attr">dimension</span>=<span class="hljs-string">"height"</span><br />&gt;</span><br />  Resize Height<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Output*" class="pb">
           <k-resize
             style="height: 200px; width: 200px;"
-            dimention="height"
+            dimension="height"
           >
             <p class="p">
               Resize Height
@@ -120,29 +120,60 @@
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h6>Extends <a href="./ShadowComponent.html">ShadowComponent</a></h6>
     <h5>
       <code>new Resize()</code>
     </h5>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./component.html">Component</a></li>
+      <li><a href="./ShadowComponent.html">ShadowComponent</a></li>
+      <li><a href="../utils/drag.js">drag Utility Function</a></li>
     </ul>
 
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
     <h5><code>resizing<i>: string</i></code></h5>
-    <p>Indicates which handle is currently being used to resize the element.</p>
-    <h5><code>dimention<i>: string</i></code></h5>
-    <p>Specifies which dimension to resize. Can be <code>"width"</code> or <code>"height"</code>.</p>
+    <p>Indicates which handle is currently being used to resize the element. Values can be <code>"side"</code>, <code>"bottom"</code>, <code>"corner"</code>, or empty string. This attribute is automatically managed by the component.</p>
+    <h5><code>dimension<i>: string</i></code></h5>
+    <p>Restricts resizing to a specific dimension. Possible values are <code>"width"</code> (horizontal only) or <code>"height"</code> (vertical only). If not specified, both dimensions can be resized.</p>
 
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>resizing<i>: string</i></code></h5>
-    <p>Indicates which handle is currently being used to resize the element.</p>
+    <p>Reactive property that tracks the current resize operation state.</p>
+    <h5><code>dimension<i>: string</i></code></h5>
+    <p>Reactive property that controls which resize handles are available.</p>
 
-    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>render(force)<i>: Promise</i></code></h5>
-    <p>Renders the component. If <code>force</code> is <code>true</code>, the component will be re-rendered even if it has already been rendered.</p>
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>default</code></h5>
+    <p>The main content area that will be resizable. Content automatically gets scroll behavior when it overflows the container.</p>
+
+    <h4>Resize Handles</h4>
+    <p>The resize component provides three types of handles:</p>
+    <ul>
+      <li><strong>Side Handle</strong>: Allows horizontal resizing (width adjustment)</li>
+      <li><strong>Bottom Handle</strong>: Allows vertical resizing (height adjustment)</li>
+      <li><strong>Corner Handle</strong>: Allows diagonal resizing (both width and height)</li>
+    </ul>
+
+    <h4>CSS Custom Properties</h4>
+    <p>The component respects the following CSS custom properties:</p>
+    <ul>
+      <li><code>--handle_size</code>: Size of the resize handles (default: 1rem)</li>
+      <li><code>--c_border</code>: Border color of the container</li>
+      <li><code>--c_highlight</code>: Background color of active handles during resize</li>
+      <li><code>--radius</code>: Border radius of the container</li>
+    </ul>
+
+    <h4>Touch and Mouse Support</h4>
+    <p>The component supports both mouse and touch interactions for resizing on desktop and mobile devices.</p>
+
+    <h4>Behavior Notes</h4>
+    <ul>
+      <li>During resize operations, pointer events on the main content are disabled to prevent interference</li>
+      <li>The component enforces minimum dimensions of 10rem × 10rem and maximum dimensions of 100%</li>
+      <li>Active resize handles are highlighted with the theme's highlight color</li>
+      <li>Content automatically scrolls when it exceeds the container dimensions</li>
+    </ul>
 
   </main>
   <div style="height:33vh"></div>
