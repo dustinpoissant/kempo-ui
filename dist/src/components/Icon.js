@@ -1,0 +1,10 @@
+import ShadowComponent from"./ShadowComponent.js";import{html,css,unsafeHTML}from"../lit-all.min.js";const cache={},getIconByPath=async t=>(cache[t]||(cache[t]=new Promise(async(e,n)=>{const o=(new AbortController).signal;try{const n=await fetch(t,{signal:o});200===n.status?e(await n.text()):404===n.status&&e(null)}catch(t){"AbortError"!==t.name&&n(t)}}).catch(()=>null)),await cache[t]),getIconByName=t=>{const e=async e=>getIconByPath(`${e}/${t}.svg`);return new Promise(async(t,n)=>{let o;for(let t=0;t<Icon.pathToIcons.length&&!o;t++)try{o=await e(Icon.pathToIcons[t])}catch(t){}t(o||null)})};export default class Icon extends ShadowComponent{static properties={src:{type:String,reflect:!0},name:{type:String,reflect:!0},iconContent:{type:String}};constructor(){super(),this.src="",this.name="",this.iconContent=""}updated(t){super.updated(),(t.has("src")||t.has("name"))&&this.loadIcon(),t.has("iconContent")&&this.fixSVG()}async loadIcon(){let t;this.src?t=await getIconByPath(this.src):this.name&&(t=await getIconByName(this.name)),this.iconContent=t||Icon.fallback}fixSVG(){setTimeout(()=>{const t=this.querySelector("svg");t&&(t.removeAttribute("width"),t.removeAttribute("height"),t.querySelectorAll("path, rect, circle").forEach(t=>{t.setAttribute("fill","currentColor")}))},0)}static styles=css`
+		:host {
+			display: inline-block;
+			vertical-align: bottom;
+		}
+		::slotted(svg), svg {
+			height: 1.35em;
+			vertical-align: middle;
+		}
+	`;render(){return this.iconContent?html`${unsafeHTML(this.iconContent)}`:html``}static pathToIcons=["/icons"];static fallback='\n\t\t<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="currentColor" d="M480-79q-16 0-30.5-6T423-102L102-423q-11-12-17-26.5T79-480q0-16 6-31t17-26l321-321q12-12 26.5-17.5T480-881q16 0 31 5.5t26 17.5l321 321q12 11 17.5 26t5.5 31q0 16-5.5 30.5T858-423L537-102q-11 11-26 17t-31 6Zm0-80 321-321-321-321-321 321 321 321Zm-40-281h80v-240h-80v240Zm40 120q17 0 28.5-11.5T520-360q0-17-11.5-28.5T480-400q-17 0-28.5 11.5T440-360q0 17 11.5 28.5T480-320Zm0-160Z"/></svg>\n\t'}window.customElements.define("k-icon",Icon);

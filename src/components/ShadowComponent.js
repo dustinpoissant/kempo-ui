@@ -9,7 +9,20 @@ export default class ShadowComponent extends LitElement {
         link.href = '/kempo.min.css';
         shadowRoot.appendChild(link);
         
+        // Inject component styles if they exist
+        const styles = this.constructor.styles;
+        if (styles) {
+            const styleEl = document.createElement('style');
+            if (Array.isArray(styles)) {
+                styleEl.textContent = styles.map(s => s.cssText || s).join('\n');
+            } else {
+                styleEl.textContent = styles.cssText || styles;
+            }
+            shadowRoot.appendChild(styleEl);
+        }
+        
         const renderContainer = document.createElement('div');
+        renderContainer.style.display = 'contents';
         shadowRoot.appendChild(renderContainer);
         
         return renderContainer;

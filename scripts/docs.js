@@ -15,7 +15,7 @@ const options = getArgs({
 
 const {
   port = 8083,
-  build = true,
+  build = false,
   noBuild = false,
   src = false
 } = options;
@@ -24,10 +24,10 @@ if(build && !noBuild){
   await runChildNodeProcess(join(__dirname, 'build.js'));
 }
 
-const rootDir = src ? '.' : 'docs';
+const rootDir = 'docs';
 const configFile = src ? 
-  join(__dirname, '../config/development.json') : 
-  join(__dirname, '../config/production.json');
+  join(__dirname, '../docs/dev.config.json') : 
+  join(__dirname, '../docs/prod.config.json');
 
 console.log(`Starting kempo-server on port ${port}`);
 console.log(`Root: ${rootDir}`);

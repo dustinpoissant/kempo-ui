@@ -1,1 +1,0 @@
-import{LitElement}from"../lit-all.min.js";export default class ShadowComponent extends LitElement{createRenderRoot(){const e=this.attachShadow({mode:"open"}),t=document.createElement("link");t.rel="stylesheet",t.href="/kempo.min.css",e.appendChild(t);const n=document.createElement("div");return e.appendChild(n),n}}
