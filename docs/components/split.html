@@ -29,7 +29,9 @@
         <a href="#requirements">Requirements</a><br />
         <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
+        <a href="#cssCustomProperties">CSS Custom Properties</a><br />
         <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
       </div>
     </details>
 
@@ -99,23 +101,51 @@
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
     <h5>
       <code>new Split()</code>
     </h5>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./component.html">Component</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
     </ul>
 
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
     <h5><code>resizing<i>: boolean</i></code></h5>
     <p>Indicates whether the split view is currently being resized.</p>
+    <h5><code>stacked<i>: boolean</i></code></h5>
+    <p>Indicates whether the split view is in stacked mode (when window width is below stack-width).</p>
+    <h5><code>stack-width<i>: number</i></code></h5>
+    <p>The window width threshold below which the split view stacks vertically instead of side-by-side.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>resizing<i>: boolean</i></code></h5>
+    <p>Whether the split view is currently being resized. Reflects to the <code>resizing</code> attribute.</p>
+    <h5><code>stacked<i>: boolean</i></code></h5>
+    <p>Whether the split view is in stacked mode. Reflects to the <code>stacked</code> attribute.</p>
+    <h5><code>stackWidth<i>: number</i></code></h5>
+    <p>The window width threshold for stacking behavior. Maps to the <code>stack-width</code> attribute.</p>
+
+    <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
+    <h5><code>--left_width</code></h5>
+    <p>The width of the left pane. Default is <code>calc((100% - var(--handle_width)) / 2)</code>.</p>
+    <h5><code>--handle_width</code></h5>
+    <p>The width of the draggable divider handle. Default is <code>0.5rem</code>.</p>
+    <h5><code>--min_pane_width</code></h5>
+    <p>The minimum width each pane can be resized to. Default is <code>6rem</code>.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>setSize(size)<i>: void</i></code></h5>
     <p>Sets the width of the left pane.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>resizestart</code></h5>
+    <p>Fired when the user starts dragging the divider handle. Detail contains <code>{ startSize }</code>.</p>
+    <h5><code>resize</code></h5>
+    <p>Fired during dragging of the divider handle. Detail contains <code>{ size }</code>.</p>
+    <h5><code>resizeend</code></h5>
+    <p>Fired when the user stops dragging the divider handle. Detail contains <code>{ size }</code>.</p>
 
   </main>
   <div style="height:33vh"></div>
