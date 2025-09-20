@@ -1,7 +1,7 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { spawn } from 'child_process';
-import { getArgs, runChildNodeProcess } from '../src/utils/cli.js';
+import { getArgs, runChildNodeProcessScript } from 'kempo-server/utils/cli';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,7 +21,9 @@ const {
 } = options;
 
 if(build && !noBuild){
-  await runChildNodeProcess(join(__dirname, 'build.js'));
+    console.log('Building component files...');
+  await runChildNodeProcessScript(join(__dirname, 'build.js'));
+  console.log('Component files built!');
 }
 
 const rootDir = 'docs';

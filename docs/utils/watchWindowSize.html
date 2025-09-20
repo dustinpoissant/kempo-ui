@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>watchWindowSize - Kempo UI</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="module">
+    import Import from '../src/components/Import.js';
+    import Icon from '../src/components/Icon.js';
+    Import.replacements.root = '../';
+    Icon.pathToIcons = ['../icons'];
+  </script>
+</head>
+<body>
+  <k-import src="../nav.inc.html"></k-import>
+  <main>
+    <h1>watchWindowSize</h1>
+    
+    <details
+      class="b r mb"
+    >
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Usage</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#functions">Functions</a><br />
+        <a href="#examples">Examples</a><br />
+      </div>
+    </details>
+
+    <h3>Description</h3>
+    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and use the window size watching functions:</p>
+    <pre><code class="hljs javascript">import { watchWindowSize, unwatchWindowSize } from './utils/watchWindowSize.js';
+
+const handler = (width) => {
+  console.log('Window width:', width);
+};
+
+// Start watching
+const currentWidth = watchWindowSize(handler);
+
+// Stop watching when done
+unwatchWindowSize(handler);</code></pre>
+
+    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
+    
+    <h5><code>watchWindowSize(handler)</code></h5>
+    <p>Registers a handler function to be called when the window is resized.</p>
+    <ul>
+      <li><strong>handler:</strong> Function that receives the new window width</li>
+      <li><strong>Returns:</strong> Current window width</li>
+    </ul>
+
+    <h5><code>unwatchWindowSize(handler)</code></h5>
+    <p>Unregisters a previously registered handler function.</p>
+    <ul>
+      <li><strong>handler:</strong> The same function reference that was registered</li>
+    </ul>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+    
+    <h4>Responsive Component</h4>
+    <pre><code class="hljs javascript">import { watchWindowSize, unwatchWindowSize } from './utils/watchWindowSize.js';
+
+class ResponsiveComponent extends LitElement {
+  constructor() {
+    super();
+    this.isMobile = false;
+    this.resizeHandler = this.handleResize.bind(this);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    const currentWidth = watchWindowSize(this.resizeHandler);
+    this.handleResize(currentWidth);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    unwatchWindowSize(this.resizeHandler);
+  }
+
+  handleResize(width) {
+    this.isMobile = width < 768;
+    this.requestUpdate();
+  }
+
+  render() {
+    return html`
+      &lt;div class="${this.isMobile ? 'mobile' : 'desktop'}"&gt;
+        Content adapts to screen size
+      &lt;/div&gt;
+    `;
+  }
+}</code></pre>
+
+    <h4>Multiple Handlers</h4>
+    <pre><code class="hljs javascript">// Handler for navigation
+const navHandler = (width) => {
+  const nav = document.querySelector('.navigation');
+  nav.classList.toggle('mobile', width < 1024);
+};
+
+// Handler for sidebar
+const sidebarHandler = (width) => {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.style.display = width < 768 ? 'none' : 'block';
+};
+
+// Both handlers will be called on resize
+watchWindowSize(navHandler);
+watchWindowSize(sidebarHandler);
+
+// Clean up when needed
+unwatchWindowSize(navHandler);
+unwatchWindowSize(sidebarHandler);</code></pre>
+
+    <h4>Breakpoint Detection</h4>
+    <pre><code class="hljs javascript">const breakpoints = {
+  mobile: 768,
+  tablet: 1024,
+  desktop: 1200
+};
+
+const breakpointHandler = (width) => {
+  let currentBreakpoint = 'mobile';
+  
+  if (width >= breakpoints.desktop) {
+    currentBreakpoint = 'desktop';
+  } else if (width >= breakpoints.tablet) {
+    currentBreakpoint = 'tablet';
+  }
+  
+  document.body.setAttribute('data-breakpoint', currentBreakpoint);
+  
+  // Dispatch custom event
+  window.dispatchEvent(new CustomEvent('breakpointchange', {
+    detail: { width, breakpoint: currentBreakpoint }
+  }));
+};
+
+watchWindowSize(breakpointHandler);</code></pre>
+
+    <h4>Performance Benefits</h4>
+    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
+    <pre><code class="hljs javascript">// This handler will only be called after resize events stop
+const expensiveHandler = (width) => {
+  // Expensive DOM calculations or API calls
+  recalculateLayout();
+  updateCharts();
+  reflow();
+};
+
+watchWindowSize(expensiveHandler); // Automatically debounced</code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+</body>
+</html>

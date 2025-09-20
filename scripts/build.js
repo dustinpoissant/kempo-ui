@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import { minify } from 'terser';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { ensureDir, copyDir, emptyDir } from '../src/utils/fs-utils.js';
+import { ensureDir, copyDir, emptyDir } from 'kempo-server/utils/fs-utils';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

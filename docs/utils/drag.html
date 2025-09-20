@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drag - Kempo UI</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="module">
+    import Import from '../src/components/Import.js';
+    import Icon from '../src/components/Icon.js';
+    Import.replacements.root = '../';
+    Icon.pathToIcons = ['../icons'];
+  </script>
+</head>
+<body>
+  <k-import src="../nav.inc.html"></k-import>
+  <main>
+    <h1>drag</h1>
+    
+    <details
+      class="b r mb"
+    >
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Usage</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#options">Options</a><br />
+        <a href="#callbacks">Callbacks</a><br />
+        <a href="#examples">Examples</a><br />
+      </div>
+    </details>
+
+    <h3>Description</h3>
+    <p>The <code>drag</code> utility function enables drag interactions on DOM elements. It handles both mouse and touch events, providing callbacks for drag start, move, and end events.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and use the drag function to make elements draggable:</p>
+    <pre><code class="hljs javascript">import drag from './utils/drag.js';
+
+const element = document.querySelector('.draggable');
+drag({
+  element,
+  callback: (diff) => {
+    console.log('Dragged:', diff.x, diff.y);
+  }
+});</code></pre>
+
+    <h3 id="options"><a href="#options" class="no-link">Options</a></h3>
+    <h5><code>element<i>: HTMLElement</i></code></h5>
+    <p>The DOM element to make draggable.</p>
+    <h5><code>preventScroll<i>: boolean</i></code> (optional)</h5>
+    <p>Whether to prevent scroll behavior during drag. Defaults to false.</p>
+
+    <h3 id="callbacks"><a href="#callbacks" class="no-link">Callbacks</a></h3>
+    <h5><code>callback<i>: Function</i></code> (optional)</h5>
+    <p>Called on every drag move. Receives a diff object with x, y coordinates and original options.</p>
+    <h5><code>startCallback<i>: Function</i></code> (optional)</h5>
+    <p>Called when drag starts. Receives the starting event.</p>
+    <h5><code>moveCallback<i>: Function</i></code> (optional)</h5>
+    <p>Called on every drag move (in addition to callback). Receives a diff object.</p>
+    <h5><code>endCallback<i>: Function</i></code> (optional)</h5>
+    <p>Called when drag ends. Receives the ending event.</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+    
+    <h4>Draggable Element</h4>
+    <pre><code class="hljs javascript">const box = document.querySelector('.box');
+let position = { x: 0, y: 0 };
+
+drag({
+  element: box,
+  callback: (diff) => {
+    position.x += diff.x;
+    position.y += diff.y;
+    box.style.transform = `translate(${position.x}px, ${position.y}px)`;
+  }
+});</code></pre>
+
+    <h4>Resize Handle</h4>
+    <pre><code class="hljs javascript">const resizeHandle = document.querySelector('.resize-handle');
+const panel = document.querySelector('.panel');
+
+drag({
+  element: resizeHandle,
+  preventScroll: true,
+  callback: (diff) => {
+    const newWidth = panel.offsetWidth + diff.x;
+    panel.style.width = Math.max(100, newWidth) + 'px';
+  },
+  startCallback: () => {
+    panel.classList.add('resizing');
+  },
+  endCallback: () => {
+    panel.classList.remove('resizing');
+  }
+});</code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+</body>
+</html>

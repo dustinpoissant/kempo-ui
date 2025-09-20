@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>formatTimestamp - Kempo UI</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="module">
+    import Import from '../src/components/Import.js';
+    import Icon from '../src/components/Icon.js';
+    Import.replacements.root = '../';
+    Icon.pathToIcons = ['../icons'];
+  </script>
+</head>
+<body>
+  <k-import src="../nav.inc.html"></k-import>
+  <main>
+    <h1>formatTimestamp</h1>
+    
+    <details
+      class="b r mb"
+    >
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Usage</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#parameters">Parameters</a><br />
+        <a href="#formatTokens">Format Tokens</a><br />
+        <a href="#examples">Examples</a><br />
+      </div>
+    </details>
+
+    <h3>Description</h3>
+    <p>The <code>formatTimestamp</code> utility function formats timestamps using custom format tokens or locale-specific formatting.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and use the formatTimestamp function to format dates:</p>
+    <pre><code class="hljs javascript">import formatTimestamp from './utils/formatTimestamp.js';
+
+const timestamp = Date.now();
+const formatted = formatTimestamp(timestamp, 'YYYY-MM-DD');
+console.log(formatted); // "2025-09-19"</code></pre>
+
+    <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
+    <h5><code>timestamp<i>: number|string</i></code></h5>
+    <p>The timestamp to format (milliseconds since epoch).</p>
+    <h5><code>format<i>: string</i></code> (optional)</h5>
+    <p>The format string using tokens. If not provided, uses locale-specific formatting.</p>
+    <h5><code>forceLocale<i>: string</i></code> (optional)</h5>
+    <p>The locale to use for formatting when no format is specified.</p>
+
+    <h3 id="formatTokens"><a href="#formatTokens" class="no-link">Format Tokens</a></h3>
+    <h5><code>YYYY</code></h5>
+    <p>4-digit year (e.g., 2025)</p>
+    <h5><code>YY</code></h5>
+    <p>2-digit year (e.g., 25)</p>
+    <h5><code>MM</code></h5>
+    <p>2-digit month (01-12)</p>
+    <h5><code>M</code></h5>
+    <p>1-digit month (1-12)</p>
+    <h5><code>DD</code></h5>
+    <p>2-digit day (01-31)</p>
+    <h5><code>D</code></h5>
+    <p>1-digit day (1-31)</p>
+    <h5><code>hh</code></h5>
+    <p>2-digit hour (00-23)</p>
+    <h5><code>h</code></h5>
+    <p>1-digit hour (0-23)</p>
+    <h5><code>mm</code></h5>
+    <p>2-digit minute (00-59)</p>
+    <h5><code>m</code></h5>
+    <p>1-digit minute (0-59)</p>
+    <h5><code>ss</code></h5>
+    <p>2-digit second (00-59)</p>
+    <h5><code>s</code></h5>
+    <p>1-digit second (0-59)</p>
+    <h5><code>iiii, iii, ii, i</code></h5>
+    <p>Milliseconds with different padding</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+    
+    <h4>Date Formats</h4>
+    <pre><code class="hljs javascript">const timestamp = 1633024800000;
+
+formatTimestamp(timestamp, 'YYYY-MM-DD');     // "2021-10-01"
+formatTimestamp(timestamp, 'MM/DD/YYYY');     // "10/01/2021"
+formatTimestamp(timestamp, 'DD-MM-YY');       // "01-10-21"</code></pre>
+
+    <h4>Time Formats</h4>
+    <pre><code class="hljs javascript">formatTimestamp(timestamp, 'hh:mm:ss');       // "00:00:00"
+formatTimestamp(timestamp, 'h:mm');           // "0:00"
+formatTimestamp(timestamp, 'hh:mm:ss.iii');   // "00:00:00.000"</code></pre>
+
+    <h4>Combined Formats</h4>
+    <pre><code class="hljs javascript">formatTimestamp(timestamp, 'YYYY-MM-DD hh:mm:ss'); 
+// "2021-10-01 00:00:00"
+
+formatTimestamp(timestamp, 'MM/DD/YY at h:mm');
+// "10/01/21 at 0:00"</code></pre>
+
+    <h4>Locale Formatting</h4>
+    <pre><code class="hljs javascript">// Uses browser locale when no format specified
+formatTimestamp(timestamp);                   // "10/1/2021, 12:00:00 AM"
+
+// Force specific locale
+formatTimestamp(timestamp, null, 'de-DE');    // German formatting</code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+</body>
+</html>
