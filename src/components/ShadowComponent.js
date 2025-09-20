@@ -1,12 +1,14 @@
 import { LitElement } from '../lit-all.min.js';
 
 export default class ShadowComponent extends LitElement {
+    static stylesheetPath = '/kempo.min.css';
+
     createRenderRoot() {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = '/kempo.min.css';
+        link.href = this.constructor.stylesheetPath;
         shadowRoot.appendChild(link);
         
         // Inject component styles if they exist
