@@ -33,37 +33,31 @@
     </details>
 
     <h3>Description</h3>
-    <p>The <code>Timestamp</code> component displays a formatted timestamp. It extends the <a href="./component.html">Component</a> class.</p>
+    <p>The <code>Timestamp</code> component displays a formatted timestamp using custom format tokens. It extends the ShadowComponent class for encapsulated styling.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Use the <code>Timestamp</code> component to display a formatted timestamp. The component will automatically format the timestamp based on the provided locale or the user's current locale if no locale is provided.</p>
+    <p>Use the <code>Timestamp</code> component to display a formatted timestamp. The component will automatically format the timestamp using the default format or a custom format with tokens.</p>
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-timestamp</span> <span class="hljs-attr">timestamp</span>=<span class="hljs-string">"1633024800000"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-timestamp</span>&gt;</span></code></pre>
     <k-timestamp timestamp="1633024800000"></k-timestamp>
 
     <h3 id="customFormat"><a href="#customFormat" class="no-link">Custom Format</a></h3>
-    <p>Use the <code>format</code> attribute to specify a custom format for the timestamp. The format should be a string like <code>YYYY-MM-DD hh:mm:ss:iiii</code>.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-timestamp</span> <span class="hljs-attr">timestamp</span>=<span class="hljs-string">"1633024800000"</span> <span class="hljs-attr">format</span>=<span class="hljs-string">"YYYY-MM-DD hh:mm:ss"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-timestamp</span>&gt;</span></code></pre>
-    <k-timestamp timestamp="1633024800000" format="YYYY-MM-DD hh:mm:ss"></k-timestamp>
+    <p>Use the <code>format</code> attribute to specify a custom format using tokens like <code>YYYY</code> (4-digit year), <code>MM</code> (2-digit month), <code>DD</code> (2-digit day), <code>hh</code> (2-digit hour), <code>mm</code> (2-digit minute), and <code>ss</code> (2-digit second).</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-timestamp</span> <span class="hljs-attr">timestamp</span>=<span class="hljs-string">"1633024800000"</span> <span class="hljs-attr">format</span>=<span class="hljs-string">"MM/DD/YYYY"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-timestamp</span>&gt;</span></code></pre>
+    <k-timestamp timestamp="1633024800000" format="MM/DD/YYYY"></k-timestamp>
+
+    <h3 id="timeFormat"><a href="#timeFormat" class="no-link">Time Format</a></h3>
+    <p>Display time with custom formatting using hour, minute, and second tokens.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-timestamp</span> <span class="hljs-attr">timestamp</span>=<span class="hljs-string">"1633024800000"</span> <span class="hljs-attr">format</span>=<span class="hljs-string">"hh:mm:ss"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-timestamp</span>&gt;</span></code></pre>
+    <k-timestamp timestamp="1633024800000" format="hh:mm:ss"></k-timestamp>
 
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">Component</a></h6>
-    <h5>
-      <code>new Timestamp(timestamp, format, locale)</code>
-    </h5>
-
-    <h4>Parameters</h4>
-    <h5><code>timestamp<i>: number</i></code></h5>
-    <p>The timestamp to be formatted and displayed.</p>
-    <h5><code>format<i>: string</i></code></h5>
-    <p>The format to be used for formatting the timestamp. If not provided, the user's current locale format will be used.</p>
-    <h5><code>locale<i>: string</i></code></h5>
-    <p>The locale to be used for formatting the timestamp. If not provided, the user's current locale will be used.</p>
+    <h6>Extends ShadowComponent</h6>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./component.html">Component</a></li>
+      <li>ShadowComponent</li>
       <li><a href="../utils/formatTimestamp.js">formatTimestamp Utility Function</a></li>
     </ul>
 
@@ -71,14 +65,15 @@
     <h5><code>timestamp<i>: number</i></code></h5>
     <p>The timestamp to be formatted and displayed. Syncs to <code>timestamp</code> attribute.</p>
     <h5><code>format<i>: string</i></code></h5>
-    <p>The format to be used for formatting the timestamp. If not provided, the user's current locale format will be used. Syncs to <code>format</code> attribute.</p>
+    <p>The format to be used for formatting the timestamp using tokens like YYYY, MM, DD, hh, mm, ss. If not provided, uses the default format. Syncs to <code>format</code> attribute.</p>
     <h5><code>locale<i>: string</i></code></h5>
-    <p>The locale to be used for formatting the timestamp. If not provided, the user's current locale will be used. Syncs to <code>locale</code> attribute.</p>
+    <p>The locale to be used for formatting the timestamp. Syncs to <code>locale</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <p>The <code>Timestamp</code> class does not introduce any new methods beyond those provided by the <a href="./component.html">Component</a> class.</p>
+    <p>The <code>Timestamp</code> class does not introduce any new methods beyond those provided by the ShadowComponent class.</p>
 
   </main>
+  <div style="height:33vh"></div>
   <script type="module" src="../src/components/Import.js"></script> 
   <script type="module" src="../src/components/Timestamp.js"></script> 
 </body>
