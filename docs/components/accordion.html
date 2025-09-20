@@ -28,7 +28,6 @@
         <h6 class="mt">JavaScript Reference</h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
         <a href="#events">Events</a><br />
@@ -90,22 +89,6 @@
       <li><a href="./component.html">ShadowComponent</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    
-    <h4>AccordionHeader</h4>
-    <h5><code>for-panel<i>: string</i></code></h5>
-    <p>Specifies the panel name that this header controls. This attribute reflects the <code>forPanel</code> property.</p>
-    <h5><code>active<i>: boolean</i></code></h5>
-    <p>Indicates whether this header is currently active (its associated panel is open). Automatically managed by the accordion.</p>
-
-    <h4>AccordionPanel</h4>
-    <h5><code>name<i>: string</i></code></h5>
-    <p>Unique identifier for this panel. Must match the <code>for-panel</code> attribute of its associated header.</p>
-    <h5><code>active<i>: boolean</i></code></h5>
-    <p>Indicates whether this panel is currently open. Automatically managed by the accordion.</p>
-    <h5><code>transitioning<i>: boolean</i></code></h5>
-    <p>Indicates whether this panel is currently animating (opening or closing). Automatically managed during transitions.</p>
-
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     
     <h4>Accordion (Main Component)</h4>
@@ -116,19 +99,19 @@
 
     <h4>AccordionHeader</h4>
     <h5><code>forPanel<i>: string</i></code></h5>
-    <p>The panel name that this header controls. Reflects to the <code>for-panel</code> attribute.</p>
+    <p>The panel name that this header controls. Syncs with the <code>for-panel</code> attribute.</p>
     <h5><code>active<i>: boolean</i></code></h5>
-    <p>Whether this header is currently active. Reflects to the <code>active</code> attribute.</p>
+    <p>Whether this header is currently active (its associated panel is open). Syncs with the <code>active</code> attribute.</p>
     <h5><code>accordion<i>: Accordion | null</i></code></h5>
     <p>Returns the parent accordion component, or <code>null</code> if not inside an accordion.</p>
 
     <h4>AccordionPanel</h4>
     <h5><code>name<i>: string</i></code></h5>
-    <p>Unique identifier for this panel. Reflects to the <code>name</code> attribute.</p>
+    <p>Unique identifier for this panel. Must match the <code>for-panel</code> attribute of its associated header. Syncs with the <code>name</code> attribute.</p>
     <h5><code>active<i>: boolean</i></code></h5>
-    <p>Whether this panel is currently open. Reflects to the <code>active</code> attribute.</p>
+    <p>Whether this panel is currently open. Syncs with the <code>active</code> attribute.</p>
     <h5><code>transitioning<i>: boolean</i></code></h5>
-    <p>Whether this panel is currently animating. Reflects to the <code>transitioning</code> attribute.</p>
+    <p>Whether this panel is currently animating (opening or closing). Syncs with the <code>transitioning</code> attribute.</p>
     <h5><code>accordion<i>: Accordion | null</i></code></h5>
     <p>Returns the parent accordion component, or <code>null</code> if not inside an accordion.</p>
 

@@ -27,7 +27,6 @@
         <h6 class="mt">JavaScript Reference</h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#cssCustomProperties">CSS Custom Properties</a><br />
         <a href="#methods">Methods</a><br />
@@ -111,21 +110,13 @@
       <li><a href="./shadow-component.html">ShadowComponent</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>resizing<i>: boolean</i></code></h5>
-    <p>Indicates whether the split view is currently being resized.</p>
-    <h5><code>stacked<i>: boolean</i></code></h5>
-    <p>Indicates whether the split view is in stacked mode (when window width is below stack-width).</p>
-    <h5><code>stack-width<i>: number</i></code></h5>
-    <p>The window width threshold below which the split view stacks vertically instead of side-by-side.</p>
-
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>resizing<i>: boolean</i></code></h5>
-    <p>Whether the split view is currently being resized. Reflects to the <code>resizing</code> attribute.</p>
+    <p>Whether the split view is currently being resized. Syncs to <code>resizing</code> attribute.</p>
     <h5><code>stacked<i>: boolean</i></code></h5>
-    <p>Whether the split view is in stacked mode. Reflects to the <code>stacked</code> attribute.</p>
+    <p>Whether the split view is in stacked mode. Syncs to <code>stacked</code> attribute.</p>
     <h5><code>stackWidth<i>: number</i></code></h5>
-    <p>The window width threshold for stacking behavior. Maps to the <code>stack-width</code> attribute.</p>
+    <p>The window width threshold for stacking behavior. Syncs to <code>stack-width</code> attribute.</p>
 
     <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
     <h5><code>--left_width</code></h5>

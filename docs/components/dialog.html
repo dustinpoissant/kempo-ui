@@ -30,7 +30,6 @@
         <h6 class="mt">JavaScript Reference</h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
         <a href="#staticMethods">Static Methods</a><br />
@@ -138,36 +137,33 @@
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./ShadowComponent.html">ShadowComponent</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
       <li><a href="./icon.html">Icon</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Whether the dialog is opened.</p>
-    <h5><code>closeBtn<i>: boolean</i></code></h5>
-    <p>Whether to show the close button.</p>
-    <h5><code>overlayClose<i>: boolean</i></code></h5>
-    <p>Whether clicking the overlay closes the dialog.</p>
-    <h5><code>confirmText<i>: string</i></code></h5>
-    <p>Text for the confirm button.</p>
-    <h5><code>confirmClasses<i>: string</i></code></h5>
-    <p>Classes for the confirm button.</p>
-    <h5><code>cancelText<i>: string</i></code></h5>
-    <p>Text for the cancel button.</p>
-    <h5><code>cancelClasses<i>: string</i></code></h5>
-    <p>Classes for the cancel button.</p>
-
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <p>These properties can be set programmatically but are not reflected as attributes:</p>
+    <h5><code>opened<i>: boolean</i></code></h5>
+    <p>Whether the dialog is opened. Syncs with the <code>opened</code> attribute.</p>
+    <h5><code>closeBtn<i>: boolean</i></code></h5>
+    <p>Whether to show the close button. Syncs with the <code>close-btn</code> attribute.</p>
+    <h5><code>overlayClose<i>: boolean</i></code></h5>
+    <p>Whether clicking the overlay closes the dialog. Syncs with the <code>overlay-close</code> attribute.</p>
+    <h5><code>confirmText<i>: string</i></code></h5>
+    <p>Text for the confirm button. Syncs with the <code>confirm-text</code> attribute.</p>
+    <h5><code>confirmClasses<i>: string</i></code></h5>
+    <p>Classes for the confirm button. Syncs with the <code>confirm-classes</code> attribute.</p>
+    <h5><code>cancelText<i>: string</i></code></h5>
+    <p>Text for the cancel button. Syncs with the <code>cancel-text</code> attribute.</p>
+    <h5><code>cancelClasses<i>: string</i></code></h5>
+    <p>Classes for the cancel button. Syncs with the <code>cancel-classes</code> attribute.</p>
     <h5><code>confirmAction<i>: function</i></code></h5>
-    <p>Action to perform when the confirm button is clicked. Defaults to empty function.</p>
+    <p>Action to perform when the confirm button is clicked. Not reflected as an attribute.</p>
     <h5><code>cancelAction<i>: function</i></code></h5>
-    <p>Action to perform when the cancel button is clicked. Defaults to empty function.</p>
+    <p>Action to perform when the cancel button is clicked. Not reflected as an attribute.</p>
     <h5><code>closeCallback<i>: function</i></code></h5>
-    <p>Callback to execute when the dialog is closed. Defaults to empty function.</p>
+    <p>Callback to execute when the dialog is closed. Not reflected as an attribute.</p>
     <h5><code>previousFocus<i>: Element</i></code></h5>
-    <p>Reference to the element that had focus before the dialog was opened.</p>
+    <p>Reference to the element that had focus before the dialog was opened. Not reflected as an attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>open()<i>: void</i></code></h5>

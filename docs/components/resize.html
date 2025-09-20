@@ -27,7 +27,6 @@
         <h6 class="mt">JavaScript Reference</h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#slots">Slots</a><br />
       </div>
@@ -127,21 +126,15 @@
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./ShadowComponent.html">ShadowComponent</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
       <li><a href="../utils/drag.js">drag Utility Function</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>resizing<i>: string</i></code></h5>
-    <p>Indicates which handle is currently being used to resize the element. Values can be <code>"side"</code>, <code>"bottom"</code>, <code>"corner"</code>, or empty string. This attribute is automatically managed by the component.</p>
-    <h5><code>dimension<i>: string</i></code></h5>
-    <p>Restricts resizing to a specific dimension. Possible values are <code>"width"</code> (horizontal only) or <code>"height"</code> (vertical only). If not specified, both dimensions can be resized.</p>
-
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>resizing<i>: string</i></code></h5>
-    <p>Reactive property that tracks the current resize operation state.</p>
+    <p>Indicates which handle is currently being used to resize the element. Values can be <code>"side"</code>, <code>"bottom"</code>, <code>"corner"</code>, or empty string. Syncs with the <code>resizing</code> attribute.</p>
     <h5><code>dimension<i>: string</i></code></h5>
-    <p>Reactive property that controls which resize handles are available.</p>
+    <p>Restricts resizing to a specific dimension. Possible values are <code>"width"</code> (horizontal only) or <code>"height"</code> (vertical only). If not specified, both dimensions can be resized. Syncs with the <code>dimension</code> attribute.</p>
 
     <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
     <h5><code>default</code></h5>

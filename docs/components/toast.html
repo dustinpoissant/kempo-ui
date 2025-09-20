@@ -32,7 +32,6 @@
         <a href="#constructor">Constructor</a><br />
         <a href="#staticMethods">Static Methods</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
         <a href="#events">Events</a><br />
@@ -264,37 +263,24 @@
       <li><a href="./component.html">Component</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>action-html<i>: string</i></code></h5>
-    <p>HTML content for the action button.</p>
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>actionHtml<i>: string</i></code></h5>
+    <p>HTML content for the action button. Syncs to <code>action-html</code> attribute.</p>
 
-    <h5><code>close-html<i>: string</i></code></h5>
-    <p>HTML content for the close button.</p>
+    <h5><code>closeHtml<i>: string</i></code></h5>
+    <p>HTML content for the close button. Syncs to <code>close-html</code> attribute.</p>
 
     <h5><code>timeout<i>: number</i></code></h5>
-    <p>Time in milliseconds before the toast automatically closes. Default is 0 (no auto-close).</p>
+    <p>Time in milliseconds before the toast automatically closes. Default is 0 (no auto-close). Syncs to <code>timeout</code> attribute.</p>
 
     <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Whether the toast is currently open. Default is false.</p>
+    <p>Whether the toast is currently open. Default is false. Syncs to <code>opened</code> attribute.</p>
 
-    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>actionCallback<i>: function</i></code></h5>
     <p>Function to call when the action button is clicked.</p>
 
     <h5><code>closeCallback<i>: function</i></code></h5>
     <p>Function to call when the toast is closed.</p>
-
-    <h5><code>actionHtml<i>: string</i></code></h5>
-    <p>HTML content for the action button.</p>
-
-    <h5><code>closeHtml<i>: string</i></code></h5>
-    <p>HTML content for the close button.</p>
-
-    <h5><code>timeout<i>: number</i></code></h5>
-    <p>Time in milliseconds before the toast automatically closes.</p>
-
-    <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Whether the toast is currently open.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>open()<i>: void</i></code></h5>

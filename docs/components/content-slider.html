@@ -31,7 +31,6 @@
         <h6 class="mt">JavaScript Reference</h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
         <a href="#events">Events</a><br />
@@ -154,37 +153,21 @@
       <li><a href="./icon.html">Icon</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>index<i>: number</i></code></h5>
-    <p>The index of the currently active slide (zero-based). Automatically validates to stay within bounds. The default value is <code>0</code>.</p>
-
-    <h5><code>controls<i>: boolean</i></code></h5>
-    <p>Whether the previous/next control buttons should be visible. The default value is <code>true</code>.</p>
-
-    <h5><code>keyboard-controls<i>: boolean</i></code></h5>
-    <p>Whether the left and right arrow keys should control the slider when focused. The default value is <code>true</code>.</p>
-
-    <h5><code>global-controls<i>: boolean</i></code></h5>
-    <p>Whether the left and right arrow keys should control the slider globally (even when not focused). Use with caution - recommended only for prominent sliders. The default value is <code>false</code>.</p>
-
-    <h5><code>loop<i>: boolean</i></code></h5>
-    <p>Whether the slider should loop continuously (after the last slide, go to the first; before the first slide, go to the last). The default value is <code>false</code>.</p>
-
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>index<i>: number</i></code></h5>
-    <p>Gets or sets the current slide index. Automatically validates to stay within bounds. Reflects to the <code>index</code> attribute.</p>
+    <p>Gets or sets the current slide index. Automatically validates to stay within bounds. Syncs to <code>index</code> attribute. Default value is <code>0</code>.</p>
 
     <h5><code>controls<i>: boolean</i></code></h5>
-    <p>Gets or sets whether control buttons are visible. Reflects to the <code>controls</code> attribute.</p>
+    <p>Gets or sets whether control buttons are visible. Syncs to <code>controls</code> attribute. Default value is <code>true</code>.</p>
 
     <h5><code>keyboardControls<i>: boolean</i></code></h5>
-    <p>Gets or sets whether keyboard controls are enabled. Reflects to the <code>keyboard-controls</code> attribute.</p>
+    <p>Gets or sets whether keyboard controls are enabled. Syncs to <code>keyboard-controls</code> attribute. Default value is <code>true</code>.</p>
 
     <h5><code>globalControls<i>: boolean</i></code></h5>
-    <p>Gets or sets whether global keyboard controls are enabled. Reflects to the <code>global-controls</code> attribute.</p>
+    <p>Gets or sets whether global keyboard controls are enabled. Use with caution - recommended only for prominent sliders. Syncs to <code>global-controls</code> attribute. Default value is <code>false</code>.</p>
 
     <h5><code>loop<i>: boolean</i></code></h5>
-    <p>Gets or sets whether the slider loops continuously. Reflects to the <code>loop</code> attribute.</p>
+    <p>Gets or sets whether the slider loops continuously (after the last slide, go to the first; before the first slide, go to the last). Syncs to <code>loop</code> attribute. Default value is <code>false</code>.</p>
 
     <h5><code>content<i>: Array&lt;HTMLElement&gt;</i></code></h5>
     <p>Array of child elements that serve as slides. Automatically updated when the component is connected.</p>

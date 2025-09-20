@@ -34,7 +34,6 @@
         <h6 class="mt">JavaScript Reference</h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
       </div>
@@ -139,18 +138,16 @@
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./component.html">Component</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
     </ul>
 
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>name<i>: string</i></code></h5>
-    <p>The name of the icon.</p>
-    <h5><code>src<i>: string</i></code></h5>
-    <p>The source URL of the icon.</p>
-
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The name of the icon. Syncs with the <code>name</code> attribute.</p>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The source URL of the icon. Syncs with the <code>src</code> attribute.</p>
     <h5><code>pathToIcons<i>: Array</i></code></h5>
-    <p>An array of paths to directories containing icons.</p>
+    <p>An array of paths to directories containing icons. This is a static property that affects all icon instances.</p>
 
   </main>
   <div style="height:33vh"></div>
