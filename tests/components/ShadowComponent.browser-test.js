@@ -1,5 +1,5 @@
-import ShadowComponent from '/src/components/ShadowComponent.js';
-import { html } from '/src/lit-all.min.js';
+import ShadowComponent from '../../src/components/ShadowComponent.js';
+import { html } from '../../src/lit-all.min.js';
 
 class TestShadowComponent extends ShadowComponent {
 	render() {

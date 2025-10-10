@@ -1,5 +1,5 @@
-import HybridComponent from '/src/components/HybridComponent.js';
-import { html } from '/src/lit-all.min.js';
+import HybridComponent from '../../src/components/HybridComponent.js';
+import { html } from '../../src/lit-all.min.js';
 
 class TestHybridComponent extends HybridComponent {
 	render() {

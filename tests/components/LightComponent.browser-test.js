@@ -1,5 +1,5 @@
-import LightComponent from '/src/components/LightComponent.js';
-import { html } from '/src/lit-all.min.js';
+import LightComponent from '../../src/components/LightComponent.js';
+import { html } from '../../src/lit-all.min.js';
 
 class TestLightComponent extends LightComponent {
 	renderLightDom() {
