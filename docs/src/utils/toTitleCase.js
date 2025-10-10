@@ -1,0 +1,1 @@
+const toTitleCase=e=>e.replace(/([A-Z])/g," $1").split(/[\s_-]+/).filter(e=>e.length>0).map(e=>e.charAt(0).toUpperCase()+e.slice(1).toLowerCase()).join(" ");export default toTitleCase;

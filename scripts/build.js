@@ -89,6 +89,9 @@ const minifiedKempoHljsCSS = kempoHljsCSS.replace(/\s*\{\s*/g, '{').replace(/\s*
 console.log('Saving kempo-hljs.css');
 await fs.writeFile('./dist/kempo-hljs.css', minifiedKempoHljsCSS, 'utf-8');
 
+console.log('Cleaning docs/src/ directory');
+await emptyDir('./docs/src/');
+
 console.log('Copying dist/ to docs/');
 await ensureDir('./docs/');
 await copyDir('./dist', './docs/');

@@ -2,6 +2,7 @@ import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
 import './Icon.js';
+import './FocusCapture.js';
 
 const firstFocusable = element => {
 	const focusableElements = element.querySelectorAll(
@@ -200,6 +201,11 @@ export default class Dialog extends ShadowComponent {
 			background: transparent;
 			box-shadow: 0 0 0 transparent;
 			color: var(--tc);
+			transition: box-shadow var(--animation_ms);
+			border-radius: var(--radius);
+		}
+		#close:focus {
+			box-shadow: var(--focus_shadow);
 		}
 		#close k-icon {
 			pointer-events: none;
@@ -227,36 +233,38 @@ export default class Dialog extends ShadowComponent {
 					aria-modal="true"
 					aria-labelledby="title"
 				>
-					<div
-						id="header"
-						class="${this.hasTitle() ? 'has-title' : ''}"
-					>
-						<div id="title">
-							<slot name="title"></slot>
+					<k-focus-capture>
+						<div
+							id="header"
+							class="${this.hasTitle() ? 'has-title' : ''}"
+						>
+							<div id="title">
+								<slot name="title"></slot>
+							</div>
+							${this.closeBtn ? html`
+								<button id="close" @click=${this.handleClick}>
+									<k-icon name="close"></k-icon>
+								</button>
+							` : ''}
 						</div>
-						${this.closeBtn ? html`
-							<button id="close" @click=${this.handleClick}>
-								<k-icon name="close"></k-icon>
-							</button>
+						<div id="body">
+							<slot></slot>
+						</div>
+						${this.cancelText || this.confirmText ? html`
+							<div id="footer">
+								${this.cancelText ? html`
+									<button id="cancel" class="${this.cancelClasses}" @click=${this.handleClick}>
+										${this.cancelText}
+									</button>
+								` : ''}
+								${this.confirmText ? html`
+									<button id="confirm" class="${this.confirmClasses}" @click=${this.handleClick}>
+										${this.confirmText}
+									</button>
+								` : ''}
+							</div>
 						` : ''}
-					</div>
-					<div id="body">
-						<slot></slot>
-					</div>
-					${this.cancelText || this.confirmText ? html`
-						<div id="footer">
-							${this.cancelText ? html`
-								<button id="cancel" class="${this.cancelClasses}" @click=${this.handleClick}>
-									${this.cancelText}
-								</button>
-							` : ''}
-							${this.confirmText ? html`
-								<button id="confirm" class="${this.confirmClasses}" @click=${this.handleClick}>
-									${this.confirmText}
-								</button>
-							` : ''}
-						</div>
-					` : ''}
+					</k-focus-capture>
 				</div>
 			</div>
 		`;

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LightComponent - Base Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />`n  <link rel="stylesheet" href="../styles.css" />
+  <script type="module">
+    import Import from '../src/components/Import.js';
+    import Icon from '../src/components/Icon.js';
+    Import.replacements.root = '../';
+    Icon.pathToIcons = ['../icons'];
+  </script>
+</head>
+<body>
+  <k-import src="../nav.inc.html"></k-import>
+  <h1 class="ta-center">LightComponent</h1>
+  <main>
+    <details class="b r mb">
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Guide</h6>
+        <a href="#overview">Overview</a><br />
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#whenToUse">When to Use</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+      </div>
+    </details>
+
+    <h3 id="overview"><a href="#overview" class="no-link">Overview</a></h3>
+    <p>LightComponent is a base class that extends LitElement and renders directly to the light DOM instead of shadow DOM. Use this when you want your component to:</p>
+    <ul>
+      <li>Render content in the light DOM (no shadow DOM encapsulation)</li>
+      <li>Allow global CSS to style component content</li>
+      <li>Interact naturally with parent page styles</li>
+      <li>Support natural children alongside rendered content</li>
+    </ul>
+    <p>Components like <a href="persistant-collapsible.html">PersistantCollapsible</a> and <a href="theme-switcher.html">ThemeSwitcher</a> extend LightComponent.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create a custom component by extending LightComponent and implementing <code>renderLightDom()</code>:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> LightComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./LightComponent.js'</span>;<br /><span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'../lit-all.min.js'</span>;<br /><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyLightComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LightComponent</span> {<br />  <span class="hljs-keyword">static</span> properties = {<br />    <span class="hljs-attr">message</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span> }<br />  };<br /><br />  <span class="hljs-title function_">constructor</span>() {<br />    <span class="hljs-variable language_">super</span>();<br />    <span class="hljs-variable language_">this</span>.message = <span class="hljs-string">'Hello'</span>;<br />  }<br /><br />  <span class="hljs-title function_">renderLightDom</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`<br />      &lt;div class="card p"&gt;<br />        &lt;p&gt;<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.message}</span> from Light DOM!&lt;/p&gt;<br />      &lt;/div&gt;<br />    `</span>;<br />  }<br />}<br /><br /><span class="hljs-variable language_">customElements</span>.<span class="hljs-title function_">define</span>(<span class="hljs-string">'my-light-component'</span>, MyLightComponent);</code></pre>
+
+    <p><strong>Important:</strong> Always call <code>super.updated()</code> when overriding the <code>updated()</code> lifecycle method:</p>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">updated</span>(changedProperties) {<br />  <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">updated</span>(); <span class="hljs-comment">// Required!</span><br />  <br />  <span class="hljs-comment">// Your custom logic here</span><br />  <span class="hljs-keyword">if</span>(changedProperties.<span class="hljs-title function_">has</span>(<span class="hljs-string">'message'</span>)) {<br />    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Message changed'</span>);<br />  }<br />}</code></pre>
+
+    <h3 id="whenToUse"><a href="#whenToUse" class="no-link">When to Use</a></h3>
+    <p>Use LightComponent when:</p>
+    <ul>
+      <li>You want global page styles to apply to your component</li>
+      <li>You need to render alongside natural children</li>
+      <li>Shadow DOM encapsulation would interfere with your component's purpose</li>
+      <li>You're working with third-party libraries that expect light DOM</li>
+    </ul>
+    <p>Use <a href="shadow-component.html">ShadowComponent</a> instead when you need style encapsulation and scoped CSS.</p>
+    <p>Use <a href="hybrid-component.html">HybridComponent</a> when you need both shadow DOM styles and light DOM rendering.</p>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends LitElement</h6>
+    <h5><code>new LightComponent()</code></h5>
+    <p>Creates a new LightComponent instance that renders to the light DOM.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li>Lit (LitElement, html, render)</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>lightRoot<i>: HTMLElement</i></code></h5>
+    <p>A container element with <code>display: contents</code> that holds the rendered light DOM content. Created automatically by <code>createRenderRoot()</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>createRenderRoot()<i>: Element</i></code></h5>
+    <p>Creates the light DOM render container instead of shadow DOM. This method:</p>
+    <ul>
+      <li>Creates a <code>div</code> with <code>display: contents</code> for layout transparency</li>
+      <li>Appends it to the component as <code>lightRoot</code></li>
+      <li>Returns <code>this</code> instead of a shadow root</li>
+    </ul>
+
+    <h5><code>updated()<i>: void</i></code></h5>
+    <p>Called automatically by Lit when the component updates. Renders the result of <code>renderLightDom()</code> into <code>lightRoot</code>. Override this method if needed, but always call <code>super.updated()</code>.</p>
+
+    <h5><code>renderLightDom()<i>: TemplateResult</i></code></h5>
+    <p>Override this method to define what should be rendered to the light DOM. Returns an empty template by default. Use Lit's <code>html</code> tagged template literal to return your content.</p>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+</body>
+</html>
