@@ -3,356 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toast - Components - Kempo Docs - A Web Components Solution</title>
+  <title>watchWindowSize - Kempo UI</title>
   <link rel="stylesheet" href="../kempo-vars.css" />
   <link rel="stylesheet" href="../kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
   <script type="module" src="./init.js"></script>
 </head>
 <body>
   <k-import src="../nav.inc.html"></k-import>
-  <h1 class="ta-center">Toast</h1>
   <main>
+    <h1>watchWindowSize</h1>
+    
     <details
       class="b r mb"
     >
       <summary class="p">Table of Contents</summary>
       <div class="m mt0 pl">
-        <h6>Examples</h6>
+        <h6>Usage</h6>
         <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#positions">Different Positions</a><br />
-        <a href="#timeouts">Timeouts</a><br />
-        <a href="#actionAndClose">Action and Close Buttons</a><br />
-        <a href="#successWarningError">Success, Warning and Error</a><br />
-
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#staticMethods">Static Methods</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
-        <a href="#events">Events</a><br />
-        <a href="#toastContainer">ToastContainer</a><br />
+        <a href="#functions">Functions</a><br />
+        <a href="#examples">Examples</a><br />
       </div>
     </details>
 
     <h3>Description</h3>
-    <p>The Toast component provides a way to display short-lived notifications to users. Toasts appear in a corner of the screen, can be configured with different positions, and can optionally include action and close buttons. Toasts can be set to automatically close after a specified timeout or remain until manually dismissed.</p>
+    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example1"</span>&gt;</span>Open Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Toast <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Toast.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example1'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello World"</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <button id="example1" class="mb">Open Toast</button>
-        <script type="module">
-          import Toast from '../src/components/Toast.js';
-          document.getElementById('example1').addEventListener('click', () => {
-            Toast.create("Hello World");
-          });
-        </script>
-      </div>
-    </div>
+    <p>Import and use the window size watching functions:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Window width:'</span>, width);<br />};<br /><br /><span class="hljs-comment">// Start watching</span><br /><span class="hljs-keyword">const</span> currentWidth = watchWindowSize(handler);<br /><br /><span class="hljs-comment">// Stop watching when done</span><br />unwatchWindowSize(handler);</code></pre>
 
-
-    <h3 id="positions"><a href="#positions" class="no-link">Different Positions</a></h3>
-    <p>Toasts can be positioned in different corners of the screen using the <code>position</code> property.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example2-topleft"</span>&gt;</span>Top Left<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example2-topcenter"</span>&gt;</span>Top Center<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example2-topright"</span>&gt;</span>Top Right<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example2-bottomleft"</span>&gt;</span>Bottom Left<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example2-bottomcenter"</span>&gt;</span>Bottom Center<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example2-bottomright"</span>&gt;</span>Bottom Right<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Toast <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Toast.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example2-topleft'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello from top left!"</span>, {<br />      <span class="hljs-attr">position</span>: <span class="hljs-string">'top left'</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example2-topcenter'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello from top center!"</span>, {<br />      <span class="hljs-attr">position</span>: <span class="hljs-string">'top center'</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example2-topright'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello from top right!"</span>, {<br />      <span class="hljs-attr">position</span>: <span class="hljs-string">'top right'</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example2-bottomleft'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello from bottom left!"</span>, {<br />      <span class="hljs-attr">position</span>: <span class="hljs-string">'bottom left'</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example2-bottomcenter'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello from bottom center!"</span>, {<br />      <span class="hljs-attr">position</span>: <span class="hljs-string">'bottom center'</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example2-bottomright'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello from bottom right!"</span>, {<br />      <span class="hljs-attr">position</span>: <span class="hljs-string">'bottom right'</span><br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <button id="example2-topleft" class="mb">Top Left</button>
-        <button id="example2-topcenter" class="mb">Top Center</button>
-        <button id="example2-topright" class="mb">Top Right</button><br />
-        <button id="example2-bottomleft" class="mb">Bottom Left</button>
-        <button id="example2-bottomcenter" class="mb">Bottom Center</button>
-        <button id="example2-bottomright" class="mb">Bottom Right</button>
-        <script type="module">
-          import Toast from '../src/components/Toast.js';
-          document.getElementById('example2-topleft').addEventListener('click', () => {
-            Toast.create("Hello from top left!", {
-              position: 'top left'
-            });
-          });
-          document.getElementById('example2-topcenter').addEventListener('click', () => {
-            Toast.create("Hello from top center!", {
-              position: 'top center'
-            });
-          });
-          document.getElementById('example2-topright').addEventListener('click', () => {
-            Toast.create("Hello from top right!", {
-              position: 'top right'
-            });
-          });
-          document.getElementById('example2-bottomleft').addEventListener('click', () => {
-            Toast.create("Hello from bottom left!", {
-              position: 'bottom left'
-            });
-          });
-          document.getElementById('example2-bottomcenter').addEventListener('click', () => {
-            Toast.create("Hello from bottom center!", {
-              position: 'bottom center'
-            });
-          });
-          document.getElementById('example2-bottomright').addEventListener('click', () => {
-            Toast.create("Hello from bottom right!", {
-              position: 'bottom right'
-            });
-          });
-        </script>
-      </div>
-    </div>
-
-    <h3 id="timeouts"><a href="#timeouts" class="no-link">Timeouts</a></h3>
-    <p>Toasts can automatically close after a specified timeout (in milliseconds). The default timeout when using <code>Toast.create</code> is <code>5000</code> (ms), or 5 seconds.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example3-1"</span>&gt;</span>Open 1 Second Timeout Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example3-3"</span>&gt;</span>Open 3 Second Timeout Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example3-10"</span>&gt;</span>Open 10 Second Timeout Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Toast <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Toast.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example3-1'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"I will timeout in 1 second"</span>, {<br />      <span class="hljs-attr">timeout</span>: <span class="hljs-number">1000</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example3-3'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"I will timeout in 3 second"</span>, {<br />      <span class="hljs-attr">timeout</span>: <span class="hljs-number">3000</span><br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example3-10'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"I will timeout in 10 second"</span>, {<br />      <span class="hljs-attr">timeout</span>: <span class="hljs-number">10000</span><br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <button id="example3-1" class="mb">Open 1 Second Timeout Toast</button>
-        <button id="example3-3" class="mb">Open 3 Second Timeout Toast</button>
-        <button id="example3-10" class="mb">Open 10 Second Timeout Toast</button>
-        <script type="module">
-          import Toast from '../src/components/Toast.js';
-          document.getElementById('example3-1').addEventListener('click', () => {
-            Toast.create("I will timeout in 1 second", {
-              timeout: 1000
-            });
-          });
-          document.getElementById('example3-3').addEventListener('click', () => {
-            Toast.create("I will timeout in 3 second", {
-              timeout: 3000
-            });
-          });
-          document.getElementById('example3-10').addEventListener('click', () => {
-            Toast.create("I will timeout in 10 second", {
-              timeout: 10000
-            });
-          });
-        </script>
-      </div>
-    </div>
+    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
     
-
-    <h3 id="actionAndClose"><a href="#actionAndClose" class="no-link">Action and Close Buttons</a></h3>
-    <p>Toasts can have action and close buttons that trigger callbacks when clicked.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example4-action"</span>&gt;</span>Open Toast with Action<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example4-close"</span>&gt;</span>Open Toast with Close Button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example4-action-close"</span>&gt;</span>Open Toast with Action and Close Button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Toast <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Toast.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example4-action'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello World"</span>, {<br />      <span class="hljs-attr">timeout</span>: <span class="hljs-number">0</span>,<br />      <span class="hljs-attr">action</span>: <span class="hljs-string">'Click Me'</span>,<br />      <span class="hljs-attr">actionCallback</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />        Toast.create(<span class="hljs-string">"You clicked the action"</span>);<br />      }<br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example4-close'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello World"</span>, {<br />      <span class="hljs-attr">timeout</span>: <span class="hljs-number">0</span>,<br />      <span class="hljs-attr">close</span>: <span class="hljs-string">'&lt;k-icon name="close"&gt;&lt;/div&gt;'</span>,<br />      <span class="hljs-attr">closeCallback</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />        Toast.create(<span class="hljs-string">"You closed the toast"</span>);<br />      }<br />    });<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example4-action-close'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.create(<span class="hljs-string">"Hello World"</span>, {<br />      <span class="hljs-attr">timeout</span>: <span class="hljs-number">0</span>,<br />      <span class="hljs-attr">action</span>: <span class="hljs-string">'Click Me'</span>,<br />      <span class="hljs-attr">actionCallback</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />        Toast.create(<span class="hljs-string">"You clicked the action"</span>);<br />        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// return false to prevent closing</span><br />      },<br />      <span class="hljs-attr">close</span>: <span class="hljs-string">'&lt;k-icon name="close"&gt;&lt;/div&gt;'</span>,<br />      <span class="hljs-attr">closeCallback</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />        Toast.create(<span class="hljs-string">"You closed the toast"</span>);<br />      }<br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <button id="example4-action" class="mb">Open Toast with Action</button>
-        <button id="example4-close" class="mb">Open Toast with Close Button</button>
-        <button id="example4-action-close" class="mb">Open Toast with Action and Close Button</button>
-        <script type="module">
-          import Toast from '../src/components/Toast.js';
-          document.getElementById('example4-action').addEventListener('click', () => {
-            Toast.create("Hello World", {
-              timeout: 0,
-              action: 'Click Me',
-              actionCallback: () => {
-                Toast.create("You clicked the action");
-              }
-            });
-          });
-          document.getElementById('example4-close').addEventListener('click', () => {
-            Toast.create("Hello World", {
-              timeout: 0,
-              close: '<k-icon name="close"></div>',
-              closeCallback: () => {
-                Toast.create("You closed the toast");
-              }
-            });
-          });
-          document.getElementById('example4-action-close').addEventListener('click', () => {
-            Toast.create("Hello World", {
-              timeout: 0,
-              action: 'Click Me',
-              actionCallback: () => {
-                Toast.create("You clicked the action");
-                return false; // return false to prevent closing
-              },
-              close: '<k-icon name="close"></div>',
-              closeCallback: () => {
-                Toast.create("You closed the toast");
-              }
-            });
-          });
-        </script>
-      </div>
-    </div>
-
-    <h3 id="successWarningError"><a href="#successWarningError" class="no-link">Success, Warning and Error</a></h3>
-    <p>Toasts can be created as a success, warning or error message.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example5-success"</span>&gt;</span>Success Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example5-warning"</span>&gt;</span>Warning Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example5-error"</span>&gt;</span>Error Toast<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Toast <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Toast.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example5-success'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.success(<span class="hljs-string">"It Worked!"</span>);<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example5-warning'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.warning(<span class="hljs-string">"Be Careful"</span>);<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example5-error'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Toast.error(<span class="hljs-string">"That's a very bad idea"</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-span-12 px">
-        <button id="example5-success" class="mb">Success Toast</button>
-        <button id="example5-warning" class="mb">Warning Toast</button>
-        <button id="example5-error" class="mb">Error Toast</button>
-        <script type="module">
-          import Toast from '../src/components/Toast.js';
-          document.getElementById('example5-success').addEventListener('click', () => {
-            Toast.success("It Worked!");
-          });
-          document.getElementById('example5-warning').addEventListener('click', () => {
-            Toast.warning("Be Careful");
-          });
-          document.getElementById('example5-error').addEventListener('click', () => {
-            Toast.error("That's a very bad idea");
-          });
-        </script>
-      </div>
-    </div>
-
-
-    <h2 id="jsRef">JavaScript Reference</h2>
-
-    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
-    <h5>
-      <code>new Toast()</code><br />
-      <code>new Toast(<i>object</i> options)</code>
-    </h5>
-
-    <h4>Parameters</h4>
-    <h5><code>options<i>: object</i></code></h5>
-    <p>An object with the following optional properties:</p>
+    <h5><code>watchWindowSize(handler)</code></h5>
+    <p>Registers a handler function to be called when the window is resized.</p>
     <ul>
-      <li><code>actionCallback<i>: function</i></code> - Function to call when the action button is clicked. If this function returns <code>false</code>, the toast will not close.</li>
-      <li><code>actionHtml<i>: string</i></code> - HTML content for the action button.</li>
-      <li><code>closeCallback<i>: function</i></code> - Function to call when the toast is closed.</li>
-      <li><code>closeHtml<i>: string</i></code> - HTML content for the close button.</li>
-      <li><code>timeout<i>: number</i></code> - Time in milliseconds before the toast automatically closes. Default is 0 (no auto-close).</li>
+      <li><strong>handler:</strong> Function that receives the new window width</li>
+      <li><strong>Returns:</strong> Current window width</li>
     </ul>
 
-    <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
-    <h5><code>Toast.create(message, options)<i>: Toast</i></code></h5>
-    <p>Creates and displays a new toast with the specified message and options. Returns the created Toast instance.</p>
-    <p>Options include:</p>
+    <h5><code>unwatchWindowSize(handler)</code></h5>
+    <p>Unregisters a previously registered handler function.</p>
     <ul>
-      <li><code>position<i>: string</i></code> - Position of the toast on the screen. Default is 'auto', which uses 'bottom center' on mobile and 'top right' on desktop. Valid positions are: 'top left', 'top center', 'top right', 'bottom left', 'bottom center', 'bottom right'.</li>
-      <li><code>removeOnClose<i>: boolean</i></code> - If true, the toast element will be removed from the DOM when closed. Default is true.</li>
-      <li><code>timeout<i>: number</i></code> - Time in milliseconds before the toast automatically closes. Default is 5000ms (5 seconds).</li>
-      <li><code>action<i>: string | HTMLElement</i></code> - Text or HTML element to use for the action button.</li>
-      <li><code>actionCallback<i>: function</i></code> - Function to call when the action button is clicked. If this function returns <code>false</code>, the toast will not close.</li>
-      <li><code>close<i>: string | HTMLElement</i></code> - Text or HTML element to use for the close button.</li>
-      <li><code>closeCallback<i>: function</i></code> - Function to call when the toast is closed.</li>
-      <li><code>icon<i>: string | HTMLElement</i></code> - Text or HTML element to use as an icon in the toast.</li>
+      <li><strong>handler:</strong> The same function reference that was registered</li>
     </ul>
 
-    <h5><code>Toast.success(message, options)<i>: Toast</i></code></h5>
-    <p>Creates and displays a success toast with a check icon and applies a success background style. Accepts the same options as <code>Toast.create()</code>.</p>
-
-    <h5><code>Toast.warning(message, options)<i>: Toast</i></code></h5>
-    <p>Creates and displays a warning toast with a warning icon and applies a warning background style. Accepts the same options as <code>Toast.create()</code>.</p>
-
-    <h5><code>Toast.error(message, options)<i>: Toast</i></code></h5>
-    <p>Creates and displays an error toast with an error icon and applies a danger background style. Accepts the same options as <code>Toast.create()</code>.</p>
-
-    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
-    <ul>
-      <li><a href="./shadow-component.html">ShadowComponent</a></li>
-      <li><a href="./icon.html">Icon</a> (for success, warning, and error toasts)</li>
-    </ul>
-
-    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
-    <h5><code>action-html<i>: string</i></code></h5>
-    <p>HTML content for the action button.</p>
-
-    <h5><code>close-html<i>: string</i></code></h5>
-    <p>HTML content for the close button.</p>
-
-    <h5><code>timeout<i>: number</i></code></h5>
-    <p>Time in milliseconds before the toast automatically closes. Default is 0 (no auto-close).</p>
-
-    <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Whether the toast is currently open. Default is false.</p>
-
-    <h5><code>has-action<i>: boolean</i></code></h5>
-    <p>Whether the toast has an action button. Automatically set based on slotted content.</p>
-
-    <h5><code>has-close<i>: boolean</i></code></h5>
-    <p>Whether the toast has a close button. Automatically set based on slotted content.</p>
-
-    <h5><code>has-icon<i>: boolean</i></code></h5>
-    <p>Whether the toast has an icon. Automatically set based on slotted content.</p>
-
-    <h5><code>position<i>: string</i></code></h5>
-    <p>Position of the toast on the screen.</p>
-
-    <h5><code>animating<i>: string</i></code></h5>
-    <p>Current animation state ('in', 'out', or empty string).</p>
-
-    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <h5><code>actionCallback<i>: function</i></code></h5>
-    <p>Function to call when the action button is clicked.</p>
-
-    <h5><code>closeCallback<i>: function</i></code></h5>
-    <p>Function to call when the toast is closed.</p>
-
-    <h5><code>actionHtml<i>: string</i></code></h5>
-    <p>HTML content for the action button.</p>
-
-    <h5><code>closeHtml<i>: string</i></code></h5>
-    <p>HTML content for the close button.</p>
-
-    <h5><code>timeout<i>: number</i></code></h5>
-    <p>Time in milliseconds before the toast automatically closes.</p>
-
-    <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Whether the toast is currently open.</p>
-
-    <h5><code>hasAction<i>: boolean</i></code></h5>
-    <p>Whether the toast has an action button.</p>
-
-    <h5><code>hasClose<i>: boolean</i></code></h5>
-    <p>Whether the toast has a close button.</p>
-
-    <h5><code>hasIcon<i>: boolean</i></code></h5>
-    <p>Whether the toast has an icon.</p>
-
-    <h5><code>position<i>: string</i></code></h5>
-    <p>Position of the toast on the screen.</p>
-
-    <h5><code>animating<i>: string</i></code></h5>
-    <p>Current animation state.</p>
-
-    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>open()<i>: void</i></code></h5>
-    <p>Opens the toast. If a timeout is specified, this starts the timer for automatic closing.</p>
-
-    <h5><code>close()<i>: void</i></code></h5>
-    <p>Closes the toast and calls the <code>closeCallback</code> if provided.</p>
-
-    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
-    <h5><code>open</code></h5>
-    <p>Fired when the toast is opened.</p>
-
-    <h5><code>close</code></h5>
-    <p>Fired when the toast is closed.</p>
-
-    <h5><code>openchange</code></h5>
-    <p>Fired when the toast open state changes (both when opening and closing).</p>
-
-    <h3 id="toastContainer"><a href="#toastContainer" class="no-link">ToastContainer</a></h3>
-    <p>The <code>ToastContainer</code> is an internal component used to position and display toasts. It is automatically created when <code>Toast.create()</code> is called, but can also be used directly.</p>
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
     
-    <h5><code>new ToastContainer(position)</code></h5>
-    <p>Creates a new toast container at the specified position.</p>
-    
-    <h5><code>position<i>: string</i></code></h5>
-    <p>The position of the container on the screen. Valid values are: 'top left', 'top center', 'top right', 'bottom left', 'bottom center', 'bottom right'.</p>
-    
+    <h4>Responsive Component</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponsiveComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.isMobile = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.resizeHandler = <span class="hljs-keyword">this</span>.handleResize.bind(<span class="hljs-keyword">this</span>);<br />  }<br /><br />  connectedCallback() {<br />    <span class="hljs-keyword">super</span>.connectedCallback();<br />    <span class="hljs-keyword">const</span> currentWidth = watchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />    <span class="hljs-keyword">this</span>.handleResize(currentWidth);<br />  }<br /><br />  disconnectedCallback() {<br />    <span class="hljs-keyword">super</span>.disconnectedCallback();<br />    unwatchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />  }<br /><br />  handleResize(width) {<br />    <span class="hljs-keyword">this</span>.isMobile = width &lt; <span class="hljs-number">768</span>;<br />    <span class="hljs-keyword">this</span>.requestUpdate();<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.isMobile ? <span class="hljs-string">'mobile'</span> : <span class="hljs-string">'desktop'</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content adapts to screen size<br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
+
+    <h4>Multiple Handlers</h4>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Handler for navigation</span><br /><span class="hljs-keyword">const</span> navHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> nav = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.navigation'</span>);<br />  nav.classList.toggle(<span class="hljs-string">'mobile'</span>, width &lt; <span class="hljs-number">1024</span>);<br />};<br /><br /><span class="hljs-comment">// Handler for sidebar</span><br /><span class="hljs-keyword">const</span> sidebarHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> sidebar = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.sidebar'</span>);<br />  sidebar.style.display = width &lt; <span class="hljs-number">768</span> ? <span class="hljs-string">'none'</span> : <span class="hljs-string">'block'</span>;<br />};<br /><br /><span class="hljs-comment">// Both handlers will be called on resize</span><br />watchWindowSize(navHandler);<br />watchWindowSize(sidebarHandler);<br /><br /><span class="hljs-comment">// Clean up when needed</span><br />unwatchWindowSize(navHandler);<br />unwatchWindowSize(sidebarHandler);</code></pre>
+
+    <h4>Breakpoint Detection</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> breakpoints = {<br />  <span class="hljs-attr">mobile</span>: <span class="hljs-number">768</span>,<br />  <span class="hljs-attr">tablet</span>: <span class="hljs-number">1024</span>,<br />  <span class="hljs-attr">desktop</span>: <span class="hljs-number">1200</span><br />};<br /><br /><span class="hljs-keyword">const</span> breakpointHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">let</span> currentBreakpoint = <span class="hljs-string">'mobile'</span>;<br />  <br />  <span class="hljs-keyword">if</span> (width &gt;= breakpoints.desktop) {<br />    currentBreakpoint = <span class="hljs-string">'desktop'</span>;<br />  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (width &gt;= breakpoints.tablet) {<br />    currentBreakpoint = <span class="hljs-string">'tablet'</span>;<br />  }<br />  <br />  <span class="hljs-built_in">document</span>.body.setAttribute(<span class="hljs-string">'data-breakpoint'</span>, currentBreakpoint);<br />  <br />  <span class="hljs-comment">// Dispatch custom event</span><br />  <span class="hljs-built_in">window</span>.dispatchEvent(<span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'breakpointchange'</span>, {<br />    <span class="hljs-attr">detail</span>: { width, <span class="hljs-attr">breakpoint</span>: currentBreakpoint }<br />  }));<br />};<br /><br />watchWindowSize(breakpointHandler);</code></pre>
+
+    <h4>Performance Benefits</h4>
+    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// This handler will only be called after resize events stop</span><br /><span class="hljs-keyword">const</span> expensiveHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-comment">// Expensive DOM calculations or API calls</span><br />  recalculateLayout();<br />  updateCharts();<br />  reflow();<br />};<br /><br />watchWindowSize(expensiveHandler); <span class="hljs-comment">// Automatically debounced</span></code></pre>
+
   </main>
   <div style="height:33vh"></div>
-  <script type="module" src="../src/components/Toast.js"></script>
 </body>
 </html>

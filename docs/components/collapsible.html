@@ -3,189 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collapsible - Components - Kempo Docs - A Web Components Solution</title>
-  <link rel="stylesheet" href="../kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
+  <title>watchWindowSize - Kempo UI</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
   <script type="module" src="./init.js"></script>
 </head>
 <body>
   <k-import src="../nav.inc.html"></k-import>
-  <h1 class="ta-center">Collapsible</h1>
   <main>
-    <details class="b r mb">
+    <h1>watchWindowSize</h1>
+    
+    <details
+      class="b r mb"
+    >
       <summary class="p">Table of Contents</summary>
       <div class="m mt0 pl">
-        <h6>Examples</h6>
+        <h6>Usage</h6>
         <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#defaultOpen">Default Open</a><br />
-        <a href="#customLabel">Custom Label</a><br />
-        <a href="#customIcon">Custom Icon</a><br />
-        
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
-        <a href="#events">Events</a><br />
-        <a href="#slots">Slots</a><br />
+        <a href="#functions">Functions</a><br />
+        <a href="#examples">Examples</a><br />
       </div>
     </details>
 
     <h3>Description</h3>
-    <p>The Collapsible component provides a way to show/hide content with a clickable label header. It features a rotating chevron icon and smooth transitions. The component extends the <a href="./component.html">ShadowComponent</a> class and supports customizable labels and icons through slots.</p>
+    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Use the collapsible component to create expandable content sections. Click the label to toggle the content visibility.</p>
+    <p>Import and use the window size watching functions:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Window width:'</span>, width);<br />};<br /><br /><span class="hljs-comment">// Start watching</span><br /><span class="hljs-keyword">const</span> currentWidth = watchWindowSize(handler);<br /><br /><span class="hljs-comment">// Stop watching when done</span><br />unwatchWindowSize(handler);</code></pre>
+
+    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
     
-    <div class="row -mx mb">
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Click to expand<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This content can be collapsed or expanded.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Add any content here that you want to show/hide.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
-        </k-card>
-      </div>
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output">
-          <k-collapsible>
-            <span slot="label">Click to expand</span>
-            <p>This content can be collapsed or expanded.</p>
-            <p>Add any content here that you want to show/hide.</p>
-          </k-collapsible>
-        </k-card>
-      </div>
-    </div>
-
-    <h3 id="defaultOpen"><a href="#defaultOpen" class="no-link">Default Open</a></h3>
-    <p>Set the <code>opened</code> attribute to have the collapsible start in an expanded state.</p>
-    
-    <div class="row -mx mb">
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span> <span class="hljs-attr">opened</span>=<span class="hljs-string">"true"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Already expanded<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This collapsible starts in an open state.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
-        </k-card>
-      </div>
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output">
-          <k-collapsible opened="true">
-            <span slot="label">Already expanded</span>
-            <p>This collapsible starts in an open state.</p>
-          </k-collapsible>
-        </k-card>
-      </div>
-    </div>
-
-    <h3 id="customLabel"><a href="#customLabel" class="no-link">Custom Label</a></h3>
-    <p>You can put any content in the label slot, including formatted text, icons, or even other components.</p>
-    
-    <div class="row -mx mb">
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Advanced Settings<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"opacity-50 ml"</span>&gt;</span>(Optional)<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Configure advanced options here.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
-        </k-card>
-      </div>
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output">
-          <k-collapsible>
-            <div slot="label">
-              <strong>Advanced Settings</strong>
-              <small class="opacity-50 ml">(Optional)</small>
-            </div>
-            <p>Configure advanced options here.</p>
-          </k-collapsible>
-        </k-card>
-      </div>
-    </div>
-
-    <h3 id="customIcon"><a href="#customIcon" class="no-link">Custom Icon</a></h3>
-    <p>Replace the default chevron icon with your own content using the <code>labelIcon</code> slot.</p>
-    
-    <div class="row -mx mb">
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-collapsible</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Custom Icon<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"labelIcon"</span>&gt;</span>▼<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Using a custom arrow icon.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">k-collapsible</span>&gt;</span></code></pre>
-        </k-card>
-      </div>
-      <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output">
-          <k-collapsible>
-            <span slot="label">Custom Icon</span>
-            <span slot="labelIcon">▼</span>
-            <p>Using a custom arrow icon.</p>
-          </k-collapsible>
-        </k-card>
-      </div>
-    </div>
-
-    <h2 id="jsRef">JavaScript Reference</h2>
-
-    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
-    <h5>
-      <code>new Collapsible()</code>
-    </h5>
-
-    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <h5><code>watchWindowSize(handler)</code></h5>
+    <p>Registers a handler function to be called when the window is resized.</p>
     <ul>
-      <li><a href="./component.html">ShadowComponent</a></li>
-      <li><a href="./icon.html">Icon</a></li>
+      <li><strong>handler:</strong> Function that receives the new window width</li>
+      <li><strong>Returns:</strong> Current window width</li>
     </ul>
 
-    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Gets or sets whether the collapsible is currently expanded. Changing this property will trigger the appropriate events and visual state changes. Syncs to <code>opened</code> attribute. Default value is <code>false</code>.</p>
+    <h5><code>unwatchWindowSize(handler)</code></h5>
+    <p>Unregisters a previously registered handler function.</p>
+    <ul>
+      <li><strong>handler:</strong> The same function reference that was registered</li>
+    </ul>
 
-    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>open()<i>: void</i></code></h5>
-    <p>Expands the collapsible to show its content. Sets <code>opened</code> to <code>true</code>.</p>
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+    
+    <h4>Responsive Component</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponsiveComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.isMobile = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.resizeHandler = <span class="hljs-keyword">this</span>.handleResize.bind(<span class="hljs-keyword">this</span>);<br />  }<br /><br />  connectedCallback() {<br />    <span class="hljs-keyword">super</span>.connectedCallback();<br />    <span class="hljs-keyword">const</span> currentWidth = watchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />    <span class="hljs-keyword">this</span>.handleResize(currentWidth);<br />  }<br /><br />  disconnectedCallback() {<br />    <span class="hljs-keyword">super</span>.disconnectedCallback();<br />    unwatchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />  }<br /><br />  handleResize(width) {<br />    <span class="hljs-keyword">this</span>.isMobile = width &lt; <span class="hljs-number">768</span>;<br />    <span class="hljs-keyword">this</span>.requestUpdate();<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.isMobile ? <span class="hljs-string">'mobile'</span> : <span class="hljs-string">'desktop'</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content adapts to screen size<br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
 
-    <h5><code>close()<i>: void</i></code></h5>
-    <p>Collapses the collapsible to hide its content. Sets <code>opened</code> to <code>false</code>.</p>
-    
-    <h5><code>toggle()<i>: void</i></code></h5>
-    <p>Toggles the collapsible state (expands if collapsed, collapses if expanded). Dispatches an <code>openedtoggled</code> event.</p>
+    <h4>Multiple Handlers</h4>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Handler for navigation</span><br /><span class="hljs-keyword">const</span> navHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> nav = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.navigation'</span>);<br />  nav.classList.toggle(<span class="hljs-string">'mobile'</span>, width &lt; <span class="hljs-number">1024</span>);<br />};<br /><br /><span class="hljs-comment">// Handler for sidebar</span><br /><span class="hljs-keyword">const</span> sidebarHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> sidebar = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.sidebar'</span>);<br />  sidebar.style.display = width &lt; <span class="hljs-number">768</span> ? <span class="hljs-string">'none'</span> : <span class="hljs-string">'block'</span>;<br />};<br /><br /><span class="hljs-comment">// Both handlers will be called on resize</span><br />watchWindowSize(navHandler);<br />watchWindowSize(sidebarHandler);<br /><br /><span class="hljs-comment">// Clean up when needed</span><br />unwatchWindowSize(navHandler);<br />unwatchWindowSize(sidebarHandler);</code></pre>
 
-    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
-    <h5><code>openedchanged</code></h5>
-    <p>Fired when the opened state changes. The event detail contains the string <code>"open"</code> or <code>"close"</code>.</p>
-    
-    <h5><code>open</code></h5>
-    <p>Fired when the collapsible is expanded.</p>
-    
-    <h5><code>close</code></h5>
-    <p>Fired when the collapsible is collapsed.</p>
-    
-    <h5><code>openedtoggled</code></h5>
-    <p>Fired when the <code>toggle()</code> method is called (typically when the label is clicked).</p>
+    <h4>Breakpoint Detection</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> breakpoints = {<br />  <span class="hljs-attr">mobile</span>: <span class="hljs-number">768</span>,<br />  <span class="hljs-attr">tablet</span>: <span class="hljs-number">1024</span>,<br />  <span class="hljs-attr">desktop</span>: <span class="hljs-number">1200</span><br />};<br /><br /><span class="hljs-keyword">const</span> breakpointHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">let</span> currentBreakpoint = <span class="hljs-string">'mobile'</span>;<br />  <br />  <span class="hljs-keyword">if</span> (width &gt;= breakpoints.desktop) {<br />    currentBreakpoint = <span class="hljs-string">'desktop'</span>;<br />  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (width &gt;= breakpoints.tablet) {<br />    currentBreakpoint = <span class="hljs-string">'tablet'</span>;<br />  }<br />  <br />  <span class="hljs-built_in">document</span>.body.setAttribute(<span class="hljs-string">'data-breakpoint'</span>, currentBreakpoint);<br />  <br />  <span class="hljs-comment">// Dispatch custom event</span><br />  <span class="hljs-built_in">window</span>.dispatchEvent(<span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'breakpointchange'</span>, {<br />    <span class="hljs-attr">detail</span>: { width, <span class="hljs-attr">breakpoint</span>: currentBreakpoint }<br />  }));<br />};<br /><br />watchWindowSize(breakpointHandler);</code></pre>
 
-    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
-    <h5><code>Default Slot</code></h5>
-    <p>The main content area that can be collapsed or expanded.</p>
-    
-    <h5><code>label</code></h5>
-    <p>The clickable label content. This is what users click to toggle the collapsible state.</p>
-    
-    <h5><code>labelIcon</code></h5>
-    <p>Custom content for the toggle icon. Defaults to a right-pointing chevron that rotates when expanded. The icon automatically gets hover effects and rotation animations.</p>
-    
+    <h4>Performance Benefits</h4>
+    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// This handler will only be called after resize events stop</span><br /><span class="hljs-keyword">const</span> expensiveHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-comment">// Expensive DOM calculations or API calls</span><br />  recalculateLayout();<br />  updateCharts();<br />  reflow();<br />};<br /><br />watchWindowSize(expensiveHandler); <span class="hljs-comment">// Automatically debounced</span></code></pre>
+
   </main>
-	<div style="height:33vh"></div>
-  <script type="module" src="../src/components/Collapsible.js"></script> 
+  <div style="height:33vh"></div>
 </body>
 </html>

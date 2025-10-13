@@ -3,215 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Content Slider - Components - Kempo Docs - A Web Components Solution</title>
-  <link rel="stylesheet" href="../kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
+  <title>watchWindowSize - Kempo UI</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
   <script type="module" src="./init.js"></script>
 </head>
 <body>
   <k-import src="../nav.inc.html"></k-import>
-  <h1 class="ta-center">Content Slider</h1>
   <main>
+    <h1>watchWindowSize</h1>
+    
     <details
       class="b r mb"
     >
       <summary class="p">Table of Contents</summary>
       <div class="m mt0 pl">
-        <h6>Examples</h6>
+        <h6>Usage</h6>
         <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#keyboardControls">Keyboard Controls</a><br />
-        <a href="#globalControls">Global Controls</a><br />
-        <a href="#controls">Controls</a><br />
-        <a href="#loop">Loop</a><br />
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
-        <a href="#events">Events</a><br />
-        <a href="#slots">Slots</a><br />
+        <a href="#functions">Functions</a><br />
+        <a href="#examples">Examples</a><br />
       </div>
     </details>
 
     <h3>Description</h3>
-    <p>The ContentSlider component provides a way to display multiple content slides with navigation controls. Users can navigate through slides using previous/next buttons, keyboard arrows, or programmatically. It extends the <a href="./component.html">ShadowComponent</a> class and supports looping, keyboard controls, and customizable navigation.</p>
+    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
-      </div>
-    </div>
+    <p>Import and use the window size watching functions:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Window width:'</span>, width);<br />};<br /><br /><span class="hljs-comment">// Start watching</span><br /><span class="hljs-keyword">const</span> currentWidth = watchWindowSize(handler);<br /><br /><span class="hljs-comment">// Stop watching when done</span><br />unwatchWindowSize(handler);</code></pre>
 
-    <h3 id="keyboardControls"><a href="#keyboardControls" class="no-link">Keyboard Controls</a></h3>
-    <p>By default the <code>keyboard-controls</code> attribute is set to <code>"true"</code>, which allows the left and right keyboard buttons to change the slides when the component is focused. Set it to <code>"false"</code> to disable this functionality.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          keyboard-controls="false"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
-      </div>
-    </div>
-
-    <h3 id="globalControls"><a href="#globalControls" class="no-link">Global Controls</a></h3>
-    <p>Use the <code>global-controls="true"</code> attribute to enable global controls (next and back arrows) anywhere in the window, even when this component is not focused. This is suggested when there is only one content slider on a page and it is of prominance (large slider on top of the page).</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">global-controls</span>=<span class="hljs-string">"true"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          global-controls="true"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
-      </div>
-    </div>
-
-    <h3 id="controls"><a href="#controls" class="no-link">Controls</a></h3>
-    <p>By default the <code>controls</code> attribute is set to <code>"true"</code>, this shows the previous and next buttons. To hide them set <code>controls="false"</code>.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          controls="false"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
-      </div>
-    </div>
-
-    <h3 id="loop"><a href="#loop" class="no-link">Loop</a></h3>
-    <p>To make the slider loop (go back to the beginning after it hits the last slide) use the <code>loop="true"</code> attribute.</p>
-    <div class="row -mx">
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">loop</span>=<span class="hljs-string">"true"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
-      </div>
-      <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          loop="true"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
-      </div>
-    </div>
-
-    <h2 id="jsRef">JavaScript Refrerence</h2>
-
-    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
-    <h5>
-      <code>new ContentSlider()</code>
-    </h5>
-
-    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
+    
+    <h5><code>watchWindowSize(handler)</code></h5>
+    <p>Registers a handler function to be called when the window is resized.</p>
     <ul>
-      <li><a href="./component.html">ShadowComponent</a></li>
-      <li><a href="./icon.html">Icon</a></li>
+      <li><strong>handler:</strong> Function that receives the new window width</li>
+      <li><strong>Returns:</strong> Current window width</li>
     </ul>
 
-    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <h5><code>index<i>: number</i></code></h5>
-    <p>Gets or sets the current slide index. Automatically validates to stay within bounds. Syncs to <code>index</code> attribute. Default value is <code>0</code>.</p>
-
-    <h5><code>controls<i>: boolean</i></code></h5>
-    <p>Gets or sets whether control buttons are visible. Syncs to <code>controls</code> attribute. Default value is <code>true</code>.</p>
-
-    <h5><code>keyboardControls<i>: boolean</i></code></h5>
-    <p>Gets or sets whether keyboard controls are enabled. Syncs to <code>keyboard-controls</code> attribute. Default value is <code>true</code>.</p>
-
-    <h5><code>globalControls<i>: boolean</i></code></h5>
-    <p>Gets or sets whether global keyboard controls are enabled. Use with caution - recommended only for prominent sliders. Syncs to <code>global-controls</code> attribute. Default value is <code>false</code>.</p>
-
-    <h5><code>loop<i>: boolean</i></code></h5>
-    <p>Gets or sets whether the slider loops continuously (after the last slide, go to the first; before the first slide, go to the last). Syncs to <code>loop</code> attribute. Default value is <code>false</code>.</p>
-
-    <h5><code>content<i>: Array&lt;HTMLElement&gt;</i></code></h5>
-    <p>Array of child elements that serve as slides. Automatically updated when the component is connected.</p>
-
-    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>previous()<i>: void</i></code></h5>
-    <p>Navigates to the previous slide. If <code>loop</code> is enabled and currently on the first slide, goes to the last slide. Dispatches a <code>previous</code> event.</p>
-
-    <h5><code>next()<i>: void</i></code></h5>
-    <p>Navigates to the next slide. If <code>loop</code> is enabled and currently on the last slide, goes to the first slide. Dispatches a <code>next</code> event.</p>
-    
-    <h5><code>goto(index)<i>: void</i></code></h5>
-    <p>Navigates to the slide at the specified index. Index is automatically validated to stay within bounds. Dispatches a <code>goto</code> event.</p>
+    <h5><code>unwatchWindowSize(handler)</code></h5>
+    <p>Unregisters a previously registered handler function.</p>
     <ul>
-      <li><strong>index</strong> <code>number</code> - The zero-based index of the slide to navigate to</li>
+      <li><strong>handler:</strong> The same function reference that was registered</li>
     </ul>
 
-    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
-    <h5><code>change</code></h5>
-    <p>Fired when the active slide changes. The event detail contains <code>{ index }</code>.</p>
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
     
-    <h5><code>previous</code></h5>
-    <p>Fired when the previous button is clicked or previous navigation is triggered. The event detail contains <code>{ index }</code> of the target slide.</p>
-    
-    <h5><code>next</code></h5>
-    <p>Fired when the next button is clicked or next navigation is triggered. The event detail contains <code>{ index }</code> of the target slide.</p>
-    
-    <h5><code>goto</code></h5>
-    <p>Fired when programmatic navigation to a specific slide occurs. The event detail contains <code>{ index }</code> of the target slide.</p>
-    
-    <h5><code>keyleft</code></h5>
-    <p>Fired when the left arrow key is pressed (before triggering previous navigation).</p>
-    
-    <h5><code>keyright</code></h5>
-    <p>Fired when the right arrow key is pressed (before triggering next navigation).</p>
+    <h4>Responsive Component</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponsiveComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.isMobile = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.resizeHandler = <span class="hljs-keyword">this</span>.handleResize.bind(<span class="hljs-keyword">this</span>);<br />  }<br /><br />  connectedCallback() {<br />    <span class="hljs-keyword">super</span>.connectedCallback();<br />    <span class="hljs-keyword">const</span> currentWidth = watchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />    <span class="hljs-keyword">this</span>.handleResize(currentWidth);<br />  }<br /><br />  disconnectedCallback() {<br />    <span class="hljs-keyword">super</span>.disconnectedCallback();<br />    unwatchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />  }<br /><br />  handleResize(width) {<br />    <span class="hljs-keyword">this</span>.isMobile = width &lt; <span class="hljs-number">768</span>;<br />    <span class="hljs-keyword">this</span>.requestUpdate();<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.isMobile ? <span class="hljs-string">'mobile'</span> : <span class="hljs-string">'desktop'</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content adapts to screen size<br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
 
-    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
-    <h5><code>Default Slot</code></h5>
-    <p>The main content area where slide elements are placed. Each direct child element becomes a slide.</p>
-    
-    <h5><code>prev</code></h5>
-    <p>Custom content for the previous button. Defaults to a left chevron icon if not provided.</p>
-    
-    <h5><code>next</code></h5>
-    <p>Custom content for the next button. Defaults to a right chevron icon if not provided.</p>
-    
+    <h4>Multiple Handlers</h4>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Handler for navigation</span><br /><span class="hljs-keyword">const</span> navHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> nav = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.navigation'</span>);<br />  nav.classList.toggle(<span class="hljs-string">'mobile'</span>, width &lt; <span class="hljs-number">1024</span>);<br />};<br /><br /><span class="hljs-comment">// Handler for sidebar</span><br /><span class="hljs-keyword">const</span> sidebarHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> sidebar = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.sidebar'</span>);<br />  sidebar.style.display = width &lt; <span class="hljs-number">768</span> ? <span class="hljs-string">'none'</span> : <span class="hljs-string">'block'</span>;<br />};<br /><br /><span class="hljs-comment">// Both handlers will be called on resize</span><br />watchWindowSize(navHandler);<br />watchWindowSize(sidebarHandler);<br /><br /><span class="hljs-comment">// Clean up when needed</span><br />unwatchWindowSize(navHandler);<br />unwatchWindowSize(sidebarHandler);</code></pre>
+
+    <h4>Breakpoint Detection</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> breakpoints = {<br />  <span class="hljs-attr">mobile</span>: <span class="hljs-number">768</span>,<br />  <span class="hljs-attr">tablet</span>: <span class="hljs-number">1024</span>,<br />  <span class="hljs-attr">desktop</span>: <span class="hljs-number">1200</span><br />};<br /><br /><span class="hljs-keyword">const</span> breakpointHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">let</span> currentBreakpoint = <span class="hljs-string">'mobile'</span>;<br />  <br />  <span class="hljs-keyword">if</span> (width &gt;= breakpoints.desktop) {<br />    currentBreakpoint = <span class="hljs-string">'desktop'</span>;<br />  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (width &gt;= breakpoints.tablet) {<br />    currentBreakpoint = <span class="hljs-string">'tablet'</span>;<br />  }<br />  <br />  <span class="hljs-built_in">document</span>.body.setAttribute(<span class="hljs-string">'data-breakpoint'</span>, currentBreakpoint);<br />  <br />  <span class="hljs-comment">// Dispatch custom event</span><br />  <span class="hljs-built_in">window</span>.dispatchEvent(<span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'breakpointchange'</span>, {<br />    <span class="hljs-attr">detail</span>: { width, <span class="hljs-attr">breakpoint</span>: currentBreakpoint }<br />  }));<br />};<br /><br />watchWindowSize(breakpointHandler);</code></pre>
+
+    <h4>Performance Benefits</h4>
+    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// This handler will only be called after resize events stop</span><br /><span class="hljs-keyword">const</span> expensiveHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-comment">// Expensive DOM calculations or API calls</span><br />  recalculateLayout();<br />  updateCharts();<br />  reflow();<br />};<br /><br />watchWindowSize(expensiveHandler); <span class="hljs-comment">// Automatically debounced</span></code></pre>
+
   </main>
   <div style="height:33vh"></div>
-  <script type="module" src="../src/components/ContentSlider.js"></script> 
 </body>
 </html>
