@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>propConverters - Kempo UI</title>
-  <link rel="stylesheet" href="../src/kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
   <link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script type="module" src="./init.js"></script>
 </head>
@@ -33,12 +33,7 @@
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Import and use the converters in your Lit Element component properties:</p>
-    <pre><code class="hljs javascript">import { boolTrueFalse, boolExists } from './utils/propConverters.js';
-
-static properties = {
-  enabled: { type: Boolean, reflect: true, converter: boolTrueFalse },
-  visible: { type: Boolean, reflect: true, converter: boolExists }
-};</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { boolTrueFalse, boolExists } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/propConverters.js'</span>;<br /><br /><span class="hljs-keyword">static</span> properties = {<br />  <span class="hljs-attr">enabled</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span>, <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">converter</span>: boolTrueFalse },<br />  <span class="hljs-attr">visible</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span>, <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">converter</span>: boolExists }<br />};</code></pre>
 
     <h3 id="boolTrueFalse"><a href="#boolTrueFalse" class="no-link">boolTrueFalse</a></h3>
     <p>Converts between boolean values and explicit "true"/"false" string attributes.</p>
@@ -50,8 +45,7 @@ static properties = {
     </ul>
 
     <h4>HTML Usage</h4>
-    <pre><code class="hljs xml">&lt;my-component enabled="true"&gt;&lt;/my-component&gt;
-&lt;my-component enabled="false"&gt;&lt;/my-component&gt;</code></pre>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">enabled</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">enabled</span>=<span class="hljs-string">"false"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
 
     <h3 id="boolExists"><a href="#boolExists" class="no-link">boolExists</a></h3>
     <p>Converts between boolean values and attribute presence/absence.</p>
@@ -63,48 +57,15 @@ static properties = {
     </ul>
 
     <h4>HTML Usage</h4>
-    <pre><code class="hljs xml">&lt;my-component visible&gt;&lt;/my-component&gt;        &lt;!-- visible = true --&gt;
-&lt;my-component&gt;&lt;/my-component&gt;              &lt;!-- visible = false --&gt;</code></pre>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">visible</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span>        <span class="hljs-comment">&lt;!-- visible = true --&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span>              <span class="hljs-comment">&lt;!-- visible = false --&gt;</span></code></pre>
 
     <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
     
     <h4>Component with Both Converters</h4>
-    <pre><code class="hljs javascript">import { LitElement, html } from 'lit';
-import { boolTrueFalse, boolExists } from './utils/propConverters.js';
-
-class MyComponent extends LitElement {
-  static properties = {
-    autoplay: { type: Boolean, reflect: true, converter: boolTrueFalse },
-    hidden: { type: Boolean, reflect: true, converter: boolExists },
-    loop: { type: Boolean, reflect: true, converter: boolTrueFalse }
-  };
-
-  constructor() {
-    super();
-    this.autoplay = false;
-    this.hidden = false;
-    this.loop = false;
-  }
-
-  render() {
-    return html`
-      &lt;div ?hidden="${this.hidden}"&gt;
-        Content ${this.autoplay ? 'with' : 'without'} autoplay
-        ${this.loop ? '(looping)' : ''}
-      &lt;/div&gt;
-    `;
-  }
-}</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { LitElement, html } <span class="hljs-keyword">from</span> <span class="hljs-string">'lit'</span>;<br /><span class="hljs-keyword">import</span> { boolTrueFalse, boolExists } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/propConverters.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">static</span> properties = {<br />    <span class="hljs-attr">autoplay</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span>, <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">converter</span>: boolTrueFalse },<br />    <span class="hljs-attr">hidden</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span>, <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">converter</span>: boolExists },<br />    <span class="hljs-attr">loop</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">Boolean</span>, <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">converter</span>: boolTrueFalse }<br />  };<br /><br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.autoplay = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.hidden = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.loop = <span class="hljs-literal">false</span>;<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> ?<span class="hljs-attr">hidden</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.hidden}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content </span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.autoplay ? <span class="hljs-string">'with'</span> : <span class="hljs-string">'without'</span>}</span><span class="xml"> autoplay<br />        </span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.loop ? <span class="hljs-string">'(looping)'</span> : <span class="hljs-string">''</span>}</span><span class="xml"><br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
 
     <h4>HTML Usage Examples</h4>
-    <pre><code class="hljs xml">&lt;!-- Using boolTrueFalse converter --&gt;
-&lt;my-component autoplay="true" loop="false"&gt;&lt;/my-component&gt;
-
-&lt;!-- Using boolExists converter --&gt;
-&lt;my-component hidden&gt;&lt;/my-component&gt;
-
-&lt;!-- Combined usage --&gt;
-&lt;my-component autoplay="true" loop="true" hidden&gt;&lt;/my-component&gt;</code></pre>
+    <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Using boolTrueFalse converter --&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">autoplay</span>=<span class="hljs-string">"true"</span> <span class="hljs-attr">loop</span>=<span class="hljs-string">"false"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span><br /><br /><span class="hljs-comment">&lt;!-- Using boolExists converter --&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">hidden</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span><br /><br /><span class="hljs-comment">&lt;!-- Combined usage --&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">autoplay</span>=<span class="hljs-string">"true"</span> <span class="hljs-attr">loop</span>=<span class="hljs-string">"true"</span> <span class="hljs-attr">hidden</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
 
     <h4>When to Use Each Converter</h4>
     <p><strong>Use boolTrueFalse when:</strong></p>

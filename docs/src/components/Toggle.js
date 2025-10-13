@@ -1,4 +1,11 @@
-import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComponent.js";export default class Toggle extends ShadowComponent{static properties={value:{type:Boolean,reflect:!0}};static styles=css`
+import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComponent.js";export default class Toggle extends ShadowComponent{static properties={value:{type:Boolean,reflect:!0}};constructor(){super(),this.value=!1,this.tabIndex=0}updated(e){super.updated(e),e.has("value")&&this.dispatchEvent(new CustomEvent("change",{detail:{value:this.value},bubbles:!0}))}connectedCallback(){super.connectedCallback(),this.addEventListener("click",this.handleClick),this.addEventListener("keydown",this.handleKeyDown)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick),this.removeEventListener("keydown",this.handleKeyDown)}handleClick=()=>{this.toggle()};handleKeyDown=e=>{["Space","Enter"].includes(e.code)&&(e.preventDefault(),this.toggle())};on(){return this.value=!0,this.dispatchEvent(new CustomEvent("on",{detail:{value:!0},bubbles:!0})),this}off(){return this.value=!1,this.dispatchEvent(new CustomEvent("off",{detail:{value:!1},bubbles:!0})),this}toggle(){return this.value?this.off():this.on(),this.dispatchEvent(new CustomEvent("toggle",{detail:{value:this.value},bubbles:!0})),this}render(){return html`
+      <div id="switch">
+        <div id="handle"></div>
+      </div>
+      <label id="label">
+        <slot></slot>
+      </label>
+    `}static styles=css`
     :host {
       --switch_height: 2rem;
       --switch_width: 3rem;
@@ -19,11 +26,6 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
       outline: none;
     }
 
-    :host(:focus) {
-      outline: 2px solid var(--c_primary, blue);
-      outline-offset: 2px;
-    }
-
     #switch {
       display: flex;
       align-items: center;
@@ -33,6 +35,12 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
       background: var(--switch_background__off);
       border-radius: 999rem;
       margin-right: var(--spacer);
+      box-shadow: 0 0 0 transparent;
+      will-change: box-shadow;
+      transition: box-shadow var(--animation_ms, 256ms);
+    }
+    :host(:focus) #switch {
+      box-shadow: var(--focus_shadow);
     }
 
     #handle {
@@ -64,11 +72,4 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
       flex: 1 1 auto;
       padding: 0;
     }
-  `;constructor(){super(),this.value=!1,this.tabIndex=0}updated(e){super.updated(e),e.has("value")&&this.dispatchEvent(new CustomEvent("change",{detail:{value:this.value},bubbles:!0}))}connectedCallback(){super.connectedCallback(),this.addEventListener("click",this.handleClick),this.addEventListener("keydown",this.handleKeyDown)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick),this.removeEventListener("keydown",this.handleKeyDown)}handleClick=()=>{this.toggle()};handleKeyDown=e=>{["Space","Enter"].includes(e.code)&&(e.preventDefault(),this.toggle())};on(){return this.value=!0,this.dispatchEvent(new CustomEvent("on",{detail:{value:!0},bubbles:!0})),this}off(){return this.value=!1,this.dispatchEvent(new CustomEvent("off",{detail:{value:!1},bubbles:!0})),this}toggle(){return this.value?this.off():this.on(),this.dispatchEvent(new CustomEvent("toggle",{detail:{value:this.value},bubbles:!0})),this}render(){return html`
-      <div id="switch">
-        <div id="handle"></div>
-      </div>
-      <label id="label">
-        <slot></slot>
-      </label>
-    `}}window.customElements.define("k-toggle",Toggle);
+  `}window.customElements.define("k-toggle",Toggle);

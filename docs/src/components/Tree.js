@@ -6,12 +6,12 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,render}from"..
 			<div class="tree-root">
 				${Tree.renderValue(this.data,null,0,this.depth)}
 			</div>
-		`:html`<slot></slot>`}static leafs=[];static addLeaf=(...e)=>{e.forEach(e=>Tree.leafs.unshift(e))};static renderValue(e,t=null,s=0,r=0){const a=Tree.leafs.find(t=>t.detect(e));if(a){const s=document.createElement("span");if(s.className="d-b",null!==t){const e=document.createElement("span");e.className="number"==typeof t?"tc-muted":"",e.textContent=`${t}: `,s.appendChild(e)}const r=new a(e).render();if(r instanceof Node)s.appendChild(r);else{const e=document.createElement("span");render(r,e),s.appendChild(e)}return s}if("object"==typeof e&&null!==e){const a=new TreeBranch;return a.value=e,a.key=t,a.currentDepth=s,a.maxDepth=r,a}return html`<span class="d-b primitive">${null!==t?html`<span class="${"number"==typeof t?"tc-muted":""}">${t}: </span>`:""}${e}</span>`}}window.customElements.define("k-tree",Tree);export class TreeBranch extends ShadowComponent{static properties={value:{type:Object},key:{type:String},currentDepth:{type:Number},maxDepth:{type:Number},opened:{type:Boolean,converter:boolExists,reflect:!0}};constructor(){super(),this.value=null,this.key=null,this.currentDepth=0,this.maxDepth=0,this.opened=!1}connectedCallback(){super.connectedCallback(),this.currentDepth<=this.maxDepth&&(this.opened=!0)}get tree(){return this.closest("k-tree")}toggle=()=>{this.opened=!this.opened};render(){const e=null!==this.key?`${this.key}: `:"",t=Array.isArray(this.value)?"Array":"Object";return html`
+		`:html`<slot></slot>`}static leafs=[];static addLeaf=(...e)=>{e.forEach(e=>Tree.leafs.unshift(e))};static renderValue(e,t=null,s=0,a=0){const r=Tree.leafs.find(t=>t.detect(e));if(r){const s=document.createElement("span");if(s.className="d-b",null!==t){const e=document.createElement("span");e.className="number"==typeof t?"tc-muted":"",e.textContent=`${t}: `,s.appendChild(e)}const a=new r(e).render();if(a instanceof Node)s.appendChild(a);else{const e=document.createElement("span");render(a,e),s.appendChild(e)}return s}if("object"==typeof e&&null!==e){const r=new TreeBranch;return r.value=e,r.key=t,r.currentDepth=s,r.maxDepth=a,r}return html`<span class="d-b primitive">${null!==t?html`<span class="${"number"==typeof t?"tc-muted":""}">${t}: </span>`:""}${e}</span>`}}window.customElements.define("k-tree",Tree);export class TreeBranch extends ShadowComponent{static properties={value:{type:Object},key:{type:String},currentDepth:{type:Number},maxDepth:{type:Number},opened:{type:Boolean,converter:boolExists,reflect:!0}};constructor(){super(),this.value=null,this.key=null,this.currentDepth=0,this.maxDepth=0,this.opened=!1}connectedCallback(){super.connectedCallback(),this.currentDepth<=this.maxDepth&&(this.opened=!0)}get tree(){return this.closest("k-tree")}toggle=()=>{this.opened=!this.opened};render(){const e=null!==this.key?`${this.key}: `:"",t=Array.isArray(this.value)?"Array":"Object";return html`
 			<div>
-				<div class="branch-label" @click=${this.toggle}>
+				<button class="branch-label no-btn" @click=${this.toggle} aria-expanded="${this.opened}">
 					<k-icon name="chevron-right" class="toggle-icon ${this.opened?"opened":""}"></k-icon>
 					${e}${t}
-				</div>
+				</button>
 				${this.opened?html`
 					<div class="pl">
 						${this.value?(Array.isArray(this.value)?this.value.map((e,t)=>[t,e]):Object.entries(this.value)).map(([e,t])=>Tree.renderValue(t,e,this.currentDepth+1,this.maxDepth)):""}
@@ -23,10 +23,18 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,render}from"..
 			display: block;
 		}
 		.branch-label{
+			display: block;
+			width: 100%;
 			cursor: pointer;
 		}
 		.branch-label:hover{
 			background-color: var(--c_bg__alt, #f5f5f5);
+		}
+		.branch-label:focus{
+			box-shadow: none;
+		}
+		.branch-label:focus-visible{
+			box-shadow: var(--focus_shadow);
 		}
 		.toggle-icon{
 			transition: transform var(--animation_ms, 200ms);

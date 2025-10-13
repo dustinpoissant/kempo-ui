@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tree - Components - Kempo Docs - A Web Components Solution</title>
-  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.css" />
-  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../kempo-vars.css" /><link rel="stylesheet" href="../kempo.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script type="module" src="./init.js"></script>
 </head>
@@ -33,24 +33,28 @@
     <p>Create a tree using the <code>k-tree</code> component. Set your data by setting the <code>data</code> property.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myTree"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">name</span>: <span class="hljs-string">'John Doe'</span>,<br />    <span class="hljs-attr">age</span>: <span class="hljs-number">30</span>,<br />    <span class="hljs-attr">active</span>: <span class="hljs-literal">true</span>,<br />    <span class="hljs-attr">hobbies</span>: [<span class="hljs-string">'reading'</span>, <span class="hljs-string">'coding'</span>],<br />    <span class="hljs-attr">address</span>: {<br />      <span class="hljs-attr">street</span>: <span class="hljs-string">'123 Main St'</span>,<br />      <span class="hljs-attr">city</span>: <span class="hljs-string">'New York'</span><br />    }<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myTree"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">name</span>: <span class="hljs-string">'John Doe'</span>,<br />    <span class="hljs-attr">age</span>: <span class="hljs-number">30</span>,<br />    <span class="hljs-attr">active</span>: <span class="hljs-literal">true</span>,<br />    <span class="hljs-attr">hobbies</span>: [<span class="hljs-string">'reading'</span>, <span class="hljs-string">'coding'</span>],<br />    <span class="hljs-attr">address</span>: {<br />      <span class="hljs-attr">street</span>: <span class="hljs-string">'123 Main St'</span>,<br />      <span class="hljs-attr">city</span>: <span class="hljs-string">'New York'</span><br />    }<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-tree id="myTree"></k-tree>
-        <script type="module">
-          import Tree from '../src/components/Tree.js';
-          const tree = document.getElementById('myTree');
-          tree.data = {
-            name: 'John Doe',
-            age: 30,
-            active: true,
-            hobbies: ['reading', 'coding'],
-            address: {
-              street: '123 Main St',
-              city: 'New York'
-            }
-          };
-        </script>
+        <k-card label="Output">
+          <k-tree id="myTree"></k-tree>
+          <script type="module">
+            import Tree from '../src/components/Tree.js';
+            const tree = document.getElementById('myTree');
+            tree.data = {
+              name: 'John Doe',
+              age: 30,
+              active: true,
+              hobbies: ['reading', 'coding'],
+              address: {
+                street: '123 Main St',
+                city: 'New York'
+              }
+            };
+          </script>
+        </k-card>
       </div>
     </div>
 
@@ -58,26 +62,30 @@
     <p>Use the <code>depth</code> attribute to control how many levels of branches are open by default. This example shows depth set to <code>2</code>:</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"depthTree"</span> <span class="hljs-attr">depth</span>=<span class="hljs-string">"2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'depthTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">company</span>: <span class="hljs-string">'Tech Corp'</span>,<br />    <span class="hljs-attr">departments</span>: {<br />      <span class="hljs-attr">engineering</span>: {<br />        <span class="hljs-attr">frontend</span>: [<span class="hljs-string">'Alice'</span>, <span class="hljs-string">'Bob'</span>],<br />        <span class="hljs-attr">backend</span>: [<span class="hljs-string">'Charlie'</span>, <span class="hljs-string">'Diana'</span>]<br />      },<br />      <span class="hljs-attr">sales</span>: {<br />        <span class="hljs-attr">team</span>: [<span class="hljs-string">'Eve'</span>, <span class="hljs-string">'Frank'</span>]<br />      }<br />    }<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"depthTree"</span> <span class="hljs-attr">depth</span>=<span class="hljs-string">"2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'depthTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">company</span>: <span class="hljs-string">'Tech Corp'</span>,<br />    <span class="hljs-attr">departments</span>: {<br />      <span class="hljs-attr">engineering</span>: {<br />        <span class="hljs-attr">frontend</span>: [<span class="hljs-string">'Alice'</span>, <span class="hljs-string">'Bob'</span>],<br />        <span class="hljs-attr">backend</span>: [<span class="hljs-string">'Charlie'</span>, <span class="hljs-string">'Diana'</span>]<br />      },<br />      <span class="hljs-attr">sales</span>: {<br />        <span class="hljs-attr">team</span>: [<span class="hljs-string">'Eve'</span>, <span class="hljs-string">'Frank'</span>]<br />      }<br />    }<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-tree id="depthTree" depth="2"></k-tree>
-        <script type="module">
-          import Tree from '../src/components/Tree.js';
-          const tree = document.getElementById('depthTree');
-          tree.data = {
-            company: 'Tech Corp',
-            departments: {
-              engineering: {
-                frontend: ['Alice', 'Bob'],
-                backend: ['Charlie', 'Diana']
-              },
-              sales: {
-                team: ['Eve', 'Frank']
+        <k-card label="Output">
+          <k-tree id="depthTree" depth="2"></k-tree>
+          <script type="module">
+            import Tree from '../src/components/Tree.js';
+            const tree = document.getElementById('depthTree');
+            tree.data = {
+              company: 'Tech Corp',
+              departments: {
+                engineering: {
+                  frontend: ['Alice', 'Bob'],
+                  backend: ['Charlie', 'Diana']
+                },
+                sales: {
+                  team: ['Eve', 'Frank']
+                }
               }
-            }
-          };
-        </script>
+            };
+          </script>
+        </k-card>
       </div>
     </div>
 
@@ -85,40 +93,44 @@
     <p>You can define custom leaf types to handle specific data types. Create a class that extends <code>TreeLeaf</code>, implement a <code>detect</code> static method that checks for specific properties, and a <code>render</code> method, then register it with <code>Tree.addLeaf()</code>.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"customTree"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree, { TreeLeaf } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/lit-all.min.js'</span>;<br /><br />  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DateLeaf</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">TreeLeaf</span> </span>{<br />    render(){<br />      <span class="hljs-keyword">const</span> { month, day, year } = <span class="hljs-keyword">this</span>.value;<br />      <span class="hljs-keyword">return</span> html`<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tc-warning"</span>&gt;</span>📅 </span><span class="hljs-subst">${month}</span><span class="xml">/</span><span class="hljs-subst">${day}</span><span class="xml">/</span><span class="hljs-subst">${year}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>`</span>;<br />    }<br /><br />    <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {<br />      <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'object'</span> <br />        &amp;&amp; value !== <span class="hljs-literal">null</span><br />        &amp;&amp; <span class="hljs-string">'month'</span> <span class="hljs-keyword">in</span> value <br />        &amp;&amp; <span class="hljs-string">'day'</span> <span class="hljs-keyword">in</span> value <br />        &amp;&amp; <span class="hljs-string">'year'</span> <span class="hljs-keyword">in</span> value;<br />    };<br />  }<br /><br />  Tree.addLeaf(DateLeaf);<br /><br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'customTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">event</span>: <span class="hljs-string">'Tech Conference 2025'</span>,<br />    <span class="hljs-attr">startDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">15</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },<br />    <span class="hljs-attr">endDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">17</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },<br />    <span class="hljs-attr">location</span>: <span class="hljs-string">'San Francisco'</span>,<br />    <span class="hljs-attr">attendees</span>: <span class="hljs-number">250</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"customTree"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree, { TreeLeaf } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/lit-all.min.js'</span>;<br /><br />  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DateLeaf</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">TreeLeaf</span> </span>{<br />    render(){<br />      <span class="hljs-keyword">const</span> { month, day, year } = <span class="hljs-keyword">this</span>.value;<br />      <span class="hljs-keyword">return</span> html`<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tc-warning"</span>&gt;</span>📅 </span><span class="hljs-subst">${month}</span><span class="xml">/</span><span class="hljs-subst">${day}</span><span class="xml">/</span><span class="hljs-subst">${year}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>`</span>;<br />    }<br /><br />    <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {<br />      <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'object'</span> <br />        &amp;&amp; value !== <span class="hljs-literal">null</span><br />        &amp;&amp; <span class="hljs-string">'month'</span> <span class="hljs-keyword">in</span> value <br />        &amp;&amp; <span class="hljs-string">'day'</span> <span class="hljs-keyword">in</span> value <br />        &amp;&amp; <span class="hljs-string">'year'</span> <span class="hljs-keyword">in</span> value;<br />    };<br />  }<br /><br />  Tree.addLeaf(DateLeaf);<br /><br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'customTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">event</span>: <span class="hljs-string">'Tech Conference 2025'</span>,<br />    <span class="hljs-attr">startDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">15</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },<br />    <span class="hljs-attr">endDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">17</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },<br />    <span class="hljs-attr">location</span>: <span class="hljs-string">'San Francisco'</span>,<br />    <span class="hljs-attr">attendees</span>: <span class="hljs-number">250</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-tree id="customTree"></k-tree>
-        <script type="module">
-          import Tree, { TreeLeaf } from '../src/components/Tree.js';
-          import { html } from '../src/lit-all.min.js';
+        <k-card label="Output">
+          <k-tree id="customTree"></k-tree>
+          <script type="module">
+            import Tree, { TreeLeaf } from '../src/components/Tree.js';
+            import { html } from '../src/lit-all.min.js';
 
-          class DateLeaf extends TreeLeaf {
-            render(){
-              const { month, day, year } = this.value;
-              return html`<span class="tc-warning">📅 ${month}/${day}/${year}</span>`;
+            class DateLeaf extends TreeLeaf {
+              render(){
+                const { month, day, year } = this.value;
+                return html`<span class="tc-warning">📅 ${month}/${day}/${year}</span>`;
+              }
+
+              static detect = value => {
+                return typeof value === 'object' 
+                  && value !== null
+                  && 'month' in value 
+                  && 'day' in value 
+                  && 'year' in value;
+              };
             }
 
-            static detect = value => {
-              return typeof value === 'object' 
-                && value !== null
-                && 'month' in value 
-                && 'day' in value 
-                && 'year' in value;
+            Tree.addLeaf(DateLeaf);
+
+            const tree = document.getElementById('customTree');
+            tree.data = {
+              event: 'Tech Conference 2025',
+              startDate: { month: 10, day: 15, year: 2025 },
+              endDate: { month: 10, day: 17, year: 2025 },
+              location: 'San Francisco',
+              attendees: 250
             };
-          }
-
-          Tree.addLeaf(DateLeaf);
-
-          const tree = document.getElementById('customTree');
-          tree.data = {
-            event: 'Tech Conference 2025',
-            startDate: { month: 10, day: 15, year: 2025 },
-            endDate: { month: 10, day: 17, year: 2025 },
-            location: 'San Francisco',
-            attendees: 250
-          };
-        </script>
+          </script>
+        </k-card>
       </div>
     </div>
 

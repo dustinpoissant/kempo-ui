@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>formatTimestamp - Kempo UI</title>
-  <link rel="stylesheet" href="../src/kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
   <link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script type="module" src="./init.js"></script>
 </head>
@@ -33,11 +33,7 @@
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Import and use the formatTimestamp function to format dates:</p>
-    <pre><code class="hljs javascript">import formatTimestamp from './utils/formatTimestamp.js';
-
-const timestamp = Date.now();
-const formatted = formatTimestamp(timestamp, 'YYYY-MM-DD');
-console.log(formatted); // "2025-09-19"</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> formatTimestamp <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/formatTimestamp.js'</span>;<br /><br /><span class="hljs-keyword">const</span> timestamp = <span class="hljs-built_in">Date</span>.now();<br /><span class="hljs-keyword">const</span> formatted = formatTimestamp(timestamp, <span class="hljs-string">'YYYY-MM-DD'</span>);<br /><span class="hljs-built_in">console</span>.log(formatted); <span class="hljs-comment">// "2025-09-19"</span></code></pre>
 
     <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
     <h5><code>timestamp<i>: number|string</i></code></h5>
@@ -78,30 +74,16 @@ console.log(formatted); // "2025-09-19"</code></pre>
     <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
     
     <h4>Date Formats</h4>
-    <pre><code class="hljs javascript">const timestamp = 1633024800000;
-
-formatTimestamp(timestamp, 'YYYY-MM-DD');     // "2021-10-01"
-formatTimestamp(timestamp, 'MM/DD/YYYY');     // "10/01/2021"
-formatTimestamp(timestamp, 'DD-MM-YY');       // "01-10-21"</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> timestamp = <span class="hljs-number">1633024800000</span>;<br /><br />formatTimestamp(timestamp, <span class="hljs-string">'YYYY-MM-DD'</span>);     <span class="hljs-comment">// "2021-10-01"</span><br />formatTimestamp(timestamp, <span class="hljs-string">'MM/DD/YYYY'</span>);     <span class="hljs-comment">// "10/01/2021"</span><br />formatTimestamp(timestamp, <span class="hljs-string">'DD-MM-YY'</span>);       <span class="hljs-comment">// "01-10-21"</span></code></pre>
 
     <h4>Time Formats</h4>
-    <pre><code class="hljs javascript">formatTimestamp(timestamp, 'hh:mm:ss');       // "00:00:00"
-formatTimestamp(timestamp, 'h:mm');           // "0:00"
-formatTimestamp(timestamp, 'hh:mm:ss.iii');   // "00:00:00.000"</code></pre>
+    <pre><code class="hljs javascript">formatTimestamp(timestamp, <span class="hljs-string">'hh:mm:ss'</span>);       <span class="hljs-comment">// "00:00:00"</span><br />formatTimestamp(timestamp, <span class="hljs-string">'h:mm'</span>);           <span class="hljs-comment">// "0:00"</span><br />formatTimestamp(timestamp, <span class="hljs-string">'hh:mm:ss.iii'</span>);   <span class="hljs-comment">// "00:00:00.000"</span></code></pre>
 
     <h4>Combined Formats</h4>
-    <pre><code class="hljs javascript">formatTimestamp(timestamp, 'YYYY-MM-DD hh:mm:ss'); 
-// "2021-10-01 00:00:00"
-
-formatTimestamp(timestamp, 'MM/DD/YY at h:mm');
-// "10/01/21 at 0:00"</code></pre>
+    <pre><code class="hljs javascript">formatTimestamp(timestamp, <span class="hljs-string">'YYYY-MM-DD hh:mm:ss'</span>); <br /><span class="hljs-comment">// "2021-10-01 00:00:00"</span><br /><br />formatTimestamp(timestamp, <span class="hljs-string">'MM/DD/YY at h:mm'</span>);<br /><span class="hljs-comment">// "10/01/21 at 0:00"</span></code></pre>
 
     <h4>Locale Formatting</h4>
-    <pre><code class="hljs javascript">// Uses browser locale when no format specified
-formatTimestamp(timestamp);                   // "10/1/2021, 12:00:00 AM"
-
-// Force specific locale
-formatTimestamp(timestamp, null, 'de-DE');    // German formatting</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Uses browser locale when no format specified</span><br />formatTimestamp(timestamp);                   <span class="hljs-comment">// "10/1/2021, 12:00:00 AM"</span><br /><br /><span class="hljs-comment">// Force specific locale</span><br />formatTimestamp(timestamp, <span class="hljs-literal">null</span>, <span class="hljs-string">'de-DE'</span>);    <span class="hljs-comment">// German formatting</span></code></pre>
 
   </main>
   <div style="height:33vh"></div>

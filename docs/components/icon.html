@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Icon - Components - Kempo Docs - A Web Components Solution</title>
-  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.css" />
-  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../kempo-vars.css" /><link rel="stylesheet" href="../kempo.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script type="module" src="./init.js"></script>
 </head>
@@ -34,12 +34,12 @@
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Create an icon using the <code>k-icon</code> component. You can specify the icon by setting the <code>name</code> or <code>src</code> attribute.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"folder"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/icon.svg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
-        <k-icon name="folder"></k-icon>
+        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"folder"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/icon.svg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
       </div>
       <div class="col d-span-6 m-span-12 px">
+        <k-icon name="folder"></k-icon>
         <k-icon src="/path/to/icon.svg"></k-icon>
       </div>
     </div>
@@ -144,7 +144,6 @@
 
   </main>
   <div style="height:33vh"></div>
-  <script type="module" src="../src/components/Import.js"></script> 
   <script type="module" src="../src/components/Card.js"></script> 
   <script type="module" src="../src/components/Icon.js"></script> 
 </body>

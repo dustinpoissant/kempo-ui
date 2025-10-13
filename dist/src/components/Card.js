@@ -1,4 +1,4 @@
-import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-all.min.js";export default class Card extends ShadowComponent{static properties={label:{type:String,reflect:!0}};constructor(){super(),this.label=""}static styles=css`
+import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-all.min.js";export default class Card extends ShadowComponent{static properties={label:{type:String,reflect:!0}};constructor(){super(),this.label=null}static styles=css`
 		:host {
 			display: block;
 		}
@@ -20,11 +20,11 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			padding: var(--spacer_h);
 		}
 		:host([label]) {
-			padding-top: calc(1.5 * var(--spacer));
-			margin-top: var(--spacer);
+			padding-top: 0.1px; /* Prevent Collapsing Margins */
 		}
 		:host([label]) #card {
 			padding-top: calc(1.5 * var(--spacer));
+			margin-top: var(--spacer);
 		}
 		:host(:not([label])) #label {
 			display: none;

@@ -133,10 +133,10 @@ export class TreeBranch extends ShadowComponent {
 
 		return html`
 			<div>
-				<div class="branch-label" @click=${this.toggle}>
+				<button class="branch-label no-btn" @click=${this.toggle} aria-expanded="${this.opened}">
 					<k-icon name="chevron-right" class="toggle-icon ${this.opened ? 'opened' : ''}"></k-icon>
 					${label}${type}
-				</div>
+				</button>
 				${this.opened ? html`
 					<div class="pl">
 						${this.value ? (Array.isArray(this.value)
@@ -154,10 +154,18 @@ export class TreeBranch extends ShadowComponent {
 			display: block;
 		}
 		.branch-label{
+			display: block;
+			width: 100%;
 			cursor: pointer;
 		}
 		.branch-label:hover{
 			background-color: var(--c_bg__alt, #f5f5f5);
+		}
+		.branch-label:focus{
+			box-shadow: none;
+		}
+		.branch-label:focus-visible{
+			box-shadow: var(--focus_shadow);
 		}
 		.toggle-icon{
 			transition: transform var(--animation_ms, 200ms);

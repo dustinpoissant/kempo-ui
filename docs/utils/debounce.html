@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>debounce - Kempo UI</title>
-  <link rel="stylesheet" href="../src/kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
   <link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script type="module" src="./init.js"></script>
 </head>
@@ -32,14 +32,7 @@
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Import and use the debounce function to limit function execution frequency:</p>
-    <pre><code class="hljs javascript">import debounce from './utils/debounce.js';
-
-const handleSearch = debounce((query) => {
-  console.log('Searching for:', query);
-}, 300);
-
-// Will only execute after 300ms of no calls
-handleSearch('test');</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> debounce <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/debounce.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handleSearch = debounce(<span class="hljs-function">(<span class="hljs-params">query</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Searching for:'</span>, query);<br />}, <span class="hljs-number">300</span>);<br /><br /><span class="hljs-comment">// Will only execute after 300ms of no calls</span><br />handleSearch(<span class="hljs-string">'test'</span>);</code></pre>
 
     <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
     <h5><code>func<i>: Function</i></code></h5>
@@ -50,22 +43,10 @@ handleSearch('test');</code></pre>
     <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
     
     <h4>Search Input Debouncing</h4>
-    <pre><code class="hljs javascript">const debouncedSearch = debounce((searchTerm) => {
-  // API call or expensive search operation
-  performSearch(searchTerm);
-}, 500);
-
-searchInput.addEventListener('input', (e) => {
-  debouncedSearch(e.target.value);
-});</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> debouncedSearch = debounce(<span class="hljs-function">(<span class="hljs-params">searchTerm</span>) =&gt;</span> {<br />  <span class="hljs-comment">// API call or expensive search operation</span><br />  performSearch(searchTerm);<br />}, <span class="hljs-number">500</span>);<br /><br />searchInput.addEventListener(<span class="hljs-string">'input'</span>, (e) =&gt; {<br />  debouncedSearch(e.target.value);<br />});</code></pre>
 
     <h4>Window Resize Handler</h4>
-    <pre><code class="hljs javascript">const debouncedResize = debounce(() => {
-  // Expensive layout calculations
-  recalculateLayout();
-}, 250);
-
-window.addEventListener('resize', debouncedResize);</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> debouncedResize = debounce(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />  <span class="hljs-comment">// Expensive layout calculations</span><br />  recalculateLayout();<br />}, <span class="hljs-number">250</span>);<br /><br /><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'resize'</span>, debouncedResize);</code></pre>
 
   </main>
   <div style="height:33vh"></div>
