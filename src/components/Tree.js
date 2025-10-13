@@ -1,17 +1,20 @@
 import ShadowComponent from './ShadowComponent.js';
-import { html, css } from '../lit-all.min.js';
+import { html, css, render } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
+import './Icon.js';
 
 export default class Tree extends ShadowComponent {
 	/* Properties */
 	static properties = {
 		data: { type: Object },
+		depth: { type: Number, reflect: true },
 		editable: { type: Boolean, converter: boolExists, attribute: 'editable', reflect: true }
 	}
 
 	constructor(){
 		super();
 		this.data = null;
+		this.depth = 0;
 		this.editable = false;
 	}
 
@@ -27,14 +30,14 @@ export default class Tree extends ShadowComponent {
 					${(Array.isArray(this.data)
 						? this.data.map((v, i) => [i, v])
 						: Object.entries(this.data)
-					).map(([key, value]) => Tree.renderValue(value, key))}
+					).map(([key, value]) => Tree.renderValue(value, key, 1, this.depth))}
 				</div>
 			`;
 		}
 
 		return html`
 			<div class="tree-root">
-				${Tree.renderValue(this.data)}
+				${Tree.renderValue(this.data, null, 0, this.depth)}
 			</div>
 		`;
 	}
@@ -47,24 +50,40 @@ export default class Tree extends ShadowComponent {
 	};
 
 	/* Static Methods */
-	static renderValue(value, key = null){
+	static renderValue(value, key = null, currentDepth = 0, maxDepth = 0){
 		const LeafClass = Tree.leafs.find(leaf => leaf.detect(value));
 
 		if(LeafClass){
-			const leaf = document.createElement(LeafClass.tagName);
-			leaf.value = value;
-			leaf.key = key;
-			return leaf;
+			const wrapper = document.createElement('span');
+			wrapper.className = 'd-b';
+			if(key !== null){
+				const keyLabel = document.createElement('span');
+				keyLabel.className = typeof key === 'number' ? 'tc-muted' : '';
+				keyLabel.textContent = `${key}: `;
+				wrapper.appendChild(keyLabel);
+			}
+			const leaf = new LeafClass(value);
+			const rendered = leaf.render();
+			if(rendered instanceof Node){
+				wrapper.appendChild(rendered);
+			} else {
+				const span = document.createElement('span');
+				render(rendered, span);
+				wrapper.appendChild(span);
+			}
+			return wrapper;
 		}
 
 		if(typeof value === 'object' && value !== null){
-			const branch = document.createElement('k-tree-branch');
+			const branch = new TreeBranch();
 			branch.value = value;
 			branch.key = key;
+			branch.currentDepth = currentDepth;
+			branch.maxDepth = maxDepth;
 			return branch;
 		}
 
-		return html`<span class="primitive">${key !== null ? `${key}: ` : ''}${value}</span>`;
+		return html`<span class="d-b primitive">${key !== null ? html`<span class="${typeof key === 'number' ? 'tc-muted' : ''}">${key}: </span>` : ''}${value}</span>`;
 	}
 }
 
@@ -75,6 +94,8 @@ export class TreeBranch extends ShadowComponent {
 	static properties = {
 		value: { type: Object },
 		key: { type: String },
+		currentDepth: { type: Number },
+		maxDepth: { type: Number },
 		opened: { type: Boolean, converter: boolExists, reflect: true }
 	};
 
@@ -82,7 +103,17 @@ export class TreeBranch extends ShadowComponent {
 		super();
 		this.value = null;
 		this.key = null;
+		this.currentDepth = 0;
+		this.maxDepth = 0;
 		this.opened = false;
+	}
+
+	/* Lifecycle */
+	connectedCallback(){
+		super.connectedCallback();
+		if(this.currentDepth <= this.maxDepth){
+			this.opened = true;
+		}
 	}
 
 	/* Members */
@@ -101,17 +132,17 @@ export class TreeBranch extends ShadowComponent {
 		const type = Array.isArray(this.value) ? 'Array' : 'Object';
 
 		return html`
-			<div class="branch">
+			<div>
 				<div class="branch-label" @click=${this.toggle}>
-					<span class="toggle">${this.opened ? '▼' : '▶'}</span>
+					<k-icon name="chevron-right" class="toggle-icon ${this.opened ? 'opened' : ''}"></k-icon>
 					${label}${type}
 				</div>
 				${this.opened ? html`
-					<div class="branch-content">
+					<div class="pl">
 						${this.value ? (Array.isArray(this.value)
 							? this.value.map((v, i) => [i, v])
 							: Object.entries(this.value)
-						).map(([key, value]) => Tree.renderValue(value, key)) : ''}
+						).map(([key, value]) => Tree.renderValue(value, key, this.currentDepth + 1, this.maxDepth)) : ''}
 					</div>
 				` : ''}
 			</div>
@@ -124,46 +155,29 @@ export class TreeBranch extends ShadowComponent {
 		}
 		.branch-label{
 			cursor: pointer;
-			padding: 2px 4px;
 		}
 		.branch-label:hover{
 			background-color: var(--c_bg__alt, #f5f5f5);
 		}
-		.toggle{
-			display: inline-block;
-			width: 1rem;
+		.toggle-icon{
+			transition: transform var(--animation_ms, 200ms);
 		}
-		.branch-content{
-			margin-left: 1.5rem;
+		.toggle-icon.opened{
+			transform: rotate(90deg);
 		}
 	`;
 }
 
 window.customElements.define('k-tree-branch', TreeBranch);
-export class TreeLeaf extends ShadowComponent {
-	/* Properties */
-	static properties = {
-		value: {},
-		key: { type: String },
-		opened: { reflect: true, type: Boolean, converter: boolExists }
-	};
 
-	constructor(){
-		super();
-		this.value = null;
-		this.key = null;
-		this.opened = false;
-	}
-
-	/* Members */
-	get tree(){
-		return this.closest('k-tree');
+export class TreeLeaf {
+	constructor(value = null){
+		this.value = value;
 	}
 
 	/* Rendering */
 	render(){
-		const label = this.key !== null ? html`<span class="tc-muted">${this.key}: </span>` : '';
-		return html`${label}<slot></slot>`;
+		return html`${this.value}`;
 	}
 
 	/* Static Methods */
@@ -172,76 +186,54 @@ export class TreeLeaf extends ShadowComponent {
 	};
 }
 
-window.customElements.define('k-tree-leaf', TreeLeaf);
-
 export class StringLeaf extends TreeLeaf {
 	/* Rendering */
 	render(){
-		const label = this.key !== null ? html`<span class="tc-muted">${this.key}: </span>` : '';
-		return html`<span class="d-b">${label}<span class="tc-success">"${this.value}"</span></span>`;
+		return html`<span class="tc-success">"${this.value}"</span>`;
 	}
 
+	/* Static Methods */
 	static detect = value => typeof value === 'string';
-
-	static tagName = 'k-tree-string-leaf';
 }
-
-window.customElements.define(StringLeaf.tagName, StringLeaf);
 
 export class NumberLeaf extends TreeLeaf {
 	/* Rendering */
 	render(){
-		const label = this.key !== null ? html`<span class="tc-muted">${this.key}: </span>` : '';
-		return html`<span class="d-b">${label}<span class="tc-primary">${this.value}</span></span>`;
+		return html`<span class="tc-primary">${this.value}</span>`;
 	}
 
+	/* Static Methods */
 	static detect = value => typeof value === 'number';
-
-	static tagName = 'k-tree-number-leaf';
 }
-
-window.customElements.define(NumberLeaf.tagName, NumberLeaf);
 
 export class BooleanLeaf extends TreeLeaf {
 	/* Rendering */
 	render(){
-		const label = this.key !== null ? html`<span class="tc-muted">${this.key}: </span>` : '';
-		return html`<span class="d-b">${label}<span class="${this.value ? 'tc-success' : 'tc-danger'}">${this.value}</span></span>`;
+		return html`<span class="${this.value ? 'tc-success' : 'tc-danger'}">${this.value}</span>`;
 	}
 
+	/* Static Methods */
 	static detect = value => typeof value === 'boolean';
-
-	static tagName = 'k-tree-boolean-leaf';
 }
-
-window.customElements.define(BooleanLeaf.tagName, BooleanLeaf);
 
 export class NullLeaf extends TreeLeaf {
 	/* Rendering */
 	render(){
-		const label = this.key !== null ? html`<span class="tc-muted">${this.key}: </span>` : '';
-		return html`<span class="d-b">${label}<span class="tc-muted">null</span></span>`;
+		return html`<span class="tc-muted">null</span>`;
 	}
-
+	
+	/* Static Methods */
 	static detect = value => value === null;
-
-	static tagName = 'k-tree-null-leaf';
 }
-
-window.customElements.define(NullLeaf.tagName, NullLeaf);
 
 export class UndefinedLeaf extends TreeLeaf {
 	/* Rendering */
 	render(){
-		const label = this.key !== null ? html`<span class="tc-muted">${this.key}: </span>` : '';
-		return html`<span class="d-b">${label}<span class="tc-muted">undefined</span></span>`;
+		return html`<span class="tc-muted">undefined</span>`;
 	}
 
+	/* Static Methods */
 	static detect = value => value === undefined;
-
-	static tagName = 'k-tree-undefined-leaf';
 }
-
-window.customElements.define(UndefinedLeaf.tagName, UndefinedLeaf);
 
 Tree.addLeaf(UndefinedLeaf, NullLeaf, BooleanLeaf, NumberLeaf, StringLeaf);
