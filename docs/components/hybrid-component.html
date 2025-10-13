@@ -3,69 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>watchWindowSize - Kempo UI</title>
-  <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <title>HybridComponent - Base Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
   <script type="module" src="./init.js"></script>
 </head>
 <body>
   <k-import src="../nav.inc.html"></k-import>
+  <h1 class="ta-center">HybridComponent</h1>
   <main>
-    <h1>watchWindowSize</h1>
-    
-    <details
-      class="b r mb"
-    >
+    <details class="b r mb">
       <summary class="p">Table of Contents</summary>
       <div class="m mt0 pl">
-        <h6>Usage</h6>
+        <h6>Guide</h6>
+        <a href="#overview">Overview</a><br />
         <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#functions">Functions</a><br />
-        <a href="#examples">Examples</a><br />
+        <a href="#whenToUse">When to Use</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
       </div>
     </details>
 
-    <h3>Description</h3>
-    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
+    <h3 id="overview"><a href="#overview" class="no-link">Overview</a></h3>
+    <p>HybridComponent is a base class that extends <a href="shadow-component.html">ShadowComponent</a> and provides both shadow DOM rendering with Kempo CSS styles AND light DOM rendering. Use this when you want your component to:</p>
+    <ul>
+      <li>Have shadow DOM with Kempo CSS for internal UI elements</li>
+      <li>Also render content to the light DOM alongside natural children</li>
+      <li>Combine the benefits of both shadow and light DOM</li>
+    </ul>
+    <p>Components like <a href="collapsible.html">Collapsible</a>, <a href="dialog.html">Dialog</a>, and <a href="side-menu.html">SideMenu</a> extend HybridComponent.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Import and use the window size watching functions:</p>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Window width:'</span>, width);<br />};<br /><br /><span class="hljs-comment">// Start watching</span><br /><span class="hljs-keyword">const</span> currentWidth = watchWindowSize(handler);<br /><br /><span class="hljs-comment">// Stop watching when done</span><br />unwatchWindowSize(handler);</code></pre>
+    <p>Create a custom component by extending HybridComponent and implementing both <code>render()</code> for shadow DOM and <code>renderLightDom()</code> for light DOM:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> HybridComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./HybridComponent.js'</span>;<br /><span class="hljs-keyword">import</span> { html, css } <span class="hljs-keyword">from</span> <span class="hljs-string">'../lit-all.min.js'</span>;<br /><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyHybridComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HybridComponent</span> {<br />  <span class="hljs-keyword">static</span> properties = {<br />    <span class="hljs-attr">title</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span> }<br />  };<br /><br />  <span class="hljs-keyword">static</span> styles = css<span class="hljs-string">`<br />    :host {<br />      display: block;<br />    }<br />    .shadow-content {<br />      background: var(--c_primary);<br />      color: var(--tc_on_primary);<br />      padding: var(--spacer);<br />    }<br />  `</span>;<br /><br />  <span class="hljs-title function_">constructor</span>() {<br />    <span class="hljs-variable language_">super</span>();<br />    <span class="hljs-variable language_">this</span>.title = <span class="hljs-string">'Hybrid'</span>;<br />  }<br /><br />  <span class="hljs-comment">// Shadow DOM content with Kempo CSS styles</span><br />  <span class="hljs-title function_">render</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`<br />      &lt;div class="shadow-content"&gt;<br />        &lt;h3&gt;<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.title}</span> Component&lt;/h3&gt;<br />        &lt;slot name="lightRoot"&gt;&lt;/slot&gt;<br />      &lt;/div&gt;<br />    `</span>;<br />  }<br /><br />  <span class="hljs-comment">// Light DOM content alongside natural children</span><br />  <span class="hljs-title function_">renderLightDom</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`<br />      &lt;p class="p"&gt;This is rendered to light DOM&lt;/p&gt;<br />      &lt;slot&gt;&lt;/slot&gt;<br />    `</span>;<br />  }<br />}<br /><br /><span class="hljs-variable language_">customElements</span>.<span class="hljs-title function_">define</span>(<span class="hljs-string">'my-hybrid-component'</span>, MyHybridComponent);</code></pre>
 
-    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
-    
-    <h5><code>watchWindowSize(handler)</code></h5>
-    <p>Registers a handler function to be called when the window is resized.</p>
+    <p><strong>Important:</strong> The default <code>render()</code> method includes <code>&lt;slot name="lightRoot"&gt;&lt;/slot&gt;</code> which is where the light DOM content appears. If you override <code>render()</code>, make sure to include this slot.</p>
+
+    <p><strong>Also Important:</strong> Always call <code>super.updated()</code> when overriding the <code>updated()</code> lifecycle method:</p>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">updated</span>(changedProperties) {<br />  <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">updated</span>(); <span class="hljs-comment">// Required!</span><br />  <br />  <span class="hljs-comment">// Your custom logic here</span><br />}</code></pre>
+
+    <h3 id="whenToUse"><a href="#whenToUse" class="no-link">When to Use</a></h3>
+    <p>Use HybridComponent when:</p>
     <ul>
-      <li><strong>handler:</strong> Function that receives the new window width</li>
-      <li><strong>Returns:</strong> Current window width</li>
+      <li>You need styled internal UI elements (buttons, headers, etc.) in shadow DOM</li>
+      <li>You also need to render content to light DOM alongside natural children</li>
+      <li>You want Kempo CSS styles for your component UI but need flexibility for user content</li>
+    </ul>
+    
+    <p><strong>Example use cases:</strong></p>
+    <ul>
+      <li><strong>Dialog:</strong> Shadow DOM for styled dialog chrome (header, footer, overlay), light DOM for user content</li>
+      <li><strong>Collapsible:</strong> Shadow DOM for toggle button, light DOM for collapsible content</li>
+      <li><strong>SideMenu:</strong> Shadow DOM for menu structure and styling, light DOM for menu items</li>
     </ul>
 
-    <h5><code>unwatchWindowSize(handler)</code></h5>
-    <p>Unregisters a previously registered handler function.</p>
+    <p>Use <a href="shadow-component.html">ShadowComponent</a> instead when you only need shadow DOM.</p>
+    <p>Use <a href="light-component.html">LightComponent</a> instead when you only need light DOM.</p>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends ShadowComponent</h6>
+    <h5><code>new HybridComponent()</code></h5>
+    <p>Creates a new HybridComponent instance with both shadow DOM (with Kempo CSS) and light DOM rendering.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><strong>handler:</strong> The same function reference that was registered</li>
+      <li>Lit (html, render)</li>
+      <li><a href="shadow-component.html">ShadowComponent</a></li>
     </ul>
 
-    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
-    
-    <h4>Responsive Component</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponsiveComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.isMobile = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.resizeHandler = <span class="hljs-keyword">this</span>.handleResize.bind(<span class="hljs-keyword">this</span>);<br />  }<br /><br />  connectedCallback() {<br />    <span class="hljs-keyword">super</span>.connectedCallback();<br />    <span class="hljs-keyword">const</span> currentWidth = watchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />    <span class="hljs-keyword">this</span>.handleResize(currentWidth);<br />  }<br /><br />  disconnectedCallback() {<br />    <span class="hljs-keyword">super</span>.disconnectedCallback();<br />    unwatchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />  }<br /><br />  handleResize(width) {<br />    <span class="hljs-keyword">this</span>.isMobile = width &lt; <span class="hljs-number">768</span>;<br />    <span class="hljs-keyword">this</span>.requestUpdate();<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.isMobile ? <span class="hljs-string">'mobile'</span> : <span class="hljs-string">'desktop'</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content adapts to screen size<br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>lightRoot<i>: HTMLElement</i></code></h5>
+    <p>A container element with <code>display: contents</code> that holds the rendered light DOM content. It has <code>slot="lightRoot"</code> to connect it to the shadow DOM slot. Created automatically by <code>createRenderRoot()</code>.</p>
 
-    <h4>Multiple Handlers</h4>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// Handler for navigation</span><br /><span class="hljs-keyword">const</span> navHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> nav = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.navigation'</span>);<br />  nav.classList.toggle(<span class="hljs-string">'mobile'</span>, width &lt; <span class="hljs-number">1024</span>);<br />};<br /><br /><span class="hljs-comment">// Handler for sidebar</span><br /><span class="hljs-keyword">const</span> sidebarHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> sidebar = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.sidebar'</span>);<br />  sidebar.style.display = width &lt; <span class="hljs-number">768</span> ? <span class="hljs-string">'none'</span> : <span class="hljs-string">'block'</span>;<br />};<br /><br /><span class="hljs-comment">// Both handlers will be called on resize</span><br />watchWindowSize(navHandler);<br />watchWindowSize(sidebarHandler);<br /><br /><span class="hljs-comment">// Clean up when needed</span><br />unwatchWindowSize(navHandler);<br />unwatchWindowSize(sidebarHandler);</code></pre>
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>createRenderRoot()<i>: Element</i></code></h5>
+    <p>Creates both shadow DOM (via <code>super.createRenderRoot()</code>) and light DOM render containers. This method:</p>
+    <ul>
+      <li>Calls the parent ShadowComponent's <code>createRenderRoot()</code> to set up shadow DOM with Kempo CSS</li>
+      <li>Creates a <code>lightRoot</code> div with <code>display: contents</code> and <code>slot="lightRoot"</code></li>
+      <li>Appends <code>lightRoot</code> to the component element</li>
+      <li>Returns the shadow render container</li>
+    </ul>
 
-    <h4>Breakpoint Detection</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> breakpoints = {<br />  <span class="hljs-attr">mobile</span>: <span class="hljs-number">768</span>,<br />  <span class="hljs-attr">tablet</span>: <span class="hljs-number">1024</span>,<br />  <span class="hljs-attr">desktop</span>: <span class="hljs-number">1200</span><br />};<br /><br /><span class="hljs-keyword">const</span> breakpointHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">let</span> currentBreakpoint = <span class="hljs-string">'mobile'</span>;<br />  <br />  <span class="hljs-keyword">if</span> (width &gt;= breakpoints.desktop) {<br />    currentBreakpoint = <span class="hljs-string">'desktop'</span>;<br />  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (width &gt;= breakpoints.tablet) {<br />    currentBreakpoint = <span class="hljs-string">'tablet'</span>;<br />  }<br />  <br />  <span class="hljs-built_in">document</span>.body.setAttribute(<span class="hljs-string">'data-breakpoint'</span>, currentBreakpoint);<br />  <br />  <span class="hljs-comment">// Dispatch custom event</span><br />  <span class="hljs-built_in">window</span>.dispatchEvent(<span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'breakpointchange'</span>, {<br />    <span class="hljs-attr">detail</span>: { width, <span class="hljs-attr">breakpoint</span>: currentBreakpoint }<br />  }));<br />};<br /><br />watchWindowSize(breakpointHandler);</code></pre>
+    <h5><code>updated()<i>: void</i></code></h5>
+    <p>Called automatically by Lit when the component updates. Renders the result of <code>renderLightDom()</code> into <code>lightRoot</code>. Override this method if needed, but always call <code>super.updated()</code>.</p>
 
-    <h4>Performance Benefits</h4>
-    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// This handler will only be called after resize events stop</span><br /><span class="hljs-keyword">const</span> expensiveHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-comment">// Expensive DOM calculations or API calls</span><br />  recalculateLayout();<br />  updateCharts();<br />  reflow();<br />};<br /><br />watchWindowSize(expensiveHandler); <span class="hljs-comment">// Automatically debounced</span></code></pre>
+    <h5><code>renderLightDom()<i>: TemplateResult</i></code></h5>
+    <p>Override this method to define what should be rendered to the light DOM. Returns an empty template by default. Use Lit's <code>html</code> tagged template literal to return your content. Typically includes a <code>&lt;slot&gt;&lt;/slot&gt;</code> for natural children.</p>
+
+    <h5><code>render()<i>: TemplateResult</i></code></h5>
+    <p>Override this method to define what should be rendered to the shadow DOM. The default implementation returns <code>html`&lt;slot name="lightRoot"&gt;&lt;/slot&gt;`</code> which displays the light DOM content. When overriding, make sure to include this slot where you want the light DOM content to appear.</p>
 
   </main>
   <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
 </body>
 </html>

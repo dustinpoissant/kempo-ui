@@ -3,69 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>watchWindowSize - Kempo UI</title>
-  <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <title>Icon - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
   <script type="module" src="./init.js"></script>
 </head>
 <body>
   <k-import src="../nav.inc.html"></k-import>
+  <h1 class="ta-center">Icon</h1>
   <main>
-    <h1>watchWindowSize</h1>
-    
-    <details
-      class="b r mb"
-    >
+    <details class="b r mb">
       <summary class="p">Table of Contents</summary>
       <div class="m mt0 pl">
-        <h6>Usage</h6>
+        <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#functions">Functions</a><br />
-        <a href="#examples">Examples</a><br />
+        <a href="#explicitSource">Explicitly Set the Source</a><br />
+        <a href="#fallbackIcon">Fallback Icon</a><br />
+        <a href="#changingIconDirectory">Changing the Icon Directory Location</a><br />
+        <a href="#addingIcons">Adding Icons</a><br />
+        <a href="#updatingIconDirectoryPath">Updating the Icon Directory Path</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
       </div>
     </details>
 
-    <h3>Description</h3>
-    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
-
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Import and use the window size watching functions:</p>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Window width:'</span>, width);<br />};<br /><br /><span class="hljs-comment">// Start watching</span><br /><span class="hljs-keyword">const</span> currentWidth = watchWindowSize(handler);<br /><br /><span class="hljs-comment">// Stop watching when done</span><br />unwatchWindowSize(handler);</code></pre>
+    <p>Create an icon using the <code>k-icon</code> component. You can specify the icon by setting the <code>name</code> or <code>src</code> attribute.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"folder"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/icon.svg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-icon name="folder"></k-icon>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-icon src="/path/to/icon.svg"></k-icon>
+      </div>
+    </div>
 
-    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
-    
-    <h5><code>watchWindowSize(handler)</code></h5>
-    <p>Registers a handler function to be called when the window is resized.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"menu"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"close"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"play"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"pause"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output*">
+          <k-icon name="menu"></k-icon>
+          <k-icon name="close"></k-icon>
+          <k-icon name="play"></k-icon>
+          <k-icon name="pause"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="explicitSource"><a href="#explicitSource" class="no-link">Explicitly Set the Source</a></h3>
+    <p>You can use any svg file that is publically available (on your site or any other public domain) buy using the <code>src</code> attribute instead of <code>name</code>. The code will attempt to ensure compatability.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/wysiwyg/default/24px.svg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output*">
+          <k-icon src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/wysiwyg/default/24px.svg"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fallbackIcon"><a href="#fallbackIcon" class="no-link">Fallback Icon</a></h3>
+    <p>Put an SVG inside of the <code>k-icon</code> to be the fallback if one is not found that matches the provided name or source. Otherwise a <k-icon></k-icon> will be the fallback icon.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"invalid"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"invalid"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 -960 960 960"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"currentColor"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M240-280h200v-80H240v80Zm400 0h80v-80h-80v80ZM240-440h200v-80H240v80Zm400 0h80v-240h-80v240ZM240-600h200v-80H240v80Zm-80 480q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm0 0v-560 560Z"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output*">
+          <k-icon name="invalid"></k-icon>
+          <k-icon name="invalid">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="currentColor" d="M240-280h200v-80H240v80Zm400 0h80v-80h-80v80ZM240-440h200v-80H240v80Zm400 0h80v-240h-80v240ZM240-600h200v-80H240v80Zm-80 480q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm0 0v-560 560Z"/></svg>
+          </k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="changingIconDirectory"><a href="#changingIconDirectory" class="no-link">Changing the Icon Directory Location</a></h3>
+    <p>To change the location of the directory holding the icons import the <code>Icon</code> class, and set the static member <code>pathToIcons</code> to point to the correct location, do this before icons are loaded (for example in the head of the document).</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Icon <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Icon.js'</span>;<br />  Icon.pathToIcons = <span class="hljs-string">'./pathTo/icons'</span>;<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <h3 id="addingIcons"><a href="#addingIcons" class="no-link">Adding Icons</a></h3>
+    <p>Add your SVGs to the directory, remove the <code>height</code> and <code>width</code> attributes from the <code>svg</code> tag (if you do not, the Icon component will attempt to do it for you). The height and width will be managed by CSS to match the font-size. Give all objects (path, rect, circle) a fill of <code>currentColor</code>, this will allow the icon to adapt to the font color where it is rendered.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Before">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 -960 960 960"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"24"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"24"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="After">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 -960 960 960"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"currentColor"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="updatingIconDirectoryPath"><a href="#updatingIconDirectoryPath" class="no-link">Updating the Icon Directory Path</a></h3>
+    <p>To change the location of the directory holding the icons, import the <code>Icon</code> class, and set the static member <code>pathToIcons</code> to point to the correct location. Do this before icons are loaded (for example, in the head of the document).</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Icon <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Icon.js'</span>;<br />  Icon.pathToIcons = [<span class="hljs-string">'./pathTo/icons'</span>];<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h5>
+      <code>new Icon()</code><br />
+      <code>new Icon(<i>string</i> name)</code>
+    </h5>
+
+    <h4>Parameters</h4>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The name of the icon.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><strong>handler:</strong> Function that receives the new window width</li>
-      <li><strong>Returns:</strong> Current window width</li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
     </ul>
 
-    <h5><code>unwatchWindowSize(handler)</code></h5>
-    <p>Unregisters a previously registered handler function.</p>
-    <ul>
-      <li><strong>handler:</strong> The same function reference that was registered</li>
-    </ul>
-
-    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
-    
-    <h4>Responsive Component</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponsiveComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.isMobile = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.resizeHandler = <span class="hljs-keyword">this</span>.handleResize.bind(<span class="hljs-keyword">this</span>);<br />  }<br /><br />  connectedCallback() {<br />    <span class="hljs-keyword">super</span>.connectedCallback();<br />    <span class="hljs-keyword">const</span> currentWidth = watchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />    <span class="hljs-keyword">this</span>.handleResize(currentWidth);<br />  }<br /><br />  disconnectedCallback() {<br />    <span class="hljs-keyword">super</span>.disconnectedCallback();<br />    unwatchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />  }<br /><br />  handleResize(width) {<br />    <span class="hljs-keyword">this</span>.isMobile = width &lt; <span class="hljs-number">768</span>;<br />    <span class="hljs-keyword">this</span>.requestUpdate();<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.isMobile ? <span class="hljs-string">'mobile'</span> : <span class="hljs-string">'desktop'</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content adapts to screen size<br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
-
-    <h4>Multiple Handlers</h4>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// Handler for navigation</span><br /><span class="hljs-keyword">const</span> navHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> nav = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.navigation'</span>);<br />  nav.classList.toggle(<span class="hljs-string">'mobile'</span>, width &lt; <span class="hljs-number">1024</span>);<br />};<br /><br /><span class="hljs-comment">// Handler for sidebar</span><br /><span class="hljs-keyword">const</span> sidebarHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> sidebar = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.sidebar'</span>);<br />  sidebar.style.display = width &lt; <span class="hljs-number">768</span> ? <span class="hljs-string">'none'</span> : <span class="hljs-string">'block'</span>;<br />};<br /><br /><span class="hljs-comment">// Both handlers will be called on resize</span><br />watchWindowSize(navHandler);<br />watchWindowSize(sidebarHandler);<br /><br /><span class="hljs-comment">// Clean up when needed</span><br />unwatchWindowSize(navHandler);<br />unwatchWindowSize(sidebarHandler);</code></pre>
-
-    <h4>Breakpoint Detection</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> breakpoints = {<br />  <span class="hljs-attr">mobile</span>: <span class="hljs-number">768</span>,<br />  <span class="hljs-attr">tablet</span>: <span class="hljs-number">1024</span>,<br />  <span class="hljs-attr">desktop</span>: <span class="hljs-number">1200</span><br />};<br /><br /><span class="hljs-keyword">const</span> breakpointHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">let</span> currentBreakpoint = <span class="hljs-string">'mobile'</span>;<br />  <br />  <span class="hljs-keyword">if</span> (width &gt;= breakpoints.desktop) {<br />    currentBreakpoint = <span class="hljs-string">'desktop'</span>;<br />  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (width &gt;= breakpoints.tablet) {<br />    currentBreakpoint = <span class="hljs-string">'tablet'</span>;<br />  }<br />  <br />  <span class="hljs-built_in">document</span>.body.setAttribute(<span class="hljs-string">'data-breakpoint'</span>, currentBreakpoint);<br />  <br />  <span class="hljs-comment">// Dispatch custom event</span><br />  <span class="hljs-built_in">window</span>.dispatchEvent(<span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'breakpointchange'</span>, {<br />    <span class="hljs-attr">detail</span>: { width, <span class="hljs-attr">breakpoint</span>: currentBreakpoint }<br />  }));<br />};<br /><br />watchWindowSize(breakpointHandler);</code></pre>
-
-    <h4>Performance Benefits</h4>
-    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// This handler will only be called after resize events stop</span><br /><span class="hljs-keyword">const</span> expensiveHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-comment">// Expensive DOM calculations or API calls</span><br />  recalculateLayout();<br />  updateCharts();<br />  reflow();<br />};<br /><br />watchWindowSize(expensiveHandler); <span class="hljs-comment">// Automatically debounced</span></code></pre>
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The name of the icon. Syncs with the <code>name</code> attribute.</p>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The source URL of the icon. Syncs with the <code>src</code> attribute.</p>
+    <h5><code>pathToIcons<i>: Array</i></code></h5>
+    <p>An array of paths to directories containing icons. This is a static property that affects all icon instances.</p>
 
   </main>
   <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script> 
+  <script type="module" src="../src/components/Card.js"></script> 
+  <script type="module" src="../src/components/Icon.js"></script> 
 </body>
 </html>

@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>watchWindowSize - Kempo UI</title>
-  <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <title>PhotoViewer - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
   <script type="module" src="./init.js"></script>
@@ -14,58 +13,208 @@
 <body>
   <k-import src="../nav.inc.html"></k-import>
   <main>
-    <h1>watchWindowSize</h1>
-    
-    <details
-      class="b r mb"
-    >
+    <h1 class="ta-center">PhotoViewer</h1>
+
+    <details class="b r mb">
       <summary class="p">Table of Contents</summary>
       <div class="m mt0 pl">
-        <h6>Usage</h6>
+        <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#functions">Functions</a><br />
-        <a href="#examples">Examples</a><br />
+        <a href="#gallery">Gallery Navigation</a><br />
+        <a href="#globalNavigation">Global Navigation</a><br />
+        <a href="#customControls">Custom Controls</a><br />
+        <a href="#captions">Captions</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#slots">Slots</a><br />
       </div>
     </details>
 
-    <h3>Description</h3>
-    <p>The <code>watchWindowSize</code> utility provides a debounced way to monitor window resize events. It manages multiple handlers efficiently and automatically debounces resize events to improve performance.</p>
-
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Import and use the window size watching functions:</p>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Window width:'</span>, width);<br />};<br /><br /><span class="hljs-comment">// Start watching</span><br /><span class="hljs-keyword">const</span> currentWidth = watchWindowSize(handler);<br /><br /><span class="hljs-comment">// Stop watching when done</span><br />unwatchWindowSize(handler);</code></pre>
-
-    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
+    <p>The <code>k-photo-viewer</code> component displays images with fullscreen viewing capabilities. Click on any image to open it in fullscreen mode.</p>
     
-    <h5><code>watchWindowSize(handler)</code></h5>
-    <p>Registers a handler function to be called when the window is resized.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/civic.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda Civic Type R"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Honda Civic Type R - Track-focused hot hatch<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+    
+    <div class="mb" style="max-width: 400px;">
+      <k-photo-viewer
+        src="../media/civic.jpg"
+        alt="Honda Civic Type R"
+      >
+        <p>Honda Civic Type R - Track-focused hot hatch</p>
+      </k-photo-viewer>
+    </div>
+
+    <h3 id="gallery"><a href="#gallery" class="no-link">Gallery Navigation</a></h3>
+    <p>When multiple PhotoViewer components are siblings, you can navigate between them using the arrow buttons in fullscreen mode or keyboard arrow keys.</p>
+    
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"gallery"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/civic.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda Civic Type R"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Honda Civic Type R<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/corvette.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Chevrolet Corvette C8"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Chevrolet Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/evo.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Mitsubishi Lancer Evolution"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Mitsubishi Lancer Evolution<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+    
+    <div class="gallery mb" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 800px;">
+      <k-photo-viewer
+        src="../media/civic.jpg"
+        alt="Honda Civic Type R"
+      >
+        <h6 class="m0">Honda Civic Type R</h6>
+      </k-photo-viewer>
+      <k-photo-viewer
+        src="../media/corvette.jpg"
+        alt="Chevrolet Corvette C8"
+      >
+        <h6 class="m0">Chevrolet Corvette C8</h6>
+      </k-photo-viewer>
+      <k-photo-viewer
+        src="../media/evo.jpg"
+        alt="Mitsubishi Lancer Evolution"
+      >
+        <h6 class="m0">Mitsubishi Lancer Evolution</h6>
+      </k-photo-viewer>
+    </div>
+
+    <h3 id="globalNavigation"><a href="#globalNavigation" class="no-link">Global Navigation</a></h3>
+    <p>With the <code>global</code> attribute, PhotoViewers can navigate between all instances on the page, not just siblings.</p>
+    
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/gtr.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Nissan GT-R"</span><br />  <span class="hljs-attr">global</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Nissan GT-R (Global Navigation)<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+    
+    <div class="mb" style="max-width: 300px;">
+      <k-photo-viewer
+        src="../media/gtr.jpg"
+        alt="Nissan GT-R"
+        global
+      >
+        <h6 class="m0">Nissan GT-R (Global Navigation)</h6>
+        <p class="m0 small">This viewer can navigate to all photos on the page</p>
+      </k-photo-viewer>
+    </div>
+
+    <h3 id="customControls"><a href="#customControls" class="no-link">Custom Controls</a></h3>
+    <p>Customize the fullscreen controls using slots and disable keyboard controls if needed.</p>
+    
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/nsx.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda NSX"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"close"</span>&gt;</span>✕<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"prev"</span>&gt;</span>◀<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"next"</span>&gt;</span>▶<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Honda NSX<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom controls, keyboard disabled<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/evo.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Mitsubishi Lancer Evolution"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"close"</span>&gt;</span>✕<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"prev"</span>&gt;</span>◀<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"next"</span>&gt;</span>▶<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Mitsubishi Lancer Evolution<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom controls, keyboard disabled<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+    
+    <div class="mb" style="max-width: 350px;">
+      <k-photo-viewer
+        src="../media/nsx.jpg"
+        alt="Honda NSX"
+        keyboard-controls="false"
+      >
+        <span slot="close">✕</span>
+        <span slot="prev">◀</span>
+        <span slot="next">▶</span>
+        <h6 class="m0">Honda NSX</h6>
+        <p class="m0">Custom controls, keyboard disabled</p>
+      </k-photo-viewer>
+      <k-photo-viewer
+        src="../media/evo.jpg"
+        alt="Mitsubishi Lancer Evolution"
+        keyboard-controls="false"
+      >
+        <span slot="close">✕</span>
+        <span slot="prev">◀</span>
+        <span slot="next">▶</span>
+        <h6 class="m0">Mitsubishi Lancer Evolution</h6>
+        <p class="m0">Custom controls, keyboard disabled</p>
+      </k-photo-viewer>
+    </div>
+
+    <h3 id="captions"><a href="#captions" class="no-link">Captions</a></h3>
+    <p>Use different captions for thumbnail view and fullscreen view using slots.</p>
+    
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/corvette.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Chevrolet Corvette C8"</span><br />&gt;</span><br />  <span class="hljs-comment">&lt;!-- Default caption (thumbnail view) --&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <br />  <span class="hljs-comment">&lt;!-- Fullscreen caption --&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"fullscreen-caption"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>2020 Chevrolet Corvette C8 Stingray<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The first mid-engine Corvette featuring a 6.2L V8 engine<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+    
+    <div class="mb" style="max-width: 400px;">
+      <k-photo-viewer
+        src="../media/corvette.jpg"
+        alt="Chevrolet Corvette C8"
+      >
+        <h6 class="m0">Corvette C8</h6>
+        <div slot="fullscreen-caption">
+          <h4>2020 Chevrolet Corvette C8 Stingray</h4>
+          <p>The first mid-engine Corvette featuring a 6.2L V8 engine producing 495 horsepower</p>
+        </div>
+      </k-photo-viewer>
+    </div>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./ShadowComponent.html">ShadowComponent</a></h6>
+    <h5>
+      <code>new PhotoViewer()</code>
+    </h5>
+    <p>Creates a new PhotoViewer instance. Configuration is done through attributes or properties.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><strong>handler:</strong> Function that receives the new window width</li>
-      <li><strong>Returns:</strong> Current window width</li>
+      <li><a href="./ShadowComponent.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a></li>
     </ul>
 
-    <h5><code>unwatchWindowSize(handler)</code></h5>
-    <p>Unregisters a previously registered handler function.</p>
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The URL of the image to display. Syncs with the <code>src</code> attribute.</p>
+    <h5><code>alt<i>: string</i></code></h5>
+    <p>Alternative text for the image. Syncs with the <code>alt</code> attribute.</p>
+    <h5><code>fullscreen<i>: boolean</i></code></h5>
+    <p>Whether the photo viewer is currently in fullscreen mode. Syncs with the <code>fullscreen</code> attribute.</p>
+    <h5><code>keyboardControls<i>: boolean</i></code></h5>
+    <p>Whether keyboard controls are enabled (default: true). When enabled: Enter opens fullscreen, ESC closes, arrow keys navigate. Syncs with the <code>keyboard-controls</code> attribute.</p>
+    <h5><code>global<i>: boolean</i></code></h5>
+    <p>Whether navigation should include all PhotoViewers on the page (true) or just siblings (false, default). Syncs with the <code>global</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>open()<i>: void</i></code></h5>
+    <p>Opens the photo viewer in fullscreen mode.</p>
+    <h5><code>close()<i>: void</i></code></h5>
+    <p>Closes the fullscreen mode.</p>
+    <h5><code>toggle()<i>: void</i></code></h5>
+    <p>Toggles between fullscreen and normal mode.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>fullscreenchange</code></h5>
+    <p>Fired when the fullscreen state changes. Event detail contains <code>{ fullscreen: boolean }</code>.</p>
+    <h5><code>fullscreen</code></h5>
+    <p>Fired when entering fullscreen mode.</p>
+    <h5><code>fullscreenclose</code></h5>
+    <p>Fired when exiting fullscreen mode.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>default</code></h5>
+    <p>Caption content displayed below the thumbnail image.</p>
+    <h5><code>fullscreen-caption</code></h5>
+    <p>Caption content displayed in fullscreen mode. If not provided, the default slot content is cloned.</p>
+    <h5><code>close</code></h5>
+    <p>Custom close button content. Defaults to a close icon.</p>
+    <h5><code>prev</code></h5>
+    <p>Custom previous button content. Defaults to a chevron-left icon.</p>
+    <h5><code>next</code></h5>
+    <p>Custom next button content. Defaults to a chevron-right icon.</p>
+
+    <h4>Keyboard Controls</h4>
+    <p>When <code>keyboard-controls</code> is enabled (default):</p>
     <ul>
-      <li><strong>handler:</strong> The same function reference that was registered</li>
+      <li><strong>Enter</strong>: Open fullscreen when focused on thumbnail</li>
+      <li><strong>Escape</strong>: Close fullscreen</li>
+      <li><strong>Arrow Left</strong>: Navigate to previous photo</li>
+      <li><strong>Arrow Right</strong>: Navigate to next photo</li>
     </ul>
 
-    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
-    
-    <h4>Responsive Component</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { watchWindowSize, unwatchWindowSize } <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/watchWindowSize.js'</span>;<br /><br /><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponsiveComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LitElement</span> </span>{<br />  <span class="hljs-keyword">constructor</span>() {<br />    <span class="hljs-keyword">super</span>();<br />    <span class="hljs-keyword">this</span>.isMobile = <span class="hljs-literal">false</span>;<br />    <span class="hljs-keyword">this</span>.resizeHandler = <span class="hljs-keyword">this</span>.handleResize.bind(<span class="hljs-keyword">this</span>);<br />  }<br /><br />  connectedCallback() {<br />    <span class="hljs-keyword">super</span>.connectedCallback();<br />    <span class="hljs-keyword">const</span> currentWidth = watchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />    <span class="hljs-keyword">this</span>.handleResize(currentWidth);<br />  }<br /><br />  disconnectedCallback() {<br />    <span class="hljs-keyword">super</span>.disconnectedCallback();<br />    unwatchWindowSize(<span class="hljs-keyword">this</span>.resizeHandler);<br />  }<br /><br />  handleResize(width) {<br />    <span class="hljs-keyword">this</span>.isMobile = width &lt; <span class="hljs-number">768</span>;<br />    <span class="hljs-keyword">this</span>.requestUpdate();<br />  }<br /><br />  render() {<br />    <span class="hljs-keyword">return</span> html`<span class="xml"><br />      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${<span class="hljs-keyword">this</span>.isMobile ? <span class="hljs-string">'mobile'</span> : <span class="hljs-string">'desktop'</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><br />        Content adapts to screen size<br />      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    `</span>;<br />  }<br />}</code></pre>
-
-    <h4>Multiple Handlers</h4>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// Handler for navigation</span><br /><span class="hljs-keyword">const</span> navHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> nav = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.navigation'</span>);<br />  nav.classList.toggle(<span class="hljs-string">'mobile'</span>, width &lt; <span class="hljs-number">1024</span>);<br />};<br /><br /><span class="hljs-comment">// Handler for sidebar</span><br /><span class="hljs-keyword">const</span> sidebarHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> sidebar = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.sidebar'</span>);<br />  sidebar.style.display = width &lt; <span class="hljs-number">768</span> ? <span class="hljs-string">'none'</span> : <span class="hljs-string">'block'</span>;<br />};<br /><br /><span class="hljs-comment">// Both handlers will be called on resize</span><br />watchWindowSize(navHandler);<br />watchWindowSize(sidebarHandler);<br /><br /><span class="hljs-comment">// Clean up when needed</span><br />unwatchWindowSize(navHandler);<br />unwatchWindowSize(sidebarHandler);</code></pre>
-
-    <h4>Breakpoint Detection</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> breakpoints = {<br />  <span class="hljs-attr">mobile</span>: <span class="hljs-number">768</span>,<br />  <span class="hljs-attr">tablet</span>: <span class="hljs-number">1024</span>,<br />  <span class="hljs-attr">desktop</span>: <span class="hljs-number">1200</span><br />};<br /><br /><span class="hljs-keyword">const</span> breakpointHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-keyword">let</span> currentBreakpoint = <span class="hljs-string">'mobile'</span>;<br />  <br />  <span class="hljs-keyword">if</span> (width &gt;= breakpoints.desktop) {<br />    currentBreakpoint = <span class="hljs-string">'desktop'</span>;<br />  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (width &gt;= breakpoints.tablet) {<br />    currentBreakpoint = <span class="hljs-string">'tablet'</span>;<br />  }<br />  <br />  <span class="hljs-built_in">document</span>.body.setAttribute(<span class="hljs-string">'data-breakpoint'</span>, currentBreakpoint);<br />  <br />  <span class="hljs-comment">// Dispatch custom event</span><br />  <span class="hljs-built_in">window</span>.dispatchEvent(<span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'breakpointchange'</span>, {<br />    <span class="hljs-attr">detail</span>: { width, <span class="hljs-attr">breakpoint</span>: currentBreakpoint }<br />  }));<br />};<br /><br />watchWindowSize(breakpointHandler);</code></pre>
-
-    <h4>Performance Benefits</h4>
-    <p>The utility automatically debounces resize events, so you don't need to worry about performance:</p>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// This handler will only be called after resize events stop</span><br /><span class="hljs-keyword">const</span> expensiveHandler = <span class="hljs-function">(<span class="hljs-params">width</span>) =&gt;</span> {<br />  <span class="hljs-comment">// Expensive DOM calculations or API calls</span><br />  recalculateLayout();<br />  updateCharts();<br />  reflow();<br />};<br /><br />watchWindowSize(expensiveHandler); <span class="hljs-comment">// Automatically debounced</span></code></pre>
+    <h4>Navigation Behavior</h4>
+    <p>Navigation between photos works as follows:</p>
+    <ul>
+      <li><strong>Sibling mode</strong> (default): Navigate only between PhotoViewer components that are direct siblings</li>
+      <li><strong>Global mode</strong>: Navigate between all PhotoViewer components on the page</li>
+      <li><strong>Wrap-around</strong>: Navigation wraps from last to first photo and vice versa</li>
+      <li><strong>Auto-hide</strong>: Navigation buttons are hidden when only one photo is available</li>
+    </ul>
 
   </main>
   <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script> 
+  <script type="module" src="../src/components/PhotoViewer.js"></script> 
 </body>
 </html>
