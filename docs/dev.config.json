@@ -2,7 +2,7 @@
   "customRoutes": {
     "/": "./index.html",
     "/kempo.min.css": "../node_modules/kempo-css/dist/kempo.min.css", 
-    "/kempo-vars.css": "../src/kempo-vars.css",
+    "/kempo-vars.css": "../kempo-vars.css",
     "/kempo-hljs.css": "../src/kempo-hljs.css",
     "/icons/**": "../icons/**",
     "/src/**": "../src/**"
