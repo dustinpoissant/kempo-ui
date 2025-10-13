@@ -227,13 +227,13 @@ export default class Dialog extends ShadowComponent {
 		return html`
 			<button id="overlay" aria-label="Close the Dialog" @click=${this.handleClick}></button>
 			<div id="wrapper">
-				<div
-					id="dialog"
-					role="dialog"
-					aria-modal="true"
-					aria-labelledby="title"
-				>
-					<k-focus-capture>
+				<k-focus-capture>
+					<div
+						id="dialog"
+						role="dialog"
+						aria-modal="true"
+						aria-labelledby="title"
+					>
 						<div
 							id="header"
 							class="${this.hasTitle() ? 'has-title' : ''}"
@@ -264,8 +264,8 @@ export default class Dialog extends ShadowComponent {
 								` : ''}
 							</div>
 						` : ''}
-					</k-focus-capture>
-				</div>
+					</div>
+				</k-focus-capture>
 			</div>
 		`;
 	}
@@ -280,7 +280,9 @@ export default class Dialog extends ShadowComponent {
 
 		const {
 			removeOnClose = true,
-			closeCallback = () => {}
+			closeCallback = () => {},
+			title = '',
+			titleClasses = 'pyh px m0'
 		} = options;
 
 		const dialog = new Dialog();
@@ -297,11 +299,33 @@ export default class Dialog extends ShadowComponent {
 			}
 		});
 
+		// Set title if provided
+		if(title) {
+			const titleElement = document.createElement('h5');
+			titleElement.slot = 'title';
+			titleElement.className = titleClasses;
+			if(title instanceof HTMLElement) {
+				titleElement.appendChild(title);
+			} else {
+				titleElement.innerHTML = title;
+			}
+			dialog.appendChild(titleElement);
+		}
+
 		// Set content
 		if(contents instanceof HTMLElement || contents instanceof DocumentFragment) {
 			dialog.appendChild(contents);
 		} else if(contents) {
-			dialog.innerHTML = contents;
+			// Check if content is plain text (no HTML tags)
+			const hasHtmlTags = /<[^>]+>/.test(contents);
+			if(hasHtmlTags) {
+				dialog.innerHTML += contents;
+			} else {
+				const p = document.createElement('p');
+				p.className = 'p';
+				p.textContent = contents;
+				dialog.appendChild(p);
+			}
 		}
 
 		// Set CSS custom properties for dimensions
@@ -319,11 +343,8 @@ export default class Dialog extends ShadowComponent {
 	}
 
 	static confirm(text, responseCallback, options = {}) {
-		const title = options.title || 'Confirm';
-		return Dialog.create(`
-			<h5 slot="title" class="pyh px m0">${title}</h5>
-			<p class="p">${text}</p>
-		`, {
+		return Dialog.create(text, {
+			title: options.title || 'Confirm',
 			closeBtn: false,
 			overlayClose: false,
 			confirmText: 'Yes',
@@ -336,36 +357,29 @@ export default class Dialog extends ShadowComponent {
 		});
 	}
 
-	static alert(text, responseCallback, options = {}) {
-		const title = options.title || 'Alert';
-		return Dialog.create(`
-			<h5 slot="title" class="pyh px m0">${title}</h5>
-			<p class="p">${text}</p>
-		`, {
+	static alert(text, responseCallback = () => {}, options = {}) {
+		return Dialog.create(text, {
+			title: options.title || 'Alert',
 			closeCallback: responseCallback,
 			cancelText: 'Ok',
 			...options
 		});
 	}
 
-	static error(text, responseCallback, options = {}) {
-		const title = options.title || 'Error';
-		return Dialog.create(`
-			<h5 slot="title" class="pyh px m0 tc-danger">${title}</h5>
-			<p class="p">${text}</p>
-		`, {
+	static error(text, responseCallback = () => {}, options = {}) {
+		return Dialog.create(text, {
+			title: options.title || 'Error',
+			titleClasses: 'pyh px m0 tc-danger',
 			closeCallback: responseCallback,
 			cancelText: 'Ok',
 			...options
 		});
 	}
 
-	static success(text, responseCallback, options = {}) {
-		const title = options.title || 'Success';
-		return Dialog.create(`
-			<h5 slot="title" class="pyh px m0 tc-success">${title}</h5>
-			<p class="p">${text}</p>
-		`, {
+	static success(text, responseCallback = () => {}, options = {}) {
+		return Dialog.create(text, {
+			title: options.title || 'Success',
+			titleClasses: 'pyh px m0 tc-success',
 			closeCallback: responseCallback,
 			cancelText: 'Ok',
 			...options

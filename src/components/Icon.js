@@ -69,10 +69,6 @@ export default class Icon extends ShadowComponent {
 		if (changedProperties.has('src') || changedProperties.has('name')) {
 			this.loadIcon();
 		}
-
-		if (changedProperties.has('iconContent')) {
-			this.fixSVG();
-		}
 	}
 
 	/*
@@ -88,30 +84,41 @@ export default class Icon extends ShadowComponent {
 		}
 		
 		if (svg) {
-			this.iconContent = svg;
+			this.iconContent = this.fixSVG(svg);
 		} else {
 			// Check for slotted fallback content first
 			const slottedContent = this.innerHTML.trim();
 			if (slottedContent) {
-				this.iconContent = slottedContent;
+				this.iconContent = this.fixSVG(slottedContent);
 			} else {
 				this.iconContent = Icon.fallback;
 			}
 		}
 	}
 
-	fixSVG() {
-		// Use setTimeout to ensure DOM is updated
-		setTimeout(() => {
-			const $svg = this.querySelector('svg');
-			if ($svg) {
-				$svg.removeAttribute('width');
-				$svg.removeAttribute('height');
-				$svg.querySelectorAll('path, rect, circle').forEach($path => {
-					$path.setAttribute('fill', 'currentColor');
-				});
-			}
-		}, 0);
+	fixSVG(svgString) {
+		if(!svgString) return svgString;
+		
+		// Parse the SVG string and fix attributes
+		const parser = new DOMParser();
+		const doc = parser.parseFromString(svgString, 'image/svg+xml');
+		const $svg = doc.querySelector('svg');
+		
+		if($svg) {
+			// Remove width and height attributes
+			$svg.removeAttribute('width');
+			$svg.removeAttribute('height');
+			
+			// Set fill to currentColor on all paths, rects, and circles
+			$svg.querySelectorAll('path, rect, circle').forEach($el => {
+				$el.setAttribute('fill', 'currentColor');
+			});
+			
+			// Return the fixed SVG as a string
+			return new XMLSerializer().serializeToString($svg);
+		}
+		
+		return svgString;
 	}
 
 	/*

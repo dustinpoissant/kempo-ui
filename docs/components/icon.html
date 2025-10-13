@@ -61,7 +61,7 @@
     </div>
 
     <h3 id="explicitSource"><a href="#explicitSource" class="no-link">Explicitly Set the Source</a></h3>
-    <p>You can use any svg file that is publically available (on your site or any other public domain) buy using the <code>src</code> attribute instead of <code>name</code>. The code will attempt to ensure compatability.</p>
+    <p>You can use any SVG file that is publicly available (on your site or any other public domain) by using the <code>src</code> attribute instead of <code>name</code>. The Icon component will automatically fix the SVG to ensure compatibility by removing width/height attributes and setting fill colors to <code>currentColor</code> so the icon adapts to the current text color.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
@@ -98,7 +98,7 @@
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Icon <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Icon.js'</span>;<br />  Icon.pathToIcons = <span class="hljs-string">'./pathTo/icons'</span>;<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <h3 id="addingIcons"><a href="#addingIcons" class="no-link">Adding Icons</a></h3>
-    <p>Add your SVGs to the directory, remove the <code>height</code> and <code>width</code> attributes from the <code>svg</code> tag (if you do not, the Icon component will attempt to do it for you). The height and width will be managed by CSS to match the font-size. Give all objects (path, rect, circle) a fill of <code>currentColor</code>, this will allow the icon to adapt to the font color where it is rendered.</p>
+    <p>Add your SVGs to the directory. The Icon component will automatically remove the <code>height</code> and <code>width</code> attributes from the <code>svg</code> tag and set the fill of all objects (path, rect, circle) to <code>currentColor</code>. This allows the icon to adapt to the font color where it is rendered and ensures consistent sizing. However, you can manually prepare your icons this way for better performance.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Before">

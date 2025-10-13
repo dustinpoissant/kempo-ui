@@ -11,7 +11,7 @@ export default class Card extends ShadowComponent {
 
 	constructor() {
 		super();
-		this.label = '';
+		this.label = null;
 	}
 
 	/*
@@ -38,12 +38,9 @@ export default class Card extends ShadowComponent {
 			border-radius: var(--radius);
 			padding: var(--spacer_h);
 		}
-		:host([label]) {
-			padding-top: calc(1.5 * var(--spacer));
-			margin-top: var(--spacer);
-		}
 		:host([label]) #card {
 			padding-top: calc(1.5 * var(--spacer));
+			margin-top: var(--spacer);
 		}
 		:host(:not([label])) #label {
 			display: none;
