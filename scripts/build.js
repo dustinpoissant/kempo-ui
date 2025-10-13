@@ -48,13 +48,23 @@ process.stdout.write(`0/${allJSFiles.length} = 0%`);
 const processedJS = {};
 await Promise.all(allJSFiles.map(async jsFile => {
   const filename = path.basename(jsFile);
+  let code = jsCode[jsFile];
+  
   if (filename.endsWith('.min.js')) {
     // Already minified, just copy
-    processedJS[jsFile] = jsCode[jsFile];
+    processedJS[jsFile] = code;
   } else {
     // Minify the file
-    processedJS[jsFile] = (await minify(jsCode[jsFile])).code;
+    code = (await minify(code)).code;
   }
+  
+  // Convert absolute paths to relative paths for GitHub Pages compatibility
+  // This handles paths in ShadowComponent and Icon
+  code = code.replace(/stylesheetPath\s*=\s*"\/kempo\.min\.css"/g, 'stylesheetPath="./kempo.min.css"');
+  code = code.replace(/pathToIcons\s*=\s*\["\/icons"\]/g, 'pathToIcons=["./icons"]');
+  
+  processedJS[jsFile] = code;
+  
   process.stdout.write("\r");
   complete++;
   process.stdout.write(`${complete}/${allJSFiles.length} = ${Math.round((complete/allJSFiles.length)*100)}%`);

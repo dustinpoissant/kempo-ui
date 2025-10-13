@@ -5,15 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dialog - Components - Kempo Docs - A Web Components Solution</title>
   <link rel="stylesheet" href="../src/kempo-vars.css" /><link rel="stylesheet" href="../kempo.min.css" />
-  <link rel="stylesheet" href="../src/kempo-hljs.css" />`n  <link rel="stylesheet" href="../styles.css" />
-  <script type="module">
-    import ShadowComponent from '../src/components/ShadowComponent.js';
-    import Import from '../src/components/Import.js';
-    import Icon from '../src/components/Icon.js';
-    ShadowComponent.stylesheetPath = '../kempo.min.css';
-    Import.replacements.root = '../';
-    Icon.pathToIcons = ['../icons'];
-  </script>
+  <link rel="stylesheet" href="../src/kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="module" src="./init.js"></script>
 </head>
 <body>
   <k-import src="../nav.inc.html"></k-import>
@@ -96,148 +90,7 @@
     <h5>Create Dialog</h5>
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d7"</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d7'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.create(<span class="hljs-string">'&lt;p&gt;Hello World&lt;/p&gt;'</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <button id="d7" class="mb">Open Dialog</button>
-    <script type="module">
-      import Dialog from '/src/components/Dialog.js';
-      document.getElementById('d7').addEventListener('click', () => {
-        Dialog.create('<p>Hello World</p>');
-      });
-    </script>
-
-    <h5>Error Dialog</h5>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d8"</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d8'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.error(<span class="hljs-string">"&lt;p&gt;Oh no, don't do that!&lt;/p&gt;"</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-    <button id="d8" class="mb">Open Dialog</button>
-    <script type="module">
-      import Dialog from '/src/components/Dialog.js';
-      document.getElementById('d8').addEventListener('click', () => {
-        Dialog.error("Oh no, don't do that!");
-      });
-    </script>
-
-    <h3 id="confirmDialog"><a href="#confirmDialog" class="no-link">Confirm Dialog</a></h3>
-    <p>Use the <code>Dialog.confirm</code> static method to create a confirmation dialog. This method takes a text message, a response callback, and an options object.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d9"</span>&gt;</span>Open Confirm Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d9'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.confirm(<span class="hljs-string">"Are you sure you want to proceed?"</span>, <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {<br />      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"User response:"</span>, response);<br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-    <button id="d9" class="mb">Open Confirm Dialog</button>
-    <script type="module">
-      import Dialog from '/src/components/Dialog.js';
-      document.getElementById('d9').addEventListener('click', () => {
-        Dialog.confirm("Are you sure you want to proceed?", response => {
-          console.log("User response:", response);
-        });
-      });
-    </script>
-
-    <h2 id="jsRef">JavaScript Reference</h2>
-
-    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./ShadowComponent.html">ShadowComponent</a></h6>
-    <h5>
-      <code>new Dialog()</code>
-    </h5>
-
-    <h4>Parameters</h4>
-    <p>The Dialog constructor takes no parameters. Configuration is done through attributes or properties after instantiation.</p>
-
-    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
-    <ul>
-      <li><a href="./shadow-component.html">ShadowComponent</a></li>
-      <li><a href="./icon.html">Icon</a></li>
-    </ul>
-
-    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <h5><code>opened<i>: boolean</i></code></h5>
-    <p>Whether the dialog is opened. Syncs with the <code>opened</code> attribute.</p>
-    <h5><code>closeBtn<i>: boolean</i></code></h5>
-    <p>Whether to show the close button. Syncs with the <code>close-btn</code> attribute.</p>
-    <h5><code>overlayClose<i>: boolean</i></code></h5>
-    <p>Whether clicking the overlay closes the dialog. Syncs with the <code>overlay-close</code> attribute.</p>
-    <h5><code>confirmText<i>: string</i></code></h5>
-    <p>Text for the confirm button. Syncs with the <code>confirm-text</code> attribute.</p>
-    <h5><code>confirmClasses<i>: string</i></code></h5>
-    <p>Classes for the confirm button. Syncs with the <code>confirm-classes</code> attribute.</p>
-    <h5><code>cancelText<i>: string</i></code></h5>
-    <p>Text for the cancel button. Syncs with the <code>cancel-text</code> attribute.</p>
-    <h5><code>cancelClasses<i>: string</i></code></h5>
-    <p>Classes for the cancel button. Syncs with the <code>cancel-classes</code> attribute.</p>
-    <h5><code>confirmAction<i>: function</i></code></h5>
-    <p>Action to perform when the confirm button is clicked. Not reflected as an attribute.</p>
-    <h5><code>cancelAction<i>: function</i></code></h5>
-    <p>Action to perform when the cancel button is clicked. Not reflected as an attribute.</p>
-    <h5><code>closeCallback<i>: function</i></code></h5>
-    <p>Callback to execute when the dialog is closed. Not reflected as an attribute.</p>
-    <h5><code>previousFocus<i>: Element</i></code></h5>
-    <p>Reference to the element that had focus before the dialog was opened. Not reflected as an attribute.</p>
-
-    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>open()<i>: void</i></code></h5>
-    <p>Opens the dialog.</p>
-    <h5><code>close()<i>: void</i></code></h5>
-    <p>Closes the dialog.</p>
-    <h5><code>toggle()<i>: void</i></code></h5>
-    <p>Toggles the dialog open or closed.</p>
-    <h5><code>focus()<i>: void</i></code></h5>
-    <p>Focuses the first focusable element in the dialog.</p>
-    <h5><code>blur()<i>: void</i></code></h5>
-    <p>Returns focus to the element that had focus before the dialog was opened.</p>
-
-    <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
-    <h5><code>create(contents, options)<i>: Dialog</i></code></h5>
-    <p>Creates and opens a new dialog with the specified contents and options.</p>
-    <h6>Options</h6>
-    <ul>
-      <li><code>opened</code>: <i>boolean</i> - Whether the dialog is initially opened.</li>
-      <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button.</li>
-      <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog.</li>
-      <li><code>confirmText</code>: <i>string</i> - Text for the confirm button.</li>
-      <li><code>confirmClasses</code>: <i>string</i> - Classes for the confirm button.</li>
-      <li><code>confirmAction</code>: <i>function</i> - Action to perform on confirm.</li>
-      <li><code>cancelText</code>: <i>string</i> - Text for the cancel button.</li>
-      <li><code>cancelClasses</code>: <i>string</i> - Classes for the cancel button.</li>
-      <li><code>cancelAction</code>: <i>function</i> - Action to perform on cancel.</li>
-      <li><code>closeCallback</code>: <i>function</i> - Callback to execute when the dialog is closed.</li>
-    </ul>
-    <h5><code>confirm(text, responseCallback, options)<i>: Dialog</i></code></h5>
-    <p>Creates and opens a confirmation dialog with the specified text and options. The responseCallback receives a boolean indicating the user's choice.</p>
-    <h6>Options</h6>
-    <ul>
-      <li><code>title</code>: <i>string</i> - The title of the dialog (default: "Confirm").</li>
-      <li><code>confirmText</code>: <i>string</i> - Text for the confirm button (default: "Yes").</li>
-      <li><code>confirmClasses</code>: <i>string</i> - Classes for the confirm button (default: "success ml").</li>
-      <li><code>cancelText</code>: <i>string</i> - Text for the cancel button (default: "No").</li>
-      <li><code>cancelClasses</code>: <i>string</i> - Classes for the cancel button (default: "danger").</li>
-      <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button (default: false).</li>
-      <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog (default: false).</li>
-    </ul>
-    <h5><code>alert(text, responseCallback, options)<i>: Dialog</i></code></h5>
-    <p>Creates and opens an alert dialog with the specified text and options.</p>
-    <h6>Options</h6>
-    <ul>
-      <li><code>title</code>: <i>string</i> - The title of the dialog (default: "Alert").</li>
-      <li><code>cancelText</code>: <i>string</i> - Text for the ok button (default: "Ok").</li>
-      <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button.</li>
-      <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog.</li>
-    </ul>
-    <h5><code>error(text, responseCallback, options)<i>: Dialog</i></code></h5>
-    <p>Creates and opens an error dialog with the specified text and options.</p>
-    <h6>Options</h6>
-    <ul>
-      <li><code>title</code>: <i>string</i> - The title of the dialog (default: "Error").</li>
-      <li><code>cancelText</code>: <i>string</i> - Text for the ok button (default: "Ok").</li>
-      <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button.</li>
-      <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog.</li>
-    </ul>
-    <h5><code>success(text, responseCallback, options)<i>: Dialog</i></code></h5>
-    <p>Creates and opens a success dialog with the specified text and options.</p>
-    <h6>Options</h6>
-    <ul>
-      <li><code>title</code>: <i>string</i> - The title of the dialog (default: "Success").</li>
-      <li><code>cancelText</code>: <i>string</i> - Text for the ok button (default: "Ok").</li>
-      <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button.</li>
-      <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog.</li>
-    </ul>
-
-  </main>
-  <div style="height:33vh"></div>
-  <script type="module" src="../src/components/Import.js"></script> 
+    <script type="module" src="./init.js"></script> 
   <script type="module" src="../src/components/Dialog.js"></script> 
   <script>
     document.querySelectorAll('.openDialog').forEach( $btn => {
