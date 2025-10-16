@@ -99,7 +99,11 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 					<slot></slot>
 				</div>
 			</div>
-		`}}export class Tab extends ShadowComponent{static properties={active:{type:Boolean,reflect:!0,converter:boolExists},for:{type:String,reflect:!0}};constructor(){super(),this.active=!1,this.for="",this.slot="tabs"}handleClick=()=>{if(!this.active){const t=this.parentElement;t&&"K-TABS"===t.tagName&&(t.active=this.for||t.tabs.indexOf(this).toString())}};get tabs(){return"K-TABS"===this.parentElement?.tagName?this.parentElement:null}static styles=css`
+		`}}export class Tab extends ShadowComponent{static properties={active:{type:Boolean,reflect:!0,converter:boolExists},for:{type:String,reflect:!0}};constructor(){super(),this.active=!1,this.for="",this.slot="tabs"}handleClick=()=>{if(!this.active){const t=this.parentElement;t&&"K-TABS"===t.tagName&&(t.active=this.for||t.tabs.indexOf(this).toString())}};get tabs(){return"K-TABS"===this.parentElement?.tagName?this.parentElement:null}render(){return html`
+			<button id="button" @click=${this.handleClick}>
+				<slot></slot>
+			</button>
+		`}static styles=css`
 		:host {
 			margin-bottom: -1px;
 			flex: 0 0 auto;
@@ -120,24 +124,21 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 		}
 
 		:host([active]) {
-			border-bottom: 2px solid var(--c_primary);
+			border-bottom: 3px solid var(--c_primary);
 			margin-bottom: -1px;
 		}
 
 		:host([active]) #button {
 			color: var(--tc_primary);
 		}
-	`;render(){return html`
-			<button id="button" @click=${this.handleClick}>
-				<slot></slot>
-			</button>
-		`}}export class TabContent extends ShadowComponent{static properties={active:{type:Boolean,reflect:!0,converter:boolExists},name:{type:String,reflect:!0}};constructor(){super(),this.active=!1,this.name=""}get tabs(){return"K-TABS"===this.parentElement?.tagName?this.parentElement:null}static styles=css`
+	`}export class TabContent extends ShadowComponent{static properties={active:{type:Boolean,reflect:!0,converter:boolExists},name:{type:String,reflect:!0}};constructor(){super(),this.active=!1,this.name=""}get tabs(){return"K-TABS"===this.parentElement?.tagName?this.parentElement:null}render(){return html`<slot></slot>`}static styles=css`
 		:host {
 			display: block;
 			height: 100%;
 			max-height: 100%;
 			flex: 1 1 auto;
 			overflow: auto;
+			padding-top: var(--spacer, 1rem);
 		}
 
 		:host([active]) {
@@ -147,7 +148,7 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 		:host(:not([active])) {
 			display: none;
 		}
-	`;render(){return html`<slot></slot>`}}export class TabSpacer extends ShadowComponent{constructor(){super(),this.slot="tabs"}static styles=css`
+	`}export class TabSpacer extends ShadowComponent{constructor(){super(),this.slot="tabs"}static styles=css`
 		:host {
 			flex: 1 1 auto !important;
 			height: 1px;
