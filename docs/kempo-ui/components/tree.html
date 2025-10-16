@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/kempo-ui/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="/kempo-ui/kempo-vars.css" />
+  <link rel="stylesheet" href="/kempo-ui/kempo.min.css" />
+  <link rel="stylesheet" href="/kempo-ui/kempo-hljs.css" />
+  <link rel="stylesheet" href="/kempo-ui/styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+</head>
+<body>
+  <k-import src="/kempo-ui/nav.inc.html"></k-import>
+  <h1 class="ta-center">Tree</h1>
+  <main>
+    <details class="b r mb">
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#depthControl">Controlling Initial Depth</a><br />
+        <a href="#customLeafs">Custom Leaf Types</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+      </div>
+    </details>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create a tree using the <code>k-tree</code> component. Set your data by setting the <code>data</code> property.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myTree"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree <span class="hljs-keyword">from</span> <span class="hljs-string">'/kempo-ui/src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">name</span>: <span class="hljs-string">'John Doe'</span>,<br />    <span class="hljs-attr">age</span>: <span class="hljs-number">30</span>,<br />    <span class="hljs-attr">active</span>: <span class="hljs-literal">true</span>,<br />    <span class="hljs-attr">hobbies</span>: [<span class="hljs-string">'reading'</span>, <span class="hljs-string">'coding'</span>],<br />    <span class="hljs-attr">address</span>: {<br />      <span class="hljs-attr">street</span>: <span class="hljs-string">'123 Main St'</span>,<br />      <span class="hljs-attr">city</span>: <span class="hljs-string">'New York'</span><br />    }<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-tree id="myTree"></k-tree>
+        <script type="module">
+          import Tree from '/kempo-ui/src/components/Tree.js';
+          const tree = document.getElementById('myTree');
+          tree.data = {
+            name: 'John Doe',
+            age: 30,
+            active: true,
+            hobbies: ['reading', 'coding'],
+            address: {
+              street: '123 Main St',
+              city: 'New York'
+            }
+          };
+        </script>
+      </div>
+    </div>
+
+    <h3 id="depthControl"><a href="#depthControl" class="no-link">Controlling Initial Depth</a></h3>
+    <p>Use the <code>depth</code> attribute to control how many levels of branches are open by default. This example shows depth set to <code>2</code>:</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"depthTree"</span> <span class="hljs-attr">depth</span>=<span class="hljs-string">"2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree <span class="hljs-keyword">from</span> <span class="hljs-string">'/kempo-ui/src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'depthTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">company</span>: <span class="hljs-string">'Tech Corp'</span>,<br />    <span class="hljs-attr">departments</span>: {<br />      <span class="hljs-attr">engineering</span>: {<br />        <span class="hljs-attr">frontend</span>: [<span class="hljs-string">'Alice'</span>, <span class="hljs-string">'Bob'</span>],<br />        <span class="hljs-attr">backend</span>: [<span class="hljs-string">'Charlie'</span>, <span class="hljs-string">'Diana'</span>]<br />      },<br />      <span class="hljs-attr">sales</span>: {<br />        <span class="hljs-attr">team</span>: [<span class="hljs-string">'Eve'</span>, <span class="hljs-string">'Frank'</span>]<br />      }<br />    }<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-tree id="depthTree" depth="2"></k-tree>
+        <script type="module">
+          import Tree from '/kempo-ui/src/components/Tree.js';
+          const tree = document.getElementById('depthTree');
+          tree.data = {
+            company: 'Tech Corp',
+            departments: {
+              engineering: {
+                frontend: ['Alice', 'Bob'],
+                backend: ['Charlie', 'Diana']
+              },
+              sales: {
+                team: ['Eve', 'Frank']
+              }
+            }
+          };
+        </script>
+      </div>
+    </div>
+
+    <h3 id="customLeafs"><a href="#customLeafs" class="no-link">Custom Leaf Types</a></h3>
+    <p>You can define custom leaf types to handle specific data types. Create a class that extends <code>TreeLeaf</code>, implement a <code>detect</code> static method that checks for specific properties, and a <code>render</code> method, then register it with <code>Tree.addLeaf()</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"customTree"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Tree, { TreeLeaf } <span class="hljs-keyword">from</span> <span class="hljs-string">'/kempo-ui/src/components/Tree.js'</span>;<br />  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/lit-all.min.js'</span>;<br /><br />  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DateLeaf</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">TreeLeaf</span> </span>{<br />    render(){<br />      <span class="hljs-keyword">const</span> { month, day, year } = <span class="hljs-keyword">this</span>.value;<br />      <span class="hljs-keyword">return</span> html`<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tc-warning"</span>&gt;</span>📅 </span><span class="hljs-subst">${month}</span><span class="xml">/</span><span class="hljs-subst">${day}</span><span class="xml">/</span><span class="hljs-subst">${year}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>`</span>;<br />    }<br /><br />    <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {<br />      <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'object'</span> <br />        &amp;&amp; value !== <span class="hljs-literal">null</span><br />        &amp;&amp; <span class="hljs-string">'month'</span> <span class="hljs-keyword">in</span> value <br />        &amp;&amp; <span class="hljs-string">'day'</span> <span class="hljs-keyword">in</span> value <br />        &amp;&amp; <span class="hljs-string">'year'</span> <span class="hljs-keyword">in</span> value;<br />    };<br />  }<br /><br />  Tree.addLeaf(DateLeaf);<br /><br />  <span class="hljs-keyword">const</span> tree = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'customTree'</span>);<br />  tree.data = {<br />    <span class="hljs-attr">event</span>: <span class="hljs-string">'Tech Conference 2025'</span>,<br />    <span class="hljs-attr">startDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">15</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },<br />    <span class="hljs-attr">endDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">17</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },<br />    <span class="hljs-attr">location</span>: <span class="hljs-string">'San Francisco'</span>,<br />    <span class="hljs-attr">attendees</span>: <span class="hljs-number">250</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-tree id="customTree"></k-tree>
+        <script type="module">
+          import Tree, { TreeLeaf } from '/kempo-ui/src/components/Tree.js';
+          import { html } from '/kempo-ui/src/lit-all.min.js';
+
+          class DateLeaf extends TreeLeaf {
+            render(){
+              const { month, day, year } = this.value;
+              return html`<span class="tc-warning">📅 ${month}/${day}/${year}</span>`;
+            }
+
+            static detect = value => {
+              return typeof value === 'object' 
+                && value !== null
+                && 'month' in value 
+                && 'day' in value 
+                && 'year' in value;
+            };
+          }
+
+          Tree.addLeaf(DateLeaf);
+
+          const tree = document.getElementById('customTree');
+          tree.data = {
+            event: 'Tech Conference 2025',
+            startDate: { month: 10, day: 15, year: 2025 },
+            endDate: { month: 10, day: 17, year: 2025 },
+            location: 'San Francisco',
+            attendees: 250
+          };
+        </script>
+      </div>
+    </div>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Tree()</code></h5>
+    <p>Creates a new Tree component instance.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li>lit-all.min.js</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h4><code>data</code> <span class="tc-muted small">Object | Array</span></h4>
+    <p>The data to display in the tree. Can be any JavaScript object or array. Nested objects and arrays will be rendered as collapsible branches.</p>
+
+    <h4><code>depth</code> <span class="tc-muted small">Number</span> <span class="tc-muted small">default: 0</span></h4>
+    <p>The number of branch levels that should be open by default. A value of <code>0</code> means all branches are closed, <code>1</code> means the first level is open, <code>2</code> means the first two levels are open, etc. This property is reflected as an attribute.</p>
+
+    <h4><code>editable</code> <span class="tc-muted small">Boolean</span></h4>
+    <p>Whether the tree should be editable. <em>Note: This feature is not yet implemented.</em></p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    
+    <h4><code>Tree.addLeaf(...leafClasses)</code> <span class="tc-muted small">Static</span></h4>
+    <p>Register one or more custom leaf classes. Leaf classes should extend <code>TreeLeaf</code> and implement:</p>
+    <ul>
+      <li><code>constructor(value)</code> - Optional, TreeLeaf base constructor accepts the value</li>
+      <li><code>static detect(value)</code> - Returns <code>true</code> if this leaf type should handle the given value</li>
+      <li><code>render()</code> - Returns a Lit template or DOM node that renders the value (without the key)</li>
+    </ul>
+    <p>Leafs are checked in order of registration (most recently added first).</p>
+
+    <h3>Default Leaf Types</h3>
+    <p>The Tree component comes with built-in leaf types for JavaScript primitives:</p>
+    <ul>
+      <li><strong>StringLeaf</strong> - Renders strings in green with quotes</li>
+      <li><strong>NumberLeaf</strong> - Renders numbers in blue</li>
+      <li><strong>BooleanLeaf</strong> - Renders <code>true</code> in green, <code>false</code> in red</li>
+      <li><strong>NullLeaf</strong> - Renders <code>null</code> in muted gray</li>
+      <li><strong>UndefinedLeaf</strong> - Renders <code>undefined</code> in muted gray</li>
+    </ul>
+    <p>Objects and arrays that don't match any registered leaf type are rendered as collapsible branches.</p>
+
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Tree.js"></script> 
+</body>
+</html>

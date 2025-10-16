@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/kempo-ui/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusCapture - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="kempo-vars.css" />
+  <link rel="stylesheet" href="kempo.min.css" />
+  <link rel="stylesheet" href="kempo-hljs.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+</head>
+<body>
+  <k-import src="/kempo-ui/nav.inc.html"></k-import>
+  <h1 class="ta-center">FocusCapture</h1>
+  <main>
+    <details class="b r mb">
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#dialogExample">Dialog Example</a><br />
+        
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+      </div>
+    </details>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The <code>k-focus-capture</code> component traps focus within its children. When focus reaches the end of the focusable elements, it cycles back to the first focusable element. This is useful for modal dialogs, side menus, or any UI where you want to keep focus contained within a specific area.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-focus-capture</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb"</span>&gt;</span>First Button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Input field"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb"</span> /&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb"</span>&gt;</span>Second Button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-b mb"</span>&gt;</span>Link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-focus-capture</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <p class="mb"><em>Tab through the elements below. Focus will cycle back to the first element after the last one.</em></p>
+          <k-focus-capture>
+            <div class="card">
+              <button class="mb">First Button</button>
+              <input type="text" placeholder="Input field" class="mb" />
+              <button class="mb">Second Button</button>
+              <a href="#" class="d-b mb">Link</a>
+            </div>
+          </k-focus-capture>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="dialogExample"><a href="#dialogExample" class="no-link">Dialog Example</a></h3>
+    <p>FocusCapture is used internally by the <a href="dialog.html">Dialog</a> and <a href="side-menu.html">SideMenu</a> components. You do not need to add it yourself. Open the dialog below and tab through the elements to see how focus is trapped within the dialog.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"focusDialog"</span> <span class="hljs-attr">cancel-text</span>=<span class="hljs-string">"Close"</span> <span class="hljs-attr">confirm-text</span>=<span class="hljs-string">"Submit"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"title"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"m0 px"</span>&gt;</span>Focus Capture Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"p"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Tab through the elements. Focus stays trapped in the dialog.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Name"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb"</span> /&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb"</span> /&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dialog</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"document.getElementById('focusDialog').open()"</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <button onclick="document.getElementById('focusDialog').open()">Open Dialog</button>
+          <k-dialog
+            id="focusDialog"
+            cancel-text="Close"
+            confirm-text="Submit"
+          >
+            <h6 slot="title" class="m0 px">Focus Capture Dialog</h6>
+            <div class="p">
+              <p>Tab through the elements. Focus stays trapped in the dialog.</p>
+              <input type="text" placeholder="Name" class="mb" />
+              <input type="email" placeholder="Email" class="mb" />
+            </div>
+          </k-dialog>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends LitElement</h6>
+    <h5>
+      <code>new FocusCapture()</code>
+    </h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li>Lit</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>afterFocus<i>: function</i></code></h5>
+    <p>A method that is called when focus reaches the end capture element. By default, it finds the first focusable element within the component and focuses it. Focusable elements include: <code>button</code>, <code>[href]</code>, <code>input</code>, <code>select</code>, <code>textarea</code>, and <code>[tabindex]:not([tabindex="-1"])</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>render()<i>: TemplateResult</i></code></h5>
+    <p>Renders the component with a slot for children and an invisible div with <code>tabindex="0"</code> that captures focus and cycles it back to the beginning.</p>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/FocusCapture.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Dialog.js"></script> 
+</body>
+</html>

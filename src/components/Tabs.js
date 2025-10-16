@@ -289,9 +289,14 @@ export class Tab extends ShadowComponent {
 		return this.parentElement?.tagName === 'K-TABS' ? this.parentElement : null;
 	}
 
-	/*
-		Styles
-	*/
+	/* Rendering */
+	render() {
+		return html`
+			<button id="button" @click=${this.handleClick}>
+				<slot></slot>
+			</button>
+		`;
+	}
 	static styles = css`
 		:host {
 			margin-bottom: -1px;
@@ -313,7 +318,7 @@ export class Tab extends ShadowComponent {
 		}
 
 		:host([active]) {
-			border-bottom: 2px solid var(--c_primary);
+			border-bottom: 3px solid var(--c_primary);
 			margin-bottom: -1px;
 		}
 
@@ -321,17 +326,6 @@ export class Tab extends ShadowComponent {
 			color: var(--tc_primary);
 		}
 	`;
-
-	/*
-		Rendering
-	*/
-	render() {
-		return html`
-			<button id="button" @click=${this.handleClick}>
-				<slot></slot>
-			</button>
-		`;
-	}
 }
 
 /*
@@ -357,8 +351,11 @@ export class TabContent extends ShadowComponent {
 	}
 
 	/*
-		Styles
+		Rendering
 	*/
+	render() {
+		return html`<slot></slot>`;
+	}
 	static styles = css`
 		:host {
 			display: block;
@@ -366,6 +363,7 @@ export class TabContent extends ShadowComponent {
 			max-height: 100%;
 			flex: 1 1 auto;
 			overflow: auto;
+			padding-top: var(--spacer, 1rem);
 		}
 
 		:host([active]) {
@@ -376,13 +374,6 @@ export class TabContent extends ShadowComponent {
 			display: none;
 		}
 	`;
-
-	/*
-		Rendering
-	*/
-	render() {
-		return html`<slot></slot>`;
-	}
 }
 
 /*

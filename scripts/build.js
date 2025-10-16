@@ -99,19 +99,19 @@ const minifiedKempoHljsCSS = kempoHljsCSS.replace(/\s*\{\s*/g, '{').replace(/\s*
 console.log('Saving kempo-hljs.css');
 await fs.writeFile('./dist/kempo-hljs.css', minifiedKempoHljsCSS, 'utf-8');
 
-console.log('Cleaning docs/src/ directory');
-await emptyDir('./docs/src/');
+console.log('Cleaning docs/kempo-ui/src/ directory');
+await emptyDir('./docs/kempo-ui/src/');
 
-console.log('Copying dist/ to docs/');
-await ensureDir('./docs/');
-await copyDir('./dist', './docs/');
+console.log('Copying dist/ to docs/kempo-ui/');
+await ensureDir('./docs/kempo-ui/');
+await copyDir('./dist', './docs/kempo-ui/');
 
-console.log('Copying icons/ to docs/icons/');
-await copyDir('./icons', './docs/icons/');
+console.log('Copying icons/ to docs/kempo-ui/icons/');
+await copyDir('./icons', './docs/kempo-ui/icons/');
 
 console.log('Copying base kempo.min.css from external package');
 const kempoCssSource = './node_modules/kempo-css/dist/kempo.min.css';
-const kempoCssDest = './docs/kempo.min.css';
+const kempoCssDest = './docs/kempo-ui/kempo.min.css';
 try {
   const kempoCssContent = await fs.readFile(kempoCssSource, 'utf-8');
   await fs.writeFile(kempoCssDest, kempoCssContent, 'utf-8');

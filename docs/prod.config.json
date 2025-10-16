@@ -1,13 +1,5 @@
 {
-  "mimeTypes": {
-    ".js": "application/javascript",
-    ".mjs": "application/javascript"
-  },
   "middleware": {
-    "logging": {
-      "enabled": true,
-      "includeResponseTime": true
-    },
     "security": {
       "enabled": true,
       "headers": {
