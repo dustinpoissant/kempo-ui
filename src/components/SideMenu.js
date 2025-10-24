@@ -2,6 +2,7 @@ import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 import { boolTrueFalse } from '../utils/propConverters.js';
 import './FocusCapture.js';
+import './Icon.js';
 
 export default class SideMenu extends ShadowComponent {
 	/*
@@ -68,7 +69,7 @@ export default class SideMenu extends ShadowComponent {
 			<k-focus-capture>
 				<div id="container">
 					<button id="overlay" @click=${this.overlayClick}>
-						<div id="overlay-x">âœ•</div>
+						<div id="overlay-x"><k-icon name="close"></k-icon></div>
 					</button>
 					<div id="menu">
 						<slot></slot>

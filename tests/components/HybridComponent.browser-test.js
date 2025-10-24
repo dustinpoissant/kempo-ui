@@ -26,7 +26,7 @@ export default {
 			return;
 		}
 		
-		const stylesheetLink = component.shadowRoot.querySelector('link[href="/kempo.min.css"]');
+		const stylesheetLink = component.shadowRoot.querySelector('link[href="./kempo.min.css"]');
 		if(!stylesheetLink) {
 			document.body.removeChild(component);
 			fail('Shadow root should contain kempo.min.css link');

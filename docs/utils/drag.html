@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drag - Kempo UI</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1>drag</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#options">Options</a><br />
+          <a href="#callbacks">Callbacks</a><br />
+          <a href="#returnValue">Return Value</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>drag</code> utility function enables drag interactions on DOM elements. It handles both mouse and touch
+      events, providing callbacks for drag start, move, and end events.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and use the drag function to make elements draggable. The function returns a cleanup function that should
+      be called to remove all event listeners:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> drag <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/drag.js'</span>;<br /><br /><span class="hljs-keyword">const</span> element = <span class="hljs-built_in">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'.draggable'</span>);<br /><span class="hljs-keyword">const</span> cleanup = <span class="hljs-title function_">drag</span>({<br />  element,<br />  <span class="hljs-attr">callback</span>: <span class="hljs-function">(<span class="hljs-params">diff</span>) =&gt;</span> {<br />    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Dragged:'</span>, diff.x, diff.y);<br />  }<br />});<br /><br /><span class="hljs-comment">// Later, when you need to remove the drag functionality</span><br /><span class="hljs-title function_">cleanup</span>();</code></pre>
+
+    <h3 id="options"><a href="#options" class="no-link">Options</a></h3>
+    <h5><code>element<i>: HTMLElement</i></code></h5>
+    <p>The DOM element to make draggable.</p>
+    <h5><code>preventScroll<i>: boolean</i></code> (optional)</h5>
+    <p>Whether to prevent scroll behavior during drag. Defaults to false.</p>
+
+    <h3 id="callbacks"><a href="#callbacks" class="no-link">Callbacks</a></h3>
+    <h5><code>callback<i>: Function</i></code> (optional)</h5>
+    <p>Called on every drag move. Receives a diff object with x, y coordinates and original options.</p>
+    <h5><code>startCallback<i>: Function</i></code> (optional)</h5>
+    <p>Called when drag starts. Receives a diff object with x: 0, y: 0 and original options.</p>
+    <h5><code>moveCallback<i>: Function</i></code> (optional)</h5>
+    <p>Called on every drag move (in addition to callback). Receives a diff object.</p>
+    <h5><code>endCallback<i>: Function</i></code> (optional)</h5>
+    <p>Called when drag ends. Receives a diff object with the final position.</p>
+
+    <h3 id="returnValue"><a href="#returnValue" class="no-link">Return Value</a></h3>
+    <h5><code>cleanup<i>: Function</i></code></h5>
+    <p>The drag function returns a cleanup function. Call this function to remove all event listeners and stop the drag
+      functionality. This is important for preventing memory leaks when removing or destroying components.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> cleanup = <span class="hljs-title function_">drag</span>({ element, callback });<br /><br /><span class="hljs-comment">// Later, when component is destroyed or drag is no longer needed</span><br /><span class="hljs-title function_">cleanup</span>();</code></pre>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Draggable Element</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> box = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.box'</span>);<br /><span class="hljs-keyword">let</span> position = { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span> };<br /><br />drag({<br />  <span class="hljs-attr">element</span>: box,<br />  <span class="hljs-attr">callback</span>: <span class="hljs-function">(<span class="hljs-params">diff</span>) =&gt;</span> {<br />    position.x += diff.x;<br />    position.y += diff.y;<br />    box.style.transform = <span class="hljs-string">`translate(<span class="hljs-subst">${position.x}</span>px, <span class="hljs-subst">${position.y}</span>px)`</span>;<br />  }<br />});</code></pre>
+
+    <h4>Resize Handle</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> resizeHandle = <span class="hljs-built_in">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'.resize-handle'</span>);<br /><span class="hljs-keyword">const</span> panel = <span class="hljs-built_in">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'.panel'</span>);<br /><br /><span class="hljs-title function_">drag</span>({<br />  <span class="hljs-attr">element</span>: resizeHandle,<br />  <span class="hljs-attr">preventScroll</span>: <span class="hljs-literal">true</span>,<br />  <span class="hljs-attr">callback</span>: <span class="hljs-function">(<span class="hljs-params">diff</span>) =&gt;</span> {<br />    <span class="hljs-keyword">const</span> newWidth = panel.offsetWidth + diff.x;<br />    panel.style.width = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(<span class="hljs-number">100</span>, newWidth) + <span class="hljs-string">'px'</span>;<br />  },<br />  <span class="hljs-attr">startCallback</span>: <span class="hljs-function">() =&gt;</span> {<br />    panel.classList.<span class="hljs-title function_">add</span>(<span class="hljs-string">'resizing'</span>);<br />  },<br />  <span class="hljs-attr">endCallback</span>: <span class="hljs-function">() =&gt;</span> {<br />    panel.classList.<span class="hljs-title function_">remove</span>(<span class="hljs-string">'resizing'</span>);<br />  }<br />});</code></pre>
+
+    <h4>Component with Cleanup</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShadowComponent.js'</span>;<br /><span class="hljs-keyword">import</span> drag <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/drag.js'</span>;<br /><br /><span class="hljs-keyword">class</span> <span class="hljs-title class_">DraggableComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-title function_">constructor</span>() {<br />    <span class="hljs-variable language_">super</span>();<br />    <span class="hljs-variable language_">this</span>.cleanupDrag = <span class="hljs-literal">null</span>;<br />  }<br /><br />  <span class="hljs-title function_">firstUpdated</span>() {<br />    <span class="hljs-keyword">const</span> handle = <span class="hljs-variable language_">this</span>.shadowRoot.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'.drag-handle'</span>);<br />    <span class="hljs-variable language_">this</span>.cleanupDrag = <span class="hljs-title function_">drag</span>({<br />      <span class="hljs-attr">element</span>: handle,<br />      <span class="hljs-attr">moveCallback</span>: <span class="hljs-function">(<span class="hljs-params">diff</span>) =&gt;</span> {<br />        <span class="hljs-variable language_">this</span>.style.transform = <span class="hljs-string">`translate(<span class="hljs-subst">${diff.x}</span>px, <span class="hljs-subst">${diff.y}</span>px)`</span>;<br />      }<br />    });<br />  }<br /><br />  <span class="hljs-title function_">disconnectedCallback</span>() {<br />    <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">disconnectedCallback</span>();<br />    <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">this</span>.cleanupDrag) {<br />      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">cleanupDrag</span>();<br />      <span class="hljs-variable language_">this</span>.cleanupDrag = <span class="hljs-literal">null</span>;<br />    }<br />  }<br />}</code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+</body>
+</html>

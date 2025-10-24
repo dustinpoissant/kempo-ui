@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShadowComponent - Base Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <h1 class="ta-center">ShadowComponent</h1>
+  <main>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Guide</h6>
+          <a href="#overview">Overview</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#customStyles">Custom Styles</a><br />
+          <a href="#stylesheetPath">Changing Stylesheet Path</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#staticProperties">Static Properties</a><br />
+          <a href="#methods">Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="overview"><a href="#overview" class="no-link">Overview</a></h3>
+    <p>ShadowComponent is a base class that extends LitElement and provides automatic shadow DOM encapsulation with
+      Kempo CSS stylesheet injection. Use this when you want your component to have:</p>
+    <ul>
+      <li>Shadow DOM for style encapsulation</li>
+      <li>Automatic access to Kempo CSS styles</li>
+      <li>Scoped component-specific styles</li>
+    </ul>
+    <p>Most Kempo UI components extend ShadowComponent, including <a href="./components/dialog.html">Dialog</a>,
+      <a href="./kempo-/components/card.html">Card</a>, <a href="./components/accordion.html">Accordion</a>, and
+      many others.
+    </p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create a custom component by extending ShadowComponent:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShadowComponent.js'</span>;<br /><span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'../lit-all.min.js'</span>;<br /><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-title function_">render</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`<br />      &lt;div class="p b r"&gt;<br />        &lt;h3&gt;My Component&lt;/h3&gt;<br />        &lt;p&gt;This has shadow DOM with Kempo CSS styles.&lt;/p&gt;<br />      &lt;/div&gt;<br />    `</span>;<br />  }<br />}<br /><br /><span class="hljs-variable language_">customElements</span>.<span class="hljs-title function_">define</span>(<span class="hljs-string">'my-component'</span>, MyComponent);</code></pre>
+
+    <h3 id="customStyles"><a href="#customStyles" class="no-link">Custom Styles</a></h3>
+    <p>Add component-specific styles using the static <code>styles</code> property:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShadowComponent.js'</span>;<br /><span class="hljs-keyword">import</span> { html, css } <span class="hljs-keyword">from</span> <span class="hljs-string">'../lit-all.min.js'</span>;<br /><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStyledComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-keyword">static</span> styles = css<span class="hljs-string">`<br />    :host {<br />      display: block;<br />      padding: var(--spacer);<br />    }<br />    .custom-element {<br />      background-color: var(--c_primary);<br />      color: var(--tc_on_primary);<br />      border-radius: var(--radius);<br />    }<br />  `</span>;<br /><br />  <span class="hljs-title function_">render</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`<br />      &lt;div class="custom-element p"&gt;<br />        Custom styled content<br />      &lt;/div&gt;<br />    `</span>;<br />  }<br />}</code></pre>
+
+    <h3 id="stylesheetPath"><a href="#stylesheetPath" class="no-link">Changing Stylesheet Path</a></h3>
+    <p>By default, ShadowComponent loads <code>/kempo.min.css</code>. Change this globally or per-component:</p>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Change globally for all ShadowComponent instances</span><br /><span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShadowComponent.js'</span>;<br />ShadowComponent.stylesheetPath = <span class="hljs-string">'/custom-path/kempo.min.css'</span>;<br /><br /><span class="hljs-comment">// Or override for a specific component</span><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-keyword">static</span> stylesheetPath = <span class="hljs-string">'/custom.css'</span>;<br />  <span class="hljs-comment">// ...</span><br />}</code></pre>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends LitElement</h6>
+    <h5><code>new ShadowComponent()</code></h5>
+    <p>Creates a new ShadowComponent instance with shadow DOM and automatic Kempo CSS stylesheet injection.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li>Lit (LitElement)</li>
+    </ul>
+
+    <h3 id="staticProperties"><a href="#staticProperties" class="no-link">Static Properties</a></h3>
+    <h5><code>stylesheetPath<i>: string</i></code></h5>
+    <p>The path to the Kempo CSS stylesheet to inject into the shadow DOM. Default is <code>'/kempo.min.css'</code>.
+      This can be set globally on the ShadowComponent class or overridden in subclasses.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>createRenderRoot()<i>: Element</i></code></h5>
+    <p>Creates the shadow root and injects the Kempo CSS stylesheet. This method:</p>
+    <ul>
+      <li>Attaches a shadow DOM with <code>mode: 'open'</code></li>
+      <li>Injects a <code>&lt;link&gt;</code> element pointing to the Kempo CSS stylesheet</li>
+      <li>Injects component-specific styles from the static <code>styles</code> property if defined</li>
+      <li>Creates a render container with <code>display: contents</code> for layout transparency</li>
+    </ul>
+
+    <h5><code>childrenUpdated()<i>: void</i></code></h5>
+    <p>A custom lifecycle callback that is automatically triggered whenever a child element is added or removed from the
+      component. After this callback returns, <code>requestUpdate()</code> is automatically called to trigger a
+      re-render.</p>
+    <p>Override this method to react to child changes:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-title function_">childrenUpdated</span>() {<br />    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Children changed!'</span>);<br />    <span class="hljs-variable language_">this</span>.validateChildren();<br />  }<br />}</code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+</body>
+</html>

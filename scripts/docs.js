@@ -41,9 +41,6 @@ const serverArgs = [
   '--port', port.toString(),
   '--config', configFile
 ];
-setTimeout(()=>{
-  console.log(`\Docs are available at: http://localhost:${port}/kempo-ui/`);
-}, 1000);
 
 const serverProcess = spawn('npx', serverArgs, {
   stdio: 'inherit',

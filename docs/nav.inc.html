@@ -1,0 +1,66 @@
+<nav
+  class="d-f bg-primary fixed"
+>
+  <button
+    id="toggleNavSideMenu"
+    class="link"
+  >
+    <k-icon name="menu"></k-icon>
+  </button>
+  <a href="./">Home</a>
+  <div class="flex"></div>
+  <k-theme-switcher></k-theme-switcher>
+</nav>
+<div style="width: 100%; height: 4rem;"></div>
+<k-side-menu
+  id="navSideMenu"
+>
+  <h1>Kempo Docs</h1>
+  <menu>
+    <a href="./" class="h5 pl0 mb">Home</a>
+    <div class="pl mb">
+      <h3>Components</h3>
+      <a href="./components/accordion.html">Accordion</a>
+      <a href="./components/card.html">Card</a>
+      <a href="./components/content-slider.html">Content Slider</a>
+      <a href="./components/dialog.html">Dialog</a>
+      <a href="./components/focus-capture.html">FocusCapture</a>
+      <a href="./components/icon.html">Icon</a>
+      <a href="./components/import.html">Import</a>
+      <a href="./components/photo-viewer.html">Photo Viewer</a>
+      <a href="./components/resize.html">Resize</a>
+      <a href="./components/show-more.html">Show More</a>
+      <a href="./components/side-menu.html">Side Menu</a>
+      <a href="./components/sortable.html">Sortable</a>
+      <a href="./components/split.html">Split</a>
+      <a href="./components/table.html">Table</a>
+      <a href="./components/tabs.html">Tabs</a>
+      <a href="./components/tags.html">Tags</a>
+      <a href="./components/toast.html">Toast</a>
+      <a href="./components/theme-switcher.html">Theme Switcher</a>
+      <a href="./components/timestamp.html">Timestamp</a>
+      <a href="./components/toggle.html">Toggle</a>
+      <a href="./components/tree.html">Tree</a>
+    </div>
+
+    <h5 class="mb0">Base Components</h5>
+    <div class="pl mb">
+      <a href="./components/shadow-component.html">Shadow Component</a>
+      <a href="./components/light-component.html">Light Component</a>
+      <a href="./components/hybrid-component.html">Hybrid Component</a>
+    </div>
+
+    <h5 class="mb0">Utils</h5>
+    <div class="pl mb">
+      <a href="./utils/debounce.html">debounce</a>
+      <a href="./utils/drag.html">drag</a>
+      <a href="./utils/formatTimestamp.html">formatTimestamp</a>
+      <a href="./utils/propConverters.html">propConverters</a>
+      <a href="./utils/toTitleCase.html">toTitleCase</a>
+    </div>
+  </menu>
+</k-side-menu>
+<script src="./src/components/SideMenu.js" type="module"></script>
+<script src="./src/components/Icon.js" type="module"></script>
+<script src="./src/components/ThemeSwitcher.js" type="module"></script>
+<script src="./nav.inc.js" type="module"></script>

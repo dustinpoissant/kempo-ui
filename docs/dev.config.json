@@ -1,11 +1,10 @@
 {
   "customRoutes": {
     "/kempo.min.css": "../node_modules/kempo-css/dist/kempo.min.css",
-    "/kempo-ui/kempo.min.css": "../node_modules/kempo-css/dist/kempo.min.css", 
-    "/kempo-ui/kempo-vars.css": "../src/kempo-vars.css",
-    "/kempo-ui/kempo-hljs.css": "../src/kempo-hljs.css",
+    "/kempo-vars.css": "../src/kempo-vars.css",
+    "/kempo-hljs.min.css": "../node_modules/kempo-css/dist/kempo-hljs.min.css",
     "/icons/**": "../icons/**",
-    "/kempo-ui/src/**": "../src/**"
+    "/src/**": "../src/**"
   },
   "middleware": {
     "logging": {
