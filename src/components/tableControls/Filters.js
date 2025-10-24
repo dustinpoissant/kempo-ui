@@ -36,7 +36,6 @@ export default class Filters extends TableControl {
 		const dialogContent = document.createElement('div');
 		
 		render(html`
-			<h3 slot="title" class="m0 pyh px">Filters</h3>
 			<div class="p">
 				${this.table.filters.length === 0 ? html`
 					<p>No Current Filters.</p>
@@ -49,7 +48,7 @@ export default class Filters extends TableControl {
 								data-condition="${condition}"
 								data-value="${value}"
 							>
-								${field} ${conditionOptions[condition]} ${value}
+								${this.table.getFieldLabel(field)} ${conditionOptions[condition]} "${value}"
 								<button class="remove-filter no-btn pq" @click="${(e) => {
 									this.table.removeFilter(field, condition, value);
 									dialog.close();
@@ -96,7 +95,7 @@ export default class Filters extends TableControl {
 			</div>
 		`, dialogContent);
 
-		const dialog = Dialog.create(dialogContent, { width: '600px' });
+		const dialog = Dialog.create(dialogContent, { width: '600px', title: 'Filters' });
 	};
 
 	/*

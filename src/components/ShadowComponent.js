@@ -3,6 +3,29 @@ import { LitElement } from '../lit-all.min.js';
 export default class ShadowComponent extends LitElement {
     static stylesheetPath = '/kempo.min.css';
 
+    #childrenObserver;
+
+    connectedCallback() {
+        super.connectedCallback();
+
+        this.#childrenObserver = new MutationObserver(() => {
+            console.log('MutationObserver fired for', this.constructor.name);
+            this.childrenUpdated();
+            this.requestUpdate();
+        });
+
+        this.#childrenObserver.observe(this, {
+            childList: true,
+        });
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.#childrenObserver?.disconnect();
+    }
+
+    childrenUpdated() {}
+
     createRenderRoot() {
         const shadowRoot = this.attachShadow({ mode: 'open' });
         

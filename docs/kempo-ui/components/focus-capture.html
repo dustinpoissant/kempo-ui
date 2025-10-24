@@ -15,20 +15,22 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">FocusCapture</h1>
   <main>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
-        <h6>Examples</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#dialogExample">Dialog Example</a><br />
-        
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
-      </div>
-    </details>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#dialogExample">Dialog Example</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>The <code>k-focus-capture</code> component traps focus within its children. When focus reaches the end of the focusable elements, it cycles back to the first focusable element. This is useful for modal dialogs, side menus, or any UI where you want to keep focus contained within a specific area.</p>
@@ -104,7 +106,10 @@
   </main>
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
-  <script type="module" src="/kempo-ui/src/components/FocusCapture.js"></script> 
-  <script type="module" src="/kempo-ui/src/components/Dialog.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/FocusCapture.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Dialog.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
+
 </body>
 </html>

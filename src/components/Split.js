@@ -1,7 +1,6 @@
 import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import drag from '../utils/drag.js';
-import { watchWindowSize, unwatchWindowSize } from '../utils/watchWindowSize.js';
 
 export default class Split extends ShadowComponent {
 	static properties = {
@@ -20,7 +19,7 @@ export default class Split extends ShadowComponent {
 		// Private state
 		this.dragStartWidth = 0;
 		this.dragCleanup = () => {};
-		this.windowResizeHandler = this.handleWindowResize.bind(this);
+		this.resizeObserver = null;
 	}
 
 	/*
@@ -29,22 +28,21 @@ export default class Split extends ShadowComponent {
 	firstUpdated() {
 		super.firstUpdated();
 		this.setupDragHandler();
-		this.stacked = watchWindowSize(this.windowResizeHandler) <= this.stackWidth;
+		this.setupResizeObserver();
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
 		this.dragCleanup();
-		unwatchWindowSize(this.windowResizeHandler);
+		if(this.resizeObserver) {
+			this.resizeObserver.disconnect();
+			this.resizeObserver = null;
+		}
 	}
 
 	/*
 		Event Handlers
 	*/
-	handleWindowResize = (width) => {
-		this.stacked = width <= this.stackWidth;
-	};
-
 	handleDragStart = () => {
 		this.resizing = true;
 		this.dragStartWidth = Math.round(this.shadowRoot.getElementById('left').getBoundingClientRect().width);
@@ -91,6 +89,16 @@ export default class Split extends ShadowComponent {
 				endCallback: this.handleDragEnd
 			});
 		}
+	}
+
+	setupResizeObserver() {
+		this.resizeObserver = new ResizeObserver(entries => {
+			for(const entry of entries) {
+				const width = entry.contentRect.width;
+				this.stacked = width <= this.stackWidth;
+			}
+		});
+		this.resizeObserver.observe(this);
 	}
 
 	/*

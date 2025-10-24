@@ -15,22 +15,24 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">Toggle</h1>
   <main>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
         <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#onByDefault">On By Default</a><br />
         <a href="#customStyles">Custom Styles</a><br />
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         
-        <h6 class="mt">JavaScript Reference</h6>
+        <h6 class="mt"><a href="jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
       </div>
-    </details>
+    </k-accordion-panel>
+    </k-accordion>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <div class="row -mx">
@@ -116,7 +118,7 @@
       </div>
     </div>
 
-    <h2 id="jsRef">JavaScript Reference</h2>
+    <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends <a href="./component.html">Component</a></h6>
@@ -147,6 +149,9 @@
   </main>
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
-  <script type="module" src="/kempo-ui/src/components/Toggle.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Toggle.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
+
 </body>
 </html>

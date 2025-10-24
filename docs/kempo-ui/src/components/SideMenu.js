@@ -2,7 +2,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			<k-focus-capture>
 				<div id="container">
 					<button id="overlay" @click=${this.overlayClick}>
-						<div id="overlay-x">✕</div>
+						<div id="overlay-x">âœ•</div>
 					</button>
 					<div id="menu">
 						<slot></slot>

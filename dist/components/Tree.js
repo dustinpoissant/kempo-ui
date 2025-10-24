@@ -27,9 +27,6 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,render}from"..
 			width: 100%;
 			cursor: pointer;
 		}
-		.branch-label:hover{
-			background-color: var(--c_bg__alt, #f5f5f5);
-		}
 		.branch-label:focus{
 			box-shadow: none;
 		}

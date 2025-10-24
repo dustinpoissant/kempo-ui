@@ -25,78 +25,6 @@ export default class Table extends ShadowComponent {
     fetchPending: { type: Boolean }
   };
 
-  static styles = css`
-    :host {
-      display: block;
-      width: 100%;
-      overflow: auto;
-      margin-bottom: var(--spacer);
-    }
-    #wrapper {
-      width: min-content;
-      border: 1px solid var(--c_border);
-      border-radius: var(--radius);
-    }
-    #table {
-      width: min-content;
-    }
-    #fields,
-    .record {
-      display: flex;
-    }
-    #fields {
-      background-color: var(--c_bg__alt);
-      border-bottom: 1px solid var(--c_border);
-    }
-    .record:not([editing="true"]) .cell:not(.controls),
-    #fields .cell:not(.controls) {
-      padding: calc(0.5 * var(--spacer)) var(--spacer);
-    }
-    .cell {
-      display: flex;
-      align-items: center;
-    }
-    .cell:not(:first-child) {
-      border-left: 1px solid var(--c_border);
-    }
-    .record:not(:last-child) .cell {
-      border-bottom: 1px solid var(--c_border);
-    }
-    #top, #bottom {
-      display: flex;
-      width: 100%;
-    }
-    #top slot {
-      display: block;
-      width: 100%;
-      border-bottom: 1px solid var(--c_border);
-    }
-    #bottom slot {
-      display: block;
-      width: 100%;
-      border-top: 1px solid var(--c_border);
-    }
-    :host(:not([top-controls])) #top,
-    :host(:not([bottom-controls])) #bottom {
-      display: none;
-    }
-    .field-select,
-    .selection {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .field-select input,
-    .selection input {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-    .icon-sort {
-      float: right;
-      opacity: 0.5;
-    }
-  `;
-
   constructor(options = {}) {
     super();
     
@@ -132,12 +60,11 @@ export default class Table extends ShadowComponent {
 
   handleRecordSelectionChange = (record, e) => {
     record[selected] = !!e.target.checked;
+    this.requestUpdate();
     this.dispatchEvent(new CustomEvent('selectionChange', { bubbles: true }));
   };
 
-  /*
-    Lifecycle Callbacks
-  */
+  /* Lifecycle Callbacks */
 
   firstUpdated() {
     this.setData({
@@ -145,6 +72,10 @@ export default class Table extends ShadowComponent {
       fields: this.fields,
       filters: this.filters
     });
+  }
+
+  childrenUpdated() {
+    this.requestUpdate();
   }
 
   updated(changedProperties) {
@@ -351,16 +282,15 @@ export default class Table extends ShadowComponent {
     const controls = [];
     
     this.querySelectorAll('[slot="before"]').forEach(control => {
-      const newControl = new control.constructor();
+      const tagName = control.tagName.toLowerCase();
+      const newControl = document.createElement(tagName);
       
-      // Copy attributes
       Array.from(control.attributes).forEach(attr => {
         if(attr.name !== 'slot'){
           newControl.setAttribute(attr.name, attr.value);
         }
       });
       
-      // Copy innerHTML if needed
       if(control.innerHTML){
         newControl.innerHTML = control.innerHTML;
       }
@@ -379,16 +309,15 @@ export default class Table extends ShadowComponent {
     const controls = [];
     
     this.querySelectorAll('[slot="after"]').forEach(control => {
-      const newControl = new control.constructor();
+      const tagName = control.tagName.toLowerCase();
+      const newControl = document.createElement(tagName);
       
-      // Copy attributes
       Array.from(control.attributes).forEach(attr => {
         if(attr.name !== 'slot'){
           newControl.setAttribute(attr.name, attr.value);
         }
       });
       
-      // Copy innerHTML if needed
       if(control.innerHTML){
         newControl.innerHTML = control.innerHTML;
       }
@@ -580,6 +509,11 @@ export default class Table extends ShadowComponent {
 
   getPageSizeOptions() {
     return this.pageSizeOptions;
+  }
+
+  getFieldLabel(field) {
+    const fieldDef = this.fields.find(f => f.name === field);
+    return fieldDef ? fieldDef.label : toTitleCase(field);
   }
 
   setPageSizeOptions(options) {
@@ -1014,21 +948,24 @@ export default class Table extends ShadowComponent {
   }
 
   calculateColumnSizes() {
-    this.columnSizes = {};
-    this.columnSizes.total = 0;
+    const newSizes = {};
+    newSizes.total = 0;
     
-    if (this.enableSelection) this.columnSizes.total += 40;
+    if (this.enableSelection) newSizes.total += 40;
     
-    this.columnSizes.beforeControls = Array.from(this.querySelectorAll('[slot="before"]')).reduce((total, el) => total + (el.maxWidth || 40), 0);
-    this.columnSizes.afterControls = Array.from(this.querySelectorAll('[slot="after"]')).reduce((total, el) => total + (el.maxWidth || 40), 0);
+    const beforeEls = Array.from(this.querySelectorAll('[slot="before"]'));
+    const afterEls = Array.from(this.querySelectorAll('[slot="after"]'));
     
-    if (this.hasBeforeControls()) this.columnSizes.total += this.columnSizes.beforeControls;
-    if (this.hasAfterControls()) this.columnSizes.total += this.columnSizes.afterControls;
+    newSizes.beforeControls = beforeEls.reduce((total, el) => total + (el.maxWidth || 40), 0);
+    newSizes.afterControls = afterEls.reduce((total, el) => total + (el.maxWidth || 40), 0);
+    
+    if (this.hasBeforeControls()) newSizes.total += newSizes.beforeControls;
+    if (this.hasAfterControls()) newSizes.total += newSizes.afterControls;
     
     this.fields.forEach(field => {
       if (field.size) {
-        this.columnSizes[field.name] = field.size;
-        this.columnSizes.total += field.size;
+        newSizes[field.name] = field.size;
+        newSizes.total += field.size;
       } else {
         let maxLength = 0;
         this.records.slice(0, 100).forEach(record => {
@@ -1044,10 +981,20 @@ export default class Table extends ShadowComponent {
             maxLength = value.toString().length;
           }
         });
-        this.columnSizes[field.name] = Math.max((maxLength * 10 + 32), 128);
-        if (!field.hidden) this.columnSizes.total += this.columnSizes[field.name];
+        newSizes[field.name] = Math.max((maxLength * 10 + 32), 128);
+        if (!field.hidden) newSizes.total += newSizes[field.name];
       }
     });
+    
+    const hasUndefinedMaxWidth = [...beforeEls, ...afterEls].some(el => el.maxWidth === undefined);
+    
+    if (JSON.stringify(this.columnSizes) !== JSON.stringify(newSizes)) {
+      this.columnSizes = newSizes;
+    }
+    
+    if (hasUndefinedMaxWidth) {
+      setTimeout(() => this.calculateColumnSizes(), 0);
+    }
     
     return this.columnSizes;
   }
@@ -1089,9 +1036,7 @@ export default class Table extends ShadowComponent {
     this.requestUpdate();
   }
 
-  /*
-    Rendering Logic
-  */
+  /* Rendering */
 
   render() {
     if (!this.records || !this.fields) {
@@ -1134,6 +1079,78 @@ export default class Table extends ShadowComponent {
       </div>
     `;
   }
+
+  static styles = css`
+    :host {
+      display: block;
+      width: 100%;
+      overflow: auto;
+      margin-bottom: var(--spacer);
+    }
+    #wrapper {
+      width: min-content;
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+    }
+    #table {
+      width: min-content;
+    }
+    #fields,
+    .record {
+      display: flex;
+    }
+    #fields {
+      background-color: var(--c_bg__alt);
+      border-bottom: 1px solid var(--c_border);
+    }
+    .record:not([editing="true"]) .cell:not(.controls),
+    #fields .cell:not(.controls) {
+      padding: calc(0.5 * var(--spacer)) var(--spacer);
+    }
+    .cell {
+      display: flex;
+      align-items: center;
+    }
+    .cell:not(:first-child) {
+      border-left: 1px solid var(--c_border);
+    }
+    .record:not(:last-child) .cell {
+      border-bottom: 1px solid var(--c_border);
+    }
+    #top, #bottom {
+      display: flex;
+      width: 100%;
+    }
+    #top slot {
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid var(--c_border);
+    }
+    #bottom slot {
+      display: block;
+      width: 100%;
+      border-top: 1px solid var(--c_border);
+    }
+    :host(:not([top-controls])) #top,
+    :host(:not([bottom-controls])) #bottom {
+      display: none;
+    }
+    .field-select,
+    .selection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .field-select input,
+    .selection input {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    .icon-sort {
+      float: right;
+      opacity: 0.5;
+    }
+  `;
 
   /*
     Static Methods

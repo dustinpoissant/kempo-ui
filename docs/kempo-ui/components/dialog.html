@@ -16,25 +16,27 @@
   <main>
     <h1 class="ta-center">Dialog</h1>
 
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
-        <h6>Examples</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#titles">Titles</a><br />
-        <a href="#actionButtons">Action Buttons</a><br />
-        <a href="#jsUsage">JavaScript Usage</a><br />
-        <a href="#confirmDialog">Confirm Dialog</a><br />
-        
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#attributes">Attributes</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
-        <a href="#staticMethods">Static Methods</a><br />
-      </div>
-    </details>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#titles">Titles</a><br />
+          <a href="#actionButtons">Action Buttons</a><br />
+          <a href="#jsUsage">JavaScript Usage</a><br />
+          <a href="#confirmDialog">Confirm Dialog</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#staticMethods">Static Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Create dialogs using the <code>k-dialog</code> component. Open the dialog by calling the <code>open()</code> method, and close it by calling the <code>close()</code> method. Or it can be closed using the dialog's GUI (clicking the overlay, clicking the close button, or the cancel or confirm action buttons).</p>
@@ -136,7 +138,7 @@
       });
     </script>
 
-    <h2 id="jsRef">JavaScript Reference</h2>
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends <a href="/kempo-ui/components/shadow-component.html">ShadowComponent</a></h6>
@@ -327,6 +329,8 @@
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Dialog.js"></script>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
   <script>
     document.querySelectorAll('.openDialog').forEach( $btn => {
       $btn.addEventListener('click', () => {

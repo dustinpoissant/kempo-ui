@@ -15,20 +15,22 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">Resize</h1>
   <main>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
-        <h6>Examples</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#resizeDimention">Resize Dimension</a><br />
-        
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#slots">Slots</a><br />
-      </div>
-    </details>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#resizeDimention">Resize Dimension</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#slots">Slots</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Set the initial height and width using normal styles.</p>
@@ -39,7 +41,7 @@
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output*" class="pb">
+        <k-card label="Results*" class="pb">
           <k-resize
             style="height: 200px; width: 200px;"
           >
@@ -58,7 +60,7 @@
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output*" class="pb">
+        <k-card label="Results*" class="pb">
           <k-resize
             style="min-height: 100px; height: 200px; max-height: 300px; min-width: 100px; width: 200px; max-width: 300px;"
           >
@@ -78,7 +80,7 @@
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output*" class="pb">
+        <k-card label="Results*" class="pb">
           <k-resize
             style="height: 200px; width: 200px;"
             dimension="width"
@@ -97,7 +99,7 @@
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
-        <k-card label="Output*" class="pb">
+        <k-card label="Results*" class="pb">
           <k-resize
             style="height: 200px; width: 200px;"
             dimension="height"
@@ -114,7 +116,7 @@
     <h3>* Notes</h3>
     <p><i>Additional styles may be added to the example output (borders, spacing, colors) for demonstration.</i></p>
 
-    <h2 id="jsRef">JavaScript Reference</h2>
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends <a href="./ShadowComponent.html">ShadowComponent</a></h6>
@@ -161,7 +163,7 @@
     <h4>Behavior Notes</h4>
     <ul>
       <li>During resize operations, pointer events on the main content are disabled to prevent interference</li>
-      <li>The component enforces minimum dimensions of 10rem × 10rem and maximum dimensions of 100%</li>
+      <li>The component enforces minimum dimensions of 10rem Ãƒâ€” 10rem and maximum dimensions of 100%</li>
       <li>Active resize handles are highlighted with the theme's highlight color</li>
       <li>Content automatically scrolls when it exceeds the container dimensions</li>
     </ul>
@@ -169,6 +171,9 @@
   </main>
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
-  <script type="module" src="/kempo-ui/src/components/Resize.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Resize.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
+
 </body>
 </html>

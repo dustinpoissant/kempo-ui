@@ -1,5 +1,4 @@
 import TableControl from"./TableControl.js";import{html,render}from"../../lit-all.min.js";import"../Icon.js";import Dialog from"../Dialog.js";export default class Filters extends TableControl{constructor(){super({maxWidth:40})}handleFilter=()=>{this.openDialog()};openDialog=()=>{const t={equals:"equals","not-equals":"does not equal",contains:"contains","not-contains":"does not contain","greater-than":"is greater than","greater-than-or-equal":"is greater than or equal to","less-than":"is less than","less-than-or-equal":"is less than or equal to"},e=document.createElement("div");render(html`
-			<h3 slot="title" class="m0 pyh px">Filters</h3>
 			<div class="p">
 				${0===this.table.filters.length?html`
 					<p>No Current Filters.</p>
@@ -12,7 +11,7 @@ import TableControl from"./TableControl.js";import{html,render}from"../../lit-al
 								data-condition="${i}"
 								data-value="${o}"
 							>
-								${e} ${t[i]} ${o}
+								${this.table.getFieldLabel(e)} ${t[i]} "${o}"
 								<button class="remove-filter no-btn pq" @click="${t=>{this.table.removeFilter(e,i,o),l.close(),this.openDialog()}}">
 									<k-icon name="close"></k-icon>
 								</button>
@@ -40,7 +39,7 @@ import TableControl from"./TableControl.js";import{html,render}from"../../lit-al
 					`}
 				</form>
 			</div>
-		`,e);const l=Dialog.create(e,{width:"600px"})};render(){return html`
+		`,e);const l=Dialog.create(e,{width:"600px",title:"Filters"})};render(){return html`
 			<button class="no-btn icon-btn" @click="${this.handleFilter}">
 				<k-icon name="filter"></k-icon>
 			</button>

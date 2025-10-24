@@ -15,38 +15,60 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">Split</h1>
   <main>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
-        <h6>Examples</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#resizing">Resizing</a><br />
-        
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#cssCustomProperties">CSS Custom Properties</a><br />
-        <a href="#methods">Methods</a><br />
-        <a href="#events">Events</a><br />
-      </div>
-    </details>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#resizing">Resizing</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#cssCustomProperties">CSS Custom Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Create a split view using the <code>k-split</code> component. Add content to the left pane by placing it inside the component, and add content to the right pane by using the <code>slot="right"</code> attribute.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Right Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
-    <k-split style="height: 10rem" class="b">
-      <div>Left Pane Content</div>
-      <div slot="right">Right Pane Content</div>
-    </k-split>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Right Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-split style="height: 10rem" class="b">
+            <div>Left Pane Content</div>
+            <div slot="right">Right Pane Content</div>
+          </k-split>
+        </k-card>
+      </div>
+    </div>
 
     <h3 id="resizing"><a href="#resizing" class="no-link">Resizing</a></h3>
     <p>The split view can be resized by dragging the divider handle. The initial width of the left pane can be set using the <code>--left_width</code> CSS custom property.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--left_width: 30%; height: 10rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Right Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
-    <k-split style="--left_width: 30%; height: 10rem" class="b">
-      <div>Left Pane Content</div>
-      <div slot="right">Right Pane Content</div>
-    </k-split>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--left_width: 30%; height: 10rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Right Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-split style="--left_width: 30%; height: 10rem" class="b">
+            <div>Left Pane Content</div>
+            <div slot="right">Right Pane Content</div>
+          </k-split>
+        </k-card>
+      </div>
+    </div>
 
     <h3>Sizes</h3>
     <p>Set the CSS Custom Property <code>--left_width</code> to set the initial size.</p>
@@ -77,7 +99,7 @@
     </div>
 
     <h3 id="stacking"><a href="#stacking" class="no-link">Stacking</a></h3>
-    <p>When the screen size is small (mobile) a split panel may not make sense, rather than changing the markup set the <code>stack-width</code> attribute to stack the contents (disable split view) when the window size is less than the provided size.</p>
+    <p>When the screen size is small (mobile) a split panel may not make sense, rather than changing the markup set the <code>stack-width</code> attribute to stack the contents (disable split view) when the component's size is less than the provided size.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
@@ -86,10 +108,12 @@
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-split style="height: 10rem" stack-width="1080">
-            <div>Left Pane Content</div>
-            <div slot="right">Right Pane Content</div>
-          </k-split>
+          <k-resize dimension="width">
+            <k-split style="height: 10rem" stack-width="300">
+              <div>Left Pane Content</div>
+              <div slot="right">Right Pane Content</div>
+            </k-split>
+          </k-resize>
         </k-card>
       </div>
     </div>
@@ -140,6 +164,9 @@
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
   <script type="module" src="/kempo-ui/src/components/Card.js"></script> 
-  <script type="module" src="/kempo-ui/src/components/Split.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Split.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Resize.js"></script>
+
 </body>
 </html>

@@ -15,14 +15,15 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">ThemeSwitcher</h1>
   <main>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
         <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#customPadding">Custom Padding</a><br />
         
-        <h6 class="mt">JavaScript Reference</h6>
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
         <a href="#properties">Properties</a><br />
@@ -30,13 +31,14 @@
         <a href="#methods">Methods</a><br />
         <a href="#staticMethods">Static Methods</a><br />
       </div>
-    </details>
+    </k-accordion-panel>
+    </k-accordion>
 
     <h3>Description</h3>
     <p>The <code>ThemeSwitcher</code> component allows users to switch between different themes (auto, light, dark). It extends the <a href="./component.html">ShadowComponent</a> class and automatically saves the selected theme to local storage, applies it to the document, and synchronizes across browser tabs.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Use the <code>ThemeSwitcher</code> component to allow users to cycle through themes. Clicking the button cycles through auto → light → dark → auto. The component automatically detects the user's system preference when in auto mode.</p>
+    <p>Use the <code>ThemeSwitcher</code> component to allow users to cycle through themes. Clicking the button cycles through auto Ã¢â€ â€™ light Ã¢â€ â€™ dark Ã¢â€ â€™ auto. The component automatically detects the user's system preference when in auto mode.</p>
     
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
@@ -68,7 +70,7 @@
       </div>
     </div>
 
-    <h2 id="jsRef">JavaScript Reference</h2>
+    <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
@@ -118,5 +120,8 @@
   </main>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
   <script type="module" src="/kempo-ui/src/components/ThemeSwitcher.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
+
 </body>
 </html>

@@ -72,11 +72,11 @@ await Promise.all(allJSFiles.map(async jsFile => {
 process.stdout.write("\n");
 
 complete = 0;
-console.log('Saving JS Files to dist/src/');
+console.log('Saving JS Files to dist/');
 process.stdout.write(`0/${allJSFiles.length} = 0%`);
 await Promise.all(allJSFiles.map(async jsFile => {
   const relativePath = path.relative(srcDir, jsFile);
-  const destPath = path.join('./dist/src', relativePath);
+  const destPath = path.join('./dist', relativePath);
   await ensureDir(path.dirname(destPath));
   await fs.writeFile(destPath, processedJS[jsFile], 'utf-8');
   process.stdout.write("\r");
@@ -102,9 +102,9 @@ await fs.writeFile('./dist/kempo-hljs.css', minifiedKempoHljsCSS, 'utf-8');
 console.log('Cleaning docs/kempo-ui/src/ directory');
 await emptyDir('./docs/kempo-ui/src/');
 
-console.log('Copying dist/ to docs/kempo-ui/');
-await ensureDir('./docs/kempo-ui/');
-await copyDir('./dist', './docs/kempo-ui/');
+console.log('Copying dist/ to docs/kempo-ui/src/');
+await ensureDir('./docs/kempo-ui/src/');
+await copyDir('./dist', './docs/kempo-ui/src/');
 
 console.log('Copying icons/ to docs/kempo-ui/icons/');
 await copyDir('./icons', './docs/kempo-ui/icons/');

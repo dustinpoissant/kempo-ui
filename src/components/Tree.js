@@ -158,9 +158,6 @@ export class TreeBranch extends ShadowComponent {
 			width: 100%;
 			cursor: pointer;
 		}
-		.branch-label:hover{
-			background-color: var(--c_bg__alt, #f5f5f5);
-		}
 		.branch-label:focus{
 			box-shadow: none;
 		}

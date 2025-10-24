@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <base href="/kempo-ui/">
   <meta charset="UTF-8">
@@ -20,17 +19,17 @@
     <k-accordion persistent-id="toc" class="b r mb">
       <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
       <k-accordion-panel name="toc-panel">
-        <div class="m pl">
+        <div class="m ">
           <h6>Examples</h6>
-          <a href="#basicUsage" class="scroll-link">Basic Usage</a><br />
-          <a href="#defaultOpen" class="scroll-link">Default Open Panel</a><br />
-          <a href="#multiple" class="scroll-link">Multiple Panels Mode</a><br />
-          <a href="#persistent" class="scroll-link">Persistent State Example</a><br />
-          <h6 class="mt"><a href="#jsRef" class="no-link scroll-link">JavaScript Reference</a></h6>
-          <a href="#accordion-ref" class="scroll-link">Accordion</a><br />
-          <a href="#accordion-header-ref" class="scroll-link">AccordionHeader</a><br />
-          <a href="#accordion-panel-ref" class="scroll-link">AccordionPanel</a><br />
-          <a href="#events" class="scroll-link">Events</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#defaultOpen">Default Open Panel</a><br />
+          <a href="#multiple">Multiple Panels Mode</a><br />
+          <a href="#persistent">Persistent State Example</a><br />
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#accordion-ref">Accordion</a><br />
+          <a href="#accordion-header-ref">AccordionHeader</a><br />
+          <a href="#accordion-panel-ref">AccordionPanel</a><br />
+          <a href="#events">Events</a><br />
         </div>
       </k-accordion-panel>
     </k-accordion>
@@ -38,7 +37,7 @@
     <h3>Description</h3>
     <p>A widget that allows a single panel of content to be opened and closed.</p>
 
-  <h3 id="basicUsage"><a href="#basicUsage" class="no-link scroll-link">Basic Usage</a></h3>
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
@@ -67,10 +66,8 @@
 
 
 
-  <h3 id="defaultOpen"><a href="#defaultOpen" class="no-link scroll-link">Default Open Panel</a></h3>
-    <p>You can have a panel open by default by setting the <code>active</code> attribute to <code>true</code> on both
+    <h3 id="defaultOpen"><a href="#defaultOpen" class="no-link">Default Open Panel</a></h3>
     <p>You can have a panel open by default by adding the <code>active</code> attribute to both the header and the
-      panel. The presence of the attribute means <code>true</code>.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
@@ -97,7 +94,7 @@
       </div>
     </div>
 
-  <h3 id="multiple"><a href="#multiple" class="no-link scroll-link">Multiple Panels Mode</a></h3>
+    <h3 id="multiple"><a href="#multiple" class="no-link">Multiple Panels Mode</a></h3>
     <p>Add the <code>multiple</code> attribute to <code>k-accordion</code> to allow more than one panel to be open at a
       time.</p>
     <div class="row -mx mb">
@@ -126,7 +123,7 @@
       </div>
     </div>
 
-  <h3 id="persistent"><a href="#persistent" class="no-link scroll-link">Persistent State Example</a></h3>
+    <h3 id="persistent"><a href="#persistent" class="no-link">Persistent State Example</a></h3>
     <p>Add the <code>persistent-id</code> attribute to <code>k-accordion</code> to save and restore open panels across
       page reloads. The state is stored in <code>localStorage</code> (if available) using the provided ID.</p>
     <div class="row -mx mb">
@@ -155,13 +152,13 @@
       </div>
     </div>
 
-  <h2 id="jsRef"><a href="#jsRef" class="no-link scroll-link">JavaScript Reference</a></h2>
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
     <k-card>
       <h3 id="accordion-ref" class="bb pb">Accordion</h3>
       <h4>Properties</h4>
       <ul>
-        <li><code>multiple: boolean</code> — If present, allows multiple panels to be open.</li>
-        <li><code>persistentId: string</code> — If set, open panel state is saved/restored via localStorage.</li>
+        <li><code>multiple: boolean</code> Ã¢â‚¬â€ If present, allows multiple panels to be open.</li>
+        <li><code>persistentId: string</code> Ã¢â‚¬â€ If set, open panel state is saved/restored via localStorage.</li>
       </ul>
       <h4>Methods</h4>
       <ul>
@@ -181,9 +178,9 @@
       <h3 id="accordion-header-ref" class="bb pb">AccordionHeader</h3>
       <h4>Properties</h4>
       <ul>
-        <li><code>forPanel: string</code> — The panel name this header controls.</li>
-        <li><code>active: boolean</code> — Whether this header is active.</li>
-        <li><code>accordion: Accordion | null</code> <i>(read only)</i> — Parent accordion.</li>
+        <li><code>forPanel: string</code> Ã¢â‚¬â€ The panel name this header controls.</li>
+        <li><code>active: boolean</code> Ã¢â‚¬â€ Whether this header is active.</li>
+        <li><code>accordion: Accordion | null</code> <i>(read only)</i> Ã¢â‚¬â€ Parent accordion.</li>
       </ul>
       <h4>Event Handlers</h4>
       <ul>
@@ -195,16 +192,16 @@
       <h3 id="accordion-panel-ref" class="bb pb">AccordionPanel</h3>
       <h4>Properties</h4>
       <ul>
-        <li><code>name: string</code> — Unique panel identifier.</li>
-        <li><code>active: boolean</code> — Whether this panel is open.</li>
-        <li><code>transitioning: boolean</code> — Whether this panel is animating.</li>
+        <li><code>name: string</code> Ã¢â‚¬â€ Unique panel identifier.</li>
+        <li><code>active: boolean</code> Ã¢â‚¬â€ Whether this panel is open.</li>
+        <li><code>transitioning: boolean</code> Ã¢â‚¬â€ Whether this panel is animating.</li>
       </ul>
       <h4>Methods</h4>
       <ul>
-        <li><code>accordion: Accordion | null</code> (getter) — Returns parent accordion.</li>
+        <li><code>accordion: Accordion | null</code> (getter) Ã¢â‚¬â€ Returns parent accordion.</li>
       </ul>
 
-  <h3 id="events"><a href="#events" class="no-link scroll-link">Events</a></h3>
+      <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
       <h5><code>openpanel</code></h5>
       <p>Fired when a panel is opened. The event detail contains <code>{ panelName }</code>.</p>
       <h5><code>closepanel</code></h5>
@@ -218,19 +215,7 @@
   <script type="module" src="/kempo-ui/src/components/Import.js"></script>
   <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
   <script type="module" src="/kempo-ui/src/components/Card.js"></script>
-  <script>
-    document.querySelectorAll('.scroll-link').forEach(link => {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').replace('#', '');
-        const target = document.getElementById(targetId);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-          const url = window.location.pathname + window.location.search + '#' + targetId;
-          history.replaceState(null, '', url);
-        }
-      });
-    });
-  </script>
+  <script type="module" src="/kempo-ui/src/components/Resize.js"></script>
+
 </body>
 </html>

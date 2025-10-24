@@ -1,1 +1,0 @@
-import{LitElement,html,render}from"../lit-all.min.js";export default class LightComponent extends LitElement{createRenderRoot(){return this.lightRoot=document.createElement("div"),this.lightRoot.style.display="contents",this.appendChild(this.lightRoot),this}updated(){render(this.renderLightDom(),this.lightRoot)}renderLightDom(){return html``}}

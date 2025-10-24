@@ -15,26 +15,26 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">Content Slider</h1>
   <main>
-    <details
-      class="b r mb"
-    >
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
-        <h6>Examples</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#keyboardControls">Keyboard Controls</a><br />
-        <a href="#globalControls">Global Controls</a><br />
-        <a href="#controls">Controls</a><br />
-        <a href="#loop">Loop</a><br />
-        <h6 class="mt">JavaScript Reference</h6>
-        <a href="#constructor">Constructor</a><br />
-        <a href="#requirements">Requirements</a><br />
-        <a href="#properties">Properties</a><br />
-        <a href="#methods">Methods</a><br />
-        <a href="#events">Events</a><br />
-        <a href="#slots">Slots</a><br />
-      </div>
-    </details>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#keyboardControls">Keyboard Controls</a><br />
+          <a href="#globalControls">Global Controls</a><br />
+          <a href="#controls">Controls</a><br />
+          <a href="#loop">Loop</a><br />
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
+          <a href="#slots">Slots</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3>Description</h3>
     <p>The ContentSlider component provides a way to display multiple content slides with navigation controls. Users can navigate through slides using previous/next buttons, keyboard arrows, or programmatically. It extends the <a href="./component.html">ShadowComponent</a> class and supports looping, keyboard controls, and customizable navigation.</p>
@@ -42,18 +42,22 @@
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <div class="row -mx">
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
+        <k-card label="Results">
+          <k-content-slider
+            class="bg-alt"
+            style="height: 10rem"
+          >
+            <div><p>Slide 1</p></div>
+            <div><p>Slide 2</p></div>
+            <div><p>Slide 3</p></div>
+            <div><p>Slide 4</p></div>
+          </k-content-slider>
+        </k-card>
       </div>
     </div>
 
@@ -61,19 +65,23 @@
     <p>By default the <code>keyboard-controls</code> attribute is set to <code>"true"</code>, which allows the left and right keyboard buttons to change the slides when the component is focused. Set it to <code>"false"</code> to disable this functionality.</p>
     <div class="row -mx">
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          keyboard-controls="false"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
+        <k-card label="Results">
+          <k-content-slider
+            class="bg-alt"
+            style="height: 10rem"
+            keyboard-controls="false"
+          >
+            <div><p>Slide 1</p></div>
+            <div><p>Slide 2</p></div>
+            <div><p>Slide 3</p></div>
+            <div><p>Slide 4</p></div>
+          </k-content-slider>
+        </k-card>
       </div>
     </div>
 
@@ -81,19 +89,23 @@
     <p>Use the <code>global-controls="true"</code> attribute to enable global controls (next and back arrows) anywhere in the window, even when this component is not focused. This is suggested when there is only one content slider on a page and it is of prominance (large slider on top of the page).</p>
     <div class="row -mx">
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">global-controls</span>=<span class="hljs-string">"true"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">global-controls</span>=<span class="hljs-string">"true"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          global-controls="true"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
+        <k-card label="Results">
+          <k-content-slider
+            class="bg-alt"
+            style="height: 10rem"
+            global-controls="true"
+          >
+            <div><p>Slide 1</p></div>
+            <div><p>Slide 2</p></div>
+            <div><p>Slide 3</p></div>
+            <div><p>Slide 4</p></div>
+          </k-content-slider>
+        </k-card>
       </div>
     </div>
 
@@ -101,19 +113,23 @@
     <p>By default the <code>controls</code> attribute is set to <code>"true"</code>, this shows the previous and next buttons. To hide them set <code>controls="false"</code>.</p>
     <div class="row -mx">
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          controls="false"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
+        <k-card label="Results">
+          <k-content-slider
+            class="bg-alt"
+            style="height: 10rem"
+            controls="false"
+          >
+            <div><p>Slide 1</p></div>
+            <div><p>Slide 2</p></div>
+            <div><p>Slide 3</p></div>
+            <div><p>Slide 4</p></div>
+          </k-content-slider>
+        </k-card>
       </div>
     </div>
 
@@ -121,23 +137,27 @@
     <p>To make the slider loop (go back to the beginning after it hits the last slide) use the <code>loop="true"</code> attribute.</p>
     <div class="row -mx">
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">loop</span>=<span class="hljs-string">"true"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 10rem"</span><br />  <span class="hljs-attr">loop</span>=<span class="hljs-string">"true"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        </k-card>
       </div>
       <div class="col d-span-6 t-span-6 m-spane-12 p">
-        <k-content-slider
-          class="bg-alt"
-          style="height: 10rem"
-          loop="true"
-        >
-          <div><p>Slide 1</p></div>
-          <div><p>Slide 2</p></div>
-          <div><p>Slide 3</p></div>
-          <div><p>Slide 4</p></div>
-        </k-content-slider>
+        <k-card label="Results">
+          <k-content-slider
+            class="bg-alt"
+            style="height: 10rem"
+            loop="true"
+          >
+            <div><p>Slide 1</p></div>
+            <div><p>Slide 2</p></div>
+            <div><p>Slide 3</p></div>
+            <div><p>Slide 4</p></div>
+          </k-content-slider>
+        </k-card>
       </div>
     </div>
 
-    <h2 id="jsRef">JavaScript Refrerence</h2>
+    <h2 id="jsRef" class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends <a href="./component.html">ShadowComponent</a></h6>
@@ -213,7 +233,10 @@
     <p>Custom content for the next button. Defaults to a right chevron icon if not provided.</p>
     
   </main>
-  <script type="module" src="/kempo-ui/src/components/Import.js"></script> 
-  <script type="module" src="/kempo-ui/src/components/ContentSlider.js"></script> 
+  <script type="module" src="/kempo-ui/src/components/Import.js"></script>
+  <script type="module" src="/kempo-ui/src/components/ContentSlider.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
+
 </body>
 </html>

@@ -15,30 +15,31 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <h1 class="ta-center">HybridComponent</h1>
   <main>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
         <h6>Guide</h6>
         <a href="#overview">Overview</a><br />
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#whenToUse">When to Use</a><br />
         
-        <h6 class="mt">JavaScript Reference</h6>
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#requirements">Requirements</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
       </div>
-    </details>
+    </k-accordion-panel>
+    </k-accordion>
 
     <h3 id="overview"><a href="#overview" class="no-link">Overview</a></h3>
-    <p>HybridComponent is a base class that extends <a href="shadow-component.html">ShadowComponent</a> and provides both shadow DOM rendering with Kempo CSS styles AND light DOM rendering. Use this when you want your component to:</p>
+    <p>HybridComponent is a base class that extends <a href="/kempo-ui/components/shadow-component.html">ShadowComponent</a> and provides both shadow DOM rendering with Kempo CSS styles AND light DOM rendering. Use this when you want your component to:</p>
     <ul>
       <li>Have shadow DOM with Kempo CSS for internal UI elements</li>
       <li>Also render content to the light DOM alongside natural children</li>
       <li>Combine the benefits of both shadow and light DOM</li>
     </ul>
-    <p>Components like <a href="collapsible.html">Collapsible</a>, <a href="dialog.html">Dialog</a>, and <a href="side-menu.html">SideMenu</a> extend HybridComponent.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Create a custom component by extending HybridComponent and implementing both <code>render()</code> for shadow DOM and <code>renderLightDom()</code> for light DOM:</p>
@@ -64,10 +65,10 @@
       <li><strong>SideMenu:</strong> Shadow DOM for menu structure and styling, light DOM for menu items</li>
     </ul>
 
-    <p>Use <a href="shadow-component.html">ShadowComponent</a> instead when you only need shadow DOM.</p>
-    <p>Use <a href="light-component.html">LightComponent</a> instead when you only need light DOM.</p>
+    <p>Use <a href="/kempo-ui/components/shadow-component.html">ShadowComponent</a> instead when you only need shadow DOM.</p>
+    <p>Use <a href="/kempo-ui/components/light-component.html">LightComponent</a> instead when you only need light DOM.</p>
 
-    <h2 id="jsRef">JavaScript Reference</h2>
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends ShadowComponent</h6>
@@ -106,5 +107,7 @@
   </main>
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Card.js"></script>
 </body>
 </html>

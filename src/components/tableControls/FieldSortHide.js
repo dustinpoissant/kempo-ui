@@ -27,7 +27,6 @@ export default class FieldSortHide extends TableControl {
 		const dialogContent = document.createElement('div');
 
 		render(html`
-			<h3 class="m0 ph" slot="title">Show / Hide Fields</h3>
 			<div class="m">
 				<k-sortable id="sorting" @sort="${(e) => {
 					const newOrder = Array.from(e.target.querySelectorAll('k-sortable-item'))
@@ -56,6 +55,7 @@ export default class FieldSortHide extends TableControl {
 		`, dialogContent);
 
 		Dialog.create(dialogContent, {
+			title: 'Show / Hide / Order Fields',
 			width: '400px',
 			cancelText: 'Close'
 		});

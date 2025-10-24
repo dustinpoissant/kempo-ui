@@ -15,21 +15,21 @@
   <k-import src="/kempo-ui/nav.inc.html"></k-import>
   <main>
     <h1>debounce</h1>
-    
-    <details
-      class="b r mb"
-    >
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
-        <h6>Usage</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
-        <a href="#parameters">Parameters</a><br />
-        <a href="#examples">Examples</a><br />
-      </div>
-    </details>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#parameters">Parameters</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3>Description</h3>
-    <p>The <code>debounce</code> utility function limits the rate at which a function can be executed. It delays the execution of a function until after a specified timeout has passed since the last time it was invoked.</p>
+    <p>The <code>debounce</code> utility function limits the rate at which a function can be executed. It delays the
+      execution of a function until after a specified timeout has passed since the last time it was invoked.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Import and use the debounce function to limit function execution frequency:</p>
@@ -42,7 +42,7 @@
     <p>The number of milliseconds to delay execution. Defaults to 300ms.</p>
 
     <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
-    
+
     <h4>Search Input Debouncing</h4>
     <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> debouncedSearch = debounce(<span class="hljs-function">(<span class="hljs-params">searchTerm</span>) =&gt;</span> {<br />  <span class="hljs-comment">// API call or expensive search operation</span><br />  performSearch(searchTerm);<br />}, <span class="hljs-number">500</span>);<br /><br />searchInput.addEventListener(<span class="hljs-string">'input'</span>, (e) =&gt; {<br />  debouncedSearch(e.target.value);<br />});</code></pre>
 
@@ -52,5 +52,6 @@
   </main>
   <div style="height:33vh"></div>
   <script type="module" src="/kempo-ui/src/components/Import.js"></script>
+  <script type="module" src="/kempo-ui/src/components/Accordion.js"></script>
 </body>
 </html>
