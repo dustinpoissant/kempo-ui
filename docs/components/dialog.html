@@ -24,6 +24,7 @@
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#titles">Titles</a><br />
           <a href="#actionButtons">Action Buttons</a><br />
+          <a href="#disableKeyboardClose">Disabling Keyboard Close</a><br />
           <a href="#jsUsage">JavaScript Usage</a><br />
           <a href="#confirmDialog">Confirm Dialog</a><br />
           
@@ -90,6 +91,14 @@
       confirm-text="Of course it is"
     >
       <p class="p">Ranch is gross</p>
+    </k-dialog>
+
+    <h3 id="disableKeyboardClose"><a href="#disableKeyboardClose" class="no-link">Disabling Keyboard Close</a></h3>
+    <p>You can disable closing the dialog with the ESC key by adding the <code>disable-keyboard-close</code> attribute. This is useful for dialogs that require explicit user action.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d10"</span> <span class="hljs-attr">disable-keyboard-close</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"p"</span>&gt;</span>This dialog cannot be closed with ESC<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dialog</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"document.getElementById('d10').open()"</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+    <button class="openDialog mb" data-dialog="d10" slot="right">Open Dialog</button>
+    <k-dialog id="d10" disable-keyboard-close>
+      <p class="p">This dialog cannot be closed with ESC</p>
     </k-dialog>
 
     <h3 id="jsUsage"><a href="#jsUsage" class="no-link">JavaScript Usage</a></h3>
@@ -180,6 +189,9 @@
     <h5><code>overlay-close<i>: boolean</i></code></h5>
     <p>Whether clicking the overlay closes the dialog. Default is <code>true</code>.</p>
     
+    <h5><code>disable-keyboard-close<i>: boolean</i></code></h5>
+    <p>Whether to disable closing the dialog with the ESC key. Default is <code>false</code>.</p>
+    
     <h5><code>confirm-text<i>: string</i></code></h5>
     <p>Text for the confirm button.</p>
     
@@ -198,6 +210,9 @@
     
     <h5><code>cancelAction<i>: function</i></code></h5>
     <p>Action to perform on cancel. If the function calls <code>event.preventDefault()</code>, the dialog will not close automatically.</p>
+    
+    <h5><code>disableKeyboardClose<i>: boolean</i></code></h5>
+    <p>Whether to disable closing the dialog with the ESC key. Default is <code>false</code>.</p>
     
     <h5><code>closeCallback<i>: function</i></code></h5>
     <p>Callback to execute when the dialog is closed.</p>
@@ -239,6 +254,7 @@
       <li><code>opened</code>: <i>boolean</i> - Whether the dialog is initially opened. Default is <code>true</code>.</li>
       <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button.</li>
       <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog.</li>
+      <li><code>disableKeyboardClose</code>: <i>boolean</i> - Whether to disable closing the dialog with the ESC key.</li>
       <li><code>confirmText</code>: <i>string</i> - Text for the confirm button.</li>
       <li><code>confirmClasses</code>: <i>string</i> - Classes for the confirm button.</li>
       <li><code>confirmAction</code>: <i>function</i> - Action to perform on confirm.</li>
@@ -257,7 +273,7 @@
     </ul>
     
     <h5><code>Dialog.confirm(text, responseCallback, options)<i>: Dialog</i></code></h5>
-    <p>Creates and opens a confirmation dialog with the specified text and options. The response callback receives a boolean value indicating whether the user confirmed (<code>true</code>) or canceled (<code>false</code>).</p>
+    <p>Creates and opens a confirmation dialog with the specified text and options. The response callback receives a boolean value indicating whether the user confirmed (<code>true</code>) or canceled (<code>false</code>). By default, the close button and overlay close are disabled, and keyboard close (ESC key) is disabled to ensure the user must explicitly choose Yes or No.</p>
     
     <h6>Parameters</h6>
     <ul>
@@ -275,6 +291,7 @@
       <li><code>cancelClasses</code>: <i>string</i> - Classes for the cancel button. Default is <code>'danger'</code>.</li>
       <li><code>closeBtn</code>: <i>boolean</i> - Whether to show the close button. Default is <code>false</code>.</li>
       <li><code>overlayClose</code>: <i>boolean</i> - Whether clicking the overlay closes the dialog. Default is <code>false</code>.</li>
+      <li><code>disableKeyboardClose</code>: <i>boolean</i> - Whether to disable closing the dialog with the ESC key. Default is <code>true</code>.</li>
     </ul>
     
     <h5><code>Dialog.alert(text, responseCallback, options)<i>: Dialog</i></code></h5>

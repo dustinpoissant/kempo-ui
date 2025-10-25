@@ -19,6 +19,7 @@ export default class Dialog extends ShadowComponent {
 		opened: { type: Boolean, reflect: true, converter: boolExists },
 		closeBtn: { type: Boolean, reflect: true, attribute: 'close-btn', converter: boolExists },
 		overlayClose: { type: Boolean, reflect: true, attribute: 'overlay-close', converter: boolExists },
+		disableKeyboardClose: { type: Boolean, reflect: true, attribute: 'disable-keyboard-close', converter: boolExists },
 		confirmText: { type: String, reflect: true, attribute: 'confirm-text' },
 		confirmClasses: { type: String, reflect: true, attribute: 'confirm-classes' },
 		cancelText: { type: String, reflect: true, attribute: 'cancel-text' },
@@ -30,6 +31,7 @@ export default class Dialog extends ShadowComponent {
 		this.opened = false;
 		this.closeBtn = true;
 		this.overlayClose = true;
+		this.disableKeyboardClose = false;
 		this.confirmText = '';
 		this.confirmClasses = 'success ml';
 		this.cancelText = '';
@@ -59,7 +61,7 @@ export default class Dialog extends ShadowComponent {
 	}
 
 	handleKeydown = event => {
-		if(event.keyCode === 27) {
+		if(!this.disableKeyboardClose && event.keyCode === 27) {
 			this.close();
 		}
 	}
@@ -347,6 +349,7 @@ export default class Dialog extends ShadowComponent {
 			title: options.title || 'Confirm',
 			closeBtn: false,
 			overlayClose: false,
+			disableKeyboardClose: true,
 			confirmText: 'Yes',
 			confirmClasses: 'success ml',
 			confirmAction: () => responseCallback(true),

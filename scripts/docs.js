@@ -6,26 +6,33 @@ import { getArgs, runChildNodeProcessScript } from 'kempo-server/utils/cli';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+/*
+	Configuration
+*/
 const options = getArgs({
   p: 'port',
   b: 'build',
-  s: 'src',
-  'no-build': 'noBuild'
+  s: 'src'
 });
 
 const {
   port = 8083,
-  build = false,
-  noBuild = false,
+  build = null,
   src = false
 } = options;
 
-if(build && !noBuild){
+/*
+	Build Logic
+*/
+if(build === null ? !src : build === 'true' || build === true){
     console.log('Building component files...');
   await runChildNodeProcessScript(join(__dirname, 'build.js'));
   console.log('Component files built!');
 }
 
+/*
+	Server Startup
+*/
 const rootDir = 'docs';
 const configFile = src ? 
   join(__dirname, '../docs/dev.config.json') : 
