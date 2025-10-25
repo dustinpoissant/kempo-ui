@@ -56,8 +56,8 @@
     <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShadowComponent.js'</span>;<br /><span class="hljs-keyword">import</span> { html, css } <span class="hljs-keyword">from</span> <span class="hljs-string">'../lit-all.min.js'</span>;<br /><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStyledComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-keyword">static</span> styles = css<span class="hljs-string">`<br />    :host {<br />      display: block;<br />      padding: var(--spacer);<br />    }<br />    .custom-element {<br />      background-color: var(--c_primary);<br />      color: var(--tc_on_primary);<br />      border-radius: var(--radius);<br />    }<br />  `</span>;<br /><br />  <span class="hljs-title function_">render</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`<br />      &lt;div class="custom-element p"&gt;<br />        Custom styled content<br />      &lt;/div&gt;<br />    `</span>;<br />  }<br />}</code></pre>
 
     <h3 id="stylesheetPath"><a href="#stylesheetPath" class="no-link">Changing Stylesheet Path</a></h3>
-    <p>By default, ShadowComponent loads <code>/kempo.min.css</code>. Change this globally or per-component:</p>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// Change globally for all ShadowComponent instances</span><br /><span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShadowComponent.js'</span>;<br />ShadowComponent.stylesheetPath = <span class="hljs-string">'/custom-path/kempo.min.css'</span>;<br /><br /><span class="hljs-comment">// Or override for a specific component</span><br /><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ShadowComponent</span> {<br />  <span class="hljs-keyword">static</span> stylesheetPath = <span class="hljs-string">'/custom.css'</span>;<br />  <span class="hljs-comment">// ...</span><br />}</code></pre>
+    <p>By default, ShadowComponent loads <code>/kempo.min.css</code>. Change this globally by setting the <code>kempo.stylesheetPath</code> config before any components are loaded:</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    stylesheetPath: <span class="hljs-string">'/custom-path/kempo.min.css'</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -73,7 +73,7 @@
     <h3 id="staticProperties"><a href="#staticProperties" class="no-link">Static Properties</a></h3>
     <h5><code>stylesheetPath<i>: string</i></code></h5>
     <p>The path to the Kempo CSS stylesheet to inject into the shadow DOM. Default is <code>'/kempo.min.css'</code>.
-      This can be set globally on the ShadowComponent class or overridden in subclasses.</p>
+      This is configured via the global <code>window.kempo.stylesheetPath</code> config object.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>createRenderRoot()<i>: Element</i></code></h5>

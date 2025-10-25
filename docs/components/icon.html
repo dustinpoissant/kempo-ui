@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
-  <script src="../init-1.js" type="module"></script>
+  <script src="../init-1.js"></script>
 </head>
 <body>
   <k-import src="../nav-1.inc.html"></k-import>
@@ -101,9 +101,12 @@
       </div>
     </div>
 
+    <p>You can also set a global fallback icon that will be used for all icons when no icon is found and no slotted content is provided:</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    fallbackIcon: <span class="hljs-string">`&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"&gt;&lt;path fill="currentColor" d="M480-79q-16 0-30.5-6T423-102L102-423q-11-12-17-26.5T79-480q0-16 6-31t17-26l321-321q12-12 26.5-17.5T480-881q16 0 31 5.5t26 17.5l321 321q12 11 17.5 26t5.5 31q0 16-5.5 30.5T858-423L537-102q-11 11-26 17t-31 6Zm0-80 321-321-321-321-321 321 321 321Zm-40-281h80v-240h-80v240Zm40 120q17 0 28.5-11.5T520-360q0-17-11.5-28.5T480-400q-17 0-28.5 11.5T440-360q0 17 11.5 28.5T480-320Zm0-160Z"/&gt;&lt;/svg&gt;`</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
     <h3 id="changingIconDirectory"><a href="#changingIconDirectory" class="no-link">Changing the Icon Directory Location</a></h3>
-    <p>To change the location of the directory holding the icons import the <code>Icon</code> class, and set the static member <code>pathToIcons</code> to point to the correct location, do this before icons are loaded (for example in the head of the document).</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Icon <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Icon.js'</span>;<br />  Icon.pathToIcons = <span class="hljs-string">'./pathTo/icons'</span>;<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>To change the location of the directory holding the icons, set the global <code>kempo.pathToIcons</code> config before any components are loaded (for example in the head of the document).</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    pathToIcons: [<span class="hljs-string">'./pathTo/icons'</span>]<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <h3 id="addingIcons"><a href="#addingIcons" class="no-link">Adding Icons</a></h3>
     <p>Add your SVGs to the directory, remove the <code>height</code> and <code>width</code> attributes from the <code>svg</code> tag (if you do not, the Icon component will attempt to do it for you). The height and width will be managed by CSS to match the font-size. Give all objects (path, rect, circle) a fill of <code>currentColor</code>, this will allow the icon to adapt to the font color where it is rendered.</p>
@@ -121,8 +124,8 @@
     </div>
 
     <h3 id="updatingIconDirectoryPath"><a href="#updatingIconDirectoryPath" class="no-link">Updating the Icon Directory Path</a></h3>
-    <p>To change the location of the directory holding the icons, import the <code>Icon</code> class, and set the static member <code>pathToIcons</code> to point to the correct location. Do this before icons are loaded (for example, in the head of the document).</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Icon <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Icon.js'</span>;<br />  Icon.pathToIcons = [<span class="hljs-string">'./pathTo/icons'</span>];<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>To change the location of the directory holding the icons, set the global <code>kempo.pathToIcons</code> config before any components are loaded (for example, in the head of the document).</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    pathToIcons: [<span class="hljs-string">'./pathTo/icons'</span>]<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
@@ -148,7 +151,7 @@
     <h5><code>src<i>: string</i></code></h5>
     <p>The source URL of the icon. Syncs with the <code>src</code> attribute.</p>
     <h5><code>pathToIcons<i>: Array</i></code></h5>
-    <p>An array of paths to directories containing icons. This is a static property that affects all icon instances.</p>
+    <p>An array of paths to directories containing icons. This is configured via the global <code>window.kempo.pathToIcons</code> config object.</p>
 
   </main>
   <div style="height:33vh"></div>
