@@ -1,4 +1,4 @@
 window.kempo = {
-	stylesheetPath: './kempo.min.css',
-	pathToIcons: ['./icons']
+	pathToStylesheet: './kempo.min.css',
+	pathsToIcons: ['./icons']
 };

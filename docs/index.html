@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kempo UI Documentation</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="./media/icon48.png">
+  <link rel="manifest" href="./manifest.json" />
   <link rel="stylesheet" href="./kempo.min.css">
+  <link rel="stylesheet" href="./kempo-hljs.css">
   <link rel="stylesheet" href="./kempo-vars.css">
   <link rel="stylesheet" href="./styles.css">
   <script>window.litDisableBundleWarning = true;</script>
@@ -13,8 +16,36 @@
 <body>
   <k-import src="nav.inc.html"></k-import>
   <main>
-    <h1>Kempo UI</h1>
+    <h1 class="ta-center">
+      <img
+        src="./media/icon64.png"
+        alt="Kempo UI Icon"
+      />
+      <span
+        class="d-ib py"
+        style="vertical-align: bottom"
+      >
+        Kempo UI
+      </span>
+    </h1>
     <p>A lit-based web component library.</p>
+
+    <h2>Getting Started</h2>
+    <div class="row -mx">
+      <div class="span-12 t-span-4 d-span-4 px">
+        <p>Install using NPM.</p>
+        <pre><code class="hljs bash">npm install kempo-ui</code></pre>
+      </div>
+      <div class="span-12 t-span-4 d-span-4 px">
+        <p>or clone the git repo</p>
+        <pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/dustinpoissant/kempo-ui.git</code></pre>
+      </div>
+      <div class="span-12 t-span-6 d-span-4 px">
+        <p>or download directly</p>
+        <a href="https://github.com/dustinpoissant/kempo-ui/archive/refs/heads/main.zip" target="_blank"
+          class="btn primary">Download Zip</a>
+      </div>
+    </div>
 
     <h2>Components</h2>
     <div class="row -mx">

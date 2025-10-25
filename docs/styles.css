@@ -1,5 +1,10 @@
 /* Common styles for documentation pages */
 
+/* Reserve scrollbar space to prevent layout shifts when disabling scroll */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Offset anchor links to account for fixed navigation */
 h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
   scroll-margin-top: 4rem;

@@ -9,10 +9,27 @@ A modern, lightweight web component library built with Lit, providing accessible
 - **Customizable**: Easy theming and styling
 - **Lightweight**: Minimal bundle size with minimal dependecnies/
 
-## Installation
+## Getting Started
 
 ```bash
 npm install kempo-ui
+```
+
+#### Set your configuration
+```html
+<html>
+<head>
+  <script>
+    window.kempo = {
+      pathToStylesheet: '/kempo.min.css',
+      pathToIcons: '/icons'
+    };
+  </script>
+</head>
+<body>
+  <!-- Content -->
+</body>
+</html>
 ```
 
 ## Quick Start
