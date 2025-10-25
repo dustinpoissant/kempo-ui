@@ -97,7 +97,7 @@
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d7"</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d7'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.create(<span class="hljs-string">'Hello World'</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <button id="d7" class="mb">Open Dialog</button>
     <script type="module">
-      import Dialog from '/src/components/Dialog.js';
+      import Dialog from '../src/components/Dialog.js';
       document.getElementById('d7').addEventListener('click', () => {
         Dialog.create('Hello World');
       });
@@ -107,7 +107,7 @@
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d7b"</span>&gt;</span>Open Dialog with Title<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d7b'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.create(<span class="hljs-string">'This is the dialog content'</span>, {<br />      <span class="hljs-attr">title</span>: <span class="hljs-string">'My Dialog Title'</span><br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <button id="d7b" class="mb">Open Dialog with Title</button>
     <script type="module">
-      import Dialog from '/src/components/Dialog.js';
+      import Dialog from '../src/components/Dialog.js';
       document.getElementById('d7b').addEventListener('click', () => {
         Dialog.create('This is the dialog content', {
           title: 'My Dialog Title'
@@ -119,7 +119,7 @@
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d8"</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d8'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.error(<span class="hljs-string">"Oh no, don't do that!"</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <button id="d8" class="mb">Open Dialog</button>
     <script type="module">
-      import Dialog from '/src/components/Dialog.js';
+      import Dialog from '../src/components/Dialog.js';
       document.getElementById('d8').addEventListener('click', () => {
         Dialog.error("Oh no, don't do that!");
       });
@@ -130,7 +130,7 @@
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d9"</span>&gt;</span>Open Confirm Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d9'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.confirm(<span class="hljs-string">"Are you sure you want to proceed?"</span>, <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {<br />      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"User response:"</span>, response);<br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <button id="d9" class="mb">Open Confirm Dialog</button>
     <script type="module">
-      import Dialog from '/src/components/Dialog.js';
+      import Dialog from '../src/components/Dialog.js';
       document.getElementById('d9').addEventListener('click', () => {
         Dialog.confirm("Are you sure you want to proceed?", response => {
           console.log("User response:", response);

@@ -53,7 +53,7 @@
         <k-card label="Results">
           <button id="example1" class="mb">Open Toast</button>
           <script type="module">
-            import Toast from '/src/components/Toast.js';
+            import Toast from '../src/components/Toast.js';
             document.getElementById('example1').addEventListener('click', () => {
               Toast.create("Hello World");
             });
@@ -80,7 +80,7 @@
           <button id="example2-bottomcenter" class="mb">Bottom Center</button>
           <button id="example2-bottomright" class="mb">Bottom Right</button>
           <script type="module">
-            import Toast from '/src/components/Toast.js';
+            import Toast from '../src/components/Toast.js';
             document.getElementById('example2-topleft').addEventListener('click', () => {
               Toast.create("Hello Top Left", {
                 position: "top left"
@@ -133,7 +133,7 @@
           <button id="example3-3" class="mb">Open 3 Second Timeout Toast</button>
           <button id="example3-10" class="mb">Open 10 Second Timeout Toast</button>
           <script type="module">
-            import Toast from '/src/components/Toast.js';
+            import Toast from '../src/components/Toast.js';
             document.getElementById('example3-1').addEventListener('click', () => {
               Toast.create("I will timeout in 1 second", {
                 timeout: 1000
@@ -168,7 +168,7 @@
           <button id="example4-close" class="mb">Open Toast with Close Button</button>
           <button id="example4-action-close" class="mb">Open Toast with Action and Close Button</button>
           <script type="module">
-            import Toast from '/src/components/Toast.js';
+            import Toast from '../src/components/Toast.js';
             document.getElementById('example4-action').addEventListener('click', () => {
               Toast.create("Hello World", {
                 timeout: 0,
@@ -220,7 +220,7 @@
           <button id="example5-warning" class="mb">Warning Toast</button>
           <button id="example5-error" class="mb">Error Toast</button>
           <script type="module">
-            import Toast from '/src/components/Toast.js';
+            import Toast from '../src/components/Toast.js';
             document.getElementById('example5-success').addEventListener('click', () => {
               Toast.success("It Worked!");
             });

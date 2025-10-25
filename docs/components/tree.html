@@ -45,7 +45,7 @@
       <div class="col d-span-6 m-span-12 px">
         <k-tree id="myTree"></k-tree>
         <script type="module">
-          import Tree from '/src/components/Tree.js';
+          import Tree from '../src/components/Tree.js';
           const tree = document.getElementById('myTree');
           tree.data = {
             name: 'John Doe',
@@ -71,7 +71,7 @@
       <div class="col d-span-6 m-span-12 px">
         <k-tree id="depthTree" depth="2"></k-tree>
         <script type="module">
-          import Tree from '/src/components/Tree.js';
+          import Tree from '../src/components/Tree.js';
           const tree = document.getElementById('depthTree');
           tree.data = {
             company: 'Tech Corp',
@@ -100,8 +100,8 @@
       <div class="col d-span-6 m-span-12 px">
         <k-tree id="customTree"></k-tree>
         <script type="module">
-          import Tree, { TreeLeaf } from '/src/components/Tree.js';
-          import { html } from '/src/lit-all.min.js';
+          import Tree, { TreeLeaf } from '../src/components/Tree.js';
+          import { html } from '../src/lit-all.min.js';
           class DateLeaf extends TreeLeaf {
             render() {
               const { month, day, year } = this.value;
