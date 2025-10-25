@@ -155,10 +155,7 @@
     <k-card>
       <h3 id="accordion-ref" class="bb pb">Accordion</h3>
       <h4>Properties</h4>
-      <ul>
-        <li><code>multiple: boolean</code> Ã¢â‚¬â€ If present, allows multiple panels to be open.</li>
-        <li><code>persistentId: string</code> Ã¢â‚¬â€ If set, open panel state is saved/restored via localStorage.</li>
-      </ul>
+        <li><code>multiple: boolean</code> — If present, allows multiple panels to be open.</li>
       <h4>Methods</h4>
       <ul>
         <li><code>getHeader(panelName): HTMLElement | null</code></li>
@@ -177,9 +174,9 @@
       <h3 id="accordion-header-ref" class="bb pb">AccordionHeader</h3>
       <h4>Properties</h4>
       <ul>
-        <li><code>forPanel: string</code> Ã¢â‚¬â€ The panel name this header controls.</li>
-        <li><code>active: boolean</code> Ã¢â‚¬â€ Whether this header is active.</li>
-        <li><code>accordion: Accordion | null</code> <i>(read only)</i> Ã¢â‚¬â€ Parent accordion.</li>
+        <li><code>forPanel: string</code> — The panel name this header controls.</li>
+        <li><code>active: boolean</code> — Whether this header is active.</li>
+        <li><code>accordion: Accordion | null</code> <i>(read only)</i> — Parent accordion.</li>
       </ul>
       <h4>Event Handlers</h4>
       <ul>
@@ -191,13 +188,13 @@
       <h3 id="accordion-panel-ref" class="bb pb">AccordionPanel</h3>
       <h4>Properties</h4>
       <ul>
-        <li><code>name: string</code> Ã¢â‚¬â€ Unique panel identifier.</li>
-        <li><code>active: boolean</code> Ã¢â‚¬â€ Whether this panel is open.</li>
-        <li><code>transitioning: boolean</code> Ã¢â‚¬â€ Whether this panel is animating.</li>
+        <li><code>name: string</code> — Unique panel identifier.</li>
+        <li><code>active: boolean</code> — Whether this panel is open.</li>
+        <li><code>transitioning: boolean</code> — Whether this panel is animating.</li>
       </ul>
       <h4>Methods</h4>
       <ul>
-        <li><code>accordion: Accordion | null</code> (getter) Ã¢â‚¬â€ Returns parent accordion.</li>
+        <li><code>accordion: Accordion | null</code> (getter) — Returns parent accordion.</li>
       </ul>
 
       <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
