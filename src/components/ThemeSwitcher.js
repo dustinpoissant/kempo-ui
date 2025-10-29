@@ -23,8 +23,11 @@ export default class ThemeSwitcher extends ShadowComponent {
 		if(current === 'dark') ThemeSwitcher.setTheme('auto');
 	}
 
-	handleStorageChange = () => {
-		this.currentTheme = ThemeSwitcher.getCurrentTheme();
+	handleStorageChange = (event) => {
+		if (event.key === 'theme') {
+			this.currentTheme = event.newValue || 'auto';
+			document.documentElement.setAttribute('theme', this.currentTheme);
+		}
 	}
 
 	/*
