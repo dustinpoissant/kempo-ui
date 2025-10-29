@@ -30,6 +30,6 @@
     "terser": "^5.43.1"
   },
   "dependencies": {
-    "kempo-css": "^1.0.5"
+    "kempo-css": "^1.0.8"
   }
 }

@@ -34,11 +34,11 @@ export default class SideMenu extends ShadowComponent {
 		
 		if(changedProperties.has('opened')) {
 			if(this.opened) {
-				document.body.style.overflow = 'hidden';
+				document.body.classList.add('no-scroll');
 				this.dispatchEvent(new CustomEvent('change', { detail: 'open' }));
 				this.dispatchEvent(new CustomEvent('open'));
 			} else {
-				document.body.style.overflow = '';
+				document.body.classList.remove('no-scroll');
 				this.dispatchEvent(new CustomEvent('change', { detail: 'close' }));
 				this.dispatchEvent(new CustomEvent('close'));
 			}

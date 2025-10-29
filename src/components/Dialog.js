@@ -90,6 +90,7 @@ export default class Dialog extends ShadowComponent {
 	open() {
 		this.opened = true;
 		window.addEventListener('keydown', this.handleKeydown);
+		document.body.classList.add('no-scroll');
 		
 		// Use updateComplete or setTimeout as fallback
 		const updatePromise = this.updateComplete || this.requestUpdate();
@@ -112,6 +113,7 @@ export default class Dialog extends ShadowComponent {
 		this.blur();
 		this.closeCallback();
 		window.removeEventListener('keydown', this.handleKeydown);
+		document.body.classList.remove('no-scroll');
 	}
 
 	toggle() {
