@@ -1,6 +1,6 @@
 import { html, css, unsafeStatic, literal } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
-import toTitleCase from '../utils/toTitleCase.js';
+import { toTitleCase } from '../utils/string.js';
 import { boolExists } from '../utils/propConverters.js';
 
 const selected = Symbol('selected');

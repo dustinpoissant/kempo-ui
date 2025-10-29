@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>String Utilities - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1>String Utilities</h1>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Functions</h6>
+          <a href="#camelToDash">camelToDash</a><br />
+          <a href="#dashToCamel">dashToCamel</a><br />
+          <a href="#isCamelCase">isCamelCase</a><br />
+          <a href="#getCase">getCase</a><br />
+          <a href="#escapeHTML">escapeHTML</a><br />
+          <a href="#unescapeHTML">unescapeHTML</a><br />
+          <a href="#trim">trim</a><br />
+          <a href="#compoundKey">compoundKey</a><br />
+          <a href="#toTitleCase">toTitleCase</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The string utilities module provides a collection of functions for manipulating and transforming strings, including case conversions, HTML escaping, and key manipulation.</p>
+
+    <h3 id="camelToDash"><a href="#camelToDash" class="no-link">camelToDash</a></h3>
+    <p>Converts camelCase strings to dash-case.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { camelToDash } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />camelToDash(<span class="hljs-string">'camelCase'</span>); <span class="hljs-comment">// "camel-case"</span></code></pre>
+
+    <h3 id="dashToCamel"><a href="#dashToCamel" class="no-link">dashToCamel</a></h3>
+    <p>Converts dash-case strings to camelCase.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { dashToCamel } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />dashToCamel(<span class="hljs-string">'dash-case'</span>); <span class="hljs-comment">// "dashCase"</span></code></pre>
+
+    <h3 id="isCamelCase"><a href="#isCamelCase" class="no-link">isCamelCase</a></h3>
+    <p>Checks if a string is in camelCase format.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { isCamelCase } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />isCamelCase(<span class="hljs-string">'camelCase'</span>); <span class="hljs-comment">// true</span><br />isCamelCase(<span class="hljs-string">'dash-case'</span>); <span class="hljs-comment">// false</span></code></pre>
+
+    <h3 id="getCase"><a href="#getCase" class="no-link">getCase</a></h3>
+    <p>Returns an object with both camel and dash versions of the string.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { getCase } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />getCase(<span class="hljs-string">'camelCase'</span>); <span class="hljs-comment">// { camel: "camelCase", dash: "camel-case" }</span><br />getCase(<span class="hljs-string">'dash-case'</span>); <span class="hljs-comment">// { camel: "dashCase", dash: "dash-case" }</span></code></pre>
+
+    <h3 id="escapeHTML"><a href="#escapeHTML" class="no-link">escapeHTML</a></h3>
+    <p>Escapes HTML special characters in a string.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { escapeHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />escapeHTML(<span class="hljs-string">'&lt;script&gt;'</span>); <span class="hljs-comment">// "&amp;lt;script&amp;gt;"</span></code></pre>
+
+    <h3 id="unescapeHTML"><a href="#unescapeHTML" class="no-link">unescapeHTML</a></h3>
+    <p>Unescapes HTML entities in a string.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { unescapeHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />unescapeHTML(<span class="hljs-string">'&amp;lt;script&amp;gt;'</span>); <span class="hljs-comment">// "&lt;script&gt;"</span></code></pre>
+
+    <h3 id="trim"><a href="#trim" class="no-link">trim</a></h3>
+    <p>Trims specified characters from the start and end of a string.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { trim } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />trim(<span class="hljs-string">'.key.value.'</span>, <span class="hljs-string">'.'</span>); <span class="hljs-comment">// "key.value"</span></code></pre>
+
+    <h3 id="compoundKey"><a href="#compoundKey" class="no-link">compoundKey</a></h3>
+    <p>Joins an array of keys into a compound key string.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { compoundKey } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />compoundKey([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>]); <span class="hljs-comment">// "a.b.c"</span></code></pre>
+
+    <h3 id="toTitleCase"><a href="#toTitleCase" class="no-link">toTitleCase</a></h3>
+    <p>Converts strings to title case format, handling camelCase, snake_case, kebab-case, and regular text.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { toTitleCase } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br />toTitleCase(<span class="hljs-string">'helloWorld'</span>); <span class="hljs-comment">// "Hello World"</span><br />toTitleCase(<span class="hljs-string">'hello-world'</span>); <span class="hljs-comment">// "Hello World"</span><br />toTitleCase(<span class="hljs-string">'hello_world'</span>); <span class="hljs-comment">// "Hello World"</span></code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+</body>
+</html>

@@ -3,9 +3,7 @@ import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
 export default class Edit extends TableControl {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		isEditing: { type: Boolean }
 	};

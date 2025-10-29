@@ -4,9 +4,7 @@ import Icon from './Icon.js';
 import { boolExists } from '../utils/propConverters.js';
 
 export default class ShowMore extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		opened: { type: Boolean, converter: boolExists, reflect: true }
 	};

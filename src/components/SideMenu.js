@@ -5,9 +5,7 @@ import './FocusCapture.js';
 import './Icon.js';
 
 export default class SideMenu extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		opened: { type: Boolean, reflect: true },
 		overlayClose: { type: Boolean, reflect: true, attribute: 'overlay-close', converter: boolTrueFalse },

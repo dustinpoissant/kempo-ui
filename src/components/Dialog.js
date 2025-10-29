@@ -12,9 +12,7 @@ const firstFocusable = element => {
 };
 
 export default class Dialog extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		opened: { type: Boolean, reflect: true, converter: boolExists },
 		closeBtn: { type: Boolean, reflect: true, attribute: 'close-btn', converter: boolExists },

@@ -1,11 +1,9 @@
 import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
-import { boolExists, boolTrueFalse } from '../utils/propConverters.js';
+import { boolExists } from '../utils/propConverters.js';
 
 export default class Accordion extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		multiple: {
 			type: Boolean,
@@ -29,9 +27,7 @@ export default class Accordion extends ShadowComponent {
 		super.connectedCallback?.();
 	}
 
-	/*
-		Lifecycle: Restore persistent state when persistentId changes
-	*/
+	/* Lifecycle Callbacks */
 	updated(changedProps) {
 		super.updated?.(changedProps);
 		if (changedProps.has('persistentId') && this.persistentId && window?.localStorage) {
@@ -192,9 +188,7 @@ render() {
 }
 
 export class AccordionHeader extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		forPanel: { type: String, reflect: true, attribute: 'for-panel' },
 		active: { type: Boolean, reflect: true, converter: boolExists }
@@ -262,9 +256,7 @@ export class AccordionHeader extends ShadowComponent {
 }
 
 export class AccordionPanel extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		name: { type: String, reflect: true },
 		active: { type: Boolean, reflect: true, converter: boolExists },

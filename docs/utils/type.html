@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Type Utilities - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1>Type Utilities</h1>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Functions</h6>
+          <a href="#typeOf">typeOf</a><br />
+          <a href="#isType">isType</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The type utilities module provides functions for checking and identifying JavaScript value types, including enhanced type detection for arrays, elements, and null values.</p>
+
+    <h3 id="typeOf"><a href="#typeOf" class="no-link">typeOf</a></h3>
+    <p>Returns the type of a value as a string, with enhanced detection for arrays, DOM elements, and null.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { typeOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/type.js'</span>;<br /><br />typeOf(<span class="hljs-string">'hello'</span>); <span class="hljs-comment">// "string"</span><br />typeOf(<span class="hljs-number">42</span>); <span class="hljs-comment">// "number"</span><br />typeOf([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]); <span class="hljs-comment">// "array"</span><br />typeOf(<span class="hljs-literal">null</span>); <span class="hljs-comment">// "null"</span><br />typeOf(document.body); <span class="hljs-comment">// "element" (in browser)</span></code></pre>
+
+    <h3 id="isType"><a href="#isType" class="no-link">isType</a></h3>
+    <p>Checks if a value is of a specific type.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { isType } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/type.js'</span>;<br /><br />isType(<span class="hljs-string">'hello'</span>, <span class="hljs-string">'string'</span>); <span class="hljs-comment">// true</span><br />isType([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <span class="hljs-string">'array'</span>); <span class="hljs-comment">// true</span><br />isType(<span class="hljs-literal">null</span>, <span class="hljs-string">'null'</span>); <span class="hljs-comment">// true</span><br />isType(<span class="hljs-number">42</span>, <span class="hljs-string">'string'</span>); <span class="hljs-comment">// false</span></code></pre>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+</body>
+</html>

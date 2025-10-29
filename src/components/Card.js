@@ -2,9 +2,7 @@ import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 
 export default class Card extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		label: { type: String, reflect: true }
 	};

@@ -4,9 +4,7 @@ import { boolExists } from '../utils/propConverters.js';
 import './Icon.js';
 
 export default class PhotoViewer extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		src: { type: String, reflect: true },
 		alt: { type: String, reflect: true },

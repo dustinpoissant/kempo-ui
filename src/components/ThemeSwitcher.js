@@ -3,9 +3,7 @@ import { html, css } from '../lit-all.min.js';
 import './Icon.js';
 
 export default class ThemeSwitcher extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		currentTheme: { type: String, reflect: true, attribute: 'current-theme' }
 	};

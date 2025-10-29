@@ -147,3 +147,19 @@ export default class MyComponent extends HybridComponent {
 - Wrap dependent components inside a parent `ktf-test-framework` element. Children find it via `closest('ktf-test-framework')` and call its methods. The framework can query its subtree to orchestrate children.
 
 - Avoid `window` globals and global custom events for coordination. If broadcast is needed, scope events to the framework element; reserve window events for global, non-visual concerns (e.g., settings changes).
+
+## Development Workflow
+
+### Local Development Server
+- **DO NOT** start a development server - one is already running
+- Default port: **8083**
+- Base URL: `http://localhost:8083`
+- Documentation URLs follow the directory/file structure in `docs/` (e.g., `docs/components/color-picker.html` → `http://localhost:8083/components/color-picker.html`)
+- Use this server for all testing and verification
+
+### Testing and Verification
+- **ALWAYS** verify changes using the live documentation on the running server
+- Use Chrome DevTools Protocol (chrome-devtools-mcp) for interactive testing
+- **DO NOT** create one-off test files or framework-less tests
+- Test components in their natural documentation environment
+- Validate both functionality and visual appearance

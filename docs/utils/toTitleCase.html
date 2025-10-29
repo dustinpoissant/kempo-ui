@@ -33,10 +33,11 @@
 
     <h3>Description</h3>
     <p>The <code>toTitleCase</code> utility function converts strings to title case format. It handles camelCase, snake_case, kebab-case, and regular text, converting them into properly capitalized title case with spaces between words.</p>
+    <p><strong>Note:</strong> This function is now part of the string utilities module.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Import and use the toTitleCase function to convert strings to title case:</p>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> toTitleCase <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/toTitleCase.js'</span>;<br /><br /><span class="hljs-keyword">const</span> result = <span class="hljs-title function_">toTitleCase</span>(<span class="hljs-string">'helloWorld'</span>);<br /><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result); <span class="hljs-comment">// "Hello World"</span></code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { toTitleCase } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/string.js'</span>;<br /><br /><span class="hljs-keyword">const</span> result = <span class="hljs-title function_">toTitleCase</span>(<span class="hljs-string">'helloWorld'</span>);<br /><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result); <span class="hljs-comment">// "Hello World"</span></code></pre>
 
     <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
     <h5><code>str<i>: string</i></code></h5>

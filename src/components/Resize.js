@@ -4,9 +4,7 @@ import Icon from './Icon.js';
 import drag from '../utils/drag.js';
 
 export default class Resize extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		resizing: { type: String, reflect: true },
 		dimention: { type: String, reflect: true }

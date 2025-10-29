@@ -2,9 +2,7 @@ import LightComponent from './LightComponent.js';
 import { html, render, unsafeHTML } from '../lit-all.min.js';
 
 export default class Import extends LightComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		src: {
 			type: String,

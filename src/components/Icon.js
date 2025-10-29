@@ -45,9 +45,7 @@ const getIconByName = (name) => {
 };
 
 export default class Icon extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		src: { type: String, reflect: true },
 		name: { type: String, reflect: true },

@@ -2,9 +2,7 @@ import TableControl from './TableControl.js';
 import { html } from '../../lit-all.min.js';
 
 export default class HiddenCount extends TableControl {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		hiddenCount: { type: Number }
 	};

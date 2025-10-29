@@ -4,9 +4,7 @@ import { boolTrueFalse } from '../utils/propConverters.js';
 import './Icon.js';
 
 export default class ContentSlider extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		index: { type: Number, reflect: true },
 		controls: { type: Boolean, reflect: true, converter: boolTrueFalse },

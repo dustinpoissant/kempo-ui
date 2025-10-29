@@ -2,9 +2,7 @@ import ShadowComponent from '../ShadowComponent.js';
 import { html, css } from '../../lit-all.min.js';
 
 export default class TableControl extends ShadowComponent {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		maxWidth: { type: Number, reflect: true, attribute: 'max-width' }
 	};

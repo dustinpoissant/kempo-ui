@@ -3,9 +3,7 @@ import { html } from '../../lit-all.min.js';
 import debounce from '../../utils/debounce.js';
 
 export default class Search extends TableControl {
-	/*
-		Properties
-	*/
+	/* Properties */
 	static properties = {
 		searchTerm: { type: String }
 	};
