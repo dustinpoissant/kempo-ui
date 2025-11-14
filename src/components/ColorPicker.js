@@ -2,8 +2,15 @@ import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 
 export default class ColorPicker extends ShadowComponent {
+	static formAssociated = true;
+	
 	/* Properties */
 	static properties = {
+		name: {
+			type: String,
+			reflect: true,
+			attribute: 'name'
+		},
 		format: {
 			type: String,
 			reflect: true,
@@ -29,6 +36,7 @@ export default class ColorPicker extends ShadowComponent {
 	};
 	constructor(){
 		super();
+		this.internals = this.attachInternals();
 		this.format = "hex";
 		this.red = 0;
 		this.green = 0;
@@ -37,10 +45,36 @@ export default class ColorPicker extends ShadowComponent {
 	}
 	
 	/* Lifecycle */
+	connectedCallback(){
+		super.connectedCallback();
+		// Capture original attributes BEFORE Lit processes them
+		this.originalHadFormat = this.hasAttribute('format');
+		this.originalValue = this.getAttribute('value');
+	}
+	
+	firstUpdated(changedProperties){
+		super.firstUpdated(changedProperties);
+		
+		// If value was set but format wasn't, auto-detect
+		if(this.originalValue && !this.originalHadFormat){
+			for(const [formatName, format] of Object.entries(this.constructor.formats)){
+				if(format.detect(this.originalValue)){
+					this.format = formatName;
+					break;
+				}
+			}
+		}
+	}
+	
 	updated(changedProperties){
 		super.updated(changedProperties);
-		if (changedProperties.has('format')) {
+		
+		if(changedProperties.has('format')){
 			this.requestUpdate();
+		}
+		
+		if(changedProperties.has('red') || changedProperties.has('green') || changedProperties.has('blue') || changedProperties.has('alpha') || changedProperties.has('format')){
+			this.updateFormValue();
 		}
 	}
 	
@@ -75,6 +109,7 @@ export default class ColorPicker extends ShadowComponent {
 					if (parsed.hasAlpha) {
 						this.alpha = parsed.a;
 					}
+					this.updateFormValue();
 					return;
 				}
 			}
@@ -85,6 +120,12 @@ export default class ColorPicker extends ShadowComponent {
 		this.green = 0;
 		this.blue = 0;
 		this.alpha = 1;
+		this.updateFormValue();
+	}
+	
+	updateFormValue(){
+		const formValue = this.value;
+		this.internals.setFormValue(formValue);
 	}
 	
 	/* Methods */
@@ -118,12 +159,14 @@ export default class ColorPicker extends ShadowComponent {
 					value="${this.value}"
 					@change=${this.onTextInputChange}
 				/>
-				<input
-					id="color"
-					type="color"
-					value="${this.constructor.formats.hex.toString(this.red || 0, this.green || 0, this.blue || 0, 1)}"
-					@change=${this.onColorInputChange}
-				/>
+				<div id="color-wrapper">
+					<input
+						id="color"
+						type="color"
+						value="${this.constructor.formats.hex.toString(this.red || 0, this.green || 0, this.blue || 0, 1)}"
+						@change=${this.onColorInputChange}
+					/>
+				</div>
 			</div>
 		`;
 	}
@@ -132,19 +175,22 @@ export default class ColorPicker extends ShadowComponent {
 			display: block;
 		}
 		#container {
-			display: flex;
+			display: grid;
+			grid-template-columns: 7rem 1fr auto;
 			align-items: stretch;
 		}
 		#format {
-			width: 7rem;
+			flex-shrink: 0;
 		}
 		#text {
-			flex: 1 1 auto;
+			min-width: 0;
+		}
+		#color-wrapper {
+			display: contents;
 		}
 		#color {
-			width: 3rem;
-			height: auto !important;
-			align-self: stretch !important;
+			aspect-ratio: 1;
+			height: 100%;
 		}
 	`;
 	
@@ -187,7 +233,7 @@ export default class ColorPicker extends ShadowComponent {
 				return '#' + hex;
 			}
 		},
-		rgba: {
+		rgb: {
 			detect: (value) => /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*(?:0?\.\d+|1(?:\.0*)?|\d+(?:\.\d*)?))?\s*\)$/.test(value),
 			parse: (value) => {
 				const match = value.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+))?\s*\)$/);
@@ -210,7 +256,7 @@ export default class ColorPicker extends ShadowComponent {
 				}
 			}
 		},
-		hsla: {
+		hsl: {
 			detect: (value) => /^hsla?\(\s*\d+(?:\.\d+)?\s*,\s*\d+(?:\.\d+)?%\s*,\s*\d+(?:\.\d+)?%\s*(?:,\s*(?:0?\.\d+|1(?:\.0*)?|\d+(?:\.\d*)?))?\s*\)$/.test(value),
 			parse: (value) => {
 				const match = value.match(/^hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)%\s*,\s*(\d+(?:\.\d+)?)%\s*(?:,\s*([\d.]+))?\s*\)$/);
