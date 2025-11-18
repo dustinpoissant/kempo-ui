@@ -30,12 +30,14 @@
           <a href="#formatSelection">Format Selection</a><br />
           <a href="#formUsage">Form Integration</a><br />
           <a href="#javascriptUsage">JavaScript Usage</a><br />
+          <a href="#eventHandling">Event Handling</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
           <a href="#requirements">Requirements</a><br />
           <a href="#properties">Properties</a><br />
           <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
           <a href="#staticMembers">Static Members</a><br />
         </div>
       </k-accordion-panel>
@@ -336,6 +338,161 @@
       </div>
     </div>
 
+    <h2 id="eventHandling"><a href="#eventHandling" class="no-link">Event Handling</a></h2>
+    <p>The ColorPicker component forwards DOM events from its internal form elements (select, text input, and color
+      input), allowing you to listen for user interactions. The following events are forwarded: <code>change</code>,
+      <code>input</code>, <code>focus</code>, and <code>blur</code>.</p>
+
+    <h3>Change Event</h3>
+    <p>Fired when the user commits a color change through any of the internal inputs.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-color-picker</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"changeEventPicker"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"#3498db"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-color-picker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"changeOutput"</span>&gt;</span>Change the color to see the event<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">const</span> picker = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'changeEventPicker'</span>);
+  picker.addEventListener(<span class="hljs-string">'change'</span>, (e) =&gt; {
+    <span class="hljs-keyword">const</span> output = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'changeOutput'</span>);
+    output.textContent = <span class="hljs-string">`Changed to: <span class="hljs-subst">${picker.value}</span>`</span>;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-color-picker id="changeEventPicker" value="#3498db" class="mb"></k-color-picker>
+          <p id="changeOutput">Change the color to see the event</p>
+          <script>
+            const changeEventPicker = document.getElementById('changeEventPicker');
+            changeEventPicker.addEventListener('change', (e) => {
+              const output = document.getElementById('changeOutput');
+              output.textContent = `Changed to: ${changeEventPicker.value}`;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3>Input Event</h3>
+    <p>Fired as the user types or modifies the color value, providing real-time updates.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-color-picker</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"inputEventPicker"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"#e74c3c"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-color-picker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"colorPreview"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"width:100%; height:50px; background:#e74c3c; border-radius:4px;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">const</span> picker = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'inputEventPicker'</span>);
+  <span class="hljs-keyword">const</span> preview = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'colorPreview'</span>);
+  picker.addEventListener(<span class="hljs-string">'input'</span>, (e) =&gt; {
+    preview.style.backgroundColor = picker.value;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-color-picker id="inputEventPicker" value="#e74c3c" class="mb"></k-color-picker>
+          <div id="colorPreview" style="width:100%; height:50px; background:#e74c3c; border-radius:4px;"></div>
+          <script>
+            const inputEventPicker = document.getElementById('inputEventPicker');
+            const colorPreview = document.getElementById('colorPreview');
+            inputEventPicker.addEventListener('input', (e) => {
+              colorPreview.style.backgroundColor = inputEventPicker.value;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3>Focus and Blur Events</h3>
+    <p>Track when the user focuses on or leaves any of the color picker's input elements.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-color-picker</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"focusEventPicker"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"#2ecc71"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-color-picker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"focusOutput"</span>&gt;</span>Click on the color picker to see focus/blur events<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">const</span> picker = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'focusEventPicker'</span>);
+  <span class="hljs-keyword">const</span> output = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'focusOutput'</span>);
+  picker.addEventListener(<span class="hljs-string">'focus'</span>, (e) =&gt; {
+    output.textContent = <span class="hljs-string">'Color picker focused'</span>;
+    output.style.color = <span class="hljs-string">'#2ecc71'</span>;
+  });
+  picker.addEventListener(<span class="hljs-string">'blur'</span>, (e) =&gt; {
+    output.textContent = <span class="hljs-string">'Color picker blurred'</span>;
+    output.style.color = <span class="hljs-string">'#95a5a6'</span>;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-color-picker id="focusEventPicker" value="#2ecc71" class="mb"></k-color-picker>
+          <p id="focusOutput">Click on the color picker to see focus/blur events</p>
+          <script>
+            const focusEventPicker = document.getElementById('focusEventPicker');
+            const focusOutput = document.getElementById('focusOutput');
+            focusEventPicker.addEventListener('focus', (e) => {
+              focusOutput.textContent = 'Color picker focused';
+              focusOutput.style.color = '#2ecc71';
+            });
+            focusEventPicker.addEventListener('blur', (e) => {
+              focusOutput.textContent = 'Color picker blurred';
+              focusOutput.style.color = '#95a5a6';
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3>Multiple Events Example</h3>
+    <p>Combining multiple event listeners to create an interactive color picking experience with event logging.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-color-picker</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"multiEventPicker"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"#9b59b6"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-color-picker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"eventLog"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">const</span> picker = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'multiEventPicker'</span>);
+  <span class="hljs-keyword">const</span> log = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'eventLog'</span>);
+  <span class="hljs-keyword">const</span> logEvent = <span class="hljs-function">(<span class="hljs-params">type, value</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> time = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toLocaleTimeString();
+    <span class="hljs-keyword">const</span> entry = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'div'</span>);
+    entry.textContent = <span class="hljs-string">`<span class="hljs-subst">${time}</span> - <span class="hljs-subst">${type}</span>: <span class="hljs-subst">${value}</span>`</span>;
+    log.insertBefore(entry, log.firstChild);
+    <span class="hljs-keyword">if</span> (log.children.length &gt; <span class="hljs-number">10</span>) log.lastChild.remove();
+  };
+  picker.addEventListener(<span class="hljs-string">'change'</span>, () =&gt; logEvent(<span class="hljs-string">'change'</span>, picker.value));
+  picker.addEventListener(<span class="hljs-string">'input'</span>, () =&gt; logEvent(<span class="hljs-string">'input'</span>, picker.value));
+  picker.addEventListener(<span class="hljs-string">'focus'</span>, () =&gt; logEvent(<span class="hljs-string">'focus'</span>, <span class="hljs-string">'focused'</span>));
+  picker.addEventListener(<span class="hljs-string">'blur'</span>, () =&gt; logEvent(<span class="hljs-string">'blur'</span>, <span class="hljs-string">'blurred'</span>));
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-color-picker id="multiEventPicker" value="#9b59b6" class="mb"></k-color-picker>
+          <pre id="eventLog"></pre>
+          <script>
+            const multiEventPicker = document.getElementById('multiEventPicker');
+            const eventLog = document.getElementById('eventLog');
+            const logEvent = (type, value) => {
+              const time = new Date().toLocaleTimeString();
+              const entry = document.createElement('div');
+              entry.textContent = `${time} - ${type}: ${value}`;
+              eventLog.insertBefore(entry, eventLog.firstChild);
+              if (eventLog.children.length > 10) eventLog.lastChild.remove();
+            };
+            multiEventPicker.addEventListener('change', () => logEvent('change', multiEventPicker.value));
+            multiEventPicker.addEventListener('input', () => logEvent('input', multiEventPicker.value));
+            multiEventPicker.addEventListener('focus', () => logEvent('focus', 'focused'));
+            multiEventPicker.addEventListener('blur', () => logEvent('blur', 'blurred'));
+          </script>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -380,6 +537,23 @@
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>toHexColor(red, green, blue)<i>: string</i></code></h5>
     <p>Converts RGB values to a hex color string for the native color input.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fired when the user commits a color change through any of the internal inputs (select, text input, or color
+      input). This event is forwarded from the native DOM elements.</p>
+
+    <h5><code>input</code></h5>
+    <p>Fired when the user types or modifies values in the text input or interacts with the format selector. This event
+      is forwarded from the native DOM elements and provides real-time updates.</p>
+
+    <h5><code>focus</code></h5>
+    <p>Fired when any of the internal form elements (select, text input, or color input) receives focus. This event is
+      forwarded from the native DOM elements.</p>
+
+    <h5><code>blur</code></h5>
+    <p>Fired when any of the internal form elements (select, text input, or color input) loses focus. This event is
+      forwarded from the native DOM elements.</p>
 
     <h3 id="staticMembers"><a href="#staticMembers" class="no-link">Static Members</a></h3>
     <h5><code>namedColors<i>: object</i></code></h5>

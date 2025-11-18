@@ -75,6 +75,29 @@ export default class ColorPicker extends ShadowComponent {
 		
 		if(changedProperties.has('red') || changedProperties.has('green') || changedProperties.has('blue') || changedProperties.has('alpha') || changedProperties.has('format')){
 			this.updateFormValue();
+			this.syncInputs(changedProperties.has('format'));
+		}
+	}
+	
+	syncInputs(formatChanged = false){
+		const textInput = this.shadowRoot?.querySelector('#text');
+		const colorInput = this.shadowRoot?.querySelector('#color');
+		const formatSelect = this.shadowRoot?.querySelector('#format');
+		const activeElement = this.shadowRoot?.activeElement;
+		
+		// Always update text input if format changed, otherwise only if not focused
+		if(textInput && (formatChanged || activeElement !== textInput)){
+			textInput.value = this.value;
+		}
+		
+		// Update color input if it's not focused
+		if(colorInput && activeElement !== colorInput){
+			colorInput.value = this.constructor.formats.hex.toString(this.red || 0, this.green || 0, this.blue || 0, 1);
+		}
+		
+		// Update format select if it's not focused
+		if(formatSelect && activeElement !== formatSelect){
+			formatSelect.value = this.format;
 		}
 	}
 	
@@ -137,10 +160,41 @@ export default class ColorPicker extends ShadowComponent {
 			this.blue = parsed.b;
 			this.alpha = 1;
 		}
+		this.forwardEvent(event);
 	}
 	onTextInputChange(event){
 		this.value = event.target.value;
+		this.forwardEvent(event);
 	}
+	onTextInput(event){
+		this.value = event.target.value;
+		this.forwardEvent(event);
+	}
+	onColorInput(event){
+		const parsed = this.constructor.formats.hex.parse(event.target.value);
+		if (parsed) {
+			this.red = parsed.r;
+			this.green = parsed.g;
+			this.blue = parsed.b;
+			this.alpha = 1;
+		}
+		this.forwardEvent(event);
+	}
+	onFormatChange(event){
+		this.format = event.target.value;
+		this.forwardEvent(event);
+	}
+	onFormatInput(event){
+		this.format = event.target.value;
+		this.forwardEvent(event);
+	}
+	
+	/*
+	  Event Forwarding
+	*/
+	forwardEvent = (event) => {
+		this.dispatchEvent(new event.constructor(event.type, event));
+	};
 	
 	/* Rendering */
 	render(){
@@ -149,7 +203,10 @@ export default class ColorPicker extends ShadowComponent {
 				<select
 					id="format"
 					value="${this.format}"
-					@change=${(e) => this.format = e.target.value}
+					@change=${this.onFormatChange}
+					@input=${this.onFormatInput}
+					@focus=${this.forwardEvent}
+					@blur=${this.forwardEvent}
 				>${
 					this.constructor.formats ? Object.keys(this.constructor.formats).map(formatName => html`<option value="${formatName}" ?selected=${this.format === formatName}>${formatName.toUpperCase()}</option>`) : null
 				}</select>
@@ -158,6 +215,9 @@ export default class ColorPicker extends ShadowComponent {
 					type="text"
 					value="${this.value}"
 					@change=${this.onTextInputChange}
+					@input=${this.onTextInput}
+					@focus=${this.forwardEvent}
+					@blur=${this.forwardEvent}
 				/>
 				<div id="color-wrapper">
 					<input
@@ -165,6 +225,9 @@ export default class ColorPicker extends ShadowComponent {
 						type="color"
 						value="${this.constructor.formats.hex.toString(this.red || 0, this.green || 0, this.blue || 0, 1)}"
 						@change=${this.onColorInputChange}
+						@input=${this.onColorInput}
+						@focus=${this.forwardEvent}
+						@blur=${this.forwardEvent}
 					/>
 				</div>
 			</div>
