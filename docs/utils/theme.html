@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Utility - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1>Theme Utility</h1>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API Methods</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>theme</code> utility provides a centralized way to manage the application's theme state. It handles theme persistence via localStorage, automatic system preference detection, and reactive updates across components. This utility works independently of the ThemeSwitcher component, allowing any part of your application to read, set, or subscribe to theme changes.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and use the theme utility to manage application themes:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> theme <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/theme.js'</span>;<br /><br /><span class="hljs-comment">// Get current theme</span><br /><span class="hljs-keyword">const</span> currentTheme = theme.get(); <span class="hljs-comment">// 'auto', 'light', or 'dark'</span><br /><br /><span class="hljs-comment">// Set theme</span><br />theme.set(<span class="hljs-string">'dark'</span>);<br /><br /><span class="hljs-comment">// Subscribe to theme changes</span><br /><span class="hljs-keyword">const</span> unsubscribe = theme.subscribe(<span class="hljs-function">(<span class="hljs-params">newTheme</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Theme changed to:'</span>, newTheme);<br />});</code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API Methods</a></h3>
+
+    <h4><code>theme.get()</code></h4>
+    <p>Returns the current theme value.</p>
+    <h5>Returns: <code>string</code></h5>
+    <p>One of: <code>'auto'</code>, <code>'light'</code>, or <code>'dark'</code></p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> currentTheme = theme.get();<br /><span class="hljs-built_in">console</span>.log(currentTheme); <span class="hljs-comment">// 'auto', 'light', or 'dark'</span></code></pre>
+
+    <h4><code>theme.set(value)</code></h4>
+    <p>Sets the theme and automatically persists it to localStorage and updates the DOM.</p>
+    <h5><code>value<i>: string</i></code></h5>
+    <p>The theme to set. Must be one of: <code>'auto'</code>, <code>'light'</code>, or <code>'dark'</code></p>
+    <pre><code class="hljs javascript">theme.set(<span class="hljs-string">'dark'</span>);</code></pre>
+
+    <h4><code>theme.subscribe(callback)</code></h4>
+    <p>Subscribes to theme changes. The callback is immediately invoked with the current theme, then called again whenever the theme changes.</p>
+    <h5><code>callback<i>: Function</i></code></h5>
+    <p>Function to call when the theme changes. Receives the new theme value as an argument.</p>
+    <h5>Returns: <code>Function</code></h5>
+    <p>An unsubscribe function to remove the subscription.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> unsubscribe = theme.subscribe(<span class="hljs-function">(<span class="hljs-params">newTheme</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Theme is now:'</span>, newTheme);<br />});<br /><br /><span class="hljs-comment">// Later, stop listening</span><br />unsubscribe();</code></pre>
+
+    <h4><code>theme.getCalculated()</code></h4>
+    <p>Returns the effective theme, resolving <code>'auto'</code> to either <code>'light'</code> or <code>'dark'</code> based on the user's system preference.</p>
+    <h5>Returns: <code>string</code></h5>
+    <p>Either <code>'light'</code> or <code>'dark'</code></p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> effectiveTheme = theme.getCalculated();<br /><span class="hljs-built_in">console</span>.log(effectiveTheme); <span class="hljs-comment">// Always 'light' or 'dark'</span></code></pre>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Reading Theme Without Component</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> theme <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/theme.js'</span>;<br /><br /><span class="hljs-comment">// Get theme anywhere in your app</span><br /><span class="hljs-keyword">const</span> currentTheme = theme.get();<br /><span class="hljs-keyword">const</span> isDark = theme.getCalculated() === <span class="hljs-string">'dark'</span>;<br /><br /><span class="hljs-keyword">if</span>(isDark){<br />  <span class="hljs-comment">// Apply dark-specific logic</span><br />}</code></pre>
+
+    <h4>Component Subscribing to Theme</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { LitElement, html } <span class="hljs-keyword">from</span> <span class="hljs-string">'lit'</span>;<br /><span class="hljs-keyword">import</span> theme <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/theme.js'</span>;<br /><br /><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">LitElement</span> {<br />  <span class="hljs-keyword">static</span> properties = {<br />    <span class="hljs-attr">theme</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span> }<br />  };<br /><br />  <span class="hljs-title function_">connectedCallback</span>() {<br />    <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">connectedCallback</span>();<br />    <span class="hljs-variable language_">this</span>.<span class="hljs-property">unsubscribe</span> = theme.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> {<br />      <span class="hljs-variable language_">this</span>.<span class="hljs-property">theme</span> = t;<br />    });<br />  }<br /><br />  <span class="hljs-title function_">disconnectedCallback</span>() {<br />    <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">disconnectedCallback</span>();<br />    <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">unsubscribe</span>) <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">unsubscribe</span>();<br />  }<br /><br />  <span class="hljs-title function_">render</span>() {<br />    <span class="hljs-keyword">return</span> html<span class="hljs-string">`&lt;p&gt;Current theme: ${this.theme}&lt;/p&gt;`</span>;<br />  }<br />}</code></pre>
+
+    <h4>Setting Theme Programmatically</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> theme <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/theme.js'</span>;<br /><br /><span class="hljs-comment">// Set theme based on user preference from API</span><br /><span class="hljs-keyword">const</span> userPreferences = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchUserPreferences</span>();<br />theme.<span class="hljs-title function_">set</span>(userPreferences.<span class="hljs-property">theme</span>);<br /><br /><span class="hljs-comment">// Toggle between light and dark</span><br /><span class="hljs-keyword">const</span> <span class="hljs-title function_">toggleTheme</span> = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />  <span class="hljs-keyword">const</span> current = theme.<span class="hljs-title function_">get</span>();<br />  <span class="hljs-keyword">if</span>(current === <span class="hljs-string">'dark'</span>) theme.<span class="hljs-title function_">set</span>(<span class="hljs-string">'light'</span>);<br />  <span class="hljs-keyword">else</span> theme.<span class="hljs-title function_">set</span>(<span class="hljs-string">'dark'</span>);<br />};</code></pre>
+
+    <h4>Working Example</h4>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML & JavaScript">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"theme-demo"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Current theme: <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"theme-display"</span>&gt;</span>auto<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Calculated: <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"calculated-display"</span>&gt;</span>dark<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"set-auto"</span>&gt;</span>Auto<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"set-light"</span>&gt;</span>Light<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"set-dark"</span>&gt;</span>Dark<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> theme <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/theme.js'</span>;
+
+<span class="hljs-comment">// Subscribe to updates</span>
+theme.subscribe(<span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'theme-display'</span>).textContent = t;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'calculated-display'</span>).textContent = 
+    theme.<span class="hljs-title function_">getCalculated</span>();
+});
+
+<span class="hljs-comment">// Button handlers</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'set-auto'</span>)
+  .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> theme.<span class="hljs-title function_">set</span>(<span class="hljs-string">'auto'</span>));
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'set-light'</span>)
+  .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> theme.<span class="hljs-title function_">set</span>(<span class="hljs-string">'light'</span>));
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'set-dark'</span>)
+  .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> theme.<span class="hljs-title function_">set</span>(<span class="hljs-string">'dark'</span>));
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div id="theme-demo">
+            <p>Current theme: <strong id="theme-display">auto</strong></p>
+            <p>Calculated: <strong id="calculated-display">dark</strong></p>
+            <button id="set-auto">Auto</button>
+            <button id="set-light" class="primary">Light</button>
+            <button id="set-dark" class="danger">Dark</button>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3>Automatic Features</h3>
+    <h4>localStorage Persistence</h4>
+    <p>The theme utility automatically saves the current theme to <code>localStorage</code> with the key <code>'theme'</code>. This means the user's theme preference persists across page reloads and browser sessions.</p>
+
+    <h4>DOM Attribute Updates & Kempo CSS Integration</h4>
+    <p>Whenever the theme changes, it's automatically applied to <code>document.documentElement</code> as a <code>theme</code> attribute. This sets the <code>color-scheme</code> property which enables Kempo CSS's <code>light-dark()</code> function to work correctly.</p>
+    <p>Kempo CSS provides theme-aware CSS custom properties that automatically adapt to light and dark modes. See the <a href="https://dustinpoissant.github.io/kempo-css/" target="_blank" rel="noopener noreferrer">Kempo CSS documentation</a> for details on available color variables and theming.</p>
+
+    <h4>System Preference Detection</h4>
+    <p>When the theme is set to <code>'auto'</code>, the utility monitors the system's <code>prefers-color-scheme</code> media query and updates the <code>auto-theme</code> attribute on the document element. The <code>getCalculated()</code> method resolves the actual theme based on this preference.</p>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+  <script type="module">
+    import theme from '../src/utils/theme.js';
+
+    theme.subscribe(t => {
+      document.getElementById('theme-display').textContent = t;
+      document.getElementById('calculated-display').textContent = theme.getCalculated();
+    });
+
+    document.getElementById('set-auto').addEventListener('click', () => theme.set('auto'));
+    document.getElementById('set-light').addEventListener('click', () => theme.set('light'));
+    document.getElementById('set-dark').addEventListener('click', () => theme.set('dark'));
+  </script>
+</body>
+</html>

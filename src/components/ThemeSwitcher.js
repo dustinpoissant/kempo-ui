@@ -1,5 +1,6 @@
 import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
+import theme from '../utils/theme.js';
 import './Icon.js';
 
 export default class ThemeSwitcher extends ShadowComponent {
@@ -10,24 +11,17 @@ export default class ThemeSwitcher extends ShadowComponent {
 
 	constructor() {
 		super();
-		this.currentTheme = ThemeSwitcher.getCurrentTheme();
+		this.currentTheme = theme.get();
 	}
 
 	/*
 		Event Handlers
 	*/
 	handleClick = () => {
-		const current = ThemeSwitcher.getCurrentTheme();
-		if(current === 'auto') ThemeSwitcher.setTheme('light');
-		if(current === 'light') ThemeSwitcher.setTheme('dark');
-		if(current === 'dark') ThemeSwitcher.setTheme('auto');
-	}
-
-	handleStorageChange = (event) => {
-		if (event.key === 'theme') {
-			this.currentTheme = event.newValue || 'auto';
-			document.documentElement.setAttribute('theme', this.currentTheme);
-		}
+		const current = theme.get();
+		if(current === 'auto') theme.set('light');
+		if(current === 'light') theme.set('dark');
+		if(current === 'dark') theme.set('auto');
 	}
 
 	/*
@@ -35,12 +29,14 @@ export default class ThemeSwitcher extends ShadowComponent {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
-		window.addEventListener('storage', this.handleStorageChange);
+		this.unsubscribe = theme.subscribe(t => {
+			this.currentTheme = t;
+		});
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-		window.removeEventListener('storage', this.handleStorageChange);
+		if(this.unsubscribe) this.unsubscribe();
 	}
 
 	/*
@@ -84,26 +80,17 @@ export default class ThemeSwitcher extends ShadowComponent {
 	/*
 		Static Methods
 	*/
-	static setTheme(theme) {
-		localStorage.setItem('theme', theme);
-		document.documentElement.setAttribute('theme', theme);
-		window.dispatchEvent(new StorageEvent('storage', { key: 'theme', newValue: theme }));
+	static setTheme(t) {
+		theme.set(t);
 	}
 
 	static getCurrentTheme() {
-		let theme = document.documentElement.getAttribute('theme');
-		if(!theme) theme = localStorage.getItem('theme');
-		return theme || 'auto';
+		return theme.get();
+	}
+
+	static getCalculatedCurrentTheme() {
+		return theme.getCalculated();
 	}
 }
 
-/*
-	Auto Theme Detection
-*/
-const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-const colorSchemeChangeHandler = event => document.documentElement.setAttribute('auto-theme', event.matches ? 'dark' : 'light');
-colorSchemeQuery.addEventListener('change', colorSchemeChangeHandler);
-colorSchemeChangeHandler(colorSchemeQuery);
-
-ThemeSwitcher.setTheme(ThemeSwitcher.getCurrentTheme());
 customElements.define('k-theme-switcher', ThemeSwitcher);

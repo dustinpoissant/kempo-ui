@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Context Utility - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1>Context Utility</h1>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API Methods</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>createContext</code> utility provides a simple way to create global or named shared state that components can subscribe to. It enables reactive state management with automatic subscriber notifications on value changes.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and create a context to manage shared state:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> createContext <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/context.js'</span>;<br /><br /><span class="hljs-comment">// Create a named context with initial value</span><br /><span class="hljs-keyword">const</span> userContext = createContext(<span class="hljs-string">'user'</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">'Guest'</span> });<br /><br /><span class="hljs-comment">// Subscribe to changes</span><br />userContext.subscribe(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'User changed:'</span>, user);<br />});<br /><br /><span class="hljs-comment">// Update the context value</span><br />userContext.set({ <span class="hljs-attr">name</span>: <span class="hljs-string">'John Doe'</span> });</code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API Methods</a></h3>
+
+    <h4><code>createContext(name, initialValue)</code></h4>
+    <p>Creates or retrieves a context with the specified name.</p>
+    <h5><code>name<i>: string</i></code> (optional)</h5>
+    <p>The name of the context. Defaults to <code>'global'</code>. Using the same name returns the same context instance.</p>
+    <h5><code>initialValue<i>: any</i></code> (optional)</h5>
+    <p>The initial value for the context. Only set if the context doesn't already have a value.</p>
+    <h5>Returns: <code>Object</code></h5>
+    <p>An object with the following methods:</p>
+
+    <h4><code>get()</code></h4>
+    <p>Returns the current value of the context.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> currentValue = userContext.get();</code></pre>
+
+    <h4><code>set(value)</code></h4>
+    <p>Updates the context value and notifies all subscribers.</p>
+    <pre><code class="hljs javascript">userContext.set({ <span class="hljs-attr">name</span>: <span class="hljs-string">'Jane Doe'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'admin'</span> });</code></pre>
+
+    <h4><code>subscribe(callback)</code></h4>
+    <p>Subscribes to context changes. The callback is immediately invoked with the current value, then called again whenever the value changes.</p>
+    <h5><code>callback<i>: Function</i></code></h5>
+    <p>Function to call when the context value changes. Receives the new value as an argument.</p>
+    <h5>Returns: <code>Function</code></h5>
+    <p>An unsubscribe function to remove the subscription.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> unsubscribe = userContext.subscribe(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'New value:'</span>, value);<br />});<br /><br /><span class="hljs-comment">// Later, stop listening</span><br />unsubscribe();</code></pre>
+
+    <h4><code>unsubscribe(callback)</code></h4>
+    <p>Removes a subscriber callback from the context.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> handler = <span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(value);<br />userContext.subscribe(handler);<br />userContext.unsubscribe(handler);</code></pre>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Theme Management</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> createContext <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/context.js'</span>;<br /><br /><span class="hljs-keyword">const</span> themeContext = createContext(<span class="hljs-string">'theme'</span>, <span class="hljs-string">'light'</span>);<br /><br /><span class="hljs-comment">// Components can subscribe to theme changes</span><br />themeContext.subscribe(<span class="hljs-function">(<span class="hljs-params">theme</span>) =&gt;</span> {<br />  <span class="hljs-built_in">document</span>.body.className = theme;<br />});<br /><br /><span class="hljs-comment">// Toggle theme from anywhere</span><br /><span class="hljs-keyword">const</span> toggleTheme = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />  <span class="hljs-keyword">const</span> current = themeContext.get();<br />  themeContext.set(current === <span class="hljs-string">'light'</span> ? <span class="hljs-string">'dark'</span> : <span class="hljs-string">'light'</span>);<br />};</code></pre>
+
+    <h4>Component State Sharing</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> createContext <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/context.js'</span>;<br /><br /><span class="hljs-keyword">const</span> cartContext = createContext(<span class="hljs-string">'cart'</span>, []);<br /><br /><span class="hljs-comment">// Add item from one component</span><br /><span class="hljs-keyword">const</span> addToCart = <span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {<br />  <span class="hljs-keyword">const</span> items = cartContext.get();<br />  cartContext.set([...items, item]);<br />};<br /><br /><span class="hljs-comment">// Display cart in another component</span><br />cartContext.subscribe(<span class="hljs-function">(<span class="hljs-params">items</span>) =&gt;</span> {<br />  <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.cart-count'</span>).textContent = items.length;<br />});</code></pre>
+
+    <h4>Global vs Named Contexts</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> createContext <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/context.js'</span>;<br /><br /><span class="hljs-comment">// Use default global context</span><br /><span class="hljs-keyword">const</span> globalCtx = createContext();<br />globalCtx.set({ <span class="hljs-attr">appReady</span>: <span class="hljs-literal">true</span> });<br /><br /><span class="hljs-comment">// Named contexts are isolated</span><br /><span class="hljs-keyword">const</span> userCtx = createContext(<span class="hljs-string">'user'</span>);<br /><span class="hljs-keyword">const</span> settingsCtx = createContext(<span class="hljs-string">'settings'</span>);<br /><br /><span class="hljs-comment">// Same name returns the same context instance</span><br /><span class="hljs-keyword">const</span> userCtx2 = createContext(<span class="hljs-string">'user'</span>);<br /><span class="hljs-built_in">console</span>.log(userCtx === userCtx2); <span class="hljs-comment">// true</span></code></pre>
+
+    <h4>Working Example</h4>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML & JavaScript">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"context-demo"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Current count: <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"count-display"</span>&gt;</span>0<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"increment"</span>&gt;</span>Increment<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"decrement"</span>&gt;</span>Decrement<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"reset"</span>&gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> createContext <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/context.js'</span>;
+
+<span class="hljs-keyword">const</span> counterContext = createContext(<span class="hljs-string">'counter'</span>, <span class="hljs-number">0</span>);
+
+<span class="hljs-comment">// Subscribe to updates</span>
+counterContext.subscribe(<span class="hljs-function">(<span class="hljs-params">count</span>) =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'count-display'</span>).textContent = count;
+});
+
+<span class="hljs-comment">// Button handlers</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'increment'</span>)
+  .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    counterContext.<span class="hljs-title function_">set</span>(counterContext.<span class="hljs-title function_">get</span>() + <span class="hljs-number">1</span>);
+  });
+
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'decrement'</span>)
+  .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    counterContext.<span class="hljs-title function_">set</span>(counterContext.<span class="hljs-title function_">get</span>() - <span class="hljs-number">1</span>);
+  });
+
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'reset'</span>)
+  .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    counterContext.<span class="hljs-title function_">set</span>(<span class="hljs-number">0</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div id="context-demo">
+            <p>Current count: <strong id="count-display">0</strong></p>
+            <button id="increment" class="primary">Increment</button>
+            <button id="decrement">Decrement</button>
+            <button id="reset" class="danger">Reset</button>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+  <script type="module">
+    import createContext from '../src/utils/context.js';
+
+    const counterContext = createContext('counter-demo', 0);
+
+    counterContext.subscribe(count => {
+      document.getElementById('count-display').textContent = count;
+    });
+
+    document.getElementById('increment').addEventListener('click', () => {
+      counterContext.set(counterContext.get() + 1);
+    });
+
+    document.getElementById('decrement').addEventListener('click', () => {
+      counterContext.set(counterContext.get() - 1);
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      counterContext.set(0);
+    });
+  </script>
+</body>
+</html>
