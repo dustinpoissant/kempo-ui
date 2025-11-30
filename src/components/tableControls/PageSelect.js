@@ -3,17 +3,13 @@ import { html, css } from '../../lit-all.min.js';
 
 export default class PageSelect extends TableControl {
 	static properties = {
-		...TableControl.properties,
-		currentPage: { type: Number, state: true },
-		totalPages: { type: Number, state: true }
+		...TableControl.properties
 	};
 
 	constructor() {
 		super({
 			maxWidth: null
 		});
-		this.currentPage = 1;
-		this.totalPages = 1;
 	}
 
 	/*
@@ -22,17 +18,16 @@ export default class PageSelect extends TableControl {
 
 	connectedCallback() {
 		super.connectedCallback();
-		this.onTableEvent('pageChange', this.handlePageChange);
-		this.onTableEvent('pageSizeChange', this.handlePageSizeChange);
-		this.onTableEvent('pageCountChanged', this.handlePageCountChange);
+		this.onTableEvent('pageChange pageSizeChange pageCountChanged recordsSet', this.handleTableUpdate);
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
 		if(this.table){
-			this.table.removeEventListener('pageChange', this.handlePageChange);
-			this.table.removeEventListener('pageSizeChange', this.handlePageSizeChange);
-			this.table.removeEventListener('pageCountChanged', this.handlePageCountChange);
+			this.table.removeEventListener('pageChange', this.handleTableUpdate);
+			this.table.removeEventListener('pageSizeChange', this.handleTableUpdate);
+			this.table.removeEventListener('pageCountChanged', this.handleTableUpdate);
+			this.table.removeEventListener('recordsSet', this.handleTableUpdate);
 		}
 	}
 
@@ -40,23 +35,8 @@ export default class PageSelect extends TableControl {
 		Event Handlers
 	*/
 
-	handlePageChange = () => {
-		if(this.table){
-			this.currentPage = this.table.getCurrentPage();
-		}
-	};
-
-	handlePageSizeChange = () => {
-		if(this.table){
-			this.currentPage = this.table.getCurrentPage();
-			this.totalPages = this.table.getTotalPages();
-		}
-	};
-
-	handlePageCountChange = () => {
-		if(this.table){
-			this.totalPages = this.table.getTotalPages();
-		}
+	handleTableUpdate = () => {
+		this.requestUpdate();
 	};
 
 	handleSelectChange = e => {
@@ -64,6 +44,18 @@ export default class PageSelect extends TableControl {
 			this.table.setPage(parseInt(e.target.value));
 		}
 	};
+
+	/*
+		Getters
+	*/
+
+	get currentPage() {
+		return this.table ? this.table.getCurrentPage() : 1;
+	}
+
+	get totalPages() {
+		return this.table ? this.table.getTotalPages() : 1;
+	}
 
 	/*
 		Rendering Logic

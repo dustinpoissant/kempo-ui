@@ -885,7 +885,8 @@ export default class Table extends ShadowComponent {
 
   removeAllFilters() {
     if (this.filters.length) {
-      this.filters.forEach(({ field, condition, value }) => {
+      // Copy array to avoid mutation during iteration
+      [...this.filters].forEach(({ field, condition, value }) => {
         this.removeFilter(field, condition, value, false);
       });
       this.requestUpdate();
