@@ -30,7 +30,7 @@ export default class ShadowComponent extends LitElement {
         
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = window.kempo?.pathToStylesheet || 'https://cdn.jsdelivr.net/npm/kempo-css@1.3.1/dist/kempo.min.css';
+        link.href = window.kempo?.pathToStylesheet || 'https://cdn.jsdelivr.net/npm/kempo-css@1.3.2/dist/kempo.min.css';
         shadowRoot.appendChild(link);
         
         // Inject component styles if they exist
