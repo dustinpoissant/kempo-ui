@@ -22,16 +22,16 @@ export default {
 			return;
 		}
 		
-		const stylesheetLink = component.shadowRoot.querySelector('link[href="/kempo.min.css"]');
+		const stylesheetLink = component.shadowRoot.querySelector('link[rel="stylesheet"]');
 		if(!stylesheetLink) {
 			document.body.removeChild(component);
-			fail('Shadow root should contain kempo.min.css link');
+			fail('Shadow root should contain stylesheet link');
 			return;
 		}
 		
-		if(stylesheetLink.rel !== 'stylesheet') {
+		if(!stylesheetLink.href.includes('kempo')) {
 			document.body.removeChild(component);
-			fail('Link should have rel="stylesheet"');
+			fail('Stylesheet should reference kempo css');
 			return;
 		}
 		
@@ -100,7 +100,7 @@ export default {
 		
 		await new Promise(resolve => setTimeout(resolve, 0));
 		
-		const stylesheetBefore = component.shadowRoot.querySelector('link[href="/kempo.min.css"]');
+		const stylesheetBefore = component.shadowRoot.querySelector('link[rel="stylesheet"]');
 		if(!stylesheetBefore) {
 			document.body.removeChild(component);
 			fail('Stylesheet should exist before re-render');
@@ -110,7 +110,7 @@ export default {
 		component.requestUpdate();
 		await component.updateComplete;
 		
-		const stylesheetAfter = component.shadowRoot.querySelector('link[href="/kempo.min.css"]');
+		const stylesheetAfter = component.shadowRoot.querySelector('link[rel="stylesheet"]');
 		if(!stylesheetAfter) {
 			document.body.removeChild(component);
 			fail('Stylesheet should persist after re-render');

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropdown - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1 class="ta-center">Dropdown</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#withIcons">With Icons</a><br />
+          <a href="#openDirection">Open Direction</a><br />
+          <a href="#disabledItems">Disabled Items</a><br />
+          <a href="#links">Using Links</a><br />
+          <a href="#events">Events</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#eventsRef">Events</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create dropdown menus using the <code>k-dropdown</code> component. Use the <code>trigger</code> slot for the button that opens the menu, and place <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code> elements as children for menu items.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"trigger"</span>&gt;</span>Actions<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"edit"</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"duplicate"</span>&gt;</span>Duplicate<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"delete"</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown>
+            <button slot="trigger">Actions</button>
+            <button data-value="edit">Edit</button>
+            <button data-value="duplicate">Duplicate</button>
+            <button data-value="delete">Delete</button>
+          </k-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="withIcons"><a href="#withIcons" class="no-link">With Icons</a></h3>
+    <p>Add icons to your dropdown items for better visual cues.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"trigger"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"more_vert"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"edit"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"edit"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span> Edit<br />  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"copy"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"content_copy"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span> Copy<br />  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"delete"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tc-danger"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"delete"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span> Delete<br />  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown>
+            <button slot="trigger">
+              <k-icon name="more_vert"></k-icon>
+            </button>
+            <button data-value="edit">
+              <k-icon name="edit"></k-icon> Edit
+            </button>
+            <button data-value="copy">
+              <k-icon name="content_copy"></k-icon> Copy
+            </button>
+            <button data-value="delete" class="tc-danger">
+              <k-icon name="delete"></k-icon> Delete
+            </button>
+          </k-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="openDirection"><a href="#openDirection" class="no-link">Open Direction</a></h3>
+    <p>Control where the menu appears using the <code>open-direction</code> attribute. Specify a direction like <code>down left</code>, <code>up right</code>, <code>left up</code>, etc. The browser automatically handles fallback positioning if the menu would overflow the viewport using CSS Anchor Positioning.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span> <span class="hljs-attr">open-direction</span>=<span class="hljs-string">"down left"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span> <span class="hljs-attr">open-direction</span>=<span class="hljs-string">"down right"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span> <span class="hljs-attr">open-direction</span>=<span class="hljs-string">"up left"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span> <span class="hljs-attr">open-direction</span>=<span class="hljs-string">"right down"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f gap fw-w">
+            <k-dropdown open-direction="down left">
+              <button slot="trigger">Down Left</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+            <k-dropdown open-direction="down right">
+              <button slot="trigger">Down Right</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+            <k-dropdown open-direction="up left">
+              <button slot="trigger">Up Left</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+            <k-dropdown open-direction="up right">
+              <button slot="trigger">Up Right</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+          </div>
+          <div class="d-f gap fw-w mt">
+            <k-dropdown open-direction="right down">
+              <button slot="trigger">Right Down</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+            <k-dropdown open-direction="right up">
+              <button slot="trigger">Right Up</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+            <k-dropdown open-direction="left down">
+              <button slot="trigger">Left Down</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+            <k-dropdown open-direction="left up">
+              <button slot="trigger">Left Up</button>
+              <button data-value="1">Item 1</button>
+              <button data-value="2">Item 2</button>
+            </k-dropdown>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabledItems"><a href="#disabledItems" class="no-link">Disabled Items</a></h3>
+    <p>Add the <code>disabled</code> attribute to disable specific items.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"trigger"</span>&gt;</span>Actions<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"edit"</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"copy"</span> <span class="hljs-attr">disabled</span>&gt;</span>Copy (disabled)<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"delete"</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown>
+            <button slot="trigger">Actions</button>
+            <button data-value="edit">Edit</button>
+            <button data-value="copy" disabled>Copy (disabled)</button>
+            <button data-value="delete">Delete</button>
+          </k-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="links"><a href="#links" class="no-link">Using Links</a></h3>
+    <p>You can use <code>&lt;a&gt;</code> elements for navigation items.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"trigger"</span>&gt;</span>Navigate<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#home"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#about"</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#contact"</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown>
+            <button slot="trigger">Navigate</button>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </k-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <p>Listen for the <code>select</code> event to handle item selection.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"eventDropdown"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"trigger"</span>&gt;</span>Select an option<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"option1"</span>&gt;</span>Option 1<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"option2"</span>&gt;</span>Option 2<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">"option3"</span>&gt;</span>Option 3<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"selectedValue"</span>&gt;</span>Selected: none<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'eventDropdown'</span>)<br />    .addEventListener(<span class="hljs-string">'select'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br />      <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'selectedValue'</span>)<br />        .textContent = <span class="hljs-string">'Selected: '</span> + e.detail.value;<br />    });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown id="eventDropdown">
+            <button slot="trigger">Select an option</button>
+            <button data-value="option1">Option 1</button>
+            <button data-value="option2">Option 2</button>
+            <button data-value="option3">Option 3</button>
+          </k-dropdown>
+          <p id="selectedValue">Selected: none</p>
+          <script>
+            document.getElementById('eventDropdown')
+              .addEventListener('select', e => {
+                document.getElementById('selectedValue')
+                  .textContent = 'Selected: ' + e.detail.value;
+              });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Dropdown()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a> (optional, for icons in items)</li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
+    <h5><code>opened<i>: boolean</i></code></h5>
+    <p>Whether the dropdown menu is currently open.</p>
+
+    <h5><code>open-direction<i>: string</i></code></h5>
+    <p>Where the menu appears relative to the trigger. Specify two directions like <code>down left</code>, <code>up right</code>, <code>left up</code>, <code>right down</code>, etc. The browser will automatically flip the position if the menu would overflow the viewport using CSS Anchor Positioning. Default is <code>down left</code>.</p>
+
+    <h5><code>close-on-select<i>: boolean</i></code></h5>
+    <p>Whether the dropdown closes when an item is selected. Default is <code>true</code>.</p>
+
+    <h5><code>close-on-click-outside<i>: boolean</i></code></h5>
+    <p>Whether the dropdown closes when clicking outside of it. Default is <code>true</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>open()<i>: this</i></code></h5>
+    <p>Opens the dropdown menu and focuses the first item.</p>
+
+    <h5><code>close()<i>: this</i></code></h5>
+    <p>Closes the dropdown menu.</p>
+
+    <h5><code>toggle()<i>: this</i></code></h5>
+    <p>Toggles the dropdown menu open or closed.</p>
+
+    <h3 id="eventsRef"><a href="#eventsRef" class="no-link">Events</a></h3>
+    <h5><code>select</code></h5>
+    <p>Fired when an item is selected. The event detail contains:</p>
+    <ul>
+      <li><code>value</code>: The value of the selected item (from <code>data-value</code> attribute or text content)</li>
+      <li><code>item</code>: The DOM element that was selected</li>
+    </ul>
+
+    <h5><code>opened</code></h5>
+    <p>Fired when the dropdown menu is opened.</p>
+
+    <h5><code>closed</code></h5>
+    <p>Fired when the dropdown menu is closed.</p>
+
+    <h4>Keyboard Navigation</h4>
+    <ul>
+      <li><code>Enter</code> / <code>Space</code> - Select the focused item</li>
+      <li><code>Arrow Down</code> - Move focus to the next item</li>
+      <li><code>Arrow Up</code> - Move focus to the previous item</li>
+      <li><code>Escape</code> - Close the dropdown</li>
+    </ul>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Dropdown.js"></script>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+  <script type="module" src="../src/components/Icon.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spinner - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script src="../init-1.js" type="module"></script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <main>
+    <h1 class="ta-center">Spinner</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#sizes">Sizes</a><br />
+          <a href="#variants">Variants</a><br />
+          <a href="#customColors">Custom Colors</a><br />
+          <a href="#withText">With Text</a><br />
+          <a href="#buttonLoading">Button Loading State</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes</a><br />
+          <a href="#cssVariables">CSS Variables</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create loading spinners using the <code>k-spinner</code> component.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-spinner></k-spinner>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="sizes"><a href="#sizes" class="no-link">Sizes</a></h3>
+    <p>Control the spinner size using the <code>size</code> attribute. Options are <code>xs</code>, <code>sm</code>, <code>md</code> (default), <code>lg</code>, and <code>xl</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"xs"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"sm"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"md"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"lg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"xl"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f ai-c gap">
+            <k-spinner size="xs"></k-spinner>
+            <k-spinner size="sm"></k-spinner>
+            <k-spinner size="md"></k-spinner>
+            <k-spinner size="lg"></k-spinner>
+            <k-spinner size="xl"></k-spinner>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="variants"><a href="#variants" class="no-link">Variants</a></h3>
+    <p>Choose from different spinner styles using the <code>variant</code> attribute. Options are <code>spinner</code> (default), <code>dots</code>, <code>bars</code>, <code>pulse</code>, and <code>ring</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">"spinner"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">"dots"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">"bars"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">"pulse"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">"ring"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f ai-c gap-lg">
+            <div class="ta-center">
+              <k-spinner variant="spinner" size="lg"></k-spinner>
+              <p class="mt-sm mb0">spinner</p>
+            </div>
+            <div class="ta-center">
+              <k-spinner variant="dots" size="lg"></k-spinner>
+              <p class="mt-sm mb0">dots</p>
+            </div>
+            <div class="ta-center">
+              <k-spinner variant="bars" size="lg"></k-spinner>
+              <p class="mt-sm mb0">bars</p>
+            </div>
+            <div class="ta-center">
+              <k-spinner variant="pulse" size="lg"></k-spinner>
+              <p class="mt-sm mb0">pulse</p>
+            </div>
+            <div class="ta-center">
+              <k-spinner variant="ring" size="lg"></k-spinner>
+              <p class="mt-sm mb0">ring</p>
+            </div>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customColors"><a href="#customColors" class="no-link">Custom Colors</a></h3>
+    <p>Customize spinner colors using CSS variables.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--spinner-color: var(--c_success)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--spinner-color: var(--c_danger)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--spinner-color: var(--c_warning)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--spinner-color: #9c27b0"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f ai-c gap">
+            <k-spinner style="--spinner-color: var(--c_success)"></k-spinner>
+            <k-spinner style="--spinner-color: var(--c_danger)"></k-spinner>
+            <k-spinner style="--spinner-color: var(--c_warning)"></k-spinner>
+            <k-spinner style="--spinner-color: #9c27b0"></k-spinner>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="withText"><a href="#withText" class="no-link">With Text</a></h3>
+    <p>Combine spinners with text for loading messages.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-f ai-c gap"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"sm"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Loading...<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f ai-c gap">
+            <k-spinner size="sm"></k-spinner>
+            <span>Loading...</span>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="buttonLoading"><a href="#buttonLoading" class="no-link">Button Loading State</a></h3>
+    <p>Use spinners inside buttons to indicate loading states.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span><br />    <span class="hljs-attr">size</span>=<span class="hljs-string">"xs"</span><br />    <span class="hljs-attr">style</span>=<span class="hljs-string">"--spinner-color: currentColor"</span><br />  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br />  Saving...<br /><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"primary"</span> <span class="hljs-attr">disabled</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-spinner</span><br />    <span class="hljs-attr">size</span>=<span class="hljs-string">"xs"</span><br />    <span class="hljs-attr">style</span>=<span class="hljs-string">"--spinner-color: currentColor"</span><br />  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-spinner</span>&gt;</span><br />  Loading...<br /><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f gap">
+            <button disabled>
+              <k-spinner size="xs" style="--spinner-color: currentColor"></k-spinner>
+              Saving...
+            </button>
+            <button class="primary" disabled>
+              <k-spinner size="xs" style="--spinner-color: currentColor"></k-spinner>
+              Loading...
+            </button>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Spinner()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
+    <h5><code>size<i>: string</i></code></h5>
+    <p>The size of the spinner. Options: <code>xs</code>, <code>sm</code>, <code>md</code> (default), <code>lg</code>, <code>xl</code>.</p>
+
+    <h5><code>variant<i>: string</i></code></h5>
+    <p>The style variant of the spinner. Options: <code>spinner</code> (default), <code>dots</code>, <code>bars</code>, <code>pulse</code>, <code>ring</code>.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <h5><code>--spinner-size</code></h5>
+    <p>The width and height of the spinner. Set automatically based on <code>size</code> attribute.</p>
+
+    <h5><code>--spinner-border-width</code></h5>
+    <p>The border thickness for spinner and ring variants. Set automatically based on <code>size</code> attribute.</p>
+
+    <h5><code>--spinner-color</code></h5>
+    <p>The primary color of the spinner. Default is <code>var(--c_primary)</code>.</p>
+
+    <h5><code>--spinner-track-color</code></h5>
+    <p>The background track color for the spinner variant. Default is <code>var(--c_border)</code>.</p>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Spinner.js"></script>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+</body>
+</html>

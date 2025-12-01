@@ -26,10 +26,16 @@ export default {
 			return;
 		}
 		
-		const stylesheetLink = component.shadowRoot.querySelector('link[href="/kempo.min.css"]');
+		const stylesheetLink = component.shadowRoot.querySelector('link[rel="stylesheet"]');
 		if(!stylesheetLink) {
 			document.body.removeChild(component);
-			fail('Shadow root should contain kempo.min.css link');
+			fail('Shadow root should contain stylesheet link');
+			return;
+		}
+		
+		if(!stylesheetLink.href.includes('kempo')) {
+			document.body.removeChild(component);
+			fail('Stylesheet should reference kempo css');
 			return;
 		}
 		
