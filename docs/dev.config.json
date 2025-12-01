@@ -1,8 +1,6 @@
 {
   "customRoutes": {
-    "/kempo.min.css": "../node_modules/kempo-css/dist/kempo.min.css",
     "/kempo-vars.css": "../src/kempo-vars.css",
-    "/kempo-hljs.min.css": "../node_modules/kempo-css/dist/kempo-hljs.min.css",
     "/icons/**": "../icons/**",
     "/src/**": "../src/**"
   },

@@ -102,15 +102,4 @@ await copyDir('./dist', './docs/src/');
 console.log('Copying icons/ to docs/icons/');
 await copyDir('./icons', './docs/icons/');
 
-console.log('Copying base kempo.min.css from external package');
-const kempoCssSource = './node_modules/kempo-css/dist/kempo.min.css';
-const kempoCssDest = './docs/kempo.min.css';
-try {
-  const kempoCssContent = await fs.readFile(kempoCssSource, 'utf-8');
-  await fs.writeFile(kempoCssDest, kempoCssContent, 'utf-8');
-  console.log('Successfully copied kempo.min.css from kempo-css package');
-} catch (error) {
-  console.warn('Warning: Could not copy kempo.min.css:', error.message);
-}
-
 console.log('Build Complete');

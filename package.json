@@ -12,7 +12,8 @@
     "test": "npx kempo-test",
     "test:gui": "npx kempo-test --gui",
     "test:browser": "npx kempo-test -b",
-    "test:node": "npx kempo-test -n"
+    "test:node": "npx kempo-test -n",
+    "update-kempo-css": "node scripts/update-kempo-css.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +29,5 @@
     "kempo-server": "^1.8.2",
     "kempo-testing-framework": "^1.4.0",
     "terser": "^5.43.1"
-  },
-  "dependencies": {
-    "kempo-css": "^1.2.0"
   }
 }
