@@ -26,11 +26,15 @@ const getIconByPath = async (path) => {
 };
 
 const getIconByName = (name) => {
-	const tryDir = async (dir) => getIconByPath(`${dir}/${name}.svg`);
+	const tryDir = async (dir) => {
+		// Ensure single slash between dir and filename
+		const normalizedDir = dir.endsWith('/') ? dir.slice(0, -1) : dir;
+		return getIconByPath(`${normalizedDir}/${name}.svg`);
+	};
 
 	return new Promise(async (resolve, reject) => {
 		let svg;
-		const pathsToCheck = window.kempo?.pathsToIcons || ['/icons'];
+		const pathsToCheck = window.kempo?.pathsToIcons || ['/icons', '../../icons', 'https://cdn.jsdelivr.net/npm/kempo-ui@0.0.32/icons/'];
 		for(let i = 0; i < pathsToCheck.length && !svg; i++){
 			try {
 				svg = await tryDir(pathsToCheck[i]);

@@ -1,6 +1,5 @@
 {
   "customRoutes": {
-    "/kempo-vars.css": "../src/kempo-vars.css",
     "/icons/**": "../icons/**",
     "/src/**": "../src/**"
   },
