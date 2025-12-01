@@ -20,7 +20,7 @@
     "url": "git+https://github.com/dustinpoissant/kempo-ui.git"
   },
   "author": "Dustin Poissant",
-  "license": "CC-BY-NC-SA-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dustinpoissant/issues"
   },
