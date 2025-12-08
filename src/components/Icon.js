@@ -53,6 +53,9 @@ export default class Icon extends ShadowComponent {
 	static properties = {
 		src: { type: String, reflect: true },
 		name: { type: String, reflect: true },
+		rotation: { type: String, reflect: true },
+		direction: { type: String, reflect: true },
+		animation: { type: String, reflect: true },
 		iconContent: { type: String }
 	};
 
@@ -60,6 +63,9 @@ export default class Icon extends ShadowComponent {
 		super();
 		this.src = '';
 		this.name = name;
+		this.rotation = '';
+		this.direction = '';
+		this.animation = '';
 		this.iconContent = '';
 	}
 
@@ -124,6 +130,21 @@ export default class Icon extends ShadowComponent {
 	}
 
 	/*
+		Utility Methods
+	*/
+	getRotationDegrees() {
+		if(this.rotation) return this.rotation;
+		
+		const directionMap = {
+			'down': '90',
+			'left': '180',
+			'up': '270'
+		};
+		
+		return directionMap[this.direction] || '0';
+	}
+
+	/*
 		Styles
 	*/
 	static styles = css`
@@ -135,18 +156,53 @@ export default class Icon extends ShadowComponent {
 			height: 1.35em;
 			vertical-align: middle;
 		}
+		
+		/* Rotation */
+		:host([rotation]) svg,
+		:host([direction]) svg {
+			transform: rotate(var(--icon-rotation, 0deg));
+		}
+		
+		/* Animations */
+		:host([animation="spin"]) svg {
+			animation: icon-spin 2s linear infinite;
+		}
+		:host([animation="blink"]) svg {
+			animation: icon-blink 1s ease-in-out infinite;
+		}
+		:host([animation="pulse"]) svg {
+			animation: icon-pulse 1.5s ease-in-out infinite;
+		}
+		
+		@keyframes icon-spin {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(360deg); }
+		}
+		
+		@keyframes icon-blink {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.2; }
+		}
+		
+		@keyframes icon-pulse {
+			0%, 100% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+		}
 	`;
 
 	/*
 		Rendering
 	*/
 	render() {
+		const rotationDegrees = this.getRotationDegrees();
+		const style = rotationDegrees !== '0' ? `--icon-rotation: ${rotationDegrees}deg;` : '';
+		
 		if (!this.iconContent) {
 			// Show slotted content while loading
-			return html`<slot></slot>`;
+			return html`<div style="${style}"><slot></slot></div>`;
 		}
 		
-		return html`${unsafeHTML(this.iconContent)}`;
+		return html`<div style="${style}">${unsafeHTML(this.iconContent)}</div>`;
 	}
 }
 

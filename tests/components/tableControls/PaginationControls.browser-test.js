@@ -53,10 +53,10 @@ export default {
 			return;
 		}
 		
-		const icon = control.shadowRoot.querySelector('k-icon[name="first"]');
-		if(!icon){
+		const icon = control.shadowRoot.querySelector('k-icon[name="chevron-line"]');
+		if(!icon || icon.getAttribute('direction') !== 'left'){
 			cleanup(container);
-			fail('FirstPage should have first icon');
+			fail('FirstPage should have chevron-line icon with direction="left"');
 			return;
 		}
 		
@@ -133,10 +133,10 @@ export default {
 			return;
 		}
 		
-		const icon = control.shadowRoot.querySelector('k-icon[name="last"]');
+		const icon = control.shadowRoot.querySelector('k-icon[name="chevron-line"]');
 		if(!icon){
 			cleanup(container);
-			fail('LastPage should have last icon');
+			fail('LastPage should have chevron-line icon');
 			return;
 		}
 		
@@ -215,10 +215,10 @@ export default {
 			return;
 		}
 		
-		const icon = control.shadowRoot.querySelector('k-icon[name="chevron-right"]');
+		const icon = control.shadowRoot.querySelector('k-icon[name="chevron"]');
 		if(!icon){
 			cleanup(container);
-			fail('NextPage should have chevron-right icon');
+			fail('NextPage should have chevron icon');
 			return;
 		}
 		
@@ -278,10 +278,10 @@ export default {
 			return;
 		}
 		
-		const icon = control.shadowRoot.querySelector('k-icon[name="chevron-left"]');
-		if(!icon){
+		const icon = control.shadowRoot.querySelector('k-icon[name="chevron"]');
+		if(!icon || icon.getAttribute('direction') !== 'left'){
 			cleanup(container);
-			fail('PrevPage should have chevron-left icon');
+			fail('PrevPage should have chevron icon with direction="left"');
 			return;
 		}
 		

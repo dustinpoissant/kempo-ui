@@ -56,7 +56,7 @@ export default class NextPage extends TableControl {
 				?disabled="${this.isDisabled}"
 				@click="${this.handleClick}"
 			>
-				<k-icon name="chevron-right"></k-icon>
+				<k-icon name="chevron"></k-icon>
 			</button>
 		`;
 	}

@@ -85,13 +85,6 @@ await Promise.all(allJSFiles.map(async jsFile => {
 }));
 process.stdout.write("\n");
 
-console.log('Loading kempo-vars.css');
-const kempoVarsCSS = await fs.readFile('./src/kempo-vars.css', 'utf-8');
-console.log('Minifying kempo-vars.css');
-const minifiedKempoVarsCSS = kempoVarsCSS.replace(/\s*\{\s*/g, '{').replace(/\s*\}\s*/g, '}').replace(/\n/g, '').replace(/\r/g, '').replace(/\s+/g, ' ').replace(/\s*\:\s*/g, ':').replace(/\s*\;\s*/g, ';').replace(/;\}/g, '}');
-console.log('Saving kempo-vars.css');
-await fs.writeFile('./dist/kempo-vars.css', minifiedKempoVarsCSS, 'utf-8');
-
 console.log('Cleaning docs/src/ directory');
 await emptyDir('./docs/src/');
 

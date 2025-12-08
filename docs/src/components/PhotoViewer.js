@@ -116,12 +116,12 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 					</button>
 					<button id="prev" class="nav-btn no-btn" @click=${this.handlePrevClick}>
 						<slot name="prev">
-							<k-icon name="chevron-left"></k-icon>
+							<k-icon name="chevron" direction="left"></k-icon>
 						</slot>
 					</button>
 					<button id="next" class="nav-btn no-btn" @click=${this.handleNextClick}>
 						<slot name="next">
-							<k-icon name="chevron-right"></k-icon>
+							<k-icon name="chevron"></k-icon>
 						</slot>
 					</button>
 					<div class="content">

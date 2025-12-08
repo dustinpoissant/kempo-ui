@@ -56,7 +56,7 @@ export default class FirstPage extends TableControl {
 				?disabled="${this.isDisabled}"
 				@click="${this.handleClick}"
 			>
-				<k-icon name="first"></k-icon>
+				<k-icon name="chevron-line" direction="left"></k-icon>
 			</button>
 		`;
 	}

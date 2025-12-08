@@ -56,7 +56,7 @@ export default class LastPage extends TableControl {
 				?disabled="${this.isDisabled}"
 				@click="${this.handleClick}"
 			>
-				<k-icon name="last"></k-icon>
+				<k-icon name="chevron-line"></k-icon>
 			</button>
 		`;
 	}

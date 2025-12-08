@@ -91,14 +91,14 @@ export default class ShowMore extends ShadowComponent {
 				<div id="content">
 					<slot></slot>
 				</div>
-				<button id="toggle" @click=${this.handleToggleClick} class="no-btn">
-					<span id="more">
-						<slot name="more">Show More <k-icon name="arrow-down-double"></k-icon></slot>
-					</span>
-					<span id="less">
-						<slot name="less">Show Less <k-icon name="arrow-up-double"></k-icon></slot>
-					</span>
-				</button>
+			<button id="toggle" @click=${this.handleToggleClick} class="no-btn">
+				<span id="more">
+					<slot name="more">Show More <k-icon name="chevron-double" direction="down"></k-icon></slot>
+				</span>
+				<span id="less">
+					<slot name="less">Show Less <k-icon name="chevron-double" direction="up"></k-icon></slot>
+				</span>
+			</button>
 			</div>
 		`;
 	}

@@ -35,7 +35,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 		}
 	`;render(){return html`<slot></slot>`}}export class AccordionHeader extends ShadowComponent{static properties={forPanel:{type:String,reflect:!0,attribute:"for-panel"},active:{type:Boolean,reflect:!0,converter:boolExists}};constructor(){super(),this.forPanel="",this.active=!1}handleClick=()=>{this.accordion?.togglePanel(this.forPanel)};connectedCallback(){super.connectedCallback(),this.addEventListener("click",this.handleClick)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick)}get accordion(){return this.closest("k-accordion")}render(){return html`
 			<slot name="left-icon">
-				<k-icon id="icon" name="chevron-right"></k-icon>
+				<k-icon id="icon" name="chevron"></k-icon>
 			</slot>
 			<slot></slot>
 			<slot name="right-icon"></slot>

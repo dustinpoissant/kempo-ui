@@ -148,7 +148,7 @@ export default class Table extends ShadowComponent {
           @click=${this.enableSorting ? () => this.handleFieldClick(name) : null}
         >
           ${label}
-          ${isCurrentSort ? html`<k-icon name="${sortItem.asc ? 'arrow-down' : 'arrow-up'}" class="icon-sort"></k-icon>` : ''}
+          ${isCurrentSort ? html`<k-icon name="arrow" direction="${sortItem.asc ? 'down' : 'up'}" class="icon-sort"></k-icon>` : ''}
         </div>
       `);
     });

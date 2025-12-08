@@ -351,5 +351,210 @@ export default {
 		// The component uses ShadowComponent which includes kempo.css
 		cleanup(container);
 		pass('Component has styling');
+	},
+
+	/*
+		Rotation Property Tests
+	*/
+	'should have rotation property': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-icon name="arrow" rotation="45"></k-icon>';
+		document.body.appendChild(container);
+		const icon = container.querySelector('k-icon');
+		await icon.updateComplete;
+
+		if(icon.rotation !== '45'){
+			cleanup(container);
+			fail(`Expected rotation "45", got "${icon.rotation}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('rotation property set correctly');
+	},
+
+	'rotation should reflect to attribute': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.rotation = '90';
+		await icon.updateComplete;
+
+		if(icon.getAttribute('rotation') !== '90'){
+			cleanup(container);
+			fail(`Expected rotation attribute "90", got "${icon.getAttribute('rotation')}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('rotation property reflects to attribute');
+	},
+
+	'getRotationDegrees should return rotation value when set': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.rotation = '45';
+		await icon.updateComplete;
+
+		if(icon.getRotationDegrees() !== '45'){
+			cleanup(container);
+			fail(`Expected rotation degrees "45", got "${icon.getRotationDegrees()}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('getRotationDegrees returns rotation value');
+	},
+
+	/*
+		Direction Property Tests
+	*/
+	'should have direction property': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-icon name="arrow" direction="down"></k-icon>';
+		document.body.appendChild(container);
+		const icon = container.querySelector('k-icon');
+		await icon.updateComplete;
+
+		if(icon.direction !== 'down'){
+			cleanup(container);
+			fail(`Expected direction "down", got "${icon.direction}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('direction property set correctly');
+	},
+
+	'direction should reflect to attribute': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.direction = 'left';
+		await icon.updateComplete;
+
+		if(icon.getAttribute('direction') !== 'left'){
+			cleanup(container);
+			fail(`Expected direction attribute "left", got "${icon.getAttribute('direction')}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('direction property reflects to attribute');
+	},
+
+	'getRotationDegrees should return 90 for direction down': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.direction = 'down';
+		await icon.updateComplete;
+
+		if(icon.getRotationDegrees() !== '90'){
+			cleanup(container);
+			fail(`Expected rotation degrees "90", got "${icon.getRotationDegrees()}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('getRotationDegrees returns 90 for down direction');
+	},
+
+	'getRotationDegrees should return 180 for direction left': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.direction = 'left';
+		await icon.updateComplete;
+
+		if(icon.getRotationDegrees() !== '180'){
+			cleanup(container);
+			fail(`Expected rotation degrees "180", got "${icon.getRotationDegrees()}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('getRotationDegrees returns 180 for left direction');
+	},
+
+	'getRotationDegrees should return 270 for direction up': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.direction = 'up';
+		await icon.updateComplete;
+
+		if(icon.getRotationDegrees() !== '270'){
+			cleanup(container);
+			fail(`Expected rotation degrees "270", got "${icon.getRotationDegrees()}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('getRotationDegrees returns 270 for up direction');
+	},
+
+	'getRotationDegrees should return 0 for unknown direction': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.direction = 'invalid';
+		await icon.updateComplete;
+
+		if(icon.getRotationDegrees() !== '0'){
+			cleanup(container);
+			fail(`Expected rotation degrees "0", got "${icon.getRotationDegrees()}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('getRotationDegrees returns 0 for unknown direction');
+	},
+
+	'rotation should take precedence over direction': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.rotation = '45';
+		icon.direction = 'down';
+		await icon.updateComplete;
+
+		if(icon.getRotationDegrees() !== '45'){
+			cleanup(container);
+			fail(`Expected rotation to take precedence, got "${icon.getRotationDegrees()}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('rotation takes precedence over direction');
+	},
+
+	/*
+		Animation Property Tests
+	*/
+	'should have animation property': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-icon name="arrow" animation="spin"></k-icon>';
+		document.body.appendChild(container);
+		const icon = container.querySelector('k-icon');
+		await icon.updateComplete;
+
+		if(icon.animation !== 'spin'){
+			cleanup(container);
+			fail(`Expected animation "spin", got "${icon.animation}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('animation property set correctly');
+	},
+
+	'animation should reflect to attribute': async ({pass, fail}) => {
+		const { container, icon } = await createIcon();
+
+		icon.animation = 'blink';
+		await icon.updateComplete;
+
+		if(icon.getAttribute('animation') !== 'blink'){
+			cleanup(container);
+			fail(`Expected animation attribute "blink", got "${icon.getAttribute('animation')}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('animation property reflects to attribute');
 	}
 };

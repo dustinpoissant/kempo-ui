@@ -232,7 +232,7 @@ export class AccordionHeader extends ShadowComponent {
 	render() {
 		return html`
 			<slot name="left-icon">
-				<k-icon id="icon" name="chevron-right"></k-icon>
+				<k-icon id="icon" name="chevron"></k-icon>
 			</slot>
 			<slot></slot>
 			<slot name="right-icon"></slot>

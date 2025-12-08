@@ -23,6 +23,8 @@
         <div class="m ">
           <h6>Examples</h6>
           <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#rotation">Rotation and Direction</a><br />
+          <a href="#animation">Animation</a><br />
           <a href="#explicitSource">Explicitly Set the Source</a><br />
           <a href="#fallbackIcon">Fallback Icon</a><br />
           <a href="#changingIconDirectory">Changing the Icon Directory Location</a><br />
@@ -57,15 +59,52 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"menu"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"close"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"play"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"pause"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow-line"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow-circle"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron-double"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
-          <k-icon name="menu"></k-icon>
-          <k-icon name="close"></k-icon>
-          <k-icon name="play"></k-icon>
-          <k-icon name="pause"></k-icon>
+          <k-icon name="arrow"></k-icon>
+          <k-icon name="arrow-line"></k-icon>
+          <k-icon name="arrow-circle"></k-icon>
+          <k-icon name="chevron"></k-icon>
+          <k-icon name="chevron-double"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rotation"><a href="#rotation" class="no-link">Rotation and Direction</a></h3>
+    <p>Use the <code>rotation</code> attribute to rotate an icon by a specific degree value, or use the <code>direction</code> attribute for semantic rotation (down=90°, left=180°, up=270°). Only set one attribute at a time.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"down"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"left"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"up"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron"</span> <span class="hljs-attr">rotation</span>=<span class="hljs-string">"45"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="arrow"></k-icon>
+          <k-icon name="arrow" direction="down"></k-icon>
+          <k-icon name="arrow" direction="left"></k-icon>
+          <k-icon name="arrow" direction="up"></k-icon>
+          <k-icon name="chevron" rotation="45"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="animation"><a href="#animation" class="no-link">Animation</a></h3>
+    <p>Use the <code>animation</code> attribute to add built-in animations to icons. Available options are <code>spin</code>, <code>blink</code>, and <code>pulse</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow-circle"</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">"spin"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">"blink"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron"</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">"pulse"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="arrow-circle" animation="spin"></k-icon>
+          <k-icon name="arrow" animation="blink"></k-icon>
+          <k-icon name="chevron" animation="pulse"></k-icon>
         </k-card>
       </div>
     </div>
@@ -152,6 +191,12 @@
     <p>The name of the icon. Syncs with the <code>name</code> attribute.</p>
     <h5><code>src<i>: string</i></code></h5>
     <p>The source URL of the icon. Syncs with the <code>src</code> attribute.</p>
+    <h5><code>rotation<i>: string</i></code></h5>
+    <p>The rotation angle in degrees (e.g., "45" or "180"). Syncs with the <code>rotation</code> attribute. Do not use with <code>direction</code>.</p>
+    <h5><code>direction<i>: string</i></code></h5>
+    <p>Semantic direction for icon rotation. Options: "down" (90°), "left" (180°), "up" (270°). Syncs with the <code>direction</code> attribute. Do not use with <code>rotation</code>.</p>
+    <h5><code>animation<i>: string</i></code></h5>
+    <p>Built-in animation to apply. Options: "spin" (continuous rotation), "blink" (fade in/out), "pulse" (scale up/down). Syncs with the <code>animation</code> attribute.</p>
     <h5><code>pathToIcons<i>: Array</i></code></h5>
     <p>An array of paths to directories containing icons. This is configured via the global <code>window.kempo.pathToIcons</code> config object.</p>
 

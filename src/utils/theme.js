@@ -15,9 +15,17 @@ const getInitialTheme = () => {
 
 const themeContext = createContext('theme', getInitialTheme());
 
-themeContext.subscribe(theme => {
-  localStorage.setItem('theme', theme);
-  document.documentElement.setAttribute('theme', theme);
+const applyTheme = theme => {
+	localStorage.setItem('theme', theme);
+	document.documentElement.setAttribute('theme', theme);
+};
+
+themeContext.subscribe(applyTheme);
+
+window.addEventListener('storage', event => {
+	if(event.key === 'theme' && event.newValue){
+		themeContext.set(event.newValue);
+	}
 });
 
 export const setTheme = theme => themeContext.set(theme);
@@ -26,7 +34,11 @@ export const getTheme = () => themeContext.get();
 
 export const subscribeToTheme = callback => themeContext.subscribe(callback);
 
-export const getCalculatedTheme = () => {
+export const initTheme = () => {
+	const theme = getInitialTheme();
+	applyTheme(theme);
+	themeContext.set(theme);
+};export const getCalculatedTheme = () => {
   const theme = getTheme();
   if(theme === 'auto'){
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -43,8 +55,9 @@ colorSchemeQuery.addEventListener('change', colorSchemeChangeHandler);
 colorSchemeChangeHandler(colorSchemeQuery);
 
 export default {
-  get: getTheme,
-  set: setTheme,
-  subscribe: subscribeToTheme,
-  getCalculated: getCalculatedTheme
+	get: getTheme,
+	set: setTheme,
+	subscribe: subscribeToTheme,
+	getCalculated: getCalculatedTheme,
+	init: initTheme
 };

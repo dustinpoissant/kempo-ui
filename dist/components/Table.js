@@ -15,7 +15,7 @@ import{html,css,unsafeStatic,literal}from"../lit-all.min.js";import ShadowCompon
           @click=${this.enableSorting?()=>this.handleFieldClick(t):null}
         >
           ${s}
-          ${o?html`<k-icon name="${r.asc?"arrow-down":"arrow-up"}" class="icon-sort"></k-icon>`:""}
+          ${o?html`<k-icon name="arrow" direction="${r.asc?"down":"up"}" class="icon-sort"></k-icon>`:""}
         </div>
       `)}),this.hasAfterControls()&&e.push(html`
         <div class="field cell field-after-controls" style="width: ${this.columnSizes.afterControls}px"></div>

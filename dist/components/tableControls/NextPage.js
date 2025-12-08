@@ -4,6 +4,6 @@ import TableControl from"./TableControl.js";import{html}from"../../lit-all.min.j
 				?disabled="${this.isDisabled}"
 				@click="${this.handleClick}"
 			>
-				<k-icon name="chevron-right"></k-icon>
+				<k-icon name="chevron"></k-icon>
 			</button>
 		`}}customElements.define("k-tc-next-page",NextPage);

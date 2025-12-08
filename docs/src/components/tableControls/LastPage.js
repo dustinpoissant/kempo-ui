@@ -4,6 +4,6 @@ import TableControl from"./TableControl.js";import{html}from"../../lit-all.min.j
 				?disabled="${this.isDisabled}"
 				@click="${this.handleClick}"
 			>
-				<k-icon name="last"></k-icon>
+				<k-icon name="chevron-line"></k-icon>
 			</button>
 		`}}customElements.define("k-tc-last-page",LastPage);
