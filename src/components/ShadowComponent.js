@@ -8,7 +8,6 @@ export default class ShadowComponent extends LitElement {
         super.connectedCallback();
 
         this.#childrenObserver = new MutationObserver(() => {
-            console.log('MutationObserver fired for', this.constructor.name);
             this.childrenUpdated();
             this.requestUpdate();
         });
