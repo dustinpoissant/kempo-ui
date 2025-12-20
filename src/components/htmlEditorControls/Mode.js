@@ -57,7 +57,7 @@ export default class Mode extends HtmlEditorControl {
     
     return html`
       <button class="${buttonClass}" @click="${this.handleClick}">
-        <k-icon src="/icons/code.svg"></k-icon>
+        <k-icon name="code"></k-icon>
       </button>
     `;
   }

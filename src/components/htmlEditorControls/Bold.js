@@ -54,7 +54,7 @@ export default class Bold extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/format_bold.svg"></k-icon>
+					<k-icon name="format_bold"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

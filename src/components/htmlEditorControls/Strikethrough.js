@@ -54,7 +54,7 @@ export default class Strikethrough extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/strikethrough_s.svg"></k-icon>
+					<k-icon name="strikethrough_s"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

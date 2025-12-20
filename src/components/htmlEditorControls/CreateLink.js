@@ -99,7 +99,7 @@ export default class CreateLink extends HtmlEditorControl {
 				@mousedown="${this.handleMouseDown}"
 			>
 				<slot name="icon">
-					<k-icon src="/icons/link.svg"></k-icon>
+					<k-icon name="link"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

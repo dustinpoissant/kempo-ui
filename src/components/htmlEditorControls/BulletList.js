@@ -54,7 +54,7 @@ export default class BulletList extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/format_list_bulleted.svg"></k-icon>
+					<k-icon name="format_list_bulleted"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

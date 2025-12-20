@@ -54,7 +54,7 @@ export default class Italic extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/format_italic.svg"></k-icon>
+					<k-icon name="format_italic"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

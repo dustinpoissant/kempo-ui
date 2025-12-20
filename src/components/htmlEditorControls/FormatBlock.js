@@ -68,7 +68,7 @@ export default class FormatBlock extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/${iconName}.svg"></k-icon>
+					<k-icon name="${iconName}"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

@@ -136,7 +136,7 @@ export default class DropdownControl extends HtmlEditorControl {
           class="${this.buttonClasses}"
         >
           <slot name="icon">
-            <k-icon src="/icons/arrow_drop_down.svg"></k-icon>
+            <k-icon name="arrow_drop_down"></k-icon>
           </slot>
           <slot name="label"></slot>
         </button>

@@ -54,7 +54,7 @@ export default class NumberList extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/format_list_numbered.svg"></k-icon>
+					<k-icon name="format_list_numbered"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

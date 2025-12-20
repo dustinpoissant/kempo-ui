@@ -66,7 +66,7 @@ export default class InlineCode extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @mousedown="${this.handleMouseDown}">
 				<slot name="icon">
-					<k-icon src="/icons/code_blocks.svg"></k-icon>
+					<k-icon name="code_blocks"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>
