@@ -5,7 +5,7 @@ import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../..
 		`];connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleClick=()=>{this.editor&&this.editor.alignRight()};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}render(){return this.hidden="code"===this.editorMode,html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/format_align_right.svg"></k-icon>
+					<k-icon name="format_align_right"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

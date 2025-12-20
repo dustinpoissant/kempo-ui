@@ -5,7 +5,7 @@ import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../..
 		`];constructor(){super(),this.tag="p",this.label=""}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleClick=()=>{this.editor&&this.editor.formatBlock(this.tag)};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}render(){this.hidden="code"===this.editorMode;this.label||this.getDefaultLabel();const t=this.getDefaultIcon();return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="/icons/${t}.svg"></k-icon>
+					<k-icon name="${t}"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

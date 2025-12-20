@@ -4,6 +4,6 @@ import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../..
       }
     `];render(){const t="code"===this.mode?`${this.buttonClasses} bg-primary`:this.buttonClasses;return html`
       <button class="${t}" @click="${this.handleClick}">
-        <k-icon src="/icons/code.svg"></k-icon>
+        <k-icon name="code"></k-icon>
       </button>
     `}}customElements.define("k-hec-mode",Mode);

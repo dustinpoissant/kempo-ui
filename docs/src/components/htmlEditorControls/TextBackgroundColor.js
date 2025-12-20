@@ -63,7 +63,7 @@ import DropdownControl from"./DropdownControl.js";import{html,css}from"../../lit
 					slot="trigger" 
 					class="${this.buttonClasses}"
 				>
-					<k-icon src="/icons/format_color_fill.svg"></k-icon>
+					<k-icon name="format_color_fill"></k-icon>
 				</button>
 				
 				<div class="dropdown-content">

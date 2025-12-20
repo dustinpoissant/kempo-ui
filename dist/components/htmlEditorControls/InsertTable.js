@@ -4,7 +4,7 @@ import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../..
 				@mousedown="${this.handleMouseDown}"
 			>
 				<slot name="icon">
-					<k-icon src="/icons/table.svg"></k-icon>
+					<k-icon name="table"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>
