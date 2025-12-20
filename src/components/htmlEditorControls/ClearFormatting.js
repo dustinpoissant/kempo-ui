@@ -54,7 +54,7 @@ export default class ClearFormatting extends HtmlEditorControl {
 		return html`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
-					<k-icon src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/format_clear/default/24px.svg"></k-icon>
+					<k-icon src="/icons/format_clear.svg"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

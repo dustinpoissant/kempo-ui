@@ -151,7 +151,7 @@ export default class InsertTable extends HtmlEditorControl {
 				@mousedown="${this.handleMouseDown}"
 			>
 				<slot name="icon">
-					<k-icon src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/table/default/24px.svg"></k-icon>
+					<k-icon src="/icons/table.svg"></k-icon>
 				</slot>
 				<slot></slot>
 			</button>

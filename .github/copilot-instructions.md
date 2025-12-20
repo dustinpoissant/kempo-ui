@@ -150,6 +150,17 @@ export default class MyComponent extends HybridComponent {
 
 ## Development Workflow
 
+### Icons
+- All icons are stored in the `icons/` directory as SVG files
+- Icons should have no `width` or `height` attributes, and use `fill="currentColor"` for theming
+- To download new Material Icons from Google's CDN:
+  ```bash
+  npm run geticon icon_name
+  ```
+  Example: `npm run geticon format_bold`
+- The script automatically formats the icon with proper attributes
+- Browse available icons at [Google Material Symbols](https://fonts.google.com/icons)
+
 ### Local Development Server
 - **DO NOT** start a development server - one is already running
 - Default port: **8083**

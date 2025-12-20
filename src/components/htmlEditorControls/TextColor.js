@@ -157,7 +157,7 @@ export default class TextColor extends DropdownControl {
 					slot="trigger" 
 					class="${this.buttonClasses}"
 				>
-					<k-icon src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/format_color_text/default/24px.svg"></k-icon>
+					<k-icon src="/icons/format_color_text.svg"></k-icon>
 				</button>
 				
 				<div class="dropdown-content">
