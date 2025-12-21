@@ -14,7 +14,8 @@
     "test:gui": "npx kempo-test --gui",
     "test:browser": "npx kempo-test -b",
     "test:node": "npx kempo-test -n",
-    "update-kempo-css": "node scripts/update-kempo-css.js"
+    "update-kempo-css": "node scripts/update-kempo-css.js",
+    "update-kempo-ui-cdn": "node scripts/update-kempo-ui-cdn.js"
   },
   "repository": {
     "type": "git",

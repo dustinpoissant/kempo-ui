@@ -34,7 +34,7 @@ const getIconByName = (name) => {
 
 	return new Promise(async (resolve, reject) => {
 		let svg;
-		const pathsToCheck = window.kempo?.pathsToIcons || ['/icons', '../../icons', 'https://cdn.jsdelivr.net/npm/kempo-ui@0.0.32/icons/'];
+		const pathsToCheck = window.kempo?.pathsToIcons || ['/icons', './icons', '../icons', '../../icons'];
 		for(let i = 0; i < pathsToCheck.length && !svg; i++){
 			try {
 				svg = await tryDir(pathsToCheck[i]);
