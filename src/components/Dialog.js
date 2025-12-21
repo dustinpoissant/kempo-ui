@@ -52,9 +52,23 @@ export default class Dialog extends ShadowComponent {
 		} else if(id === 'cancel') {
 			this.cancelAction(event);
 			if(!event.defaultPrevented) this.close();
-		} else if(id === 'confirm') {
-			this.confirmAction(event);
-			if(!event.defaultPrevented) this.close();
+		}
+	}
+
+	handleSubmit = event => {
+		event.preventDefault();
+		this.confirmAction(event);
+		if(!event.keepDialogOpen) this.close();
+	}
+
+	handleSlotKeydown = event => {
+		if(event.key === 'Enter' && this.confirmText) {
+			const target = event.target;
+			if(target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+				event.preventDefault();
+				const form = this.shadowRoot.querySelector('form');
+				if(form) form.requestSubmit();
+			}
 		}
 	}
 
@@ -227,14 +241,15 @@ export default class Dialog extends ShadowComponent {
 	*/
 	render() {
 		return html`
-			<button id="overlay" aria-label="Close the Dialog" @click=${this.handleClick}></button>
+			<button id="overlay" type="button" aria-label="Close the Dialog" @click=${this.handleClick}></button>
 			<div id="wrapper">
 				<k-focus-capture>
-					<div
+					<form
 						id="dialog"
 						role="dialog"
 						aria-modal="true"
 						aria-labelledby="title"
+						@submit=${this.handleSubmit}
 					>
 						<div
 							id="header"
@@ -244,29 +259,29 @@ export default class Dialog extends ShadowComponent {
 								<slot name="title"></slot>
 							</div>
 							${this.closeBtn ? html`
-								<button id="close" @click=${this.handleClick}>
+								<button id="close" type="button" @click=${this.handleClick}>
 									<k-icon name="close"></k-icon>
 								</button>
 							` : ''}
 						</div>
 						<div id="body">
-							<slot></slot>
+							<slot @keydown=${this.handleSlotKeydown}></slot>
 						</div>
 						${this.cancelText || this.confirmText ? html`
 							<div id="footer">
 								${this.cancelText ? html`
-									<button id="cancel" class="${this.cancelClasses}" @click=${this.handleClick}>
+									<button id="cancel" type="button" class="${this.cancelClasses}" @click=${this.handleClick}>
 										${this.cancelText}
 									</button>
 								` : ''}
 								${this.confirmText ? html`
-									<button id="confirm" class="${this.confirmClasses}" @click=${this.handleClick}>
+									<button id="confirm" type="submit" class="${this.confirmClasses}">
 										${this.confirmText}
 									</button>
 								` : ''}
 							</div>
 						` : ''}
-					</div>
+					</form>
 				</k-focus-capture>
 			</div>
 		`;

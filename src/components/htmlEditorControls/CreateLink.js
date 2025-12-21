@@ -67,12 +67,15 @@ export default class CreateLink extends HtmlEditorControl {
 			title: 'Create Link',
 			cancelText: 'Cancel',
 			confirmText: 'Insert Link',
-			confirmClasses: 'success',
-			confirmAction: () => {
+			confirmClasses: 'success ml',
+			confirmAction: (event) => {
 				const url = urlInput.value.trim();
 				const text = textInput.value.trim();
 
-				if(!url) return;
+				if(!url){
+					event.keepDialogOpen = true;
+					return;
+				}
 
 				const linkEl = document.createElement('a');
 				linkEl.href = url;
