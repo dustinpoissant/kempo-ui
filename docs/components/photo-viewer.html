@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PhotoViewer - Components - Kempo Docs - A Web Components Solution</title>
-  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="icon" type="image/png" sizes="48x48" href=".../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.2/dist/kempo.min.css" />
@@ -45,14 +45,14 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/civic.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda Civic Type R"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Honda Civic Type R - Track-focused hot hatch<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/civic.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda Civic Type R"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Honda Civic Type R - Track-focused hot hatch<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
         <div class="mb" style="max-width: 400px;">
           <k-photo-viewer
-            src="./media/civic.jpg"
+            src="../media/civic.jpg"
             alt="Honda Civic Type R"
           >
             <p>Honda Civic Type R - Track-focused hot hatch</p>
@@ -68,26 +68,26 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"gallery"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/civic.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda Civic Type R"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Honda Civic Type R<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/corvette.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Chevrolet Corvette C8"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Chevrolet Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/evo.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Mitsubishi Lancer Evolution"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Mitsubishi Lancer Evolution<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"gallery"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/civic.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda Civic Type R"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Honda Civic Type R<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/corvette.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Chevrolet Corvette C8"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Chevrolet Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/evo.jpg"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Mitsubishi Lancer Evolution"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Mitsubishi Lancer Evolution<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
           <div class="gallery mb" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 800px;">
             <k-photo-viewer
-              src="./media/civic.jpg"
+              src="../media/civic.jpg"
               alt="Honda Civic Type R"
             >
               <h6 class="m0">Honda Civic Type R</h6>
             </k-photo-viewer>
             <k-photo-viewer
-              src="./media/corvette.jpg"
+              src="../media/corvette.jpg"
               alt="Chevrolet Corvette C8"
             >
               <h6 class="m0">Chevrolet Corvette C8</h6>
             </k-photo-viewer>
             <k-photo-viewer
-              src="./media/evo.jpg"
+              src="../media/evo.jpg"
               alt="Mitsubishi Lancer Evolution"
             >
               <h6 class="m0">Mitsubishi Lancer Evolution</h6>
@@ -102,14 +102,14 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/gtr.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Nissan GT-R"</span><br />  <span class="hljs-attr">global</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Nissan GT-R (Global Navigation)<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/gtr.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Nissan GT-R"</span><br />  <span class="hljs-attr">global</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Nissan GT-R (Global Navigation)<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
           <div class="mb" style="max-width: 300px;">
             <k-photo-viewer
-              src="./media/gtr.jpg"
+              src="../media/gtr.jpg"
               alt="Nissan GT-R"
               global
             >
@@ -126,14 +126,14 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/nsx.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda NSX"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"close"</span>&gt;</span>Ã¢Å“â€¢<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"prev"</span>&gt;</span>Ã¢â€”â‚¬<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"next"</span>&gt;</span>Ã¢â€“Â¶<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Honda NSX<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom controls, keyboard disabled<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/evo.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Mitsubishi Lancer Evolution"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"close"</span>&gt;</span>Ã¢Å“â€¢<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"prev"</span>&gt;</span>Ã¢â€”â‚¬<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"next"</span>&gt;</span>Ã¢â€“Â¶<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Mitsubishi Lancer Evolution<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom controls, keyboard disabled<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/nsx.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Honda NSX"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"close"</span>&gt;</span>Ã¢Å“â€¢<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"prev"</span>&gt;</span>Ã¢â€”â‚¬<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"next"</span>&gt;</span>Ã¢â€“Â¶<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Honda NSX<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom controls, keyboard disabled<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/evo.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Mitsubishi Lancer Evolution"</span><br />  <span class="hljs-attr">keyboard-controls</span>=<span class="hljs-string">"false"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"close"</span>&gt;</span>Ã¢Å“â€¢<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"prev"</span>&gt;</span>Ã¢â€”â‚¬<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"next"</span>&gt;</span>Ã¢â€“Â¶<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Mitsubishi Lancer Evolution<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Custom controls, keyboard disabled<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
           <div class="gallery mb" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 800px;">
             <k-photo-viewer
-              src="./media/nsx.jpg"
+              src="../media/nsx.jpg"
               alt="Honda NSX"
               keyboard-controls="false"
             >
@@ -144,7 +144,7 @@
               <p class="m0">Custom controls, keyboard disabled</p>
             </k-photo-viewer>
             <k-photo-viewer
-              src="./media/evo.jpg"
+              src="../media/evo.jpg"
               alt="Mitsubishi Lancer Evolution"
               keyboard-controls="false"
             >
@@ -165,14 +165,14 @@
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"./media/corvette.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Chevrolet Corvette C8"</span><br />&gt;</span><br />  <span class="hljs-comment">&lt;!-- Default caption (thumbnail view) --&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <br />  <span class="hljs-comment">&lt;!-- Fullscreen caption --&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"fullscreen-caption"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>2020 Chevrolet Corvette C8 Stingray<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The first mid-engine Corvette featuring a 6.2L V8 engine<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-photo-viewer</span><br />  <span class="hljs-attr">src</span>=<span class="hljs-string">"../media/corvette.jpg"</span><br />  <span class="hljs-attr">alt</span>=<span class="hljs-string">"Chevrolet Corvette C8"</span><br />&gt;</span><br />  <span class="hljs-comment">&lt;!-- Default caption (thumbnail view) --&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span><br />  <br />  <span class="hljs-comment">&lt;!-- Fullscreen caption --&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"fullscreen-caption"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>2020 Chevrolet Corvette C8 Stingray<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The first mid-engine Corvette featuring a 6.2L V8 engine<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-photo-viewer</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
           <div class="mb" style="max-width: 400px;">
             <k-photo-viewer
-              src="./media/corvette.jpg"
+              src="../media/corvette.jpg"
               alt="Chevrolet Corvette C8"
             >
               <h6 class="m0">Corvette C8</h6>
