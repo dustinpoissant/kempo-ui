@@ -146,7 +146,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 		}
 	`}class SidePanelMenu extends ShadowComponent{static properties={icon:{type:String},label:{type:String},open:{type:Boolean,reflect:!0}};constructor(){super(),this.icon="",this.label="",this.open=!1,this.collapsed=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.open=!1,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};toggleMenu=()=>{this.collapsed||(this.open=!this.open)};render(){return html`
 			<div class="menu-container">
-				<button class="menu-header ${this.open?"open":""}" @click=${this.toggleMenu}>
+				<button class="no-btn menu-header ${this.open?"open":""}" @click=${this.toggleMenu}>
 					${this.icon?html`<k-icon name="${this.icon}"></k-icon>`:""}
 					<span class="label ${this.collapsed?"hidden":""}">${this.label}</span>
 					${this.collapsed?"":html`<k-icon class="chevron" name="chevron" direction="${this.open?"down":"right"}"></k-icon>`}
