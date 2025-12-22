@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SidePanel Scroll Example</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.2/dist/kempo.min.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+	<script type="module">
+		import theme from '../src/utils/theme.js';
+		theme.init();
+	</script>
+	<script type="module" src="../src/components/SidePanel.js"></script>
+	<script type="module" src="../src/components/Main.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <k-side-panel>
+		<h5 slot="logo" class="m0">Application</h5>
+    
+    <!-- Dashboard Section -->
+    <k-side-panel-item icon="cards" href="#" active>Dashboard</k-side-panel-item>
+    <k-side-panel-item icon="analytics" href="#">Analytics</k-side-panel-item>
+    <k-side-panel-item icon="chart" href="#">Reports</k-side-panel-item>
+    
+    <!-- Communication Section -->
+    <k-side-panel-label>Communication</k-side-panel-label>
+    <k-side-panel-item icon="label" href="#">Email</k-side-panel-item>
+    <k-side-panel-item icon="chat" href="#">Messages</k-side-panel-item>
+    <k-side-panel-item icon="notifications" href="#">Notifications</k-side-panel-item>
+    
+    <!-- Projects Section with Menu -->
+    <k-side-panel-label>Projects</k-side-panel-label>
+    <k-side-panel-menu icon="folder" label="Active Projects">
+      <k-side-panel-item href="#">Website Redesign</k-side-panel-item>
+      <k-side-panel-item href="#">Mobile App</k-side-panel-item>
+      <k-side-panel-item href="#">API Integration</k-side-panel-item>
+      <k-side-panel-item href="#">Documentation</k-side-panel-item>
+    </k-side-panel-menu>
+    <k-side-panel-menu icon="folder" label="Archived Projects">
+      <k-side-panel-item href="#">Old Website</k-side-panel-item>
+      <k-side-panel-item href="#">Legacy System</k-side-panel-item>
+      <k-side-panel-item href="#">Beta App</k-side-panel-item>
+    </k-side-panel-menu>
+    <k-side-panel-item icon="add" href="#">New Project</k-side-panel-item>
+    
+    <!-- Tasks Section -->
+    <k-side-panel-label>Tasks</k-side-panel-label>
+    <k-side-panel-item icon="check" href="#">My Tasks</k-side-panel-item>
+    <k-side-panel-item icon="pending" href="#">Assigned to Me</k-side-panel-item>
+    <k-side-panel-item icon="clock" href="#">Due Today</k-side-panel-item>
+    <k-side-panel-item icon="calendar" href="#">This Week</k-side-panel-item>
+    
+    <!-- Team Section -->
+    <k-side-panel-label>Team</k-side-panel-label>
+    <k-side-panel-menu icon="group" label="Team Members">
+      <k-side-panel-item href="#">Development</k-side-panel-item>
+      <k-side-panel-item href="#">Design</k-side-panel-item>
+      <k-side-panel-item href="#">Marketing</k-side-panel-item>
+      <k-side-panel-item href="#">Sales</k-side-panel-item>
+    </k-side-panel-menu>
+    <k-side-panel-item icon="groups" href="#">All Teams</k-side-panel-item>
+    
+    <!-- Resources Section -->
+    <k-side-panel-label>Resources</k-side-panel-label>
+    <k-side-panel-item icon="folder" href="#">Documents</k-side-panel-item>
+    <k-side-panel-item icon="image" href="#">Media Files</k-side-panel-item>
+    <k-side-panel-item icon="link" href="#">Links</k-side-panel-item>
+    <k-side-panel-item icon="bookmark" href="#">Bookmarks</k-side-panel-item>
+    
+    <!-- Tools Section -->
+    <k-side-panel-label>Tools</k-side-panel-label>
+    <k-side-panel-item icon="edit" href="#">Editor</k-side-panel-item>
+    <k-side-panel-item icon="code" href="#">Code Review</k-side-panel-item>
+    <k-side-panel-item icon="bug" href="#">Bug Tracker</k-side-panel-item>
+    <k-side-panel-item icon="terminal" href="#">Terminal</k-side-panel-item>
+    
+    <k-side-panel-spacer></k-side-panel-spacer>
+    
+    <!-- Bottom Section -->
+    <k-side-panel-item icon="help" href="#">Help & Support</k-side-panel-item>
+    <k-side-panel-item icon="settings" href="#">Settings</k-side-panel-item>
+    <k-side-panel-item icon="account-circle" href="#">Profile</k-side-panel-item>
+  </k-side-panel>
+  
+  <k-main>
+    <h1>Independent Scrolling Demo</h1>
+    <p>This example demonstrates that the SidePanel and main content area scroll independently. Try scrolling in the sidebar and notice how it doesn't affect the main content area, and vice versa.</p>
+    
+    <h2>Section 1: Introduction</h2>
+    <p>The SidePanel component uses <code>overflow-y: auto</code> on its content area, making it scrollable independently from the page. This is essential for applications with lots of navigation options or when you want the navigation to remain accessible while scrolling through long content.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    
+    <h2>Section 2: Features</h2>
+    <p>The sidebar includes many different types of navigation items:</p>
+    <ul>
+      <li>Simple navigation items with icons</li>
+      <li>Labels to organize sections</li>
+      <li>Expandable menus with sub-items</li>
+      <li>Spacers to push items to the bottom</li>
+      <li>Active state indicators</li>
+    </ul>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    
+    <h2>Section 3: Benefits</h2>
+    <p>Independent scrolling provides several benefits:</p>
+    <ol>
+      <li><strong>Improved Navigation:</strong> Users can always access any navigation item without losing their place in the content</li>
+      <li><strong>Better UX:</strong> Natural scrolling behavior that users expect from modern applications</li>
+      <li><strong>Space Efficiency:</strong> You can have extensive navigation without cluttering the viewport</li>
+      <li><strong>Flexible Layout:</strong> Works with both short and long content areas</li>
+    </ol>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    
+    <h2>Section 4: Implementation Details</h2>
+    <p>The SidePanel uses the following CSS properties to achieve independent scrolling:</p>
+    <pre><code>#content {
+  height: calc(100% - 3rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}</code></pre>
+    <p>This ensures that the panel's content area takes up all available height minus the header, and enables vertical scrolling when needed.</p>
+    
+    <h2>Section 5: Responsive Behavior</h2>
+    <p>The SidePanel can be collapsed to save space while keeping all navigation accessible. When collapsed, only icons are shown, and the panel takes up minimal width. Try clicking the toggle button in the header to see this in action.</p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+    
+    <h2>Section 6: Customization</h2>
+    <p>The SidePanel supports extensive customization through CSS variables:</p>
+    <ul>
+      <li><code>--bg</code>: Background color of the panel</li>
+      <li><code>--width-expanded</code>: Width when expanded (default: 16rem)</li>
+      <li><code>--width-collapsed</code>: Width when collapsed (default: 3.5rem)</li>
+      <li><code>--transition-duration</code>: Animation duration for expand/collapse</li>
+    </ul>
+    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+    
+    <h2>Section 7: Accessibility</h2>
+    <p>The SidePanel includes proper ARIA labels and keyboard navigation support. The toggle button has descriptive aria-labels that change based on the panel's state ("Expand panel" or "Collapse panel").</p>
+    <p>Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.</p>
+    
+    <h2>Section 8: Integration</h2>
+    <p>The SidePanel works seamlessly with the <code>&lt;k-main&gt;</code> component, which automatically adjusts its margins when the panel expands or collapses. This creates a smooth, coordinated experience.</p>
+    <p>The components communicate through custom events dispatched on the window object, making them loosely coupled but highly coordinated.</p>
+    <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
+    
+    <h2>Section 9: Performance</h2>
+    <p>The SidePanel is built with Lit and uses Shadow DOM for style encapsulation. This ensures excellent performance even with many navigation items, and prevents style conflicts with the rest of your application.</p>
+    <p>Transitions are hardware-accelerated using CSS transforms and opacity changes, providing smooth animations even on lower-end devices.</p>
+    <p>Ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    
+    <h2>Section 10: Conclusion</h2>
+    <p>The SidePanel component provides a robust, flexible navigation solution with independent scrolling, smooth animations, and excellent accessibility. It's perfect for applications that need persistent navigation with many options.</p>
+    <p>Try scrolling both the sidebar and this main content area to experience the independent scrolling behavior. Notice how smooth and natural it feels, and how you can always access any navigation item while browsing through the content.</p>
+    <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+    
+    <div style="margin-top: 4rem; padding: 2rem; background: var(--c_bg__alt); border-radius: var(--radius);">
+      <h3>End of Content</h3>
+      <p>You've reached the bottom of the page! Now try scrolling in the sidebar to see all the navigation options.</p>
+    </div>
+  </k-main>
+</body>
+</html>
