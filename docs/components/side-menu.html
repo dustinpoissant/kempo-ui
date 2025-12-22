@@ -22,6 +22,7 @@
         <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#closing">Closing</a><br />
+        <a href="#escClose">ESC Key Close</a><br />
         <a href="#rightSideMenu">Right Side Menu</a><br />
         
         <h6 class="mt">JavaScript Reference</h6>
@@ -58,6 +59,7 @@
 
     <h3 id="closing"><a href="#closing" class="no-link">Closing</a></h3>
     <p>By default clicking on the overlay (the part that covers the page while the Side Menu is open) will close the Side Menu. Use the <code>overlay-close="false"</code> attribute/value to disable this.</p>
+    <p>By default pressing the ESC key will also close the Side Menu. Use the <code>esc-close="false"</code> attribute/value to disable this.</p>
     <p>Use the <code>close()</code> method to close the Side Menu, alternately you can use the <code>toggle()</code> method which can be used to open or close the Side Menu.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
@@ -79,6 +81,34 @@
             });
             document.getElementById('close-sm2').addEventListener('click',()=>{
               $sm2.close();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="escClose"><a href="#escClose" class="no-link">ESC Key Close</a></h3>
+    <p>By default pressing the ESC key will close the Side Menu. Use the <code>esc-close="false"</code> attribute/value to disable this behavior.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-side-menu</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"sm4"</span> <span class="hljs-attr">esc-close</span>=<span class="hljs-string">"false"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Side Menu 4 - ESC won't close this<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"close-sm4"</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-side-menu</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"open-sm4"</span>&gt;</span>Open Side Menu 4<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">const</span> $sm4 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'sm4'</span>);<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'open-sm4'</span>).addEventListener(<span class="hljs-string">'click'</span>,()=&gt;{<br />    $sm4.open();<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'close-sm4'</span>).addEventListener(<span class="hljs-string">'click'</span>,()=&gt;{<br />    $sm4.close();<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-side-menu id="sm4" esc-close="false">
+            <p>Side Menu 4 - ESC won't close this</p>
+            <button id="close-sm4">Close</button>
+          </k-side-menu>
+          <button id="open-sm4">Open Side Menu 4</button>
+          <script>
+            const $sm4 = document.getElementById('sm4');
+            document.getElementById('open-sm4').addEventListener('click',()=>{
+              $sm4.open();
+            });
+            document.getElementById('close-sm4').addEventListener('click',()=>{
+              $sm4.close();
             });
           </script>
         </k-card>
@@ -128,6 +158,8 @@
     <p>Whether the side menu is opened. Defaults to <code>false</code>. Syncs to <code>opened</code> attribute.</p>
     <h5><code>overlayClose<i>: boolean</i></code></h5>
     <p>Whether clicking the overlay closes the side menu. Defaults to <code>true</code>. Syncs to <code>overlay-close</code> attribute.</p>
+    <h5><code>escClose<i>: boolean</i></code></h5>
+    <p>Whether pressing the ESC key closes the side menu. Defaults to <code>true</code>. Syncs to <code>esc-close</code> attribute.</p>
     <h5><code>side<i>: string</i></code></h5>
     <p>The side from which the menu opens. Can be <code>"left"</code> or <code>"right"</code>. Defaults to <code>"left"</code>. Syncs to <code>side</code> attribute.</p>
 

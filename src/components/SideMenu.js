@@ -9,6 +9,7 @@ export default class SideMenu extends ShadowComponent {
 	static properties = {
 		opened: { type: Boolean, reflect: true },
 		overlayClose: { type: Boolean, reflect: true, attribute: 'overlay-close', converter: boolTrueFalse },
+		escClose: { type: Boolean, reflect: true, attribute: 'esc-close', converter: boolTrueFalse },
 		side: { type: String, reflect: true }
 	};
 
@@ -16,6 +17,7 @@ export default class SideMenu extends ShadowComponent {
 		super();
 		this.opened = false;
 		this.overlayClose = true;
+		this.escClose = true;
 		this.side = 'left';
 	}
 
@@ -24,6 +26,12 @@ export default class SideMenu extends ShadowComponent {
 	*/
 	overlayClick = () => {
 		if(this.overlayClose) this.close();
+	}
+
+	handleKeyDown = (e) => {
+		if(this.escClose && e.key === 'Escape') {
+			this.close();
+		}
 	}
 
 	/*
@@ -35,10 +43,12 @@ export default class SideMenu extends ShadowComponent {
 		if(changedProperties.has('opened')) {
 			if(this.opened) {
 				document.body.classList.add('no-scroll');
+				document.addEventListener('keydown', this.handleKeyDown);
 				this.dispatchEvent(new CustomEvent('change', { detail: 'open' }));
 				this.dispatchEvent(new CustomEvent('open'));
 			} else {
 				document.body.classList.remove('no-scroll');
+				document.removeEventListener('keydown', this.handleKeyDown);
 				this.dispatchEvent(new CustomEvent('change', { detail: 'close' }));
 				this.dispatchEvent(new CustomEvent('close'));
 			}
