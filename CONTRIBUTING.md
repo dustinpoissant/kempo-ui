@@ -147,3 +147,73 @@ export default class MyComponent extends HybridComponent {
 - Wrap dependent components inside a parent `ktf-test-framework` element. Children find it via `closest('ktf-test-framework')` and call its methods. The framework can query its subtree to orchestrate children.
 
 - Avoid `window` globals and global custom events for coordination. If broadcast is needed, scope events to the framework element; reserve window events for global, non-visual concerns (e.g., settings changes).
+
+## Development Workflow
+
+### NPM Scripts
+
+#### Build
+```bash
+npm run build
+```
+Compiles and minifies source files from `src/` and copies all necessary files to the `docs/` directory for GitHub Pages deployment.
+
+#### Documentation Server
+```bash
+npm run docs
+```
+Starts a local development server and opens the documentation site. Automatically runs the build script first.
+
+**Variants:**
+- `npm run docs:src` - Serves from `src/` instead of `docs/` for development
+- `npm run docs:no-build` - Skips the build step and serves existing `docs/`
+
+#### Testing
+```bash
+npm test              # Run all tests
+npm run test:gui      # Run tests with GUI interface
+npm run test:browser  # Run browser-only tests
+npm run test:node     # Run Node.js-only tests
+```
+
+#### Update Kempo CSS
+```bash
+npm run update-kempo-css
+```
+Downloads the latest version of Kempo CSS from the CDN and updates local files.
+
+### Adding Icons
+
+Use the `geticon` script to download icons from [Google Material Symbols](https://fonts.google.com/icons). The script automatically formats icons and triggers a build.
+
+#### Basic Usage
+```bash
+npm run geticon <icon_name>
+```
+
+Example:
+```bash
+npm run geticon format_bold
+```
+
+This downloads the icon and saves it as `format_bold.svg` in the `icons/` directory.
+
+#### Custom Naming
+
+Rename icons when downloading by providing a second argument:
+```bash
+npm run geticon <icon_name> <custom_name>
+```
+
+Example - download `content_copy` but save as `copy.svg`:
+```bash
+npm run geticon content_copy copy
+```
+
+#### What the Script Does
+
+- Downloads the specified icon from Google's Material Symbols CDN
+- Removes `width` and `height` attributes
+- Adds `fill="currentColor"` to all `<path>` elements
+- Saves the formatted SVG to the `icons/` directory
+- Automatically runs the build script to copy the icon to `docs/`
