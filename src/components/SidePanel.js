@@ -352,7 +352,7 @@ class SidePanelMenu extends ShadowComponent {
 	render() {
 			return html`
 			<div class="menu-container">
-				<button class="menu-header ${this.open ? 'open' : ''}" @click=${this.toggleMenu}>
+				<button class="no-btn menu-header ${this.open ? 'open' : ''}" @click=${this.toggleMenu}>
 					${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : ''}
 					<span class="label ${this.collapsed ? 'hidden' : ''}">${this.label}</span>
 					${!this.collapsed ? html`<k-icon class="chevron" name="chevron" direction="${this.open ? 'down' : 'right'}"></k-icon>` : ''}
