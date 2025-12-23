@@ -1,4 +1,4 @@
-import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-all.min.js";import"./Icon.js";class SidePanel extends ShadowComponent{static properties={collapsed:{type:Boolean,reflect:!0},side:{type:String,reflect:!0}};constructor(){super(),this.collapsed=!1,this.side="left"}toggleClick=()=>this.toggle();updated(e){if(super.updated(e),e.has("collapsed")){const e=this.collapsed?"collapse":"expand";this.dispatchEvent(new CustomEvent(e)),this.dispatchEvent(new CustomEvent("change",{detail:e})),window.dispatchEvent(new CustomEvent("side-panel-change",{detail:{collapsed:this.collapsed,width:this.collapsed?"3.5rem":"16rem",side:this.side}}))}}expand=()=>this.collapsed=!1;collapse=()=>this.collapsed=!0;toggle(){this.collapsed=!this.collapsed,this.dispatchEvent(new CustomEvent("toggle"))}render(){return html`
+import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from"../lit-all.min.js";import"./Icon.js";class SidePanel extends ShadowComponent{static properties={collapsed:{type:Boolean,reflect:!0},side:{type:String,reflect:!0}};constructor(){super(),this.collapsed=!1,this.side="left"}toggleClick=()=>this.toggle();updated(e){if(super.updated(e),e.has("collapsed")){const e=this.collapsed?"collapse":"expand";this.dispatchEvent(new CustomEvent(e)),this.dispatchEvent(new CustomEvent("change",{detail:e})),window.dispatchEvent(new CustomEvent("side-panel-change",{detail:{collapsed:this.collapsed,width:this.collapsed?"3.5rem":"16rem",side:this.side}}))}}expand=()=>this.collapsed=!1;collapse=()=>this.collapsed=!0;toggle(){this.collapsed=!this.collapsed,this.dispatchEvent(new CustomEvent("toggle"))}render(){return html`
 			<div id="header">
 				<slot name="logo"></slot>
 				<button id="toggle" @click=${this.toggleClick} aria-label="${this.collapsed?"Expand panel":"Collapse panel"}">
@@ -12,7 +12,6 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 		:host {
 			--bg: var(--c_bg);
 			--width-expanded: 16rem;
-			--width-collapsed: 3.5rem;
 			--transition-duration: var(--animation_ms, 256ms);
 			display: block;
 			position: fixed;
@@ -26,7 +25,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			z-index: 1000;
 		}
 		:host([collapsed]) {
-			width: var(--width-collapsed);
+			width: auto;
 		}
 		:host([side="right"]) {
 			left: auto;
@@ -52,9 +51,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			transition: opacity var(--transition-duration);
 		}
 		:host([collapsed]) ::slotted([slot="logo"]) {
-			opacity: 0;
-			width: 0;
-			overflow: hidden;
+			display: none;
 		}
 		#toggle {
 			flex-shrink: 0;
@@ -79,16 +76,23 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			display: flex;
 			flex-direction: column;
 		}
-	`}class SidePanelItem extends ShadowComponent{static properties={icon:{type:String},href:{type:String},active:{type:Boolean,reflect:!0}};constructor(){super(),this.icon="",this.href="#",this.active=!1,this.collapsed=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};render(){return html`
-			<a href="${this.href}" class="item ${this.active?"active bg-primary":""}">
-				${this.icon?html`<k-icon name="${this.icon}"></k-icon>`:""}
-				<span class="label ${this.collapsed?"hidden":""}">
-					<slot></slot>
-				</span>
+		:host([collapsed]) #content {
+			align-items: flex-start;
+		}
+		:host(:not([collapsed])) #content {
+			/* scrollbar-gutter: stable; */
+		}
+	`}class SidePanelItem extends ShadowComponent{static properties={icon:{type:String},href:{type:String},active:{type:Boolean,reflect:!0},collapsed:{type:Boolean,reflect:!0},"no-expand":{type:Boolean,attribute:"no-expand"},"hide-when-collapsed":{type:Boolean,attribute:"hide-when-collapsed"}};constructor(){super(),this.icon="",this.href="#",this.active=!1,this.collapsed=!1,this["no-expand"]=!1,this["hide-when-collapsed"]=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};handleClick=e=>{this.collapsed&&!this["no-expand"]&&this.panel&&(e.preventDefault(),this.panel.expand())};render(){return html`
+			<a href="${this.href}" class="item ${this.active?"active bg-primary":""}" @click=${this.handleClick}>
+				${this.icon?html`<k-icon name="${this.icon}"></k-icon>`:this.collapsed?html`<k-icon name="dot"></k-icon>`:nothing}
+				${this.collapsed?nothing:html`<span class="label"><slot></slot></span>`}
 			</a>
 		`}static styles=css`
 		:host {
 			display: block;
+		}
+		:host([collapsed][hide-when-collapsed]) {
+			display: none;
 		}
 		.item {
 			display: flex;
@@ -101,6 +105,8 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			margin: 0 var(--spacer_h);
 			transition: background var(--animation_ms), color var(--animation_ms);
 			white-space: nowrap;
+		}
+		:host([collapsed]) .item {
 		}
 		.item:hover {
 			background: var(--c_bg_hover);
@@ -119,17 +125,15 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			min-width: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			opacity: 1;
-			transition: opacity var(--animation_ms);
 		}
-		.label.hidden {
-			opacity: 0;
-			width: 0;
-		}
-	`}class SidePanelLabel extends ShadowComponent{constructor(){super(),this.collapsed=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};render(){return this.collapsed?html`<hr>`:html`<div class="label"><slot></slot></div>`}static styles=css`
+	`}class SidePanelLabel extends ShadowComponent{static properties={collapsed:{type:Boolean,reflect:!0}};constructor(){super(),this.collapsed=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};render(){return this.collapsed?html`<hr>`:html`<div class="label"><slot></slot></div>`}static styles=css`
 		:host {
 			display: block;
 			margin: var(--spacer_h) 0;
+		}
+		:host([collapsed]) {
+			margin: 0 var(--spacer_h);
+			align-self: stretch;
 		}
 		.label {
 			padding: 0 var(--spacer);
@@ -144,12 +148,15 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			border-top: 1px solid var(--c_border);
 			margin: var(--spacer_h) var(--spacer);
 		}
-	`}class SidePanelMenu extends ShadowComponent{static properties={icon:{type:String},label:{type:String},open:{type:Boolean,reflect:!0}};constructor(){super(),this.icon="",this.label="",this.open=!1,this.collapsed=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.open=!1,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};toggleMenu=()=>{this.collapsed||(this.open=!this.open)};render(){return html`
+		:host([collapsed]) hr {
+			margin: var(--spacer_h) 0;
+		}
+	`}class SidePanelMenu extends ShadowComponent{static properties={icon:{type:String},label:{type:String},open:{type:Boolean,reflect:!0},collapsed:{type:Boolean,reflect:!0},"no-expand":{type:Boolean,attribute:"no-expand"},"hide-when-collapsed":{type:Boolean,attribute:"hide-when-collapsed"}};constructor(){super(),this.icon="",this.label="",this.open=!1,this.collapsed=!1,this["no-expand"]=!1,this["hide-when-collapsed"]=!1}connectedCallback(){super.connectedCallback(),this.panel=this.closest("k-side-panel"),this.panel&&(this.collapsed=this.panel.collapsed,this.panel.addEventListener("collapse",this.handleCollapse),this.panel.addEventListener("expand",this.handleExpand))}disconnectedCallback(){super.disconnectedCallback(),this.panel&&(this.panel.removeEventListener("collapse",this.handleCollapse),this.panel.removeEventListener("expand",this.handleExpand))}handleCollapse=()=>{this.collapsed=!0,this.open=!1,this.requestUpdate()};handleExpand=()=>{this.collapsed=!1,this.requestUpdate()};toggleMenu=()=>{this.collapsed&&!this["no-expand"]&&this.panel?this.panel.expand():this.collapsed||(this.open=!this.open)};render(){return html`
 			<div class="menu-container">
 				<button class="no-btn menu-header ${this.open?"open":""}" @click=${this.toggleMenu}>
-					${this.icon?html`<k-icon name="${this.icon}"></k-icon>`:""}
-					<span class="label ${this.collapsed?"hidden":""}">${this.label}</span>
-					${this.collapsed?"":html`<k-icon class="chevron" name="chevron" direction="${this.open?"down":"right"}"></k-icon>`}
+					${this.icon?html`<k-icon name="${this.icon}"></k-icon>`:this.collapsed?html`<k-icon name="dot"></k-icon>`:nothing}
+					${this.collapsed?nothing:html`<span class="label">${this.label}</span>`}
+					${this.collapsed?nothing:html`<k-icon class="chevron" name="chevron" direction="${this.open?"down":"right"}"></k-icon>`}
 				</button>
 				<div class="menu-content ${this.open&&!this.collapsed?"open":""}">
 					<slot></slot>
@@ -158,6 +165,9 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 		`}static styles=css`
 		:host {
 			display: block;
+		}
+		:host([collapsed][hide-when-collapsed]) {
+			display: none;
 		}
 		.menu-container {
 			margin: 0;
@@ -181,6 +191,9 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			white-space: nowrap;
 			transition: background var(--animation_ms);
 		}
+		:host([collapsed]) .menu-header {
+			width: auto;
+		}
 		.menu-header:hover {
 			background: var(--c_bg_hover);
 		}
@@ -192,12 +205,6 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			min-width: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			opacity: 1;
-			transition: opacity var(--animation_ms);
-		}
-		.label.hidden {
-			opacity: 0;
-			width: 0;
 		}
 		.chevron {
 			transition: transform var(--animation_ms);
@@ -207,6 +214,9 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 			overflow: hidden;
 			transition: max-height var(--animation_ms);
 			padding-left: calc(var(--spacer_h) * 2);
+		}
+		:host([collapsed]) .menu-content {
+			padding-left: 0;
 		}
 		.menu-content.open {
 			max-height: 500px;
