@@ -238,26 +238,80 @@ export default {
 		pass('Toggle button works correctly');
 	},
 
-	'should show right arrow icon when collapsed': async ({pass, fail}) => {
-		const panel = await createPanel({ collapsed: true });
+	'should show right arrow icon when collapsed on left side': async ({pass, fail}) => {
+		const panel = await createPanel({ collapsed: true, side: 'left' });
 		const icon = panel.shadowRoot.querySelector('#toggle k-icon');
 		if(icon.getAttribute('direction') !== 'right') {
 			cleanup(panel);
 			return fail(`Expected direction "right", got "${icon.getAttribute('direction')}"`);
 		}
 		cleanup(panel);
-		pass('Right arrow shown when collapsed');
+		pass('Right arrow shown when collapsed on left side');
 	},
 
-	'should show left arrow icon when expanded': async ({pass, fail}) => {
-		const panel = await createPanel({ collapsed: false });
+	'should show left arrow icon when expanded on left side': async ({pass, fail}) => {
+		const panel = await createPanel({ collapsed: false, side: 'left' });
 		const icon = panel.shadowRoot.querySelector('#toggle k-icon');
 		if(icon.getAttribute('direction') !== 'left') {
 			cleanup(panel);
 			return fail(`Expected direction "left", got "${icon.getAttribute('direction')}"`);
 		}
 		cleanup(panel);
-		pass('Left arrow shown when expanded');
+		pass('Left arrow shown when expanded on left side');
+	},
+
+	'should show left arrow icon when collapsed on right side': async ({pass, fail}) => {
+		const panel = await createPanel({ collapsed: true, side: 'right' });
+		const icon = panel.shadowRoot.querySelector('#toggle k-icon');
+		if(icon.getAttribute('direction') !== 'left') {
+			cleanup(panel);
+			return fail(`Expected direction "left", got "${icon.getAttribute('direction')}"`);
+		}
+		cleanup(panel);
+		pass('Left arrow shown when collapsed on right side');
+	},
+
+	'should show right arrow icon when expanded on right side': async ({pass, fail}) => {
+		const panel = await createPanel({ collapsed: false, side: 'right' });
+		const icon = panel.shadowRoot.querySelector('#toggle k-icon');
+		if(icon.getAttribute('direction') !== 'right') {
+			cleanup(panel);
+			return fail(`Expected direction "right", got "${icon.getAttribute('direction')}"`);
+		}
+		cleanup(panel);
+		pass('Right arrow shown when expanded on right side');
+	},
+
+	/*
+		SidePanel - Right Side Positioning
+	*/
+	'should position on right side when side is right': async ({pass, fail}) => {
+		const panel = await createPanel({ side: 'right' });
+		const styles = window.getComputedStyle(panel);
+		if(styles.right !== '0px') {
+			cleanup(panel);
+			return fail('Panel should be positioned on right side');
+		}
+		cleanup(panel);
+		pass('Panel positioned on right side');
+	},
+
+	'should dispatch window event with correct side': async ({pass, fail}) => {
+		const panel = await createPanel({ side: 'right' });
+		let eventDetail = null;
+		const handler = (e) => {
+			eventDetail = e.detail;
+		};
+		window.addEventListener('side-panel-change', handler);
+		panel.collapse();
+		await panel.updateComplete;
+		window.removeEventListener('side-panel-change', handler);
+		if(eventDetail.side !== 'right') {
+			cleanup(panel);
+			return fail(`Expected side "right", got "${eventDetail.side}"`);
+		}
+		cleanup(panel);
+		pass('Window event includes correct side');
 	},
 
 	/*
@@ -315,9 +369,9 @@ export default {
 		await panel.updateComplete;
 		await item.updateComplete;
 		const label = item.shadowRoot.querySelector('.label');
-		if(!label.classList.contains('hidden')) {
+		if(label !== null) {
 			cleanup(panel);
-			return fail('Item label should be hidden when panel collapsed');
+			return fail('Item label should not be rendered when panel collapsed');
 		}
 		cleanup(panel);
 		pass('Item label hidden when panel collapsed');

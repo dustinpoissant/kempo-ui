@@ -6,9 +6,8 @@
   "main": "index.js",
   "scripts": {
     "build": "node scripts/build.js",
-    "docs": "node scripts/docs.js",
-    "docs:src": "node scripts/docs.js --src",
-    "docs:no-build": "node scripts/docs.js --no-build",
+    "prod": "node scripts/docs.js",
+    "dev": "node scripts/docs.js --src",
     "geticon": "node scripts/getIcon.js",
     "test": "npx kempo-test",
     "test:gui": "npx kempo-test --gui",

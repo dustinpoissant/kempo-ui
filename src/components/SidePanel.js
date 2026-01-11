@@ -45,11 +45,18 @@ class SidePanel extends ShadowComponent {
 	}
 
 	render() {
-			return html`
+		const getArrowDirection = () => {
+			if(this.side === 'right'){
+				return this.collapsed ? 'left' : 'right';
+			}
+			return this.collapsed ? 'right' : 'left';
+		};
+
+		return html`
 			<div id="header">
 				<slot name="logo"></slot>
 				<button id="toggle" @click=${this.toggleClick} aria-label="${this.collapsed ? 'Expand panel' : 'Collapse panel'}">
-					<k-icon name="arrow-line" direction="${this.collapsed ? 'right' : 'left'}"></k-icon>
+					<k-icon name="arrow-line" direction="${getArrowDirection()}"></k-icon>
 				</button>
 			</div>
 			<div id="content">
@@ -63,7 +70,8 @@ class SidePanel extends ShadowComponent {
 			--bg: var(--c_bg);
 			--width-expanded: 16rem;
 			--transition-duration: var(--animation_ms, 256ms);
-			display: block;
+			display: flex;
+			flex-direction: column;
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -90,6 +98,7 @@ class SidePanel extends ShadowComponent {
 			gap: var(--spacer_h);
 			padding: var(--spacer_h);
 			border-bottom: 1px solid var(--c_border);
+			flex-shrink: 0;
 		}
 		::slotted([slot="logo"]) {
 			margin-right: auto;
@@ -120,7 +129,8 @@ class SidePanel extends ShadowComponent {
 			background: var(--c_bg_hover);
 		}
 		#content {
-			height: calc(100% - 3rem);
+			flex: 1;
+			min-height: 0;
 			overflow-y: auto;
 			overflow-x: hidden;
 			display: flex;

@@ -3,14 +3,14 @@ import { html, css } from '../lit-all.min.js';
 
 export default class Main extends ShadowComponent {
 	static properties = {
-		panelWidth: { type: String, state: true },
-		panelSide: { type: String, state: true }
+		leftPanelWidth: { type: String, state: true },
+		rightPanelWidth: { type: String, state: true }
 	};
 
 	constructor() {
 		super();
-		this.panelWidth = '0px';
-		this.panelSide = 'left';
+		this.leftPanelWidth = '0px';
+		this.rightPanelWidth = '0px';
 		this.handlePanelChange = this.handlePanelChange.bind(this);
 	}
 
@@ -21,10 +21,14 @@ export default class Main extends ShadowComponent {
 		super.connectedCallback();
 		window.addEventListener('side-panel-change', this.handlePanelChange);
 		
-		const panel = document.querySelector('k-side-panel');
-		if(panel) {
-			this.panelWidth = panel.collapsed ? '3.5rem' : '16rem';
-			this.panelSide = panel.side || 'left';
+		const leftPanel = document.querySelector('k-side-panel:not([side="right"])');
+		if(leftPanel){
+			this.leftPanelWidth = leftPanel.collapsed ? '3.5rem' : '16rem';
+		}
+
+		const rightPanel = document.querySelector('k-side-panel[side="right"]');
+		if(rightPanel){
+			this.rightPanelWidth = rightPanel.collapsed ? '3.5rem' : '16rem';
 		}
 	}
 
@@ -37,8 +41,11 @@ export default class Main extends ShadowComponent {
 		Event Handlers
 	*/
 	handlePanelChange(event) {
-		this.panelWidth = event.detail.width;
-		this.panelSide = event.detail.side;
+		if(event.detail.side === 'right'){
+			this.rightPanelWidth = event.detail.width;
+		}else{
+			this.leftPanelWidth = event.detail.width;
+		}
 	}
 
 	/*
@@ -55,13 +62,9 @@ export default class Main extends ShadowComponent {
 	static styles = css`
 		:host {
 			display: block;
-			margin-left: var(--panel-width, 0px);
-			transition: margin-left var(--animation_ms, 256ms);
-		}
-		:host([panel-side="right"]) {
-			margin-left: 0;
-			margin-right: var(--panel-width, 0px);
-			transition: margin-right var(--animation_ms, 256ms);
+			margin-left: var(--left-panel-width, 0px);
+			margin-right: var(--right-panel-width, 0px);
+			transition: margin-left var(--animation_ms, 256ms), margin-right var(--animation_ms, 256ms);
 		}
 		main {
 			max-width: var(--container_width, 90rem);
@@ -75,12 +78,8 @@ export default class Main extends ShadowComponent {
 
 	updated() {
 		super.updated();
-		this.style.setProperty('--panel-width', this.panelWidth);
-		if(this.panelSide === 'right') {
-			this.setAttribute('panel-side', 'right');
-		} else {
-			this.removeAttribute('panel-side');
-		}
+		this.style.setProperty('--left-panel-width', this.leftPanelWidth);
+		this.style.setProperty('--right-panel-width', this.rightPanelWidth);
 	}
 }
 

@@ -29,33 +29,33 @@ export default {
 	/*
 		Main - Properties
 	*/
-	'should have default panelWidth as 0px': async ({pass, fail}) => {
+	'should have default leftPanelWidth as 0px': async ({pass, fail}) => {
 		const main = await createMain();
-		if(main.panelWidth !== '0px') {
+		if(main.leftPanelWidth !== '0px') {
 			cleanup(main);
-			return fail(`Expected panelWidth to be "0px", got "${main.panelWidth}"`);
+			return fail(`Expected leftPanelWidth to be "0px", got "${main.leftPanelWidth}"`);
 		}
 		cleanup(main);
-		pass('Default panelWidth is 0px');
+		pass('Default leftPanelWidth is 0px');
 	},
 
-	'should have default panelSide as left': async ({pass, fail}) => {
+	'should have default rightPanelWidth as 0px': async ({pass, fail}) => {
 		const main = await createMain();
-		if(main.panelSide !== 'left') {
+		if(main.rightPanelWidth !== '0px') {
 			cleanup(main);
-			return fail(`Expected panelSide to be "left", got "${main.panelSide}"`);
+			return fail(`Expected rightPanelWidth to be "0px", got "${main.rightPanelWidth}"`);
 		}
 		cleanup(main);
-		pass('Default panelSide is left');
+		pass('Default rightPanelWidth is 0px');
 	},
 
 	'should not reflect state properties to attributes': async ({pass, fail}) => {
 		const main = await createMain();
-		main.panelWidth = '16rem';
+		main.leftPanelWidth = '16rem';
 		await main.updateComplete;
-		if(main.hasAttribute('panelWidth')) {
+		if(main.hasAttribute('leftPanelWidth')) {
 			cleanup(main);
-			return fail('panelWidth should not reflect to attribute (it is a state property)');
+			return fail('leftPanelWidth should not reflect to attribute (it is a state property)');
 		}
 		cleanup(main);
 		pass('State properties do not reflect to attributes');
@@ -64,7 +64,7 @@ export default {
 	/*
 		Main - Window Event Handling
 	*/
-	'should listen for side-panel-change event': async ({pass, fail}) => {
+	'should listen for side-panel-change event for left panel': async ({pass, fail}) => {
 		const main = await createMain();
 		window.dispatchEvent(new CustomEvent('side-panel-change', {
 			detail: {
@@ -74,33 +74,15 @@ export default {
 			}
 		}));
 		await main.updateComplete;
-		if(main.panelWidth !== '16rem' || main.panelSide !== 'left') {
+		if(main.leftPanelWidth !== '16rem') {
 			cleanup(main);
-			return fail('Should update from window event');
+			return fail(`Expected leftPanelWidth "16rem", got "${main.leftPanelWidth}"`);
 		}
 		cleanup(main);
-		pass('Listens for side-panel-change event');
+		pass('Listens for side-panel-change event for left panel');
 	},
 
-	'should update panelWidth from event detail': async ({pass, fail}) => {
-		const main = await createMain();
-		window.dispatchEvent(new CustomEvent('side-panel-change', {
-			detail: {
-				collapsed: true,
-				width: '3.5rem',
-				side: 'left'
-			}
-		}));
-		await main.updateComplete;
-		if(main.panelWidth !== '3.5rem') {
-			cleanup(main);
-			return fail(`Expected panelWidth "3.5rem", got "${main.panelWidth}"`);
-		}
-		cleanup(main);
-		pass('Updates panelWidth from event');
-	},
-
-	'should update panelSide from event detail': async ({pass, fail}) => {
+	'should listen for side-panel-change event for right panel': async ({pass, fail}) => {
 		const main = await createMain();
 		window.dispatchEvent(new CustomEvent('side-panel-change', {
 			detail: {
@@ -110,21 +92,57 @@ export default {
 			}
 		}));
 		await main.updateComplete;
-		if(main.panelSide !== 'right') {
+		if(main.rightPanelWidth !== '16rem') {
 			cleanup(main);
-			return fail(`Expected panelSide "right", got "${main.panelSide}"`);
+			return fail(`Expected rightPanelWidth "16rem", got "${main.rightPanelWidth}"`);
 		}
 		cleanup(main);
-		pass('Updates panelSide from event');
+		pass('Listens for side-panel-change event for right panel');
 	},
 
-	'should handle multiple panel change events': async ({pass, fail}) => {
+	'should update leftPanelWidth from event detail': async ({pass, fail}) => {
+		const main = await createMain();
+		window.dispatchEvent(new CustomEvent('side-panel-change', {
+			detail: {
+				collapsed: true,
+				width: '3.5rem',
+				side: 'left'
+			}
+		}));
+		await main.updateComplete;
+		if(main.leftPanelWidth !== '3.5rem') {
+			cleanup(main);
+			return fail(`Expected leftPanelWidth "3.5rem", got "${main.leftPanelWidth}"`);
+		}
+		cleanup(main);
+		pass('Updates leftPanelWidth from event');
+	},
+
+	'should update rightPanelWidth from event detail': async ({pass, fail}) => {
+		const main = await createMain();
+		window.dispatchEvent(new CustomEvent('side-panel-change', {
+			detail: {
+				collapsed: false,
+				width: '16rem',
+				side: 'right'
+			}
+		}));
+		await main.updateComplete;
+		if(main.rightPanelWidth !== '16rem') {
+			cleanup(main);
+			return fail(`Expected rightPanelWidth "16rem", got "${main.rightPanelWidth}"`);
+		}
+		cleanup(main);
+		pass('Updates rightPanelWidth from event');
+	},
+
+	'should handle multiple panel change events for same side': async ({pass, fail}) => {
 		const main = await createMain();
 		window.dispatchEvent(new CustomEvent('side-panel-change', {
 			detail: { collapsed: false, width: '16rem', side: 'left' }
 		}));
 		await main.updateComplete;
-		if(main.panelWidth !== '16rem') {
+		if(main.leftPanelWidth !== '16rem') {
 			cleanup(main);
 			return fail('Should update on first event');
 		}
@@ -132,53 +150,83 @@ export default {
 			detail: { collapsed: true, width: '3.5rem', side: 'left' }
 		}));
 		await main.updateComplete;
-		if(main.panelWidth !== '3.5rem') {
+		if(main.leftPanelWidth !== '3.5rem') {
 			cleanup(main);
 			return fail('Should update on second event');
 		}
 		cleanup(main);
-		pass('Handles multiple panel change events');
+		pass('Handles multiple panel change events for same side');
+	},
+
+	'should handle events for both left and right panels independently': async ({pass, fail}) => {
+		const main = await createMain();
+		window.dispatchEvent(new CustomEvent('side-panel-change', {
+			detail: { collapsed: false, width: '16rem', side: 'left' }
+		}));
+		await main.updateComplete;
+		window.dispatchEvent(new CustomEvent('side-panel-change', {
+			detail: { collapsed: true, width: '3.5rem', side: 'right' }
+		}));
+		await main.updateComplete;
+		if(main.leftPanelWidth !== '16rem' || main.rightPanelWidth !== '3.5rem') {
+			cleanup(main);
+			return fail(`Expected leftPanelWidth "16rem" and rightPanelWidth "3.5rem", got "${main.leftPanelWidth}" and "${main.rightPanelWidth}"`);
+		}
+		cleanup(main);
+		pass('Handles events for both panels independently');
 	},
 
 	/*
 		Main - Existing Panel Detection
 	*/
-	'should detect existing collapsed panel on connection': async ({pass, fail}) => {
+	'should detect existing collapsed left panel on connection': async ({pass, fail}) => {
 		const panel = await createPanel({ collapsed: true, side: 'left' });
 		const main = await createMain();
-		if(main.panelWidth !== '3.5rem' || main.panelSide !== 'left') {
+		if(main.leftPanelWidth !== '3.5rem') {
 			cleanup(main, panel);
-			return fail('Should detect existing collapsed panel');
+			return fail(`Expected leftPanelWidth "3.5rem", got "${main.leftPanelWidth}"`);
 		}
 		cleanup(main, panel);
-		pass('Detects existing collapsed panel');
+		pass('Detects existing collapsed left panel');
 	},
 
-	'should detect existing expanded panel on connection': async ({pass, fail}) => {
+	'should detect existing expanded left panel on connection': async ({pass, fail}) => {
 		const panel = await createPanel({ collapsed: false, side: 'left' });
 		const main = await createMain();
-		if(main.panelWidth !== '16rem' || main.panelSide !== 'left') {
+		if(main.leftPanelWidth !== '16rem') {
 			cleanup(main, panel);
-			return fail('Should detect existing expanded panel');
+			return fail(`Expected leftPanelWidth "16rem", got "${main.leftPanelWidth}"`);
 		}
 		cleanup(main, panel);
-		pass('Detects existing expanded panel');
+		pass('Detects existing expanded left panel');
 	},
 
-	'should detect right-side panel': async ({pass, fail}) => {
+	'should detect existing right panel on connection': async ({pass, fail}) => {
 		const panel = await createPanel({ collapsed: false, side: 'right' });
 		const main = await createMain();
-		if(main.panelSide !== 'right') {
+		if(main.rightPanelWidth !== '16rem') {
 			cleanup(main, panel);
-			return fail(`Expected panelSide "right", got "${main.panelSide}"`);
+			return fail(`Expected rightPanelWidth "16rem", got "${main.rightPanelWidth}"`);
 		}
 		cleanup(main, panel);
-		pass('Detects right-side panel');
+		pass('Detects existing right panel');
+	},
+
+	'should detect both left and right panels on connection': async ({pass, fail}) => {
+		const leftPanel = await createPanel({ collapsed: false, side: 'left' });
+		const rightPanel = await createPanel({ collapsed: true, side: 'right' });
+		const main = await createMain();
+		if(main.leftPanelWidth !== '16rem' || main.rightPanelWidth !== '3.5rem') {
+			cleanup(main, leftPanel, rightPanel);
+			return fail(`Expected leftPanelWidth "16rem" and rightPanelWidth "3.5rem", got "${main.leftPanelWidth}" and "${main.rightPanelWidth}"`);
+		}
+		cleanup(main, leftPanel, rightPanel);
+		pass('Detects both left and right panels');
 	},
 
 	'should not error when no panel exists': async ({pass, fail}) => {
 		const main = await createMain();
-		if(main.panelWidth !== '0px' || main.panelSide !== 'left') {
+		if(main.leftPanelWidth !== '0px' || main.rightPanelWidth !== '0px') {
 			cleanup(main);
 			return fail('Should have default values when no panel exists');
 		}
@@ -189,85 +237,70 @@ export default {
 	/*
 		Main - CSS Variable Updates
 	*/
-	'should set --panel-width CSS variable': async ({pass, fail}) => {
+	'should set --left-panel-width CSS variable': async ({pass, fail}) => {
 		const main = await createMain();
-		main.panelWidth = '16rem';
+		main.leftPanelWidth = '16rem';
 		await main.updateComplete;
 		const computedStyle = getComputedStyle(main);
-		const panelWidth = computedStyle.getPropertyValue('--panel-width').trim();
+		const panelWidth = computedStyle.getPropertyValue('--left-panel-width').trim();
 		if(panelWidth !== '16rem') {
 			cleanup(main);
-			return fail(`Expected --panel-width "16rem", got "${panelWidth}"`);
+			return fail(`Expected --left-panel-width "16rem", got "${panelWidth}"`);
 		}
 		cleanup(main);
-		pass('Sets --panel-width CSS variable');
+		pass('Sets --left-panel-width CSS variable');
 	},
 
-	'should update --panel-width when panelWidth changes': async ({pass, fail}) => {
+	'should set --right-panel-width CSS variable': async ({pass, fail}) => {
 		const main = await createMain();
-		main.panelWidth = '16rem';
+		main.rightPanelWidth = '16rem';
+		await main.updateComplete;
+		const computedStyle = getComputedStyle(main);
+		const panelWidth = computedStyle.getPropertyValue('--right-panel-width').trim();
+		if(panelWidth !== '16rem') {
+			cleanup(main);
+			return fail(`Expected --right-panel-width "16rem", got "${panelWidth}"`);
+		}
+		cleanup(main);
+		pass('Sets --right-panel-width CSS variable');
+	},
+
+	'should update --left-panel-width when leftPanelWidth changes': async ({pass, fail}) => {
+		const main = await createMain();
+		main.leftPanelWidth = '16rem';
 		await main.updateComplete;
 		let computedStyle = getComputedStyle(main);
-		let panelWidth = computedStyle.getPropertyValue('--panel-width').trim();
+		let panelWidth = computedStyle.getPropertyValue('--left-panel-width').trim();
 		if(panelWidth !== '16rem') {
 			cleanup(main);
-			return fail('Should set initial --panel-width');
+			return fail('Should set initial --left-panel-width');
 		}
-		main.panelWidth = '3.5rem';
+		main.leftPanelWidth = '3.5rem';
 		await main.updateComplete;
 		computedStyle = getComputedStyle(main);
-		panelWidth = computedStyle.getPropertyValue('--panel-width').trim();
+		panelWidth = computedStyle.getPropertyValue('--left-panel-width').trim();
 		if(panelWidth !== '3.5rem') {
 			cleanup(main);
-			return fail(`Expected updated --panel-width "3.5rem", got "${panelWidth}"`);
+			return fail(`Expected updated --left-panel-width "3.5rem", got "${panelWidth}"`);
 		}
 		cleanup(main);
-		pass('Updates --panel-width when panelWidth changes');
+		pass('Updates --left-panel-width when leftPanelWidth changes');
 	},
 
-	/*
-		Main - Panel Side Attribute
-	*/
-	'should remove panel-side attribute for left': async ({pass, fail}) => {
+	'should maintain both panel widths independently': async ({pass, fail}) => {
 		const main = await createMain();
-		main.panelSide = 'left';
+		main.leftPanelWidth = '16rem';
+		main.rightPanelWidth = '3.5rem';
 		await main.updateComplete;
-		if(main.hasAttribute('panel-side')) {
+		const computedStyle = getComputedStyle(main);
+		const leftWidth = computedStyle.getPropertyValue('--left-panel-width').trim();
+		const rightWidth = computedStyle.getPropertyValue('--right-panel-width').trim();
+		if(leftWidth !== '16rem' || rightWidth !== '3.5rem') {
 			cleanup(main);
-			return fail('panel-side attribute should be removed for left side');
+			return fail(`Expected left "16rem" and right "3.5rem", got "${leftWidth}" and "${rightWidth}"`);
 		}
 		cleanup(main);
-		pass('Removes panel-side attribute for left');
-	},
-
-	'should set panel-side attribute to right': async ({pass, fail}) => {
-		const main = await createMain();
-		main.panelSide = 'right';
-		await main.updateComplete;
-		if(main.getAttribute('panel-side') !== 'right') {
-			cleanup(main);
-			return fail(`Expected panel-side "right", got "${main.getAttribute('panel-side')}"`);
-		}
-		cleanup(main);
-		pass('Sets panel-side attribute to right');
-	},
-
-	'should remove panel-side attribute when changing from right to left': async ({pass, fail}) => {
-		const main = await createMain();
-		main.panelSide = 'right';
-		await main.updateComplete;
-		if(!main.hasAttribute('panel-side')) {
-			cleanup(main);
-			return fail('Should have panel-side attribute for right');
-		}
-		main.panelSide = 'left';
-		await main.updateComplete;
-		if(main.hasAttribute('panel-side')) {
-			cleanup(main);
-			return fail('Should remove panel-side attribute when changed to left');
-		}
-		cleanup(main);
-		pass('Removes panel-side attribute when changing to left');
+		pass('Maintains both panel widths independently');
 	},
 
 	/*
@@ -303,43 +336,71 @@ export default {
 	/*
 		Main - Integration with SidePanel
 	*/
-	'should update when panel toggles': async ({pass, fail}) => {
-		const panel = await createPanel({ collapsed: false });
+	'should update when left panel toggles': async ({pass, fail}) => {
+		const panel = await createPanel({ collapsed: false, side: 'left' });
 		const main = await createMain();
-		if(main.panelWidth !== '16rem') {
+		if(main.leftPanelWidth !== '16rem') {
 			cleanup(main, panel);
 			return fail('Should detect initial expanded state');
 		}
 		panel.collapse();
 		await panel.updateComplete;
 		await main.updateComplete;
-		if(main.panelWidth !== '3.5rem') {
+		if(main.leftPanelWidth !== '3.5rem') {
 			cleanup(main, panel);
-			return fail(`Expected panelWidth "3.5rem" after collapse, got "${main.panelWidth}"`);
+			return fail(`Expected leftPanelWidth "3.5rem" after collapse, got "${main.leftPanelWidth}"`);
 		}
 		cleanup(main, panel);
-		pass('Updates when panel toggles');
+		pass('Updates when left panel toggles');
 	},
 
-	'should handle left-side panel margin': async ({pass, fail}) => {
-		const panel = await createPanel({ collapsed: false, side: 'left' });
-		const main = await createMain();
-		if(main.panelSide !== 'left' || main.hasAttribute('panel-side')) {
-			cleanup(main, panel);
-			return fail('Should handle left-side panel without attribute');
-		}
-		cleanup(main, panel);
-		pass('Handles left-side panel margin');
-	},
-
-	'should handle right-side panel margin': async ({pass, fail}) => {
+	'should update when right panel toggles': async ({pass, fail}) => {
 		const panel = await createPanel({ collapsed: false, side: 'right' });
 		const main = await createMain();
-		if(main.panelSide !== 'right' || main.getAttribute('panel-side') !== 'right') {
+		if(main.rightPanelWidth !== '16rem') {
 			cleanup(main, panel);
-			return fail('Should handle right-side panel');
+			return fail('Should detect initial expanded state');
+		}
+		panel.collapse();
+		await panel.updateComplete;
+		await main.updateComplete;
+		if(main.rightPanelWidth !== '3.5rem') {
+			cleanup(main, panel);
+			return fail(`Expected rightPanelWidth "3.5rem" after collapse, got "${main.rightPanelWidth}"`);
 		}
 		cleanup(main, panel);
-		pass('Handles right-side panel margin');
+		pass('Updates when right panel toggles');
+	},
+
+	'should handle dual panels toggling independently': async ({pass, fail}) => {
+		const leftPanel = await createPanel({ collapsed: false, side: 'left' });
+		const rightPanel = await createPanel({ collapsed: false, side: 'right' });
+		const main = await createMain();
+		
+		if(main.leftPanelWidth !== '16rem' || main.rightPanelWidth !== '16rem') {
+			cleanup(main, leftPanel, rightPanel);
+			return fail('Should detect both expanded panels');
+		}
+		
+		leftPanel.collapse();
+		await leftPanel.updateComplete;
+		await main.updateComplete;
+		
+		if(main.leftPanelWidth !== '3.5rem' || main.rightPanelWidth !== '16rem') {
+			cleanup(main, leftPanel, rightPanel);
+			return fail('Left panel should collapse while right stays expanded');
+		}
+		
+		rightPanel.collapse();
+		await rightPanel.updateComplete;
+		await main.updateComplete;
+		
+		if(main.leftPanelWidth !== '3.5rem' || main.rightPanelWidth !== '3.5rem') {
+			cleanup(main, leftPanel, rightPanel);
+			return fail('Both panels should be collapsed');
+		}
+		
+		cleanup(main, leftPanel, rightPanel);
+		pass('Handles dual panels toggling independently');
 	}
 };

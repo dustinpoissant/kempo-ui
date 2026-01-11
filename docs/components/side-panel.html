@@ -26,6 +26,7 @@
           <a href="#independentScrolling">Independent Scrolling</a><br />
           <a href="#collapsedDefault">Collapsed by Default</a><br />
           <a href="#rightSidePanel">Right Side Panel</a><br />
+          <a href="#dualPanels">Dual Side Panels</a><br />
           <a href="#customStyling">Custom Styling</a><br />
           
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -81,6 +82,33 @@
       </div>
     </div>
 
+    <h3 id="rightSidePanel"><a href="#rightSidePanel" class="no-link">Right Side Panel</a></h3>
+    <p>Set the <code>side</code> attribute to <code>"right"</code> to position the panel on the right side of the page.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel</span> <span class="hljs-attr">side</span>=<span class="hljs-string">"right"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"logo"</span>&gt;</span>Tools<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"notification"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span>&gt;</span>Notifications<span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel-item</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"chat"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span>&gt;</span>Messages<span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel-item</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br />  <span class="hljs-comment">&lt;!-- Content --&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="dualPanels"><a href="#dualPanels" class="no-link">Dual Side Panels</a></h3>
+    <p>You can have two side panels on a page simultaneously - one on the left and one on the right. The <code>&lt;k-main&gt;</code> component will automatically adjust margins for both panels.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel</span>&gt;</span><br />  <span class="hljs-comment">&lt;!-- Left panel content --&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel</span>&gt;</span><br /><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel</span> <span class="hljs-attr">side</span>=<span class="hljs-string">"right"</span>&gt;</span><br />  <span class="hljs-comment">&lt;!-- Right panel content --&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel</span>&gt;</span><br /><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br />  <span class="hljs-comment">&lt;!-- Content centered between both panels --&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx">
+      <div class="col span-12 px">
+        <k-card label="Output">
+          <iframe src="./side-panel-dual.html" style="width: 100%; height: 600px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -95,10 +123,11 @@
     <h4>How It Works</h4>
     <ul>
       <li>Listens for <code>side-panel-change</code> events on <code>window</code></li>
-      <li>Automatically detects existing panel on mount</li>
+      <li>Automatically detects existing panels on mount</li>
       <li>Adjusts margin with smooth transitions</li>
       <li>Provides standard <code>&lt;main&gt;</code> centering and max-width behavior</li>
       <li>Works with both left and right side panels</li>
+      <li>Supports dual panels (one on each side) simultaneously</li>
     </ul>
 
     <h4>Usage</h4>
