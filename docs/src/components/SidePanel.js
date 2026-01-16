@@ -2,7 +2,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from".
 			<div id="header">
 				<slot name="logo"></slot>
 				<button id="toggle" @click=${this.toggleClick} aria-label="${this.collapsed?"Expand panel":"Collapse panel"}">
-					<k-icon name="arrow-line" direction="${this.collapsed?"right":"left"}"></k-icon>
+					<k-icon name="arrow-line" direction="${(()=>"right"===this.side?this.collapsed?"left":"right":this.collapsed?"right":"left")()}"></k-icon>
 				</button>
 			</div>
 			<div id="content">
@@ -13,7 +13,8 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from".
 			--bg: var(--c_bg);
 			--width-expanded: 16rem;
 			--transition-duration: var(--animation_ms, 256ms);
-			display: block;
+			display: flex;
+			flex-direction: column;
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -40,11 +41,10 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from".
 			gap: var(--spacer_h);
 			padding: var(--spacer_h);
 			border-bottom: 1px solid var(--c_border);
+			flex-shrink: 0;
 		}
 		::slotted([slot="logo"]) {
 			margin-right: auto;
-		}
-		::slotted([slot="logo"]) {
 			flex: 1;
 			min-width: 0;
 			opacity: 1;
@@ -70,7 +70,8 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from".
 			background: var(--c_bg_hover);
 		}
 		#content {
-			height: calc(100% - 3rem);
+			flex: 1;
+			min-height: 0;
 			overflow-y: auto;
 			overflow-x: hidden;
 			display: flex;

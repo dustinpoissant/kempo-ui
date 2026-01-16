@@ -102,8 +102,6 @@ class SidePanel extends ShadowComponent {
 		}
 		::slotted([slot="logo"]) {
 			margin-right: auto;
-		}
-		::slotted([slot="logo"]) {
 			flex: 1;
 			min-width: 0;
 			opacity: 1;
