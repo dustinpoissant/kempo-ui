@@ -1,4 +1,4 @@
-import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from"../lit-all.min.js";import"./Icon.js";class SidePanel extends ShadowComponent{static properties={collapsed:{type:Boolean,reflect:!0},side:{type:String,reflect:!0}};constructor(){super(),this.collapsed=!1,this.side="left"}toggleClick=()=>this.toggle();updated(e){if(super.updated(e),e.has("collapsed")){const e=this.collapsed?"collapse":"expand";this.dispatchEvent(new CustomEvent(e)),this.dispatchEvent(new CustomEvent("change",{detail:e})),window.dispatchEvent(new CustomEvent("side-panel-change",{detail:{collapsed:this.collapsed,width:this.collapsed?"3.5rem":"16rem",side:this.side}}))}}expand=()=>this.collapsed=!1;collapse=()=>this.collapsed=!0;toggle(){this.collapsed=!this.collapsed,this.dispatchEvent(new CustomEvent("toggle"))}render(){return html`
+import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from"../lit-all.min.js";import"./Icon.js";class SidePanel extends ShadowComponent{static properties={collapsed:{type:Boolean,reflect:!0},side:{type:String,reflect:!0},persistentId:{type:String,reflect:!0,attribute:"persistent-id"}};constructor(){super(),this.collapsed=!1,this.side="left",this.persistentId=null,this.isInitialLoad=!0}toggleClick=()=>this.toggle();updated(e){if(super.updated(e),e.has("persistentId")&&this.persistentId&&window?.localStorage){const e=`side-panel-persistent-id-${this.persistentId}`,t=window.localStorage.getItem(e);null!==t&&(this.collapsed="true"===t,this.isInitialLoad=!1)}if(e.has("collapsed")){if(this.persistentId&&window?.localStorage&&!this.isInitialLoad){const e=`side-panel-persistent-id-${this.persistentId}`;window.localStorage.setItem(e,this.collapsed.toString())}this.isInitialLoad=!1;const e=this.collapsed?"collapse":"expand";this.dispatchEvent(new CustomEvent(e)),this.dispatchEvent(new CustomEvent("change",{detail:e})),window.dispatchEvent(new CustomEvent("side-panel-change",{detail:{collapsed:this.collapsed,width:this.collapsed?"3.5rem":"16rem",side:this.side}}))}}expand=()=>this.collapsed=!1;collapse=()=>this.collapsed=!0;toggle(){this.collapsed=!this.collapsed,this.dispatchEvent(new CustomEvent("toggle"))}render(){return html`
 			<div id="header">
 				<slot name="logo"></slot>
 				<button id="toggle" @click=${this.toggleClick} aria-label="${this.collapsed?"Expand panel":"Collapse panel"}">
@@ -23,7 +23,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,nothing}from".
 			transition: width var(--transition-duration);
 			background: var(--bg);
 			border-right: 1px solid var(--c_border);
-			z-index: 1000;
+			z-index: 99;
 		}
 		:host([collapsed]) {
 			width: auto;
