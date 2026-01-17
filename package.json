@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node scripts/build.js",
     "prod": "node scripts/docs.js",
-    "dev": "node scripts/docs.js --src",
+    "dev": "node scripts/docs.js --src --logging silent",
     "geticon": "node scripts/getIcon.js",
     "test": "npx kempo-test",
     "test:gui": "npx kempo-test --gui",

@@ -25,6 +25,7 @@
           <a href="#withMenu">With Menu</a><br />
           <a href="#independentScrolling">Independent Scrolling</a><br />
           <a href="#collapsedDefault">Collapsed by Default</a><br />
+          <a href="#persistent">Persistent State</a><br />
           <a href="#rightSidePanel">Right Side Panel</a><br />
           <a href="#dualPanels">Dual Side Panels</a><br />
           <a href="#customStyling">Custom Styling</a><br />
@@ -78,6 +79,22 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <iframe src="./side-panel-scroll.html" style="width: 100%; height: 600px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="persistent"><a href="#persistent" class="no-link">Persistent State</a></h3>
+    <p>Use the <code>persistent-id</code> attribute to save the panel's collapsed/expanded state to localStorage. When the page is refreshed, the panel will remember its previous state.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">"main-nav"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"logo"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"m0"</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"cards"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">active</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel-item</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"check"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span>&gt;</span>Tasks<span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel-item</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-side-panel-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"settings"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel-item</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-side-panel</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <p class="info-box">Try collapsing/expanding the panel, then refresh this page. The panel will remember its state!</p>
+          <iframe src="./side-panel-persistent.html" style="width: 100%; height: 400px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
         </k-card>
       </div>
     </div>
@@ -146,6 +163,8 @@
     <p>Whether the side panel is collapsed to icon-only view. Defaults to <code>false</code>. Syncs to <code>collapsed</code> attribute.</p>
     <h5><code>side<i>: string</i></code></h5>
     <p>The side where the panel is positioned. Can be <code>"left"</code> or <code>"right"</code>. Defaults to <code>"left"</code>. Syncs to <code>side</code> attribute.</p>
+    <h5><code>persistentId<i>: string</i></code></h5>
+    <p>A unique identifier for saving the panel's collapsed/expanded state to localStorage. When set, the panel will remember its state across page refreshes. Syncs to <code>persistent-id</code> attribute.</p>
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
     <h5><code>expand</code></h5>

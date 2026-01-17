@@ -8,13 +8,16 @@ import './Icon.js';
 class SidePanel extends ShadowComponent {
 	static properties = {
 		collapsed: { type: Boolean, reflect: true },
-		side: { type: String, reflect: true }
+		side: { type: String, reflect: true },
+		persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
 	};
 
 	constructor() {
 		super();
 		this.collapsed = false;
 		this.side = 'left';
+		this.persistentId = null;
+		this.isInitialLoad = true;
 	}
 
 	toggleClick = () => this.toggle();
@@ -22,7 +25,22 @@ class SidePanel extends ShadowComponent {
 	updated(changedProperties) {
 		super.updated(changedProperties);
 		
+		if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
+			const key = `side-panel-persistent-id-${this.persistentId}`;
+			const value = window.localStorage.getItem(key);
+			if(value !== null) {
+				this.collapsed = value === 'true';
+				this.isInitialLoad = false;
+			}
+		}
+		
 		if(changedProperties.has('collapsed')) {
+			if(this.persistentId && window?.localStorage && !this.isInitialLoad) {
+				const key = `side-panel-persistent-id-${this.persistentId}`;
+				window.localStorage.setItem(key, this.collapsed.toString());
+			}
+			this.isInitialLoad = false;
+			
 			const eventName = this.collapsed ? 'collapse' : 'expand';
 			this.dispatchEvent(new CustomEvent(eventName));
 			this.dispatchEvent(new CustomEvent('change', { detail: eventName }));
@@ -80,7 +98,7 @@ class SidePanel extends ShadowComponent {
 			transition: width var(--transition-duration);
 			background: var(--bg);
 			border-right: 1px solid var(--c_border);
-			z-index: 1000;
+			z-index: 99;
 		}
 		:host([collapsed]) {
 			width: auto;
