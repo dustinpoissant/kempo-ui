@@ -1,24 +1,24 @@
-import ShadowComponent from"./ShadowComponent.js";import{html,css,render}from"../lit-all.min.js";import{boolExists}from"../utils/propConverters.js";import"./Icon.js";export default class Tree extends ShadowComponent{static properties={data:{type:Object},depth:{type:Number,reflect:!0},editable:{type:Boolean,converter:boolExists,attribute:"editable",reflect:!0}};constructor(){super(),this.data=null,this.depth=0,this.editable=!1}render(){return this.data?"object"==typeof this.data&&null!==this.data?html`
+import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-all.min.js";import{boolExists}from"../utils/propConverters.js";import"./Icon.js";let nodeTagCounter=0;export default class Tree extends ShadowComponent{static properties={data:{type:Object},depth:{type:Number,reflect:!0},editable:{type:Boolean,converter:boolExists,attribute:"editable",reflect:!0}};constructor(){super(),this.data=null,this.depth=0,this.editable=!1}render(){if(null===this.data||void 0===this.data)return html`<slot></slot>`;if(Tree.nodes.find(e=>e.detect(this.data)))return html`
 				<div class="tree-root">
-					${(Array.isArray(this.data)?this.data.map((e,t)=>[t,e]):Object.entries(this.data)).map(([e,t])=>Tree.renderValue(t,e,1,this.depth))}
+					${Tree.renderValue(this.data,null,0,this.depth)}
 				</div>
-			`:html`
+			`;const e=Array.isArray(this.data)?this.data.map((e,t)=>[t,e]):"object"==typeof this.data?Object.entries(this.data):null;return html`
 			<div class="tree-root">
-				${Tree.renderValue(this.data,null,0,this.depth)}
+				${e?e.map(([e,t])=>Tree.renderValue(t,e,1,this.depth)):Tree.renderValue(this.data,null,0,this.depth)}
 			</div>
-		`:html`<slot></slot>`}static leafs=[];static addLeaf=(...e)=>{e.forEach(e=>Tree.leafs.unshift(e))};static renderValue(e,t=null,s=0,a=0){const r=Tree.leafs.find(t=>t.detect(e));if(r){const s=document.createElement("span");if(s.className="d-b",null!==t){const e=document.createElement("span");e.className="number"==typeof t?"tc-muted":"",e.textContent=`${t}: `,s.appendChild(e)}const a=new r(e).render();if(a instanceof Node)s.appendChild(a);else{const e=document.createElement("span");render(a,e),s.appendChild(e)}return s}if("object"==typeof e&&null!==e){const r=new TreeBranch;return r.value=e,r.key=t,r.currentDepth=s,r.maxDepth=a,r}return html`<span class="d-b primitive">${null!==t?html`<span class="${"number"==typeof t?"tc-muted":""}">${t}: </span>`:""}${e}</span>`}}window.customElements.define("k-tree",Tree);export class TreeBranch extends ShadowComponent{static properties={value:{type:Object},key:{type:String},currentDepth:{type:Number},maxDepth:{type:Number},opened:{type:Boolean,converter:boolExists,reflect:!0}};constructor(){super(),this.value=null,this.key=null,this.currentDepth=0,this.maxDepth=0,this.opened=!1}connectedCallback(){super.connectedCallback(),this.currentDepth<=this.maxDepth&&(this.opened=!0)}get tree(){return this.closest("k-tree")}toggle=()=>{this.opened=!this.opened};render(){const e=null!==this.key?`${this.key}: `:"",t=Array.isArray(this.value)?"Array":"Object";return html`
+		`}static nodes=[];static addNode=(...e)=>{[...e].reverse().forEach(e=>{Object.prototype.hasOwnProperty.call(e,"nodeTag")||(e.nodeTag="k-tree-node-"+nodeTagCounter++,window.customElements.define(e.nodeTag,e)),Tree.nodes.unshift(e)})};static renderValue(e,t=null,s=0,r=0){const n=Tree.nodes.find(t=>t.detect(e))??TreeNode,a=document.createElement(n.nodeTag);return a.value=e,a.key=t,a.depth=s,a.maxDepth=r,a}}window.customElements.define("k-tree",Tree);export class TreeNode extends ShadowComponent{static nodeTag="k-tree-node";static properties={value:{type:Object},key:{attribute:!1},depth:{type:Number},maxDepth:{type:Number},opened:{type:Boolean,converter:boolExists,reflect:!0},icon:{type:String}};constructor(){super(),this.value=null,this.key=null,this.depth=0,this.maxDepth=0,this.opened=!1,this.icon=null}connectedCallback(){super.connectedCallback(),this.depth<=this.maxDepth&&(this.opened=!0)}get tree(){return this.closest("k-tree")}toggle=()=>{this.opened=!this.opened};renderLabel(){return"object"==typeof this.value&&null!==this.value?html`${Array.isArray(this.value)?"Array":"Object"}`:html`${this.value}`}getChildren(){return"object"!=typeof this.value||null===this.value?null:Array.isArray(this.value)?this.value.map((e,t)=>[t,e]):Object.entries(this.value)}renderIcon(){return this.icon?html`<k-icon name="${this.icon}"></k-icon>`:html`<k-icon name="chevron" class="toggle-icon" direction="${this.opened?"down":"right"}"></k-icon>`}render(){const e=this.getChildren(),t=null!==this.key?html`<span class="${"number"==typeof this.key?"tc-muted":""}">${this.key}: </span>`:"";return e?html`
 			<div>
 				<button class="branch-label no-btn" @click=${this.toggle} aria-expanded="${this.opened}">
-					<k-icon name="chevron-right" class="toggle-icon ${this.opened?"opened":""}"></k-icon>
-					${e}${t}
+					${this.renderIcon()}
+					${t}${this.renderLabel()}
 				</button>
 				${this.opened?html`
 					<div class="pl">
-						${this.value?(Array.isArray(this.value)?this.value.map((e,t)=>[t,e]):Object.entries(this.value)).map(([e,t])=>Tree.renderValue(t,e,this.currentDepth+1,this.maxDepth)):""}
+						${e.map(([e,t])=>Tree.renderValue(t,e,this.depth+1,this.maxDepth))}
 					</div>
 				`:""}
 			</div>
-		`}static styles=css`
+		`:html`<span class="d-b">${t}${this.renderLabel()}</span>`}static styles=css`
 		:host{
 			display: block;
 		}
@@ -33,10 +33,4 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css,render}from"..
 		.branch-label:focus-visible{
 			box-shadow: var(--focus_shadow);
 		}
-		.toggle-icon{
-			transition: transform var(--animation_ms, 200ms);
-		}
-		.toggle-icon.opened{
-			transform: rotate(90deg);
-		}
-	`}window.customElements.define("k-tree-branch",TreeBranch);export class TreeLeaf{constructor(e=null){this.value=e}render(){return html`${this.value}`}static detect=()=>!1}export class StringLeaf extends TreeLeaf{render(){return html`<span class="tc-success">"${this.value}"</span>`}static detect=e=>"string"==typeof e}export class NumberLeaf extends TreeLeaf{render(){return html`<span class="tc-primary">${this.value}</span>`}static detect=e=>"number"==typeof e}export class BooleanLeaf extends TreeLeaf{render(){return html`<span class="${this.value?"tc-success":"tc-danger"}">${this.value}</span>`}static detect=e=>"boolean"==typeof e}export class NullLeaf extends TreeLeaf{render(){return html`<span class="tc-muted">null</span>`}static detect=e=>null===e}export class UndefinedLeaf extends TreeLeaf{render(){return html`<span class="tc-muted">undefined</span>`}static detect=e=>void 0===e}Tree.addLeaf(UndefinedLeaf,NullLeaf,BooleanLeaf,NumberLeaf,StringLeaf);
+	`;static detect=()=>!1}window.customElements.define("k-tree-node",TreeNode);export class StringNode extends TreeNode{renderLabel(){return html`<span class="tc-success">"${this.value}"</span>`}static detect=e=>"string"==typeof e}export class NumberNode extends TreeNode{renderLabel(){return html`<span class="tc-primary">${this.value}</span>`}static detect=e=>"number"==typeof e}export class BooleanNode extends TreeNode{renderLabel(){return html`<span class="${this.value?"tc-success":"tc-danger"}">${this.value}</span>`}static detect=e=>"boolean"==typeof e}export class NullNode extends TreeNode{renderLabel(){return html`<span class="tc-muted">null</span>`}static detect=e=>null===e}export class UndefinedNode extends TreeNode{renderLabel(){return html`<span class="tc-muted">undefined</span>`}static detect=e=>void 0===e}Tree.addNode(StringNode,NumberNode,BooleanNode,NullNode,UndefinedNode);

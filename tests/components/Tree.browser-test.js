@@ -1,4 +1,4 @@
-import Tree, { TreeBranch, TreeLeaf, StringLeaf, NumberLeaf, BooleanLeaf, NullLeaf, UndefinedLeaf } from '../../src/components/Tree.js';
+﻿import Tree, { TreeNode, StringNode, NumberNode, BooleanNode, NullNode, UndefinedNode } from '../../src/components/Tree.js';
 
 const createTree = async (options = {}) => {
 	const container = document.createElement('div');
@@ -158,7 +158,7 @@ export default {
 		const data = { outer: { inner: 'value' } };
 		const { container, tree } = await createTree({ data });
 		await tree.updateComplete;
-		const branches = tree.shadowRoot.querySelectorAll('k-tree-branch');
+		const branches = tree.shadowRoot.querySelectorAll('k-tree-node');
 		if(branches.length < 1){
 			cleanup(container);
 			return fail('Nested objects should create tree branches');
@@ -177,40 +177,40 @@ export default {
 		pass('Tree has static renderValue method');
 	},
 
-	'should have static addLeaf method': async ({pass, fail}) => {
-		if(typeof Tree.addLeaf !== 'function'){
-			return fail('Tree should have static addLeaf method');
+	'should have static addNode method': async ({pass, fail}) => {
+		if(typeof Tree.addNode !== 'function'){
+			return fail('Tree should have static addNode method');
 		}
-		pass('Tree has static addLeaf method');
+		pass('Tree has static addNode method');
 	},
 
 	'should have leafs array': async ({pass, fail}) => {
-		if(!Array.isArray(Tree.leafs)){
+		if(!Array.isArray(Tree.nodes)){
 			return fail('Tree should have leafs array');
 		}
 		pass('Tree has leafs array');
 	},
 
 	/*
-		TreeBranch Tests
+		TreeNode Tests
 	*/
-	'TreeBranch should be exported': async ({pass, fail}) => {
-		if(typeof TreeBranch !== 'function'){
-			return fail('TreeBranch should be exported');
+	'TreeNode should be exported': async ({pass, fail}) => {
+		if(typeof TreeNode !== 'function'){
+			return fail('TreeNode should be exported');
 		}
-		pass('TreeBranch is exported');
+		pass('TreeNode is exported');
 	},
 
-	'TreeBranch should have default properties': async ({pass, fail}) => {
-		const branch = new TreeBranch();
+	'TreeNode should have default properties': async ({pass, fail}) => {
+		const branch = new TreeNode();
 		if(branch.value !== null){
 			return fail(`Expected value to be null, got ${branch.value}`);
 		}
 		if(branch.key !== null){
 			return fail(`Expected key to be null, got ${branch.key}`);
 		}
-		if(branch.currentDepth !== 0){
-			return fail(`Expected currentDepth to be 0, got ${branch.currentDepth}`);
+		if(branch.depth !== 0){
+			return fail(`Expected depth to be 0, got ${branch.depth}`);
 		}
 		if(branch.maxDepth !== 0){
 			return fail(`Expected maxDepth to be 0, got ${branch.maxDepth}`);
@@ -218,22 +218,22 @@ export default {
 		if(branch.opened !== false){
 			return fail(`Expected opened to be false, got ${branch.opened}`);
 		}
-		pass('TreeBranch has default properties');
+		pass('TreeNode has default properties');
 	},
 
-	'TreeBranch should have toggle method': async ({pass, fail}) => {
-		const branch = new TreeBranch();
+	'TreeNode should have toggle method': async ({pass, fail}) => {
+		const branch = new TreeNode();
 		if(typeof branch.toggle !== 'function'){
-			return fail('TreeBranch should have toggle method');
+			return fail('TreeNode should have toggle method');
 		}
-		pass('TreeBranch has toggle method');
+		pass('TreeNode has toggle method');
 	},
 
-	'TreeBranch toggle should change opened state': async ({pass, fail}) => {
+	'TreeNode toggle should change opened state': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -246,14 +246,14 @@ export default {
 			return fail('toggle should change opened state');
 		}
 		cleanup(container);
-		pass('TreeBranch toggle changes opened state');
+		pass('TreeNode toggle changes opened state');
 	},
 
-	'TreeBranch should auto-open when depth allows': async ({pass, fail}) => {
+	'TreeNode should auto-open when depth allows': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -264,33 +264,33 @@ export default {
 			return fail('Branch should be auto-opened when depth allows');
 		}
 		cleanup(container);
-		pass('TreeBranch auto-opens when depth allows');
+		pass('TreeNode auto-opens when depth allows');
 	},
 
-	'TreeBranch should respect depth for nested branches': async ({pass, fail}) => {
+	'TreeNode should respect depth for nested branches': async ({pass, fail}) => {
 		const data = { level1: { level2: { level3: 'value' } } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
 		}
 		await branch.updateComplete;
-		// First level branch should be open (currentDepth 1 <= maxDepth 1)
+		// First level branch should be open (depth 1 <= maxDepth 1)
 		if(branch.opened !== true){
 			cleanup(container);
 			return fail('First level branch should be open at depth 1');
 		}
 		cleanup(container);
-		pass('TreeBranch respects depth settings');
+		pass('TreeNode respects depth settings');
 	},
 
-	'TreeBranch should render toggle icon': async ({pass, fail}) => {
+	'TreeNode should render toggle icon': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -302,14 +302,14 @@ export default {
 			return fail('Branch should render toggle icon');
 		}
 		cleanup(container);
-		pass('TreeBranch renders toggle icon');
+		pass('TreeNode renders toggle icon');
 	},
 
-	'TreeBranch should render branch label button': async ({pass, fail}) => {
+	'TreeNode should render branch label button': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -321,14 +321,14 @@ export default {
 			return fail('Branch should render label button');
 		}
 		cleanup(container);
-		pass('TreeBranch renders branch label button');
+		pass('TreeNode renders branch label button');
 	},
 
-	'TreeBranch button click should toggle': async ({pass, fail}) => {
+	'TreeNode button click should toggle': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 0 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -343,192 +343,192 @@ export default {
 			return fail('Button click should toggle opened');
 		}
 		cleanup(container);
-		pass('TreeBranch button click toggles');
+		pass('TreeNode button click toggles');
 	},
 
 	/*
-		TreeLeaf Tests
+		TreeNode Tests
 	*/
-	'TreeLeaf should be exported': async ({pass, fail}) => {
-		if(typeof TreeLeaf !== 'function'){
-			return fail('TreeLeaf should be exported');
+	'TreeNode should be exported': async ({pass, fail}) => {
+		if(typeof TreeNode !== 'function'){
+			return fail('TreeNode should be exported');
 		}
-		pass('TreeLeaf is exported');
+		pass('TreeNode is exported');
 	},
 
-	'TreeLeaf should store value': async ({pass, fail}) => {
-		const leaf = new TreeLeaf('test');
+	'TreeNode should store value': async ({pass, fail}) => {
+		const leaf = new TreeNode('test');
 		if(leaf.value !== 'test'){
 			return fail(`Expected value to be 'test', got ${leaf.value}`);
 		}
-		pass('TreeLeaf stores value');
+		pass('TreeNode stores value');
 	},
 
-	'TreeLeaf should have render method': async ({pass, fail}) => {
-		const leaf = new TreeLeaf('test');
+	'TreeNode should have render method': async ({pass, fail}) => {
+		const leaf = new TreeNode('test');
 		if(typeof leaf.render !== 'function'){
-			return fail('TreeLeaf should have render method');
+			return fail('TreeNode should have render method');
 		}
-		pass('TreeLeaf has render method');
+		pass('TreeNode has render method');
 	},
 
-	'TreeLeaf detect should return false': async ({pass, fail}) => {
-		if(TreeLeaf.detect('any') !== false){
-			return fail('TreeLeaf.detect should return false');
+	'TreeNode detect should return false': async ({pass, fail}) => {
+		if(TreeNode.detect('any') !== false){
+			return fail('TreeNode.detect should return false');
 		}
-		pass('TreeLeaf.detect returns false');
+		pass('TreeNode.detect returns false');
 	},
 
 	/*
-		StringLeaf Tests
+		StringNode Tests
 	*/
-	'StringLeaf should be exported': async ({pass, fail}) => {
-		if(typeof StringLeaf !== 'function'){
-			return fail('StringLeaf should be exported');
+	'StringNode should be exported': async ({pass, fail}) => {
+		if(typeof StringNode !== 'function'){
+			return fail('StringNode should be exported');
 		}
-		pass('StringLeaf is exported');
+		pass('StringNode is exported');
 	},
 
-	'StringLeaf should detect strings': async ({pass, fail}) => {
-		if(StringLeaf.detect('hello') !== true){
-			return fail('StringLeaf should detect strings');
+	'StringNode should detect strings': async ({pass, fail}) => {
+		if(StringNode.detect('hello') !== true){
+			return fail('StringNode should detect strings');
 		}
-		if(StringLeaf.detect(123) !== false){
-			return fail('StringLeaf should not detect non-strings');
+		if(StringNode.detect(123) !== false){
+			return fail('StringNode should not detect non-strings');
 		}
-		pass('StringLeaf detects strings correctly');
+		pass('StringNode detects strings correctly');
 	},
 
-	'StringLeaf should render with quotes': async ({pass, fail}) => {
-		const leaf = new StringLeaf('test');
+	'StringNode should render with quotes': async ({pass, fail}) => {
+		const leaf = new StringNode('test');
 		const rendered = leaf.render();
 		// TemplateResult, check string representation
 		if(!rendered || !rendered.strings){
-			return fail('StringLeaf should return template result');
+			return fail('StringNode should return template result');
 		}
-		pass('StringLeaf renders correctly');
+		pass('StringNode renders correctly');
 	},
 
 	/*
-		NumberLeaf Tests
+		NumberNode Tests
 	*/
-	'NumberLeaf should be exported': async ({pass, fail}) => {
-		if(typeof NumberLeaf !== 'function'){
-			return fail('NumberLeaf should be exported');
+	'NumberNode should be exported': async ({pass, fail}) => {
+		if(typeof NumberNode !== 'function'){
+			return fail('NumberNode should be exported');
 		}
-		pass('NumberLeaf is exported');
+		pass('NumberNode is exported');
 	},
 
-	'NumberLeaf should detect numbers': async ({pass, fail}) => {
-		if(NumberLeaf.detect(42) !== true){
-			return fail('NumberLeaf should detect numbers');
+	'NumberNode should detect numbers': async ({pass, fail}) => {
+		if(NumberNode.detect(42) !== true){
+			return fail('NumberNode should detect numbers');
 		}
-		if(NumberLeaf.detect('42') !== false){
-			return fail('NumberLeaf should not detect non-numbers');
+		if(NumberNode.detect('42') !== false){
+			return fail('NumberNode should not detect non-numbers');
 		}
-		pass('NumberLeaf detects numbers correctly');
+		pass('NumberNode detects numbers correctly');
 	},
 
-	'NumberLeaf should render number value': async ({pass, fail}) => {
-		const leaf = new NumberLeaf(42);
+	'NumberNode should render number value': async ({pass, fail}) => {
+		const leaf = new NumberNode(42);
 		const rendered = leaf.render();
 		if(!rendered || !rendered.strings){
-			return fail('NumberLeaf should return template result');
+			return fail('NumberNode should return template result');
 		}
-		pass('NumberLeaf renders correctly');
+		pass('NumberNode renders correctly');
 	},
 
 	/*
-		BooleanLeaf Tests
+		BooleanNode Tests
 	*/
-	'BooleanLeaf should be exported': async ({pass, fail}) => {
-		if(typeof BooleanLeaf !== 'function'){
-			return fail('BooleanLeaf should be exported');
+	'BooleanNode should be exported': async ({pass, fail}) => {
+		if(typeof BooleanNode !== 'function'){
+			return fail('BooleanNode should be exported');
 		}
-		pass('BooleanLeaf is exported');
+		pass('BooleanNode is exported');
 	},
 
-	'BooleanLeaf should detect booleans': async ({pass, fail}) => {
-		if(BooleanLeaf.detect(true) !== true){
-			return fail('BooleanLeaf should detect true');
+	'BooleanNode should detect booleans': async ({pass, fail}) => {
+		if(BooleanNode.detect(true) !== true){
+			return fail('BooleanNode should detect true');
 		}
-		if(BooleanLeaf.detect(false) !== true){
-			return fail('BooleanLeaf should detect false');
+		if(BooleanNode.detect(false) !== true){
+			return fail('BooleanNode should detect false');
 		}
-		if(BooleanLeaf.detect('true') !== false){
-			return fail('BooleanLeaf should not detect non-booleans');
+		if(BooleanNode.detect('true') !== false){
+			return fail('BooleanNode should not detect non-booleans');
 		}
-		pass('BooleanLeaf detects booleans correctly');
+		pass('BooleanNode detects booleans correctly');
 	},
 
-	'BooleanLeaf should render boolean value': async ({pass, fail}) => {
-		const leafTrue = new BooleanLeaf(true);
-		const leafFalse = new BooleanLeaf(false);
+	'BooleanNode should render boolean value': async ({pass, fail}) => {
+		const leafTrue = new BooleanNode(true);
+		const leafFalse = new BooleanNode(false);
 		if(!leafTrue.render() || !leafFalse.render()){
-			return fail('BooleanLeaf should return template result');
+			return fail('BooleanNode should return template result');
 		}
-		pass('BooleanLeaf renders correctly');
+		pass('BooleanNode renders correctly');
 	},
 
 	/*
-		NullLeaf Tests
+		NullNode Tests
 	*/
-	'NullLeaf should be exported': async ({pass, fail}) => {
-		if(typeof NullLeaf !== 'function'){
-			return fail('NullLeaf should be exported');
+	'NullNode should be exported': async ({pass, fail}) => {
+		if(typeof NullNode !== 'function'){
+			return fail('NullNode should be exported');
 		}
-		pass('NullLeaf is exported');
+		pass('NullNode is exported');
 	},
 
-	'NullLeaf should detect null': async ({pass, fail}) => {
-		if(NullLeaf.detect(null) !== true){
-			return fail('NullLeaf should detect null');
+	'NullNode should detect null': async ({pass, fail}) => {
+		if(NullNode.detect(null) !== true){
+			return fail('NullNode should detect null');
 		}
-		if(NullLeaf.detect(undefined) !== false){
-			return fail('NullLeaf should not detect undefined');
+		if(NullNode.detect(undefined) !== false){
+			return fail('NullNode should not detect undefined');
 		}
-		if(NullLeaf.detect('null') !== false){
-			return fail('NullLeaf should not detect strings');
+		if(NullNode.detect('null') !== false){
+			return fail('NullNode should not detect strings');
 		}
-		pass('NullLeaf detects null correctly');
+		pass('NullNode detects null correctly');
 	},
 
-	'NullLeaf should render null text': async ({pass, fail}) => {
-		const leaf = new NullLeaf(null);
+	'NullNode should render null text': async ({pass, fail}) => {
+		const leaf = new NullNode(null);
 		const rendered = leaf.render();
 		if(!rendered || !rendered.strings){
-			return fail('NullLeaf should return template result');
+			return fail('NullNode should return template result');
 		}
-		pass('NullLeaf renders correctly');
+		pass('NullNode renders correctly');
 	},
 
 	/*
-		UndefinedLeaf Tests
+		UndefinedNode Tests
 	*/
-	'UndefinedLeaf should be exported': async ({pass, fail}) => {
-		if(typeof UndefinedLeaf !== 'function'){
-			return fail('UndefinedLeaf should be exported');
+	'UndefinedNode should be exported': async ({pass, fail}) => {
+		if(typeof UndefinedNode !== 'function'){
+			return fail('UndefinedNode should be exported');
 		}
-		pass('UndefinedLeaf is exported');
+		pass('UndefinedNode is exported');
 	},
 
-	'UndefinedLeaf should detect undefined': async ({pass, fail}) => {
-		if(UndefinedLeaf.detect(undefined) !== true){
-			return fail('UndefinedLeaf should detect undefined');
+	'UndefinedNode should detect undefined': async ({pass, fail}) => {
+		if(UndefinedNode.detect(undefined) !== true){
+			return fail('UndefinedNode should detect undefined');
 		}
-		if(UndefinedLeaf.detect(null) !== false){
-			return fail('UndefinedLeaf should not detect null');
+		if(UndefinedNode.detect(null) !== false){
+			return fail('UndefinedNode should not detect null');
 		}
-		pass('UndefinedLeaf detects undefined correctly');
+		pass('UndefinedNode detects undefined correctly');
 	},
 
-	'UndefinedLeaf should render undefined text': async ({pass, fail}) => {
-		const leaf = new UndefinedLeaf(undefined);
+	'UndefinedNode should render undefined text': async ({pass, fail}) => {
+		const leaf = new UndefinedNode(undefined);
 		const rendered = leaf.render();
 		if(!rendered || !rendered.strings){
-			return fail('UndefinedLeaf should return template result');
+			return fail('UndefinedNode should return template result');
 		}
-		pass('UndefinedLeaf renders correctly');
+		pass('UndefinedNode renders correctly');
 	},
 
 	/*
@@ -590,32 +590,32 @@ export default {
 		Custom Leaf Registration
 	*/
 	'should support custom leaf registration': async ({pass, fail}) => {
-		const originalLength = Tree.leafs.length;
-		class CustomLeaf extends TreeLeaf {
+		const originalLength = Tree.nodes.length;
+		class CustomLeaf extends TreeNode {
 			static detect = () => false;
 		}
-		Tree.addLeaf(CustomLeaf);
-		if(Tree.leafs.length !== originalLength + 1){
+		Tree.addNode(CustomLeaf);
+		if(Tree.nodes.length !== originalLength + 1){
 			return fail('Custom leaf should be added to leafs array');
 		}
 		// Remove the custom leaf to not affect other tests
-		Tree.leafs.shift();
+		Tree.nodes.shift();
 		pass('Custom leaf registration works');
 	},
 
-	'addLeaf should add to beginning of array': async ({pass, fail}) => {
-		const originalFirst = Tree.leafs[0];
-		class CustomLeaf extends TreeLeaf {
+	'addNode should add to beginning of array': async ({pass, fail}) => {
+		const originalFirst = Tree.nodes[0];
+		class CustomLeaf extends TreeNode {
 			static detect = () => false;
 		}
-		Tree.addLeaf(CustomLeaf);
-		if(Tree.leafs[0] !== CustomLeaf){
-			Tree.leafs.shift();
+		Tree.addNode(CustomLeaf);
+		if(Tree.nodes[0] !== CustomLeaf){
+			Tree.nodes.shift();
 			return fail('Custom leaf should be added at beginning');
 		}
 		// Remove the custom leaf
-		Tree.leafs.shift();
-		pass('addLeaf adds to beginning of array');
+		Tree.nodes.shift();
+		pass('addNode adds to beginning of array');
 	},
 
 	/*
@@ -635,7 +635,7 @@ export default {
 		await tree.updateComplete;
 		// Need to wait for nested branches to render and open
 		await new Promise(r => setTimeout(r, 100));
-		const branches = tree.shadowRoot.querySelectorAll('k-tree-branch');
+		const branches = tree.shadowRoot.querySelectorAll('k-tree-node');
 		// Check that branches exist
 		if(branches.length < 1){
 			cleanup(container);
@@ -655,7 +655,7 @@ export default {
 		const { container, tree } = await createTree({ data, depth: 3 });
 		await tree.updateComplete;
 		// Check that tree structure is created
-		const branches = tree.shadowRoot.querySelectorAll('k-tree-branch');
+		const branches = tree.shadowRoot.querySelectorAll('k-tree-node');
 		if(branches.length < 1){
 			cleanup(container);
 			return fail('Mixed arrays and objects should create branches');
@@ -668,7 +668,7 @@ export default {
 		const data = { empty: {} };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branches = tree.shadowRoot.querySelectorAll('k-tree-branch');
+		const branches = tree.shadowRoot.querySelectorAll('k-tree-node');
 		if(branches.length < 1){
 			cleanup(container);
 			return fail('Empty object should create branch');
@@ -681,7 +681,7 @@ export default {
 		const data = { items: [] };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branches = tree.shadowRoot.querySelectorAll('k-tree-branch');
+		const branches = tree.shadowRoot.querySelectorAll('k-tree-node');
 		if(branches.length < 1){
 			cleanup(container);
 			return fail('Empty array should create branch');
@@ -724,11 +724,11 @@ export default {
 	/*
 		Accessibility
 	*/
-	'TreeBranch button should have aria-expanded': async ({pass, fail}) => {
+	'TreeNode button should have aria-expanded': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -740,14 +740,14 @@ export default {
 			return fail('Branch button should have aria-expanded');
 		}
 		cleanup(container);
-		pass('TreeBranch button has aria-expanded');
+		pass('TreeNode button has aria-expanded');
 	},
 
 	'aria-expanded should reflect opened state': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -766,11 +766,11 @@ export default {
 	/*
 		Tree getter
 	*/
-	'TreeBranch should have tree getter': async ({pass, fail}) => {
+	'TreeNode should have tree getter': async ({pass, fail}) => {
 		const data = { nested: { value: 1 } };
 		const { container, tree } = await createTree({ data, depth: 1 });
 		await tree.updateComplete;
-		const branch = tree.shadowRoot.querySelector('k-tree-branch');
+		const branch = tree.shadowRoot.querySelector('k-tree-node');
 		if(!branch){
 			cleanup(container);
 			return fail('Branch should exist');
@@ -781,10 +781,10 @@ export default {
 			// In shadow DOM, closest won't find the tree, so branch.tree will be null
 			// This is expected behavior since the branch is inside shadow DOM
 			cleanup(container);
-			pass('TreeBranch tree getter works (returns null in shadow DOM as expected)');
+			pass('TreeNode tree getter works (returns null in shadow DOM as expected)');
 			return;
 		}
 		cleanup(container);
-		pass('TreeBranch tree getter exists');
+		pass('TreeNode tree getter exists');
 	}
 };
