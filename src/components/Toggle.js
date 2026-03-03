@@ -123,6 +123,8 @@ export default class Toggle extends ShadowComponent {
     #switch {
       display: flex;
       align-items: center;
+      flex-shrink: 0;
+      flex-grow: 0;
       width: var(--switch_width);
       height: var(--switch_height);
       border: var(--switch_border);

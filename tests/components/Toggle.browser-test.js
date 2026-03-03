@@ -512,6 +512,37 @@ export default {
 		pass('Label content projected');
 	},
 
+	'switch should not shrink in constrained container': async ({pass, fail}) => {
+		const { container, toggle } = await createToggle();
+		container.style.width = '100px';
+		await toggle.updateComplete;
+		const switchEl = toggle.shadowRoot.querySelector('#switch');
+		const style = window.getComputedStyle(switchEl);
+		if(style.flexShrink !== '0'){
+			cleanup(container);
+			return fail(`Expected switch flex-shrink to be 0, got ${style.flexShrink}`);
+		}
+		if(style.flexGrow !== '0'){
+			cleanup(container);
+			return fail(`Expected switch flex-grow to be 0, got ${style.flexGrow}`);
+		}
+		cleanup(container);
+		pass('Switch does not shrink in constrained container');
+	},
+
+	'label should shrink in constrained container': async ({pass, fail}) => {
+		const { container, toggle } = await createToggle();
+		await toggle.updateComplete;
+		const label = toggle.shadowRoot.querySelector('#label');
+		const style = window.getComputedStyle(label);
+		if(style.flexGrow !== '1'){
+			cleanup(container);
+			return fail(`Expected label flex-grow to be 1, got ${style.flexGrow}`);
+		}
+		cleanup(container);
+		pass('Label grows to fill remaining space');
+	},
+
 	/*
 		Method Chaining
 	*/
