@@ -23,6 +23,7 @@
         <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#onByDefault">On By Default</a><br />
+        <a href="#responsiveBehavior">Responsive Behavior</a><br />
         <a href="#customStyles">Custom Styles</a><br />
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         
@@ -59,6 +60,23 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-toggle value="true">Toggle Me</k-toggle>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="responsiveBehavior"><a href="#responsiveBehavior" class="no-link">Responsive Behavior</a></h3>
+    <p>The visual toggle maintains its size even in narrow containers. Only the label shrinks to fit the available space.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 150px;"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-toggle</span>&gt;</span>A very long label that should shrink<span class="hljs-tag">&lt;/<span class="hljs-name">k-toggle</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div style="width: 150px;">
+            <k-toggle>A very long label that should shrink</k-toggle>
+          </div>
         </k-card>
       </div>
     </div>
