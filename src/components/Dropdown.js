@@ -231,8 +231,10 @@ export default class Dropdown extends ShadowComponent {
 			min-width: anchor-size(width);
 			background: var(--c_bg);
 			border: 1px solid var(--c_border);
+			border-radius: var(--radius);
 			box-shadow: var(--drop_shadow);
 			margin: 0.25rem;
+			overflow: hidden;
 		}
 		:host([opened]) #menu {
 			display: block;
