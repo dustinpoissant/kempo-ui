@@ -22,6 +22,6 @@ export default (timestamp, format, forceLocale) => {
     };
     return format.replace(/YYYY|YY|MM|M|DD|D|hh|h|mm|m|ss|s|iiii|iii|ii|i/g, (matched) => tokens[matched]);
   } else {
-    return date.toLocaleString(forceLocale || navigator.language);
+    return date.toLocaleString(forceLocale || Intl.DateTimeFormat().resolvedOptions().locale);
   }
 }
