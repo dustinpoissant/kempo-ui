@@ -538,6 +538,28 @@ export default {
 	},
 
 	/*
+		Styles
+	*/
+	'menu should have border-radius using --radius': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		const menu = dropdown.shadowRoot.querySelector('#menu');
+		if(!menu) {
+			cleanup(container);
+			return fail('Menu element should exist');
+		}
+		document.documentElement.style.setProperty('--radius', '8px');
+		const styles = window.getComputedStyle(menu);
+		const borderRadius = styles.borderRadius;
+		document.documentElement.style.removeProperty('--radius');
+		if(borderRadius !== '8px') {
+			cleanup(container);
+			return fail(`Expected menu border-radius to use --radius (8px), got ${borderRadius}`);
+		}
+		cleanup(container);
+		pass('Menu has border-radius applied using --radius');
+	},
+
+	/*
 		Disabled Items
 	*/
 	'disabled items should be skipped in keyboard navigation': async ({pass, fail}) => {

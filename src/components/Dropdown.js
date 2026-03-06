@@ -13,8 +13,6 @@ export default class Dropdown extends ShadowComponent {
 		closeOnClickOutside: { type: Boolean, reflect: true, attribute: 'close-on-click-outside', converter: boolTrueFalse }
 	};
 
-	anchorId = `dropdown-anchor-${Math.random().toString(36).slice(2, 11)}`;
-
 	constructor() {
 		super();
 		this.opened = false;
@@ -182,35 +180,6 @@ export default class Dropdown extends ShadowComponent {
 		if(prev) prev.focus();
 	}
 
-	getPositionArea() {
-		const dir = this.openDirection.toLowerCase().trim();
-		const parts = dir.split(/\s+/);
-		// Map friendly names to position-area values
-		const mapping = {
-			'down': 'bottom',
-			'up': 'top',
-			'left': 'left',
-			'right': 'right',
-			'center': 'center'
-		};
-		const mapped = parts.map(p => mapping[p] || p);
-		// position-area expects: row column (e.g., "bottom left")
-		// "down left" -> "bottom left", "up right" -> "top right"
-		return mapped.join(' ');
-	}
-
-	getFallbacks() {
-		const primary = this.getPositionArea();
-		const parts = primary.split(' ');
-		// Generate sensible fallbacks
-		const fallbacks = [];
-		// flip-block flips vertical, flip-inline flips horizontal
-		fallbacks.push('flip-block');
-		fallbacks.push('flip-inline');
-		fallbacks.push('flip-block flip-inline');
-		return fallbacks.join(', ');
-	}
-
 	/*
 		Styles
 	*/
@@ -231,8 +200,10 @@ export default class Dropdown extends ShadowComponent {
 			min-width: anchor-size(width);
 			background: var(--c_bg);
 			border: 1px solid var(--c_border);
+			border-radius: var(--radius);
 			box-shadow: var(--drop_shadow);
 			margin: 0.25rem;
+			overflow: hidden;
 		}
 		:host([opened]) #menu {
 			display: block;
