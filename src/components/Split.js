@@ -6,7 +6,8 @@ export default class Split extends ShadowComponent {
 	static properties = {
 		resizing: { type: Boolean, reflect: true },
 		stacked: { type: Boolean, reflect: true },
-		stackWidth: { type: Number, attribute: 'stack-width' }
+		stackWidth: { type: Number, attribute: 'stack-width' },
+		direction: { type: String, reflect: true }
 	};
 
 	constructor() {
@@ -15,9 +16,10 @@ export default class Split extends ShadowComponent {
 		this.resizing = false;
 		this.stacked = false;
 		this.stackWidth = 0;
+		this.direction = 'horizontal';
 		
 		// Private state
-		this.dragStartWidth = 0;
+		this.dragStartSize = 0;
 		this.dragCleanup = () => {};
 		this.resizeObserver = null;
 	}
@@ -45,15 +47,16 @@ export default class Split extends ShadowComponent {
 	*/
 	handleDragStart = () => {
 		this.resizing = true;
-		this.dragStartWidth = Math.round(this.shadowRoot.getElementById('left').getBoundingClientRect().width);
+		this.dragStartSize = Math.round(this.shadowRoot.getElementById('pane-1').getBoundingClientRect()[this.direction === 'vertical' ? 'height' : 'width']);
 		this.dispatchEvent(new CustomEvent('resizestart', {
-			detail: { startSize: this.dragStartWidth },
+			detail: { startSize: this.dragStartSize },
 			bubbles: true
 		}));
 	};
 
-	handleDrag = ({ x }) => {
-		const size = `${this.dragStartWidth + x}px`;
+	handleDrag = ({ x, y }) => {
+		const delta = this.direction === 'vertical' ? y : x;
+		const size = `${this.dragStartSize + delta}px`;
 		this.setSize(size);
 		this.dispatchEvent(new CustomEvent('resize', {
 			detail: { size },
@@ -61,10 +64,10 @@ export default class Split extends ShadowComponent {
 		}));
 	};
 
-	handleDragEnd = ({ x }) => {
+	handleDragEnd = ({ x, y }) => {
 		this.resizing = false;
-		const width = this.dragStartWidth + x;
-		const size = `${width}px`;
+		const delta = this.direction === 'vertical' ? y : x;
+		const size = `${this.dragStartSize + delta}px`;
 		this.setSize(size);
 		this.dispatchEvent(new CustomEvent('resizeend', {
 			detail: { size },
@@ -76,7 +79,7 @@ export default class Split extends ShadowComponent {
 		Public Methods
 	*/
 	setSize(size) {
-		this.style.setProperty('--left_width', size);
+		this.style.setProperty('--pane_1_size', size);
 	}
 
 	setupDragHandler() {
@@ -106,9 +109,9 @@ export default class Split extends ShadowComponent {
 	*/
 	static styles = css`
 		:host {
-			--left_width: calc((100% - var(--handle_width)) / 2);
+			--pane_1_size: calc((100% - var(--handle_width)) / 2);
 			--handle_width: 0.5rem;
-			--min_pane_width: 6rem;
+			--min_pane_size: 6rem;
 
 			height: 100%;
 			display: flex;
@@ -122,14 +125,14 @@ export default class Split extends ShadowComponent {
 		}
 
 		.pane {
-			min-width: var(--min_pane_width);
-			max-width: calc(100% - var(--min_pane_width));
+			min-width: var(--min_pane_size);
+			max-width: calc(100% - var(--min_pane_size));
 			max-height: 100%;
 			overflow: hidden;
 		}
 
-		#left {
-			flex: 0 0 var(--left_width);
+		#pane-1 {
+			flex: 0 0 var(--pane_1_size);
 		}
 
 		#divider-handle {
@@ -154,12 +157,12 @@ export default class Split extends ShadowComponent {
 			border-left: 1px solid var(--c_border);
 		}
 
-		#right {
+		#pane-2 {
 			flex: 1 1;
 		}
 
-		:host([stacked]) #left,
-		:host([stacked]) #right {
+		:host([stacked]) #pane-1,
+		:host([stacked]) #pane-2 {
 			display: block;
 		}
 
@@ -177,6 +180,36 @@ export default class Split extends ShadowComponent {
 		:host([stacked]) {
 			display: block;
 		}
+
+		:host([direction="vertical"]) {
+			flex-direction: column;
+		}
+
+		:host([direction="vertical"]) .pane {
+			min-width: 0;
+			max-width: 100%;
+			min-height: var(--min_pane_size);
+			max-height: calc(100% - var(--min_pane_size));
+		}
+
+		:host([direction="vertical"]) #pane-1 {
+			flex: 0 0 var(--pane_1_size);
+		}
+
+		:host([direction="vertical"]) #divider-handle {
+			width: 100%;
+			height: var(--handle_width);
+			cursor: ns-resize;
+			align-items: center;
+			justify-content: initial;
+		}
+
+		:host([direction="vertical"]) #divider-border {
+			width: 100%;
+			height: 1px;
+			border-left: none;
+			border-top: 1px solid var(--c_border);
+		}
 	`;
 
 	/*
@@ -184,13 +217,13 @@ export default class Split extends ShadowComponent {
 	*/
 	render() {
 		return html`
-			<div id="left" class="pane">
+			<div id="pane-1" class="pane">
 				<slot></slot>
 			</div>
 			<div id="divider-handle">
 				<div id="divider-border"></div>
 			</div>
-			<div id="right" class="pane">
+			<div id="pane-2" class="pane">
 				<slot name="right"></slot>
 			</div>
 		`;

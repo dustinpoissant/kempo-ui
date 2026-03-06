@@ -5,7 +5,7 @@ const createSplit = async (options = {}) => {
 	container.style.width = '800px';
 	container.style.height = '400px';
 	container.innerHTML = `
-		<k-split ${options.stacked ? 'stacked' : ''} ${options.stackWidth ? `stack-width="${options.stackWidth}"` : ''}>
+		<k-split ${options.stacked ? 'stacked' : ''} ${options.stackWidth ? `stack-width="${options.stackWidth}"` : ''} ${options.direction ? `direction="${options.direction}"` : ''}>
 			<div id="left-content">Left Pane Content</div>
 			<div slot="right" id="right-content">Right Pane Content</div>
 		</k-split>
@@ -102,41 +102,41 @@ export default {
 	'should render left pane': async ({pass, fail}) => {
 		const { container, split } = await createSplit();
 
-		const leftPane = split.shadowRoot.getElementById('left');
-		if(!leftPane){
+		const pane1 = split.shadowRoot.getElementById('pane-1');
+		if(!pane1){
 			cleanup(container);
-			fail('Split should render left pane');
+			fail('Split should render pane-1');
 			return;
 		}
 
-		if(!leftPane.classList.contains('pane')){
+		if(!pane1.classList.contains('pane')){
 			cleanup(container);
-			fail('Left pane should have pane class');
+			fail('pane-1 should have pane class');
 			return;
 		}
 
 		cleanup(container);
-		pass('Split renders left pane');
+		pass('Split renders pane-1');
 	},
 
 	'should render right pane': async ({pass, fail}) => {
 		const { container, split } = await createSplit();
 
-		const rightPane = split.shadowRoot.getElementById('right');
-		if(!rightPane){
+		const pane2 = split.shadowRoot.getElementById('pane-2');
+		if(!pane2){
 			cleanup(container);
-			fail('Split should render right pane');
+			fail('Split should render pane-2');
 			return;
 		}
 
-		if(!rightPane.classList.contains('pane')){
+		if(!pane2.classList.contains('pane')){
 			cleanup(container);
-			fail('Right pane should have pane class');
+			fail('pane-2 should have pane class');
 			return;
 		}
 
 		cleanup(container);
-		pass('Split renders right pane');
+		pass('Split renders pane-2');
 	},
 
 	'should render divider handle': async ({pass, fail}) => {
@@ -170,31 +170,31 @@ export default {
 	'should render default slot for left content': async ({pass, fail}) => {
 		const { container, split } = await createSplit();
 
-		const leftPane = split.shadowRoot.getElementById('left');
-		const slot = leftPane.querySelector('slot:not([name])');
+		const pane1 = split.shadowRoot.getElementById('pane-1');
+		const slot = pane1.querySelector('slot:not([name])');
 		if(!slot){
 			cleanup(container);
-			fail('Left pane should have default slot');
+			fail('pane-1 should have default slot');
 			return;
 		}
 
 		cleanup(container);
-		pass('Split renders default slot for left content');
+		pass('Split renders default slot for pane-1 content');
 	},
 
 	'should render named slot for right content': async ({pass, fail}) => {
 		const { container, split } = await createSplit();
 
-		const rightPane = split.shadowRoot.getElementById('right');
-		const slot = rightPane.querySelector('slot[name="right"]');
+		const pane2 = split.shadowRoot.getElementById('pane-2');
+		const slot = pane2.querySelector('slot[name="right"]');
 		if(!slot){
 			cleanup(container);
-			fail('Right pane should have named right slot');
+			fail('pane-2 should have named right slot');
 			return;
 		}
 
 		cleanup(container);
-		pass('Split renders named slot for right content');
+		pass('Split renders named slot for pane-2 content');
 	},
 
 	'should slot left content correctly': async ({pass, fail}) => {
@@ -250,20 +250,20 @@ export default {
 		pass('Split has setSize method');
 	},
 
-	'setSize should set --left_width CSS property': async ({pass, fail}) => {
+	'setSize should set --pane_1_size CSS property': async ({pass, fail}) => {
 		const { container, split } = await createSplit();
 
 		split.setSize('300px');
-		const leftWidth = split.style.getPropertyValue('--left_width');
+		const pane1Size = split.style.getPropertyValue('--pane_1_size');
 
-		if(leftWidth !== '300px'){
+		if(pane1Size !== '300px'){
 			cleanup(container);
-			fail(`Expected --left_width to be 300px, got ${leftWidth}`);
+			fail(`Expected --pane_1_size to be 300px, got ${pane1Size}`);
 			return;
 		}
 
 		cleanup(container);
-		pass('setSize sets --left_width property');
+		pass('setSize sets --pane_1_size property');
 	},
 
 	'should have ew-resize cursor on divider handle': async ({pass, fail}) => {
@@ -521,8 +521,8 @@ export default {
 		split.resizing = true;
 		await split.updateComplete;
 
-		const leftPane = split.shadowRoot.getElementById('left');
-		const pointerEvents = getComputedStyle(leftPane).pointerEvents;
+		const pane1 = split.shadowRoot.getElementById('pane-1');
+		const pointerEvents = getComputedStyle(pane1).pointerEvents;
 
 		if(pointerEvents !== 'none'){
 			cleanup(container);
@@ -540,8 +540,8 @@ export default {
 		split.resizing = true;
 		await split.updateComplete;
 
-		const leftPane = split.shadowRoot.getElementById('left');
-		const userSelect = getComputedStyle(leftPane).userSelect;
+		const pane1 = split.shadowRoot.getElementById('pane-1');
+		const userSelect = getComputedStyle(pane1).userSelect;
 
 		if(userSelect !== 'none'){
 			cleanup(container);
@@ -611,19 +611,103 @@ export default {
 		const { container, split } = await createSplit();
 
 		split.handleDragStart();
-		const startWidth = split.dragStartWidth;
+		const startSize = split.dragStartSize;
 		split.handleDrag({ x: 100, y: 0 });
 
-		const leftWidth = split.style.getPropertyValue('--left_width');
-		const expectedWidth = `${startWidth + 100}px`;
+		const pane1Size = split.style.getPropertyValue('--pane_1_size');
+		const expectedSize = `${startSize + 100}px`;
 
-		if(leftWidth !== expectedWidth){
+		if(pane1Size !== expectedSize){
 			cleanup(container);
-			fail(`Expected --left_width ${expectedWidth}, got ${leftWidth}`);
+			fail(`Expected --pane_1_size ${expectedSize}, got ${pane1Size}`);
 			return;
 		}
 
 		cleanup(container);
 		pass('Size updates during drag');
+	},
+
+	'should have default direction as horizontal': async ({pass, fail}) => {
+		const { container, split } = await createSplit();
+
+		if(split.direction !== 'horizontal'){
+			cleanup(container);
+			fail(`Expected direction to be horizontal, got ${split.direction}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Default direction is horizontal');
+	},
+
+	'should accept direction="vertical" attribute': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		if(split.direction !== 'vertical'){
+			cleanup(container);
+			fail(`Expected direction to be vertical, got ${split.direction}`);
+			return;
+		}
+
+		if(!split.hasAttribute('direction') || split.getAttribute('direction') !== 'vertical'){
+			cleanup(container);
+			fail('direction attribute should be reflected as vertical');
+			return;
+		}
+
+		cleanup(container);
+		pass('direction="vertical" attribute accepted and reflected');
+	},
+
+	'should have ns-resize cursor on divider handle when vertical': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		const handle = split.shadowRoot.getElementById('divider-handle');
+		const cursor = getComputedStyle(handle).cursor;
+
+		if(cursor !== 'ns-resize'){
+			cleanup(container);
+			fail(`Expected cursor ns-resize for vertical split, got ${cursor}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Divider handle has ns-resize cursor in vertical mode');
+	},
+
+	'setSize should set --pane_1_size CSS property in vertical mode': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		split.setSize('200px');
+		const pane1Size = split.style.getPropertyValue('--pane_1_size');
+
+		if(pane1Size !== '200px'){
+			cleanup(container);
+			fail(`Expected --pane_1_size to be 200px, got ${pane1Size}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('setSize sets --pane_1_size property in vertical mode');
+	},
+
+	'should update size during vertical drag': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		split.handleDragStart();
+		const startSize = split.dragStartSize;
+		split.handleDrag({ x: 0, y: 80 });
+
+		const pane1Size = split.style.getPropertyValue('--pane_1_size');
+		const expectedSize = `${startSize + 80}px`;
+
+		if(pane1Size !== expectedSize){
+			cleanup(container);
+			fail(`Expected --pane_1_size ${expectedSize}, got ${pane1Size}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Size updates during vertical drag');
 	}
 };

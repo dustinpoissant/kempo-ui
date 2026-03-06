@@ -23,6 +23,7 @@
           <h6>Examples</h6>
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#resizing">Resizing</a><br />
+          <a href="#verticalSplit">Vertical Split</a><br />
           
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -36,7 +37,7 @@
     </k-accordion>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Create a split view using the <code>k-split</code> component. Add content to the left pane by placing it inside the component, and add content to the right pane by using the <code>slot="right"</code> attribute.</p>
+    <p>Create a split view using the <code>k-split</code> component. Add content to the first pane by placing it inside the component, and add content to the second pane by using the <code>slot="right"</code> attribute.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
@@ -54,16 +55,16 @@
     </div>
 
     <h3 id="resizing"><a href="#resizing" class="no-link">Resizing</a></h3>
-    <p>The split view can be resized by dragging the divider handle. The initial width of the left pane can be set using the <code>--left_width</code> CSS custom property.</p>
+    <p>The split view can be resized by dragging the divider handle. The initial size of the first pane can be set using the <code>--pane_1_size</code> CSS custom property.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--left_width: 30%; height: 10rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Right Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--pane_1_size: 30%; height: 10rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Left Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Right Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Results">
-          <k-split style="--left_width: 30%; height: 10rem" class="b">
+          <k-split style="--pane_1_size: 30%; height: 10rem" class="b">
             <div>Left Pane Content</div>
             <div slot="right">Right Pane Content</div>
           </k-split>
@@ -72,21 +73,21 @@
     </div>
 
     <h3>Sizes</h3>
-    <p>Set the CSS Custom Property <code>--left_width</code> to set the initial size.</p>
-    <p>Set the CSS Custom Property <code>--min_pane_width</code> to set the minimum size each side can be.</p>
-    <p>Set the CSS Custom Property <code>--handle_width</code> to set the size of the handle (the draggable region between the sides).</p>
+    <p>Set the CSS Custom Property <code>--pane_1_size</code> to set the initial size of the first pane.</p>
+    <p>Set the CSS Custom Property <code>--min_pane_size</code> to set the minimum size each pane can be.</p>
+    <p>Set the CSS Custom Property <code>--handle_width</code> to set the size of the handle (the draggable region between the panes).</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"<br />    --left_width: 100px;<br />    --min_pane_width: 100px;<br />    --handle_width: 20px;<br />    height: 10rem<br />  "</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>left<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>right<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"<br />    --pane_1_size: 100px;<br />    --min_pane_size: 100px;<br />    --handle_width: 20px;<br />    height: 10rem<br />  "</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>left<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>right<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-split
             style="
-              --left_width: 100px;
-              --min_pane_width: 100px;
+              --pane_1_size: 100px;
+              --min_pane_size: 100px;
               --handle_width: 20px;
               height: 10rem
             "
@@ -94,6 +95,24 @@
           >
             <p>left</p>
             <p slot="right">right</p>
+          </k-split>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="verticalSplit"><a href="#verticalSplit" class="no-link">Vertical Split</a></h3>
+    <p>Use the <code>direction="vertical"</code> attribute to create a vertical split where the top and bottom panes are divided by a horizontal handle. Set an explicit height on the component for predictable sizing. The default slot provides the top pane content; use <code>slot="right"</code> for the bottom pane content.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"vertical"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 16rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Top Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Bottom Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-split direction="vertical" style="height: 16rem" class="b">
+            <div>Top Pane Content</div>
+            <div slot="right">Bottom Pane Content</div>
           </k-split>
         </k-card>
       </div>
@@ -140,18 +159,20 @@
     <p>Whether the split view is in stacked mode. Syncs to <code>stacked</code> attribute.</p>
     <h5><code>stackWidth<i>: number</i></code></h5>
     <p>The window width threshold for stacking behavior. Syncs to <code>stack-width</code> attribute.</p>
+    <h5><code>direction<i>: string</i></code></h5>
+    <p>The direction of the split. Can be <code>"horizontal"</code> (default) or <code>"vertical"</code>. Syncs to <code>direction</code> attribute.</p>
 
     <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
-    <h5><code>--left_width</code></h5>
-    <p>The width of the left pane. Default is <code>calc((100% - var(--handle_width)) / 2)</code>.</p>
+    <h5><code>--pane_1_size</code></h5>
+    <p>The size of pane 1 (width in horizontal mode, height in vertical mode). Default is <code>calc((100% - var(--handle_width)) / 2)</code>.</p>
     <h5><code>--handle_width</code></h5>
-    <p>The width of the draggable divider handle. Default is <code>0.5rem</code>.</p>
-    <h5><code>--min_pane_width</code></h5>
-    <p>The minimum width each pane can be resized to. Default is <code>6rem</code>.</p>
+    <p>The width/height of the draggable divider handle. Default is <code>0.5rem</code>.</p>
+    <h5><code>--min_pane_size</code></h5>
+    <p>The minimum size each pane can be resized to. Default is <code>6rem</code>.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>setSize(size)<i>: void</i></code></h5>
-    <p>Sets the width of the left pane.</p>
+    <p>Sets the size of pane 1 via <code>--pane_1_size</code>. Controls width in horizontal mode and height in vertical mode.</p>
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
     <h5><code>resizestart</code></h5>
