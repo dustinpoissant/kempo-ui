@@ -18,6 +18,6 @@ assignees: ''
 ## What is the suggested fix
 
 ## Tasks
-- [] Apply the change
-- [] Add docs and examples
-- [] Add unit tests
+- [ ] Apply the change
+- [ ] Add docs and examples
+- [ ] Add unit tests
