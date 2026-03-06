@@ -23,6 +23,7 @@
           <h6>Examples</h6>
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#resizing">Resizing</a><br />
+          <a href="#verticalSplit">Vertical Split</a><br />
           
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -99,6 +100,24 @@
       </div>
     </div>
 
+    <h3 id="verticalSplit"><a href="#verticalSplit" class="no-link">Vertical Split</a></h3>
+    <p>Use the <code>direction="vertical"</code> attribute to create a vertical split where the top and bottom panes are divided by a horizontal handle. Set an explicit height on the component for predictable sizing. The default slot provides the top pane content; use <code>slot="right"</code> for the bottom pane content.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-split</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"vertical"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 16rem"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"b"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Top Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"right"</span>&gt;</span>Bottom Pane Content<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-split</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-split direction="vertical" style="height: 16rem" class="b">
+            <div>Top Pane Content</div>
+            <div slot="right">Bottom Pane Content</div>
+          </k-split>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="stacking"><a href="#stacking" class="no-link">Stacking</a></h3>
     <p>When the screen size is small (mobile) a split panel may not make sense, rather than changing the markup set the <code>stack-width</code> attribute to stack the contents (disable split view) when the component's size is less than the provided size.</p>
     <div class="row -mx">
@@ -140,18 +159,22 @@
     <p>Whether the split view is in stacked mode. Syncs to <code>stacked</code> attribute.</p>
     <h5><code>stackWidth<i>: number</i></code></h5>
     <p>The window width threshold for stacking behavior. Syncs to <code>stack-width</code> attribute.</p>
+    <h5><code>direction<i>: string</i></code></h5>
+    <p>The direction of the split. Can be <code>"horizontal"</code> (default) or <code>"vertical"</code>. Syncs to <code>direction</code> attribute.</p>
 
     <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
     <h5><code>--left_width</code></h5>
-    <p>The width of the left pane. Default is <code>calc((100% - var(--handle_width)) / 2)</code>.</p>
+    <p>The width of the left pane in horizontal mode. Default is <code>calc((100% - var(--handle_width)) / 2)</code>.</p>
+    <h5><code>--top_height</code></h5>
+    <p>The height of the top pane in vertical mode. Default is <code>calc((100% - var(--handle_width)) / 2)</code>.</p>
     <h5><code>--handle_width</code></h5>
-    <p>The width of the draggable divider handle. Default is <code>0.5rem</code>.</p>
+    <p>The width/height of the draggable divider handle. Default is <code>0.5rem</code>.</p>
     <h5><code>--min_pane_width</code></h5>
-    <p>The minimum width each pane can be resized to. Default is <code>6rem</code>.</p>
+    <p>The minimum size each pane can be resized to. Default is <code>6rem</code>.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>setSize(size)<i>: void</i></code></h5>
-    <p>Sets the width of the left pane.</p>
+    <p>Sets the size of the first pane. In horizontal mode, sets the width of the left pane via <code>--left_width</code>. In vertical mode, sets the height of the top pane via <code>--top_height</code>.</p>
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
     <h5><code>resizestart</code></h5>

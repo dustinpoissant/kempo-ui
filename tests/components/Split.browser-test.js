@@ -5,7 +5,7 @@ const createSplit = async (options = {}) => {
 	container.style.width = '800px';
 	container.style.height = '400px';
 	container.innerHTML = `
-		<k-split ${options.stacked ? 'stacked' : ''} ${options.stackWidth ? `stack-width="${options.stackWidth}"` : ''}>
+		<k-split ${options.stacked ? 'stacked' : ''} ${options.stackWidth ? `stack-width="${options.stackWidth}"` : ''} ${options.direction ? `direction="${options.direction}"` : ''}>
 			<div id="left-content">Left Pane Content</div>
 			<div slot="right" id="right-content">Right Pane Content</div>
 		</k-split>
@@ -611,11 +611,11 @@ export default {
 		const { container, split } = await createSplit();
 
 		split.handleDragStart();
-		const startWidth = split.dragStartWidth;
+		const startSize = split.dragStartSize;
 		split.handleDrag({ x: 100, y: 0 });
 
 		const leftWidth = split.style.getPropertyValue('--left_width');
-		const expectedWidth = `${startWidth + 100}px`;
+		const expectedWidth = `${startSize + 100}px`;
 
 		if(leftWidth !== expectedWidth){
 			cleanup(container);
@@ -625,5 +625,89 @@ export default {
 
 		cleanup(container);
 		pass('Size updates during drag');
+	},
+
+	'should have default direction as horizontal': async ({pass, fail}) => {
+		const { container, split } = await createSplit();
+
+		if(split.direction !== 'horizontal'){
+			cleanup(container);
+			fail(`Expected direction to be horizontal, got ${split.direction}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Default direction is horizontal');
+	},
+
+	'should accept direction="vertical" attribute': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		if(split.direction !== 'vertical'){
+			cleanup(container);
+			fail(`Expected direction to be vertical, got ${split.direction}`);
+			return;
+		}
+
+		if(!split.hasAttribute('direction') || split.getAttribute('direction') !== 'vertical'){
+			cleanup(container);
+			fail('direction attribute should be reflected as vertical');
+			return;
+		}
+
+		cleanup(container);
+		pass('direction="vertical" attribute accepted and reflected');
+	},
+
+	'should have ns-resize cursor on divider handle when vertical': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		const handle = split.shadowRoot.getElementById('divider-handle');
+		const cursor = getComputedStyle(handle).cursor;
+
+		if(cursor !== 'ns-resize'){
+			cleanup(container);
+			fail(`Expected cursor ns-resize for vertical split, got ${cursor}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Divider handle has ns-resize cursor in vertical mode');
+	},
+
+	'setSize should set --top_height CSS property in vertical mode': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		split.setSize('200px');
+		const topHeight = split.style.getPropertyValue('--top_height');
+
+		if(topHeight !== '200px'){
+			cleanup(container);
+			fail(`Expected --top_height to be 200px, got ${topHeight}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('setSize sets --top_height property in vertical mode');
+	},
+
+	'should update size during vertical drag': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ direction: 'vertical' });
+
+		split.handleDragStart();
+		const startSize = split.dragStartSize;
+		split.handleDrag({ x: 0, y: 80 });
+
+		const topHeight = split.style.getPropertyValue('--top_height');
+		const expectedHeight = `${startSize + 80}px`;
+
+		if(topHeight !== expectedHeight){
+			cleanup(container);
+			fail(`Expected --top_height ${expectedHeight}, got ${topHeight}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Size updates during vertical drag');
 	}
 };

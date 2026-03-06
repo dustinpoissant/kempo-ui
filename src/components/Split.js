@@ -6,7 +6,8 @@ export default class Split extends ShadowComponent {
 	static properties = {
 		resizing: { type: Boolean, reflect: true },
 		stacked: { type: Boolean, reflect: true },
-		stackWidth: { type: Number, attribute: 'stack-width' }
+		stackWidth: { type: Number, attribute: 'stack-width' },
+		direction: { type: String, reflect: true }
 	};
 
 	constructor() {
@@ -15,9 +16,10 @@ export default class Split extends ShadowComponent {
 		this.resizing = false;
 		this.stacked = false;
 		this.stackWidth = 0;
+		this.direction = 'horizontal';
 		
 		// Private state
-		this.dragStartWidth = 0;
+		this.dragStartSize = 0;
 		this.dragCleanup = () => {};
 		this.resizeObserver = null;
 	}
@@ -45,15 +47,16 @@ export default class Split extends ShadowComponent {
 	*/
 	handleDragStart = () => {
 		this.resizing = true;
-		this.dragStartWidth = Math.round(this.shadowRoot.getElementById('left').getBoundingClientRect().width);
+		this.dragStartSize = Math.round(this.shadowRoot.getElementById('left').getBoundingClientRect()[this.direction === 'vertical' ? 'height' : 'width']);
 		this.dispatchEvent(new CustomEvent('resizestart', {
-			detail: { startSize: this.dragStartWidth },
+			detail: { startSize: this.dragStartSize },
 			bubbles: true
 		}));
 	};
 
-	handleDrag = ({ x }) => {
-		const size = `${this.dragStartWidth + x}px`;
+	handleDrag = ({ x, y }) => {
+		const delta = this.direction === 'vertical' ? y : x;
+		const size = `${this.dragStartSize + delta}px`;
 		this.setSize(size);
 		this.dispatchEvent(new CustomEvent('resize', {
 			detail: { size },
@@ -61,10 +64,10 @@ export default class Split extends ShadowComponent {
 		}));
 	};
 
-	handleDragEnd = ({ x }) => {
+	handleDragEnd = ({ x, y }) => {
 		this.resizing = false;
-		const width = this.dragStartWidth + x;
-		const size = `${width}px`;
+		const delta = this.direction === 'vertical' ? y : x;
+		const size = `${this.dragStartSize + delta}px`;
 		this.setSize(size);
 		this.dispatchEvent(new CustomEvent('resizeend', {
 			detail: { size },
@@ -76,7 +79,7 @@ export default class Split extends ShadowComponent {
 		Public Methods
 	*/
 	setSize(size) {
-		this.style.setProperty('--left_width', size);
+		this.style.setProperty(this.direction === 'vertical' ? '--top_height' : '--left_width', size);
 	}
 
 	setupDragHandler() {
@@ -176,6 +179,38 @@ export default class Split extends ShadowComponent {
 
 		:host([stacked]) {
 			display: block;
+		}
+
+		:host([direction="vertical"]) {
+			--top_height: calc((100% - var(--handle_width)) / 2);
+
+			flex-direction: column;
+		}
+
+		:host([direction="vertical"]) .pane {
+			min-width: 0;
+			max-width: 100%;
+			min-height: var(--min_pane_width);
+			max-height: calc(100% - var(--min_pane_width));
+		}
+
+		:host([direction="vertical"]) #left {
+			flex: 0 0 var(--top_height);
+		}
+
+		:host([direction="vertical"]) #divider-handle {
+			width: 100%;
+			height: var(--handle_width);
+			cursor: ns-resize;
+			align-items: center;
+			justify-content: initial;
+		}
+
+		:host([direction="vertical"]) #divider-border {
+			width: 100%;
+			height: 1px;
+			border-left: none;
+			border-top: 1px solid var(--c_border);
 		}
 	`;
 
