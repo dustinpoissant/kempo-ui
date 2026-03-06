@@ -17,7 +17,7 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 
 		.pane {
 			min-width: var(--min_pane_size);
-			max-width: calc(100% - var(--min_pane_size));
+			max-width: calc(100% - var(--min_pane_size) - var(--handle_width));
 			max-height: 100%;
 			overflow: hidden;
 		}
@@ -28,6 +28,7 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 
 		#divider-handle {
 			display: flex;
+			flex-shrink: 0;
 			justify-content: center;
 			width: var(--handle_width);
 			cursor: ew-resize;
@@ -37,9 +38,12 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 			background-color: var(--tc_primary);
 		}
 
+		:host([resizing]) {
+			user-select: none;
+		}
+
 		:host([resizing]) .pane {
 			pointer-events: none;
-			user-select: none;
 		}
 
 		#divider-border {
@@ -80,7 +84,7 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 			min-width: 0;
 			max-width: 100%;
 			min-height: var(--min_pane_size);
-			max-height: calc(100% - var(--min_pane_size));
+			max-height: calc(100% - var(--min_pane_size) - var(--handle_width));
 		}
 
 		:host([direction="vertical"]) #pane-1 {

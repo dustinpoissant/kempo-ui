@@ -135,7 +135,7 @@ export default class Split extends ShadowComponent {
 
 		.pane {
 			min-width: var(--min_pane_size);
-			max-width: calc(100% - var(--min_pane_size));
+			max-width: calc(100% - var(--min_pane_size) - var(--handle_width));
 			max-height: 100%;
 			overflow: hidden;
 		}
@@ -146,6 +146,7 @@ export default class Split extends ShadowComponent {
 
 		#divider-handle {
 			display: flex;
+			flex-shrink: 0;
 			justify-content: center;
 			width: var(--handle_width);
 			cursor: ew-resize;
@@ -155,9 +156,12 @@ export default class Split extends ShadowComponent {
 			background-color: var(--tc_primary);
 		}
 
+		:host([resizing]) {
+			user-select: none;
+		}
+
 		:host([resizing]) .pane {
 			pointer-events: none;
-			user-select: none;
 		}
 
 		#divider-border {
@@ -198,7 +202,7 @@ export default class Split extends ShadowComponent {
 			min-width: 0;
 			max-width: 100%;
 			min-height: var(--min_pane_size);
-			max-height: calc(100% - var(--min_pane_size));
+			max-height: calc(100% - var(--min_pane_size) - var(--handle_width));
 		}
 
 		:host([direction="vertical"]) #pane-1 {
