@@ -5,7 +5,7 @@ const createSplit = async (options = {}) => {
 	container.style.width = '800px';
 	container.style.height = '400px';
 	container.innerHTML = `
-		<k-split ${options.stacked ? 'stacked' : ''} ${options.stackWidth ? `stack-width="${options.stackWidth}"` : ''} ${options.direction ? `direction="${options.direction}"` : ''}>
+		<k-split ${options.stacked ? 'stacked' : ''} ${options.stackWidth ? `stack-width="${options.stackWidth}"` : ''} ${options.direction ? `direction="${options.direction}"` : ''} ${options.persistentId ? `persistent-id="${options.persistentId}"` : ''}>
 			<div id="left-content">Left Pane Content</div>
 			<div slot="right" id="right-content">Right Pane Content</div>
 		</k-split>
@@ -709,5 +709,92 @@ export default {
 
 		cleanup(container);
 		pass('Size updates during vertical drag');
+	},
+
+	'should have default persistentId as null': async ({pass, fail}) => {
+		const { container, split } = await createSplit();
+
+		if(split.persistentId !== null){
+			cleanup(container);
+			fail(`Expected persistentId to be null, got ${split.persistentId}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Default persistentId is null');
+	},
+
+	'should accept persistent-id attribute': async ({pass, fail}) => {
+		const { container, split } = await createSplit({ persistentId: 'my-split' });
+
+		if(split.persistentId !== 'my-split'){
+			cleanup(container);
+			fail(`Expected persistentId to be "my-split", got ${split.persistentId}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('persistent-id attribute accepted');
+	},
+
+	'should save size to localStorage on drag end when persistentId is set': async ({pass, fail}) => {
+		const key = 'split-persistent-id-save-test';
+		window.localStorage.removeItem(key);
+
+		const { container, split } = await createSplit({ persistentId: 'save-test' });
+
+		split.handleDragStart();
+		split.handleDragEnd({ x: 100, y: 0 });
+
+		const saved = window.localStorage.getItem(key);
+
+		if(!saved){
+			cleanup(container);
+			window.localStorage.removeItem(key);
+			fail('Size should be saved to localStorage on drag end');
+			return;
+		}
+
+		cleanup(container);
+		window.localStorage.removeItem(key);
+		pass('Size saved to localStorage on drag end');
+	},
+
+	'should not save to localStorage on drag end when persistentId is not set': async ({pass, fail}) => {
+		const { container, split } = await createSplit();
+
+		const keysBefore = Object.keys(window.localStorage).filter(k => k.startsWith('split-persistent-id-'));
+		split.handleDragStart();
+		split.handleDragEnd({ x: 100, y: 0 });
+		const keysAfter = Object.keys(window.localStorage).filter(k => k.startsWith('split-persistent-id-'));
+
+		if(keysAfter.length !== keysBefore.length){
+			cleanup(container);
+			fail('Should not save to localStorage when persistentId is not set');
+			return;
+		}
+
+		cleanup(container);
+		pass('Does not save to localStorage when persistentId is not set');
+	},
+
+	'should restore size from localStorage when persistentId is set': async ({pass, fail}) => {
+		const key = 'split-persistent-id-restore-test';
+		window.localStorage.setItem(key, '350px');
+
+		const { container, split } = await createSplit({ persistentId: 'restore-test' });
+
+		const pane1Size = split.style.getPropertyValue('--pane_1_size');
+
+		window.localStorage.removeItem(key);
+
+		if(pane1Size !== '350px'){
+			cleanup(container);
+			fail(`Expected --pane_1_size to be 350px (restored from localStorage), got ${pane1Size}`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Size restored from localStorage when persistentId is set');
 	}
 };

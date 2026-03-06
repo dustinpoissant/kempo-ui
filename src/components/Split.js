@@ -7,7 +7,8 @@ export default class Split extends ShadowComponent {
 		resizing: { type: Boolean, reflect: true },
 		stacked: { type: Boolean, reflect: true },
 		stackWidth: { type: Number, attribute: 'stack-width' },
-		direction: { type: String, reflect: true }
+		direction: { type: String, reflect: true },
+		persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
 	};
 
 	constructor() {
@@ -17,6 +18,7 @@ export default class Split extends ShadowComponent {
 		this.stacked = false;
 		this.stackWidth = 0;
 		this.direction = 'horizontal';
+		this.persistentId = null;
 		
 		// Private state
 		this.dragStartSize = 0;
@@ -31,6 +33,10 @@ export default class Split extends ShadowComponent {
 		super.firstUpdated();
 		this.setupDragHandler();
 		this.setupResizeObserver();
+		if(this.persistentId && window?.localStorage) {
+			const size = window.localStorage.getItem(`split-persistent-id-${this.persistentId}`);
+			if(size) this.setSize(size);
+		}
 	}
 
 	disconnectedCallback() {
@@ -69,6 +75,9 @@ export default class Split extends ShadowComponent {
 		const delta = this.direction === 'vertical' ? y : x;
 		const size = `${this.dragStartSize + delta}px`;
 		this.setSize(size);
+		if(this.persistentId && window?.localStorage) {
+			window.localStorage.setItem(`split-persistent-id-${this.persistentId}`, size);
+		}
 		this.dispatchEvent(new CustomEvent('resizeend', {
 			detail: { size },
 			bubbles: true
