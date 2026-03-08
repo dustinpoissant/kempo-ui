@@ -151,12 +151,23 @@ customElements.define('k-my-component', MyComponent);
 
 ---
 
-## Step 3: Register in the Nav (if it should appear in docs)
+## Step 3: Register in the Nav and Index (if it should appear in docs)
 
 Add a link to the component in `docs/nav.inc.html` inside the `<menu>` under the appropriate section, in alphabetical order:
 
 ```html
 <a href="./components/my-component.html">My Component</a>
+```
+
+Also add a card in `docs/index.html` inside the `<div class="row -mx">` under the `<h2>Components</h2>` section, in alphabetical order:
+
+```html
+<div class="span-12 t-span-6 d-span-4 px">
+  <a href="./components/my-component.html" class="card mb no-link d-b">
+    <h3 class="tc-primary">My Component</h3>
+    <p class="tc-muted">One-sentence description of what the component does.</p>
+  </a>
+</div>
 ```
 
 ---
