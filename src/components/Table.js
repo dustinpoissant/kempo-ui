@@ -1047,11 +1047,23 @@ export default class Table extends ShadowComponent {
     td:not(:last-child) {
       border-right: 1px solid var(--c_border);
     }
+    th:first-child,
+    td:first-child {
+      border-left: none;
+    }
+    th:last-child,
+    td:last-child {
+      border-right: none;
+    }
     thead tr th {
+      border-top: none;
       border-bottom: 1px solid var(--c_border);
     }
     tbody tr:not(:last-child) td {
       border-bottom: 1px solid var(--c_border);
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
     }
     th.controls,
     td.controls {
