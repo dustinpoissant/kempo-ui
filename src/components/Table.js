@@ -280,7 +280,7 @@ export default class Table extends ShadowComponent {
     });
     return html`
       <td class="cell controls controls-before">
-        ${controls}
+        <div>${controls}</div>
       </td>
     `;
   }
@@ -298,7 +298,7 @@ export default class Table extends ShadowComponent {
     });
     return html`
       <td class="cell controls controls-after">
-        ${controls}
+        <div>${controls}</div>
       </td>
     `;
   }
@@ -1131,8 +1131,8 @@ export default class Table extends ShadowComponent {
     td.controls {
       padding: 0;
     }
-    td.controls-after,
-    td.controls-before {
+    td.controls-after > div,
+    td.controls-before > div {
       display: flex;
       align-items: center;
     }
