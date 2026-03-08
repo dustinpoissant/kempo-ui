@@ -36,6 +36,7 @@
   "homepage": "https://github.com/dustinpoissant/kempo-ui#readme",
   "devDependencies": {
     "highlight.js": "^11.11.1",
+    "js-beautify": "^1.15.4",
     "kempo-server": "^1.8.2",
     "kempo-testing-framework": "^1.4.0",
     "terser": "^5.43.1"

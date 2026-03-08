@@ -17,6 +17,8 @@ export default class Table extends ShadowComponent {
     enableSelection: { type: Boolean, reflect: true, converter: boolExists, attribute: 'enable-selection' },
     enableSorting: { type: Boolean, reflect: true, converter: boolExists, attribute: 'enable-sorting' },
     caseSensitiveFilters: { type: Boolean, reflect: true, converter: boolExists, attribute: 'case-sensitive-filters' },
+    requestEdit: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-edit' },
+    requestDelete: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-delete' },
     fields: { type: Array },
     records: { type: Array },
     filters: { type: Array },
@@ -38,6 +40,8 @@ export default class Table extends ShadowComponent {
     if(this.sort === undefined) this.sort = [];
     if(this.columnSizes === undefined) this.columnSizes = {};
     if(this.fetchPending === undefined) this.fetchPending = false;
+    if(this.requestEdit === undefined) this.requestEdit = false;
+    if(this.requestDelete === undefined) this.requestDelete = false;
   }
 
   /*
@@ -358,39 +362,59 @@ export default class Table extends ShadowComponent {
   
   saveEditedRecord(record) {
     const recordEl = this.shadowRoot.querySelector(`.record[data-index="${record[index]}"]`);
+    const newData = {};
     if(recordEl){
       recordEl.querySelectorAll('.cell[data-field]').forEach($cell => {
         const field = $cell.dataset.field;
         const fieldDef = this.fields.find(f => f.name === field);
         if(fieldDef && !fieldDef.calculator){
           const $input = $cell.querySelector('input, select');
-          if($input){
-            record[field] = $input.value;
-          }
-        }
-      });
-      record[editing] = false;
-      recordEl.classList.remove('editing');
-      recordEl.removeAttribute('editing');
-      recordEl.querySelectorAll('.cell[data-field]').forEach($cell => {
-        const field = $cell.dataset.field;
-        const fieldDef = this.fields.find(f => f.name === field);
-        if(fieldDef){
-          const value = record[field] || '';
-          if(fieldDef.calculator){
-            $cell.textContent = fieldDef.calculator(record, this);
-          } else if(fieldDef.formatter){
-            $cell.innerHTML = fieldDef.formatter(value);
-          } else {
-            $cell.textContent = value;
-          }
+          if($input) newData[field] = $input.value;
         }
       });
     }
-    this.dispatchEvent(new CustomEvent('editingChange', { 
-      detail: { record, editing: false },
-      bubbles: true 
-    }));
+    const commit = () => {
+      Object.assign(record, newData);
+      record[editing] = false;
+      if(recordEl){
+        recordEl.classList.remove('editing');
+        recordEl.removeAttribute('editing');
+        recordEl.querySelectorAll('.cell[data-field]').forEach($cell => {
+          const field = $cell.dataset.field;
+          const fieldDef = this.fields.find(f => f.name === field);
+          if(fieldDef){
+            const value = record[field] || '';
+            if(fieldDef.calculator){
+              $cell.textContent = fieldDef.calculator(record, this);
+            } else if(fieldDef.formatter){
+              $cell.innerHTML = fieldDef.formatter(value);
+            } else {
+              $cell.textContent = value;
+            }
+          }
+        });
+      }
+      this.dispatchEvent(new CustomEvent('editingChange', {
+        detail: { record, editing: false },
+        bubbles: true
+      }));
+    };
+    const hasChanges = Object.keys(newData).some(key => String(record[key] ?? '') !== newData[key]);
+    if(!hasChanges){
+      this.cancelEditedRecord(record);
+      return;
+    }
+    if(this.requestEdit){
+      recordEl?.classList.add('pending');
+      const wrappedCommit = () => { recordEl?.classList.remove('pending'); commit(); };
+      const reject = () => { recordEl?.classList.remove('pending'); };
+      this.dispatchEvent(new CustomEvent('requestSave', {
+        detail: { record, newData, approve: wrappedCommit, reject },
+        bubbles: true
+      }));
+    } else {
+      commit();
+    }
   }
 
   cancelEditedRecord(record) {
@@ -649,69 +673,79 @@ export default class Table extends ShadowComponent {
 
   deleteRecord(record) {
     let originalRecord = this.records.find(r => r === record);
-    let totalPagesBefore = this.getTotalPages();
-    
-    if (!originalRecord && record[index] !== undefined) {
-      originalRecord = this.records[record[index]];
-    }
-    
-    if (originalRecord) {
+    const totalPagesBefore = this.getTotalPages();
+    if(!originalRecord && record[index] !== undefined) originalRecord = this.records[record[index]];
+    if(!originalRecord) return;
+    const commit = () => {
       const recordIndex = this.records.indexOf(originalRecord);
       this.records.splice(recordIndex, 1);
-      this.records.forEach((rec, idx) => {
-        rec[index] = idx;
-      });
+      this.records.forEach((rec, idx) => { rec[index] = idx; });
       this.requestUpdate();
       this.dispatchEvent(new CustomEvent('selectionChange', { bubbles: true }));
-      this.dispatchEvent(new CustomEvent('recordDeleted', { 
+      this.dispatchEvent(new CustomEvent('recordDeleted', {
         detail: { index: recordIndex },
-        bubbles: true 
+        bubbles: true
       }));
-      
       const totalPages = this.getTotalPages();
-      if (this.currentPage > totalPages) {
-        this.setPage(totalPages);
-      }
-      if (totalPages !== totalPagesBefore) {
-        this.dispatchEvent(new CustomEvent('pageCountChanged', { 
+      if(this.currentPage > totalPages) this.setPage(totalPages);
+      if(totalPages !== totalPagesBefore){
+        this.dispatchEvent(new CustomEvent('pageCountChanged', {
           detail: { totalPages },
-          bubbles: true 
+          bubbles: true
         }));
       }
+    };
+    if(this.requestDelete){
+      const recordEl = this.shadowRoot.querySelector(`.record[data-index="${originalRecord[index]}"]`);
+      recordEl?.classList.add('pending');
+      const wrappedCommit = () => { recordEl?.classList.remove('pending'); commit(); };
+      const reject = () => { recordEl?.classList.remove('pending'); };
+      this.dispatchEvent(new CustomEvent('requestDelete', {
+        detail: { records: [originalRecord], approve: wrappedCommit, reject },
+        bubbles: true
+      }));
+    } else {
+      commit();
     }
   }
 
   deleteSelected() {
-    let totalPagesBefore = this.getTotalPages();
-    const selectedRecords = this.getSelectedRecords();
-    
-    selectedRecords.forEach(record => {
-      let originalRecord = this.records.find(r => r === record);
-      if (!originalRecord && record[index] !== undefined) {
-        originalRecord = this.records[record[index]];
+    const totalPagesBefore = this.getTotalPages();
+    const originalRecords = this.getSelectedRecords()
+      .map(record => this.records.find(r => r === record) ?? (record[index] !== undefined ? this.records[record[index]] : null))
+      .filter(Boolean);
+    if(!originalRecords.length) return;
+    const commit = () => {
+      originalRecords.forEach(record => {
+        const i = this.records.indexOf(record);
+        if(i !== -1) this.records.splice(i, 1);
+      });
+      this.records.forEach((rec, idx) => { rec[index] = idx; });
+      this.requestUpdate();
+      const totalPages = this.getTotalPages();
+      if(this.currentPage > totalPages) this.setPage(totalPages);
+      if(totalPages !== totalPagesBefore){
+        this.dispatchEvent(new CustomEvent('pageCountChanged', {
+          detail: { totalPages },
+          bubbles: true
+        }));
       }
-      if (originalRecord) {
-        const recordIndex = this.records.indexOf(originalRecord);
-        this.records.splice(recordIndex, 1);
-      }
-    });
-    
-    this.records.forEach((rec, idx) => {
-      rec[index] = idx;
-    });
-    this.requestUpdate();
-    
-    const totalPages = this.getTotalPages();
-    if (this.currentPage > totalPages) {
-      this.setPage(totalPages);
-    }
-    if (totalPages !== totalPagesBefore) {
-      this.dispatchEvent(new CustomEvent('pageCountChanged', { 
-        detail: { totalPages },
-        bubbles: true 
+      this.dispatchEvent(new CustomEvent('selectionChange', { bubbles: true }));
+    };
+    if(this.requestDelete){
+      const rowEls = originalRecords
+        .map(r => this.shadowRoot.querySelector(`.record[data-index="${r[index]}"]`))
+        .filter(Boolean);
+      rowEls.forEach(el => el.classList.add('pending'));
+      const wrappedCommit = () => { rowEls.forEach(el => el.classList.remove('pending')); commit(); };
+      const reject = () => { rowEls.forEach(el => el.classList.remove('pending')); };
+      this.dispatchEvent(new CustomEvent('requestDelete', {
+        detail: { records: originalRecords, approve: wrappedCommit, reject },
+        bubbles: true
       }));
+    } else {
+      commit();
     }
-    this.dispatchEvent(new CustomEvent('selectionChange', { bubbles: true }));
   }
 
   getSelectedRecords() {
@@ -1065,9 +1099,42 @@ export default class Table extends ShadowComponent {
     tbody tr:last-child td {
       border-bottom: none;
     }
+    tr.editing td.cell[data-field] {
+      padding: 0;
+    }
+    tr.editing td.cell[data-field] input,
+    tr.editing td.cell[data-field] select {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    tr.pending {
+      pointer-events: none;
+    }
+    tr.pending td {
+      position: relative;
+      overflow: hidden;
+    }
+    tr.pending td::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(128, 128, 128, 0.15), transparent);
+      transform: translateX(-100%);
+      animation: row-pending 1.2s ease-in-out infinite;
+    }
+    @keyframes row-pending {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
     th.controls,
     td.controls {
       padding: 0;
+    }
+    td.controls-after,
+    td.controls-before {
+      display: flex;
+      align-items: center;
     }
     .field-select,
     .selection {

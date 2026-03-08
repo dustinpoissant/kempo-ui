@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { highlight } from '../tools/highlight.js';
+import beautify from 'js-beautify';
 
 const LANG_ALIASES = {
   js: 'javascript',
@@ -16,11 +17,17 @@ const LANG_ALIASES = {
   markdown: 'markdown'
 };
 
+const BEAUTIFY_OPTIONS = {
+  indent_size: 2,
+  wrap_line_length: 0,
+  preserve_newlines: false,
+  max_preserve_newlines: 0
+};
+
 const args = process.argv.slice(2);
 
-if(args.length < 2){
-  console.error('Usage: kempo-highlightcode <lang> <code>');
-  console.error('Example: kempo-highlightcode html "<p>Hello World</p>"');
+if(args.length < 1){
+  console.error('Usage: node bin/highlight_code.js <lang> <code>');
   process.exit(1);
 }
 
@@ -33,7 +40,27 @@ if(!lang){
   process.exit(1);
 }
 
-const code = rest.join(' ');
-const full = highlight(code, lang);
-// Strip the <pre><code> wrapper — return just the inner highlighted content
-process.stdout.write(full.replace(/^<pre><code class="hljs [^"]*">/, '').replace(/<\/code><\/pre>\n?$/, '') + '\n');
+const beautifyCode = (code) => {
+  const fns = { javascript: beautify.js, css: beautify.css, html: beautify.html, xml: beautify.html };
+  const fn = fns[lang] || beautify.js;
+  return fn(code, BEAUTIFY_OPTIONS);
+};
+
+const run = (code) => {
+  const formatted = beautifyCode(code);
+  const full = highlight(formatted, lang);
+  process.stdout.write(
+    full
+      .replace(/^<pre><code class="hljs [^"]*">/, '')
+      .replace(/<\/code><\/pre>\n?$/, '')
+      .replace(/\n/g, '<br>') + '\n'
+  );
+};
+
+if(rest.length > 0){
+  run(rest.join(' '));
+} else {
+  const chunks = [];
+  process.stdin.on('data', chunk => chunks.push(chunk));
+  process.stdin.on('end', () => run(chunks.join('')));
+}
