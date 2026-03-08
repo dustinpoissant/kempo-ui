@@ -22,7 +22,7 @@ npm install kempo-ui
   <script>
     window.kempo = {
       pathToStylesheet: '/kempo.min.css',
-      pathToIcons: '/icons'
+      pathsToIcons: ['/icons']
     };
   </script>
 </head>
@@ -62,6 +62,88 @@ Import and use components in your HTML:
 </html>
 ```
 
+
+## Icons
+
+kempo-ui ships a small set of icons used internally by its components. The `<k-icon>` component can also serve icons from your own directory, so you can add project-specific icons alongside the built-in ones.
+
+### Interactive picker (for humans)
+
+Run a single command, type to filter, arrow keys to navigate, Enter to select:
+
+```bash
+npx kempo-icon
+```
+
+### Finding an icon (for scripts/LLMs)
+
+Search the full Material Symbols library by name or tag:
+
+```bash
+npx kempo-listicons <search_term>
+```
+
+```bash
+npx kempo-listicons chevron
+# → chevron_right
+#   chevron_left
+#   keyboard_arrow_right
+#   ...
+```
+
+### Downloading an icon
+
+```bash
+npx kempo-geticon <icon_name> [custom_name] [--dir <path>] [-y]
+```
+
+By default icons are saved to `icons/` in your project root. Use `--dir` to point to your own assets directory:
+
+```bash
+# Save to icons/ (default)
+npx kempo-geticon format_bold
+
+# Save to a custom directory
+npx kempo-geticon format_bold --dir src/assets/icons
+
+# Rename on download
+npx kempo-geticon content_copy copy
+
+# Auto-accept directional icon prompt
+npx kempo-geticon chevron_left -y
+```
+
+**Directional icons:** Material Symbols has separate icons for each direction (`chevron_left`, `chevron_right`, etc.). kempo-ui only stores the right-facing version and uses the `direction` attribute to rotate it, so you only need one file per icon. If you pass a non-right directional name, the script will prompt you to download the right-facing variant instead and save it under the base name.
+
+### Configuring icon directories
+
+Tell kempo-ui where to look for icons in your page config. It checks directories in order and uses the first match, so your icons override the built-in ones:
+
+```html
+<script>
+  window.kempo = {
+    pathToStylesheet: '/kempo.min.css',
+    pathsToIcons: ['/my-icons', '/node_modules/kempo-ui/icons']
+  };
+</script>
+```
+
+### Using icons in markup
+
+```html
+<k-icon name="format_bold"></k-icon>
+<k-icon name="chevron" direction="left"></k-icon>
+<k-icon name="chevron" direction="down"></k-icon>
+```
+
+| `direction` | Rotation |
+|---|---|
+| *(omitted)* | 0° — right |
+| `down` | 90° |
+| `left` | 180° |
+| `up` | 270° |
+
+---
 
 ## Documentation
 

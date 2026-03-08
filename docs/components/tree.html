@@ -209,11 +209,11 @@
   <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/lit-all.min.js&#x27;</span>;
 
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">FileHandleNode</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">TreeNode</span> {
-    <span class="hljs-title function_">renderLabel</span>(<span class="hljs-params"></span>){
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>){
       <span class="hljs-keyword">const</span> ext = <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span>.<span class="hljs-property">name</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>).<span class="hljs-title function_">pop</span>().<span class="hljs-title function_">toLowerCase</span>();
       <span class="hljs-keyword">const</span> iconName = { <span class="hljs-attr">js</span>: <span class="hljs-string">&#x27;code&#x27;</span>, <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;code_blocks&#x27;</span>, <span class="hljs-attr">css</span>: <span class="hljs-string">&#x27;code&#x27;</span>,
         <span class="hljs-attr">json</span>: <span class="hljs-string">&#x27;file-text&#x27;</span>, <span class="hljs-attr">md</span>: <span class="hljs-string">&#x27;file-text&#x27;</span> }[ext] ?? <span class="hljs-string">&#x27;file&#x27;</span>;
-      <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${iconName}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span>`</span>;
+      <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-b&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${iconName}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span> </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.value.name}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>`</span>;
     }
     <span class="hljs-title function_">getChildren</span>(<span class="hljs-params"></span>){ <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>; }
     <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">FileSystemFileHandle</span>;
@@ -233,9 +233,19 @@
     }
 
     <span class="hljs-title function_">getChildren</span>(<span class="hljs-params"></span>){ <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">entries</span> ?? []; }
-    <span class="hljs-title function_">renderLabel</span>(<span class="hljs-params"></span>){ <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>; }
     <span class="hljs-title function_">renderIcon</span>(<span class="hljs-params"></span>){
       <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.opened ? <span class="hljs-string">&#x27;folder-open&#x27;</span> : <span class="hljs-string">&#x27;folder&#x27;</span>}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span>`</span>;
+    }
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>){
+      <span class="hljs-keyword">const</span> children = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildren</span>();
+      <span class="hljs-keyword">return</span> html`<span class="language-xml">
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;branch-label no-btn&quot;</span> @<span class="hljs-attr">click</span>=</span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.toggle}</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">aria-expanded</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.opened}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span>
+            </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.renderIcon()}</span><span class="language-xml"> </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.value.name}</span><span class="language-xml">
+          <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+          </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.opened ? html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;pl&quot;</span>&gt;</span></span><span class="hljs-subst">${children.map(([k, v]) =&gt; Tree.renderValue(v, k, <span class="hljs-variable language_">this</span>.depth + <span class="hljs-number">1</span>, <span class="hljs-variable language_">this</span>.maxDepth))}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>`</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span><span class="language-xml">
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      `</span>;
     }
     <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">FileSystemDirectoryHandle</span>;
   }
@@ -256,11 +266,11 @@
           import { html } from '../src/lit-all.min.js';
 
           class FileHandleNode extends TreeNode {
-            renderLabel(){
+            render(){
               const ext = this.value.name.split('.').pop().toLowerCase();
               const iconName = { js: 'code', html: 'code_blocks', css: 'code',
                 json: 'file-text', md: 'file-text' }[ext] ?? 'file';
-              return html`<k-icon name="${iconName}"></k-icon>`;
+              return html`<span class="d-b"><k-icon name="${iconName}"></k-icon> ${this.value.name}</span>`;
             }
             getChildren(){ return null; }
             static detect = v => v instanceof FileSystemFileHandle;
@@ -280,9 +290,19 @@
             }
 
             getChildren(){ return this.entries ?? []; }
-            renderLabel(){ return ''; }
             renderIcon(){
               return html`<k-icon name="${this.opened ? 'folder-open' : 'folder'}"></k-icon>`;
+            }
+            render(){
+              const children = this.getChildren();
+              return html`
+                <div>
+                  <button class="branch-label no-btn" @click=${this.toggle} aria-expanded="${this.opened}">
+                    ${this.renderIcon()} ${this.value.name}
+                  </button>
+                  ${this.opened ? html`<div class="pl">${children.map(([k, v]) => Tree.renderValue(v, k, this.depth + 1, this.maxDepth))}</div>` : ''}
+                </div>
+              `;
             }
             static detect = v => v instanceof FileSystemDirectoryHandle;
           }

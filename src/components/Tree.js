@@ -59,15 +59,14 @@ export default class Tree extends ShadowComponent {
 
 	/* Static Methods */
 	static renderValue(value, key = null, depth = 0, maxDepth = 0){
-		const LeafClass = Tree.nodes.find(n => n.detect(value));
-		if(LeafClass){
-			const instance = new LeafClass(value);
+		const NodeClass = Tree.nodes.find(n => n.detect(value));
+		if(NodeClass && NodeClass.prototype.getChildren === TreeNode.prototype.getChildren){
 			const keyLabel = key !== null
 				? html`<span class="${typeof key === 'number' ? 'tc-muted' : ''}">${key}: </span>`
 				: '';
-			return html`<span class="d-b">${keyLabel}${instance.renderLabel()}</span>`;
+			return html`<span class="d-b">${keyLabel}${new NodeClass(value).renderLabel()}</span>`;
 		}
-		const el = document.createElement(TreeNode.nodeTag);
+		const el = document.createElement((NodeClass ?? TreeNode).nodeTag);
 		el.value = value;
 		el.key = key;
 		el.depth = depth;

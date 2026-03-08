@@ -28,7 +28,8 @@
           <a href="#explicitSource">Explicitly Set the Source</a><br />
           <a href="#fallbackIcon">Fallback Icon</a><br />
           <a href="#changingIconDirectory">Changing the Icon Directory Location</a><br />
-          <a href="#addingIcons">Adding Icons</a><br />
+          <a href="#cliTool">Adding Icons with the CLI</a><br />
+          <a href="#addingIcons">Adding Icons Manually</a><br />
           
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -145,10 +146,31 @@
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    fallbackIcon: <span class="hljs-string">`&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"&gt;&lt;path fill="currentColor" d="M480-79q-16 0-30.5-6T423-102L102-423q-11-12-17-26.5T79-480q0-16 6-31t17-26l321-321q12-12 26.5-17.5T480-881q16 0 31 5.5t26 17.5l321 321q12 11 17.5 26t5.5 31q0 16-5.5 30.5T858-423L537-102q-11 11-26 17t-31 6Zm0-80 321-321-321-321-321 321 321 321Zm-40-281h80v-240h-80v240Zm40 120q17 0 28.5-11.5T520-360q0-17-11.5-28.5T480-400q-17 0-28.5 11.5T440-360q0 17 11.5 28.5T480-320Zm0-160Z"/&gt;&lt;/svg&gt;`</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <h3 id="changingIconDirectory"><a href="#changingIconDirectory" class="no-link">Changing the Icon Directory Location</a></h3>
-    <p>To change the location of the directory holding the icons, set the global <code>kempo.pathToIcons</code> config before any components are loaded (for example in the head of the document).</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    pathToIcons: [<span class="hljs-string">'./pathTo/icons'</span>]<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>To change the location of the directory holding the icons, set the global <code>kempo.pathsToIcons</code> config before any components are loaded (for example in the head of the document). An array of paths is accepted — directories are checked in order and the first match is used, allowing you to override built-in icons or add your own alongside them.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    pathsToIcons: [<span class="hljs-string">'./my-icons'</span>, <span class="hljs-string">'./node_modules/kempo-ui/icons'</span>]<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
-    <h3 id="addingIcons"><a href="#addingIcons" class="no-link">Adding Icons</a></h3>
+    <h3 id="cliTool"><a href="#cliTool" class="no-link">Adding Icons with the CLI</a></h3>
+    <p>kempo-ui ships CLI tools for searching and downloading icons from the <a href="https://fonts.google.com/icons" target="_blank">Google Material Symbols</a> library. They are available via <code>npx</code> after installing kempo-ui.</p>
+    <p>Use the interactive picker to search and download in one step — type to filter, arrow keys to navigate, Enter to select:</p>
+    <pre><code class="hljs bash">npx kempo-icon</code></pre>
+    <p>Or use the individual commands for scripting:</p>
+    <pre><code class="hljs bash"># Search by name or tag
+npx kempo-listicons chevron
+
+# Download by name (saves to icons/ by default)
+npx kempo-geticon chevron_right
+
+# Download with a custom name
+npx kempo-geticon content_copy copy
+
+# Save to a custom directory
+npx kempo-geticon format_bold --dir src/assets/icons
+
+# Auto-accept directional icon prompt
+npx kempo-geticon chevron_left -y</code></pre>
+    <p>Directional icons (those with <code>_left</code>, <code>_up</code>, <code>_down</code> etc. variants) are handled automatically — the CLI downloads the right-facing version and names it without the direction suffix. Use the <code>direction</code> attribute on <code>&lt;k-icon&gt;</code> to rotate it.</p>
+
+    <h3 id="addingIcons"><a href="#addingIcons" class="no-link">Adding Icons Manually</a></h3>
     <p>Add your SVGs to the directory, remove the <code>height</code> and <code>width</code> attributes from the <code>svg</code> tag (if you do not, the Icon component will attempt to do it for you). The height and width will be managed by CSS to match the font-size. Give all objects (path, rect, circle) a fill of <code>currentColor</code>, this will allow the icon to adapt to the font color where it is rendered.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
@@ -192,8 +214,8 @@
     <p>Semantic direction for icon rotation. Options: "down" (90°), "left" (180°), "up" (270°). Syncs with the <code>direction</code> attribute. Do not use with <code>rotation</code>.</p>
     <h5><code>animation<i>: string</i></code></h5>
     <p>Built-in animation to apply. Options: "spin" (continuous rotation), "blink" (fade in/out), "pulse" (scale up/down). Syncs with the <code>animation</code> attribute.</p>
-    <h5><code>pathToIcons<i>: Array</i></code></h5>
-    <p>An array of paths to directories containing icons. This is configured via the global <code>window.kempo.pathToIcons</code> config object.</p>
+    <h5><code>pathsToIcons<i>: Array</i></code></h5>
+    <p>An array of paths to directories containing icons. This is configured via the global <code>window.kempo.pathsToIcons</code> config object. Directories are checked in order — the first match wins.</p>
 
   </main>
   <div style="height:33vh"></div>

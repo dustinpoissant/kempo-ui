@@ -4,17 +4,25 @@
   "type": "module",
   "description": "A Lit based web-component library",
   "main": "index.js",
+  "bin": {
+    "kempo-icon": "./bin/icon.js",
+    "kempo-geticon": "./bin/get_icon.js",
+    "kempo-listicons": "./bin/list_icons.js",
+    "kempo-highlightcode": "./bin/highlight_code.js"
+  },
   "scripts": {
     "build": "node scripts/build.js",
     "prod": "node scripts/docs.js",
     "dev": "node scripts/docs.js --src --logging silent",
-    "geticon": "node scripts/getIcon.js",
+    "icon": "node bin/icon.js",
+    "geticon": "node bin/get_icon.js",
+    "listicons": "node bin/list_icons.js",
+    "highlightcode": "node bin/highlight_code.js",
     "test": "npx kempo-test",
     "test:gui": "npx kempo-test --gui",
     "test:browser": "npx kempo-test -b",
     "test:node": "npx kempo-test -n",
-    "update-kempo-css": "node scripts/update-kempo-css.js",
-    "update-kempo-ui-cdn": "node scripts/update-kempo-ui-cdn.js"
+    "update-kempo-css": "node scripts/update-kempo-css.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +41,7 @@
     "terser": "^5.43.1"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.3.0",
     "kempo-css": "^1.3.11"
   }
 }

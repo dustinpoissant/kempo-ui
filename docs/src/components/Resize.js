@@ -60,6 +60,7 @@ import{LitElement,html,css}from"../lit-all.min.js";import ShadowComponent from".
 		}
 		:host(:not([resizing=""])) #main {
 			pointer-events: none;
+			user-select: none;
 		}
 		:host([resizing="side"]) #side,
 		:host([resizing="corner"]) #side,

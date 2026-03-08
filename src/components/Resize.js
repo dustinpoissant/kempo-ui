@@ -162,6 +162,7 @@ export default class Resize extends ShadowComponent {
 		}
 		:host(:not([resizing=""])) #main {
 			pointer-events: none;
+			user-select: none;
 		}
 		:host([resizing="side"]) #side,
 		:host([resizing="corner"]) #side,
