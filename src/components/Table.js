@@ -80,86 +80,72 @@ export default class Table extends ShadowComponent {
 
   updated(changedProperties) {
     super.updated(changedProperties);
-    
-    // Update select-all checkbox state when selection or page changes
-    if (this.enableSelection) {
+
+    if(this.enableSelection) {
       const selectAllCheckbox = this.shadowRoot.getElementById('select-all');
-      if (selectAllCheckbox) {
+      if(selectAllCheckbox) {
         selectAllCheckbox.checked = this.allOnPageSelected();
       }
     }
-
-    // Update container widths
-    this.updateContainerWidths();
-  }
-
-  updateContainerWidths() {
-    const totalWidth = this.columnSizes.total + 'px';
-    const fieldsEl = this.shadowRoot.getElementById('fields');
-    const topEl = this.shadowRoot.getElementById('top');
-    const bottomEl = this.shadowRoot.getElementById('bottom');
-    const recordsEl = this.shadowRoot.getElementById('records');
-
-    if (fieldsEl) fieldsEl.style.width = totalWidth;
-    if (topEl) topEl.style.width = totalWidth;
-    if (bottomEl) bottomEl.style.width = totalWidth;
-    if (recordsEl) recordsEl.style.width = totalWidth;
   }
 
   /*
     Rendering Functions
   */
 
+  renderColgroupTemplate() {
+    const cols = [];
+    if(this.enableSelection) cols.push(html`<col style="width: 40px" />`);
+    if(this.hasBeforeControls()) cols.push(html`<col style="width: ${this.columnSizes.beforeControls}px" />`);
+    this.fields.forEach(({ size, hidden }) => {
+      if(hidden) return;
+      cols.push(size ? html`<col style="width: ${size}px" />` : html`<col />`);
+    });
+    if(this.hasAfterControls()) cols.push(html`<col style="width: ${this.columnSizes.afterControls}px" />`);
+    return cols;
+  }
+
+  getColumnCount() {
+    let count = 0;
+    if(this.enableSelection) count++;
+    if(this.hasBeforeControls()) count++;
+    this.fields.forEach(({ hidden }) => { if(!hidden) count++; });
+    if(this.hasAfterControls()) count++;
+    return count;
+  }
+
   renderFieldsTemplate() {
-    this.calculateColumnSizes();
-    this.hasTopControls() ? this.setAttribute('top-controls', 'true') : this.removeAttribute('top-controls');
-    this.hasBottomControls() ? this.setAttribute('bottom-controls', 'true') : this.removeAttribute('bottom-controls');
-
-    const fieldCells = [];
-
-    if (this.enableSelection) {
-      fieldCells.push(html`
-        <div class="field controls cell field-select" style="width: 40px">
-          <input 
-            type="checkbox" 
-            id="select-all"
-            @change=${this.handleSelectAllChange}
-          />
-        </div>
+    const headers = [];
+    if(this.enableSelection) {
+      headers.push(html`
+        <th class="controls field-select">
+          <input type="checkbox" id="select-all" @change=${this.handleSelectAllChange} />
+        </th>
       `);
     }
-    
-    if (this.hasBeforeControls()) {
-      fieldCells.push(html`
-        <div class="field cell field-before-controls" style="width: ${this.columnSizes.beforeControls}px"></div>
-      `);
+    if(this.hasBeforeControls()) {
+      headers.push(html`<th class="controls field-before-controls"></th>`);
     }
-    
     this.fields.forEach(({ name, label, hidden }) => {
-      if (hidden) return;
+      if(hidden) return;
       const sortItem = this.sort.find(item => item.name === name);
       const isCurrentSort = this.sort.length > 0 && this.sort[this.sort.length - 1].name === name;
       const sortClass = sortItem ? (sortItem.asc ? 'sort-asc' : 'sort-desc') : '';
-      
-      fieldCells.push(html`
-        <div 
-          class="field cell ${sortClass}"
-          style="width: ${this.columnSizes[name]}px; ${this.enableSorting ? 'cursor: pointer;' : ''}"
+      headers.push(html`
+        <th
+          class="${sortClass}"
+          style="${this.enableSorting ? 'cursor: pointer;' : ''}"
           @click=${this.enableSorting ? () => this.handleFieldClick(name) : null}
         >
           ${label}
           ${isCurrentSort ? html`<k-icon name="arrow" direction="${sortItem.asc ? 'down' : 'up'}" class="icon-sort"></k-icon>` : ''}
-        </div>
+        </th>
       `);
     });
-    
-    if (this.hasAfterControls()) {
-      fieldCells.push(html`
-        <div class="field cell field-after-controls" style="width: ${this.columnSizes.afterControls}px"></div>
-      `);
+    if(this.hasAfterControls()) {
+      headers.push(html`<th class="controls field-after-controls"></th>`);
     }
-
-    return fieldCells;
+    return headers;
   }
 
   renderRecordsTemplate() {
@@ -182,7 +168,7 @@ export default class Table extends ShadowComponent {
       } else {
         if (fetchStart === null) fetchStart = start + idx;
         fetchCount++;
-        return html`<div class="record fetching"><div class="cell">Loading...</div></div>`;
+        return html`<tr class="record fetching"><td class="cell" colspan="${this.getColumnCount()}">Loading...</td></tr>`;
       }
     });
 
@@ -202,42 +188,41 @@ export default class Table extends ShadowComponent {
 
   renderRecordTemplate(record) {
     const recordCells = [];
-    
-    if (this.enableSelection) {
+
+    if(this.enableSelection) {
       recordCells.push(html`
-        <div class="cell selection controls" style="width: 40px">
-          <input 
-            type="checkbox" 
+        <td class="cell selection controls">
+          <input
+            type="checkbox"
             .checked=${record[selected]}
             @change=${(e) => this.handleRecordSelectionChange(record, e)}
           />
-        </div>
+        </td>
       `);
     }
-    
-    if (this.hasBeforeControls()) {
+
+    if(this.hasBeforeControls()) {
       recordCells.push(this.renderBeforeControlsTemplate());
     }
-    
+
     this.fields.forEach(({ name, formatter, calculator, type, editor, hidden }) => {
-      if (hidden) return;
+      if(hidden) return;
       let value = record[name] || '';
-      
       recordCells.push(html`
-        <div class="cell" data-field=${name} style="width: ${this.columnSizes[name]}px">
+        <td class="cell" data-field=${name}>
           ${record[editing] ? this.renderEditingCell(record, name, value, calculator, editor, type) : this.renderDisplayCell(record, name, value, calculator, formatter)}
-        </div>
+        </td>
       `);
     });
-    
-    if (this.hasAfterControls()) {
+
+    if(this.hasAfterControls()) {
       recordCells.push(this.renderAfterControlsTemplate());
     }
-    
+
     return html`
-      <div class="record ${record[editing] ? 'editing' : ''}" data-index=${record[index]}>
+      <tr class="record ${record[editing] ? 'editing' : ''}" data-index=${record[index]}>
         ${recordCells}
-      </div>
+      </tr>
     `;
   }
 
@@ -280,55 +265,37 @@ export default class Table extends ShadowComponent {
 
   renderBeforeControlsTemplate() {
     const controls = [];
-    
     this.querySelectorAll('[slot="before"]').forEach(control => {
       const tagName = control.tagName.toLowerCase();
       const newControl = document.createElement(tagName);
-      
       Array.from(control.attributes).forEach(attr => {
-        if(attr.name !== 'slot'){
-          newControl.setAttribute(attr.name, attr.value);
-        }
+        if(attr.name !== 'slot') newControl.setAttribute(attr.name, attr.value);
       });
-      
-      if(control.innerHTML){
-        newControl.innerHTML = control.innerHTML;
-      }
-      
+      if(control.innerHTML) newControl.innerHTML = control.innerHTML;
       controls.push(newControl);
     });
-    
     return html`
-      <div class="cell controls controls-before" style="width: ${this.columnSizes.beforeControls}px">
+      <td class="cell controls controls-before">
         ${controls}
-      </div>
+      </td>
     `;
   }
 
   renderAfterControlsTemplate() {
     const controls = [];
-    
     this.querySelectorAll('[slot="after"]').forEach(control => {
       const tagName = control.tagName.toLowerCase();
       const newControl = document.createElement(tagName);
-      
       Array.from(control.attributes).forEach(attr => {
-        if(attr.name !== 'slot'){
-          newControl.setAttribute(attr.name, attr.value);
-        }
+        if(attr.name !== 'slot') newControl.setAttribute(attr.name, attr.value);
       });
-      
-      if(control.innerHTML){
-        newControl.innerHTML = control.innerHTML;
-      }
-      
+      if(control.innerHTML) newControl.innerHTML = control.innerHTML;
       controls.push(newControl);
     });
-    
     return html`
-      <div class="cell controls controls-after" style="width: ${this.columnSizes.afterControls}px">
+      <td class="cell controls controls-after">
         ${controls}
-      </div>
+      </td>
     `;
   }
 
@@ -949,54 +916,19 @@ export default class Table extends ShadowComponent {
   }
 
   calculateColumnSizes() {
-    const newSizes = {};
-    newSizes.total = 0;
-    
-    if (this.enableSelection) newSizes.total += 40;
-    
     const beforeEls = Array.from(this.querySelectorAll('[slot="before"]'));
     const afterEls = Array.from(this.querySelectorAll('[slot="after"]'));
-    
-    newSizes.beforeControls = beforeEls.reduce((total, el) => total + (el.maxWidth || 40), 0);
-    newSizes.afterControls = afterEls.reduce((total, el) => total + (el.maxWidth || 40), 0);
-    
-    if (this.hasBeforeControls()) newSizes.total += newSizes.beforeControls;
-    if (this.hasAfterControls()) newSizes.total += newSizes.afterControls;
-    
-    this.fields.forEach(field => {
-      if (field.size) {
-        newSizes[field.name] = field.size;
-        newSizes.total += field.size;
-      } else {
-        let maxLength = 0;
-        this.records.slice(0, 100).forEach(record => {
-          if(record === null) return;
-          let value = record[field.name];
-          if (field.calculator) {
-            value = field.calculator(record, this);
-          }
-          if (field.formatter) {
-            value = field.formatter(value);
-          }
-          if (value && value.toString().length > maxLength) {
-            maxLength = value.toString().length;
-          }
-        });
-        newSizes[field.name] = Math.max((maxLength * 10 + 32), 128);
-        if (!field.hidden) newSizes.total += newSizes[field.name];
-      }
-    });
-    
+    const newSizes = {
+      beforeControls: beforeEls.reduce((total, el) => total + (el.maxWidth || 40), 0),
+      afterControls: afterEls.reduce((total, el) => total + (el.maxWidth || 40), 0)
+    };
     const hasUndefinedMaxWidth = [...beforeEls, ...afterEls].some(el => el.maxWidth === undefined);
-    
-    if (JSON.stringify(this.columnSizes) !== JSON.stringify(newSizes)) {
+    if(JSON.stringify(this.columnSizes) !== JSON.stringify(newSizes)) {
       this.columnSizes = newSizes;
     }
-    
-    if (hasUndefinedMaxWidth) {
+    if(hasUndefinedMaxWidth) {
       setTimeout(() => this.calculateColumnSizes(), 0);
     }
-    
     return this.columnSizes;
   }
 
@@ -1040,13 +972,12 @@ export default class Table extends ShadowComponent {
   /* Rendering */
 
   render() {
-    if (!this.records || !this.fields) {
+    if(!this.records || !this.fields) {
       return html`
         <div id="wrapper">
           <div id="top"><slot name="top"></slot></div>
-          <div id="table">
-            <div id="fields"></div>
-            <div id="records"></div>
+          <div id="table-container">
+            <table><thead><tr></tr></thead><tbody></tbody></table>
           </div>
           <div id="bottom"><slot></slot></div>
         </div>
@@ -1063,16 +994,23 @@ export default class Table extends ShadowComponent {
 
     return html`
       <div id="wrapper">
-        <div id="top" style="width: ${this.columnSizes.total}px"><slot name="top"></slot></div>
-        <div id="table">
-          <div id="fields" style="width: ${this.columnSizes.total}px">
-            ${this.renderFieldsTemplate()}
-          </div>
-          <div id="records" style="width: ${this.columnSizes.total}px">
-            ${this.renderRecordsTemplate()}
-          </div>
+        <div id="top"><slot name="top"></slot></div>
+        <div id="table-container">
+          <table>
+            <colgroup>
+              ${this.renderColgroupTemplate()}
+            </colgroup>
+            <thead>
+              <tr>
+                ${this.renderFieldsTemplate()}
+              </tr>
+            </thead>
+            <tbody>
+              ${this.renderRecordsTemplate()}
+            </tbody>
+          </table>
         </div>
-        <div id="bottom" style="width: ${this.columnSizes.total}px"><slot></slot></div>
+        <div id="bottom"><slot></slot></div>
       </div>
       <div style="display: none">
         <slot name="before"></slot>
@@ -1084,39 +1022,66 @@ export default class Table extends ShadowComponent {
   static styles = css`
     :host {
       display: block;
-      width: 100%;
-      overflow: auto;
       margin-bottom: var(--spacer);
     }
     #wrapper {
-      width: min-content;
       border: 1px solid var(--c_border);
       border-radius: var(--radius);
+      overflow: hidden;
     }
-    #table {
-      width: min-content;
+    #table-container {
+      overflow-x: auto;
     }
-    #fields,
-    .record {
-      display: flex;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
-    #fields {
+    thead tr {
       background-color: var(--c_bg__alt);
-      border-bottom: 1px solid var(--c_border);
     }
-    .record:not([editing="true"]) .cell:not(.controls),
-    #fields .cell:not(.controls) {
+    th, td {
       padding: calc(0.5 * var(--spacer)) var(--spacer);
+      vertical-align: middle;
     }
-    .cell {
-      display: flex;
-      align-items: center;
+    th:not(:last-child),
+    td:not(:last-child) {
+      border-right: 1px solid var(--c_border);
     }
-    .cell:not(:first-child) {
-      border-left: 1px solid var(--c_border);
+    th:first-child,
+    td:first-child {
+      border-left: none;
     }
-    .record:not(:last-child) .cell {
+    th:last-child,
+    td:last-child {
+      border-right: none;
+    }
+    thead tr th {
+      border-top: none;
       border-bottom: 1px solid var(--c_border);
+    }
+    tbody tr:not(:last-child) td {
+      border-bottom: 1px solid var(--c_border);
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    th.controls,
+    td.controls {
+      padding: 0;
+    }
+    .field-select,
+    .selection {
+      width: 40px;
+      text-align: center;
+    }
+    .field-select input,
+    .selection input {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    .icon-sort {
+      float: right;
+      opacity: 0.5;
     }
     #top, #bottom {
       display: flex;
@@ -1135,21 +1100,6 @@ export default class Table extends ShadowComponent {
     :host(:not([top-controls])) #top,
     :host(:not([bottom-controls])) #bottom {
       display: none;
-    }
-    .field-select,
-    .selection {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .field-select input,
-    .selection input {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-    .icon-sort {
-      float: right;
-      opacity: 0.5;
     }
   `;
 
