@@ -13,12 +13,13 @@ Use this skill any time you are asked to create a new component or add a new cus
 
 ## Overview
 
-Creating a component involves four steps:
+Creating a component involves five steps:
 
 1. **Choose the base component** — pick the right rendering strategy
 2. **Write the source file** in `src/components/`
 3. **Register the custom element** at the bottom of the source file
 4. **Add documentation** in `docs/components/`
+5. **Write and run unit tests** in `tests/components/`
 
 ---
 
@@ -190,6 +191,72 @@ Key requirements:
   <script type="module" src="../src/components/Accordion.js"></script>
   <script type="module" src="../src/components/Card.js"></script>
 ```
+
+---
+
+## Step 5: Write and Run Unit Tests
+
+Create `tests/components/MyComponent.browser-test.js`. Use an existing test file (e.g. `tests/components/Toggle.browser-test.js`) as a reference.
+
+Key conventions:
+- Import the component class at the top.
+- Define an async `createMyComponent()` helper that builds the DOM, appends it to `document.body`, awaits `el.updateComplete`, and returns `{ container, el }`.
+- Define a `cleanup(container)` helper that removes the container from the DOM.
+- Export a default plain object where each key is a test description and each value is an `async ({pass, fail}) => {}` function.
+- Always call `cleanup(container)` before every `pass()` or `fail()` call.
+- Use multi-line comments to group related tests (e.g. `/* Element Creation */`, `/* Properties */`).
+
+Tests to include at minimum:
+- Element is created and is an instance of the component class
+- Element has a shadow root
+- Default property values are correct
+- Attribute reflection works (if applicable)
+- Public methods behave correctly
+- Events are dispatched correctly (if applicable)
+
+Example skeleton:
+
+```javascript
+import MyComponent from '../../src/components/MyComponent.js';
+
+const createMyComponent = async () => {
+  const container = document.createElement('div');
+  container.innerHTML = `<k-my-component></k-my-component>`;
+  document.body.appendChild(container);
+  const el = container.querySelector('k-my-component');
+  await el.updateComplete;
+  return { container, el };
+};
+
+const cleanup = (container) => {
+  if(container && container.parentNode){
+    container.parentNode.removeChild(container);
+  }
+};
+
+export default {
+  /*
+    Element Creation
+  */
+  'should create my-component element': async ({pass, fail}) => {
+    const { container, el } = await createMyComponent();
+    if(!(el instanceof MyComponent)){
+      cleanup(container);
+      return fail('Element should be instance of MyComponent');
+    }
+    cleanup(container);
+    pass('MyComponent element created correctly');
+  },
+};
+```
+
+After writing the tests, run them to confirm they all pass:
+
+```
+npm run test -- MyComponent
+```
+
+The partial string `MyComponent` will match any test file whose path contains that string. Fix any failures before considering the component complete.
 
 ---
 
