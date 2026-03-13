@@ -24,6 +24,7 @@
           <h6>Examples</h6>
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#withIcons">With Icons</a><br />
+          <a href="#subMenus">Sub Menus</a><br />
           <a href="#openDirection">Open Direction</a><br />
           <a href="#disabledItems">Disabled Items</a><br />
           <a href="#links">Using Links</a><br />
@@ -83,6 +84,30 @@
             <button data-value="delete" class="tc-danger">
               <k-icon name="delete"></k-icon> Delete
             </button>
+          </k-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="subMenus"><a href="#subMenus" class="no-link">Sub Menus</a></h3>
+    <p>Nest a <code>k-dropdown</code> inside another <code>k-dropdown</code> to create sub menus. The nested dropdown is automatically detected as a submenu: it opens on hover or focus, displays a chevron icon, and opens to the right by default. Keyboard navigation supports <code>ArrowRight</code> to open and <code>ArrowLeft</code> to close sub menus.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span>&gt;</span>Actions<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&quot;edit&quot;</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span>&gt;</span>Share<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&quot;link&quot;</span>&gt;</span>Copy Link<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&quot;delete&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown>
+            <button slot="trigger">Actions</button>
+            <button data-value="edit">Edit</button>
+            <k-dropdown>
+              <button slot="trigger">Share</button>
+              <button data-value="email">Email</button>
+              <button data-value="link">Copy Link</button>
+            </k-dropdown>
+            <button data-value="delete">Delete</button>
           </k-dropdown>
         </k-card>
       </div>
@@ -223,7 +248,7 @@
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
       <li><a href="./shadow-component.html">ShadowComponent</a></li>
-      <li><a href="./icon.html">Icon</a> (optional, for icons in items)</li>
+      <li><a href="./icon.html">Icon</a> (required for sub menus)</li>
     </ul>
 
     <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
@@ -238,6 +263,9 @@
 
     <h5><code>close-on-click-outside<i>: boolean</i></code></h5>
     <p>Whether the dropdown closes when clicking outside of it. Default is <code>true</code>.</p>
+
+    <h5><code>submenu<i>: boolean</i></code></h5>
+    <p>Automatically set to <code>true</code> when a <code>k-dropdown</code> is nested inside another <code>k-dropdown</code>. Sub menus open on hover/focus, display a chevron icon, and default to <code>open-direction="right down"</code>. Supports <code>ArrowRight</code> to open and <code>ArrowLeft</code> to close via keyboard.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>open()<i>: this</i></code></h5>
@@ -265,10 +293,12 @@
 
     <h4>Keyboard Navigation</h4>
     <ul>
-      <li><code>Enter</code> / <code>Space</code> - Select the focused item</li>
+      <li><code>Enter</code> / <code>Space</code> - Select the focused item (or open sub menu)</li>
       <li><code>Arrow Down</code> - Move focus to the next item</li>
       <li><code>Arrow Up</code> - Move focus to the previous item</li>
-      <li><code>Escape</code> - Close the dropdown</li>
+      <li><code>Arrow Right</code> - Open focused sub menu</li>
+      <li><code>Arrow Left</code> - Close current sub menu</li>
+      <li><code>Escape</code> - Close the dropdown (or sub menu)</li>
     </ul>
 
     <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
