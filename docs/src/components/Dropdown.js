@@ -1,4 +1,4 @@
-import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComponent.js";import{boolTrueFalse}from"../utils/propConverters.js";const openDropdowns=new Set;export default class Dropdown extends ShadowComponent{static properties={opened:{type:Boolean,reflect:!0},openDirection:{type:String,reflect:!0,attribute:"open-direction"},closeOnSelect:{type:Boolean,reflect:!0,attribute:"close-on-select",converter:boolTrueFalse},closeOnClickOutside:{type:Boolean,reflect:!0,attribute:"close-on-click-outside",converter:boolTrueFalse}};constructor(){super(),this.opened=!1,this.openDirection="down left",this.closeOnSelect=!0,this.closeOnClickOutside=!0}connectedCallback(){super.connectedCallback(),document.addEventListener("click",this.handleDocumentClick),document.addEventListener("keydown",this.handleKeydown)}disconnectedCallback(){super.disconnectedCallback(),document.removeEventListener("click",this.handleDocumentClick),document.removeEventListener("keydown",this.handleKeydown),openDropdowns.delete(this)}updated(t){super.updated(t),t.has("opened")&&(this.opened?openDropdowns.add(this):openDropdowns.delete(this),this.dispatchEvent(new CustomEvent(this.opened?"opened":"closed",{bubbles:!0})))}handleDocumentClick=t=>{const e=t.target.closest("k-dropdown"),o=t.target.closest('[slot="trigger"]');if(e&&e!==this&&o)return void(this.opened&&this.close());if(!this.opened)return;if(e!==this)return void(this.closeOnClickOutside&&this.close());if(o)return;t.target.closest("a, button")&&this.closeOnSelect&&this.close()};handleTriggerClick=t=>{t.stopPropagation(),this.opened||openDropdowns.forEach(t=>{t!==this&&t.close()}),this.toggle()};handleMenuClick=t=>{const e=t.target.closest("a, button");if(e&&!e.hasAttribute("disabled")){const t=e.dataset?.value||e.textContent.trim();this.dispatchEvent(new CustomEvent("select",{detail:{value:t,item:e},bubbles:!0}))}};handleKeydown=t=>{if(this.opened)if("Escape"===t.key)t.preventDefault(),this.close(),this.focusTrigger();else if("ArrowDown"===t.key)t.preventDefault(),this.focusNextItem();else if("ArrowUp"===t.key)t.preventDefault(),this.focusPreviousItem();else if("Enter"===t.key||" "===t.key){const e=this.querySelector("a:focus, button:focus");e&&(t.preventDefault(),e.click())}};open(){return openDropdowns.forEach(t=>{t!==this&&t.close()}),this.opened=!0,requestAnimationFrame(()=>this.focusFirstItem()),this}close(){return this.opened=!1,this}toggle(){return this.opened?this.close():this.open()}focusTrigger(){const t=this.querySelector('[slot="trigger"]');t&&t.focus()}getMenuItems(){return[...this.querySelectorAll("a, button")].filter(t=>!t.hasAttribute("disabled")&&!t.closest('[slot="trigger"]'))}focusFirstItem(){const t=this.getMenuItems();t.length>0&&t[0].focus()}focusNextItem(){const t=this.getMenuItems(),e=document.activeElement,o=t.indexOf(e),n=t[o+1]||t[0];n&&n.focus()}focusPreviousItem(){const t=this.getMenuItems(),e=document.activeElement,o=t.indexOf(e),n=t[o-1]||t[t.length-1];n&&n.focus()}static styles=css`
+import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComponent.js";import{boolTrueFalse}from"../utils/propConverters.js";const openDropdowns=new Set;export default class Dropdown extends ShadowComponent{static properties={opened:{type:Boolean,reflect:!0},openDirection:{type:String,reflect:!0,attribute:"open-direction"},closeOnSelect:{type:Boolean,reflect:!0,attribute:"close-on-select",converter:boolTrueFalse},closeOnClickOutside:{type:Boolean,reflect:!0,attribute:"close-on-click-outside",converter:boolTrueFalse},submenu:{type:Boolean,reflect:!0}};constructor(){super(),this.opened=!1,this.openDirection="down left",this.closeOnSelect=!0,this.closeOnClickOutside=!0,this.submenu=!1}connectedCallback(){super.connectedCallback(),"K-DROPDOWN"!==this.parentElement?.tagName||this.hasAttribute("slot")||(this.submenu=!0,this.hasAttribute("open-direction")||(this.openDirection="right down")),this.submenu?(this.addEventListener("mouseenter",this.handleSubmenuEnter),this.addEventListener("mouseleave",this.handleSubmenuLeave)):document.addEventListener("click",this.handleDocumentClick),document.addEventListener("keydown",this.handleKeydown)}disconnectedCallback(){super.disconnectedCallback(),this.submenu?(this.removeEventListener("mouseenter",this.handleSubmenuEnter),this.removeEventListener("mouseleave",this.handleSubmenuLeave)):document.removeEventListener("click",this.handleDocumentClick),document.removeEventListener("keydown",this.handleKeydown),openDropdowns.delete(this)}updated(e){super.updated(e),e.has("opened")&&(this.submenu||(this.opened?openDropdowns.add(this):openDropdowns.delete(this)),this.dispatchEvent(new CustomEvent(this.opened?"opened":"closed",{bubbles:!0})))}handleDocumentClick=e=>{const t=e.target.closest('[slot="trigger"]');if(t){const e=t.closest("k-dropdown");if(e===this)return;if(this.contains(e))return;return void(this.opened&&this.close())}if(!this.opened)return;if(!this.contains(e.target))return void(this.closeOnClickOutside&&this.close());const o=e.target.closest("a, button");o&&!o.closest('[slot="trigger"]')&&this.closeOnSelect&&this.close()};handleTriggerClick=e=>{e.stopPropagation(),this.opened||openDropdowns.forEach(e=>{e!==this&&e.close()}),this.toggle()};handleMenuClick=e=>{const t=e.target.closest("a, button");if(!t||t.hasAttribute("disabled"))return;if(t.closest("k-dropdown")!==this)return;const o=t.dataset?.value||t.textContent.trim();this.dispatchEvent(new CustomEvent("select",{detail:{value:o,item:t},bubbles:!0}))};handleKeydown=e=>{if(!this.opened)return;const t=document.activeElement;if(!this.contains(t))return;const o=this.querySelector(":scope > k-dropdown[opened]");if(!o?.contains(t))if("Escape"===e.key||this.submenu&&"ArrowLeft"===e.key)e.preventDefault(),this.close(),this.focusTrigger();else if("ArrowDown"===e.key)e.preventDefault(),this.focusNextItem();else if("ArrowUp"===e.key)e.preventDefault(),this.focusPreviousItem();else if("ArrowRight"===e.key){const o=t?.closest("k-dropdown[submenu]");o?.parentElement===this&&(e.preventDefault(),o.open(),o.focusFirstItem())}else if("Enter"===e.key||" "===e.key){const o=t?.closest("k-dropdown[submenu]");o?.parentElement===this?(e.preventDefault(),o.open(),o.focusFirstItem()):t&&!t.closest('[slot="trigger"]')&&(e.preventDefault(),t.click())}};open(){return this.submenu?[...this.parentElement.querySelectorAll(":scope > k-dropdown[opened]")].forEach(e=>{e!==this&&e.close()}):openDropdowns.forEach(e=>{e!==this&&e.close()}),this.opened=!0,this.submenu||requestAnimationFrame(()=>this.focusFirstItem()),this}close(){return this.querySelectorAll(":scope > k-dropdown[opened]").forEach(e=>e.close()),this.opened=!1,this}toggle(){return this.opened?this.close():this.open()}focusTrigger(){const e=this.querySelector('[slot="trigger"]');e&&e.focus()}getMenuItems(){return[...this.children].reduce((e,t)=>{if(t.matches('[slot="trigger"]')||t.hasAttribute("disabled"))return e;if("K-DROPDOWN"===t.tagName){const o=t.querySelector('[slot="trigger"]');o&&e.push(o)}else t.matches("a, button")&&e.push(t);return e},[])}focusFirstItem(){const e=this.getMenuItems();e.length>0&&e[0].focus()}focusNextItem(){const e=this.getMenuItems(),t=document.activeElement,o=e.indexOf(t),n=e[o+1]||e[0];n&&n.focus()}focusPreviousItem(){const e=this.getMenuItems(),t=document.activeElement,o=e.indexOf(t),n=e[o-1]||e[e.length-1];n&&n.focus()}static styles=css`
 		:host {
 			display: inline-block;
 			position: relative;
@@ -22,6 +22,9 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 		}
 		:host([opened]) #menu {
 			display: block;
+		}
+		:host([submenu]) #menu {
+			margin: 0;
 		}
 		/* Default: down left */
 		#menu {
@@ -115,9 +118,49 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 		::slotted(hr) {
 			display: none !important;
 		}
-	`;handleSlotChange=t=>{t.target.assignedElements().filter(t=>t.matches("a, button")).forEach((t,e)=>t.classList.toggle("k-dropdown-first",0===e))};render(){return html`
+		/* Slotted submenu dropdowns */
+		::slotted(k-dropdown) {
+			display: block !important;
+			width: 100% !important;
+			border-top: 1px solid var(--c_border) !important;
+		}
+		::slotted(k-dropdown.k-dropdown-first) {
+			border-top: none !important;
+		}
+		/* Submenu host styles */
+		:host([submenu]) {
+			display: block;
+			position: relative;
+		}
+		:host([submenu]) #trigger {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			padding: var(--spacer_h) var(--spacer);
+			cursor: pointer;
+			white-space: nowrap;
+			transition: background var(--animation_ms);
+		}
+		:host([submenu]) #trigger:hover,
+		:host([submenu]) #trigger:focus-within {
+			background: var(--c_bg__alt);
+		}
+		:host([submenu]) #trigger ::slotted(button),
+		:host([submenu]) #trigger ::slotted(a) {
+			all: unset !important;
+			cursor: pointer !important;
+			font: inherit !important;
+			color: var(--tc) !important;
+		}
+		:host([submenu]) #trigger k-icon {
+			font-size: 0.75em;
+			opacity: 0.6;
+		}
+	`;handleSubmenuEnter=()=>{clearTimeout(this.closeTimer),this.opened||this.open()};handleSubmenuLeave=()=>{this.closeTimer=setTimeout(()=>this.close(),150)};handleSlotChange=e=>{e.target.assignedElements().filter(e=>e.matches("a, button, k-dropdown")).forEach((e,t)=>e.classList.toggle("k-dropdown-first",0===t))};render(){return html`
 			<div id="trigger" @click=${this.handleTriggerClick}>
 				<slot name="trigger"></slot>
+				${this.submenu?html`<k-icon name="chevron"></k-icon>`:""}
 			</div>
 			<div id="menu" role="menu" @click=${this.handleMenuClick}>
 				<slot @slotchange=${this.handleSlotChange}></slot>
