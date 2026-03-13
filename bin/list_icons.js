@@ -61,7 +61,13 @@ const matchesQuery = (name) => {
 	return (tagMap[name] || []).some(t => t.includes(query));
 };
 
-const results = cache.icons.filter(matchesQuery);
+const rankMatch = (name) => {
+	if(name === query) return 0;
+	if(name.startsWith(query)) return 1;
+	return 2;
+};
+
+const results = cache.icons.filter(matchesQuery).sort((a, b) => rankMatch(a) - rankMatch(b));
 
 if(results.length === 0){
 	console.log(`No icons found matching "${query}"`);

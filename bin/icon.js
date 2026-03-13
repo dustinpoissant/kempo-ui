@@ -58,13 +58,19 @@ const matchesQuery = (name, query) => {
 	return (tagMap[name] || []).some(t => t.includes(query));
 };
 
+const rankMatch = (name, query) => {
+	if(name === query) return 0;
+	if(name.startsWith(query)) return 1;
+	return 2;
+};
+
 const iconName = await search({
 	message: 'Search for an icon',
 	source: (query) => {
 		if(!query) return [];
 		return cache.icons
 			.filter(name => matchesQuery(name, query))
-			.slice(0, 20)
+			.sort((a, b) => rankMatch(a, query) - rankMatch(b, query))
 			.map(name => ({ name, value: name }));
 	}
 });
