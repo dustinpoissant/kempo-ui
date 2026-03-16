@@ -19,6 +19,9 @@ export default class FilterItem extends ShadowComponent {
 		:host([hidden]) {
 			display: none !important;
 		}
+		:host([kb-focus]) ::slotted(a) {
+			background: rgba(128,128,128,.25);
+		}
 	`;
 }
 

@@ -10,6 +10,17 @@ const createFilterList = async (items = []) => {
 	return { container, el };
 };
 
+const createFilterListWithLinks = async (items = []) => {
+	const container = document.createElement('div');
+	container.innerHTML = `<k-filter-list>${items.map(kw => `<k-filter-item filter-keywords="${kw}"><a href="#">${kw}</a></k-filter-item>`).join('')}</k-filter-list>`;
+	document.body.appendChild(container);
+	const el = container.querySelector('k-filter-list');
+	await el.updateComplete;
+	return { container, el };
+};
+
+const keydown = (el, key) => el.handleKeydown(new KeyboardEvent('keydown', { key, bubbles: true }));
+
 const cleanup = (container) => {
 	if(container && container.parentNode){
 		container.parentNode.removeChild(container);
@@ -158,5 +169,177 @@ export default {
 		}
 		cleanup(container);
 		pass('All items restored after clearing filter');
+	},
+
+	/*
+		handleKeydown() — ArrowDown
+	*/
+	'ArrowDown should set kb-focus on the first item': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana', 'cherry']);
+		keydown(el, 'ArrowDown');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(!focused){
+			cleanup(container);
+			return fail('Expected a kb-focus item after ArrowDown');
+		}
+		if(focused.getAttribute('filter-keywords') !== 'apple'){
+			cleanup(container);
+			return fail(`Expected first item focused, got "${focused.getAttribute('filter-keywords')}"`);
+		}
+		cleanup(container);
+		pass('ArrowDown focuses first item');
+	},
+
+	'ArrowDown twice should focus the second item': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana', 'cherry']);
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused?.getAttribute('filter-keywords') !== 'banana'){
+			cleanup(container);
+			return fail(`Expected second item focused, got "${focused?.getAttribute('filter-keywords')}"`);
+		}
+		cleanup(container);
+		pass('ArrowDown twice focuses second item');
+	},
+
+	'ArrowDown should not go past the last item': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana']);
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused?.getAttribute('filter-keywords') !== 'banana'){
+			cleanup(container);
+			return fail('Focus should clamp at last item');
+		}
+		cleanup(container);
+		pass('ArrowDown clamps at last item');
+	},
+
+	'ArrowDown should skip hidden items': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana', 'cherry']);
+		el.filter('a');
+		keydown(el, 'ArrowDown');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused?.hidden){
+			cleanup(container);
+			return fail('Focused item should not be hidden');
+		}
+		cleanup(container);
+		pass('ArrowDown skips hidden items');
+	},
+
+	/*
+		handleKeydown() — ArrowUp
+	*/
+	'ArrowUp should move focus backward': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana', 'cherry']);
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowUp');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused?.getAttribute('filter-keywords') !== 'banana'){
+			cleanup(container);
+			return fail(`Expected "banana" focused, got "${focused?.getAttribute('filter-keywords')}"`);
+		}
+		cleanup(container);
+		pass('ArrowUp moves focus backward');
+	},
+
+	'ArrowUp should not go before the first item': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana']);
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowUp');
+		keydown(el, 'ArrowUp');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused?.getAttribute('filter-keywords') !== 'apple'){
+			cleanup(container);
+			return fail('Focus should clamp at first item');
+		}
+		cleanup(container);
+		pass('ArrowUp clamps at first item');
+	},
+
+	/*
+		handleKeydown() — Enter
+	*/
+	'Enter should click the link in the focused item': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana']);
+		keydown(el, 'ArrowDown');
+		let clicked = false;
+		el.querySelector('k-filter-item[kb-focus] a').addEventListener('click', e => {
+			e.preventDefault();
+			clicked = true;
+		});
+		keydown(el, 'Enter');
+		if(!clicked){
+			cleanup(container);
+			return fail('Enter should click the focused link');
+		}
+		cleanup(container);
+		pass('Enter clicks the focused link');
+	},
+
+	'Enter without focus should do nothing': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana']);
+		keydown(el, 'Enter');
+		cleanup(container);
+		pass('Enter without focus does nothing');
+	},
+
+	/*
+		clearFocus()
+	*/
+	'clearFocus should remove kb-focus attribute': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana']);
+		keydown(el, 'ArrowDown');
+		el.clearFocus();
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused){
+			cleanup(container);
+			return fail('clearFocus should remove all kb-focus attributes');
+		}
+		cleanup(container);
+		pass('clearFocus removes kb-focus');
+	},
+
+	'filter() should reset keyboard focus': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana']);
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		el.filter('');
+		const focused = el.querySelector('k-filter-item[kb-focus]');
+		if(focused){
+			cleanup(container);
+			return fail('filter() should reset keyboard focus');
+		}
+		keydown(el, 'ArrowDown');
+		const newFocused = el.querySelector('k-filter-item[kb-focus]');
+		if(newFocused?.getAttribute('filter-keywords') !== 'apple'){
+			cleanup(container);
+			return fail('After reset, ArrowDown should focus first item again');
+		}
+		cleanup(container);
+		pass('filter() resets keyboard focus');
+	},
+
+	/*
+		Only one kb-focus at a time
+	*/
+	'only one item should have kb-focus at a time': async ({pass, fail}) => {
+		const { container, el } = await createFilterListWithLinks(['apple', 'banana', 'cherry']);
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		keydown(el, 'ArrowDown');
+		const allFocused = el.querySelectorAll('k-filter-item[kb-focus]');
+		if(allFocused.length !== 1){
+			cleanup(container);
+			return fail(`Expected 1 kb-focus item, got ${allFocused.length}`);
+		}
+		cleanup(container);
+		pass('Only one item has kb-focus');
 	},
 };

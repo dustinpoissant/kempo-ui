@@ -34,6 +34,7 @@ const openSearch = async () => {
 
 const closeSearch = () => {
 	searchDropdown.hidden = true;
+	navSearchList?.clearFocus();
 };
 
 searchInput.addEventListener('focus', openSearch);
@@ -47,6 +48,8 @@ searchInput.addEventListener('keydown', e => {
 		searchInput.value = '';
 		searchInput.blur();
 		closeSearch();
+	} else if(e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+		navSearchList?.handleKeydown(e);
 	}
 });
 
