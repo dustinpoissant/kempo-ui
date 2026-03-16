@@ -5,4 +5,7 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 		:host([hidden]) {
 			display: none !important;
 		}
+		:host([kb-focus]) ::slotted(a) {
+			background: rgba(128,128,128,.25);
+		}
 	`}customElements.define("k-filter-item",FilterItem);
