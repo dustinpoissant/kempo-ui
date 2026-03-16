@@ -5,4 +5,8 @@ import ShadowComponent from"./ShadowComponent.js";import{html,css}from"../lit-al
 				<option value="dark">Dark</option>
 				<option value="auto">System Default</option>
 			</select>
-		`}static setTheme(e){theme.set(e)}static getCurrentTheme(){return theme.get()}static getCalculatedCurrentTheme(){return theme.getCalculated()}}customElements.define("k-theme-select",ThemeSelect);
+		`}static styles=css`
+		:host {
+			display: block;
+		}
+	`;static setTheme(e){theme.set(e)}static getCurrentTheme(){return theme.get()}static getCalculatedCurrentTheme(){return theme.getCalculated()}}customElements.define("k-theme-select",ThemeSelect);

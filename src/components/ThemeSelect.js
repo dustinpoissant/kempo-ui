@@ -48,6 +48,14 @@ export default class ThemeSelect extends ShadowComponent {
 			</select>
 		`;
 	}
+	/*
+		Styles
+	*/
+	static styles = css`
+		:host {
+			display: block;
+		}
+	`;
 
 	/*
 		Static Methods
