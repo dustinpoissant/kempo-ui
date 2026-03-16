@@ -302,6 +302,7 @@ export default {
 
 	'should close on Escape key': async ({pass, fail}) => {
 		const { container, dropdown } = await createDropdown({ opened: true });
+		dropdown.querySelector('button[data-value]').focus();
 		const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
 		document.dispatchEvent(event);
 		if(dropdown.opened !== false) {

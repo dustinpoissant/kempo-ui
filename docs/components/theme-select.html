@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThemeSelect - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <h1 class="ta-center">ThemeSelect</h1>
+  <main>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#withLabel">With Label</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#slots">Slots</a><br />
+        <a href="#staticMethods">Static Methods</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>ThemeSelect</code> component provides a dropdown select for users to choose between Light, Dark, and System Default themes. It extends the <a href="./shadow-component.html">ShadowComponent</a> class and uses the <a href="../utils/theme.html">theme utility</a> internally for state management, persistence, and synchronization.</p>
+    <p>If child content is provided, it renders as a label above the select. If no children are provided, no label is rendered.</p>
+    <p><strong>Note:</strong> You can manage theme state without this component by directly importing the <a href="../utils/theme.html">theme utility</a>.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Use the <code>ThemeSelect</code> component without any children to render just the select dropdown.</p>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-select</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-select</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-select></k-theme-select>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="withLabel"><a href="#withLabel" class="no-link">With Label</a></h3>
+    <p>Provide child content to render a label above the select.</p>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-select</span>&gt;</span>Theme<span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-select</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-select>Theme</k-theme-select>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5>
+      <code>new ThemeSelect()</code>
+    </h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="../utils/theme.html">theme</a> utility</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>currentTheme<i>: string</i></code></h5>
+    <p>Gets or sets the current theme. Possible values are <code>"auto"</code>, <code>"light"</code>, or <code>"dark"</code>. This property is reactive and will trigger a re-render when changed. Syncs to <code>current-theme</code> attribute.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>default</code></h5>
+    <p>The default slot renders as a label above the select. If no content is provided, no label is rendered.</p>
+
+    <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
+    <p><strong>Note:</strong> These static methods are convenience wrappers around the <a href="../utils/theme.html">theme utility</a>. For direct theme management without the component, use the theme utility directly.</p>
+    <h5><code>static setTheme(theme)<i>: void</i></code></h5>
+    <p>Sets the specified theme. Internally calls the <a href="../utils/theme.html">theme utility</a> which handles persistence and DOM updates.</p>
+    <ul>
+      <li><strong>theme</strong> <code>string</code> - The theme to set. Must be one of: <code>"auto"</code>, <code>"light"</code>, or <code>"dark"</code></li>
+    </ul>
+    <pre><code class="hljs javascript"><span class="hljs-title class_">ThemeSelect</span>.<span class="hljs-title function_">setTheme</span>(<span class="hljs-string">&#x27;dark&#x27;</span>);</code></pre>
+
+    <h5><code>static getCurrentTheme()<i>: string</i></code></h5>
+    <p>Gets the current theme. Returns <code>"auto"</code> if no theme is set. Internally calls the <a href="../utils/theme.html">theme utility</a>.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> currentTheme = <span class="hljs-title class_">ThemeSelect</span>.<span class="hljs-title function_">getCurrentTheme</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(currentTheme);</code></pre>
+
+    <h5><code>static getCalculatedCurrentTheme()<i>: string</i></code></h5>
+    <p>Returns the effective theme, always <code>"dark"</code> or <code>"light"</code>. If the current theme is <code>"auto"</code>, this method uses the user's system preference (<code>prefers-color-scheme</code> media query) to determine the theme. Internally calls the <a href="../utils/theme.html">theme utility</a>.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> effectiveTheme = <span class="hljs-title class_">ThemeSelect</span>.<span class="hljs-title function_">getCalculatedCurrentTheme</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(effectiveTheme);</code></pre>
+
+    <h3>Related</h3>
+    <p>See the <a href="../utils/theme.html">theme utility</a> documentation for programmatic theme management without using this component.</p>
+    <p>See the <a href="./theme-switcher.html">ThemeSwitcher</a> component for a button-based toggle alternative.</p>
+
+  </main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/ThemeSelect.js"></script>
+  <script type="module" src="../src/components/Accordion.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+</body>
+</html>
