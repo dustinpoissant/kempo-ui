@@ -74,6 +74,7 @@ export default class ThemeSwitcher extends ShadowComponent {
 		}
 		button.no-btn {
 			padding: var(--padding);
+			border-radius: var(--radius);
 		}
 	`;
 

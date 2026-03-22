@@ -384,7 +384,7 @@ class ToastContainer extends HTMLElement {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      z-index: 1000;
+      z-index: 90;
       pointer-events: auto;
       padding: 32px;
       box-sizing: border-box;

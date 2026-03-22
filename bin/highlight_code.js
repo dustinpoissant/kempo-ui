@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { highlight } from '../tools/highlight.js';
+import hljs from 'highlight.js';
 import beautify from 'js-beautify';
 
 const LANG_ALIASES = {
@@ -28,6 +28,7 @@ const args = process.argv.slice(2);
 
 if(args.length < 1){
   console.error('Usage: node bin/highlight_code.js <lang> <code>');
+  console.error('       echo "<code>" | node bin/highlight_code.js <lang>');
   process.exit(1);
 }
 
@@ -40,21 +41,12 @@ if(!lang){
   process.exit(1);
 }
 
-const beautifyCode = (code) => {
-  const fns = { javascript: beautify.js, css: beautify.css, html: beautify.html, xml: beautify.html };
-  const fn = fns[lang] || beautify.js;
-  return fn(code, BEAUTIFY_OPTIONS);
-};
+const beautifyFns = { javascript: beautify.js, css: beautify.css, html: beautify.html, xml: beautify.html };
 
-const run = (code) => {
-  const formatted = beautifyCode(code);
-  const full = highlight(formatted, lang);
-  process.stdout.write(
-    full
-      .replace(/^<pre><code class="hljs [^"]*">/, '')
-      .replace(/<\/code><\/pre>\n?$/, '')
-      .replace(/\n/g, '<br>') + '\n'
-  );
+const run = code => {
+  const formatted = (beautifyFns[lang] || beautify.js)(code, BEAUTIFY_OPTIONS);
+  const highlighted = hljs.highlight(formatted, { language: lang }).value;
+  process.stdout.write(`<pre><code class="hljs ${lang}">${highlighted.replace(/\n/g, '<br>')}</code></pre>\n`);
 };
 
 if(rest.length > 0){

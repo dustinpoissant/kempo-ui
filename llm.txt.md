@@ -1,0 +1,247 @@
+# kempo-ui LLM Reference
+
+Lit-based web component library. All custom elements are prefixed `k-`. Components use kempo-css for styling, which is automatically injected into every shadow root.
+
+---
+
+## Install
+
+```bash
+npm install kempo-ui
+```
+
+## Page Setup
+
+Configure `window.kempo` before importing components. Both properties are optional:
+
+```html
+<script>
+  window.kempo = {
+    pathToStylesheet: '/assets/kempo.min.css',
+    pathsToIcons: ['/icons']
+  };
+</script>
+```
+
+`pathToStylesheet` defaults to `https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css` if unset.
+`pathsToIcons` defaults to `['./icons', '/icons', '../icons', '../../icons']` if unset; these are local paths searched in order when resolving `<k-icon name="...">`.
+
+---
+
+## Importing Components
+
+Each component file self-registers on import. Import individual files:
+
+```html
+<script type="module" src="node_modules/kempo-ui/src/components/Toggle.js"></script>
+```
+
+```js
+import 'kempo-ui/src/components/Toggle.js';
+```
+
+Lit templates are available from `src/lit-all.min.js`:
+
+```js
+import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
+```
+
+---
+
+## Components
+
+| Element(s) | File | Description | Docs |
+|-----------|------|-------------|------|
+| `<k-accordion>` `<k-accordion-header>` `<k-accordion-panel>` | `Accordion.js` | Collapsible panel groups; `for-panel` attribute links headers to panels | [accordion.html](https://dustinpoissant.github.io/kempo-ui/components/accordion.html) |
+| `<k-aside>` `<k-aside-item>` `<k-aside-label>` `<k-aside-menu>` `<k-aside-spacer>` `<k-aside-toggle>` | `Aside.js` | Sidebar/drawer; `main="push"` or `main="overlay"`, `side="left|right"` | [aside.html](https://dustinpoissant.github.io/kempo-ui/components/aside.html) |
+| `<k-card>` | `Card.js` | Bordered container; optional `label` attribute | [card.html](https://dustinpoissant.github.io/kempo-ui/components/card.html) |
+| `<k-color-picker>` | `ColorPicker.js` | Full color picker (hex, rgb, hsl, hsv, alpha); `value` property | [color-picker.html](https://dustinpoissant.github.io/kempo-ui/components/color-picker.html) |
+| `<k-content-slider>` | `ContentSlider.js` | Swipeable carousel | [content-slider.html](https://dustinpoissant.github.io/kempo-ui/components/content-slider.html) |
+| `<k-dialog>` | `Dialog.js` | Modal dialog with focus trapping; call `.open()` / `.close()` | [dialog.html](https://dustinpoissant.github.io/kempo-ui/components/dialog.html) |
+| `<k-dropdown>` | `Dropdown.js` | Action menu with keyboard navigation | [dropdown.html](https://dustinpoissant.github.io/kempo-ui/components/dropdown.html) |
+| `<k-filter-list>` `<k-filter-item>` | `FilterList.js` `FilterItem.js` | Filter/search list; items have `filter` attribute with keywords | [filter-list.html](https://dustinpoissant.github.io/kempo-ui/components/filter-list.html) |
+| `<k-focus-capture>` | `FocusCapture.js` | Traps keyboard focus within children | [focus-capture.html](https://dustinpoissant.github.io/kempo-ui/components/focus-capture.html) |
+| `<k-html-editor>` | `HtmlEditor.js` | WYSIWYG rich text editor; `value` property | [html-editor.html](https://dustinpoissant.github.io/kempo-ui/components/html-editor.html) |
+| `<k-icon>` | `Icon.js` | SVG icon; `name` (looked up in `pathsToIcons`) or `src` (direct URL); `rotation`, `direction`, `animation` attributes | [icon.html](https://dustinpoissant.github.io/kempo-ui/components/icon.html) |
+| `<k-import>` | `Import.js` | Includes external HTML fragments; `src` attribute | [import.html](https://dustinpoissant.github.io/kempo-ui/components/import.html) |
+| `<k-main>` | `Main.js` | Layout main; automatically adjusts margins when a `k-aside[main="push"]` opens | — |
+| `<k-nav>` | `Nav.js` | Navigation bar | [nav.html](https://dustinpoissant.github.io/kempo-ui/components/nav.html) |
+| `<k-photo-viewer>` | `PhotoViewer.js` | Lightbox/gallery viewer | [photo-viewer.html](https://dustinpoissant.github.io/kempo-ui/components/photo-viewer.html) |
+| `<k-resize>` | `Resize.js` | Resizable pane with drag handle | [resize.html](https://dustinpoissant.github.io/kempo-ui/components/resize.html) |
+| `<k-show-more>` | `ShowMore.js` | Truncated content with expand toggle | [show-more.html](https://dustinpoissant.github.io/kempo-ui/components/show-more.html) |
+| `<k-sortable>` `<k-sortable-item>` | `Sortable.js` | Drag-to-reorder list | [sortable.html](https://dustinpoissant.github.io/kempo-ui/components/sortable.html) |
+| `<k-spinner>` | `Spinner.js` | Loading indicator; `size` (xs/sm/md/lg/xl), `variant` (spinner/dots/bar) | [spinner.html](https://dustinpoissant.github.io/kempo-ui/components/spinner.html) |
+| `<k-split>` | `Split.js` | Resizable split panes | [split.html](https://dustinpoissant.github.io/kempo-ui/components/split.html) |
+| `<k-table>` | `Table.js` | Data table with sorting, filtering, pagination, row selection, server sync | [table.html](https://dustinpoissant.github.io/kempo-ui/components/table.html) |
+| `<k-tabs>` `<k-tab>` `<k-tab-content>` `<k-tab-spacer>` | `Tabs.js` | Tabbed interface; `<k-tab for-content="id">` links to `<k-tab-content name="id">` | [tabs.html](https://dustinpoissant.github.io/kempo-ui/components/tabs.html) |
+| `<k-tags>` `<k-tag>` | `Tags.js` | Tag input; add/remove tags; fires `change` | [tags.html](https://dustinpoissant.github.io/kempo-ui/components/tags.html) |
+| `<k-theme-select>` | `ThemeSelect.js` | Dropdown to pick a theme | [theme-select.html](https://dustinpoissant.github.io/kempo-ui/components/theme-select.html) |
+| `<k-theme-switcher>` | `ThemeSwitcher.js` | Light/dark/auto toggle button | [theme-switcher.html](https://dustinpoissant.github.io/kempo-ui/components/theme-switcher.html) |
+| `<k-timestamp>` | `Timestamp.js` | Displays a `value` timestamp as human-readable relative time | [timestamp.html](https://dustinpoissant.github.io/kempo-ui/components/timestamp.html) |
+| `<k-toast>` `<k-toast-container>` | `Toast.js` | Toast notifications; use `<k-toast-container>` once in page, call `.addToast(options)` | [toast.html](https://dustinpoissant.github.io/kempo-ui/components/toast.html) |
+| `<k-toggle>` | `Toggle.js` | On/off toggle; `value` (Boolean, reflects); methods: `on()`, `off()`, `toggle()`; fires `change`, `on`, `off` | [toggle.html](https://dustinpoissant.github.io/kempo-ui/components/toggle.html) |
+| `<k-tree>` `<k-tree-node>` | `Tree.js` | Expandable tree; nodes have `label`, `icon`, `href`, `expanded` | [tree.html](https://dustinpoissant.github.io/kempo-ui/components/tree.html) |
+
+---
+
+## Base Classes
+
+All in `src/components/`. Built on Lit.
+
+### ShadowComponent ← LitElement
+
+Standard shadow-DOM component. **kempo-css is automatically injected** into the shadow root alongside `static styles`. Use for fully encapsulated components.
+
+- Override `render()` → returns a Lit `html` template
+- Override `childrenUpdated()` → called when light-DOM children change (MutationObserver)
+- `createRenderRoot()` returns an inner `div` (not the shadow root itself); `this.shadowRoot` is still the real shadow root
+
+### HybridComponent ← ShadowComponent
+
+Renders into both shadow DOM and light DOM. kempo-css present in shadow DOM; light DOM is targetable by external page CSS.
+
+- Override `render()` → shadow DOM content (default returns `<slot name="lightRoot"></slot>`)
+- Override `renderLightDom()` → light DOM content (rendered into `this.lightRoot` div after every update)
+
+### LightComponent ← LitElement
+
+No shadow root. Renders entirely to light DOM. No kempo-css injection; styles come from the page.
+
+- Override `renderLightDom()` → returns a Lit `html` template
+- Same `childrenUpdated()` hook as ShadowComponent
+
+---
+
+## Creating a Custom Component
+
+```js
+import ShadowComponent from 'kempo-ui/src/components/ShadowComponent.js';
+import { html, css } from 'kempo-ui/src/lit-all.min.js';
+
+class MyWidget extends ShadowComponent {
+  /*
+    Reactive Props / Attributes
+  */
+  static properties = {
+    label: { type: String, reflect: true },
+    active: { type: Boolean, reflect: true }
+  };
+  
+  /*
+    Lifecycle callbacks
+  */
+  constructor() {
+    super();
+    this.label = '';
+    this.active = false;
+  }
+  
+  /*
+    Event Liseners
+  */
+  click(){
+    // Do something
+  }
+
+  /*
+    View
+  */
+  render() {
+    return html`
+      <button
+        class="primary"
+        @click=${this.click}
+      >
+        <strong>${this.label}</strong>
+        <slot></slot>
+      </button>
+    `;
+  }
+  
+  static styles = css`
+    :host {
+      display: block;
+      border: 1px solid transparent;
+    }
+    :host([active]) {
+      border-color: var(--c_primary);
+    }
+  `;
+
+}
+
+customElements.define('my-widget', MyWidget);
+```
+
+Key patterns:
+- `static properties` declares Lit reactive properties; `reflect: true` mirrors the value to an HTML attribute
+- `static styles` is a `css` tagged template; injected alongside kempo-css in shadow DOM
+- `customElements.define` at the bottom of the file registers the element
+- Use `this.dispatchEvent(new CustomEvent('change', { detail: {...}, bubbles: true }))` for events
+- For internal reactive state not exposed as an attribute, use `state: true` in `static properties` (reactive, not reflected): `myProp: { state: true }`
+- For true non-reactive private data, use Symbol keys (`const key = Symbol();` and `this[key] = value`) — avoid `#private` fields due to poor Safari support
+
+### propConverters
+
+For non-standard boolean attribute patterns, import from `src/utils/propConverters.js`:
+
+```js
+import { boolExists, boolTrueFalse } from 'kempo-ui/src/utils/propConverters.js';
+
+static properties = {
+  active: { converter: boolExists, reflect: true },   // presence = true, absent = false
+  enabled: { converter: boolTrueFalse, reflect: true } // attribute value is "true"/"false"
+};
+```
+
+---
+
+## kempo-css
+
+kempo-css is injected automatically into every shadow root by `ShadowComponent`. Key CSS custom properties:
+
+| Variable | Description |
+|----------|-------------|
+| `--c_primary` | Primary brand color |
+| `--c_secondary` | Secondary color |
+| `--c_bg` | Background |
+| `--c_border` | Border color |
+| `--tc_primary` | Primary text color |
+| `--tc_muted` | Muted text color |
+| `--spacer` | Base spacing unit |
+| `--spacer_h` | Half spacer |
+| `--radius` | Border radius |
+| `--animation_ms` | Transition duration |
+| `--container_width` | Max content width |
+
+Common utility classes (usable inside shadow DOM via kempo-css injected styles):
+
+- Layout: `row`, `span-*`, `t-span-*`, `d-span-*`, `d-b`, `d-ib`, `d-f`, `d-if`
+- Spacing: `p`, `px`, `py`, `m`, `mx`, `my`, `mb`, `mt`
+- Typography: `tc-primary`, `tc-muted`, `ta-center`
+- Buttons: `btn`, `btn primary`, `btn secondary`, `btn danger`, `btn ghost`
+- Cards: `card`
+- Badges: `badge`, `pill`
+
+Full kempo-css docs: https://raw.githubusercontent.com/dustinpoissant/kempo-css/refs/heads/main/llms.txt
+
+---
+
+## Utilities
+
+Located in `src/utils/`. Import individually.
+
+| Module | Named Exports | Description | Docs |
+|--------|--------------|-------------|------|
+| `debounce.js` | `default` | `debounce(fn, ms)` — delay fn until calls stop | [debounce.html](https://dustinpoissant.github.io/kempo-ui/utils/debounce.html) |
+| `wait.js` | `wait`, `waitFrames` | `wait(ms)` → Promise; `waitFrames(n)` → Promise after n animation frames | [wait.html](https://dustinpoissant.github.io/kempo-ui/utils/wait.html) |
+| `theme.js` | `setTheme`, `getTheme`, `subscribeToTheme`, `initTheme`, `getCalculatedTheme` | Manage light/dark/auto theme; persists to localStorage | [theme.html](https://dustinpoissant.github.io/kempo-ui/utils/theme.html) |
+| `propConverters.js` | `boolExists`, `boolTrueFalse` | Lit property converters for boolean attributes | [propConverters.html](https://dustinpoissant.github.io/kempo-ui/utils/propConverters.html) |
+| `context.js` | `default` | `createContext(key, initialValue)` → `{ get, set, subscribe }` pub/sub state | [context.html](https://dustinpoissant.github.io/kempo-ui/utils/context.html) |
+| `cookie.js` | `saveCookie`, `getCookie`, `deleteCookie` | Get/set/delete browser cookies | [cookie.html](https://dustinpoissant.github.io/kempo-ui/utils/cookie.html) |
+| `drag.js` | `default` | `drag(options)` — attach mouse/touch drag listeners to an element; options: `element`, `callback`, `startCallback`, `moveCallback`, `endCallback`, `preventScroll` | [drag.html](https://dustinpoissant.github.io/kempo-ui/utils/drag.html) |
+| `object.js` | `toJson`, `flattenObject`, `flattenedObjects`, `objectSummary`, `clone`, `equalObjs`, `prune`, `getAllKeys`, `getDifferencesKeys`, `diff`, `mapObject` | Object utilities | [object.html](https://dustinpoissant.github.io/kempo-ui/utils/object.html) |
+| `string.js` | `camelToDash`, `dashToCamel`, `isCamelCase`, `getCase`, `escapeHTML`, `unescapeHTML`, `trim`, `compoundKey`, `toTitleCase` | String utilities | [string.html](https://dustinpoissant.github.io/kempo-ui/utils/string.html) |
+| `type.js` | `typeOf`, `isType` | Type-checking helpers | [type.html](https://dustinpoissant.github.io/kempo-ui/utils/type.html) |
+| `formatTimestamp.js` | `default` | Format a Date/timestamp as a human-readable string | [formatTimestamp.html](https://dustinpoissant.github.io/kempo-ui/utils/formatTimestamp.html) |
+| `formatCode.js` | `default` | Beautify/format a code string | — |

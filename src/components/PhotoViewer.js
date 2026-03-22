@@ -244,7 +244,7 @@ export default class PhotoViewer extends ShadowComponent {
 			left: 0;
 			right: 0;
 			bottom: 0;
-			z-index: 9999;
+			z-index: 80;
 			background: rgba(0,0,0,0.9);
 			padding: 2rem;
 			display: none;

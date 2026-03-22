@@ -1,7 +1,7 @@
 import debounce from './src/utils/debounce.js';
 
 document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
-	await window.customElements.whenDefined('k-side-menu');
+	await window.customElements.whenDefined('k-aside');
 	document.getElementById('navSideMenu').toggle();
 });
 

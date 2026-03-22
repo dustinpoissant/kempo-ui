@@ -7,14 +7,14 @@
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
 </head>
 <body>
   <k-import src="../nav-1.inc.html"></k-import>
-  <main>
+  <k-main>
     <h1>Wait Utilities</h1>
     
     <k-accordion persistent-id="toc" class="b r mb">
@@ -39,9 +39,10 @@
     <p>Creates a promise that resolves after a specified number of animation frames.</p>
     <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { waitFrames } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/wait.js'</span>;<br /><br /><span class="hljs-comment">// Wait for 2 animation frames</span><br />await waitFrames(<span class="hljs-number">2</span>);<br /><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'This runs after 2 frames'</span>);</code></pre>
 
-  </main>
+  </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
   <script type="module" src="../src/components/Accordion.js"></script>
 </body>
 </html>

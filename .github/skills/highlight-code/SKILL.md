@@ -11,32 +11,48 @@ Use this skill whenever you need syntax-highlighted HTML to embed in a documenta
 
 ## Usage
 
+Pipe code via stdin (supports multi-line):
 ```powershell
-node bin/highlight_code.js <lang> <code>
+@"
+<div class='container'>
+  <h1>Hello</h1>
+</div>
+"@ | npx kempo-highlightcode <lang>
+```
+
+Or pass minified code as an argument:
+```powershell
+npx kempo-highlightcode <lang> "<div class='container'><h1>Hello</h1></div>"
 ```
 
 **Supported languages:** `html`, `css`, `js` / `javascript`, `ts` / `typescript`, `json`, `md` / `markdown`, `sh` / `bash`, `xml`
 
 ## Output
 
-Prints the inner highlighted content (hljs spans, no `<pre><code>` wrapper) to stdout, with `<br>` tags instead of newlines — a single line suitable for embedding in HTML.
+Prints a complete `<pre><code class="hljs {lang}">…</code></pre>` block to stdout, with `<br>` tags instead of newlines — a single line suitable for embedding directly in HTML.
 
 Input is automatically beautified before highlighting, so you can pass minified code.
 
 ## Workflow for Updating Doc Code Samples
 
-Run the script with minified code as a single argument, capture to `$hl`, then use PowerShell's `.Replace()` to patch the HTML file:
+Pipe the code into the script, capture to `$hl`, then use PowerShell's `.Replace()` to patch the HTML file:
 
 ```powershell
-$hl = node bin/highlight_code.js xml "<k-table id=myExample></k-table><script type=module>doSomething('foo');</script>"
+$hl = @"
+<k-table id=myExample></k-table>
+<script type=module>
+  doSomething('foo');
+</script>
+"@ | npx kempo-highlightcode xml
 $html = [System.IO.File]::ReadAllText((Resolve-Path 'docs/components/my-component.html'))
 $old = [regex]::Match($html, '(?s)<pre><code class="hljs xml">.*?</code></pre>').Value
-[System.IO.File]::WriteAllText((Resolve-Path 'docs/components/my-component.html'), $html.Replace($old, "<pre><code class=`"hljs xml`">$hl</code></pre>"))
+[System.IO.File]::WriteAllText((Resolve-Path 'docs/components/my-component.html'), $html.Replace($old, $hl))
 ```
 
 ## Important Notes
 
-- Use **outer double-quotes** for the PowerShell argument string, and **single-quotes** for JS string literals inside. This preserves all quoting correctly through to node.
+- Use PowerShell **here-strings** (`@"…"@`) for multi-line code input via stdin.
+- Use **single-quotes** for JS string literals inside the code. This preserves all quoting correctly through to node.
 - HTML attribute values should be **unquoted** in the argument (`id=foo` not `id="foo"`) — the beautifier adds consistent formatting anyway.
 - Use `[System.IO.File]::ReadAllText` / `WriteAllText` + `.Replace()` (not `-replace`) to avoid regex interpretation of the replacement string.
 - If a page has multiple `<pre><code>` blocks, adjust the regex to match the specific one (e.g. match by a nearby unique string, or loop with an index).

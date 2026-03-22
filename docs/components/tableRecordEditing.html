@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
@@ -52,7 +52,7 @@
 <body>
   <k-import src="../nav-1.inc.html"></k-import>
   <h1 class="ta-center">Table - Record Editing</h1>
-  <main>
+  <k-main>
     <a href="./components/table.html"><h5>Back to Table Component Documentation</h5></a>
     
     <p>The table component supports record editing. To allow for editing add the "edit" control to the "before" or "after" controls. You may define a "type" on the field, which will tell the table to use a specific editor for that field. If you do not define a "type" it will attempt to find the correct type using the value.</p>
@@ -136,9 +136,10 @@
         ]
       });
     </script>
-  </main>
+  </k-main>
   <div style="height: 33.333vh"></div>
   <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
   <script type="module" src="../src/components/Table.js"></script>
   <script type="module" src="../src/components/tableControls/Edit.js"></script>
 </body>

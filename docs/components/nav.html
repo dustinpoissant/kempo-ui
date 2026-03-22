@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nav - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <k-main>
+    <h1>Nav</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#fixedNav">Fixed Navbar</a><br />
+          <a href="#inlineNav">Inline Navbar</a><br />
+          <h6>Reference</h6>
+          <a href="#attributes">Attributes &amp; Properties</a><br />
+          <a href="#slots">Slots</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p>
+      A semantic navigation bar component. When <code>fixed</code> is set, it automatically positions itself at the
+      top of the viewport and applies elevation level 5 (<code>z-index: 50</code>), keeping it above push-mode
+      drawers and below overlay-mode drawers — no manual <code>z-index</code> needed.
+    </p>
+    <p>
+      Content is placed via a default slot. Apply background and other visual styles with kempo-css utility classes
+      directly on the element.
+    </p>
+
+    <h2 id="fixedNav"><a href="#fixedNav" class="no-link">Fixed Navbar</a></h2>
+    <p>
+      Add the <code>fixed</code> attribute to pin the nav to the top of the viewport. Add a spacer element after it
+      so page content is not hidden beneath it.
+    </p>
+    <k-card class="mb">
+      <k-nav fixed class="bg-primary" style="position:relative;z-index:auto;">
+        <button class="link"><k-icon name="menu"></k-icon></button>
+        <a href="#fixedNav" class="d-if ph" style="align-items:center;">My App</a>
+        <div class="flex"></div>
+        <a href="#fixedNav" class="ph">Account</a>
+      </k-nav>
+    </k-card>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">fixed</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;flex: 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/account&quot;</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 4rem;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+
+    <h2 id="inlineNav"><a href="#inlineNav" class="no-link">Inline Navbar</a></h2>
+    <p>Without <code>fixed</code>, the nav sits in normal document flow.</p>
+    <k-card class="mb">
+      <k-nav class="bg-primary">
+        <button class="link"><k-icon name="menu"></k-icon></button>
+        <a href="#inlineNav" class="d-if ph" style="align-items:center;">My App</a>
+        <div class="flex"></div>
+        <a href="#inlineNav" class="ph">Account</a>
+      </k-nav>
+    </k-card>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;flex: 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/account&quot;</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
+
+    <h2 id="attributes"><a href="#attributes" class="no-link">Attributes &amp; Properties</a></h2>
+    <table class="mb">
+      <thead>
+        <tr>
+          <th>Attribute / Property</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>fixed</code></td>
+          <td>Boolean</td>
+          <td><code>false</code></td>
+          <td>
+            Pins the nav to the top of the viewport (<code>position: fixed</code>) and applies
+            <a href="../utils/elevation.html">elevation</a> level 5 (<code>z-index: 50</code>).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="slots"><a href="#slots" class="no-link">Slots</a></h2>
+    <table class="mb">
+      <thead>
+        <tr>
+          <th>Slot</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><em>default</em></td>
+          <td>All nav content — buttons, links, dropdowns, etc.</td>
+        </tr>
+      </tbody>
+    </table>
+  </k-main>
+
+  <script src="../src/components/Nav.js" type="module"></script>
+  <script src="../src/components/Import.js" type="module"></script>
+  <script src="../src/components/Main.js" type="module"></script>
+  <script src="../src/components/Accordion.js" type="module"></script>
+  <script src="../src/components/Card.js" type="module"></script>
+  <script src="../src/components/Icon.js" type="module"></script>
+</body>
+</html>

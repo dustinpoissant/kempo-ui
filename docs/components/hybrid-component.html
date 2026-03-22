@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
@@ -15,7 +15,7 @@
 <body>
   <k-import src="../nav-1.inc.html"></k-import>
   <h1 class="ta-center">HybridComponent</h1>
-  <main>
+  <k-main>
     <k-accordion persistent-id="toc" class="b r mb">
       <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
       <k-accordion-panel name="toc-panel">
@@ -63,7 +63,7 @@
     <ul>
       <li><strong>Dialog:</strong> Shadow DOM for styled dialog chrome (header, footer, overlay), light DOM for user content</li>
       <li><strong>Collapsible:</strong> Shadow DOM for toggle button, light DOM for collapsible content</li>
-      <li><strong>SideMenu:</strong> Shadow DOM for menu structure and styling, light DOM for menu items</li>
+      <li><strong>Aside:</strong> Shadow DOM for menu structure and styling, light DOM for menu items</li>
     </ul>
 
     <p>Use <a href="./components/shadow-component.html">ShadowComponent</a> instead when you only need shadow DOM.</p>
@@ -105,9 +105,10 @@
     <h5><code>render()<i>: TemplateResult</i></code></h5>
     <p>Override this method to define what should be rendered to the shadow DOM. The default implementation returns <code>html`&lt;slot name="lightRoot"&gt;&lt;/slot&gt;`</code> which displays the light DOM content. When overriding, make sure to include this slot where you want the light DOM content to appear.</p>
 
-  </main>
+  </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
   <script type="module" src="../src/components/Accordion.js"></script>
   <script type="module" src="../src/components/Card.js"></script>
 </body>

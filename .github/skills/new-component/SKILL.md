@@ -13,13 +13,14 @@ Use this skill any time you are asked to create a new component or add a new cus
 
 ## Overview
 
-Creating a component involves five steps:
+Creating a component involves six steps:
 
 1. **Choose the base component** — pick the right rendering strategy
 2. **Write the source file** in `src/components/`
 3. **Register the custom element** at the bottom of the source file
 4. **Add documentation** in `docs/components/`
 5. **Write and run unit tests** in `tests/components/`
+6. **Update `llm.txt.md`** — add a row to the Components table
 
 ---
 
@@ -152,15 +153,42 @@ customElements.define('k-my-component', MyComponent);
 
 ---
 
-## Step 3: Register in the Nav and Index (if it should appear in docs)
+## Step 3: Register in the Nav, Search, and Index (if it should appear in docs)
 
-Add a link to the component in `docs/nav.inc.html` inside the `<menu>` under the appropriate section, in alphabetical order:
+There are **two** nav include files that must both be updated:
+
+- `docs/nav.inc.html` — used on the homepage (paths start with `./`)
+- `docs/nav-1.inc.html` — used on sub-pages (paths start with `../`)
+
+In **each** file, add the component in **three** places, all in alphabetical order:
+
+### 1. Search dropdown filter item
+
+Inside the `<k-filter-list id="navSearchList">`, add a `<k-filter-item>` in alphabetical order among the other component entries:
 
 ```html
-<a href="./components/my-component.html">My Component</a>
+<!-- nav.inc.html (homepage) -->
+<k-filter-item filter-keywords="my component mycomponent components"><a href="./components/my-component.html">My Component<br><small>Component</small></a></k-filter-item>
+
+<!-- nav-1.inc.html (sub-pages) -->
+<k-filter-item filter-keywords="my component mycomponent components"><a href="../components/my-component.html">My Component<br><small>Component</small></a></k-filter-item>
 ```
 
-Also add a card in `docs/index.html` inside the `<div class="row -mx">` under the `<h2>Components</h2>` section, in alphabetical order:
+### 2. Sidebar menu link
+
+Inside the `<menu>` under the `Components` `<div>`, add an `<a>` tag in alphabetical order:
+
+```html
+<!-- nav.inc.html -->
+<a href="./components/my-component.html">My Component</a>
+
+<!-- nav-1.inc.html -->
+<a href="../components/my-component.html">My Component</a>
+```
+
+### 3. Homepage card
+
+Add a card in `docs/index.html` inside the `<div class="row -mx">` under the `<h2>Components</h2>` section, in alphabetical order:
 
 ```html
 <div class="span-12 t-span-6 d-span-4 px">
@@ -266,3 +294,39 @@ The partial string `MyComponent` will match any test file whose path contains th
   - Prefer `el.closest('k-parent')?.doSomething()` over dispatching an event and listening for it.
 - Child components should locate their parent via `closest('k-parent-element')` and call its methods directly.
 - Avoid `window` globals and global custom events for coordination. Scope events to the relevant element; reserve `window` events for global, non-visual concerns (e.g. settings changes).
+
+---
+
+## Elevation (Z-Index)
+
+Any component using `position: fixed` must follow the kempo-css elevation system where `z-index = level × 10`.
+
+| Level | z-index | Kempo UI Components | Notes |
+|-------|---------|---------------------|-------|
+| 2 | 20 | (page default) | No z-index needed for flow-position components |
+| 3 | 30 | Aside (push) | Fixed panels that sit **below** a fixed navbar |
+| 5 | 50 | *(navbar — user-defined)* | Reserved buffer for user-defined navbars |
+| 6 | 60 | Aside (overlay) | Overlay drawers that sit **above** a fixed navbar |
+| 7 | 70 | Dropdown | Floating menus; above navbar and overlay|
+| 8 | 80 | Dialog, PhotoViewer | Full-screen modals and lightboxes |
+| 9 | 90 | Toast | Notification toasts; always topmost |
+
+Levels 1, 4 are intentional buffer zones for user customization.
+
+When deciding a new component's elevation:
+- If it is a panel or drawer in `push` mode (shifts page content), use level 3.
+- If it is a panel or drawer in `overlay` mode (floats over content), use level 6.
+- If it covers the entire viewport (modal/dialog), use level 8.
+- If it is a temporary notification, use level 9.
+
+---
+
+## Step 6: Update `llm.txt.md`
+
+Add a row for the new component to the **Components** table in `llm.txt.md` at the root of the repository. Keep the table in alphabetical order by element name.
+
+```markdown
+| `<k-my-component>` | `MyComponent.js` | One-sentence description | [my-component.html](https://dustinpoissant.github.io/kempo-ui/components/my-component.html) |
+```
+
+If the component registers multiple elements (e.g. a parent + child pair), list all element names in the first column separated by spaces.

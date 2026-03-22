@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+</head>
+<body>
+  <k-aside id="aside4" state="offscreen">
+    <p>Push Sidebar Content</p>
+  </k-aside>
+  <k-main>
+    <button id="toggle4">Toggle Sidebar</button>
+    <p>This content shifts when the aside is visible.</p>
+  </k-main>
+  <script>
+    document.getElementById('toggle4').addEventListener('click',()=>{
+      document.getElementById('aside4').toggle();
+    });
+  </script>
+  <script type="module" src="../src/components/Aside.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
+</body>
+</html>

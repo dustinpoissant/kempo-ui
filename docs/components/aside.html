@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aside - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <style>.navbar-spacer { height: 55px; }</style>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <h1 class="ta-center">Aside</h1>
+  <k-main>
+    <details class="b r mb">
+      <summary class="p">Table of Contents</summary>
+      <div class="m mt0 pl">
+        <h6>Overlay Mode</h6>
+        <a href="#overlayBasic">Basic Usage</a><br />
+        <a href="#overlayClose">Closing Options</a><br />
+        <a href="#overlayRight">Right Side</a><br />
+
+        <h6 class="mt">Push Mode</h6>
+        <a href="#pushBasic">Basic Push</a><br />
+        <a href="#pushCollapsed">Collapsed State</a><br />
+        <a href="#pushRight">Right Side Push</a><br />
+
+        <h6 class="mt">Customization</h6>
+        <a href="#customWidth">Custom Width</a><br />
+        <a href="#customBg">Custom Background</a><br />
+        <a href="#customCollapsed">Custom Collapsed Width</a><br />
+
+        <h6 class="mt">Sub-Components</h6>
+        <a href="#subItems">Items &amp; Labels</a><br />
+        <a href="#subMenu">Expandable Menus</a><br />
+
+        <h6 class="mt">Events</h6>
+        <a href="#events">State Change Event</a><br />
+
+        <h6 class="mt">JavaScript Reference</h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#eventRef">Events</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVars">CSS Custom Properties</a><br />
+        <h6 class="mt"><a href="#subRef" class="no-link">Sub-Component Reference</a></h6>
+        <a href="#asideItem">k-aside-item</a><br />
+        <a href="#asideLabel">k-aside-label</a><br />
+        <a href="#asideMenu">k-aside-menu</a><br />
+        <a href="#asideSpacer">k-aside-spacer</a><br />
+        <a href="#asideToggle">k-aside-toggle</a><br />
+      </div>
+    </details>
+
+    <h2>Overlay Mode</h2>
+    <p>The default mode. Use <code>state="offscreen"</code> as the starting state; call <code>expand()</code> to open. Clicking the backdrop or pressing ESC closes it by default.</p>
+
+    <h3 id="overlayBasic"><a href="#overlayBasic" class="no-link">Basic Usage</a></h3>
+    <p>A simple overlay menu that opens from the left.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside state="offscreen"&gt;
+  &lt;p&gt;Overlay Menu Content&lt;/p&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.expand()"&gt;
+  Open Menu
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside1" state="offscreen">
+            <p>Overlay Menu Content</p>
+          </k-aside>
+          <button id="open1">Open Menu</button>
+          <script>
+            document.getElementById('open1').addEventListener('click',()=>{
+              document.getElementById('aside1').expand();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="overlayClose"><a href="#overlayClose" class="no-link">Closing Options</a></h3>
+    <p>By default clicking on the overlay backdrop closes the menu. Use <code>overlay-close="false"</code> to disable this. Pressing ESC also closes by default; use <code>esc-close="false"</code> to disable.</p>
+    <p>Use <code>hide()</code> to close the menu programmatically, or <code>toggle()</code> to switch between expanded and offscreen.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside state="offscreen"
+  overlay-close="false"&gt;
+  &lt;p&gt;Overlay Menu&lt;/p&gt;
+  &lt;button onclick="this.closest('k-aside').hide()"&gt;
+    Close
+  &lt;/button&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.expand()"&gt;
+  Open Menu
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside2" state="offscreen" overlay-close="false">
+            <p>Overlay Menu</p>
+            <button id="close2">Close</button>
+          </k-aside>
+          <button id="open2">Open Menu</button>
+          <script>
+            const a2 = document.getElementById('aside2');
+            document.getElementById('open2').addEventListener('click',()=>{
+              a2.expand();
+            });
+            document.getElementById('close2').addEventListener('click',()=>{
+              a2.hide();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="overlayRight"><a href="#overlayRight" class="no-link">Right Side</a></h3>
+    <p>Use <code>side="right"</code> to open the menu from the right.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside state="offscreen"
+  side="right"&gt;
+  &lt;p&gt;Right Side Menu&lt;/p&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.expand()"&gt;
+  Open Right Menu
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside3" state="offscreen" side="right">
+            <p>Right Side Menu</p>
+          </k-aside>
+          <button id="open3">Open Right Menu</button>
+          <script>
+            document.getElementById('open3').addEventListener('click',()=>{
+              document.getElementById('aside3').expand();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2>Push Mode</h2>
+    <p>Set <code>main="push"</code> so the aside pushes page content. It dispatches <code>aside_state_change</code> events on <code>window</code> that <code>&lt;k-main&gt;</code> listens to, adjusting its margins. The aside below will push this page's content when toggled.</p>
+
+    <h3 id="pushBasic"><a href="#pushBasic" class="no-link">Basic Push</a></h3>
+    <p>A push-mode sidebar that shifts the page content. Click the button to toggle it.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside main="push" state="offscreen"&gt;
+  &lt;nav&gt;
+    &lt;h3&gt;Sidebar&lt;/h3&gt;
+    &lt;a href="#"&gt;Home&lt;/a&gt;
+    &lt;a href="#"&gt;About&lt;/a&gt;
+    &lt;a href="#"&gt;Contact&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.toggle()"&gt;
+  Toggle Sidebar
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside5" main="push" state="offscreen">
+            <div class="navbar-spacer"></div>
+            <nav>
+              <h3>Sidebar</h3>
+              <a href="#">Home</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </nav>
+          </k-aside>
+          <button id="toggle5">Toggle Sidebar</button>
+          <script>
+            document.getElementById('toggle5').addEventListener('click',()=>{
+              document.getElementById('aside5').toggle();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="pushCollapsed"><a href="#pushCollapsed" class="no-link">Collapsed State</a></h3>
+    <p>Use <code>collapse()</code> to show a narrow strip (width set by <code>--collapsed-width</code>). Use <code>expand()</code> to show full width, or <code>hide()</code> to go offscreen.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside main="push" state="offscreen"&gt;
+  &lt;nav&gt;
+    &lt;h3&gt;Menu&lt;/h3&gt;
+    &lt;a href="#"&gt;Dashboard&lt;/a&gt;
+    &lt;a href="#"&gt;Settings&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/k-aside&gt;
+
+&lt;button onclick="aside.expand()"&gt;Expand&lt;/button&gt;
+&lt;button onclick="aside.collapse()"&gt;Collapse&lt;/button&gt;
+&lt;button onclick="aside.hide()"&gt;Hide&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside6" main="push" state="offscreen">
+            <div class="navbar-spacer"></div>
+            <nav>
+              <h3>Menu</h3>
+              <a href="#">Dashboard</a>
+              <a href="#">Settings</a>
+            </nav>
+          </k-aside>
+          <button id="btn6expand">Expand</button>
+          <button id="btn6collapse">Collapse</button>
+          <button id="btn6hide">Hide</button>
+          <script>
+            const a6 = document.getElementById('aside6');
+            document.getElementById('btn6expand').addEventListener('click',()=> a6.expand());
+            document.getElementById('btn6collapse').addEventListener('click',()=> a6.collapse());
+            document.getElementById('btn6hide').addEventListener('click',()=> a6.hide());
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="pushRight"><a href="#pushRight" class="no-link">Right Side Push</a></h3>
+    <p>Use <code>side="right"</code> with push mode to have the sidebar on the right side of the viewport.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside main="push" side="right" state="offscreen"&gt;
+  &lt;nav&gt;
+    &lt;h3&gt;Right Panel&lt;/h3&gt;
+    &lt;a href="#"&gt;Item 1&lt;/a&gt;
+    &lt;a href="#"&gt;Item 2&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.toggle()"&gt;
+  Toggle Right Sidebar
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside7" main="push" side="right" state="offscreen">
+            <div class="navbar-spacer"></div>
+            <nav>
+              <h3>Right Panel</h3>
+              <a href="#">Item 1</a>
+              <a href="#">Item 2</a>
+            </nav>
+          </k-aside>
+          <button id="toggle7">Toggle Right Sidebar</button>
+          <script>
+            document.getElementById('toggle7').addEventListener('click',()=>{
+              document.getElementById('aside7').toggle();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2>Customization</h2>
+
+    <h3 id="customWidth"><a href="#customWidth" class="no-link">Custom Width</a></h3>
+    <p>Override <code>--width</code> to change the expanded width. Default is <code>20rem</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;style&gt;
+  k-aside { --width: 30rem; }
+&lt;/style&gt;
+&lt;k-aside state="offscreen"&gt;
+  &lt;p&gt;This menu is 30rem wide.&lt;/p&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.expand()"&gt;
+  Open Wide Menu
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <style>k-aside#aside8 { --width: 30rem; }</style>
+          <k-aside id="aside8" state="offscreen">
+            <p>This menu is 30rem wide instead of the default 20rem.</p>
+          </k-aside>
+          <button id="open8">Open Wide Menu</button>
+          <script>
+            document.getElementById('open8').addEventListener('click',()=>{
+              document.getElementById('aside8').expand();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customBg"><a href="#customBg" class="no-link">Custom Background</a></h3>
+    <p>Override <code>--bg</code> to change the background color.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;style&gt;
+  k-aside { --bg: var(--c_primary); }
+&lt;/style&gt;
+&lt;k-aside state="offscreen"&gt;
+  &lt;nav class="p tc-light"&gt;
+    &lt;h3&gt;Branded Menu&lt;/h3&gt;
+    &lt;a href="#" class="tc-light"&gt;Home&lt;/a&gt;
+    &lt;a href="#" class="tc-light"&gt;About&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="this.previousElementSibling.expand()"&gt;
+  Open Branded Menu
+&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <style>k-aside#aside9 { --bg: var(--c_primary); --aside_padding: 0; }</style>
+          <k-aside id="aside9" state="offscreen">
+            <nav class="p tc-light">
+              <h3>Branded Menu</h3>
+              <a href="#" class="tc-light">Home</a>
+              <a href="#" class="tc-light">About</a>
+            </nav>
+          </k-aside>
+          <button id="open9">Open Branded Menu</button>
+          <script>
+            document.getElementById('open9').addEventListener('click',()=>{
+              document.getElementById('aside9').expand();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customCollapsed"><a href="#customCollapsed" class="no-link">Custom Collapsed Width</a></h3>
+    <p>Override <code>--collapsed-width</code> to change the width of the narrow strip shown in collapsed state. Default is <code>3.5rem</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;style&gt;
+  k-aside { --collapsed-width: 5rem; }
+&lt;/style&gt;
+&lt;k-aside main="push" state="offscreen"&gt;
+  &lt;nav&gt;
+    &lt;h3&gt;Sidebar&lt;/h3&gt;
+    &lt;a href="#"&gt;Dashboard&lt;/a&gt;
+    &lt;a href="#"&gt;Reports&lt;/a&gt;
+    &lt;a href="#"&gt;Settings&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/k-aside&gt;
+
+&lt;button onclick="aside.expand()"&gt;Expand&lt;/button&gt;
+&lt;button onclick="aside.collapse()"&gt;Collapse&lt;/button&gt;
+&lt;button onclick="aside.hide()"&gt;Hide&lt;/button&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <style>k-aside#aside13 { --collapsed-width: 5rem; }</style>
+          <k-aside id="aside13" main="push" state="offscreen">
+            <div class="navbar-spacer"></div>
+            <nav>
+              <h3>Sidebar</h3>
+              <a href="#">Dashboard</a>
+              <a href="#">Reports</a>
+              <a href="#">Settings</a>
+            </nav>
+          </k-aside>
+          <button id="btn13expand">Expand</button>
+          <button id="btn13collapse">Collapse</button>
+          <button id="btn13hide">Hide</button>
+          <script>
+            const a13 = document.getElementById('aside13');
+            document.getElementById('btn13expand').addEventListener('click',()=> a13.expand());
+            document.getElementById('btn13collapse').addEventListener('click',()=> a13.collapse());
+            document.getElementById('btn13hide').addEventListener('click',()=> a13.hide());
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="subItems"><a href="#subItems" class="no-link">Items &amp; Labels</a></h2>
+    <p>Use <code>k-aside-item</code>, <code>k-aside-label</code>, and <code>k-aside-spacer</code> inside a push-mode aside for a navigation panel with icons and text. Set <code>--aside_padding: 0;</code> on the aside so the sub-components control their own spacing.</p>
+    <p>Items and labels automatically react to the aside's collapsed/expanded state.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;expanded&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--aside_padding: 0;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-toggle</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;m-0&quot;</span>&gt;</span>Kempo<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">active</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;check&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Tasks<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;label&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-label</span>&gt;</span>Projects<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;folder&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Figma Design<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;folder&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Static Mania<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-spacer</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-spacer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;account-circle&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Main Content<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Content adjusts when panel opens/closes.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <iframe src="./aside-items.html" style="width: 100%; height: 600px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="subMenu"><a href="#subMenu" class="no-link">Expandable Menus</a></h2>
+    <p>Use <code>k-aside-menu</code> for collapsible sub-menus with an icon and label. When the aside is collapsed, clicking a menu icon expands the aside (unless <code>no-expand</code> is set).</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;expanded&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--aside_padding: 0;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-toggle</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;m-0&quot;</span>&gt;</span>Kempo<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-menu</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;folder&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Projects&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Website Redesign<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Mobile App<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-menu</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-menu</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Settings&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>General<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Security<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-menu</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <iframe src="./aside-menu.html" style="width: 100%; height: 400px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="events"><a href="#events" class="no-link">State Change Event</a></h2>
+    <p>The <code>aside_state_change</code> event fires on both the element and on <code>window</code> whenever the state changes. The event detail contains <code>{ aside, state, main }</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-aside id="myAside" state="offscreen"&gt;
+  &lt;p&gt;Open and close me to see events.&lt;/p&gt;
+&lt;/k-aside&gt;
+&lt;button onclick="myAside.expand()"&gt;Open Menu&lt;/button&gt;
+&lt;div id="log"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  myAside.addEventListener('aside_state_change', e =&gt; {
+    log.textContent = 'state: ' + e.detail.state;
+  });
+&lt;/script&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside10" state="offscreen">
+            <p>Open and close me to see events.</p>
+          </k-aside>
+          <button id="open10">Open Menu</button>
+          <div id="eventLog" class="p b r mt" style="font-family:monospace;min-height:3rem;"></div>
+          <script>
+            const log10 = document.getElementById('eventLog');
+            document.getElementById('aside10').addEventListener('aside_state_change', e => {
+              const entry = document.createElement('div');
+              entry.textContent = 'state: ' + e.detail.state + ', main: ' + e.detail.main;
+              log10.prepend(entry);
+            });
+            document.getElementById('open10').addEventListener('click',()=>{
+              document.getElementById('aside10').expand();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Aside()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./focus-capture.html">FocusCapture</a> (used in overlay mode)</li>
+      <li><strong>k-main:</strong> Wrap your page content in <code>&lt;k-main&gt;</code> so push-mode asides can shift the layout.</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>state<i>: string</i></code></h5>
+    <p>The current state. <code>"expanded"</code> (default) shows the full aside, <code>"collapsed"</code> shows a narrow strip (width set by <code>--collapsed-width</code>), <code>"offscreen"</code> hides it. Syncs to <code>state</code> attribute.</p>
+    <h5><code>side<i>: string</i></code></h5>
+    <p>Which side of the viewport to anchor to. <code>"left"</code> (default) or <code>"right"</code>. Syncs to <code>side</code> attribute.</p>
+    <h5><code>main<i>: string</i></code></h5>
+    <p>How the aside interacts with page content. <code>"overlay"</code> (default) renders a backdrop and focus trap without affecting layout. <code>"push"</code> dispatches events so <code>&lt;k-main&gt;</code> adjusts its margins. Syncs to <code>main</code> attribute.</p>
+    <h5><code>overlayClose<i>: boolean</i></code></h5>
+    <p>Whether clicking the overlay backdrop closes the aside. Defaults to <code>true</code>. Syncs to <code>overlay-close</code> attribute.</p>
+    <h5><code>escClose<i>: boolean</i></code></h5>
+    <p>Whether pressing the ESC key closes the aside. Defaults to <code>true</code>. Syncs to <code>esc-close</code> attribute.</p>
+
+    <h3 id="eventRef"><a href="#eventRef" class="no-link">Events</a></h3>
+    <h5><code>aside_state_change</code></h5>
+    <p>Dispatched on the element and on <code>window</code> whenever <code>state</code> changes. Detail: <code>{ aside, state, main }</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>expand()<i>: void</i></code></h5>
+    <p>Sets state to <code>"expanded"</code>.</p>
+    <h5><code>collapse()<i>: void</i></code></h5>
+    <p>Sets state to <code>"collapsed"</code>.</p>
+    <h5><code>hide()<i>: void</i></code></h5>
+    <p>Sets state to <code>"offscreen"</code>.</p>
+    <h5><code>toggle()<i>: void</i></code></h5>
+    <p>Toggles between <code>"expanded"</code> and <code>"offscreen"</code>.</p>
+
+    <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
+    <h5><code>--width</code></h5>
+    <p>Width of the aside when expanded. Default <code>20rem</code>.</p>
+    <h5><code>--collapsed-width</code></h5>
+    <p>Width of the aside when collapsed. Default <code>3.5rem</code>.</p>
+    <h5><code>--bg</code></h5>
+    <p>Background color. Default <code>var(--c_bg)</code>.</p>
+    <h5><code>--border</code></h5>
+    <p>Color of the inner border. Default <code>var(--c_border)</code>.</p>
+
+    <h2 id="subRef">Sub-Component Reference</h2>
+
+    <h3 id="asideItem"><a href="#asideItem" class="no-link">k-aside-item</a></h3>
+    <p>A navigation link that reacts to the parent aside's collapsed/expanded state. Shows icon + text when expanded, icon-only when collapsed.</p>
+    <table class="b r">
+      <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name (renders <code>k-icon</code>). Shows a dot when collapsed if no icon set.</td></tr>
+        <tr><td><code>href</code></td><td>string</td><td><code>"#"</code></td><td>Link URL.</td></tr>
+        <tr><td><code>active</code></td><td>boolean</td><td><code>false</code></td><td>Highlights the item with the primary color.</td></tr>
+        <tr><td><code>no-expand</code></td><td>boolean</td><td><code>false</code></td><td>Prevents clicking a collapsed item from expanding the aside.</td></tr>
+        <tr><td><code>hide-when-collapsed</code></td><td>boolean</td><td><code>false</code></td><td>Hides the item entirely when collapsed.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="asideLabel"><a href="#asideLabel" class="no-link">k-aside-label</a></h3>
+    <p>A section label. Displays text when expanded, an <code>&lt;hr&gt;</code> divider when collapsed.</p>
+    <p>No additional attributes beyond automatic collapsed state syncing.</p>
+
+    <h3 id="asideMenu"><a href="#asideMenu" class="no-link">k-aside-menu</a></h3>
+    <p>An expandable sub-menu that toggles open/closed. When the aside is collapsed, clicking the menu icon expands the aside.</p>
+    <table class="b r">
+      <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name for the menu header.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td>Text label for the menu header.</td></tr>
+        <tr><td><code>open</code></td><td>boolean</td><td><code>false</code></td><td>Whether the sub-menu is expanded.</td></tr>
+        <tr><td><code>no-expand</code></td><td>boolean</td><td><code>false</code></td><td>Prevents clicking a collapsed menu from expanding the aside.</td></tr>
+        <tr><td><code>hide-when-collapsed</code></td><td>boolean</td><td><code>false</code></td><td>Hides the menu entirely when collapsed.</td></tr>
+      </tbody>
+    </table>
+    <p>Slot: Place <code>k-aside-item</code> elements inside for sub-menu links.</p>
+
+    <h3 id="asideSpacer"><a href="#asideSpacer" class="no-link">k-aside-spacer</a></h3>
+    <p>A flexible spacer (<code>flex: 1</code>) that pushes subsequent items to the bottom of the aside. No attributes.</p>
+
+    <h3 id="asideToggle"><a href="#asideToggle" class="no-link">k-aside-toggle</a></h3>
+    <p>A header with a collapse/expand toggle button. Renders an arrow icon that flips direction based on state. Place content (e.g. a logo) in the default slot; it hides when collapsed.</p>
+    <p>No additional attributes. Automatically syncs with the parent aside's state.</p>
+
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
+  <script type="module" src="../src/components/Aside.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+</body>
+</html>

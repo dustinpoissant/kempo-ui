@@ -2,16 +2,9 @@ import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 
 export default class Main extends ShadowComponent {
-	static properties = {
-		leftPanelWidth: { type: String, state: true },
-		rightPanelWidth: { type: String, state: true }
-	};
-
 	constructor() {
 		super();
-		this.leftPanelWidth = '0px';
-		this.rightPanelWidth = '0px';
-		this.handlePanelChange = this.handlePanelChange.bind(this);
+		this.widthMap = new Map();
 	}
 
 	/*
@@ -19,33 +12,50 @@ export default class Main extends ShadowComponent {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
-		window.addEventListener('side-panel-change', this.handlePanelChange);
-		
-		const leftPanel = document.querySelector('k-side-panel:not([side="right"])');
-		if(leftPanel){
-			this.leftPanelWidth = leftPanel.collapsed ? '3.5rem' : '16rem';
-		}
+		window.addEventListener('aside_state_change', this.handleAsideChange);
 
-		const rightPanel = document.querySelector('k-side-panel[side="right"]');
-		if(rightPanel){
-			this.rightPanelWidth = rightPanel.collapsed ? '3.5rem' : '16rem';
-		}
+		document.querySelectorAll('k-aside[main="push"]').forEach(aside => {
+			if(aside.state !== 'offscreen') {
+				const width = aside.getTargetWidth(aside.state);
+				if(width > 0) {
+					this.widthMap.set(aside, { side: aside.side || 'left', width });
+				}
+			}
+		});
+
+		this.recalculate();
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-		window.removeEventListener('side-panel-change', this.handlePanelChange);
+		window.removeEventListener('aside_state_change', this.handleAsideChange);
 	}
 
 	/*
 		Event Handlers
 	*/
-	handlePanelChange(event) {
-		if(event.detail.side === 'right'){
-			this.rightPanelWidth = event.detail.width;
-		}else{
-			this.leftPanelWidth = event.detail.width;
+	handleAsideChange = (event) => {
+		const { aside, state, main, width } = event.detail;
+		if(main === 'overlay' || state === 'offscreen') {
+			this.widthMap.delete(aside);
+		} else {
+			this.widthMap.set(aside, { side: aside.side || 'left', width });
 		}
+		this.recalculate();
+	}
+
+	recalculate = () => {
+		let maxLeft = 0;
+		let maxRight = 0;
+		for(const [, { side, width }] of this.widthMap) {
+			if(side === 'right') {
+				maxRight = Math.max(maxRight, width);
+			} else {
+				maxLeft = Math.max(maxLeft, width);
+			}
+		}
+		this.style.setProperty('--left-panel-width', `${maxLeft}px`);
+		this.style.setProperty('--right-panel-width', `${maxRight}px`);
 	}
 
 	/*
@@ -75,12 +85,6 @@ export default class Main extends ShadowComponent {
 			padding-right: var(--spacer);
 		}
 	`;
-
-	updated() {
-		super.updated();
-		this.style.setProperty('--left-panel-width', this.leftPanelWidth);
-		this.style.setProperty('--right-panel-width', this.rightPanelWidth);
-	}
 }
 
 window.customElements.define('k-main', Main);

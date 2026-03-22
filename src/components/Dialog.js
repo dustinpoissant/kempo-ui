@@ -165,7 +165,7 @@ export default class Dialog extends ShadowComponent {
 			left: 0;
 			width: 100vw;
 			height: 100vh;
-			z-index: 100;
+			z-index: 80;
 			display: none;
 			justify-content: center;
 			align-items: center;

@@ -6,14 +6,14 @@
   <title>Kempo UI Documentation</title>
   <link rel="icon" type="image/png" sizes="48x48" href="./media/icon48.png">
   <link rel="manifest" href="./manifest.json" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css">
   <link rel="stylesheet" href="./kempo-hljs.css">
   <link rel="stylesheet" href="./kempo-vars.css">
   <script>window.litDisableBundleWarning = true;</script>
 </head>
 <body>
   <k-import src="nav.inc.html"></k-import>
-  <main>
+  <k-main>
     <h1 class="ta-center">
       <img
         src="./media/icon64.png"
@@ -51,6 +51,12 @@
         <a href="./components/accordion.html" class="card mb no-link d-b">
           <h3 class="tc-primary">Accordion</h3>
           <p class="tc-muted">Collapsible sections with smooth animations and toggle controls.</p>
+        </a>
+      </div>
+      <div class="span-12 t-span-6 d-span-4 px">
+        <a href="./components/aside.html" class="card mb no-link d-b">
+          <h3 class="tc-primary">Aside</h3>
+          <p class="tc-muted">Enhanced sidebar component with push and overlay modes.</p>
         </a>
       </div>
       <div class="span-12 t-span-6 d-span-4 px">
@@ -114,6 +120,12 @@
         </a>
       </div>
       <div class="span-12 t-span-6 d-span-4 px">
+        <a href="./components/nav.html" class="card mb no-link d-b">
+          <h3 class="tc-primary">Nav</h3>
+          <p class="tc-muted">Fixed navigation bar with automatic elevation applied at the correct stacking level.</p>
+        </a>
+      </div>
+      <div class="span-12 t-span-6 d-span-4 px">
         <a href="./components/photo-viewer.html" class="card mb no-link d-b">
           <h3 class="tc-primary">Photo Viewer</h3>
           <p class="tc-muted">Lightbox gallery for viewing images with zoom and navigation.</p>
@@ -129,18 +141,6 @@
         <a href="./components/show-more.html" class="card mb no-link d-b">
           <h3 class="tc-primary">Show More</h3>
           <p class="tc-muted">Truncate long content with a "show more" button to expand.</p>
-        </a>
-      </div>
-      <div class="span-12 t-span-6 d-span-4 px">
-        <a href="./components/side-menu.html" class="card mb no-link d-b">
-          <h3 class="tc-primary">Side Menu</h3>
-          <p class="tc-muted">Slide-out navigation drawer with focus management.</p>
-        </a>
-      </div>
-      <div class="span-12 t-span-6 d-span-4 px">
-        <a href="./components/side-panel.html" class="card mb no-link d-b">
-          <h3 class="tc-primary">Side Panel</h3>
-          <p class="tc-muted">Collapsible persistent sidebar that pushes page content.</p>
         </a>
       </div>
       <div class="span-12 t-span-6 d-span-4 px">
@@ -180,12 +180,6 @@
         </a>
       </div>
       <div class="span-12 t-span-6 d-span-4 px">
-        <a href="./components/toast.html" class="card mb no-link d-b">
-          <h3 class="tc-primary">Toast</h3>
-          <p class="tc-muted">Notification messages that appear temporarily at screen corners.</p>
-        </a>
-      </div>
-      <div class="span-12 t-span-6 d-span-4 px">
         <a href="./components/theme-select.html" class="card mb no-link d-b">
           <h3 class="tc-primary">Theme Select</h3>
           <p class="tc-muted">Dropdown select for choosing between Light, Dark, and System Default themes.</p>
@@ -201,6 +195,12 @@
         <a href="./components/timestamp.html" class="card mb no-link d-b">
           <h3 class="tc-primary">Timestamp</h3>
           <p class="tc-muted">Display formatted dates and times with relative formatting.</p>
+        </a>
+      </div>
+      <div class="span-12 t-span-6 d-span-4 px">
+        <a href="./components/toast.html" class="card mb no-link d-b">
+          <h3 class="tc-primary">Toast</h3>
+          <p class="tc-muted">Notification messages that appear temporarily at screen corners.</p>
         </a>
       </div>
       <div class="span-12 t-span-6 d-span-4 px">
@@ -309,7 +309,8 @@
       </div>
     </div>
     <div style="height:33vh"></div>
-  </main>
+  </k-main>
   <script type="module" src="./src/components/Import.js"></script>
+  <script type="module" src="./src/components/Main.js"></script>
 </body>
 </html>

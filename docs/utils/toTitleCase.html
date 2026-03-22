@@ -7,14 +7,14 @@
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
 </head>
 <body>
   <k-import src="../nav-1.inc.html"></k-import>
-  <main>
+  <k-main>
     <h1>toTitleCase</h1>
     
     <details
@@ -63,8 +63,9 @@
     <h4>Practical Use Case: Table Column Headers</h4>
     <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> columns = [<span class="hljs-string">'firstName'</span>, <span class="hljs-string">'lastName'</span>, <span class="hljs-string">'emailAddress'</span>];<br /><br /><span class="hljs-keyword">const</span> headers = columns.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">col</span> =&gt;</span> <span class="hljs-title function_">toTitleCase</span>(col));<br /><span class="hljs-comment">// ["First Name", "Last Name", "Email Address"]</span></code></pre>
 
-  </main>
+  </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
 </body>
 </html>

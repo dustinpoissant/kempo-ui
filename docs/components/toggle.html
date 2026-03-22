@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@1.3.11/dist/kempo.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
@@ -15,7 +15,7 @@
 <body>
   <k-import src="../nav-1.inc.html"></k-import>
   <h1 class="ta-center">Toggle</h1>
-  <main>
+  <k-main>
     <k-accordion persistent-id="toc" class="b r mb">
       <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
       <k-accordion-panel name="toc-panel">
@@ -165,9 +165,10 @@
     <h5><code>toggle()<i>: this</i></code></h5>
     <p>Negates the <code>value</code>, if it is <code>true</code> it is now set to <code>false</code>, but if it is <code>false</code> it is now set to <code>true</code>. It also dispatches dispatches a <code><i>change</i></code> and an <code><i>on</i></code> or <code><i>off</i></code> event. The switch visual changes to the oposite state.</p>
 
-  </main>
+  </k-main>
   <div style="height:33vh"></div>
-  <script type="module" src="../src/components/Import.js"></script> 
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Main.js"></script> 
   <script type="module" src="../src/components/Toggle.js"></script>
   <script type="module" src="../src/components/Accordion.js"></script>
   <script type="module" src="../src/components/Card.js"></script>

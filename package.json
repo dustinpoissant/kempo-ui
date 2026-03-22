@@ -1,6 +1,6 @@
 {
   "name": "kempo-ui",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "type": "module",
   "description": "A Lit based web-component library",
   "main": "index.js",
@@ -21,8 +21,7 @@
     "test": "npx kempo-test",
     "test:gui": "npx kempo-test --gui",
     "test:browser": "npx kempo-test -b",
-    "test:node": "npx kempo-test -n",
-    "update-kempo-css": "node scripts/update-kempo-css.js"
+    "test:node": "npx kempo-test -n"
   },
   "repository": {
     "type": "git",
@@ -43,6 +42,6 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^8.3.0",
-    "kempo-css": "^1.3.13"
+    "kempo-css": "^2.1.1"
   }
 }

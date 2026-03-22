@@ -6,6 +6,13 @@
  - All components should be in the `src/components/` directory.
  - All utility function module files should be in the `src/utils/` directory.
  - All documnentation should be in the `docs/` directory. This directory is used by GitHub as the "GitHub Pages", so all links need to be relative, and there will be a build script which copies all code to the `docs/` directory.
+ - `llm.txt.md` in the root is the consumer-facing LLM reference for this library. **Keep it up to date**: when adding a new component or utility, add a row to the relevant table in `llm.txt.md`.
+ 
+## Dependencies
+
+ - [Kempo-CSS](https://raw.githubusercontent.com/dustinpoissant/kempo-css/refs/heads/main/llms.txt) - Injected into the shadow root of all components extending ShadowCompoentn or Hybrid Component. Do not assume bootstrap styles, some may be similar, but these are not compatible with bootstrap, read the docs.
+ - [Kempo-TestingFramework](https://raw.githubusercontent.com/dustinpoissant/kempo-testing-framework/refs/heads/main/llm.txt) - Used to create and run tests inside the `tests` directory. Do not assume you know the syntax, read the docs.
+ - [Kempo-Server](https://raw.githubusercontent.com/dustinpoissant/kempo-server/refs/heads/main/llm.txt) - A node server with file-based routing and robust configution options, this is used to run the docs servers.
 
 ## Coding Style Guidelines
 
@@ -103,3 +110,7 @@ Do not prefix identifiers with underscores.
 - **DO NOT** create one-off test files or framework-less tests
 - Test components in their natural documentation environment
 - Validate both functionality and visual appearance
+- **ALL tests must pass — ZERO failures are acceptable.** If a test fails after a change, fix it immediately. There are no "pre-existing failures" in this project.
+
+### Building
+The docs should be running using `npm run dev` which serves the html files in the docs, but reroutes all requests to `docs/src` to use `src` so we do not need to build or "watch" files to build, if you save a file, just refresh the docs page. Same for icons, the server reroutes `docs/icons` to `icons` so we dont need to watch or build after adding an icon.

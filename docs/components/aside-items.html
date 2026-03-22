@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aside Items Example</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  <script type="module">
+    import theme from '../src/utils/theme.js';
+    theme.init();
+  </script>
+  <script type="module" src="../src/components/Aside.js"></script>
+  <script type="module" src="../src/components/Main.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <k-aside main="push" state="expanded" style="--aside_padding: 0;">
+    <k-aside-toggle><h5 class="m0">Kempo</h5></k-aside-toggle>
+    <k-aside-item icon="cards" href="#" active>Dashboard</k-aside-item>
+    <k-aside-item icon="check" href="#">Tasks</k-aside-item>
+    <k-aside-item icon="label" href="#">Email</k-aside-item>
+    <k-aside-label>Projects</k-aside-label>
+    <k-aside-item icon="folder" href="#">Figma Design</k-aside-item>
+    <k-aside-item icon="folder" href="#">Static Mania</k-aside-item>
+    <k-aside-spacer></k-aside-spacer>
+    <k-aside-item icon="settings" href="#">Settings</k-aside-item>
+    <k-aside-item icon="account-circle" href="#">Profile</k-aside-item>
+  </k-aside>
+  <k-main>
+    <h2>Main Content</h2>
+    <p>Click the aside's collapse/expand to see items react.</p>
+  </k-main>
+</body>
+</html>
