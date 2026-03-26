@@ -29,14 +29,18 @@ export default class Import extends LightComponent {
 	*/
 	updated(changedProperties){
 		super.updated(); // Important: call super for LightComponent
-		
+
 		if(changedProperties.has('src')){
+			if(changedProperties.get('src') !== undefined || this.src !== '')
+				this.dispatchEvent(new CustomEvent('src-change', { detail: { src: this.src }, bubbles: true, composed: true }));
 			this.fetch();
 		}
-		
-		if(changedProperties.has('content') && this.scripts.length > 0){
-			// Execute scripts after DOM content is rendered
-			setTimeout(() => this.executeScripts(), 0);
+
+		if(changedProperties.has('content') && this.content){
+			setTimeout(() => {
+				if(this.scripts.length > 0) this.executeScripts();
+				this.dispatchEvent(new CustomEvent('content-rendered', { bubbles: true, composed: true }));
+			}, 0);
 		}
 	}
 
@@ -44,7 +48,11 @@ export default class Import extends LightComponent {
 		Methods
 	*/
 	async fetch(){
-		let contents = await (await fetch(this.src)).text();
+		if(!this.src) return;
+		this.dispatchEvent(new CustomEvent('fetch-start', { detail: { src: this.src }, bubbles: true, composed: true }));
+		const response = await fetch(this.src);
+		this.dispatchEvent(new CustomEvent('fetch-response', { detail: { src: this.src, status: response.status }, bubbles: true, composed: true }));
+		let contents = await response.text();
 		for (const [name, value] of Object.entries(Import.replacements)) {
 			contents = contents.replace(new RegExp(`%%${name}%%`, 'g'), value);
 		}
@@ -82,7 +90,7 @@ export default class Import extends LightComponent {
 			// Append to head to execute
 			document.head.appendChild(scriptElement);
 		});
-		
+
 		// Clear scripts after execution to avoid re-execution
 		this.scripts = [];
 	}

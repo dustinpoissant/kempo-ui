@@ -28,6 +28,7 @@
           <a href="#requirements">Requirements</a><br />
           <a href="#properties">Properties</a><br />
           <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
         </div>
       </k-accordion-panel>
     </k-accordion>
@@ -68,8 +69,21 @@
     <p>The source URL of the HTML snippet to import. Syncs to <code>src</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
-    <h5><code>load()<i>: Promise</i></code></h5>
-    <p>Loads the HTML snippet from the specified source URL.</p>
+    <h5><code>fetch()<i>: Promise</i></code></h5>
+    <p>Fetches and renders the HTML snippet from the current <code>src</code> URL. Called automatically when <code>src</code> changes.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>src-change</code></h5>
+    <p>Fired when the <code>src</code> property changes. <code>detail: { src }</code></p>
+    <h5><code>fetch-start</code></h5>
+    <p>Fired when the HTTP fetch begins. <code>detail: { src }</code></p>
+    <h5><code>fetch-response</code></h5>
+    <p>Fired when the HTTP response is received. <code>detail: { src, status }</code></p>
+    <h5><code>content-rendered</code></h5>
+    <p>Fired after the HTML content has been injected into the DOM and all inline scripts have been executed.</p>
+    <k-card label="JavaScript">
+      <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> importer = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;k-import&#x27;</span>);<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;src-change&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;src set:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">src</span>));<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;fetch-start&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;fetching:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">src</span>));<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;fetch-response&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;response status:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">status</span>));<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;content-rendered&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;content ready&#x27;</span>));</code></pre>
+    </k-card>
 
   </k-main>
   <div style="height:33vh"></div>

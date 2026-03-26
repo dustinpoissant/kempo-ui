@@ -308,5 +308,217 @@ export default {
 		// LightComponent sets display: contents
 		cleanup(container);
 		pass('Import has appropriate display');
+	},
+
+	/*
+		Event Tests
+	*/
+	'should not dispatch src-change event on initialization with empty src': async ({pass, fail}) => {
+		let eventFired = false;
+		const container = document.createElement('div');
+		const importEl = document.createElement('k-import');
+		importEl.addEventListener('src-change', () => { eventFired = true; });
+		container.appendChild(importEl);
+		document.body.appendChild(container);
+		await importEl.updateComplete;
+
+		if(eventFired){
+			cleanup(container);
+			return fail('src-change should not fire during initialization with empty src');
+		}
+		cleanup(container);
+		pass('src-change not fired on initialization with empty src');
+	},
+
+	'should dispatch src-change event when src is set': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		let eventFired = false;
+		let eventDetail = null;
+		importEl.addEventListener('src-change', e => {
+			eventFired = true;
+			eventDetail = e.detail;
+		});
+
+		importEl.src = '/some-file.html';
+		await importEl.updateComplete;
+
+		if(!eventFired){
+			cleanup(container);
+			return fail('src-change event should be fired when src changes');
+		}
+		if(eventDetail.src !== '/some-file.html'){
+			cleanup(container);
+			return fail(`Expected detail.src "/some-file.html", got "${eventDetail.src}"`);
+		}
+		cleanup(container);
+		pass('src-change event dispatched with correct detail');
+	},
+
+	'src-change event should bubble': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		let bubbled = false;
+		container.addEventListener('src-change', () => { bubbled = true; });
+
+		importEl.src = '/bubble-test.html';
+		await importEl.updateComplete;
+
+		if(!bubbled){
+			cleanup(container);
+			return fail('src-change event should bubble');
+		}
+		cleanup(container);
+		pass('src-change event bubbles');
+	},
+
+	'should dispatch fetch-start event when fetch begins': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		const originalFetch = window.fetch;
+		let fetchStartFired = false;
+		let fetchStartDetail = null;
+
+		importEl.addEventListener('fetch-start', e => {
+			fetchStartFired = true;
+			fetchStartDetail = e.detail;
+		});
+
+		window.fetch = () => Promise.resolve({ status: 200, text: () => Promise.resolve('<p>test</p>') });
+
+		importEl.src = '/mock-file.html';
+		await importEl.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 50));
+
+		window.fetch = originalFetch;
+
+		if(!fetchStartFired){
+			cleanup(container);
+			return fail('fetch-start event should be fired');
+		}
+		if(fetchStartDetail.src !== '/mock-file.html'){
+			cleanup(container);
+			return fail(`Expected detail.src "/mock-file.html", got "${fetchStartDetail.src}"`);
+		}
+		cleanup(container);
+		pass('fetch-start event dispatched with correct detail');
+	},
+
+	'should dispatch fetch-response event after response is received': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		const originalFetch = window.fetch;
+		let fetchResponseFired = false;
+		let fetchResponseDetail = null;
+
+		importEl.addEventListener('fetch-response', e => {
+			fetchResponseFired = true;
+			fetchResponseDetail = e.detail;
+		});
+
+		window.fetch = () => Promise.resolve({ status: 200, text: () => Promise.resolve('<p>test</p>') });
+
+		importEl.src = '/mock-file.html';
+		await importEl.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 50));
+
+		window.fetch = originalFetch;
+
+		if(!fetchResponseFired){
+			cleanup(container);
+			return fail('fetch-response event should be fired');
+		}
+		if(fetchResponseDetail.src !== '/mock-file.html'){
+			cleanup(container);
+			return fail(`Expected detail.src "/mock-file.html", got "${fetchResponseDetail.src}"`);
+		}
+		if(fetchResponseDetail.status !== 200){
+			cleanup(container);
+			return fail(`Expected detail.status 200, got ${fetchResponseDetail.status}`);
+		}
+		cleanup(container);
+		pass('fetch-response event dispatched with correct detail');
+	},
+
+	'fetch-start should fire before fetch-response': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		const originalFetch = window.fetch;
+		const order = [];
+
+		importEl.addEventListener('fetch-start', () => order.push('fetch-start'));
+		importEl.addEventListener('fetch-response', () => order.push('fetch-response'));
+
+		window.fetch = () => Promise.resolve({ status: 200, text: () => Promise.resolve('<p>test</p>') });
+
+		importEl.src = '/mock-file.html';
+		await importEl.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 50));
+
+		window.fetch = originalFetch;
+
+		if(order[0] !== 'fetch-start' || order[1] !== 'fetch-response'){
+			cleanup(container);
+			return fail(`Expected [fetch-start, fetch-response], got [${order.join(', ')}]`);
+		}
+		cleanup(container);
+		pass('fetch-start fires before fetch-response');
+	},
+
+	'should dispatch content-rendered event after content is set': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		let eventFired = false;
+
+		importEl.addEventListener('content-rendered', () => { eventFired = true; });
+
+		importEl.content = '<p>rendered content</p>';
+		await importEl.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 50));
+
+		if(!eventFired){
+			cleanup(container);
+			return fail('content-rendered event should be fired after content changes');
+		}
+		cleanup(container);
+		pass('content-rendered event dispatched after content is set');
+	},
+
+	'content-rendered event should bubble': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		let bubbled = false;
+		container.addEventListener('content-rendered', () => { bubbled = true; });
+
+		importEl.content = '<p>bubble test</p>';
+		await importEl.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 50));
+
+		if(!bubbled){
+			cleanup(container);
+			return fail('content-rendered event should bubble');
+		}
+		cleanup(container);
+		pass('content-rendered event bubbles');
+	},
+
+	'should dispatch all four events in order during a full fetch cycle': async ({pass, fail}) => {
+		const { container, importEl } = await createImport();
+		const originalFetch = window.fetch;
+		const order = [];
+
+		importEl.addEventListener('src-change', () => order.push('src-change'));
+		importEl.addEventListener('fetch-start', () => order.push('fetch-start'));
+		importEl.addEventListener('fetch-response', () => order.push('fetch-response'));
+		importEl.addEventListener('content-rendered', () => order.push('content-rendered'));
+
+		window.fetch = () => Promise.resolve({ status: 200, text: () => Promise.resolve('<p>full cycle</p>') });
+
+		importEl.src = '/full-cycle.html';
+		await importEl.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 100));
+
+		window.fetch = originalFetch;
+
+		const expected = ['src-change', 'fetch-start', 'fetch-response', 'content-rendered'];
+		if(JSON.stringify(order) !== JSON.stringify(expected)){
+			cleanup(container);
+			return fail(`Expected [${expected.join(', ')}], got [${order.join(', ')}]`);
+		}
+		cleanup(container);
+		pass('All four events fire in correct order');
 	}
 };
