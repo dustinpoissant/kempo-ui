@@ -57,6 +57,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-card>` | `Card.js` | Bordered container; optional `label` attribute | [card.html](https://dustinpoissant.github.io/kempo-ui/components/card.html) |
 | `<k-color-picker>` | `ColorPicker.js` | Full color picker (hex, rgb, hsl, hsv, alpha); `value` property | [color-picker.html](https://dustinpoissant.github.io/kempo-ui/components/color-picker.html) |
 | `<k-content-slider>` | `ContentSlider.js` | Swipeable carousel | [content-slider.html](https://dustinpoissant.github.io/kempo-ui/components/content-slider.html) |
+| `<k-context>` | `Context.js` | Non-rendering state container; `set(key,value)`, `get(key)`, `delete(key)`, `clear()`, `getData()`; fires `context:create`, `context:set`, `context:delete` | [context.html](https://dustinpoissant.github.io/kempo-ui/components/context.html) |
 | `<k-dialog>` | `Dialog.js` | Modal dialog with focus trapping; call `.open()` / `.close()` | [dialog.html](https://dustinpoissant.github.io/kempo-ui/components/dialog.html) |
 | `<k-dropdown>` | `Dropdown.js` | Action menu with keyboard navigation | [dropdown.html](https://dustinpoissant.github.io/kempo-ui/components/dropdown.html) |
 | `<k-filter-list>` `<k-filter-item>` | `FilterList.js` `FilterItem.js` | Filter/search list; items have `filter` attribute with keywords | [filter-list.html](https://dustinpoissant.github.io/kempo-ui/components/filter-list.html) |

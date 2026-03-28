@@ -50,7 +50,8 @@
     </ul>
 
     <h3 id="levels"><a href="#levels" class="no-link">Elevation Levels</a></h3>
-    <table class="mb">
+    <div class="table-wrapper mb">
+    <table>
       <thead>
         <tr>
           <th>Level</th>
@@ -72,10 +73,12 @@
         <tr><td>10</td><td>100</td><td><em>Reserved — use only when absolutely necessary</em></td></tr>
       </tbody>
     </table>
+    </div>
 
     <h3 id="components"><a href="#components" class="no-link">Component Assignments</a></h3>
     <p>Every Kempo UI component that uses <code>position: fixed</code> is assigned an elevation level:</p>
-    <table class="mb">
+    <div class="table-wrapper mb">
+    <table>
       <thead>
         <tr>
           <th>Level</th>
@@ -123,6 +126,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <p>
       The <strong>Aside</strong> component uses two different levels depending on its <code>main</code> attribute.
       When <code>main="push"</code>, it shifts the page layout and should sit <em>below</em> your site navbar (level 3).

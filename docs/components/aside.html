@@ -521,7 +521,8 @@
 
     <h3 id="asideItem"><a href="#asideItem" class="no-link">k-aside-item</a></h3>
     <p>A navigation link that reacts to the parent aside's collapsed/expanded state. Shows icon + text when expanded, icon-only when collapsed.</p>
-    <table class="b r">
+    <div class="table-wrapper mb">
+    <table>
       <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name (renders <code>k-icon</code>). Shows a dot when collapsed if no icon set.</td></tr>
@@ -531,6 +532,7 @@
         <tr><td><code>hide-when-collapsed</code></td><td>boolean</td><td><code>false</code></td><td>Hides the item entirely when collapsed.</td></tr>
       </tbody>
     </table>
+    </div>
 
     <h3 id="asideLabel"><a href="#asideLabel" class="no-link">k-aside-label</a></h3>
     <p>A section label. Displays text when expanded, an <code>&lt;hr&gt;</code> divider when collapsed.</p>
@@ -538,7 +540,8 @@
 
     <h3 id="asideMenu"><a href="#asideMenu" class="no-link">k-aside-menu</a></h3>
     <p>An expandable sub-menu that toggles open/closed. When the aside is collapsed, clicking the menu icon expands the aside.</p>
-    <table class="b r">
+    <div class="table-wrapper mb">
+    <table>
       <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name for the menu header.</td></tr>
@@ -548,6 +551,7 @@
         <tr><td><code>hide-when-collapsed</code></td><td>boolean</td><td><code>false</code></td><td>Hides the menu entirely when collapsed.</td></tr>
       </tbody>
     </table>
+    </div>
     <p>Slot: Place <code>k-aside-item</code> elements inside for sub-menu links.</p>
 
     <h3 id="asideSpacer"><a href="#asideSpacer" class="no-link">k-aside-spacer</a></h3>
