@@ -1,5 +1,5 @@
 import ShadowComponent from './ShadowComponent.js';
-import { html, css } from '../lit-all.min.js';
+import { html, css, render } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
 import './Icon.js';
 import './FocusCapture.js';
@@ -330,10 +330,14 @@ export default class Dialog extends ShadowComponent {
 		}
 
 		// Set content
-		if(contents instanceof HTMLElement || contents instanceof DocumentFragment) {
+		if(contents?._$litType$ !== undefined) {
+			const container = document.createElement('div');
+			container.style.display = 'contents';
+			render(contents, container);
+			dialog.appendChild(container);
+		} else if(contents instanceof HTMLElement || contents instanceof DocumentFragment) {
 			dialog.appendChild(contents);
 		} else if(contents) {
-			// Check if content is plain text (no HTML tags)
 			const hasHtmlTags = /<[^>]+>/.test(contents);
 			if(hasHtmlTags) {
 				dialog.innerHTML += contents;

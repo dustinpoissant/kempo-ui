@@ -1,4 +1,5 @@
 import Dialog from '../../src/components/Dialog.js';
+import { html } from '../../src/lit-all.min.js';
 
 const createDialog = async (options = {}) => {
 	const container = document.createElement('div');
@@ -673,5 +674,101 @@ export default {
 
 		cleanup(container);
 		pass('Default content slot rendered');
+	},
+
+	/*
+		Lit TemplateResult Content Tests
+	*/
+	'Dialog.create should accept Lit TemplateResult as content': async ({pass, fail}) => {
+		const dialog = Dialog.create(html`<p class="p">Lit template content</p>`);
+		await dialog.updateComplete;
+
+		const container = dialog.querySelector('div[style="display: contents;"]');
+		if(!container){
+			cleanupAllDialogs();
+			fail('Should render TemplateResult into a display:contents wrapper');
+			return;
+		}
+
+		const p = container.querySelector('p');
+		if(!p || p.textContent !== 'Lit template content'){
+			cleanupAllDialogs();
+			fail(`Expected paragraph with "Lit template content", got "${p?.textContent}"`);
+			return;
+		}
+
+		cleanupAllDialogs();
+		pass('Dialog.create accepts Lit TemplateResult');
+	},
+
+	'Dialog.confirm should accept Lit TemplateResult as content': async ({pass, fail}) => {
+		let response = null;
+		const dialog = Dialog.confirm(
+			html`<p class="p">Confirm this?</p>`,
+			r => { response = r; }
+		);
+		await dialog.updateComplete;
+
+		const container = dialog.querySelector('div[style="display: contents;"]');
+		if(!container){
+			cleanupAllDialogs();
+			fail('Should render TemplateResult in confirm dialog');
+			return;
+		}
+
+		const p = container.querySelector('p');
+		if(!p || p.textContent !== 'Confirm this?'){
+			cleanupAllDialogs();
+			fail(`Expected paragraph with "Confirm this?", got "${p?.textContent}"`);
+			return;
+		}
+
+		cleanupAllDialogs();
+		pass('Dialog.confirm accepts Lit TemplateResult');
+	},
+
+	'Dialog.alert should accept Lit TemplateResult as content': async ({pass, fail}) => {
+		const dialog = Dialog.alert(html`<p class="p">Alert content</p>`);
+		await dialog.updateComplete;
+
+		const container = dialog.querySelector('div[style="display: contents;"]');
+		if(!container){
+			cleanupAllDialogs();
+			fail('Should render TemplateResult in alert dialog');
+			return;
+		}
+
+		cleanupAllDialogs();
+		pass('Dialog.alert accepts Lit TemplateResult');
+	},
+
+	'Dialog.error should accept Lit TemplateResult as content': async ({pass, fail}) => {
+		const dialog = Dialog.error(html`<p class="p">Error content</p>`);
+		await dialog.updateComplete;
+
+		const container = dialog.querySelector('div[style="display: contents;"]');
+		if(!container){
+			cleanupAllDialogs();
+			fail('Should render TemplateResult in error dialog');
+			return;
+		}
+
+		cleanupAllDialogs();
+		pass('Dialog.error accepts Lit TemplateResult');
+	},
+
+	'Dialog.success should accept Lit TemplateResult as content': async ({pass, fail}) => {
+		const dialog = Dialog.success(html`<p class="p">Success content</p>`);
+		await dialog.updateComplete;
+
+		const container = dialog.querySelector('div[style="display: contents;"]');
+		if(!container){
+			cleanupAllDialogs();
+			fail('Should render TemplateResult in success dialog');
+			return;
+		}
+
+		cleanupAllDialogs();
+		pass('Dialog.success accepts Lit TemplateResult');
 	}
 };

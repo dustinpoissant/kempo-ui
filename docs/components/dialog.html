@@ -27,6 +27,7 @@
           <a href="#actionButtons">Action Buttons</a><br />
           <a href="#disableKeyboardClose">Disabling Keyboard Close</a><br />
           <a href="#jsUsage">JavaScript Usage</a><br />
+          <a href="#litTemplate">Lit Template Content</a><br />
           <a href="#confirmDialog">Confirm Dialog</a><br />
           
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -135,6 +136,25 @@
       });
     </script>
 
+    <h3 id="litTemplate"><a href="#litTemplate" class="no-link">Lit Template Content</a></h3>
+    <p>You can pass a Lit <code>html</code> tagged template literal directly as the content to any of the static methods (<code>Dialog.create</code>, <code>Dialog.confirm</code>, <code>Dialog.alert</code>, <code>Dialog.error</code>, <code>Dialog.success</code>).</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d11"</span>&gt;</span>Open Dialog with Lit Template<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/lit-all.min.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d11'</span>).addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function">() =&gt;</span> {<br />    Dialog.create(html<span class="hljs-string">`<br />      &lt;div class="p"&gt;<br />        &lt;h6&gt;Custom Lit Content&lt;/h6&gt;<br />        &lt;p&gt;This was created with a Lit template.&lt;/p&gt;<br />      &lt;/div&gt;<br />    `</span>, {<br />      <span class="hljs-attr">title</span>: <span class="hljs-string">'Lit Template Dialog'</span><br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <button id="d11" class="mb">Open Dialog with Lit Template</button>
+    <script type="module">
+      import Dialog from '../src/components/Dialog.js';
+      import { html } from '../src/lit-all.min.js';
+      document.getElementById('d11').addEventListener('click', () => {
+        Dialog.create(html`
+          <div class="p">
+            <h6>Custom Lit Content</h6>
+            <p>This was created with a Lit template.</p>
+          </div>
+        `, {
+          title: 'Lit Template Dialog'
+        });
+      });
+    </script>
+
     <h3 id="confirmDialog"><a href="#confirmDialog" class="no-link">Confirm Dialog</a></h3>
     <p>Use the <code>Dialog.confirm</code> static method to create a confirmation dialog. This method takes a text message, a response callback, and an options object.</p>
     <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d9"</span>&gt;</span>Open Confirm Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> Dialog <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/Dialog.js'</span>;<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'d9'</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    Dialog.confirm(<span class="hljs-string">"Are you sure you want to proceed?"</span>, <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {<br />      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"User response:"</span>, response);<br />    });<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
@@ -240,11 +260,11 @@
     <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
     <h5><code>Dialog.create(contents, options)<i>: Dialog</i></code></h5>
     <p>Creates and opens a new dialog with the specified contents and options. Returns the created Dialog instance.</p>
-    <p>If <code>contents</code> is plain text (no HTML tags), it will automatically be wrapped in a <code>&lt;p class="p"&gt;</code> tag. If it contains HTML, it will be inserted as-is. If it's an HTMLElement or DocumentFragment, it will be appended directly.</p>
+    <p>If <code>contents</code> is plain text (no HTML tags), it will automatically be wrapped in a <code>&lt;p class="p"&gt;</code> tag. If it contains HTML, it will be inserted as-is. If it's an HTMLElement or DocumentFragment, it will be appended directly. You can also pass a Lit <code>html</code> tagged template literal (<code>TemplateResult</code>), which will be rendered using Lit's <code>render()</code>.</p>
     
     <h6>Parameters</h6>
     <ul>
-      <li><code>contents<i>: string | HTMLElement | DocumentFragment</i></code> - The content to display in the dialog. Plain text will be wrapped in a paragraph tag automatically.</li>
+      <li><code>contents<i>: string | HTMLElement | DocumentFragment | TemplateResult</i></code> - The content to display in the dialog. Plain text will be wrapped in a paragraph tag automatically.</li>
       <li><code>options<i>: object</i></code> - Configuration options for the dialog.</li>
     </ul>
     
@@ -278,7 +298,7 @@
     
     <h6>Parameters</h6>
     <ul>
-      <li><code>text<i>: string</i></code> - The message to display in the dialog.</li>
+      <li><code>text<i>: string | TemplateResult</i></code> - The message to display in the dialog.</li>
       <li><code>responseCallback<i>: function</i></code> - Function called with the user's response (<code>true</code> for confirm, <code>false</code> for cancel).</li>
       <li><code>options<i>: object</i></code> - Configuration options.</li>
     </ul>
@@ -300,7 +320,7 @@
     
     <h6>Parameters</h6>
     <ul>
-      <li><code>text<i>: string</i></code> - The message to display in the dialog.</li>
+      <li><code>text<i>: string | TemplateResult</i></code> - The message to display in the dialog.</li>
       <li><code>responseCallback<i>: function</i></code> - Function called when the dialog is closed.</li>
       <li><code>options<i>: object</i></code> - Configuration options.</li>
     </ul>
@@ -316,7 +336,7 @@
     
     <h6>Parameters</h6>
     <ul>
-      <li><code>text<i>: string</i></code> - The error message to display in the dialog.</li>
+      <li><code>text<i>: string | TemplateResult</i></code> - The error message to display in the dialog.</li>
       <li><code>responseCallback<i>: function</i></code> - Function called when the dialog is closed.</li>
       <li><code>options<i>: object</i></code> - Configuration options.</li>
     </ul>
@@ -332,7 +352,7 @@
     
     <h6>Parameters</h6>
     <ul>
-      <li><code>text<i>: string</i></code> - The success message to display in the dialog.</li>
+      <li><code>text<i>: string | TemplateResult</i></code> - The success message to display in the dialog.</li>
       <li><code>responseCallback<i>: function</i></code> - Function called when the dialog is closed.</li>
       <li><code>options<i>: object</i></code> - Configuration options.</li>
     </ul>
