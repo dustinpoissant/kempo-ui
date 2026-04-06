@@ -198,6 +198,8 @@ export default class Aside extends ShadowComponent {
 			left: var(--spacer_h);
 		}
 		aside {
+			display: flex;
+			flex-direction: column;
 			position: fixed;
 			top: 0;
 			left: 0;

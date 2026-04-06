@@ -756,6 +756,41 @@ export default {
 		pass('AsideSpacer has flex-grow 1');
 	},
 
+	'AsideSpacer: aside should be a flex column so spacer pushes items down': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		const item1 = document.createElement('k-aside-item');
+		item1.icon = 'cards';
+		item1.textContent = 'Top';
+		const spacer = document.createElement('k-aside-spacer');
+		const item2 = document.createElement('k-aside-item');
+		item2.icon = 'settings';
+		item2.textContent = 'Bottom';
+		aside.appendChild(item1);
+		aside.appendChild(spacer);
+		aside.appendChild(item2);
+		await item1.updateComplete;
+		await spacer.updateComplete;
+		await item2.updateComplete;
+		await new Promise(r => requestAnimationFrame(r));
+		const asideEl = aside.shadowRoot.querySelector('aside');
+		const asideStyle = getComputedStyle(asideEl);
+		if(asideStyle.display !== 'flex') {
+			cleanup(aside);
+			return fail(`Expected aside display flex, got ${asideStyle.display}`);
+		}
+		if(asideStyle.flexDirection !== 'column') {
+			cleanup(aside);
+			return fail(`Expected aside flex-direction column, got ${asideStyle.flexDirection}`);
+		}
+		const spacerRect = spacer.getBoundingClientRect();
+		if(spacerRect.height < 1) {
+			cleanup(aside);
+			return fail(`Spacer should have height > 0 to push items, got ${spacerRect.height}`);
+		}
+		cleanup(aside);
+		pass('Aside is a flex column and spacer pushes items down');
+	},
+
 	/*
 		Cleanup
 	*/
