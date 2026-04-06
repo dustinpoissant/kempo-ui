@@ -8,7 +8,8 @@ export default class Tags extends ShadowComponent {
 	static properties = {
 		value: { type: String, reflect: true },
 		allowedTags: { type: String, reflect: true, attribute: 'allowed-tags' },
-		disallowedTags: { type: String, reflect: true, attribute: 'disallowed-tags' }
+		disallowedTags: { type: String, reflect: true, attribute: 'disallowed-tags' },
+		disabled: { type: Boolean, reflect: true }
 	};
 
 	constructor() {
@@ -16,6 +17,7 @@ export default class Tags extends ShadowComponent {
 		this.value = '';
 		this.allowedTags = '';
 		this.disallowedTags = '';
+		this.disabled = false;
 	}
 
 	/*
@@ -64,6 +66,7 @@ export default class Tags extends ShadowComponent {
 		Event Handlers
 	*/
 	handleInputChange = () => {
+		if(this.disabled) return;
 		const tagsInput = this.shadowRoot.getElementById('tagsInput');
 		const tag = tagsInput.value.trim();
 		if(tag) {
@@ -73,6 +76,7 @@ export default class Tags extends ShadowComponent {
 	};
 
 	handleInputInput = (event) => {
+		if(this.disabled) return;
 		if(event.data === ',' || event.inputType === 'insertFromPaste') {
 			const tagsInput = this.shadowRoot.getElementById('tagsInput');
 			const tags = tagsInput.value.split(',').filter(tag => !!tag.trim());
@@ -140,7 +144,12 @@ export default class Tags extends ShadowComponent {
 	static styles = css`
 		:host {
 			display: block;
-
+		}
+		:host([disabled]) {
+			opacity: 0.5;
+			cursor: not-allowed;
+			pointer-events: none;
+		}
 		#tagsHolder {
 			display: flex;
 			flex-wrap: wrap;
@@ -191,7 +200,8 @@ export default class Tags extends ShadowComponent {
 				<div id="tagsHolder">
 					<span id="tags"></span>
 					<input 
-						id="tagsInput" 
+						id="tagsInput"
+						?disabled=${this.disabled}
 						@change=${this.handleInputChange}
 						@input=${this.handleInputInput}
 					/>
@@ -216,6 +226,7 @@ class Tag extends ShadowComponent {
 		Event Handlers
 	*/
 	handleClick = () => {
+		if(this.tagsComponent.disabled) return;
 		this.tagsComponent.removeTag(this.tag);
 	};
 

@@ -600,5 +600,110 @@ export default {
 
 		cleanup(container);
 		pass('Whitespace-only tags not added');
+	},
+
+	/*
+		Disabled
+	*/
+	'disabled should default to false': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		if(tags.disabled !== false){
+			cleanup(container);
+			return fail(`Expected disabled to be false, got ${tags.disabled}`);
+		}
+		cleanup(container);
+		pass('disabled defaults to false');
+	},
+
+	'should reflect disabled attribute': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-tags disabled></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		if(!tags.hasAttribute('disabled')){
+			cleanup(container);
+			return fail('Tags should have disabled attribute');
+		}
+		if(tags.disabled !== true){
+			cleanup(container);
+			return fail(`Expected disabled property to be true, got ${tags.disabled}`);
+		}
+		cleanup(container);
+		pass('disabled attribute reflects correctly');
+	},
+
+	'input change should not add tag when disabled': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-tags disabled></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'newtag';
+		input.dispatchEvent(new Event('change'));
+		await tags.updateComplete;
+		if(tags.value !== ''){
+			cleanup(container);
+			return fail(`Expected value to remain empty when disabled, got "${tags.value}"`);
+		}
+		cleanup(container);
+		pass('Input change does not add tag when disabled');
+	},
+
+	'input event should not add tag when disabled': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-tags disabled></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'tag1,tag2,';
+		input.dispatchEvent(new InputEvent('input', { data: ',' }));
+		await tags.updateComplete;
+		if(tags.value !== ''){
+			cleanup(container);
+			return fail(`Expected value to remain empty when disabled, got "${tags.value}"`);
+		}
+		cleanup(container);
+		pass('Input event does not add tag when disabled');
+	},
+
+	'clicking tag should not remove it when disabled': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-tags disabled value="design,ui"></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+		const tagEl = tags.shadowRoot.getElementById('tags').querySelector('k-tag');
+		if(!tagEl){
+			cleanup(container);
+			return fail('Expected a k-tag element to be rendered');
+		}
+		const span = tagEl.shadowRoot.querySelector('span');
+		span.click();
+		await tags.updateComplete;
+		if(!tags.value.includes('design') || !tags.value.includes('ui')){
+			cleanup(container);
+			return fail(`Tags should not be removed when disabled, got "${tags.value}"`);
+		}
+		cleanup(container);
+		pass('Clicking tag does not remove it when disabled');
+	},
+
+	'input should be disabled when disabled attribute is set': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-tags disabled></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		if(!input.disabled){
+			cleanup(container);
+			return fail('Input should be disabled when Tags is disabled');
+		}
+		cleanup(container);
+		pass('Input is disabled when Tags is disabled');
 	}
 };

@@ -24,6 +24,7 @@
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#allowedTags">Allowed Tags</a><br />
           <a href="#disallowedTags">Disallowed Tags</a><br />
+          <a href="#disabled">Disabled</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -98,6 +99,24 @@
 
 
 
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>Use the <code>disabled</code> attribute to prevent the user from adding or removing tags while still displaying the current value.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tags</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;design,ui&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Tags<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-tags</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-tags disabled value="design,ui">
+            <label>Tags</label>
+          </k-tags>
+        </k-card>
+      </div>
+    </div>
+
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -120,6 +139,8 @@
     <h5><code>disallowedTags<i>: string</i></code></h5>
     <p>A comma-separated list of disallowed tags. If specified, these tags cannot be added. Syncs with the
       <code>disallowed-tags</code> attribute.</p>
+    <h5><code>disabled<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, prevents the user from adding or removing tags. The current value is still displayed. The element appears at 50% opacity. Syncs with the <code>disabled</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>addTag(tag)<i>: void</i></code></h5>
