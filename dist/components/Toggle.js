@@ -1,4 +1,4 @@
-import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComponent.js";export default class Toggle extends ShadowComponent{static properties={value:{type:Boolean,reflect:!0}};constructor(){super(),this.value=!1,this.tabIndex=0}updated(e){super.updated(e),e.has("value")&&this.dispatchEvent(new CustomEvent("change",{detail:{value:this.value},bubbles:!0}))}connectedCallback(){super.connectedCallback(),this.addEventListener("click",this.handleClick),this.addEventListener("keydown",this.handleKeyDown)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick),this.removeEventListener("keydown",this.handleKeyDown)}handleClick=()=>{this.toggle()};handleKeyDown=e=>{["Space","Enter"].includes(e.code)&&(e.preventDefault(),this.toggle())};on(){return this.value=!0,this.dispatchEvent(new CustomEvent("on",{detail:{value:!0},bubbles:!0})),this}off(){return this.value=!1,this.dispatchEvent(new CustomEvent("off",{detail:{value:!1},bubbles:!0})),this}toggle(){return this.value?this.off():this.on(),this.dispatchEvent(new CustomEvent("toggle",{detail:{value:this.value},bubbles:!0})),this}render(){return html`
+import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComponent.js";export default class Toggle extends ShadowComponent{static properties={value:{type:Boolean,reflect:!0},disabled:{type:Boolean,reflect:!0}};constructor(){super(),this.value=!1,this.disabled=!1,this.tabIndex=0}updated(e){super.updated(e),e.has("value")&&this.dispatchEvent(new CustomEvent("change",{detail:{value:this.value},bubbles:!0}))}connectedCallback(){super.connectedCallback(),this.addEventListener("click",this.handleClick),this.addEventListener("keydown",this.handleKeyDown)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick),this.removeEventListener("keydown",this.handleKeyDown)}handleClick=()=>{this.disabled||this.toggle()};handleKeyDown=e=>{this.disabled||["Space","Enter"].includes(e.code)&&(e.preventDefault(),this.toggle())};on(){return this.value=!0,this.dispatchEvent(new CustomEvent("on",{detail:{value:!0},bubbles:!0})),this}off(){return this.value=!1,this.dispatchEvent(new CustomEvent("off",{detail:{value:!1},bubbles:!0})),this}toggle(){return this.value?this.off():this.on(),this.dispatchEvent(new CustomEvent("toggle",{detail:{value:this.value},bubbles:!0})),this}render(){return html`
       <div id="switch">
         <div id="handle"></div>
       </div>
@@ -26,6 +26,11 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
       outline: none;
     }
 
+    :host([disabled]) {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
     #switch {
       display: flex;
       align-items: center;
