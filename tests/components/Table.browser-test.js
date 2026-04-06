@@ -1115,5 +1115,137 @@ export default {
 		}
 		
 		pass('Table has static editors');
+	},
+
+	/*
+		Non-Editable Field Tests
+	*/
+	'should not create input for editable:false field when editing': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [
+				{ name: 'id', label: 'ID', editable: false },
+				{ name: 'name', label: 'Name' },
+				{ name: 'age', label: 'Age' }
+			],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		const record = table.records[0];
+		table.editRecord(record);
+
+		const idCell = table.shadowRoot.querySelector(`.record[data-index="0"] .cell[data-field="id"]`);
+		if(!idCell){
+			cleanup(table);
+			fail('Could not find id cell');
+			return;
+		}
+
+		const input = idCell.querySelector('input, select');
+		if(input){
+			cleanup(table);
+			fail('Non-editable field should not have an input in edit mode');
+			return;
+		}
+
+		cleanup(table);
+		pass('editable:false field does not show input in edit mode');
+	},
+
+	'should preserve editable:false field value when saving': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [
+				{ name: 'id', label: 'ID', editable: false },
+				{ name: 'name', label: 'Name' },
+				{ name: 'age', label: 'Age' }
+			],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		const record = table.records[0];
+		const originalId = record.id;
+		table.editRecord(record);
+
+		const nameCell = table.shadowRoot.querySelector(`.record[data-index="0"] .cell[data-field="name"]`);
+		const nameInput = nameCell ? nameCell.querySelector('input') : null;
+		if(nameInput) nameInput.value = 'Updated Name';
+
+		table.saveEditedRecord(record);
+		await table.updateComplete;
+
+		if(record.id !== originalId){
+			cleanup(table);
+			fail(`Non-editable field 'id' should not change: expected ${originalId}, got ${record.id}`);
+			return;
+		}
+
+		cleanup(table);
+		pass('editable:false field value is preserved after save');
+	},
+
+	'should display value for editable:false field during edit mode': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [
+				{ name: 'id', label: 'ID', editable: false },
+				{ name: 'name', label: 'Name' }
+			],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		const record = table.records[0];
+		table.editRecord(record);
+
+		const idCell = table.shadowRoot.querySelector(`.record[data-index="0"] .cell[data-field="id"]`);
+		if(!idCell){
+			cleanup(table);
+			fail('Could not find id cell');
+			return;
+		}
+
+		if(!idCell.textContent.trim()){
+			cleanup(table);
+			fail('Non-editable field cell should display its value during edit mode');
+			return;
+		}
+
+		cleanup(table);
+		pass('editable:false field displays its value during edit mode');
+	},
+
+	'should treat fields without editable property as editable by default': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [
+				{ name: 'id', label: 'ID' },
+				{ name: 'name', label: 'Name' }
+			],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		const record = table.records[0];
+		table.editRecord(record);
+
+		const idCell = table.shadowRoot.querySelector(`.record[data-index="0"] .cell[data-field="id"]`);
+		if(!idCell){
+			cleanup(table);
+			fail('Could not find id cell');
+			return;
+		}
+
+		const input = idCell.querySelector('input, select');
+		if(!input){
+			cleanup(table);
+			fail('Field without editable property should default to editable (have an input)');
+			return;
+		}
+
+		cleanup(table);
+		pass('Field without editable property defaults to editable');
 	}
 };

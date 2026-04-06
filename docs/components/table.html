@@ -134,7 +134,18 @@
 
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>fields<i>: &lt;Array>object</i></code></h5>
-    <p>An array of objects containing a <code>name</code>, <code>label</code>, <code>renderer</code> function, and <code>calculator</code> function that represent the fields to be displayed. The <code>renderer</code> function can be used to customize the display of the field, and the <code>calculator</code> function can be used to calculate the value of the field based on other fields in the record.</p>
+    <p>An array of objects that represent the fields to be displayed. Each field object supports the following properties:</p>
+    <ul>
+      <li><code>name</code> <i>(string, required)</i>: The key in the record object to display.</li>
+      <li><code>label</code> <i>(string)</i>: The column header label. Defaults to <code>toTitleCase(name)</code>.</li>
+      <li><code>size</code> <i>(number)</i>: The column width in pixels.</li>
+      <li><code>hidden</code> <i>(boolean)</i>: Hides the column when <code>true</code>.</li>
+      <li><code>editable</code> <i>(boolean)</i>: Set to <code>false</code> to make the field read-only during record editing. Defaults to <code>true</code>.</li>
+      <li><code>type</code> <i>(string)</i>: The editor type to use (<code>"string"</code>, <code>"number"</code>, <code>"date"</code>, <code>"boolean"</code>). Inferred from the value if omitted.</li>
+      <li><code>formatter</code> <i>(function)</i>: A function <code>(value) => displayString</code> that formats the display value.</li>
+      <li><code>calculator</code> <i>(function)</i>: A function <code>(record, table) => value</code> that computes a derived value. Calculated fields are always read-only.</li>
+      <li><code>editor</code> <i>(function)</i>: A custom editor generator function <code>(value) => HTMLInputElement</code> for per-field editing.</li>
+    </ul>
 
     <h5><code>records<i>: &lt;Array>object</i></code></h5>
     <p>An array of objects containing the data that will be the records of the table, where the object keys match the field names.</p>

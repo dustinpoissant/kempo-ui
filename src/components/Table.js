@@ -209,12 +209,12 @@ export default class Table extends ShadowComponent {
       recordCells.push(this.renderBeforeControlsTemplate());
     }
 
-    this.fields.forEach(({ name, formatter, calculator, type, editor, hidden }) => {
+    this.fields.forEach(({ name, formatter, calculator, type, editor, hidden, editable }) => {
       if(hidden) return;
       let value = record[name] || '';
       recordCells.push(html`
         <td class="cell" data-field=${name}>
-          ${record[editing] ? this.renderEditingCell(record, name, value, calculator, editor, type) : this.renderDisplayCell(record, name, value, calculator, formatter)}
+          ${record[editing] ? this.renderEditingCell(record, name, value, calculator, editor, type, editable) : this.renderDisplayCell(record, name, value, calculator, formatter)}
         </td>
       `);
     });
@@ -230,7 +230,8 @@ export default class Table extends ShadowComponent {
     `;
   }
 
-  renderEditingCell(record, name, value, calculator, editor, type) {
+  renderEditingCell(record, name, value, calculator, editor, type, editable) {
+    if(editable === false) return this.renderDisplayCell(record, name, value, calculator, null);
     if (calculator) {
       return html`<input disabled .value=${calculator(record, this)} />`;
     } else if (editor) {
@@ -337,6 +338,7 @@ export default class Table extends ShadowComponent {
         const field = $cell.dataset.field;
         const fieldDef = this.fields.find(f => f.name === field);
         if(fieldDef){
+          if(fieldDef.editable === false) return;
           const value = record[field] || '';
           $cell.innerHTML = '';
           if(fieldDef.calculator){
@@ -1099,7 +1101,8 @@ export default class Table extends ShadowComponent {
     tbody tr:last-child td {
       border-bottom: none;
     }
-    tr.editing td.cell[data-field] {
+    tr.editing td.cell[data-field]:has(input),
+    tr.editing td.cell[data-field]:has(select) {
       padding: 0;
     }
     tr.editing td.cell[data-field] input,
