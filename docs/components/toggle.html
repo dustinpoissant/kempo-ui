@@ -26,6 +26,7 @@
         <a href="#responsiveBehavior">Responsive Behavior</a><br />
         <a href="#customStyles">Custom Styles</a><br />
         <a href="#javascriptUsage">JavaScript Usage</a><br />
+        <a href="#disabled">Disabled</a><br />
         
         <h6 class="mt"><a href="jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -137,6 +138,22 @@
       </div>
     </div>
 
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents the user from changing the toggle's state while still displaying its current value.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-toggle</span> <span class="hljs-attr">disabled</span>&gt;</span>Disabled Off<span class="hljs-tag">&lt;/<span class="hljs-name">k-toggle</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-toggle</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>&gt;</span>Disabled On<span class="hljs-tag">&lt;/<span class="hljs-name">k-toggle</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-toggle disabled>Disabled Off</k-toggle>
+          <k-toggle disabled value>Disabled On</k-toggle>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -154,6 +171,9 @@
     <h5><code>value<i>: boolean</i></code></h5>
     <p>A boolean that indicates if the switch is on or off, the default value is <code>false</code>. Syncs to <code>value</code> attribute.</p>
     <p>This can be set directly, but it is not recommended as it only triggers the a <code>change</code> event and not a <code>on</code>, <code>off</code> or <code>toggle</code> event as the methods do, so the methods are preferrable.</p>
+
+    <h5><code>disabled<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the toggle cannot be changed by user interaction. The current state is still displayed. The element will appear at 50% opacity. Syncs to <code>disabled</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>on()<i>: this</i></code></h5>

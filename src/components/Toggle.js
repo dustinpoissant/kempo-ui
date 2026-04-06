@@ -3,12 +3,14 @@ import ShadowComponent from './ShadowComponent.js';
 
 export default class Toggle extends ShadowComponent {
   static properties = {
-    value: { type: Boolean, reflect: true }
+    value: { type: Boolean, reflect: true },
+    disabled: { type: Boolean, reflect: true }
   };
 
   constructor() {
     super();
     this.value = false;
+    this.disabled = false;
     this.tabIndex = 0;
   }
 
@@ -42,10 +44,12 @@ export default class Toggle extends ShadowComponent {
     Event Handlers
   */
   handleClick = () => {
+    if(this.disabled) return;
     this.toggle();
   };
 
   handleKeyDown = (event) => {
+    if(this.disabled) return;
     if (['Space', 'Enter'].includes(event.code)) {
       event.preventDefault();
       this.toggle();
@@ -120,6 +124,11 @@ export default class Toggle extends ShadowComponent {
       outline: none;
     }
 
+    :host([disabled]) {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
     #switch {
       display: flex;
       align-items: center;

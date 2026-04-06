@@ -584,5 +584,67 @@ export default {
 		toggle.remove();
 		cleanup(container);
 		pass('Handles disconnection and reconnection');
+	},
+
+	/*
+		Disabled
+	*/
+	'disabled should default to false': async ({pass, fail}) => {
+		const { container, toggle } = await createToggle();
+		if(toggle.disabled !== false){
+			cleanup(container);
+			return fail(`Expected disabled to be false, got ${toggle.disabled}`);
+		}
+		cleanup(container);
+		pass('disabled defaults to false');
+	},
+
+	'should reflect disabled attribute': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-toggle disabled></k-toggle>';
+		document.body.appendChild(container);
+		const toggle = container.querySelector('k-toggle');
+		await toggle.updateComplete;
+		if(!toggle.hasAttribute('disabled')){
+			cleanup(container);
+			return fail('Toggle should have disabled attribute');
+		}
+		if(toggle.disabled !== true){
+			cleanup(container);
+			return fail(`Expected disabled property to be true, got ${toggle.disabled}`);
+		}
+		cleanup(container);
+		pass('disabled attribute reflects correctly');
+	},
+
+	'click should not change value when disabled': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-toggle disabled></k-toggle>';
+		document.body.appendChild(container);
+		const toggle = container.querySelector('k-toggle');
+		await toggle.updateComplete;
+		toggle.click();
+		if(toggle.value !== false){
+			cleanup(container);
+			return fail(`Expected value to remain false after click when disabled, got ${toggle.value}`);
+		}
+		cleanup(container);
+		pass('Click does not change value when disabled');
+	},
+
+	'keydown should not change value when disabled': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-toggle disabled></k-toggle>';
+		document.body.appendChild(container);
+		const toggle = container.querySelector('k-toggle');
+		await toggle.updateComplete;
+		const event = new KeyboardEvent('keydown', { code: 'Space', bubbles: true });
+		toggle.dispatchEvent(event);
+		if(toggle.value !== false){
+			cleanup(container);
+			return fail(`Expected value to remain false after Space key when disabled, got ${toggle.value}`);
+		}
+		cleanup(container);
+		pass('Keydown does not change value when disabled');
 	}
 };

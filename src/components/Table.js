@@ -92,7 +92,7 @@ export default class Table extends ShadowComponent {
     if(this.enableSelection) {
       const selectAllCheckbox = this.shadowRoot.getElementById('select-all');
       if(selectAllCheckbox) {
-        selectAllCheckbox.checked = this.allOnPageSelected();
+        selectAllCheckbox.checked = this.getDisplayedRecords().length > 0 && this.allOnPageSelected();
       }
     }
   }
