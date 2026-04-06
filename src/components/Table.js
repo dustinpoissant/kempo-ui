@@ -19,6 +19,8 @@ export default class Table extends ShadowComponent {
     caseSensitiveFilters: { type: Boolean, reflect: true, converter: boolExists, attribute: 'case-sensitive-filters' },
     requestEdit: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-edit' },
     requestDelete: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-delete' },
+    placeholder: { type: String, reflect: true },
+    filteredPlaceholder: { type: String, reflect: true, attribute: 'filtered-placeholder' },
     fields: { type: Array },
     records: { type: Array },
     filters: { type: Array },
@@ -42,6 +44,8 @@ export default class Table extends ShadowComponent {
     if(this.fetchPending === undefined) this.fetchPending = false;
     if(this.requestEdit === undefined) this.requestEdit = false;
     if(this.requestDelete === undefined) this.requestDelete = false;
+    if(this.placeholder === undefined) this.placeholder = 'No Records';
+    if(this.filteredPlaceholder === undefined) this.filteredPlaceholder = '';
   }
 
   /*
@@ -163,6 +167,12 @@ export default class Table extends ShadowComponent {
       displayedRecords = displayedRecords.slice(start, end);
     }
     
+    if(displayedRecords.length === 0) {
+      const hasRecords = this.records.filter(r => r !== null).length > 0;
+      const message = hasRecords ? this.filteredPlaceholder : this.placeholder;
+      if(message) return [html`<tr class="placeholder"><td colspan="${this.getColumnCount()}">${message}</td></tr>`];
+    }
+
     let fetchStart = null;
     let fetchCount = 0;
     
@@ -1170,6 +1180,12 @@ export default class Table extends ShadowComponent {
     :host(:not([top-controls])) #top,
     :host(:not([bottom-controls])) #bottom {
       display: none;
+    }
+    tr.placeholder td {
+      text-align: center;
+      color: var(--c_text__muted);
+      font-style: italic;
+      padding: var(--spacer);
     }
   `;
 

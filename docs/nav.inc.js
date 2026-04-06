@@ -58,7 +58,8 @@ searchInput.addEventListener('blur', () => {
 });
 
 document.addEventListener('keydown', e => {
-	const active = document.activeElement;
+	let active = document.activeElement;
+	while(active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
 	const tag = active?.tagName;
 	if(tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
 	if(e.metaKey || e.ctrlKey || e.altKey) return;

@@ -1247,5 +1247,198 @@ export default {
 
 		cleanup(table);
 		pass('Field without editable property defaults to editable');
+	},
+
+	/*
+		Placeholder Tests
+	*/
+	'should default placeholder to "No Records"': async ({pass, fail}) => {
+		const table = await createTable();
+		if(table.placeholder !== 'No Records'){
+			cleanup(table);
+			fail(`placeholder should default to 'No Records', got '${table.placeholder}'`);
+			return;
+		}
+		cleanup(table);
+		pass('placeholder defaults to "No Records"');
+	},
+
+	'should default filteredPlaceholder to empty string': async ({pass, fail}) => {
+		const table = await createTable();
+		if(table.filteredPlaceholder !== ''){
+			cleanup(table);
+			fail(`filteredPlaceholder should default to empty string, got '${table.filteredPlaceholder}'`);
+			return;
+		}
+		cleanup(table);
+		pass('filteredPlaceholder defaults to empty string');
+	},
+
+	'should show placeholder row when records are empty': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [...sampleFields],
+			records: []
+		});
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(!placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should exist in shadow DOM when records are empty');
+			return;
+		}
+
+		if(!placeholderRow.textContent.includes('No Records')){
+			cleanup(table);
+			fail(`Placeholder row should contain default placeholder text, got '${placeholderRow.textContent}'`);
+			return;
+		}
+
+		cleanup(table);
+		pass('Placeholder row shown with default text when records are empty');
+	},
+
+	'should show custom placeholder text when set': async ({pass, fail}) => {
+		const table = await createTable();
+		table.placeholder = 'Nothing here.';
+		table.setData({
+			fields: [...sampleFields],
+			records: []
+		});
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(!placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should exist when records are empty');
+			return;
+		}
+
+		if(!placeholderRow.textContent.includes('Nothing here.')){
+			cleanup(table);
+			fail(`Placeholder row should contain custom text, got '${placeholderRow.textContent}'`);
+			return;
+		}
+
+		cleanup(table);
+		pass('Placeholder row shows custom placeholder text');
+	},
+
+	'should not show placeholder row when records exist': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [...sampleFields],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should not exist when records are present');
+			return;
+		}
+
+		cleanup(table);
+		pass('Placeholder row not shown when records exist');
+	},
+
+	'should not show placeholder row when placeholder is empty string': async ({pass, fail}) => {
+		const table = await createTable();
+		table.placeholder = '';
+		table.setData({
+			fields: [...sampleFields],
+			records: []
+		});
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should not exist when placeholder is empty string');
+			return;
+		}
+
+		cleanup(table);
+		pass('Placeholder row not shown when placeholder is empty string');
+	},
+
+	'should show filteredPlaceholder after all records are filtered out': async ({pass, fail}) => {
+		const table = await createTable();
+		table.filteredPlaceholder = 'No results match your filter.';
+		table.setData({
+			fields: [...sampleFields],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		table.addFilter('city', 'equals', 'Nonexistent City');
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(!placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should appear after all records are filtered out');
+			return;
+		}
+
+		if(!placeholderRow.textContent.includes('No results match your filter.')){
+			cleanup(table);
+			fail(`Placeholder should show filteredPlaceholder text, got '${placeholderRow.textContent}'`);
+			return;
+		}
+
+		cleanup(table);
+		pass('filteredPlaceholder shown after all records filtered out');
+	},
+
+	'should not show placeholder when filtered and filteredPlaceholder is not set': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setData({
+			fields: [...sampleFields],
+			records: [...sampleRecords]
+		});
+		await table.updateComplete;
+
+		table.addFilter('city', 'equals', 'Nonexistent City');
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should not appear when filteredPlaceholder is empty and records are filtered');
+			return;
+		}
+
+		cleanup(table);
+		pass('No placeholder shown when filteredPlaceholder is not set and records are filtered');
+	},
+
+	'should show placeholder (not filteredPlaceholder) when records array is empty': async ({pass, fail}) => {
+		const table = await createTable();
+		table.placeholder = 'No Records';
+		table.filteredPlaceholder = 'No matches.';
+		table.setData({
+			fields: [...sampleFields],
+			records: []
+		});
+		await table.updateComplete;
+
+		const placeholderRow = table.shadowRoot.querySelector('tr.placeholder');
+		if(!placeholderRow){
+			cleanup(table);
+			fail('Placeholder row should exist when records are empty');
+			return;
+		}
+
+		if(!placeholderRow.textContent.includes('No Records')){
+			cleanup(table);
+			fail(`Should use placeholder text, not filteredPlaceholder, got '${placeholderRow.textContent}'`);
+			return;
+		}
+
+		cleanup(table);
+		pass('placeholder used (not filteredPlaceholder) when records array is empty');
 	}
 };

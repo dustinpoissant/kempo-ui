@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Placeholder - Table - Kempo Docs</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="module" src="../src/components/Table.js"></script>
+  <script>window.litDisableBundleWarning = true;</script>
+</head>
+<body>
+  <k-import src="../nav-1.inc.html"></k-import>
+  <h1 class="ta-center">Table - Placeholder</h1>
+  <k-main>
+
+    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+
+    <p>The <code>placeholder</code> attribute sets the message shown when the table has no records at all. It defaults to <code>"No Records"</code>. The separate <code>filtered-placeholder</code> attribute sets the message shown when records exist but all have been filtered or hidden — if not set, no row is shown in that case.</p>
+
+    <h3>Default Placeholder</h3>
+    <p>An empty table shows <code>"No Records"</code> by default. No attribute needed.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">emptyTableExample</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;emptyTableExample&#x27;</span>).<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">fields</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;name&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Name&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;role&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Role&#x27;</span><br>    }],<br>    <span class="hljs-attr">records</span>: []<br>  })<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-card label="Result">
+      <k-table id="emptyTableExample"></k-table>
+      <script type="module">
+        await window.customElements.whenDefined('k-table');
+        document.getElementById('emptyTableExample').setData({
+          fields: [
+            { name: 'name', label: 'Name' },
+            { name: 'role', label: 'Role' }
+          ],
+          records: []
+        });
+      </script>
+    </k-card>
+
+    <h3>Custom Placeholder</h3>
+    <p>Set the <code>placeholder</code> attribute to override the default text.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">customPlaceholderExample</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;No contacts found.&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;customPlaceholderExample&#x27;</span>).<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">fields</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;name&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Name&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;email&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Email&#x27;</span><br>    }],<br>    <span class="hljs-attr">records</span>: []<br>  })<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-card label="Result">
+      <k-table id="customPlaceholderExample" placeholder="No contacts found."></k-table>
+      <script type="module">
+        await window.customElements.whenDefined('k-table');
+        document.getElementById('customPlaceholderExample').setData({
+          fields: [
+            { name: 'name', label: 'Name' },
+            { name: 'email', label: 'Email' }
+          ],
+          records: []
+        });
+      </script>
+    </k-card>
+
+    <h3>Filtered Placeholder</h3>
+    <p>Use <code>filtered-placeholder</code> to show a distinct message when records exist but all are filtered out. Try searching for something that does not match any record below.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">filteredTableExample</span> <span class="hljs-attr">filtered-placeholder</span>=<span class="hljs-string">&#x27;No records match your search.&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-tc-search</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">top</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;width: 20rem&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-search</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span> <span class="hljs-attr">src</span>=<span class="hljs-string">/src/components/tableControls/Search.js</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;filteredTableExample&#x27;</span>).<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">fields</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;name&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Name&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;city&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;City&#x27;</span><br>    }],<br>    <span class="hljs-attr">records</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Alice&#x27;</span>,<br>      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;New York&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Bob&#x27;</span>,<br>      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;Chicago&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Charlie&#x27;</span>,<br>      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;Houston&#x27;</span><br>    }]<br>  })<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-card label="Result">
+      <k-table id="filteredTableExample" filtered-placeholder="No records match your search.">
+        <k-tc-search slot="top" style="width: 20rem"></k-tc-search>
+      </k-table>
+      <script type="module" src="../src/components/tableControls/Search.js"></script>
+      <script type="module">
+        await window.customElements.whenDefined('k-table');
+        document.getElementById('filteredTableExample').setData({
+          fields: [
+            { name: 'name', label: 'Name' },
+            { name: 'city', label: 'City' }
+          ],
+          records: [
+            { name: 'Alice', city: 'New York' },
+            { name: 'Bob', city: 'Chicago' },
+            { name: 'Charlie', city: 'Houston' }
+          ]
+        });
+      </script>
+    </k-card>
+
+  </k-main>
+  <div style="height: 33.333vh"></div>
+  <script type="module" src="../src/components/Import.js"></script>
+  <script type="module" src="../src/components/Card.js"></script>
+  <div style="height: 33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+</body>
+</html>
