@@ -51,7 +51,8 @@ import{html,css}from"../lit-all.min.js";import ShadowComponent from"./ShadowComp
 				<div id="tagsHolder">
 					<span id="tags"></span>
 					<input 
-						id="tagsInput" 
+						id="tagsInput"
+						?disabled=${this.disabled}
 						@change=${this.handleInputChange}
 						@input=${this.handleInputInput}
 					/>
