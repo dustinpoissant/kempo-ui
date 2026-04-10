@@ -1,0 +1,144 @@
+<page pageName="elevation" title="elevation - Kempo UI">
+  <content location="header"></content>
+  <content>
+
+    <h1>elevation</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <a href="#overview">Overview</a><br />
+          <a href="#levels">Elevation Levels</a><br />
+          <a href="#components">Component Assignments</a><br />
+          <a href="#customizing">Customizing</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="overview"><a href="#overview" class="no-link">Overview</a></h3>
+    <p>
+      Kempo UI follows the <a href="https://dustinpoissant.github.io/kempo-css/#elevation" target="_blank">kempo-css elevation system</a>.
+      Elevation defines a component's position in the stacking order using a simple formula:
+    </p>
+    <p class="tc-primary fw-bold">z-index = level × 10</p>
+    <p>
+      There are 11 levels (0–10). Level 2 is the page default for normal document flow — most components do not need a
+      <code>z-index</code> at all. Fixed-position components that must appear above or below other layers each occupy a
+      dedicated level, with intentional gaps between them so user-defined elements (like a site navbar) always have a
+      clear, unambiguous home.
+    </p>
+    <p>
+      kempo-css provides three companion utilities that work alongside a component's elevation level:
+    </p>
+    <ul>
+      <li><code>elevation-<i>N</i></code> — sets <code>z-index: N * 10</code></li>
+      <li><code>shadow</code> — adds a depth shadow matching the elevation</li>
+      <li><code>bg-elevation</code> — adjusts the background color to the matching elevation tint</li>
+    </ul>
+
+    <h3 id="levels"><a href="#levels" class="no-link">Elevation Levels</a></h3>
+    <div class="table-wrapper mb">
+    <table>
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>z-index</th>
+          <th>Intended use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>0</td><td>Behind the page — sunken or background elements</td></tr>
+        <tr><td>1</td><td>10</td><td><em>Buffer zone — reserved for customization</em></td></tr>
+        <tr><td>2</td><td>20</td><td>Page default — normal document flow</td></tr>
+        <tr><td>3</td><td>30</td><td>Fixed panels that sit below a navbar (push drawers)</td></tr>
+        <tr><td>4</td><td>40</td><td><em>Buffer zone — reserved for customization</em></td></tr>
+        <tr><td>5</td><td>50</td><td>Fixed navbar (user-defined)</td></tr>
+        <tr><td>6</td><td>60</td><td>Overlay drawers — above a fixed navbar</td></tr>
+        <tr><td>7</td><td>70</td><td>Floating menus (dropdowns, popovers)</td></tr>
+        <tr><td>8</td><td>80</td><td>Full-screen modals and lightboxes</td></tr>
+        <tr><td>9</td><td>90</td><td>Notification toasts</td></tr>
+        <tr><td>10</td><td>100</td><td><em>Reserved — use only when absolutely necessary</em></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 id="components"><a href="#components" class="no-link">Component Assignments</a></h3>
+    <p>Every Kempo UI component that uses <code>position: fixed</code> is assigned an elevation level:</p>
+    <div class="table-wrapper mb">
+    <table>
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>z-index</th>
+          <th>Kempo UI Components</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3</td>
+          <td>30</td>
+          <td>
+            <a href="{{pathToRoot}}components/aside.html">Aside</a> (<code>main="push"</code>),
+            <a href="{{pathToRoot}}components/side-panel.html">Side Panel</a>
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>60</td>
+          <td>
+            <a href="{{pathToRoot}}components/aside.html">Aside</a> (<code>main="overlay"</code>)
+          </td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>70</td>
+          <td>
+            <a href="{{pathToRoot}}components/dropdown.html">Dropdown</a>
+          </td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>80</td>
+          <td>
+            <a href="{{pathToRoot}}components/dialog.html">Dialog</a>,
+            <a href="{{pathToRoot}}components/photo-viewer.html">Photo Viewer</a>
+          </td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>90</td>
+          <td>
+            <a href="{{pathToRoot}}components/toast.html">Toast</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p>
+      The <strong>Aside</strong> component uses two different levels depending on its <code>main</code> attribute.
+      When <code>main="push"</code>, it shifts the page layout and should sit <em>below</em> your site navbar (level 3).
+      When <code>main="overlay"</code>, it floats over the page and needs to appear <em>above</em> the navbar (level 6).
+    </p>
+
+    <h3 id="customizing"><a href="#customizing" class="no-link">Customizing</a></h3>
+    <p>
+      To override a component's elevation, target its host element with a CSS custom property or a direct
+      <code>z-index</code> rule. For example, to raise the Toast to the very top:
+    </p>
+    <pre><code class="hljs css"><span class="hljs-selector-tag">k-toast</span> {
+  <span class="hljs-attribute">z-index</span>: <span class="hljs-number">100</span>;
+}</code></pre>
+    <p>
+      Levels 1 and 4 are intentionally empty buffer zones. Use them for custom fixed elements (e.g. a cookie banner at
+      level 4, or a persistent sticky bar at level 1) that need a guaranteed home relative to Kempo UI components.
+    </p>
+    <p>
+      Apply elevation classes from kempo-css directly to custom elements when you want them to participate in the same
+      system without writing raw <code>z-index</code> values:
+    </p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"elevation-5 shadow bg-elevation"</span>&gt;</span>My fixed navbar<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+  </content>
+  <content location="scripts">
+    <script src="{{pathToRoot}}src/components/Accordion.js" type="module"></script>
+  </content>
+</page>

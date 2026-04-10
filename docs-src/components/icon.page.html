@@ -1,0 +1,208 @@
+<page pageName="Icon" title="Icon - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#rotation">Rotation and Direction</a><br />
+          <a href="#animation">Animation</a><br />
+          <a href="#explicitSource">Explicitly Set the Source</a><br />
+          <a href="#fallbackIcon">Fallback Icon</a><br />
+          <a href="#changingIconDirectory">Changing the Icon Directory Location</a><br />
+          <a href="#cliTool">Adding Icons with the CLI</a><br />
+          <a href="#addingIcons">Adding Icons Manually</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create an icon using the <code>k-icon</code> component. You can specify the icon by setting the <code>name</code> or <code>src</code> attribute.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"folder"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/icon.svg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="folder"></k-icon>
+          <k-icon src="/path/to/icon.svg"></k-icon>
+        </k-card>
+        
+      </div>
+    </div>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow-line"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow-circle"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron-double"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="arrow"></k-icon>
+          <k-icon name="arrow-line"></k-icon>
+          <k-icon name="arrow-circle"></k-icon>
+          <k-icon name="chevron"></k-icon>
+          <k-icon name="chevron-double"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rotation"><a href="#rotation" class="no-link">Rotation and Direction</a></h3>
+    <p>Use the <code>rotation</code> attribute to rotate an icon by a specific degree value, or use the <code>direction</code> attribute for semantic rotation (down=90°, left=180°, up=270°). Only set one attribute at a time.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"down"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"left"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">direction</span>=<span class="hljs-string">"up"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron"</span> <span class="hljs-attr">rotation</span>=<span class="hljs-string">"45"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="arrow"></k-icon>
+          <k-icon name="arrow" direction="down"></k-icon>
+          <k-icon name="arrow" direction="left"></k-icon>
+          <k-icon name="arrow" direction="up"></k-icon>
+          <k-icon name="chevron" rotation="45"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="animation"><a href="#animation" class="no-link">Animation</a></h3>
+    <p>Use the <code>animation</code> attribute to add built-in animations to icons. Available options are <code>spin</code>, <code>blink</code>, and <code>pulse</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow-circle"</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">"spin"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"arrow"</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">"blink"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"chevron"</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">"pulse"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="arrow-circle" animation="spin"></k-icon>
+          <k-icon name="arrow" animation="blink"></k-icon>
+          <k-icon name="chevron" animation="pulse"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="explicitSource"><a href="#explicitSource" class="no-link">Explicitly Set the Source</a></h3>
+    <p>You can use any svg file that is publically available (on your site or any other public domain) buy using the <code>src</code> attribute instead of <code>name</code>. The code will attempt to ensure compatability.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"wysiwyg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="wysiwyg"></k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fallbackIcon"><a href="#fallbackIcon" class="no-link">Fallback Icon</a></h3>
+    <p>Put an SVG inside of the <code>k-icon</code> to be the fallback if one is not found that matches the provided name or source. Otherwise a <k-icon></k-icon> will be the fallback icon.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"invalid"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"invalid"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 -960 960 960"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"currentColor"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M240-280h200v-80H240v80Zm400 0h80v-80h-80v80ZM240-440h200v-80H240v80Zm400 0h80v-240h-80v240ZM240-600h200v-80H240v80Zm-80 480q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm0 0v-560 560Z"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-icon name="invalid"></k-icon>
+          <k-icon name="invalid">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="currentColor" d="M240-280h200v-80H240v80Zm400 0h80v-80h-80v80ZM240-440h200v-80H240v80Zm400 0h80v-240h-80v240ZM240-600h200v-80H240v80Zm-80 480q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm0 0v-560 560Z"/></svg>
+          </k-icon>
+        </k-card>
+      </div>
+    </div>
+
+    <p>You can also set a global fallback icon that will be used for all icons when no icon is found and no slotted content is provided:</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    fallbackIcon: <span class="hljs-string">`&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"&gt;&lt;path fill="currentColor" d="M480-79q-16 0-30.5-6T423-102L102-423q-11-12-17-26.5T79-480q0-16 6-31t17-26l321-321q12-12 26.5-17.5T480-881q16 0 31 5.5t26 17.5l321 321q12 11 17.5 26t5.5 31q0 16-5.5 30.5T858-423L537-102q-11 11-26 17t-31 6Zm0-80 321-321-321-321-321 321 321 321Zm-40-281h80v-240h-80v240Zm40 120q17 0 28.5-11.5T520-360q0-17-11.5-28.5T480-400q-17 0-28.5 11.5T440-360q0 17 11.5 28.5T480-320Zm0-160Z"/&gt;&lt;/svg&gt;`</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <h3 id="changingIconDirectory"><a href="#changingIconDirectory" class="no-link">Changing the Icon Directory Location</a></h3>
+    <p>To change the location of the directory holding the icons, set the global <code>kempo.pathsToIcons</code> config before any components are loaded (for example in the head of the document). An array of paths is accepted — directories are checked in order and the first match is used, allowing you to override built-in icons or add your own alongside them.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    pathsToIcons: [<span class="hljs-string">'./my-icons'</span>, <span class="hljs-string">'./node_modules/kempo-ui/icons'</span>]<br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <h3 id="cliTool"><a href="#cliTool" class="no-link">Adding Icons with the CLI</a></h3>
+    <p>kempo-ui ships CLI tools for searching and downloading icons from the <a href="https://fonts.google.com/icons" target="_blank">Google Material Symbols</a> library. They are available via <code>npx</code> after installing kempo-ui.</p>
+    <p>Use the interactive picker to search and download in one step — type to filter, arrow keys to navigate, Enter to select:</p>
+    <pre><code class="hljs bash">npx kempo-icon</code></pre>
+    <p>Or use the individual commands for scripting:</p>
+    <pre><code class="hljs bash"># Search by name or tag
+npx kempo-listicons chevron
+
+# Download by name (saves to icons/ by default)
+npx kempo-geticon chevron_right
+
+# Download with a custom name
+npx kempo-geticon content_copy copy
+
+# Save to a custom directory
+npx kempo-geticon format_bold --dir src/assets/icons
+
+# Auto-accept directional icon prompt
+npx kempo-geticon chevron_left -y</code></pre>
+    <p>Directional icons (those with <code>_left</code>, <code>_up</code>, <code>_down</code> etc. variants) are handled automatically — the CLI downloads the right-facing version and names it without the direction suffix. Use the <code>direction</code> attribute on <code>&lt;k-icon&gt;</code> to rotate it.</p>
+
+    <h3 id="addingIcons"><a href="#addingIcons" class="no-link">Adding Icons Manually</a></h3>
+    <p>Add your SVGs to the directory, remove the <code>height</code> and <code>width</code> attributes from the <code>svg</code> tag (if you do not, the Icon component will attempt to do it for you). The height and width will be managed by CSS to match the font-size. Give all objects (path, rect, circle) a fill of <code>currentColor</code>, this will allow the icon to adapt to the font color where it is rendered.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Before">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 -960 960 960"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"24"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"24"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="After">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 -960 960 960"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"currentColor"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h5>
+      <code>new Icon()</code><br />
+      <code>new Icon(<i>string</i> name)</code>
+    </h5>
+
+    <h4>Parameters</h4>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The name of the icon.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The name of the icon. Syncs with the <code>name</code> attribute.</p>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The source URL of the icon. Syncs with the <code>src</code> attribute.</p>
+    <h5><code>rotation<i>: string</i></code></h5>
+    <p>The rotation angle in degrees (e.g., "45" or "180"). Syncs with the <code>rotation</code> attribute. Do not use with <code>direction</code>.</p>
+    <h5><code>direction<i>: string</i></code></h5>
+    <p>Semantic direction for icon rotation. Options: "down" (90°), "left" (180°), "up" (270°). Syncs with the <code>direction</code> attribute. Do not use with <code>rotation</code>.</p>
+    <h5><code>animation<i>: string</i></code></h5>
+    <p>Built-in animation to apply. Options: "spin" (continuous rotation), "blink" (fade in/out), "pulse" (scale up/down). Syncs with the <code>animation</code> attribute.</p>
+    <h5><code>pathsToIcons<i>: Array</i></code></h5>
+    <p>An array of paths to directories containing icons. This is configured via the global <code>window.kempo.pathsToIcons</code> config object. Directories are checked in order — the first match wins.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Icon.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

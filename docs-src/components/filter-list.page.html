@@ -1,0 +1,117 @@
+<page pageName="Filter List" title="Filter List - Components - Kempo Docs - A Web Components Solution">
+  <content location="header"></content>
+  <content>
+    <h1 class="ta-center">Filter List</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#tagButtons">Tag Buttons</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#filterItem">FilterItem Attributes</a><br />
+          <a href="#methods">Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Wrap items in <code>k-filter-item</code> elements with a <code>filter-keywords</code> attribute inside a <code>k-filter-list</code>. Connect an input to <code>filter()</code> using the <a href="{{pathToRoot}}utils/debounce.html">debounce</a> utility to avoid filtering on every keystroke.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">filterInput</span> <span class="hljs-attr">type</span>=<span class="hljs-string">search</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Filter...&#x27;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-filter-list</span> <span class="hljs-attr">id</span>=<span class="hljs-string">myFilterList</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;apple fruit red&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;banana fruit yellow&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;cherry fruit red&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;grape fruit purple&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Grape<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;lemon citrus yellow fruit&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Lemon<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;orange citrus fruit&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Orange<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;strawberry fruit red&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Strawberry<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-list</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> debounce <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../src/utils/debounce.js&#x27;</span>;<br>  <span class="hljs-keyword">const</span> list = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;myFilterList&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;filterInput&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;input&#x27;</span>, <span class="hljs-title function_">debounce</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> list.<span class="hljs-title function_">filter</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">value</span>)));<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <input id="filterInput" type="search" placeholder="Filter..." class="mb" />
+          <k-filter-list id="myFilterList">
+            <k-filter-item class="d-b" filter-keywords="apple fruit red"><a href="#">Apple</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="banana fruit yellow"><a href="#">Banana</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="cherry fruit red"><a href="#">Cherry</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="grape fruit purple"><a href="#">Grape</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="lemon citrus yellow fruit"><a href="#">Lemon</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="orange citrus fruit"><a href="#">Orange</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="strawberry fruit red"><a href="#">Strawberry</a></k-filter-item>
+          </k-filter-list>
+          <script type="module">
+            import debounce from '{{pathToRoot}}src/utils/debounce.js';
+            const list = document.getElementById('myFilterList');
+            document.getElementById('filterInput').addEventListener('input', debounce(e => list.filter(e.target.value)));
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="tagButtons"><a href="#tagButtons" class="no-link">Tag Buttons</a></h3>
+    <p>Use category buttons to filter the list. Each button stores its filter term in <code>data-filter</code>; clicking it activates that button and calls <code>filter()</code>. An empty string clears the filter and shows all items.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;d-f gap mb&#x27;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">tagButtons</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;btn primary&#x27;</span> <span class="hljs-attr">data-filter</span>=<span class="hljs-string">&#x27;&#x27;</span>&gt;</span>All<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">btn</span> <span class="hljs-attr">data-filter</span>=<span class="hljs-string">red</span>&gt;</span>Red<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">btn</span> <span class="hljs-attr">data-filter</span>=<span class="hljs-string">yellow</span>&gt;</span>Yellow<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">btn</span> <span class="hljs-attr">data-filter</span>=<span class="hljs-string">citrus</span>&gt;</span>Citrus<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-filter-list</span> <span class="hljs-attr">id</span>=<span class="hljs-string">tagFilterList</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;apple fruit red&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;banana fruit yellow&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;cherry fruit red&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;grape fruit purple&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Grape<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;lemon citrus yellow fruit&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Lemon<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;orange citrus fruit&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Orange<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-filter-item</span> <span class="hljs-attr">class</span>=<span class="hljs-string">d-b</span> <span class="hljs-attr">filter-keywords</span>=<span class="hljs-string">&#x27;strawberry fruit red&#x27;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">#</span>&gt;</span>Strawberry<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-filter-list</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> list = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;tagFilterList&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;#tagButtons [data-filter]&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">btn</span> =&gt;</span> {<br>    btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {<br>      <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;#tagButtons [data-filter]&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">b</span> =&gt;</span> b.<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;primary&#x27;</span>));<br>      btn.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;primary&#x27;</span>);<br>      list.<span class="hljs-title function_">filter</span>(btn.<span class="hljs-property">dataset</span>.<span class="hljs-property">filter</span>);<br>    });<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f gap mb" id="tagButtons">
+            <button class="btn primary" data-filter="">All</button>
+            <button class="btn" data-filter="red">Red</button>
+            <button class="btn" data-filter="yellow">Yellow</button>
+            <button class="btn" data-filter="citrus">Citrus</button>
+          </div>
+          <k-filter-list id="tagFilterList">
+            <k-filter-item class="d-b" filter-keywords="apple fruit red"><a href="#">Apple</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="banana fruit yellow"><a href="#">Banana</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="cherry fruit red"><a href="#">Cherry</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="grape fruit purple"><a href="#">Grape</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="lemon citrus yellow fruit"><a href="#">Lemon</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="orange citrus fruit"><a href="#">Orange</a></k-filter-item>
+            <k-filter-item class="d-b" filter-keywords="strawberry fruit red"><a href="#">Strawberry</a></k-filter-item>
+          </k-filter-list>
+          <script type="module">
+            const list = document.getElementById('tagFilterList');
+            document.querySelectorAll('#tagButtons [data-filter]').forEach(btn => {
+              btn.addEventListener('click', () => {
+                document.querySelectorAll('#tagButtons [data-filter]').forEach(b => b.classList.remove('primary'));
+                btn.classList.add('primary');
+                list.filter(btn.dataset.filter);
+              });
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new FilterList()</code></h5>
+    <h5><code>new FilterItem()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="filterItem"><a href="#filterItem" class="no-link">FilterItem Attributes</a></h3>
+    <h5><code>filter-keywords<i>: string</i></code></h5>
+    <p>A string of keywords used to match against the search term. The <code>filter()</code> method checks if this value includes the lowercased search term as a substring.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>filter(term<i>: string</i>)<i>: void</i></code></h5>
+    <p>Shows or hides each child <code>k-filter-item</code> based on whether its <code>filter-keywords</code> attribute includes <code>term</code> (case-insensitive). Passing an empty string reveals all items.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/FilterList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/FilterItem.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

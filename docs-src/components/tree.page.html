@@ -1,0 +1,356 @@
+<page pageName="Tree" title="Tree - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#depthControl">Controlling Initial Depth</a><br />
+          <a href="#customNodes">Custom Node Types</a><br />
+          <a href="#directoryExample">Directory Example</a><br />
+
+          <h6 class="mt"><a href="jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create a tree using the <code>k-tree</code> component. Set your data by setting the <code>data</code> property.
+    </p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myTree&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> <span class="hljs-title class_">Tree</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/components/Tree.js&#x27;</span>;
+  <span class="hljs-keyword">const</span> tree = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;myTree&#x27;</span>);
+  tree.<span class="hljs-property">data</span> = {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;John Doe&#x27;</span>,
+    <span class="hljs-attr">age</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">active</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">hobbies</span>: [<span class="hljs-string">&#x27;reading&#x27;</span>, <span class="hljs-string">&#x27;coding&#x27;</span>],
+    <span class="hljs-attr">address</span>: {
+      <span class="hljs-attr">street</span>: <span class="hljs-string">&#x27;123 Main St&#x27;</span>,
+      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;New York&#x27;</span>
+    }
+  };
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-tree id="myTree"></k-tree>
+        <script type="module">
+          import Tree from '{{pathToRoot}}src/components/Tree.js';
+          const tree = document.getElementById('myTree');
+          tree.data = {
+            name: 'John Doe',
+            age: 30,
+            active: true,
+            hobbies: ['reading', 'coding'],
+            address: {
+              street: '123 Main St',
+              city: 'New York'
+            }
+          };
+        </script>
+      </div>
+    </div>
+
+    <h3 id="depthControl"><a href="#depthControl" class="no-link">Controlling Initial Depth</a></h3>
+    <p>Use the <code>depth</code> attribute to control how many levels of branches are open by default. This example
+      shows depth set to <code>2</code>:</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;depthTree&quot;</span> <span class="hljs-attr">depth</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> <span class="hljs-title class_">Tree</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/components/Tree.js&#x27;</span>;
+  <span class="hljs-keyword">const</span> tree = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;depthTree&#x27;</span>);
+  tree.<span class="hljs-property">data</span> = {
+    <span class="hljs-attr">company</span>: <span class="hljs-string">&#x27;Tech Corp&#x27;</span>,
+    <span class="hljs-attr">departments</span>: {
+      <span class="hljs-attr">engineering</span>: {
+        <span class="hljs-attr">frontend</span>: [<span class="hljs-string">&#x27;Alice&#x27;</span>, <span class="hljs-string">&#x27;Bob&#x27;</span>],
+        <span class="hljs-attr">backend</span>: [<span class="hljs-string">&#x27;Charlie&#x27;</span>, <span class="hljs-string">&#x27;Diana&#x27;</span>]
+      },
+      <span class="hljs-attr">sales</span>: {
+        <span class="hljs-attr">team</span>: [<span class="hljs-string">&#x27;Eve&#x27;</span>, <span class="hljs-string">&#x27;Frank&#x27;</span>]
+      }
+    }
+  };
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-tree id="depthTree" depth="2"></k-tree>
+        <script type="module">
+          import Tree from '{{pathToRoot}}src/components/Tree.js';
+          const tree = document.getElementById('depthTree');
+          tree.data = {
+            company: 'Tech Corp',
+            departments: {
+              engineering: {
+                frontend: ['Alice', 'Bob'],
+                backend: ['Charlie', 'Diana']
+              },
+              sales: {
+                team: ['Eve', 'Frank']
+              }
+            }
+          };
+        </script>
+      </div>
+    </div>
+
+    <h3 id="customNodes"><a href="#customNodes" class="no-link">Custom Node Types</a></h3>
+    <p>You can define custom node types to handle specific data. Create a class that extends
+      <code>TreeNode</code>, implement a <code>static detect</code> method, and override <code>renderLabel()</code>
+      and/or <code>getChildren()</code>, then register it with <code>Tree.addNode()</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;customTree&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> <span class="hljs-title class_">Tree</span>, { <span class="hljs-title class_">TreeNode</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/components/Tree.js&#x27;</span>;
+  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/lit-all.min.js&#x27;</span>;
+
+  <span class="hljs-keyword">class</span> <span class="hljs-title class_">DateNode</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">TreeNode</span> {
+    <span class="hljs-title function_">renderLabel</span>(<span class="hljs-params"></span>){
+      <span class="hljs-keyword">const</span> { month, day, year } = <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span>;
+      <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tc-warning&quot;</span>&gt;</span>📅 </span><span class="hljs-subst">${month}</span><span class="language-xml">/</span><span class="hljs-subst">${day}</span><span class="language-xml">/</span><span class="hljs-subst">${year}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>`</span>;
+    }
+
+    <span class="hljs-title function_">getChildren</span>(<span class="hljs-params"></span>){ <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>; }
+
+    <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">&#x27;object&#x27;</span>
+        &amp;&amp; value !== <span class="hljs-literal">null</span>
+        &amp;&amp; <span class="hljs-string">&#x27;month&#x27;</span> <span class="hljs-keyword">in</span> value
+        &amp;&amp; <span class="hljs-string">&#x27;day&#x27;</span> <span class="hljs-keyword">in</span> value
+        &amp;&amp; <span class="hljs-string">&#x27;year&#x27;</span> <span class="hljs-keyword">in</span> value;
+    };
+  }
+
+  <span class="hljs-title class_">Tree</span>.<span class="hljs-title function_">addNode</span>(<span class="hljs-title class_">DateNode</span>);
+
+  <span class="hljs-keyword">const</span> tree = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;customTree&#x27;</span>);
+  tree.<span class="hljs-property">data</span> = {
+    <span class="hljs-attr">event</span>: <span class="hljs-string">&#x27;Tech Conference 2025&#x27;</span>,
+    <span class="hljs-attr">startDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">15</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },
+    <span class="hljs-attr">endDate</span>: { <span class="hljs-attr">month</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">17</span>, <span class="hljs-attr">year</span>: <span class="hljs-number">2025</span> },
+    <span class="hljs-attr">location</span>: <span class="hljs-string">&#x27;San Francisco&#x27;</span>,
+    <span class="hljs-attr">attendees</span>: <span class="hljs-number">250</span>
+  };
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-tree id="customTree"></k-tree>
+        <script type="module">
+          import Tree, { TreeNode } from '{{pathToRoot}}src/components/Tree.js';
+          import { html } from '{{pathToRoot}}src/lit-all.min.js';
+          class DateNode extends TreeNode {
+            renderLabel(){
+              const { month, day, year } = this.value;
+              return html`<span class="tc-warning">ðŸ“… ${month}/${day}/${year}</span>`;
+            }
+            getChildren(){ return null; }
+            static detect = value => {
+              return typeof value === 'object'
+                && value !== null
+                && 'month' in value
+                && 'day' in value
+                && 'year' in value;
+            };
+          }
+          Tree.addNode(DateNode);
+          const tree = document.getElementById('customTree');
+          tree.data = {
+            event: 'Tech Conference 2025',
+            startDate: { month: 10, day: 15, year: 2025 },
+            endDate: { month: 10, day: 17, year: 2025 },
+            location: 'San Francisco',
+            attendees: 250
+          };
+        </script>
+      </div>
+    </div>
+
+    <h3 id="directoryExample"><a href="#directoryExample" class="no-link">Directory Example</a></h3>
+    <p>This example uses the
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_API" target="_blank">File System Access API</a>.
+      <code>FileHandleNode</code> and <code>DirHandleNode</code> detect
+      <code>FileSystemFileHandle</code> and <code>FileSystemDirectoryHandle</code> directly —
+      no data transformation needed. <code>DirHandleNode</code> loads its children asynchronously
+      using a reactive internal property, so the tree populates lazily as nodes are opened.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;browseBtn&quot;</span>&gt;</span>Browse Directory<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">k-tree</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dirTree&quot;</span> <span class="hljs-attr">depth</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tree</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> <span class="hljs-title class_">Tree</span>, { <span class="hljs-title class_">TreeNode</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/components/Tree.js&#x27;</span>;
+  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/lit-all.min.js&#x27;</span>;
+
+  <span class="hljs-keyword">class</span> <span class="hljs-title class_">FileHandleNode</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">TreeNode</span> {
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>){
+      <span class="hljs-keyword">const</span> ext = <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span>.<span class="hljs-property">name</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>).<span class="hljs-title function_">pop</span>().<span class="hljs-title function_">toLowerCase</span>();
+      <span class="hljs-keyword">const</span> iconName = { <span class="hljs-attr">js</span>: <span class="hljs-string">&#x27;code&#x27;</span>, <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;code_blocks&#x27;</span>, <span class="hljs-attr">css</span>: <span class="hljs-string">&#x27;code&#x27;</span>,
+        <span class="hljs-attr">json</span>: <span class="hljs-string">&#x27;file-text&#x27;</span>, <span class="hljs-attr">md</span>: <span class="hljs-string">&#x27;file-text&#x27;</span> }[ext] ?? <span class="hljs-string">&#x27;file&#x27;</span>;
+      <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-b&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${iconName}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span> </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.value.name}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>`</span>;
+    }
+    <span class="hljs-title function_">getChildren</span>(<span class="hljs-params"></span>){ <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>; }
+    <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">FileSystemFileHandle</span>;
+  }
+
+  <span class="hljs-keyword">class</span> <span class="hljs-title class_">DirHandleNode</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">TreeNode</span> {
+    <span class="hljs-keyword">static</span> properties = { ...<span class="hljs-title class_">TreeNode</span>.<span class="hljs-property">properties</span>, <span class="hljs-attr">entries</span>: { <span class="hljs-attr">state</span>: <span class="hljs-literal">true</span> } };
+
+    <span class="hljs-title function_">connectedCallback</span>(<span class="hljs-params"></span>){
+      <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">connectedCallback</span>();
+      (<span class="hljs-title function_">async</span> () =&gt; {
+        <span class="hljs-keyword">const</span> entries = [];
+        <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span>(<span class="hljs-keyword">const</span> [name, handle] <span class="hljs-keyword">of</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span>.<span class="hljs-title function_">entries</span>())
+          entries.<span class="hljs-title function_">push</span>([name, handle]);
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">entries</span> = entries;
+      })();
+    }
+
+    <span class="hljs-title function_">getChildren</span>(<span class="hljs-params"></span>){ <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">entries</span> ?? []; }
+    <span class="hljs-title function_">renderIcon</span>(<span class="hljs-params"></span>){
+      <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.opened ? <span class="hljs-string">&#x27;folder-open&#x27;</span> : <span class="hljs-string">&#x27;folder&#x27;</span>}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span>`</span>;
+    }
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>){
+      <span class="hljs-keyword">const</span> children = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getChildren</span>();
+      <span class="hljs-keyword">return</span> html`<span class="language-xml">
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;branch-label no-btn&quot;</span> @<span class="hljs-attr">click</span>=</span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.toggle}</span><span class="language-xml"><span class="hljs-tag"> <span class="hljs-attr">aria-expanded</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.opened}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span>
+            </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.renderIcon()}</span><span class="language-xml"> </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.value.name}</span><span class="language-xml">
+          <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+          </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.opened ? html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;pl&quot;</span>&gt;</span></span><span class="hljs-subst">${children.map(([k, v]) =&gt; Tree.renderValue(v, k, <span class="hljs-variable language_">this</span>.depth + <span class="hljs-number">1</span>, <span class="hljs-variable language_">this</span>.maxDepth))}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>`</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span><span class="language-xml">
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      `</span>;
+    }
+    <span class="hljs-keyword">static</span> detect = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">FileSystemDirectoryHandle</span>;
+  }
+
+  <span class="hljs-title class_">Tree</span>.<span class="hljs-title function_">addNode</span>(<span class="hljs-title class_">FileHandleNode</span>, <span class="hljs-title class_">DirHandleNode</span>);
+
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;browseBtn&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-title function_">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> handle = <span class="hljs-keyword">await</span> <span class="hljs-title function_">showDirectoryPicker</span>();
+    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dirTree&#x27;</span>).<span class="hljs-property">data</span> = handle;
+  };
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <button id="browseBtn" class="btn">Browse Directory</button>
+        <k-tree id="dirTree" depth="1"></k-tree>
+        <script type="module">
+          import Tree, { TreeNode } from '{{pathToRoot}}src/components/Tree.js';
+          import { html } from '{{pathToRoot}}src/lit-all.min.js';
+
+          class FileHandleNode extends TreeNode {
+            render(){
+              const ext = this.value.name.split('.').pop().toLowerCase();
+              const iconName = { js: 'code', html: 'code_blocks', css: 'code',
+                json: 'file-text', md: 'file-text' }[ext] ?? 'file';
+              return html`<span class="d-b"><k-icon name="${iconName}"></k-icon> ${this.value.name}</span>`;
+            }
+            getChildren(){ return null; }
+            static detect = v => v instanceof FileSystemFileHandle;
+          }
+
+          class DirHandleNode extends TreeNode {
+            static properties = { ...TreeNode.properties, entries: { state: true } };
+
+            connectedCallback(){
+              super.connectedCallback();
+              (async () => {
+                const entries = [];
+                for await(const [name, handle] of this.value.entries())
+                  entries.push([name, handle]);
+                this.entries = entries;
+              })();
+            }
+
+            getChildren(){ return this.entries ?? []; }
+            renderIcon(){
+              return html`<k-icon name="${this.opened ? 'folder-open' : 'folder'}"></k-icon>`;
+            }
+            render(){
+              const children = this.getChildren();
+              return html`
+                <div>
+                  <button class="branch-label no-btn" @click=${this.toggle} aria-expanded="${this.opened}">
+                    ${this.renderIcon()} ${this.value.name}
+                  </button>
+                  ${this.opened ? html`<div class="pl">${children.map(([k, v]) => Tree.renderValue(v, k, this.depth + 1, this.maxDepth))}</div>` : ''}
+                </div>
+              `;
+            }
+            static detect = v => v instanceof FileSystemDirectoryHandle;
+          }
+
+          Tree.addNode(FileHandleNode, DirHandleNode);
+
+          document.getElementById('browseBtn').onclick = async () => {
+            const handle = await showDirectoryPicker();
+            document.getElementById('dirTree').data = handle;
+          };
+        </script>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Tree()</code></h5>
+    <p>Creates a new Tree component instance.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li>lit-all.min.js</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h4><code>data</code> <span class="tc-muted small">Object | Array</span></h4>
+    <p>The data to display in the tree. Can be any JavaScript object or array. Nested objects and arrays will be
+      rendered as collapsible branches.</p>
+
+    <h4><code>depth</code> <span class="tc-muted small">Number</span> <span class="tc-muted small">default: 0</span>
+    </h4>
+    <p>The number of branch levels that should be open by default. A value of <code>0</code> means all branches are
+      closed, <code>1</code> means the first level is open, <code>2</code> means the first two levels are open, etc.
+      This property is reflected as an attribute.</p>
+
+    <h4><code>editable</code> <span class="tc-muted small">Boolean</span></h4>
+    <p>Whether the tree should be editable. <em>Note: This feature is not yet implemented.</em></p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+
+    <h4><code>Tree.addNode(...nodeClasses)</code> <span class="tc-muted small">Static</span></h4>
+    <p>Register one or more custom node classes. Node classes should extend <code>TreeNode</code> and implement:</p>
+    <ul>
+      <li><code>static detect(value)</code> &mdash; Returns <code>true</code> if this node type should handle the given value</li>
+      <li><code>renderLabel()</code> &mdash; Returns a Lit template for the node's label (optional override)</li>
+      <li><code>getChildren()</code> &mdash; Returns <code>null</code> for leaf behavior, or an array of <code>[key, value]</code> pairs to render children (optional override)</li>
+      <li><code>renderIcon()</code> &mdash; Returns a Lit template for the branch toggle icon (optional override)</li>
+    </ul>
+    <p>Nodes are checked in order of registration (most recently added first).</p>
+
+    <p>The Tree component comes with built-in node types for JavaScript primitives:</p>
+    <ul>
+      <li><strong>StringNode</strong> &mdash; Renders strings in green with quotes</li>
+      <li><strong>NumberNode</strong> &mdash; Renders numbers in blue</li>
+      <li><strong>BooleanNode</strong> &mdash; Renders <code>true</code> in green, <code>false</code> in red</li>
+      <li><strong>NullNode</strong> &mdash; Renders <code>null</code> in muted gray</li>
+      <li><strong>UndefinedNode</strong> &mdash; Renders <code>undefined</code> in muted gray</li>
+    </ul>
+    <p>Objects and arrays that don't match any registered node type are rendered as collapsible branches using the default <code>TreeNode</code> behavior.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Tree.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

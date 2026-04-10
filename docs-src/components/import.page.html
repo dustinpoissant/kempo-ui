@@ -1,0 +1,76 @@
+<page pageName="Import" title="Import - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 class="basicUsage">Basic Usage</h3>
+    <p>Import an external HTML snippets.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="import-me.html">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>I am html<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+        </k-card>
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-import</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"import-me.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-import</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-import</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"import-me.html"</span> <span class="hljs-attr">rendered</span>=<span class="hljs-string">"true"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>I am html<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-import</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef">JavaScript Reference</h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h5>
+      <code>new Import()</code>
+    </h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./component.html">Component</a></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The source URL of the HTML snippet to import. Syncs to <code>src</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>fetch()<i>: Promise</i></code></h5>
+    <p>Fetches and renders the HTML snippet from the current <code>src</code> URL. Called automatically when <code>src</code> changes.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>src-change</code></h5>
+    <p>Fired when the <code>src</code> property changes. <code>detail: { src }</code></p>
+    <h5><code>fetch-start</code></h5>
+    <p>Fired when the HTTP fetch begins. <code>detail: { src }</code></p>
+    <h5><code>fetch-response</code></h5>
+    <p>Fired when the HTTP response is received. <code>detail: { src, status }</code></p>
+    <h5><code>content-rendered</code></h5>
+    <p>Fired after the HTML content has been injected into the DOM and all inline scripts have been executed.</p>
+    <k-card label="JavaScript">
+      <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> importer = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;k-import&#x27;</span>);<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;src-change&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;src set:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">src</span>));<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;fetch-start&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;fetching:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">src</span>));<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;fetch-response&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;response status:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">status</span>));<br>importer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;content-rendered&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;content ready&#x27;</span>));</code></pre>
+    </k-card>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

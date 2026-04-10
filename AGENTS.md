@@ -6,6 +6,7 @@
  - All components should be in the `src/components/` directory.
  - All utility function module files should be in the `src/utils/` directory.
  - All documnentation should be in the `docs/` directory. This directory is used by GitHub as the "GitHub Pages", so all links need to be relative, and there will be a build script which copies all code to the `docs/` directory.
+ - Documentation source files (templates, fragments, page files) are in the `docs-src/` directory. These use the kempo-server v3 templating system and are pre-rendered to `docs/` during build.
  - `llm.txt.md` in the root is the consumer-facing LLM reference for this library. **Keep it up to date**: when adding a new component or utility, add a row to the relevant table in `llm.txt.md`.
  
 ## Dependencies
@@ -113,4 +114,4 @@ Do not prefix identifiers with underscores.
 - **ALL tests must pass — ZERO failures are acceptable.** If a test fails after a change, fix it immediately. There are no "pre-existing failures" in this project.
 
 ### Building
-The docs should be running using `npm run dev` which serves the html files in the docs, but reroutes all requests to `docs/src` to use `src` so we do not need to build or "watch" files to build, if you save a file, just refresh the docs page. Same for icons, the server reroutes `docs/icons` to `icons` so we dont need to watch or build after adding an icon.
+The docs use the kempo-server v3 templating system. Source files are in `docs-src/` using `.page.html`, `.template.html`, and `.fragment.html` files. For development, `npm run dev` starts kempo-server with SSR (server-side rendering) from `docs-src/`, so page changes are reflected on refresh without rebuilding. Static assets (CSS, media, manifest) live in `docs/` and are served via customRoutes during dev. For production, `npm run build` minifies JS, copies icons, and pre-renders all pages from `docs-src/` to `docs/`.

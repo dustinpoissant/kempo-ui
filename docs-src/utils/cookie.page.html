@@ -1,0 +1,128 @@
+<page pageName="Cookie Utilities" title="Cookie Utilities - Kempo UI">
+  <content location="header"></content>
+  <content>
+		<h1>Cookie Utilities</h1>
+
+		<k-accordion persistent-id="toc" class="b r mb">
+			<k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+			<k-accordion-panel name="toc-panel">
+				<div class="m ">
+					<h6>Functions</h6>
+					<a href="#saveCookie">saveCookie</a><br />
+					<a href="#getCookie">getCookie</a><br />
+					<a href="#deleteCookie">deleteCookie</a><br />
+				</div>
+			</k-accordion-panel>
+		</k-accordion>
+
+		<h3>Description</h3>
+		<p>The cookie utilities module provides functions for managing browser cookies, including saving, retrieving, and
+			deleting cookie values.</p>
+
+		<h3>Working Example</h3>
+		<div class="row -mx mb">
+			<div class="col d-span-6 m-span-12 px">
+				<k-card label="HTML & JavaScript">
+					<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cookie-example"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"saved-message"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cookie-form"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"cookie-value"</span>&gt;</span>Value to save:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cookie-value"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"cookie-value"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter a value"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"primary"</span>&gt;</span>Save to Cookie<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"delete-btn"</span>&gt;</span>Delete Cookie<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { saveCookie, getCookie, deleteCookie } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/cookie.js'</span>;
+
+<span class="hljs-comment">// Load saved value on page load</span>
+<span class="hljs-keyword">const</span> savedValue = getCookie(<span class="hljs-string">'example'</span>);
+<span class="hljs-keyword">if</span> (savedValue) {
+  document.getElementById(<span class="hljs-string">'saved-message'</span>).textContent = 
+    `Saved value from cookie: ${savedValue}`;
+}
+
+<span class="hljs-comment">// Handle form submission</span>
+document.getElementById(<span class="hljs-string">'cookie-form'</span>).addEventListener(<span class="hljs-string">'submit'</span>, (e) => {
+  e.preventDefault();
+  <span class="hljs-keyword">const</span> value = document.getElementById(<span class="hljs-string">'cookie-value'</span>).value;
+  saveCookie(<span class="hljs-string">'example'</span>, value);
+  <span class="hljs-comment">// Page will refresh due to form submission</span>
+  window.location.reload();
+});
+
+<span class="hljs-comment">// Delete cookie when delete button is clicked</span>
+document.getElementById(<span class="hljs-string">'delete-btn'</span>).addEventListener(<span class="hljs-string">'click'</span>, () => {
+  deleteCookie(<span class="hljs-string">'example'</span>);
+  window.location.reload();
+});
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				</k-card>
+			</div>
+			<div class="col d-span-6 m-span-12 px">
+				<k-card label="Results">
+					<div id="cookie-example">
+						<p id="saved-message"></p>
+						<form id="cookie-form">
+							<label for="cookie-value">"example" Cookie value:</label>
+							<input type="text" id="cookie-value" name="cookie-value" class="mb" placeholder="Enter a value">
+							<div class="d-f">
+								<div class="flex"></div>
+								<button id="delete-btn" class="danger mr" type="button">Delete Cookie</button>
+								<button type="submit" class="primary">Save to Cookie</button>
+							</div>
+						</form>
+					</div>
+				</k-card>
+			</div>
+		</div>
+
+		<h3 id="saveCookie"><a href="#saveCookie" class="no-link">saveCookie</a></h3>
+		<p>Saves a cookie with an optional expiration time and path.</p>
+		<pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { saveCookie } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/cookie.js'</span>;<br /><br /><span class="hljs-comment">// Save a cookie that expires in 30 minutes</span><br />saveCookie(<span class="hljs-string">'userId'</span>, <span class="hljs-string">'12345'</span>);<br /><br /><span class="hljs-comment">// Save a cookie that expires in 1 hour</span><br />saveCookie(<span class="hljs-string">'session'</span>, <span class="hljs-string">'abc123'</span>, <span class="hljs-number">60</span>);</code></pre>
+
+		<h3 id="getCookie"><a href="#getCookie" class="no-link">getCookie</a></h3>
+		<p>Retrieves the value of a cookie by name.</p>
+		<pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { getCookie } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/cookie.js'</span>;<br /><br /><span class="hljs-keyword">const</span> userId = getCookie(<span class="hljs-string">'userId'</span>); <span class="hljs-comment">// "12345" or null if not found</span></code></pre>
+
+		<h3 id="deleteCookie"><a href="#deleteCookie" class="no-link">deleteCookie</a></h3>
+		<p>Deletes a cookie by setting its expiration to a past date.</p>
+		<pre><code class="hljs javascript"><span class="hljs-keyword">import</span> { deleteCookie } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/utils/cookie.js'</span>;<br /><br />deleteCookie(<span class="hljs-string">'userId'</span>);</code></pre>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+    <script type="module">
+		import { saveCookie, getCookie, deleteCookie } from '{{pathToRoot}}src/utils/cookie.js';
+
+		// Load saved value on page load
+		const savedValue = getCookie('example');
+		const messageElement = document.getElementById('saved-message');
+		if (savedValue && messageElement) {
+			messageElement.textContent = `Saved value from cookie: ${savedValue}`;
+		}
+
+		// Handle form submission
+		const form = document.getElementById('cookie-form');
+		if (form) {
+			form.addEventListener('submit', (e) => {
+				e.preventDefault();
+				const value = document.getElementById('cookie-value').value;
+				saveCookie('example', value);
+				// Page will refresh due to form submission
+				window.location.reload();
+			});
+		}
+
+		// Delete cookie when delete button is clicked
+		const deleteBtn = document.getElementById('delete-btn');
+		if (deleteBtn) {
+			deleteBtn.addEventListener('click', () => {
+				deleteCookie('example');
+				window.location.reload();
+			});
+		}
+	</script>
+  </content>
+</page>

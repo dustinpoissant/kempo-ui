@@ -1,0 +1,20 @@
+<page template="bare" title="Untitled">
+  <content>
+    <k-aside id="aside4" state="offscreen">
+    <p>Push Sidebar Content</p>
+  </k-aside>
+  <k-main>
+    <button id="toggle4">Toggle Sidebar</button>
+    <p>This content shifts when the aside is visible.</p>
+  </k-main>
+  </content>
+  <content location="scripts">
+    <script>
+    document.getElementById('toggle4').addEventListener('click',()=>{
+      document.getElementById('aside4').toggle();
+    });
+  </script>
+    <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Main.js"></script>
+  </content>
+</page>

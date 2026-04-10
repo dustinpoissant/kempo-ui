@@ -1,0 +1,214 @@
+<page pageName="Context" title="Context - Components - Kempo Docs - A Web Components Solution">
+  <content>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#events">Listening to Events</a><br />
+          <a href="#usingInComponents">Using in Components</a><br />
+          <a href="#interactiveDemo">Interactive Demo</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#attributes">Attributes</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#eventsRef">Events</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p><code>k-context</code> is a non-rendering state container inspired by React's <code>useContext</code>. Place it in the DOM as an ancestor of components that need shared state. Descendant components locate the nearest <code>k-context</code> via <code>closest('k-context')</code>, read and write data with its methods, and react to changes by listening for its events.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Declare a <code>&lt;k-context&gt;</code> element in your markup. It is invisible and renders nothing; its <code>display: contents</code> style ensures its children remain in the normal document flow.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-context</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myContext&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-context</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+    <p>You can pre-populate the store declaratively by setting the <code>data</code> attribute to a valid JSON string:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-context</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myContext&quot;</span> <span class="hljs-attr">data</span>=<span class="hljs-string">&#x27;{&quot;count&quot;:0,&quot;theme&quot;:&quot;dark&quot;}&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-context</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+    <p>Use <code>set()</code> and <code>get()</code> to write and read data by key:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> ctx = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;k-context&#x27;</span>);<br>ctx.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;count&#x27;</span>, <span class="hljs-number">0</span>);<br>ctx.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;theme&#x27;</span>, <span class="hljs-string">&#x27;dark&#x27;</span>);</code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="events"><a href="#events" class="no-link">Listening to Events</a></h3>
+    <p><code>context:create</code> fires when a new key is set for the first time. <code>context:set</code> fires when an existing key's value changes. <code>context:delete</code> fires when a key is removed. All events bubble and are composed.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> ctx = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;k-context&#x27;</span>);<br>ctx.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;context:create&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Created:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">key</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);<br>});<br>ctx.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;context:set&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Updated:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">key</span>, <span class="hljs-string">&#x27;from&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">oldValue</span>, <span class="hljs-string">&#x27;to&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);<br>});<br>ctx.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;context:delete&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Deleted:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">key</span>, <span class="hljs-string">&#x27;was&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);<br>});</code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="usingInComponents"><a href="#usingInComponents" class="no-link">Using in Components</a></h3>
+    <p>Child components locate the nearest ancestor context using <code>closest('k-context')</code>. This follows the same scoping pattern used by all Kempo UI parent–child relationships.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-comment">// Inside a child component, find the nearest ancestor context:</span><br><span class="hljs-keyword">const</span> ctx = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">closest</span>(<span class="hljs-string">&#x27;k-context&#x27;</span>);<br><span class="hljs-keyword">const</span> count = ctx?.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;count&#x27;</span>);</code></pre>
+        </k-card>
+      </div>
+    </div>
+    <p>To react to context changes from inside a shadow-DOM component, listen on the context element directly — events bubble and are <code>composed: true</code> so they also cross shadow boundaries.</p>
+
+    <h3 id="interactiveDemo"><a href="#interactiveDemo" class="no-link">Interactive Demo</a></h3>
+    <div class="row -mx">
+      <div class="col m-span-12 t-span-6 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-context</span> <span class="hljs-attr">data</span>=<span class="hljs-string">'{"count":0}'</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span><br />    <span class="hljs-attr">onclick</span>=<span class="hljs-string">"const ctx=this.closest('k-context'); ctx.set('count', (ctx.get('count') || 0) - 1)"</span><br />  &gt;</span>-<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">count-view</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">count-view</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span><br />    <span class="hljs-attr">onclick</span>=<span class="hljs-string">"const ctx=this.closest('k-context'); ctx.set('count', (ctx.get('count') || 0) + 1)"</span><br />  &gt;</span>+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span><br />    <span class="hljs-attr">onclick</span>=<span class="hljs-string">"this.closest('k-context').clear()"</span><br />  &gt;</span>Clear<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-context</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'../src/components/Context.js'</span>;<br />  <span class="hljs-keyword">import</span> ShadowComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/components/ShadowComponent.js'</span>;<br />  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/lit-all.min.js'</span>;<br />  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CountView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ShadowComponent</span> </span>{<br />    connectedCallback() {<br />      <span class="hljs-keyword">super</span>.connectedCallback();<br />      <span class="hljs-keyword">const</span> ctx = <span class="hljs-keyword">this</span>.closest(<span class="hljs-string">'k-context'</span>);<br />      ctx?.addEventListener(<span class="hljs-string">'context:create'</span>, () =&gt; <span class="hljs-keyword">this</span>.requestUpdate());<br />      ctx?.addEventListener(<span class="hljs-string">'context:set'</span>, () =&gt; <span class="hljs-keyword">this</span>.requestUpdate());<br />      ctx?.addEventListener(<span class="hljs-string">'context:delete'</span>, () =&gt; <span class="hljs-keyword">this</span>.requestUpdate());<br />    }<br />    render() {<br />      <span class="hljs-keyword">const</span> count = <span class="hljs-keyword">this</span>.closest(<span class="hljs-string">'k-context'</span>)?.get(<span class="hljs-string">'count'</span>);<br />      <span class="hljs-keyword">return</span> count !== <span class="hljs-literal">undefined</span> ? html`<span class="xml"></span><span class="hljs-subst">${count}</span><span class="xml">`</span> : html`<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>undefined<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>`</span>;<br />    }<br />  }<br />  customElements.define(<span class="hljs-string">'count-view'</span>, CountView);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 px">
+        <k-card label="Output">
+          <k-context data='{"count":0}'>
+						<button
+							onclick="const ctx=this.closest('k-context'); ctx.set('count', (ctx.get('count') || 0) - 1)"
+						>-</button>
+						<count-view></count-view>
+						<button
+							onclick="const ctx=this.closest('k-context'); ctx.set('count', (ctx.get('count') || 0) + 1)"
+						>+</button>
+						<button
+							onclick="this.closest('k-context').clear()"
+						>Clear</button>
+          </k-context>
+					<script type="module">
+						import '../src/components/Context.js';
+						import ShadowComponent from '{{pathToRoot}}src/components/ShadowComponent.js';
+						import { html } from '{{pathToRoot}}src/lit-all.min.js';
+						class CountView extends ShadowComponent {
+							connectedCallback() {
+								super.connectedCallback();
+								const ctx = this.closest('k-context');
+								ctx?.addEventListener('context:create', () => this.requestUpdate());
+								ctx?.addEventListener('context:set', () => this.requestUpdate());
+								ctx?.addEventListener('context:delete', () => this.requestUpdate());
+							}
+							render() {
+								const count = this.closest('k-context')?.get('count');
+								return count !== undefined ? html`${count}` : html`<code>undefined</code>`;
+							}
+						}
+						customElements.define('count-view', CountView);
+					</script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <p><code>k-context</code> extends <code>LightComponent</code>. It renders nothing and sets <code>display: contents</code> on itself so its children remain in the normal document flow. It accepts an optional <code>data</code> attribute containing a JSON string to pre-populate the context state.</p>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
+    <div class="table-wrapper mb">
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td><code>String</code> (JSON)</td>
+          <td>A JSON string representing the initial store state. Reflects back to the attribute as state changes via the component's methods. Defaults to <code>'{}'</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <div class="table-wrapper mb">
+    <table>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>set(key, value)</code></td>
+          <td>Creates or updates a key. Fires <code>context:create</code> if the key is new, <code>context:set</code> if it already existed.</td>
+        </tr>
+        <tr>
+          <td><code>get(key)</code></td>
+          <td>Returns the stored value for <code>key</code>, or <code>undefined</code> if not set.</td>
+        </tr>
+        <tr>
+          <td><code>has(key)</code></td>
+          <td>Returns <code>true</code> if <code>key</code> exists in the store.</td>
+        </tr>
+        <tr>
+          <td><code>delete(key)</code></td>
+          <td>Removes a key and fires <code>context:delete</code>. No-op if the key does not exist.</td>
+        </tr>
+        <tr>
+          <td><code>clear()</code></td>
+          <td>Calls <code>delete()</code> on every key, firing <code>context:delete</code> for each.</td>
+        </tr>
+        <tr>
+          <td><code>getData()</code></td>
+          <td>Returns a shallow copy of the entire data store as a plain object.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 id="eventsRef"><a href="#eventsRef" class="no-link">Events</a></h3>
+    <p>All events bubble and are <code>composed: true</code>, so they cross shadow DOM boundaries.</p>
+    <div class="table-wrapper mb">
+    <table>
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Fired when</th>
+          <th><code>detail</code> shape</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>context:create</code></td>
+          <td>A new key is set for the first time</td>
+          <td><code>{ key, value }</code></td>
+        </tr>
+        <tr>
+          <td><code>context:set</code></td>
+          <td>An existing key's value is changed</td>
+          <td><code>{ key, value, oldValue }</code></td>
+        </tr>
+        <tr>
+          <td><code>context:delete</code></td>
+          <td>A key is removed via <code>delete()</code> or <code>clear()</code></td>
+          <td><code>{ key, value }</code></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

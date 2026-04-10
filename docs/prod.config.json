@@ -1,8 +1,4 @@
 {
-  "customRoutes": {
-    "/icons/**": "../icons/**",
-    "/src/**": "../src/**"
-  },
   "middleware": {
     "security": {
       "enabled": true,

@@ -1,0 +1,69 @@
+<page pageName="Table - Record Filtering" title="Record Filtering - Table - Kempo Docs">
+  <content location="head">
+    <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
+    <script>
+    window.contacts = [];
+    function generateContact(){
+      const maleNames = [
+        "Liam", "Noah", "Oliver", "Elijah", "William", "James", "Benjamin", 
+        "Lucas", "Henry", "Alexander", "Mason", "Michael", "Ethan", "Daniel", 
+        "Jacob", "Logan", "Jackson", "Levi", "Sebastian", "Mateo", "Jack", 
+        "Owen", "Theodore", "Aiden", "Samuel", "Joseph", "John", "David", 
+        "Wyatt", "Matthew"
+      ];
+      const femaleNames = [
+        "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Amelia", 
+        "Harper", "Evelyn", "Abigail", "Emily", "Ella", "Elizabeth", 
+        "Camila", "Luna", "Sofia", "Avery", "Mila", "Aria", "Scarlett", 
+        "Penelope", "Layla", "Chloe", "Victoria", "Madison", "Eleanor", 
+        "Grace", "Nora", "Riley", "Zoey"
+      ];
+      const lastNames = [
+        "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", 
+        "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", 
+        "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", 
+        "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", 
+        "Ramirez", "Lewis", "Robinson"
+      ];
+      const gender = Math.random() > 0.5 ? 'm' : 'f';
+      const firstName = gender === 'm' ? maleNames[Math.floor(Math.random() * maleNames.length)] : femaleNames[Math.floor(Math.random() * femaleNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const name = `${firstName} ${lastName}`;
+      const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@mailserver.com`;
+      const birthday = `${Math.floor(Math.random() * 100) + 1920}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
+      const phoneNumber = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+      return { name, email, birthday, phoneNumber, gender };
+    }
+    for (let i = 0; i < 10; i++) {
+      contacts.push(generateContact());
+    };
+  </script>
+  </content>
+  <content>
+
+    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+
+    <p>Record filtering is a feature that allows users to filter the records displayed in the table. The table component provides a filter control that can be used to filter records based on the values in the columns. This control uses a Dialog to display the current filters and allows the user to create filters.</p>
+    
+    <h3>Basic Filtering (Case-Insensitive)</h3>
+    <p>By default, filters are case-insensitive. This means that filtering for "smith" will match "Smith", "SMITH", and "smith".</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"recordFilteringExample"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-filters</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-filters</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/src/components/tableControls/Filters.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'recordFilteringExample'</span>).setRecords(contacts);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-table id="recordFilteringExample">
+      <k-tc-filters slot="top"></k-tc-filters>
+    </k-table>
+    <script type="module" src="{{pathToRoot}}src/components/tableControls/Filters.js"></script>
+    <script type="module">
+      document.getElementById('recordFilteringExample').setRecords(contacts);
+    </script>
+
+    <h3>Case-Sensitive Filtering</h3>
+    <p>You can enable case-sensitive filtering by adding the <code>case-sensitive-filters</code> attribute. With this enabled, filtering for "smith" will only match "smith", not "Smith" or "SMITH".</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"caseSensitiveExample"</span> <span class="hljs-attr">case-sensitive-filters</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-filters</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-filters</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'caseSensitiveExample'</span>).setRecords(contacts);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-table id="caseSensitiveExample" case-sensitive-filters>
+      <k-tc-filters slot="top"></k-tc-filters>
+    </k-table>
+    <script type="module">
+      document.getElementById('caseSensitiveExample').setRecords(contacts);
+    </script>
+  </content>
+</page>

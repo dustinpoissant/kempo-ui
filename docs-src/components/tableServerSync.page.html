@@ -1,0 +1,129 @@
+<page pageName="Table - Server Sync" title="Server Sync - Table - Kempo Docs - A Web Components Solution">
+  <content location="head">
+    <script>
+    window.contacts = [];
+    function generateContact(){
+      const maleNames = [
+        "Liam", "Noah", "Oliver", "Elijah", "William", "James", "Benjamin",
+        "Lucas", "Henry", "Alexander", "Mason", "Michael", "Ethan", "Daniel",
+        "Jacob", "Logan", "Jackson", "Levi", "Sebastian", "Mateo", "Jack",
+        "Owen", "Theodore", "Aiden", "Samuel", "Joseph", "John", "David",
+        "Wyatt", "Matthew"
+      ];
+      const femaleNames = [
+        "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Amelia",
+        "Harper", "Evelyn", "Abigail", "Emily", "Ella", "Elizabeth",
+        "Camila", "Luna", "Sofia", "Avery", "Mila", "Aria", "Scarlett",
+        "Penelope", "Layla", "Chloe", "Victoria", "Madison", "Eleanor",
+        "Grace", "Nora", "Riley", "Zoey"
+      ];
+      const lastNames = [
+        "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller",
+        "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez",
+        "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin",
+        "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark",
+        "Ramirez", "Lewis", "Robinson"
+      ];
+      const gender = Math.random() > 0.5 ? 'm' : 'f';
+      const firstName = gender === 'm' ? maleNames[Math.floor(Math.random() * maleNames.length)] : femaleNames[Math.floor(Math.random() * femaleNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const name = `${firstName} ${lastName}`;
+      const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@mailserver.com`;
+      const birthday = `${Math.floor(Math.random() * 100) + 1920}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
+      const phoneNumber = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+      return { name, email, birthday, phoneNumber, gender };
+    }
+    for(let i = 0; i < 10; i++){
+      contacts.push(generateContact());
+    }
+  </script>
+  </content>
+  <content>
+
+    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+
+    <p>
+      The table supports an optional server-sync workflow for saving edits and deleting records. When the
+      <code>request-edit</code> attribute is present, calling <code>saveEditedRecord()</code> fires a
+      <code>requestSave</code> event instead of applying the changes immediately. When the <code>request-delete</code>
+      attribute is present, calling <code>deleteRecord()</code> or <code>deleteSelected()</code> fires a
+      <code>requestDelete</code> event instead of deleting immediately.
+    </p>
+    <p>
+      Both events expose an <code>approve()</code> function on <code>event.detail</code>. Call it once the server
+      operation succeeds to commit the change. If the operation fails, simply do not call <code>approve()</code> â€”
+      the record stays in its current state so the user can retry. <code>requestSave</code> also provides
+      <code>event.detail.record</code> (the original record) and <code>event.detail.newData</code> (the values
+      read from the editor inputs). <code>requestDelete</code> provides <code>event.detail.records</code>, an
+      array of the records targeted for deletion.
+    </p>
+    <p>
+      The example below mocks a server call that takes 1â€“3 seconds and randomly fails 50% of the time.
+      Toasts are used to notify the user of success or failure.
+    </p>
+
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">serverSyncExample</span> <span class="hljs-attr">enable-selection</span> <span class="hljs-attr">request-edit</span> <span class="hljs-attr">request-delete</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-tc-edit</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">after</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-edit</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-tc-delete-record</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">after</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-delete-record</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-tc-delete-selected</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">top</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-delete-selected</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> <span class="hljs-title class_">Toast</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/components/Toast.js&#x27;</span>;<br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-keyword">const</span> table = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;serverSyncExample&#x27;</span>);<br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">mockServer</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>      <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() &lt; <span class="hljs-number">0.8</span> ? <span class="hljs-title function_">resolve</span>() : <span class="hljs-title function_">reject</span>();<br>    }, <span class="hljs-number">1000</span> + <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">2000</span>);<br>  });<br>  table.<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">records</span>: contacts,<br>    <span class="hljs-attr">fields</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;name&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Name&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;email&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Email&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;birthday&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Birthday&#x27;</span>,<br>      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;date&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;phoneNumber&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Phone Number&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;gender&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Gender&#x27;</span>,<br>      <span class="hljs-attr">formatter</span>: <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v === <span class="hljs-string">&#x27;m&#x27;</span> ? <span class="hljs-string">&#x27;Male&#x27;</span> : <span class="hljs-string">&#x27;Female&#x27;</span><br>    }]<br>  });<br>  table.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;requestSave&#x27;</span>, <span class="hljs-title function_">async</span> ({<br>    <span class="hljs-attr">detail</span>: {<br>      approve,<br>      reject<br>    }<br>  }) =&gt; {<br>    <span class="hljs-keyword">try</span> {<br>      <span class="hljs-keyword">await</span> <span class="hljs-title function_">mockServer</span>();<br>      <span class="hljs-title function_">approve</span>();<br>      <span class="hljs-title class_">Toast</span>.<span class="hljs-title function_">success</span>(<span class="hljs-string">&#x27;Record saved.&#x27;</span>, {<br>        <span class="hljs-attr">timeout</span>: <span class="hljs-number">3000</span><br>      });<br>    } <span class="hljs-keyword">catch</span> {<br>      <span class="hljs-title function_">reject</span>();<br>      <span class="hljs-title class_">Toast</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Save failed. The record remains open for editing.&#x27;</span>, {<br>        <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span><br>      });<br>    }<br>  });<br>  table.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;requestDelete&#x27;</span>, <span class="hljs-title function_">async</span> ({<br>    <span class="hljs-attr">detail</span>: {<br>      records,<br>      approve,<br>      reject<br>    }<br>  }) =&gt; {<br>    <span class="hljs-keyword">const</span> count = records.<span class="hljs-property">length</span>;<br>    <span class="hljs-keyword">try</span> {<br>      <span class="hljs-keyword">await</span> <span class="hljs-title function_">mockServer</span>();<br>      <span class="hljs-title function_">approve</span>();<br>      <span class="hljs-title class_">Toast</span>.<span class="hljs-title function_">success</span>(count === <span class="hljs-number">1</span> ? <span class="hljs-string">&#x27;1 record deleted.&#x27;</span> : count + <span class="hljs-string">&#x27; records deleted.&#x27;</span>, {<br>        <span class="hljs-attr">timeout</span>: <span class="hljs-number">3000</span><br>      });<br>    } <span class="hljs-keyword">catch</span> {<br>      <span class="hljs-title function_">reject</span>();<br>      <span class="hljs-title class_">Toast</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Delete failed. Please try again.&#x27;</span>, {<br>        <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span><br>      });<br>    }<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-table
+      id="serverSyncExample"
+      enable-selection
+      request-edit
+      request-delete
+    >
+      <k-tc-edit slot="after"></k-tc-edit>
+      <k-tc-delete-record slot="after"></k-tc-delete-record>
+      <k-tc-delete-selected slot="top"></k-tc-delete-selected>
+    </k-table>
+    <script type="module">
+      import Toast from '{{pathToRoot}}src/components/Toast.js';
+      await window.customElements.whenDefined('k-table');
+      const table = document.getElementById('serverSyncExample');
+
+      const mockServer = () => new Promise((resolve, reject) => {
+        setTimeout(() => {
+          Math.random() < 0.8 ? resolve() : reject();
+        }, 1000 + Math.random() * 2000);
+      });
+
+      table.setData({
+        records: contacts,
+        fields: [
+          { name: 'name', label: 'Name' },
+          { name: 'email', label: 'Email' },
+          { name: 'birthday', label: 'Birthday', type: 'date' },
+          { name: 'phoneNumber', label: 'Phone Number' },
+          { name: 'gender', label: 'Gender', formatter: v => v === 'm' ? 'Male' : 'Female' }
+        ]
+      });
+
+      table.addEventListener('requestSave', async ({ detail: { approve, reject } }) => {
+        try {
+          await mockServer();
+          approve();
+          Toast.success('Record saved.', { timeout: 3000 });
+        } catch {
+          reject();
+          Toast.error('Save failed. The record remains open for editing.', { timeout: 5000 });
+        }
+      });
+
+      table.addEventListener('requestDelete', async ({ detail: { records, approve, reject } }) => {
+        const count = records.length;
+        try {
+          await mockServer();
+          approve();
+          Toast.success(count === 1 ? '1 record deleted.' : count + ' records deleted.', { timeout: 3000 });
+        } catch {
+          reject();
+          Toast.error('Delete failed. Please try again.', { timeout: 5000 });
+        }
+      });
+    </script>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/tableControls/Edit.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/tableControls/DeleteRecord.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/tableControls/DeleteSelected.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Toast.js"></script>
+  </content>
+</page>

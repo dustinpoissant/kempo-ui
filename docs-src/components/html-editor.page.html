@@ -1,0 +1,423 @@
+<page pageName="HtmlEditor" title="HtmlEditor - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#fullExample">Complete Editor Example</a><br />
+        <a href="#javascriptUsage">JavaScript API Example</a><br />
+        
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A WYSIWYG HTML editor component with support for visual and code editing modes, form integration, and extensive formatting capabilities.</p>
+
+    <h3 id="fullExample"><a href="#fullExample" class="no-link">Complete Editor Example</a></h3>
+    <p>A fully-featured editor with all controls. Copy and paste this example to get started quickly:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"content"</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- Text formatting --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bold</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-italic</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-underline</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-strikethrough</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Inline code --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-inline-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-inline-code</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Text style --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"..."</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"p"</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"h1"</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"h2"</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"h3"</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-code-block</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-code-block</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-dropdown</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Lists --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bullet-list</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-number-list</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Alignment --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-left</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-center</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-right</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-justify</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Colors --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-color</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-background-color</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Clear formatting --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-clear-formatting</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-clear-formatting</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Link and table --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-create-link</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-insert-table</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Spacer and mode toggle --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-spacer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-spacer</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span>
+  
+  <span class="hljs-comment">&lt;!-- Bottom toolbar stats --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-bottom"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-word-count</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-bottom"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-character-count</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor class="b r" value="<h3>Welcome to the HTML Editor</h3><p>This editor includes all formatting controls. Try selecting text and using the toolbar:</p><ul><li><b>Bold</b>, <i>italic</i>, <u>underline</u>, and <s>strikethrough</s></li><li>Text <span style='color: #e60000;'>colors</span> and <span style='background-color: #ffffcc;'>backgrounds</span></li><li>Lists, alignment, and <a href='#'>links</a></li><li>Format as <code>inline code</code> or code blocks</li></ul><p>Use the mode toggle to switch between visual and code editing.</p>" style="height: 600px">
+            <k-hec-group slot="toolbar-top">
+              <k-hec-bold></k-hec-bold>
+              <k-hec-italic></k-hec-italic>
+              <k-hec-underline></k-hec-underline>
+              <k-hec-strikethrough></k-hec-strikethrough>
+            </k-hec-group>
+            <k-hec-inline-code slot="toolbar-top"></k-hec-inline-code>
+            <k-hec-dropdown slot="toolbar-top">
+              <k-icon slot="icon" name="format_paragraph"></k-icon>
+              
+              <k-hec-format-block tag="p">Paragraph</k-hec-format-block>
+              <k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
+              <k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
+              <k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
+              <k-hec-code-block>Code Block</k-hec-code-block>
+            </k-hec-dropdown>
+            <k-hec-group slot="toolbar-top">
+              <k-hec-bullet-list></k-hec-bullet-list>
+              <k-hec-number-list></k-hec-number-list>
+            </k-hec-group>
+            <k-hec-group slot="toolbar-top">
+              <k-hec-align-left></k-hec-align-left>
+              <k-hec-align-center></k-hec-align-center>
+              <k-hec-align-right></k-hec-align-right>
+              <k-hec-align-justify></k-hec-align-justify>
+            </k-hec-group>
+            <k-hec-group slot="toolbar-top">
+              <k-hec-text-color></k-hec-text-color>
+              <k-hec-text-background-color></k-hec-text-background-color>
+            </k-hec-group>
+            <k-hec-clear-formatting slot="toolbar-top"></k-hec-clear-formatting>
+            <k-hec-group slot="toolbar-top">
+              <k-hec-create-link></k-hec-create-link>
+              <k-hec-insert-table></k-hec-insert-table>
+            </k-hec-group>
+            <k-hec-spacer slot="toolbar-top"></k-hec-spacer>
+            <k-hec-mode slot="toolbar-top"></k-hec-mode>
+            <k-hec-word-count slot="toolbar-bottom"></k-hec-word-count>
+            <k-hec-character-count slot="toolbar-bottom"></k-hec-character-count>
+          </k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="javascriptUsage"><a href="#javascriptUsage" class="no-link">JavaScript API Example</a></h3>
+    <p>Use the editor without controls and interact with it programmatically using custom buttons and the JavaScript API:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Custom toolbar --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"myEditor.bold()"</span>&gt;</span>Bold<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"myEditor.italic()"</span>&gt;</span>Italic<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"myEditor.unorderedList()"</span>&gt;</span>List<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"myEditor.setTextColor('#ff0000')"</span>&gt;</span>Red<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"insertHTML()"</span>&gt;</span>Insert<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"getContent()"</span>&gt;</span>Get Value<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Editor without controls --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myEditor"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">const</span> myEditor = <span class="hljs-variable language_">document</span>.getElementById(<span class="hljs-string">'myEditor'</span>);
+  
+  <span class="hljs-comment">// Set initial content</span>
+  myEditor.setValue(<span class="hljs-string">'&lt;p&gt;Select text and use the buttons above!&lt;/p&gt;'</span>);
+  
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">insertHTML</span>(<span class="hljs-params"></span>) {
+    myEditor.insertHTML(<span class="hljs-string">'&lt;p&gt;&lt;b&gt;Inserted content!&lt;/b&gt;&lt;/p&gt;'</span>);
+  }
+  
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">getContent</span>(<span class="hljs-params"></span>) {
+    alert(myEditor.getValue());
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="mb">
+            <button onclick="myEditor.bold()">Bold</button>
+            <button onclick="myEditor.italic()">Italic</button>
+            <button onclick="myEditor.unorderedList()">List</button>
+            <button onclick="myEditor.setTextColor('#ff0000')">Red</button>
+            <button onclick="insertMyEditorHTML()">Insert</button>
+            <button onclick="getMyEditorContent()">Get Value</button>
+          </div>
+          <k-html-editor id="myEditor" class="b r"></k-html-editor>
+          <script>
+            const myEditor = document.getElementById('myEditor');
+            setTimeout(() => {
+              myEditor.setValue('<p>Select text and use the buttons above to format it!</p><p>The editor works without any built-in controls - you have full control via JavaScript.</p>');
+            }, 100);
+            
+            function insertMyEditorHTML() {
+              myEditor.insertHTML('<p><b>Inserted content!</b></p>');
+            }
+            
+            function getMyEditorContent() {
+              alert(myEditor.getValue());
+            }
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <p><code>new HtmlEditor()</code></p>
+    <p>Extends <code>ShadowComponent</code> which extends <code>LitElement</code>.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    
+    <h5><code>name<i>: String</i></code></h5>
+    <p>The name attribute for form submission.</p>
+
+    <h5><code>value<i>: String</i></code></h5>
+    <p>The HTML content of the editor. Can be get or set via JavaScript or HTML attribute.</p>
+
+    <h5><code>mode<i>: String</i></code></h5>
+    <p>Current editing mode. Either <code>'visual'</code> (WYSIWYG) or <code>'code'</code> (raw HTML). Default: <code>'visual'</code></p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+
+    <h4>Mode Control</h4>
+    <h5><code>setMode(mode)<i>: this</i></code></h5>
+    <p>Set the editing mode. Accepts <code>'visual'</code> or <code>'code'</code>.</p>
+
+    <h5><code>toggleMode()<i>: this</i></code></h5>
+    <p>Toggle between visual and code modes.</p>
+
+    <h4>Content Management</h4>
+    <h5><code>getValue()<i>: String</i></code></h5>
+    <p>Returns the current HTML content.</p>
+
+    <h5><code>setValue(html)<i>: this</i></code></h5>
+    <p>Sets the HTML content of the editor.</p>
+
+    <h5><code>clear()<i>: this</i></code></h5>
+    <p>Clears all content from the editor.</p>
+
+    <h4>Text Formatting</h4>
+    <h5><code>bold()<i>: this</i></code></h5>
+    <p>Applies bold formatting to the selected text.</p>
+
+    <h5><code>italic()<i>: this</i></code></h5>
+    <p>Applies italic formatting to the selected text.</p>
+
+    <h5><code>underline()<i>: this</i></code></h5>
+    <p>Applies underline formatting to the selected text.</p>
+
+    <h5><code>strikethrough()<i>: this</i></code></h5>
+    <p>Applies strikethrough formatting to the selected text.</p>
+
+    <h4>Lists</h4>
+    <h5><code>orderedList()<i>: this</i></code></h5>
+    <p>Creates or toggles an ordered (numbered) list.</p>
+
+    <h5><code>unorderedList()<i>: this</i></code></h5>
+    <p>Creates or toggles an unordered (bulleted) list.</p>
+
+    <h4>Text Alignment</h4>
+    <h5><code>alignLeft()<i>: this</i></code></h5>
+    <p>Aligns text to the left.</p>
+
+    <h5><code>alignCenter()<i>: this</i></code></h5>
+    <p>Centers the text.</p>
+
+    <h5><code>alignRight()<i>: this</i></code></h5>
+    <p>Aligns text to the right.</p>
+
+    <h5><code>alignJustify()<i>: this</i></code></h5>
+    <p>Justifies the text.</p>
+
+    <h4>Text Color</h4>
+    <h5><code>setTextColor(color)<i>: this</i></code></h5>
+    <p>Sets the foreground color of selected text. Accepts any valid CSS color value (hex, rgb, color name).</p>
+
+    <h5><code>removeTextColor()<i>: this</i></code></h5>
+    <p>Removes foreground color from selected text.</p>
+
+    <h5><code>setTextBackgroundColor(color)<i>: this</i></code></h5>
+    <p>Sets the background color of selected text. Accepts any valid CSS color value (hex, rgb, color name).</p>
+
+    <h5><code>removeTextBackgroundColor()<i>: this</i></code></h5>
+    <p>Removes background color from selected text.</p>
+
+    <h4>Formatting Control</h4>
+    <h5><code>removeFormat()<i>: this</i></code></h5>
+    <p>Removes all formatting from the selected text.</p>
+
+    <h5><code>formatBlock(tag)<i>: this</i></code></h5>
+    <p>Formats the current block with the specified HTML tag (e.g., 'h1', 'h2', 'h3', 'p', 'pre').</p>
+
+    <h5><code>insertHTML(html)<i>: this</i></code></h5>
+    <p>Inserts HTML at the current cursor position.</p>
+
+    <h5><code>insertAtCursor(html)<i>: this</i></code></h5>
+    <p>Alias for <code>insertHTML()</code>.</p>
+
+    <h5><code>insertTable(rows, columns, includeHeaders, cellData)<i>: this</i></code></h5>
+    <p>Inserts an HTML table at the cursor position.</p>
+    <ul>
+      <li><code>rows</code> - Number of rows to create</li>
+      <li><code>columns</code> - Number of columns to create</li>
+      <li><code>includeHeaders</code> - Boolean indicating whether to include header row (default: false)</li>
+      <li><code>cellData</code> - Optional 2D array of cell content. If provided, rows/columns are determined from array dimensions</li>
+    </ul>
+
+    <h5><code>insertElementAtCursor(element, selectAfter)<i>: this</i></code></h5>
+    <p>Inserts a DOM element at the cursor position or replaces selection.</p>
+    <ul>
+      <li><code>element</code> - DOM element to insert</li>
+      <li><code>selectAfter</code> - Boolean indicating whether to select the inserted element after insertion (default: true)</li>
+    </ul>
+
+    <h5><code>replaceSelectionWithElement(element, selectAfter)<i>: this</i></code></h5>
+    <p>Replaces the current selection with a DOM element.</p>
+    <ul>
+      <li><code>element</code> - DOM element to insert</li>
+      <li><code>selectAfter</code> - Boolean indicating whether to select the inserted element after replacement (default: true)</li>
+    </ul>
+
+    <h5><code>wrapSelection(before, after, savedSelection)<i>: this</i></code></h5>
+    <p>Wraps the selected text with HTML tags. Handles complex cases like unwrapping existing tags and preventing nested pre tags.</p>
+    <ul>
+      <li><code>before</code> - Opening HTML tag(s) to wrap with</li>
+      <li><code>after</code> - Closing HTML tag(s) to wrap with</li>
+      <li><code>savedSelection</code> - Optional previously saved selection text to use instead of current selection</li>
+    </ul>
+
+    <h4>Selection Management</h4>
+    <h5><code>getSelection()<i>: Object | null</i></code></h5>
+    <p>Returns an object containing information about the current selection: <code>{ text, html, range, selection }</code></p>
+
+    <h5><code>getSelectedText()<i>: String</i></code></h5>
+    <p>Returns the plain text of the current selection.</p>
+
+    <h5><code>getSelectedHTML()<i>: String</i></code></h5>
+    <p>Returns the HTML of the current selection.</p>
+
+    <h5><code>setSelection(startNode, startOffset, endNode, endOffset)<i>: this</i></code></h5>
+    <p>Programmatically sets the selection range.</p>
+
+    <h5><code>selectAll()<i>: this</i></code></h5>
+    <p>Selects all content in the editor.</p>
+
+    <h5><code>replaceSelection(html)<i>: this</i></code></h5>
+    <p>Replaces the current selection with the provided HTML.</p>
+
+    <h5><code>deleteSelection()<i>: this</i></code></h5>
+    <p>Deletes the currently selected content.</p>
+
+    <h5><code>getValueWithSelectionMarkers()<i>: Object</i></code></h5>
+    <p>Returns the editor content with special Unicode markers indicating cursor position or selection boundaries. Useful for preserving selection state during content transformations.</p>
+    <p>Returns object with properties:</p>
+    <ul>
+      <li><code>html</code> - HTML content with markers inserted</li>
+      <li><code>hasCursor</code> - Boolean indicating if cursor position is marked</li>
+      <li><code>hasSelection</code> - Boolean indicating if selection is marked</li>
+      <li><code>cursorMarker</code> - Unicode character used for cursor (\uFFF0)</li>
+      <li><code>selectionStart</code> - Unicode character for selection start (\uFFF1)</li>
+      <li><code>selectionEnd</code> - Unicode character for selection end (\uFFF2)</li>
+      <li><code>selectedText</code> - Plain text of the selection</li>
+    </ul>
+
+    <h5><code>setValueFromSelectionMarkers(html, markers)<i>: this</i></code></h5>
+    <p>Sets editor content and restores cursor/selection from Unicode markers. Companion method to <code>getValueWithSelectionMarkers()</code>.</p>
+    <ul>
+      <li><code>html</code> - HTML content containing marker characters</li>
+      <li><code>markers</code> - Object with marker information (hasCursor, hasSelection, cursorMarker, selectionStart, selectionEnd)</li>
+    </ul>
+
+    <h4>Links and Media</h4>
+    <h5><code>createLink(url)<i>: this</i></code></h5>
+    <p>Creates a hyperlink from the selected text.</p>
+
+    <h5><code>unlink()<i>: this</i></code></h5>
+    <p>Removes hyperlink from the selected text.</p>
+
+    <h5><code>insertImage(url)<i>: this</i></code></h5>
+    <p>Inserts an image at the cursor position.</p>
+
+    <h4>History</h4>
+    <h5><code>undo()<i>: this</i></code></h5>
+    <p>Undoes the last action.</p>
+
+    <h5><code>redo()<i>: this</i></code></h5>
+    <p>Redoes the last undone action.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+
+    <h5><code>change</code></h5>
+    <p>Dispatched when the content changes. Event detail: <code>{ value: String }</code></p>
+
+    <h5><code>mode-changed</code></h5>
+    <p>Dispatched when the editing mode changes between 'visual' and 'code'. Event detail: <code>{ mode: String }</code></p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/HtmlEditor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Dropdown.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/Bold.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/Italic.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/Underline.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/Strikethrough.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/BulletList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/NumberList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/AlignLeft.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/AlignCenter.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/AlignRight.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/AlignJustify.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/CreateLink.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/Mode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/DropdownControl.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/FormatBlock.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/InlineCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/CodeBlock.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/ControlGroup.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/ControlSpacer.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/TextColor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/TextBackgroundColor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/ClearFormatting.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/WordCount.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/CharacterCount.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/htmlEditorControls/InsertTable.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Resize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

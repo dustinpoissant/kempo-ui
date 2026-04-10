@@ -1,0 +1,124 @@
+<page pageName="Table - Custom Fields" title="Custom Fields - Table - Kempo Docs">
+  <content location="head">
+    <script>
+    window.contacts = [];
+    function generateContact(){
+      const maleNames = [
+        "Liam", "Noah", "Oliver", "Elijah", "William", "James", "Benjamin", 
+        "Lucas", "Henry", "Alexander", "Mason", "Michael", "Ethan", "Daniel", 
+        "Jacob", "Logan", "Jackson", "Levi", "Sebastian", "Mateo", "Jack", 
+        "Owen", "Theodore", "Aiden", "Samuel", "Joseph", "John", "David", 
+        "Wyatt", "Matthew"
+      ];
+      const femaleNames = [
+        "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Amelia", 
+        "Harper", "Evelyn", "Abigail", "Emily", "Ella", "Elizabeth", 
+        "Camila", "Luna", "Sofia", "Avery", "Mila", "Aria", "Scarlett", 
+        "Penelope", "Layla", "Chloe", "Victoria", "Madison", "Eleanor", 
+        "Grace", "Nora", "Riley", "Zoey"
+      ];
+      const lastNames = [
+        "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", 
+        "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", 
+        "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", 
+        "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", 
+        "Ramirez", "Lewis", "Robinson"
+      ];
+      const gender = Math.random() > 0.5 ? 'm' : 'f';
+      const firstName = gender === 'm' ? maleNames[Math.floor(Math.random() * maleNames.length)] : femaleNames[Math.floor(Math.random() * femaleNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const name = `${firstName} ${lastName}`;
+      const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@mailserver.com`;
+      const birthday = `${Math.floor(Math.random() * 100) + 1920}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
+      const phoneNumber = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+      return { name, email, birthday, phoneNumber, gender };
+    }
+    for (let i = 0; i < 10; i++) {
+      contacts.push(generateContact());
+    };
+  </script>
+  </content>
+  <content>
+
+    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+
+    <p>Use the <code>fields</code> property of the options object in <code>setData</code> to define custom fields. This is useful for hiding fields, reordering fields, changing labels, formatting output, creating calculated fields, or marking fields as non-editable.</p>
+    
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"customFieldsExample"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">await</span> <span class="hljs-built_in">window</span>.customElements.whenDefined(<span class="hljs-string">'k-table'</span>);<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'customFieldsExample'</span>).setData({<br />    <span class="hljs-attr">records</span>: contacts,<br />    <span class="hljs-attr">fields</span>: [<br />      {<br />        <span class="hljs-attr">name</span>: <span class="hljs-string">"name"</span>,<br />        <span class="hljs-attr">label</span>: <span class="hljs-string">"Name"</span>,<br />        <span class="hljs-attr">size</span>: <span class="hljs-number">300</span><br />      },<br />      {<br />        <span class="hljs-attr">name</span>: <span class="hljs-string">'phoneNumber'</span>,<br />        <span class="hljs-attr">label</span>: <span class="hljs-string">'Phone Number'</span><br />      },<br />      {<br />        <span class="hljs-attr">name</span>: <span class="hljs-string">'email'</span>,<br />        <span class="hljs-attr">label</span>: <span class="hljs-string">'Email Address'</span><br />      },<br />      {<br />        <span class="hljs-attr">name</span>: <span class="hljs-string">'birthday'</span>,<br />        <span class="hljs-attr">label</span>: <span class="hljs-string">'Birthday'</span><br />      },<br />      {<br />        <span class="hljs-attr">name</span>: <span class="hljs-string">'age'</span>,<br />        <span class="hljs-attr">label</span>: <span class="hljs-string">'Age'</span>,<br />        <span class="hljs-attr">calculator</span>: <span class="hljs-function">(<span class="hljs-params">record</span>) =&gt;</span> {<br />          <span class="hljs-comment">// record.birthday is a string in the format "YYYY-MM-DD"</span><br />          <span class="hljs-keyword">const</span> today = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();<br />          <span class="hljs-keyword">const</span> birthDate = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(record.birthday);<br />          <span class="hljs-keyword">let</span> age = today.getFullYear() - birthDate.getFullYear();<br />          <span class="hljs-keyword">const</span> monthDifference = today.getMonth() - birthDate.getMonth();<br />          <span class="hljs-keyword">if</span> (monthDifference &lt; <span class="hljs-number">0</span> || (monthDifference === <span class="hljs-number">0</span> &amp;&amp; today.getDate() &lt; birthDate.getDate())) {<br />            age--;<br />          }<br />          <span class="hljs-keyword">return</span> age;<br />        }<br />      },<br />      {<br />        <span class="hljs-attr">name</span>: <span class="hljs-string">'gender'</span>,<br />        <span class="hljs-attr">label</span>: <span class="hljs-string">'Gender'</span>,<br />        <span class="hljs-attr">formatter</span>: <span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> v===<span class="hljs-string">'m'</span>?<span class="hljs-string">'Male'</span>:<span class="hljs-string">'Female'</span> <span class="hljs-comment">// original value is "m" or "f"</span><br />      }<br />    ]<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    
+    <k-table id="customFieldsExample"></k-table>
+    <script type="module">
+      await window.customElements.whenDefined('k-table');
+      document.getElementById('customFieldsExample').setData({
+        records: contacts,
+        fields: [
+          {
+            name: "name",
+            label: "Name",
+            size: 300
+          },
+          {
+            name: 'phoneNumber',
+            label: 'Phone Number'
+          },
+          {
+            name: 'email',
+            label: 'Email Address'
+          },
+          {
+            name: 'birthday',
+            label: 'Birthday'
+          },
+          {
+            name: 'age',
+            label: 'Age',
+            calculator: (record) => {
+              // record.birthday is a string in the format "YYYY-MM-DD"
+              const today = new Date();
+              const birthDate = new Date(record.birthday);
+              let age = today.getFullYear() - birthDate.getFullYear();
+              const monthDifference = today.getMonth() - birthDate.getMonth();
+              if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+              }
+              return age;
+            }
+          },
+          {
+            name: 'gender',
+            label: 'Gender',
+            formatter: (v) => v==='m'?'Male':'Female' // original value is "m" or "f"
+          }
+        ]
+      });
+    </script>
+
+    <h3>Non-Editable Fields</h3>
+    <p>Set <code>editable: false</code> on a field definition to make it read-only when a row is in edit mode. The cell displays its value normally — no input is rendered. This is useful for fields like IDs that should never be changed by the user.</p>
+
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">editableFieldExample</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-edit</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">after</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-edit</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">module</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;editableFieldExample&#x27;</span>).<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">records</span>: [{<br>      <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Alice&#x27;</span>,<br>      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;New York&#x27;</span><br>    }, {<br>      <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>,<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Bob&#x27;</span>,<br>      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;Los Angeles&#x27;</span><br>    }, {<br>      <span class="hljs-attr">id</span>: <span class="hljs-number">3</span>,<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Charlie&#x27;</span>,<br>      <span class="hljs-attr">city</span>: <span class="hljs-string">&#x27;Chicago&#x27;</span><br>    }],<br>    <span class="hljs-attr">fields</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;id&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;ID&#x27;</span>,<br>      <span class="hljs-attr">editable</span>: <span class="hljs-literal">false</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;name&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Name&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;city&#x27;</span>,<br>      <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;City&#x27;</span><br>    }]<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <k-table id="editableFieldExample">
+      <k-tc-edit slot="after"></k-tc-edit>
+    </k-table>
+    <script type="module">
+      await window.customElements.whenDefined('k-table');
+      document.getElementById('editableFieldExample').setData({
+        records: [
+          { id: 1, name: 'Alice', city: 'New York' },
+          { id: 2, name: 'Bob', city: 'Los Angeles' },
+          { id: 3, name: 'Charlie', city: 'Chicago' }
+        ],
+        fields: [
+          { name: 'id', label: 'ID', editable: false },
+          { name: 'name', label: 'Name' },
+          { name: 'city', label: 'City' }
+        ]
+      });
+    </script>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/tableControls/Edit.js"></script>
+  </content>
+</page>

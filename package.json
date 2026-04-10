@@ -12,8 +12,8 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "prod": "node scripts/docs.js",
-    "dev": "node scripts/docs.js --src --port 9875",
+    "prod": "npx kempo-server --root docs --config docs/prod.config.json",
+    "dev": "npx kempo-server --root docs-src",
     "icon": "node bin/icon.js",
     "geticon": "node bin/get_icon.js",
     "listicons": "node bin/list_icons.js",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "highlight.js": "^11.11.1",
     "js-beautify": "^1.15.4",
-    "kempo-server": "^1.10.5",
+    "kempo-server": "^3.0.3",
     "kempo-testing-framework": "^1.4.4",
     "terser": "^5.43.1"
   },

@@ -1,0 +1,122 @@
+<page pageName="ThemeSwitcher" title="ThemeSwitcher - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#customPadding">Custom Padding</a><br />
+        
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#cssCustomProperties">CSS Custom Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#staticMethods">Static Methods</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>ThemeSwitcher</code> component provides a UI control for users to switch between different themes (auto, light, dark). It extends the <a href="./shadow-component.html">ShadowComponent</a> class and uses the <a href="{{pathToRoot}}utils/theme.html">theme utility</a> internally for state management, persistence, and synchronization.</p>
+    <p><strong>Note:</strong> You can manage theme state without this component by directly importing the <a href="{{pathToRoot}}utils/theme.html">theme utility</a>.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Use the <code>ThemeSwitcher</code> component to allow users to cycle through themes. Clicking the button cycles through auto Ã¢â€ â€™ light Ã¢â€ â€™ dark Ã¢â€ â€™ auto. The component automatically detects the user's system preference when in auto mode.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customPadding"><a href="#customPadding" class="no-link">Custom Padding</a></h3>
+    <p>You can customize the button padding by setting the <code>--padding</code> CSS custom property. The default padding uses <code>var(--spacer, 1rem)</code>.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--padding: 0.5rem;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span><br/><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--padding: 2rem;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher style="--padding: 0.5rem;"></k-theme-switcher>
+          <k-theme-switcher style="--padding: 2rem;"></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5>
+      <code>new ThemeSwitcher()</code>
+    </h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a></li>
+      <li><a href="{{pathToRoot}}utils/theme.html">theme</a> utility</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>currentTheme<i>: string</i></code></h5>
+    <p>Gets or sets the current theme. Possible values are <code>"auto"</code>, <code>"light"</code>, or <code>"dark"</code>. This property is reactive and will trigger a re-render when changed. Syncs to <code>current-theme</code> attribute.</p>
+
+    <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
+    <h5><code>--padding<i>: length</i></code></h5>
+    <p>Controls the padding of the theme switcher button. Defaults to <code>var(--spacer, 1rem)</code>. You can override this to customize the button's spacing.</p>
+    <pre><code class="hljs css"><span class="hljs-selector-tag">k-theme-switcher</span> {
+  <span class="hljs-attribute">--padding</span>: <span class="hljs-number">0.5rem</span>;
+}</code></pre>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <p>The <code>ThemeSwitcher</code> class does not introduce any new public methods beyond those provided by the <a href="./shadow-component.html">ShadowComponent</a> class.</p>
+
+    <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
+    <p><strong>Note:</strong> These static methods are convenience wrappers around the <a href="{{pathToRoot}}utils/theme.html">theme utility</a>. For direct theme management without the component, use the theme utility directly.</p>
+    <h5><code>static setTheme(theme)<i>: void</i></code></h5>
+    <p>Sets the specified theme. Internally calls the <a href="{{pathToRoot}}utils/theme.html">theme utility</a> which handles persistence and DOM updates.</p>
+    <ul>
+      <li><strong>theme</strong> <code>string</code> - The theme to set. Must be one of: <code>"auto"</code>, <code>"light"</code>, or <code>"dark"</code></li>
+    </ul>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Programmatically set theme to dark mode</span>
+<span class="hljs-title class_">ThemeSwitcher</span>.<span class="hljs-title function_">setTheme</span>(<span class="hljs-string">'dark'</span>);</code></pre>
+
+    <h5><code>static getCurrentTheme()<i>: string</i></code></h5>
+    <p>Gets the current theme. Returns <code>"auto"</code> if no theme is set. Internally calls the <a href="{{pathToRoot}}utils/theme.html">theme utility</a>.</p>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Get the current theme</span>
+<span class="hljs-keyword">const</span> currentTheme = <span class="hljs-title class_">ThemeSwitcher</span>.<span class="hljs-title function_">getCurrentTheme</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(currentTheme); <span class="hljs-comment">// "auto", "light", or "dark"</span></code></pre>
+    
+    <h5><code>static getCalculatedCurrentTheme()<i>: string</i></code></h5>
+    <p>Returns the effective theme, always <code>"dark"</code> or <code>"light"</code>. If the current theme is <code>"auto"</code>, this method uses the user's system preference (<code>prefers-color-scheme</code> media query) to determine the theme. Internally calls the <a href="{{pathToRoot}}utils/theme.html">theme utility</a>.</p>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// Get the calculated current theme</span>
+  <span class="hljs-keyword">const</span> effectiveTheme = <span class="hljs-title class_">ThemeSwitcher</span>.<span class="hljs-title function_">getCalculatedCurrentTheme</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(effectiveTheme); <span class="hljs.comment">// "dark" or "light"</span></code></pre>
+
+    <h3 id="themeDetection"><a href="#themeDetection" class="no-link">Automatic Theme Detection</a></h3>
+    <p>When the theme is set to <code>"auto"</code>, the <a href="{{pathToRoot}}utils/theme.html">theme utility</a> automatically detects the user's system preference using <code>prefers-color-scheme</code> media query. The detected theme is applied to the document element as an <code>auto-theme</code> attribute.</p>
+    <p>The theme utility handles persistence via localStorage and ensures theme changes are reflected in the DOM, providing a consistent user experience.</p>
+    
+    <h3>Related</h3>
+    <p>See the <a href="{{pathToRoot}}utils/theme.html">theme utility</a> documentation for programmatic theme management without using this component.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/ThemeSwitcher.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

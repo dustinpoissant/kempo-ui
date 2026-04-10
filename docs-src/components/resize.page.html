@@ -1,0 +1,161 @@
+<page pageName="Resize" title="Resize - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#resizeDimention">Resize Dimension</a><br />
+          
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#slots">Slots</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Set the initial height and width using normal styles.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />&gt;</span><br />  Resize Me<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results*" class="pb">
+          <k-resize
+            style="height: 200px; width: 200px;"
+          >
+            <p class="p">
+              Resize Me
+            </p>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <p>Set the minimum and maximum height and width using normal styles. The default min-height and min-width is <code>10rem</code> and the default max-height and max-width is <code>100%</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"min-height: 100px; height: 200px; max-height: 300px; min-width: 100px; width: 200px; max-width: 300px;"</span><br />&gt;</span><br />  Resize Me<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results*" class="pb">
+          <k-resize
+            style="min-height: 100px; height: 200px; max-height: 300px; min-width: 100px; width: 200px; max-width: 300px;"
+          >
+            <p class="p">
+              Resize Me
+            </p>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="resizeDimention"><a href="#resizeDimention" class="no-link">Resize Dimension</a></h3>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />  <span class="hljs-attr">dimension</span>=<span class="hljs-string">"width"</span><br />&gt;</span><br />  Resize Width<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results*" class="pb">
+          <k-resize
+            style="height: 200px; width: 200px;"
+            dimension="width"
+          >
+            <p class="p">
+              Resize Width
+            </p>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-resize</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px; width: 200px;"</span><br />  <span class="hljs-attr">dimension</span>=<span class="hljs-string">"height"</span><br />&gt;</span><br />  Resize Height<br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-resize</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results*" class="pb">
+          <k-resize
+            style="height: 200px; width: 200px;"
+            dimension="height"
+          >
+            <p class="p">
+              Resize Height
+            </p>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3>* Notes</h3>
+    <p><i>Additional styles may be added to the example output (borders, spacing, colors) for demonstration.</i></p>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./ShadowComponent.html">ShadowComponent</a></h6>
+    <h5>
+      <code>new Resize()</code>
+    </h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="{{pathToRoot}}utils/drag.js">drag Utility Function</a></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>resizing<i>: string</i></code></h5>
+    <p>Indicates which handle is currently being used to resize the element. Values can be <code>"side"</code>, <code>"bottom"</code>, <code>"corner"</code>, or empty string. Syncs with the <code>resizing</code> attribute.</p>
+    <h5><code>dimension<i>: string</i></code></h5>
+    <p>Restricts resizing to a specific dimension. Possible values are <code>"width"</code> (horizontal only) or <code>"height"</code> (vertical only). If not specified, both dimensions can be resized. Syncs with the <code>dimension</code> attribute.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>default</code></h5>
+    <p>The main content area that will be resizable. Content automatically gets scroll behavior when it overflows the container.</p>
+
+    <h4>Resize Handles</h4>
+    <p>The resize component provides three types of handles:</p>
+    <ul>
+      <li><strong>Side Handle</strong>: Allows horizontal resizing (width adjustment)</li>
+      <li><strong>Bottom Handle</strong>: Allows vertical resizing (height adjustment)</li>
+      <li><strong>Corner Handle</strong>: Allows diagonal resizing (both width and height)</li>
+    </ul>
+
+    <h4>CSS Custom Properties</h4>
+    <p>The component respects the following CSS custom properties:</p>
+    <ul>
+      <li><code>--handle_size</code>: Size of the resize handles (default: 1rem)</li>
+      <li><code>--c_border</code>: Border color of the container</li>
+      <li><code>--c_highlight</code>: Background color of active handles during resize</li>
+      <li><code>--radius</code>: Border radius of the container</li>
+    </ul>
+
+    <h4>Touch and Mouse Support</h4>
+    <p>The component supports both mouse and touch interactions for resizing on desktop and mobile devices.</p>
+
+    <h4>Behavior Notes</h4>
+    <ul>
+      <li>During resize operations, pointer events on the main content are disabled to prevent interference</li>
+      <li>The component enforces minimum dimensions of 10rem Ãƒâ€” 10rem and maximum dimensions of 100%</li>
+      <li>Active resize handles are highlighted with the theme's highlight color</li>
+      <li>Content automatically scrolls when it exceeds the container dimensions</li>
+    </ul>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Resize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

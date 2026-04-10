@@ -95,4 +95,9 @@ await copyDir('./dist', './docs/src/');
 console.log('Copying icons/ to docs/icons/');
 await copyDir('./icons', './docs/icons/');
 
+console.log('Pre-rendering docs-src → docs...');
+import { renderDir } from 'kempo-server/templating';
+const count = await renderDir('./docs-src', './docs');
+console.log(`Rendered ${count} pages`);
+
 console.log('Build Complete');

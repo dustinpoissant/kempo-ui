@@ -1,0 +1,42 @@
+<page pageName="debounce" title="debounce - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>debounce</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#parameters">Parameters</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>debounce</code> utility function limits the rate at which a function can be executed. It delays the
+      execution of a function until after a specified timeout has passed since the last time it was invoked.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import and use the debounce function to limit function execution frequency:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> debounce <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/debounce.js'</span>;<br /><br /><span class="hljs-keyword">const</span> handleSearch = debounce(<span class="hljs-function">(<span class="hljs-params">query</span>) =&gt;</span> {<br />  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Searching for:'</span>, query);<br />}, <span class="hljs-number">300</span>);<br /><br /><span class="hljs-comment">// Will only execute after 300ms of no calls</span><br />handleSearch(<span class="hljs-string">'test'</span>);</code></pre>
+
+    <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
+    <h5><code>func<i>: Function</i></code></h5>
+    <p>The function to debounce.</p>
+    <h5><code>timeout<i>: number</i></code> (optional)</h5>
+    <p>The number of milliseconds to delay execution. Defaults to 300ms.</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Search Input Debouncing</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> debouncedSearch = debounce(<span class="hljs-function">(<span class="hljs-params">searchTerm</span>) =&gt;</span> {<br />  <span class="hljs-comment">// API call or expensive search operation</span><br />  performSearch(searchTerm);<br />}, <span class="hljs-number">500</span>);<br /><br />searchInput.addEventListener(<span class="hljs-string">'input'</span>, (e) =&gt; {<br />  debouncedSearch(e.target.value);<br />});</code></pre>
+
+    <h4>Window Resize Handler</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> debouncedResize = debounce(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {<br />  <span class="hljs-comment">// Expensive layout calculations</span><br />  recalculateLayout();<br />}, <span class="hljs-number">250</span>);<br /><br /><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'resize'</span>, debouncedResize);</code></pre>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

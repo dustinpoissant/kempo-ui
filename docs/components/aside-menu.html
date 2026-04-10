@@ -7,14 +7,8 @@
   <link rel="stylesheet" href="../kempo-vars.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <script>window.litDisableBundleWarning = true;</script>
-  <script type="module">
-    import theme from '../src/utils/theme.js';
-    theme.init();
-  </script>
-  <script type="module" src="../src/components/Aside.js"></script>
-  <div style="height:33vh"></div>
-  <script type="module" src="../src/components/Main.js"></script>
-  <style>
+  
+    <style>
     body {
       margin: 0;
       padding: 0;
@@ -22,9 +16,17 @@
       overflow: hidden;
     }
   </style>
+    <script type="module">
+    import theme from '../src/utils/theme.js';
+    theme.init();
+  </script>
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+  
 </head>
 <body>
-  <k-aside main="push" state="expanded" style="--aside_padding: 0;">
+  
+    <k-aside main="push" state="expanded" style="--aside_padding: 0;">
     <k-aside-toggle><h5 class="m0">Kempo</h5></k-aside-toggle>
     <k-aside-item icon="cards" href="#">Dashboard</k-aside-item>
     <k-aside-menu icon="folder" label="Projects">
@@ -40,5 +42,7 @@
     <h2>Main Content</h2>
     <p>Click menu headers to expand sub-items. Collapse the aside to see menus fold.</p>
   </k-main>
+  
+  
 </body>
 </html>
