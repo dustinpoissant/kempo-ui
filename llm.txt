@@ -67,6 +67,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-import>` | `Import.js` | Includes external HTML fragments; `src` attribute | [import.html](https://dustinpoissant.github.io/kempo-ui/components/import.html) |
 | `<k-main>` | `Main.js` | Layout main; automatically adjusts margins when a `k-aside[main="push"]` opens | — |
 | `<k-nav>` | `Nav.js` | Navigation bar | [nav.html](https://dustinpoissant.github.io/kempo-ui/components/nav.html) |
+| `<k-nav-spacer>` | `NavSpacer.js` | Auto-sizing spacer that offsets page content below a fixed `k-nav` bar; default bottom margin of `var(--spacer)` can be overridden with kempo-css margin utilities | [nav-spacer.html](https://dustinpoissant.github.io/kempo-ui/components/nav-spacer.html) |
 | `<k-photo-viewer>` | `PhotoViewer.js` | Lightbox/gallery viewer | [photo-viewer.html](https://dustinpoissant.github.io/kempo-ui/components/photo-viewer.html) |
 | `<k-resize>` | `Resize.js` | Resizable pane with drag handle | [resize.html](https://dustinpoissant.github.io/kempo-ui/components/resize.html) |
 | `<k-show-more>` | `ShowMore.js` | Truncated content with expand toggle | [show-more.html](https://dustinpoissant.github.io/kempo-ui/components/show-more.html) |

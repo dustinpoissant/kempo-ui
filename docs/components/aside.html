@@ -41,6 +41,7 @@
           <k-filter-item filter-keywords="icon components"><a href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="import components"><a href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="nav navbar navigation components"><a href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a href="../components/nav-spacer.html">Nav Spacer<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="photo viewer photoviewer components"><a href="../components/photo-viewer.html">Photo Viewer<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="resize components"><a href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="show more showmore components"><a href="../components/show-more.html">Show More<br><small>Component</small></a></k-filter-item>
@@ -118,6 +119,7 @@
         <a href="../components/icon.html">Icon</a>
         <a href="../components/import.html">Import</a>
         <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
         <a href="../components/photo-viewer.html">Photo Viewer</a>
         <a href="../components/resize.html">Resize</a>
         <a href="../components/show-more.html">Show More</a>
@@ -383,7 +385,7 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside5" main="push" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Sidebar</h3>
               <a href="#">Home</a>
@@ -412,7 +414,7 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside6" main="push" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Menu</h3>
               <a href="#">Dashboard</a>
@@ -443,7 +445,7 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside7" main="push" side="right" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Right Panel</h3>
               <a href="#">Item 1</a>
@@ -526,7 +528,7 @@
         <k-card label="Output">
           <style>k-aside#aside13 { --collapsed-width: 5rem; }</style>
           <k-aside id="aside13" main="push" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Sidebar</h3>
               <a href="#">Dashboard</a>
@@ -558,10 +560,8 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside-persist" main="push" state="offscreen" persistent-id="docs-aside-persist-demo">
-            <div class="navbar-spacer"></div>
-            <nav>
-              <p>Sidebar Content</p>
-            </nav>
+            <k-nav-spacer></k-nav-spacer>
+            <p>Sidebar Content</p>
           </k-aside>
           <button id="btn-persist-expand">Expand</button>
           <button id="btn-persist-collapse">Collapse</button>
@@ -740,6 +740,7 @@
     <script type="module" src="../src/components/Accordion.js"></script>
     <script type="module" src="../src/components/Aside.js"></script>
     <script type="module" src="../src/components/Card.js"></script>
+    <script type="module" src="../src/components/NavSpacer.js"></script>
   
 </body>
 </html>

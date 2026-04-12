@@ -1,0 +1,65 @@
+<page pageName="Nav Spacer" title="Nav Spacer - Components - Kempo Docs - A Web Components Solution">
+  <content location="header"></content>
+  <content>
+    <h1 class="ta-center">Nav Spacer</h1>
+
+    <k-accordion persistent-id="toc-nav-spacer" class="b r mb">
+      <k-accordion-header for-panel="toc-nav-spacer-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-nav-spacer-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#noMargin">No Margin</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#cssVariables">CSS Variables</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p>Place <code>k-nav-spacer</code> immediately after a <code>&lt;k-nav fixed&gt;</code> element. It automatically measures the nav's height using a <code>ResizeObserver</code> and sets its own height to match, ensuring page content is not hidden behind the fixed nav. A default bottom margin of <code>var(--spacer)</code> separates the spacer from the content below; override it with kempo-css margin utilities like <code>mb0</code>, <code>mbh</code>, etc.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Place <code>k-nav-spacer</code> directly after the fixed nav in your HTML. It will size itself to match the nav height.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">fixed</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- nav content --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-nav-spacer</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav-spacer</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- page content --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="noMargin"><a href="#noMargin" class="no-link">No Margin</a></h3>
+    <p>Add <code>mb0</code> to remove the default bottom margin, or use any kempo-css margin utility to customise it.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav-spacer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;mb0&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav-spacer</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new NavSpacer()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <h5><code>--spacer</code></h5>
+    <p>Controls the default bottom margin. Inherited from kempo-css (default <code>1rem</code>). Override by applying a margin utility class directly to the element.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/NavSpacer.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Nav.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

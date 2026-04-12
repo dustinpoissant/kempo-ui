@@ -136,7 +136,7 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside5" main="push" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Sidebar</h3>
               <a href="#">Home</a>
@@ -165,7 +165,7 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside6" main="push" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Menu</h3>
               <a href="#">Dashboard</a>
@@ -196,7 +196,7 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside7" main="push" side="right" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Right Panel</h3>
               <a href="#">Item 1</a>
@@ -279,7 +279,7 @@
         <k-card label="Output">
           <style>k-aside#aside13 { --collapsed-width: 5rem; }</style>
           <k-aside id="aside13" main="push" state="offscreen">
-            <div class="navbar-spacer"></div>
+            <k-nav-spacer></k-nav-spacer>
             <nav>
               <h3>Sidebar</h3>
               <a href="#">Dashboard</a>
@@ -311,10 +311,8 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-aside id="aside-persist" main="push" state="offscreen" persistent-id="docs-aside-persist-demo">
-            <div class="navbar-spacer"></div>
-            <nav>
-              <p>Sidebar Content</p>
-            </nav>
+            <k-nav-spacer></k-nav-spacer>
+            <p>Sidebar Content</p>
           </k-aside>
           <button id="btn-persist-expand">Expand</button>
           <button id="btn-persist-collapse">Collapse</button>
@@ -490,5 +488,6 @@
     <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/NavSpacer.js"></script>
   </content>
 </page>
