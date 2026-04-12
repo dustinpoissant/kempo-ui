@@ -1,8 +1,9 @@
 <page pageName="Aside" title="Aside - Components - Kempo Docs - A Web Components Solution">
   <content>
-    <details class="b r mb">
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m">
         <h6>Overlay Mode</h6>
         <a href="#overlayBasic">Basic Usage</a><br />
         <a href="#overlayClose">Closing Options</a><br />
@@ -17,6 +18,7 @@
         <a href="#customWidth">Custom Width</a><br />
         <a href="#customBg">Custom Background</a><br />
         <a href="#customCollapsed">Custom Collapsed Width</a><br />
+        <a href="#persistentState">Persistent State</a><br />
 
         <h6 class="mt">Sub-Components</h6>
         <a href="#subItems">Items &amp; Labels</a><br />
@@ -39,7 +41,8 @@
         <a href="#asideSpacer">k-aside-spacer</a><br />
         <a href="#asideToggle">k-aside-toggle</a><br />
       </div>
-    </details>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h2>Overlay Mode</h2>
     <p>The default mode. Use <code>state="offscreen"</code> as the starting state; call <code>expand()</code> to open. Clicking the backdrop or pressing ESC closes it by default.</p>
@@ -49,12 +52,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside state="offscreen"&gt;
-  &lt;p&gt;Overlay Menu Content&lt;/p&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.expand()"&gt;
-  Open Menu
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Overlay Menu Content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.expand()&#x27;</span>&gt;</span> Open Menu <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -78,16 +76,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside state="offscreen"
-  overlay-close="false"&gt;
-  &lt;p&gt;Overlay Menu&lt;/p&gt;
-  &lt;button onclick="this.closest('k-aside').hide()"&gt;
-    Close
-  &lt;/button&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.expand()"&gt;
-  Open Menu
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span> <span class="hljs-attr">overlay-close</span>=<span class="hljs-string">&#x27;false&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Overlay Menu<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.closest(&quot;k-aside&quot;).hide()&#x27;</span>&gt;</span> Close <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.expand()&#x27;</span>&gt;</span> Open Menu <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -115,13 +104,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside state="offscreen"
-  side="right"&gt;
-  &lt;p&gt;Right Side Menu&lt;/p&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.expand()"&gt;
-  Open Right Menu
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span> <span class="hljs-attr">side</span>=<span class="hljs-string">&#x27;right&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Right Side Menu<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.expand()&#x27;</span>&gt;</span> Open Right Menu <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -147,17 +130,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside main="push" state="offscreen"&gt;
-  &lt;nav&gt;
-    &lt;h3&gt;Sidebar&lt;/h3&gt;
-    &lt;a href="#"&gt;Home&lt;/a&gt;
-    &lt;a href="#"&gt;About&lt;/a&gt;
-    &lt;a href="#"&gt;Contact&lt;/a&gt;
-  &lt;/nav&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.toggle()"&gt;
-  Toggle Sidebar
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&#x27;push&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Sidebar<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.toggle()&#x27;</span>&gt;</span> Toggle Sidebar <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -186,17 +159,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside main="push" state="offscreen"&gt;
-  &lt;nav&gt;
-    &lt;h3&gt;Menu&lt;/h3&gt;
-    &lt;a href="#"&gt;Dashboard&lt;/a&gt;
-    &lt;a href="#"&gt;Settings&lt;/a&gt;
-  &lt;/nav&gt;
-&lt;/k-aside&gt;
-
-&lt;button onclick="aside.expand()"&gt;Expand&lt;/button&gt;
-&lt;button onclick="aside.collapse()"&gt;Collapse&lt;/button&gt;
-&lt;button onclick="aside.hide()"&gt;Hide&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&#x27;push&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;aside.expand()&#x27;</span>&gt;</span>Expand<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;aside.collapse()&#x27;</span>&gt;</span>Collapse<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;aside.hide()&#x27;</span>&gt;</span>Hide<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -227,16 +190,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside main="push" side="right" state="offscreen"&gt;
-  &lt;nav&gt;
-    &lt;h3&gt;Right Panel&lt;/h3&gt;
-    &lt;a href="#"&gt;Item 1&lt;/a&gt;
-    &lt;a href="#"&gt;Item 2&lt;/a&gt;
-  &lt;/nav&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.toggle()"&gt;
-  Toggle Right Sidebar
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&#x27;push&#x27;</span> <span class="hljs-attr">side</span>=<span class="hljs-string">&#x27;right&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Right Panel<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Item 1<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Item 2<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.toggle()&#x27;</span>&gt;</span> Toggle Right Sidebar <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -266,15 +220,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;style&gt;
-  k-aside { --width: 30rem; }
-&lt;/style&gt;
-&lt;k-aside state="offscreen"&gt;
-  &lt;p&gt;This menu is 30rem wide.&lt;/p&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.expand()"&gt;
-  Open Wide Menu
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><br>  k-<span class="hljs-selector-tag">aside</span> {<br>    <span class="hljs-attr">--width</span>: <span class="hljs-number">30rem</span>;<br>  }<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This menu is 30rem wide.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.expand()&#x27;</span>&gt;</span> Open Wide Menu <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -298,19 +244,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;style&gt;
-  k-aside { --bg: var(--c_primary); }
-&lt;/style&gt;
-&lt;k-aside state="offscreen"&gt;
-  &lt;nav class="p tc-light"&gt;
-    &lt;h3&gt;Branded Menu&lt;/h3&gt;
-    &lt;a href="#" class="tc-light"&gt;Home&lt;/a&gt;
-    &lt;a href="#" class="tc-light"&gt;About&lt;/a&gt;
-  &lt;/nav&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="this.previousElementSibling.expand()"&gt;
-  Open Branded Menu
-&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><br>  k-<span class="hljs-selector-tag">aside</span> {<br>    <span class="hljs-attr">--bg</span>: <span class="hljs-built_in">var</span>(--c_primary);<br>  }<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;p tc-light&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Branded Menu<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;tc-light&#x27;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;tc-light&#x27;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.expand()&#x27;</span>&gt;</span> Open Branded Menu <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -338,21 +272,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;style&gt;
-  k-aside { --collapsed-width: 5rem; }
-&lt;/style&gt;
-&lt;k-aside main="push" state="offscreen"&gt;
-  &lt;nav&gt;
-    &lt;h3&gt;Sidebar&lt;/h3&gt;
-    &lt;a href="#"&gt;Dashboard&lt;/a&gt;
-    &lt;a href="#"&gt;Reports&lt;/a&gt;
-    &lt;a href="#"&gt;Settings&lt;/a&gt;
-  &lt;/nav&gt;
-&lt;/k-aside&gt;
-
-&lt;button onclick="aside.expand()"&gt;Expand&lt;/button&gt;
-&lt;button onclick="aside.collapse()"&gt;Collapse&lt;/button&gt;
-&lt;button onclick="aside.hide()"&gt;Hide&lt;/button&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><br>  k-<span class="hljs-selector-tag">aside</span> {<br>    <span class="hljs-attr">--collapsed-width</span>: <span class="hljs-number">5rem</span>;<br>  }<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&#x27;push&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Sidebar<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Reports<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;aside.expand()&#x27;</span>&gt;</span>Expand<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;aside.collapse()&#x27;</span>&gt;</span>Collapse<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;aside.hide()&#x27;</span>&gt;</span>Hide<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -375,6 +295,36 @@
             document.getElementById('btn13expand').addEventListener('click',()=> a13.expand());
             document.getElementById('btn13collapse').addEventListener('click',()=> a13.collapse());
             document.getElementById('btn13hide').addEventListener('click',()=> a13.hide());
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="persistentState"><a href="#persistentState" class="no-link">Persistent State</a></h3>
+    <p>Use <code>persistent-id</code> to remember the aside's state across page loads. The state is saved to <code>localStorage</code> under the key <code>aside-persistent-id-{id}</code> and restored when the element is connected. Works with <code>"expanded"</code>, <code>"collapsed"</code>, and <code>"offscreen"</code> states.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&#x27;push&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&#x27;my-nav&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Sidebar Content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.expand()&#x27;</span>&gt;</span>Expand<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.collapse()&#x27;</span>&gt;</span>Collapse<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;this.previousElementSibling.hide()&#x27;</span>&gt;</span>Hide<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-aside id="aside-persist" main="push" state="offscreen" persistent-id="docs-aside-persist-demo">
+            <div class="navbar-spacer"></div>
+            <nav>
+              <p>Sidebar Content</p>
+            </nav>
+          </k-aside>
+          <button id="btn-persist-expand">Expand</button>
+          <button id="btn-persist-collapse">Collapse</button>
+          <button id="btn-persist-hide">Hide</button>
+          <p class="mt"><small>Toggle the state and reload the page — it will be restored.</small></p>
+          <script>
+            const aPersist = document.getElementById('aside-persist');
+            document.getElementById('btn-persist-expand').addEventListener('click',()=> aPersist.expand());
+            document.getElementById('btn-persist-collapse').addEventListener('click',()=> aPersist.collapse());
+            document.getElementById('btn-persist-hide').addEventListener('click',()=> aPersist.hide());
           </script>
         </k-card>
       </div>
@@ -416,17 +366,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html">&lt;k-aside id="myAside" state="offscreen"&gt;
-  &lt;p&gt;Open and close me to see events.&lt;/p&gt;
-&lt;/k-aside&gt;
-&lt;button onclick="myAside.expand()"&gt;Open Menu&lt;/button&gt;
-&lt;div id="log"&gt;&lt;/div&gt;
-
-&lt;script&gt;
-  myAside.addEventListener('aside_state_change', e =&gt; {
-    log.textContent = 'state: ' + e.detail.state;
-  });
-&lt;/script&gt;</code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;myAside&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;offscreen&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Open and close me to see events.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&#x27;myAside.expand()&#x27;</span>&gt;</span>Open Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;log&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  myAside.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aside_state_change&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>    log.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;state: &#x27;</span> + e.<span class="hljs-property">detail</span>.<span class="hljs-property">state</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -475,6 +415,8 @@
     <p>Whether clicking the overlay backdrop closes the aside. Defaults to <code>true</code>. Syncs to <code>overlay-close</code> attribute.</p>
     <h5><code>escClose<i>: boolean</i></code></h5>
     <p>Whether pressing the ESC key closes the aside. Defaults to <code>true</code>. Syncs to <code>esc-close</code> attribute.</p>
+    <h5><code>persistentId<i>: string | null</i></code></h5>
+    <p>When set, the aside's <code>state</code> is saved to <code>localStorage</code> under <code>aside-persistent-id-{id}</code> on every change, and restored when the element connects. Defaults to <code>null</code>. Syncs to <code>persistent-id</code> attribute.</p>
 
     <h3 id="eventRef"><a href="#eventRef" class="no-link">Events</a></h3>
     <h5><code>aside_state_change</code></h5>
@@ -545,6 +487,7 @@
     <p>No additional attributes. Automatically syncs with the parent aside's state.</p>
   </content>
   <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
   </content>

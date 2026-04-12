@@ -10,7 +10,8 @@ export default class Aside extends ShadowComponent {
 		side: { type: String, reflect: true },
 		main: { type: String, reflect: true },
 		overlayClose: { type: Boolean, reflect: true, attribute: 'overlay-close', converter: boolTrueFalse },
-		escClose: { type: Boolean, reflect: true, attribute: 'esc-close', converter: boolTrueFalse }
+		escClose: { type: Boolean, reflect: true, attribute: 'esc-close', converter: boolTrueFalse },
+		persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
 	};
 
 	constructor() {
@@ -20,6 +21,7 @@ export default class Aside extends ShadowComponent {
 		this.main = 'overlay';
 		this.overlayClose = true;
 		this.escClose = true;
+		this.persistentId = null;
 	}
 
 	/*
@@ -38,6 +40,11 @@ export default class Aside extends ShadowComponent {
 	*/
 	updated(changedProperties) {
 		super.updated(changedProperties);
+
+		if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
+			const saved = window.localStorage.getItem(`aside-persistent-id-${this.persistentId}`);
+			if(saved) this.state = saved;
+		}
 
 		if(changedProperties.has('state')) {
 			const prev = changedProperties.get('state');
@@ -61,6 +68,10 @@ export default class Aside extends ShadowComponent {
 			this.dispatchEvent(new CustomEvent('aside_state_change', { detail }));
 			window.dispatchEvent(new CustomEvent('aside_state_change', { detail }));
 			this.inert = this.state === 'offscreen';
+
+			if(this.persistentId && window?.localStorage) {
+				window.localStorage.setItem(`aside-persistent-id-${this.persistentId}`, this.state);
+			}
 		}
 	}
 

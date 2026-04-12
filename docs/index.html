@@ -258,6 +258,7 @@
       </span>
     </h1>
     <p>A lit-based web component library.</p>
+    <p>Current Version: <code id="version">unknown</code></p>
 
     <h2>Getting Started</h2>
     <div class="row -mx">
@@ -550,6 +551,10 @@
   </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="./src/components/Main.js"></script>
+  
+    <script type="module">
+      document.getElementById('version').innerHTML = (await (await fetch('https://raw.githubusercontent.com/dustinpoissant/kempo-ui/refs/heads/main/package.json')).json()).version;
+    </script>
   
 </body>
 </html>

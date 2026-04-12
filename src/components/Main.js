@@ -15,7 +15,7 @@ export default class Main extends ShadowComponent {
 		window.addEventListener('aside_state_change', this.handleAsideChange);
 
 		document.querySelectorAll('k-aside[main="push"]').forEach(aside => {
-			if(aside.state !== 'offscreen') {
+			if(aside.state !== 'offscreen' && typeof aside.getTargetWidth === 'function') {
 				const width = aside.getTargetWidth(aside.state);
 				if(width > 0) {
 					this.widthMap.set(aside, { side: aside.side || 'left', width });

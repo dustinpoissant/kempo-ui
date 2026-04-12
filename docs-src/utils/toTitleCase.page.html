@@ -3,18 +3,18 @@
   <content>
     <h1>toTitleCase</h1>
     
-    <details
-      class="b r mb"
-    >
-      <summary class="p">Table of Contents</summary>
-      <div class="m mt0 pl">
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m">
         <h6>Usage</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#parameters">Parameters</a><br />
         <a href="#returnValue">Return Value</a><br />
         <a href="#examples">Examples</a><br />
       </div>
-    </details>
+      </k-accordion-panel>
+    </k-accordion>
 
     <h3>Description</h3>
     <p>The <code>toTitleCase</code> utility function converts strings to title case format. It handles camelCase, snake_case, kebab-case, and regular text, converting them into properly capitalized title case with spaces between words.</p>

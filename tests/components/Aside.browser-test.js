@@ -453,6 +453,81 @@ export default {
 	},
 
 	/*
+		Persistent ID
+	*/
+	'persistentId: should default to null': async ({pass, fail}) => {
+		const aside = await createAside();
+		if(aside.persistentId !== null) {
+			cleanup(aside);
+			return fail(`Expected persistentId null, got ${aside.persistentId}`);
+		}
+		cleanup(aside);
+		pass('persistentId defaults to null');
+	},
+
+	'persistentId: should save state to localStorage on state change': async ({pass, fail}) => {
+		const id = `test-aside-save-${Date.now()}`;
+		const key = `aside-persistent-id-${id}`;
+		localStorage.removeItem(key);
+		const aside = await createAside({ main: 'push', state: 'offscreen' });
+		aside.persistentId = id;
+		await aside.updateComplete;
+		aside.expand();
+		await aside.updateComplete;
+		const saved = localStorage.getItem(key);
+		localStorage.removeItem(key);
+		cleanup(aside);
+		if(saved !== 'expanded') return fail(`Expected "expanded" in localStorage, got "${saved}"`);
+		pass('persistentId saves state to localStorage');
+	},
+
+	'persistentId: should restore state from localStorage on connect': async ({pass, fail}) => {
+		const id = `test-aside-restore-${Date.now()}`;
+		const key = `aside-persistent-id-${id}`;
+		localStorage.setItem(key, 'expanded');
+		const aside = document.createElement('k-aside');
+		aside.setAttribute('main', 'push');
+		aside.setAttribute('state', 'offscreen');
+		aside.setAttribute('persistent-id', id);
+		document.body.appendChild(aside);
+		await aside.updateComplete;
+		// Wait for the property change to apply
+		await new Promise(r => setTimeout(r, 50));
+		const state = aside.state;
+		localStorage.removeItem(key);
+		cleanup(aside);
+		if(state !== 'expanded') return fail(`Expected restored state "expanded", got "${state}"`);
+		pass('persistentId restores state from localStorage');
+	},
+
+	'persistentId: should save collapsed state': async ({pass, fail}) => {
+		const id = `test-aside-collapsed-${Date.now()}`;
+		const key = `aside-persistent-id-${id}`;
+		localStorage.removeItem(key);
+		const aside = await createAside({ main: 'push', state: 'offscreen' });
+		aside.persistentId = id;
+		await aside.updateComplete;
+		aside.collapse();
+		await aside.updateComplete;
+		const saved = localStorage.getItem(key);
+		localStorage.removeItem(key);
+		cleanup(aside);
+		if(saved !== 'collapsed') return fail(`Expected "collapsed" in localStorage, got "${saved}"`);
+		pass('persistentId saves collapsed state');
+	},
+
+	'persistentId: should not save state when not set': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'offscreen' });
+		const keysBefore = Object.keys(localStorage).filter(k => k.startsWith('aside-persistent-id-'));
+		aside.expand();
+		await aside.updateComplete;
+		const keysAfter = Object.keys(localStorage).filter(k => k.startsWith('aside-persistent-id-'));
+		cleanup(aside);
+		if(keysAfter.length > keysBefore.length) return fail('Should not save to localStorage when persistentId is null');
+		pass('Does not save to localStorage without persistentId');
+	},
+
+	/*
 		AsideItem
 	*/
 	'AsideItem: should create element': async ({pass, fail}) => {

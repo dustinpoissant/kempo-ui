@@ -12,8 +12,8 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "prod": "npx kempo-server --root docs --config docs/prod.config.json",
-    "dev": "npx kempo-server --root docs-src",
+    "docs": "npx kempo-server --root docs --config docs/prod.config.json",
+    "dev": "npx kempo-server --root docs-src --port 8083",
     "icon": "node bin/icon.js",
     "geticon": "node bin/get_icon.js",
     "listicons": "node bin/list_icons.js",
