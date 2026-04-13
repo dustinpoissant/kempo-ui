@@ -32,21 +32,9 @@ export default class InlineCode extends HtmlEditorControl {
 		Event Handlers
 	*/
 	handleMouseDown = (e) => {
-		if(!this.editor) return;
-
 		e.preventDefault();
 		e.stopPropagation();
-
-		const codeEl = document.createElement('code');
-		
-		const markerData = this.editor.getValueWithSelectionMarkers();
-		if(markerData.hasSelection){
-			codeEl.textContent = markerData.selectedText;
-			this.editor.replaceSelectionWithElement(codeEl, true);
-		} else {
-			codeEl.textContent = '\u200B';
-			this.editor.insertElementAtCursor(codeEl, true);
-		}
+		if(this.editor) this.editor.lexicalFormat('code');
 	};
 
 	/*

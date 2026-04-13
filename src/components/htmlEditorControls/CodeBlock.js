@@ -32,17 +32,25 @@ export default class CodeBlock extends HtmlEditorControl {
 		Event Handlers
 	*/
 	handleMouseDown = (e) => {
-		const savedSelection = window.getSelection()?.toString();
 		e.preventDefault();
 		e.stopPropagation();
-		if(this.editor){
-			if(savedSelection){
-				this.editor.wrapSelection('<pre>', '</pre>', savedSelection);
-			} else {
-				this.editor.formatBlock('pre');
-			}
-		}
+		if(!this.editor) return;
+		this.editor.formatBlock(this.isInCodeBlock() ? 'p' : 'pre');
 	};
+
+	isInCodeBlock() {
+		if(!this.editor?.lexicalEditor) return false;
+		let result = false;
+		const { lexical, code } = this.editor.lx;
+		this.editor.lexicalEditor.getEditorState().read(() => {
+			const sel = lexical.$getSelection();
+			if(!lexical.$isRangeSelection(sel)) return;
+			const node = sel.anchor.getNode();
+			const topLevel = node.getTopLevelElementOrThrow();
+			result = code.$isCodeNode(topLevel);
+		});
+		return result;
+	}
 
 	/*
 		Utility Functions

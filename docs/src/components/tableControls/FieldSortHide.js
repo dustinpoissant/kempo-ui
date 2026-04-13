@@ -1,7 +1,7 @@
-import TableControl from"./TableControl.js";import{html,render}from"../../lit-all.min.js";import"../Icon.js";import Dialog from"../Dialog.js";export default class FieldSortHide extends TableControl{constructor(){super({maxWidth:40})}handleClick=()=>{this.openDialog()};openDialog=()=>{import("../Sortable.js");const e=document.createElement("div");render(html`
+import e from"./TableControl.js";import{html as t,render as i}from"../../lit-all.min.js";import"../Icon.js";import l from"../Dialog.js";export default class a extends e{constructor(){super({maxWidth:40})}handleClick=()=>{this.openDialog()};openDialog=()=>{import("../Sortable.js");const e=document.createElement("div");i(t`
 			<div class="m">
 				<k-sortable id="sorting" @sort="${e=>{const t=Array.from(e.target.querySelectorAll("k-sortable-item")).map(e=>e.getAttribute("data-field"));this.table.reorderFields(t)}}">
-					${this.table.fields.map(e=>html`
+					${this.table.fields.map(e=>t`
 						<k-sortable-item data-field="${e.name}">
 							<label class="field pb0">
 								<input
@@ -18,8 +18,8 @@ import TableControl from"./TableControl.js";import{html,render}from"../../lit-al
 					`)}
 				</k-sortable>
 			</div>
-		`,e),Dialog.create(e,{title:"Show / Hide / Order Fields",width:"400px",cancelText:"Close"})};render(){return html`
+		`,e),l.create(e,{title:"Show / Hide / Order Fields",width:"400px",cancelText:"Close"})};render(){return t`
 			<button class="no-btn icon-btn" @click="${this.handleClick}">
 				<k-icon name="table-visibility"></k-icon>
 			</button>
-		`}}customElements.define("k-tc-field-sort-hide",FieldSortHide);
+		`}}customElements.define("k-tc-field-sort-hide",a);

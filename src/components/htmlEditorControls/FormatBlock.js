@@ -42,10 +42,10 @@ export default class FormatBlock extends HtmlEditorControl {
 	/*
 		Event Handlers
 	*/
-	handleClick = () => {
-		if(this.editor){
-			this.editor.formatBlock(this.tag);
-		}
+	handleMouseDown = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if(this.editor) this.editor.formatBlock(this.tag);
 	};
 
 	/*
@@ -66,7 +66,7 @@ export default class FormatBlock extends HtmlEditorControl {
 		const iconName = this.getDefaultIcon();
 		
 		return html`
-			<button class="${this.buttonClasses}" @click="${this.handleClick}">
+			<button class="${this.buttonClasses}" @mousedown="${this.handleMouseDown}">
 				<slot name="icon">
 					<k-icon name="${iconName}"></k-icon>
 				</slot>

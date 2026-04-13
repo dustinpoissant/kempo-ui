@@ -466,5 +466,159 @@ export default {
 
 		cleanup(container);
 		pass('AccordionPanel active attribute reflects state');
+	},
+
+	/*
+		Persistent ID Tests
+	*/
+	'persistent-id: should save open panel state to localStorage': async ({pass, fail}) => {
+		const id = 'test-save-' + Date.now();
+		const key = `accordion-persistent-id-${id}`;
+		window.localStorage.removeItem(key);
+
+		const { container, accordion } = await createAccordion({ persistentId: id });
+
+		accordion.openPanel('panel1');
+		await accordion.updateComplete;
+		await new Promise(r => setTimeout(r, 300));
+
+		const stored = window.localStorage.getItem(key);
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(stored !== 'panel1'){
+			fail(`Expected localStorage to contain "panel1", got "${stored}"`);
+			return;
+		}
+
+		pass('Open panel state saved to localStorage');
+	},
+
+	'persistent-id: should restore open panel state from localStorage': async ({pass, fail}) => {
+		const id = 'test-restore-' + Date.now();
+		const key = `accordion-persistent-id-${id}`;
+		window.localStorage.setItem(key, 'panel2');
+
+		const { container, accordion } = await createAccordion({ persistentId: id });
+		await new Promise(r => setTimeout(r, 50));
+
+		const panel1 = accordion.getPanel('panel1');
+		const panel2 = accordion.getPanel('panel2');
+		const panel3 = accordion.getPanel('panel3');
+
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(panel1.active){
+			fail('panel1 should not be active');
+			return;
+		}
+		if(!panel2.active){
+			fail('panel2 should be active (restored from localStorage)');
+			return;
+		}
+		if(panel3.active){
+			fail('panel3 should not be active');
+			return;
+		}
+
+		pass('Open panel state restored from localStorage');
+	},
+
+	'persistent-id: should restore all-panels-closed state from localStorage': async ({pass, fail}) => {
+		const id = 'test-allclosed-' + Date.now();
+		const key = `accordion-persistent-id-${id}`;
+		window.localStorage.setItem(key, '');
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-accordion persistent-id="${id}">
+				<k-accordion-header for-panel="p1">H1</k-accordion-header>
+				<k-accordion-panel name="p1" active>Content 1</k-accordion-panel>
+				<k-accordion-header for-panel="p2">H2</k-accordion-header>
+				<k-accordion-panel name="p2">Content 2</k-accordion-panel>
+			</k-accordion>
+		`;
+		document.body.appendChild(container);
+
+		const accordion = container.querySelector('k-accordion');
+		await accordion.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		const p1 = accordion.getPanel('p1');
+		const p2 = accordion.getPanel('p2');
+
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(p1.active){
+			fail('panel p1 should be closed (all-closed state restored), but it is active');
+			return;
+		}
+		if(p2.active){
+			fail('panel p2 should be closed');
+			return;
+		}
+
+		pass('All-panels-closed state correctly restored from localStorage');
+	},
+
+	'persistent-id: should not restore when no localStorage entry exists': async ({pass, fail}) => {
+		const id = 'test-noentry-' + Date.now();
+		const key = `accordion-persistent-id-${id}`;
+		window.localStorage.removeItem(key);
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-accordion persistent-id="${id}">
+				<k-accordion-header for-panel="p1">H1</k-accordion-header>
+				<k-accordion-panel name="p1" active>Content 1</k-accordion-panel>
+				<k-accordion-header for-panel="p2">H2</k-accordion-header>
+				<k-accordion-panel name="p2">Content 2</k-accordion-panel>
+			</k-accordion>
+		`;
+		document.body.appendChild(container);
+
+		const accordion = container.querySelector('k-accordion');
+		await accordion.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		const p1 = accordion.getPanel('p1');
+
+		cleanup(container);
+
+		if(!p1.active){
+			fail('panel p1 should remain active when no localStorage entry exists');
+			return;
+		}
+
+		pass('HTML active attributes preserved when no localStorage entry exists');
+	},
+
+	'persistent-id: should save all-closed state to localStorage': async ({pass, fail}) => {
+		const id = 'test-saveclosed-' + Date.now();
+		const key = `accordion-persistent-id-${id}`;
+		window.localStorage.removeItem(key);
+
+		const { container, accordion } = await createAccordion({ persistentId: id });
+
+		accordion.openPanel('panel1');
+		await accordion.updateComplete;
+		await new Promise(r => setTimeout(r, 300));
+
+		accordion.closePanel('panel1');
+		await accordion.updateComplete;
+		await new Promise(r => setTimeout(r, 300));
+
+		const stored = window.localStorage.getItem(key);
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(stored !== ''){
+			fail(`Expected localStorage to contain "" (empty string), got ${JSON.stringify(stored)}`);
+			return;
+		}
+
+		pass('All-closed state saved as empty string in localStorage');
 	}
 };

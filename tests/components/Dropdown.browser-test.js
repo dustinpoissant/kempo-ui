@@ -576,5 +576,90 @@ export default {
 		}
 		cleanup(container);
 		pass('Disabled items skipped in navigation');
+	},
+
+	/*
+		Shadow DOM Compatibility (composedPath)
+	*/
+	'should close when clicking outside via composedPath': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		dropdown.open();
+		await dropdown.updateComplete;
+		const outside = document.createElement('div');
+		outside.textContent = 'outside';
+		document.body.appendChild(outside);
+		outside.click();
+		await dropdown.updateComplete;
+		if(dropdown.opened) {
+			cleanup(container);
+			outside.remove();
+			return fail('Dropdown should close on outside click');
+		}
+		cleanup(container);
+		outside.remove();
+		pass('Dropdown closes on outside click via composedPath');
+	},
+
+	'should not close when clicking inside menu with close-on-select false': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown({ closeOnSelect: false });
+		dropdown.open();
+		await dropdown.updateComplete;
+		const item = dropdown.querySelector('[data-value="item1"]');
+		item.click();
+		await dropdown.updateComplete;
+		if(!dropdown.opened) {
+			cleanup(container);
+			return fail('Dropdown should stay open with close-on-select="false"');
+		}
+		cleanup(container);
+		pass('Dropdown stays open with close-on-select="false"');
+	},
+
+	/*
+		Host Styles
+	*/
+	'host should have white-space normal': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		const style = getComputedStyle(dropdown);
+		if(style.whiteSpace !== 'normal') {
+			cleanup(container);
+			return fail(`Expected white-space: normal, got ${style.whiteSpace}`);
+		}
+		cleanup(container);
+		pass('Host has white-space: normal');
+	},
+
+	'trigger should have inline-flex display': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		await dropdown.updateComplete;
+		const trigger = dropdown.shadowRoot.querySelector('#trigger');
+		const style = getComputedStyle(trigger);
+		if(style.display !== 'inline-flex') {
+			cleanup(container);
+			return fail(`Expected trigger display: inline-flex, got ${style.display}`);
+		}
+		cleanup(container);
+		pass('Trigger has inline-flex display');
+	},
+
+	'dropdown should not inflate height in pre-wrap context': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.style.whiteSpace = 'pre-wrap';
+		container.innerHTML = `
+			<k-dropdown>
+				<button slot="trigger">T</button>
+				<button>Item</button>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const dropdown = container.querySelector('k-dropdown');
+		await dropdown.updateComplete;
+		const height = dropdown.getBoundingClientRect().height;
+		if(height > 60) {
+			cleanup(container);
+			return fail(`Dropdown height should not inflate in pre-wrap context, got ${height}px`);
+		}
+		cleanup(container);
+		pass('Dropdown does not inflate in pre-wrap context');
 	}
 };

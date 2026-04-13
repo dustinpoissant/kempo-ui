@@ -31,10 +31,10 @@ export default class BulletList extends HtmlEditorControl {
 	/*
 		Event Handlers
 	*/
-	handleClick = () => {
-		if(this.editor){
-			this.editor.unorderedList();
-		}
+	handleMouseDown = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if(this.editor) this.editor.unorderedList();
 	};
 
 	/*
@@ -52,7 +52,7 @@ export default class BulletList extends HtmlEditorControl {
 		this.hidden = this.editorMode === 'code';
 		
 		return html`
-			<button class="${this.buttonClasses}" @click="${this.handleClick}">
+			<button class="${this.buttonClasses}" @mousedown="${this.handleMouseDown}">
 				<slot name="icon">
 					<k-icon name="format_list_bulleted"></k-icon>
 				</slot>

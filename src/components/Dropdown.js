@@ -73,7 +73,8 @@ export default class Dropdown extends ShadowComponent {
 		Event Handlers
 	*/
 	handleDocumentClick = e => {
-		const isTrigger = e.target.closest('[slot="trigger"]');
+		const path = e.composedPath();
+		const isTrigger = path.find(el => el.matches?.('[slot="trigger"]'));
 
 		if(isTrigger) {
 			const triggerDropdown = isTrigger.closest('k-dropdown');
@@ -87,13 +88,13 @@ export default class Dropdown extends ShadowComponent {
 		if(!this.opened) return;
 
 		// Click is outside this dropdown entirely
-		if(!this.contains(e.target)) {
+		if(!path.includes(this)) {
 			if(this.closeOnClickOutside) this.close();
 			return;
 		}
 
 		// Click is inside the menu on an interactive element (including submenu items)
-		const isInteractive = e.target.closest('a, button');
+		const isInteractive = path.find(el => el.matches?.('a, button'));
 		if(isInteractive && !isInteractive.closest('[slot="trigger"]') && this.closeOnSelect) this.close();
 	};
 
@@ -235,8 +236,11 @@ export default class Dropdown extends ShadowComponent {
 		:host {
 			display: inline-block;
 			position: relative;
+			white-space: normal;
 		}
 		#trigger {
+			display: inline-flex;
+			align-items: center;
 			cursor: pointer;
 			anchor-name: --dropdown-trigger;
 		}

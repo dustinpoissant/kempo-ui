@@ -1,4 +1,4 @@
-import DropdownControl from"./DropdownControl.js";import{html,css}from"../../lit-all.min.js";import"../Icon.js";export default class TextBackgroundColor extends DropdownControl{static properties={editorMode:{type:String,state:!0},colors:{type:String},disableRemove:{type:Boolean,attribute:"disable-remove"},disablePicker:{type:Boolean,attribute:"disable-picker"}};static styles=[DropdownControl.styles,css`
+import o from"./DropdownControl.js";import{html as e,css as t}from"../../lit-all.min.js";import"../Icon.js";export default class r extends o{static properties={editorMode:{type:String,state:!0},colors:{type:String},disableRemove:{type:Boolean,attribute:"disable-remove"},disablePicker:{type:Boolean,attribute:"disable-picker"}};static styles=[o.styles,t`
 			.dropdown-content {
 				padding: 8px;
 				min-width: 200px;
@@ -53,7 +53,7 @@ import DropdownControl from"./DropdownControl.js";import{html,css}from"../../lit
 				border-radius: 4px;
 				cursor: pointer;
 			}
-		`];constructor(){super(),this.colors="#ffff00,#00ffff,#ff66ff,#99ff99,#ffcc99,#ff9999,#cccccc,#ffffff,#ffffcc,#ccffff,#ffccff,#ccffcc",this.disableRemove=!1,this.disablePicker=!1,this.icon="format_color_fill"}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleRemove=o=>{o.preventDefault(),o.stopPropagation(),this.editor&&this.editor.removeTextBackgroundColor(),this.opened=!1};handleSwatchClick=o=>{o.preventDefault(),o.stopPropagation();const e=o.target.style.backgroundColor;if(this.editor&&e){const o=e.match(/\d+/g),t=o?"#"+o.map(o=>parseInt(o).toString(16).padStart(2,"0")).join(""):e;this.editor.setTextBackgroundColor(t)}this.opened=!1};handlePickerChange=o=>{o.preventDefault(),o.stopPropagation();const e=o.target.value;this.editor&&e&&this.editor.setTextBackgroundColor(e),this.opened=!1};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}getColorArray(){return this.colors.split(",").map(o=>o.trim()).filter(o=>o)}render(){this.hidden="code"===this.editorMode;const o=this.getColorArray();return html`
+		`];constructor(){super(),this.colors="#ffff00,#00ffff,#ff66ff,#99ff99,#ffcc99,#ff9999,#cccccc,#ffffff,#ffffcc,#ccffff,#ffccff,#ccffcc",this.disableRemove=!1,this.disablePicker=!1,this.icon="format_color_fill"}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleRemove=o=>{o.preventDefault(),o.stopPropagation(),this.editor&&this.editor.removeTextBackgroundColor(),this.opened=!1};handleSwatchClick=o=>{o.preventDefault(),o.stopPropagation();const e=o.target.style.backgroundColor;if(this.editor&&e){const o=e.match(/\d+/g),t=o?"#"+o.map(o=>parseInt(o).toString(16).padStart(2,"0")).join(""):e;this.editor.setTextBackgroundColor(t)}this.opened=!1};handlePickerChange=o=>{o.preventDefault(),o.stopPropagation();const e=o.target.value;this.editor&&e&&this.editor.setTextBackgroundColor(e),this.opened=!1};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}getColorArray(){return this.colors.split(",").map(o=>o.trim()).filter(o=>o)}render(){this.hidden="code"===this.editorMode;const o=this.getColorArray();return e`
 			<k-dropdown 
 				?opened=${this.opened}
 				@opened=${this.handleOpened}
@@ -67,14 +67,14 @@ import DropdownControl from"./DropdownControl.js";import{html,css}from"../../lit
 				</button>
 				
 				<div class="dropdown-content">
-					${this.disableRemove?"":html`
+					${this.disableRemove?"":e`
 						<button class="remove-btn" @click=${this.handleRemove}>
 							Remove Color
 						</button>
 					`}
 					
 					<div class="color-swatches">
-						${o.map(o=>html`
+						${o.map(o=>e`
 							<button 
 								class="color-swatch" 
 								style="background-color: ${o}"
@@ -83,7 +83,7 @@ import DropdownControl from"./DropdownControl.js";import{html,css}from"../../lit
 						`)}
 					</div>
 
-					${this.disablePicker?"":html`
+					${this.disablePicker?"":e`
 						<div class="picker-row">
 							<label>Custom:</label>
 							<input 
@@ -94,4 +94,4 @@ import DropdownControl from"./DropdownControl.js";import{html,css}from"../../lit
 					`}
 				</div>
 			</k-dropdown>
-		`}}customElements.define("k-hec-text-background-color",TextBackgroundColor);
+		`}}customElements.define("k-hec-text-background-color",r);

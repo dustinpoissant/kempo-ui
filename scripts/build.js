@@ -55,7 +55,7 @@ await Promise.all(allJSFiles.map(async jsFile => {
     processedJS[jsFile] = code;
   } else {
     // Minify the file
-    code = (await minify(code)).code;
+    code = (await minify(code, { module: true })).code;
   }
   
   // Convert absolute paths to relative paths for GitHub Pages compatibility

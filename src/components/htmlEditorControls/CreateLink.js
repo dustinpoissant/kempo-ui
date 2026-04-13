@@ -77,14 +77,10 @@ export default class CreateLink extends HtmlEditorControl {
 					return;
 				}
 
-				const linkEl = document.createElement('a');
-				linkEl.href = url;
-				linkEl.textContent = text || url;
-
-				if(this.editor.selection){
-					this.editor.replaceSelectionWithElement(linkEl, true);
+				if(this.editor.selection && (!text || text === selectedText)){
+					this.editor.createLink(url);
 				} else {
-					this.editor.insertElementAtCursor(linkEl, true);
+					this.editor.createLinkWithText(url, text || url);
 				}
 			}
 		});

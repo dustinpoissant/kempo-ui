@@ -1,4 +1,4 @@
-import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class DropdownControl extends HtmlEditorControl{static properties={opened:{type:Boolean,reflect:!0},editorMode:{type:String,state:!0}};constructor(){super(),this.opened=!1}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}updated(t){super.updated(t),t.has("editorMode")&&requestAnimationFrame(()=>{this.hidden="code"===this.editorMode&&!this.hasVisibleChildren()})}updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}hasVisibleChildren(){return Array.from(this.children).filter(t=>!t.hasAttribute("slot")).some(t=>{if(!1===t.hidden||void 0===t.hidden){return"none"!==window.getComputedStyle(t).display}return!1})}static styles=[HtmlEditorControl.styles,css`
+import t from"./HtmlEditorControl.js";import{html as o,css as e}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class n extends t{static properties={opened:{type:Boolean,reflect:!0},editorMode:{type:String,state:!0}};constructor(){super(),this.opened=!1}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}updated(t){super.updated(t),t.has("editorMode")&&requestAnimationFrame(()=>{this.hidden="code"===this.editorMode&&!this.hasVisibleChildren()})}updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}hasVisibleChildren(){return Array.from(this.children).filter(t=>!t.hasAttribute("slot")).some(t=>{if(!1===t.hidden||void 0===t.hidden){return"none"!==window.getComputedStyle(t).display}return!1})}static styles=[t.styles,e`
       :host {
         display: inline-flex;
       }
@@ -37,7 +37,7 @@ import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../..
       ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) button {
         border-bottom: none !important;
       }
-    `];handleToggle=()=>{this.opened=!this.opened};handleOpened=()=>{this.opened=!0};handleClosed=()=>{this.opened=!1};render(){return html`
+    `];handleToggle=()=>{this.opened=!this.opened};handleOpened=()=>{this.opened=!0};handleClosed=()=>{this.opened=!1};render(){return o`
       <k-dropdown 
         ?opened=${this.opened}
         @opened=${this.handleOpened}
@@ -54,4 +54,4 @@ import HtmlEditorControl from"./HtmlEditorControl.js";import{html,css}from"../..
         </button>
         <slot></slot>
       </k-dropdown>
-    `}}customElements.define("k-hec-dropdown",DropdownControl);
+    `}}customElements.define("k-hec-dropdown",n);

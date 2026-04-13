@@ -33,7 +33,7 @@ export default class Accordion extends ShadowComponent {
 		if (changedProps.has('persistentId') && this.persistentId && window?.localStorage) {
 			const key = `accordion-persistent-id-${this.persistentId}`;
 			const value = window.localStorage.getItem(key);
-			if (value) {
+			if (value !== null) {
 				const openPanels = value.split(',');
 				this.querySelectorAll('k-accordion-panel').forEach(panel => {
 					panel.active = openPanels.includes(panel.name);

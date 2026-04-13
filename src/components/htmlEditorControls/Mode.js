@@ -25,7 +25,7 @@ export default class Mode extends HtmlEditorControl {
   */
   handleClick = () => {
     if(!this.editor) return;
-    this.editor.mode = this.editor.mode === 'visual' ? 'code' : 'visual';
+    this.editor.toggleMode();
   };
 
   /*

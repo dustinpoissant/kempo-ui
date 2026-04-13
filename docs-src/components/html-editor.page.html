@@ -7,6 +7,8 @@
         <h6>Examples</h6>
         <a href="#fullExample">Complete Editor Example</a><br />
         <a href="#javascriptUsage">JavaScript API Example</a><br />
+        <a href="#incompatibleContent">Incompatible Content Example</a><br />
+        <a href="#customNodes">Custom Nodes Example</a><br />
         
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -180,9 +182,9 @@
           <k-html-editor id="myEditor" class="b r"></k-html-editor>
           <script>
             const myEditor = document.getElementById('myEditor');
-            setTimeout(() => {
+            myEditor.addEventListener('ready', () => {
               myEditor.setValue('<p>Select text and use the buttons above to format it!</p><p>The editor works without any built-in controls - you have full control via JavaScript.</p>');
-            }, 100);
+            });
             
             function insertMyEditorHTML() {
               myEditor.insertHTML('<p><b>Inserted content!</b></p>');
@@ -192,6 +194,43 @@
               alert(myEditor.getValue());
             }
           </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="incompatibleContent"><a href="#incompatibleContent" class="no-link">Incompatible Content Example</a></h3>
+    <p>When the editor's value contains HTML that Lexical does not support (such as <code>&lt;svg&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, <code>&lt;video&gt;</code>, etc.), it automatically defaults to code mode to preserve the content. If the user attempts to switch to visual mode, a confirmation dialog warns that the incompatible code will be lost.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;svgEditor&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&lt;p&gt;This value contains an inline SVG which Lexical does not support:&lt;/p&gt;&lt;svg width=&#x27;120&#x27; height=&#x27;60&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27;&gt;&lt;rect width=&#x27;120&#x27; height=&#x27;60&#x27; rx=&#x27;8&#x27; fill=&#x27;#4a90d9&#x27;/&gt;&lt;text x=&#x27;50%&#x27; y=&#x27;50%&#x27; dominant-baseline=&#x27;middle&#x27; text-anchor=&#x27;middle&#x27; fill=&#x27;white&#x27; font-size=&#x27;14&#x27;&gt;SVG&lt;/text&gt;&lt;/svg&gt;&lt;p&gt;The editor detected incompatible content and defaulted to code mode automatically.&lt;/p&gt;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-spacer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-spacer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor id="svgEditor" class="b r" value="<p>This value contains an inline SVG which Lexical does not support:</p><svg width='120' height='60' xmlns='http://www.w3.org/2000/svg'><rect width='120' height='60' rx='8' fill='#4a90d9'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='14'>SVG</text></svg><p>The editor detected incompatible content and defaulted to code mode automatically.</p>">
+            <k-hec-spacer slot="toolbar-top"></k-hec-spacer>
+            <k-hec-mode slot="toolbar-top"></k-hec-mode>
+          </k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customNodes"><a href="#customNodes" class="no-link">Custom Nodes Example</a></h3>
+    <p>Custom nodes extend what Lexical understands in visual mode. Import a node file and list its name in the <code>nodes</code> attribute (comma-separated filenames without <code>.js</code>). The built-in <code>HtmlComment</code> node preserves HTML comments as inline visual chips rather than forcing code mode — comments round-trip through the editor without being stripped.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Import the HtmlComment node --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;src/components/htmlEditorNodes/HtmlComment.js&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- Register the node with nodes attribute --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">nodes</span>=<span class="hljs-string">&#x27;HtmlComment&#x27;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;&lt;p&gt;This paragraph has an &lt;!-- important note --&gt; inline comment.&lt;/p&gt;&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-spacer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-spacer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <script type="module" src="/src/components/htmlEditorNodes/HtmlComment.js"></script>
+          <k-html-editor id="commentEditor" class="b r" nodes="HtmlComment" value="<p>This paragraph has an <!-- important note --> inline comment.</p>">
+            <k-hec-spacer slot="toolbar-top"></k-hec-spacer>
+            <k-hec-mode slot="toolbar-top"></k-hec-mode>
+          </k-html-editor>
         </k-card>
       </div>
     </div>
@@ -211,23 +250,30 @@
     <p>The HTML content of the editor. Can be get or set via JavaScript or HTML attribute.</p>
 
     <h5><code>mode<i>: String</i></code></h5>
-    <p>Current editing mode. Either <code>'visual'</code> (WYSIWYG) or <code>'code'</code> (raw HTML). Default: <code>'visual'</code></p>
+    <p>Current editing mode. Either <code>'visual'</code> (WYSIWYG) or <code>'code'</code> (raw HTML). Default: <code>'visual'</code>. If the initial <code>value</code> contains content that is incompatible with the visual editor (such as <code>&lt;svg&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, etc.), the editor automatically switches to <code>'code'</code> mode to preserve the content. Custom nodes can extend what is considered compatible by defining a static <code>isVisualCompatible(domNode)</code> method.</p>
+
+    <h5><code>nodes<i>: String</i></code></h5>
+    <p>Comma-separated list of custom Lexical node module filenames (without <code>.js</code>) to load from the <code>htmlEditorNodes/</code> directory. Custom nodes can define two static hooks:</p>
+    <ul>
+      <li><code>isVisualCompatible(domNode)</code> — returns <code>true</code> if the node handles a DOM construct that would otherwise be considered incompatible (e.g., HTML comments)</li>
+      <li><code>preprocessHtml(htmlString)</code> — transforms raw HTML before Lexical parses it (e.g., converting <code>&lt;!-- --&gt;</code> to a parseable <code>&lt;span&gt;</code>)</li>
+    </ul>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
 
     <h4>Mode Control</h4>
     <h5><code>setMode(mode)<i>: this</i></code></h5>
-    <p>Set the editing mode. Accepts <code>'visual'</code> or <code>'code'</code>.</p>
+    <p>Set the editing mode. Accepts <code>'visual'</code> or <code>'code'</code>. If switching to <code>'visual'</code> and the current content is incompatible, a confirmation dialog warns that incompatible code will be lost.</p>
 
     <h5><code>toggleMode()<i>: this</i></code></h5>
-    <p>Toggle between visual and code modes.</p>
+    <p>Toggle between visual and code modes. Same incompatibility warning applies when switching to visual mode.</p>
 
     <h4>Content Management</h4>
     <h5><code>getValue()<i>: String</i></code></h5>
     <p>Returns the current HTML content.</p>
 
     <h5><code>setValue(html)<i>: this</i></code></h5>
-    <p>Sets the HTML content of the editor.</p>
+    <p>Sets the HTML content of the editor. If the editor is in visual mode and the new content is incompatible, automatically switches to code mode.</p>
 
     <h5><code>clear()<i>: this</i></code></h5>
     <p>Clears all content from the editor.</p>
