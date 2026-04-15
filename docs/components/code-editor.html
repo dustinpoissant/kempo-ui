@@ -299,12 +299,12 @@ console.log(greet('World'));"></k-code-editor>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;javascript&#x27;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&#x27;normal&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;javascript&#x27;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&#x27;full&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-code-editor id="controlsEditor" language="javascript" controls="normal" class="b r" value="const arr = [3, 1, 4, 1, 5, 9];
+          <k-code-editor id="controlsEditor" language="javascript" controls="full" class="b r" value="const arr = [3, 1, 4, 1, 5, 9];
 const sorted = arr.sort((a, b) => a - b);
 console.log(sorted);"></k-code-editor>
         </k-card>
@@ -375,7 +375,7 @@ console.log(x);"></k-code-editor>
         <tr><td><code>name</code></td><td><code>name</code></td><td>String</td><td><code>''</code></td><td>Form field name</td></tr>
         <tr><td><code>value</code></td><td><code>value</code></td><td>String</td><td><code>''</code></td><td>Editor content</td></tr>
         <tr><td><code>language</code></td><td><code>language</code></td><td>String</td><td><code>'javascript'</code></td><td>Monaco language mode (e.g. <code>javascript</code>, <code>html</code>, <code>css</code>, <code>json</code>, <code>typescript</code>)</td></tr>
-        <tr><td><code>controls</code></td><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Set to <code>'normal'</code> for built-in toolbar; <code>'none'</code> or empty for no built-in controls</td></tr>
+        <tr><td><code>controls</code></td><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Set to <code>'full'</code> for built-in toolbar; <code>'none'</code> or empty for no built-in controls</td></tr>
         <tr><td><code>monacoSrc</code></td><td><code>monaco-src</code></td><td>String</td><td><code>''</code></td><td>Custom Monaco CDN base URL</td></tr>
         <tr><td><code>editorTheme</code></td><td><code>editor-theme</code></td><td>String</td><td><code>'auto'</code></td><td>Theme override: <code>'auto'</code> (matches site theme), <code>'light'</code>, or <code>'dark'</code></td></tr>
       </tbody>
