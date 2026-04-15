@@ -30,13 +30,11 @@ export default class CreateLink extends HtmlEditorControl {
 	/*
 		Event Handlers
 	*/
-	handleMouseDown = (e) => {
+	handleClick = () => {
 		if(!this.editor) return;
 
-		e.preventDefault();
-		e.stopPropagation();
 
-		const selectedText = this.editor.selection?.text || '';
+		const selectedText = this.editor.getSelectedText();
 
 		const urlInput = document.createElement('input');
 		urlInput.type = 'text';
@@ -95,7 +93,7 @@ export default class CreateLink extends HtmlEditorControl {
 		return html`
 			<button
 				class="${this.buttonClasses}"
-				@mousedown="${this.handleMouseDown}"
+				@click="${this.handleClick}"
 			>
 				<slot name="icon">
 					<k-icon name="link"></k-icon>

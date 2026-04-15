@@ -11,6 +11,8 @@ export default class Mode extends HtmlEditorControl {
     mode: {type: String, reflect: true}
   };
 
+  hidesInCodeMode = false;
+
   /*
     Lifecycle Callbacks
   */

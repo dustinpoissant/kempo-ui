@@ -6,7 +6,7 @@ import { getCalculatedTheme, subscribeToTheme } from '../utils/theme.js';
 import Dialog from './Dialog.js';
 
 /*
-  Default CDN URLs
+	Default CDN URLs
 */
 const LEXICAL_VERSION = '0.43.0';
 const MONACO_VERSION = '0.52.2';
@@ -23,11 +23,13 @@ export default class HtmlEditor extends ShadowComponent {
 		value: { type: String, reflect: true },
 		selection: { type: Object, state: true },
 		mode: { type: String, reflect: true },
+		controls: { type: String, reflect: true },
 		lexicalSrc: { type: String, attribute: 'lexical-src' },
 		monacoSrc: { type: String, attribute: 'monaco-src' },
 		nodes: { type: String },
 		hasTopToolbar: { type: Boolean, state: true },
-		hasBottomToolbar: { type: Boolean, state: true }
+		hasBottomToolbar: { type: Boolean, state: true },
+		fullscreen: { type: Boolean, reflect: true }
 	};
 
 	constructor() {
@@ -38,6 +40,8 @@ export default class HtmlEditor extends ShadowComponent {
 		this.selection = null;
 		this.cursor = null;
 		this.mode = 'visual';
+		this.controls = '';
+		this.controlsLoaded = false;
 		this.lexicalSrc = '';
 		this.monacoSrc = '';
 		this.nodes = '';
@@ -48,6 +52,11 @@ export default class HtmlEditor extends ShadowComponent {
 		this.savedSelection = null;
 		this.lexicalEditor = null;
 		this.monacoEditor = null;
+		this.editorTheme = 'auto';
+		this.wordWrap = true;
+		this.minimapEnabled = false;
+		this.fontSize = 14;
+		this.fullscreen = false;
 		this.lx = {};
 		this.debouncedSyncValue = debounce(() => this.syncValueFromLexical(), 300);
 	}
@@ -57,7 +66,7 @@ export default class HtmlEditor extends ShadowComponent {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
-		if(this.hasAttribute('value')){
+		if (this.hasAttribute('value')) {
 			this.value = this.getAttribute('value');
 		}
 		this.slotObserver = new MutationObserver(() => this.updateToolbarVisibility());
@@ -71,21 +80,32 @@ export default class HtmlEditor extends ShadowComponent {
 		this.cleanupFns?.forEach(fn => fn?.());
 		this.monacoEditor?.dispose();
 		this.unsubscribeTheme?.();
-		if(this.syncShadowSelection) document.removeEventListener('selectionchange', this.syncShadowSelection);
+		if (this.syncShadowSelection) document.removeEventListener('selectionchange', this.syncShadowSelection);
+		if(this.fullscreen) this.exitFullscreen();
 	}
 
 	updateToolbarVisibility() {
-		this.hasTopToolbar = Array.from(this.children).some(c => c.getAttribute('slot') === 'toolbar-top');
-		this.hasBottomToolbar = Array.from(this.children).some(c => c.getAttribute('slot') === 'toolbar-bottom');
+		const slots = new Set(Array.from(this.children).map(c => c.getAttribute('slot')));
+		const set = this.constructor.controlSets[this.controls] ?? null;
+		this.hasTopToolbar =
+			!!(set?.topLeft || set?.topRight) ||
+			['toolbar-top', 'toolbar-top-left', 'toolbar-top-right'].some(s => slots.has(s));
+		this.hasBottomToolbar =
+			!!(set?.bottomLeft || set?.bottomRight) ||
+			['toolbar-bottom', 'toolbar-bottom-left', 'toolbar-bottom-right'].some(s => slots.has(s));
 	}
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		if(changedProperties.has('value') && !this.skipValueSync){
-			if(this.lexicalValueSync){
+		if (changedProperties.has('controls')) {
+			this.updateToolbarVisibility();
+			if (this.controls && this.controls !== 'none') this.loadControls();
+		}
+		if (changedProperties.has('value') && !this.skipValueSync) {
+			if (this.lexicalValueSync) {
 				this.lexicalValueSync = false;
 			} else {
-				if(this.lexicalEditor && this.mode === 'visual' && !this.isVisualCompatible(this.value)){
+				if (this.lexicalEditor && this.mode === 'visual' && !this.isVisualCompatible(this.value)) {
 					this.skipLexicalExport = true;
 					this.mode = 'code';
 				} else {
@@ -98,12 +118,17 @@ export default class HtmlEditor extends ShadowComponent {
 				bubbles: true
 			}));
 		}
-		if(changedProperties.has('mode')){
+		if (changedProperties.has('mode')) {
+			const scrollY = window.scrollY;
 			this.handleModeSwitch(changedProperties.get('mode'));
 			this.dispatchEvent(new CustomEvent('mode-changed', {
 				detail: { mode: this.mode },
 				bubbles: true
 			}));
+			requestAnimationFrame(() => window.scrollTo(0, scrollY));
+		}
+		if(changedProperties.has('fullscreen')){
+			requestAnimationFrame(() => this.monacoEditor?.layout());
 		}
 	}
 
@@ -120,8 +145,56 @@ export default class HtmlEditor extends ShadowComponent {
 	/*
 		Module Loading
 	*/
+	async loadControls() {
+		if (this.controlsLoaded) return;
+		this.controlsLoaded = true;
+		const base = new URL('./htmlEditorControls/', import.meta.url).href;
+		await Promise.all([
+			import(/* @vite-ignore */ `${base}Bold.js`),
+			import(/* @vite-ignore */ `${base}Italic.js`),
+			import(/* @vite-ignore */ `${base}Underline.js`),
+			import(/* @vite-ignore */ `${base}Strikethrough.js`),
+			import(/* @vite-ignore */ `${base}InlineCode.js`),
+			import(/* @vite-ignore */ `${base}DropdownControl.js`),
+			import(/* @vite-ignore */ `${base}FormatBlock.js`),
+			import(/* @vite-ignore */ `${base}CodeBlock.js`),
+			import(/* @vite-ignore */ `${base}BulletList.js`),
+			import(/* @vite-ignore */ `${base}NumberList.js`),
+			import(/* @vite-ignore */ `${base}AlignLeft.js`),
+			import(/* @vite-ignore */ `${base}AlignCenter.js`),
+			import(/* @vite-ignore */ `${base}AlignRight.js`),
+			import(/* @vite-ignore */ `${base}AlignJustify.js`),
+			import(/* @vite-ignore */ `${base}TextColor.js`),
+			import(/* @vite-ignore */ `${base}TextBackgroundColor.js`),
+			import(/* @vite-ignore */ `${base}ClearFormatting.js`),
+			import(/* @vite-ignore */ `${base}CreateLink.js`),
+			import(/* @vite-ignore */ `${base}InsertTable.js`),
+			import(/* @vite-ignore */ `${base}ControlGroup.js`),
+			import(/* @vite-ignore */ `${base}ControlSpacer.js`),
+			import(/* @vite-ignore */ `${base}Mode.js`),
+			import(/* @vite-ignore */ `${base}WordCount.js`),
+			import(/* @vite-ignore */ `${base}CharacterCount.js`),
+		]);
+		const cecBase = new URL('./codeEditorControls/', import.meta.url).href;
+		await Promise.all([
+			import(/* @vite-ignore */ `${cecBase}FormatCode.js`),
+			import(/* @vite-ignore */ `${cecBase}CopyCode.js`),
+			import(/* @vite-ignore */ `${cecBase}Undo.js`),
+			import(/* @vite-ignore */ `${cecBase}Redo.js`),
+			import(/* @vite-ignore */ `${cecBase}WordWrap.js`),
+			import(/* @vite-ignore */ `${cecBase}Minimap.js`),
+			import(/* @vite-ignore */ `${cecBase}FindReplace.js`),
+			import(/* @vite-ignore */ `${cecBase}FontSize.js`),
+			import(/* @vite-ignore */ `${cecBase}FoldAll.js`),
+			import(/* @vite-ignore */ `${cecBase}EditorTheme.js`),
+			import(/* @vite-ignore */ `${cecBase}Fullscreen.js`),
+			import(/* @vite-ignore */ `${cecBase}ControlGroup.js`),
+		]);
+		this.requestUpdate();
+	}
+
 	async loadNodeModules() {
-		if(!this.nodes?.trim()) return [];
+		if (!this.nodes?.trim()) return [];
 		const base = new URL('./htmlEditorNodes/', import.meta.url).href;
 		const modules = await Promise.all(
 			this.nodes.split(',').map(n => n.trim()).filter(Boolean).map(n => import(/* @vite-ignore */ `${base}${n}.js`))
@@ -130,7 +203,7 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	async loadLexicalModules() {
-		const base = this.lexicalSrc || DEFAULT_LEXICAL_BASE;
+		const base = this.lexicalSrc || window.kempo?.lexicalUrl || DEFAULT_LEXICAL_BASE;
 		const url = pkg => lexicalUrl(base, pkg);
 		const [lexical, richText, lexicalHtml, history, list, link, selection, table, code] = await Promise.all([
 			import(/* @vite-ignore */ url('lexical')),
@@ -152,7 +225,7 @@ export default class HtmlEditor extends ShadowComponent {
 					span: () => ({
 						conversion: domNode => {
 							const style = domNode.getAttribute('style');
-							if(!style) return null;
+							if (!style) return null;
 							const node = lexical.$createTextNode(domNode.textContent);
 							node.setStyle(style);
 							return { node };
@@ -200,15 +273,15 @@ export default class HtmlEditor extends ShadowComponent {
 			richText.registerRichText(this.lexicalEditor),
 			history.registerHistory(this.lexicalEditor, history.createEmptyHistoryState(), 300)
 		];
-		if(list.registerList) this.cleanupFns.push(list.registerList(this.lexicalEditor));
-		if(table.registerTable) this.cleanupFns.push(table.registerTable(this.lexicalEditor));
-		if(code.registerCodeHighlighting) this.cleanupFns.push(code.registerCodeHighlighting(this.lexicalEditor));
-		if(link.registerLink) this.cleanupFns.push(link.registerLink(this.lexicalEditor, {
+		if (list.registerList) this.cleanupFns.push(list.registerList(this.lexicalEditor));
+		if (table.registerTable) this.cleanupFns.push(table.registerTable(this.lexicalEditor));
+		if (code.registerCodeHighlighting) this.cleanupFns.push(code.registerCodeHighlighting(this.lexicalEditor));
+		if (link.registerLink) this.cleanupFns.push(link.registerLink(this.lexicalEditor, {
 			validateUrl: url => { try { new URL(url); return true; } catch { return false; } }
 		}));
 
-		if(this.value){
-			if(this.isVisualCompatible(this.value)){
+		if (this.value) {
+			if (this.isVisualCompatible(this.value)) {
 				this.importHtmlToLexical(this.value);
 			} else {
 				this.skipLexicalExport = true;
@@ -217,7 +290,7 @@ export default class HtmlEditor extends ShadowComponent {
 		}
 
 		this.lexicalEditor.registerUpdateListener(({ dirtyElements, dirtyLeaves }) => {
-			if(dirtyElements.size === 0 && dirtyLeaves.size === 0) return;
+			if (dirtyElements.size === 0 && dirtyLeaves.size === 0) return;
 			this.debouncedSyncValue();
 			this.dispatchEvent(new CustomEvent('input', {
 				detail: { value: this.exportHtmlFromLexical() },
@@ -232,14 +305,14 @@ export default class HtmlEditor extends ShadowComponent {
 		);
 
 		this.syncShadowSelection = () => {
-			if(this.mode !== 'visual' || !this.lexicalEditor) return;
+			if (this.mode !== 'visual' || !this.lexicalEditor) return;
 			const shadowSel = this.shadowRoot.getSelection?.();
-			if(!shadowSel || shadowSel.rangeCount === 0) return;
+			if (!shadowSel || shadowSel.rangeCount === 0) return;
 			const range = shadowSel.getRangeAt(0);
-			if(!this.lexicalContainer.contains(range.startContainer)) return;
+			if (!this.lexicalContainer.contains(range.startContainer)) return;
 			this.lexicalEditor.update(() => {
 				const lexSel = lexical.$createRangeSelectionFromDom(shadowSel, this.lexicalEditor);
-				if(lexSel) lexical.$setSelection(lexSel);
+				if (lexSel) lexical.$setSelection(lexSel);
 			}, { discrete: true });
 			this.updateSelection();
 		};
@@ -247,21 +320,21 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	async initMonaco() {
-		if(this.monacoEditor) return;
-		if(this.monacoInitPromise) return this.monacoInitPromise;
+		if (this.monacoEditor) return;
+		if (this.monacoInitPromise) return this.monacoInitPromise;
 		this.monacoInitPromise = this._initMonaco();
 		await this.monacoInitPromise;
 		this.monacoInitPromise = null;
 	}
 
 	async _initMonaco() {
-		const src = this.monacoSrc || DEFAULT_MONACO_SRC;
+		const src = this.monacoSrc || window.kempo?.monacoUrl || DEFAULT_MONACO_SRC;
 
 		await new Promise((resolve, reject) => {
-			if(window.monaco){ resolve(); return; }
-			if(window.require?.defined?.('vs/editor/editor.main')){ resolve(); return; }
+			if (window.monaco) { resolve(); return; }
+			if (window.require?.defined?.('vs/editor/editor.main')) { resolve(); return; }
 			const existing = document.querySelector(`script[src="${src}/vs/loader.js"]`);
-			if(existing){
+			if (existing) {
 				existing.addEventListener('load', () => {
 					window.require.config({ paths: { vs: `${src}/vs` } });
 					window.require(['vs/editor/editor.main'], () => resolve(), reject);
@@ -281,17 +354,18 @@ export default class HtmlEditor extends ShadowComponent {
 		this.monacoEditor = window.monaco.editor.create(this.monacoContainer, {
 			value: formatCode(this.value),
 			language: 'html',
-			theme: getCalculatedTheme() === 'dark' ? 'vs-dark' : 'vs',
-			minimap: { enabled: false },
-			wordWrap: 'on',
-			fontSize: 14,
+			theme: this.resolveMonacoTheme(),
+			minimap: { enabled: this.minimapEnabled },
+			wordWrap: this.wordWrap ? 'on' : 'off',
+			fontSize: this.fontSize,
 			scrollBeyondLastLine: false,
 			automaticLayout: true,
-			tabSize: 2
+			tabSize: 2,
+			padding: { top: 8 }
 		});
 
 		const monacoCSS = document.querySelector('link[href*="monaco"][href*="editor.main.css"]');
-		if(monacoCSS){
+		if (monacoCSS) {
 			const link = document.createElement('link');
 			link.rel = 'stylesheet';
 			link.href = monacoCSS.href;
@@ -299,7 +373,7 @@ export default class HtmlEditor extends ShadowComponent {
 		}
 
 		this.unsubscribeTheme = subscribeToTheme(() => {
-			if(this.monacoEditor) window.monaco.editor.setTheme(getCalculatedTheme() === 'dark' ? 'vs-dark' : 'vs');
+			if (this.monacoEditor && this.editorTheme === 'auto') window.monaco.editor.setTheme(this.resolveMonacoTheme());
 		});
 
 		this.monacoEditor.onDidChangeModelContent(() => {
@@ -316,21 +390,21 @@ export default class HtmlEditor extends ShadowComponent {
 		Content Sync
 	*/
 	importHtmlToLexical(htmlString) {
-		if(!this.lexicalEditor || !this.lx.lexicalHtml) return;
+		if (!this.lexicalEditor || !this.lx.lexicalHtml) return;
 		const { lexical, lexicalHtml } = this.lx;
 		const processed = (this.nodePreprocessors || []).reduce((str, fn) => fn(str), htmlString);
 		this.lexicalEditor.update(() => {
 			const root = lexical.$getRoot();
 			root.clear();
-			if(!processed?.trim()) return;
+			if (!processed?.trim()) return;
 			const dom = new DOMParser().parseFromString(processed, 'text/html');
 			const nodes = lexicalHtml.$generateNodesFromDOM(this.lexicalEditor, dom);
-			if(nodes.length > 0) lexical.$insertNodes(nodes);
+			if (nodes.length > 0) lexical.$insertNodes(nodes);
 		}, { discrete: true });
 	}
 
 	exportHtmlFromLexical() {
-		if(!this.lexicalEditor || !this.lx.lexicalHtml) return this.value;
+		if (!this.lexicalEditor || !this.lx.lexicalHtml) return this.value;
 		let result = '';
 		this.lexicalEditor.getEditorState().read(() => {
 			result = this.lx.lexicalHtml.$generateHtmlFromNodes(this.lexicalEditor, null);
@@ -339,16 +413,16 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	isVisualCompatible(htmlStr) {
-		if(!htmlStr?.trim()) return true;
+		if (!htmlStr?.trim()) return true;
 		const incompatibleTags = new Set(['script', 'style', 'meta', 'link', 'head', 'iframe', 'object', 'embed', 'canvas', 'video', 'audio', 'form', 'input', 'button', 'select', 'textarea', 'fieldset', 'label', 'noscript', 'template', 'slot', 'svg', 'math']);
 		const checkers = this.nodeCompatCheckers || [];
 		const doc = new DOMParser().parseFromString(htmlStr, 'text/html');
 		const walker = document.createTreeWalker(doc.body, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT);
 		let node;
-		while((node = walker.nextNode())){
-			if(checkers.some(check => check(node))) continue;
-			if(node.nodeType === Node.COMMENT_NODE) return false;
-			if(incompatibleTags.has(node.tagName?.toLowerCase())) return false;
+		while ((node = walker.nextNode())) {
+			if (checkers.some(check => check(node))) continue;
+			if (node.nodeType === Node.COMMENT_NODE) return false;
+			if (incompatibleTags.has(node.tagName?.toLowerCase())) return false;
 		}
 		return true;
 	}
@@ -357,16 +431,16 @@ export default class HtmlEditor extends ShadowComponent {
 		const doc = new DOMParser().parseFromString(html, 'text/html');
 		doc.body.querySelectorAll('[class]').forEach(el => {
 			const classes = Array.from(el.classList).filter(c => !c.startsWith('k-editor-') && c !== 'td-u' && c !== 'td-lt');
-			if(classes.length === 0) el.removeAttribute('class');
+			if (classes.length === 0) el.removeAttribute('class');
 			else el.className = classes.join(' ');
 		});
 		doc.body.querySelectorAll('[style]').forEach(el => {
 			const style = el.style.cssText.replace(/white-space:\s*pre-wrap;?\s*/g, '').trim();
-			if(!style) el.removeAttribute('style');
+			if (!style) el.removeAttribute('style');
 			else el.style.cssText = style;
 		});
 		doc.body.querySelectorAll('span:not([class]):not([style]):not([id])').forEach(span => {
-			if(!span.attributes.length) span.replaceWith(...span.childNodes);
+			if (!span.attributes.length) span.replaceWith(...span.childNodes);
 		});
 		doc.body.querySelectorAll('b > strong, i > em, b > b, strong > strong, i > i, em > em').forEach(inner => {
 			inner.replaceWith(...inner.childNodes);
@@ -379,30 +453,30 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	syncValueFromLexical() {
-		if(!this.lexicalEditor) return;
+		if (!this.lexicalEditor) return;
 		this.lexicalValueSync = true;
 		this.value = this.exportHtmlFromLexical();
 		this.updateFormValue();
 	}
 
 	syncContentToEditors() {
-		if(this.mode === 'visual' && this.lexicalEditor){
+		if (this.mode === 'visual' && this.lexicalEditor) {
 			this.importHtmlToLexical(this.value);
 		}
 	}
 
 	async handleModeSwitch(previousMode) {
-		if(this.mode === 'code'){
-			if(this.lexicalEditor && !this.skipLexicalExport) this.value = this.exportHtmlFromLexical();
+		if (this.mode === 'code') {
+			if (this.lexicalEditor && !this.skipLexicalExport) this.value = this.exportHtmlFromLexical();
 			this.skipLexicalExport = false;
 			await this.initMonaco();
-			if(this.monacoEditor){
+			if (this.monacoEditor) {
 				this.monacoEditor.setValue(formatCode(this.value));
 				this.monacoEditor.layout();
 			}
-		} else if(this.mode === 'visual'){
-			if(this.monacoEditor) this.value = this.monacoEditor.getValue();
-			if(this.lexicalEditor) this.importHtmlToLexical(this.value);
+		} else if (this.mode === 'visual') {
+			if (this.monacoEditor) this.value = this.monacoEditor.getValue();
+			if (this.lexicalEditor) this.importHtmlToLexical(this.value);
 		}
 		this.requestUpdate();
 	}
@@ -426,14 +500,14 @@ export default class HtmlEditor extends ShadowComponent {
 		Selection Management
 	*/
 	updateSelection = () => {
-		if(this.mode !== 'visual' || !this.lexicalEditor){
+		if (this.mode !== 'visual' || !this.lexicalEditor) {
 			this.selection = null;
 			return;
 		}
 		const { lexical } = this.lx;
 		this.lexicalEditor.getEditorState().read(() => {
 			const sel = lexical.$getSelection();
-			if(lexical.$isRangeSelection(sel) && !sel.isCollapsed()){
+			if (lexical.$isRangeSelection(sel) && !sel.isCollapsed()) {
 				this.selection = { text: sel.getTextContent(), collapsed: false };
 			} else {
 				this.selection = null;
@@ -446,11 +520,11 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - Mode Control
 	*/
 	setMode(mode) {
-		if(!['visual', 'code'].includes(mode)) return this;
-		if(mode === 'visual' && !this.isVisualCompatible(this.getValue())){
+		if (!['visual', 'code'].includes(mode)) return this;
+		if (mode === 'visual' && !this.isVisualCompatible(this.getValue())) {
 			Dialog.confirm(
 				'This html contains code that is not compatible with the visual editor, the incompatible code will be lost',
-				response => { if(response) this.mode = mode; },
+				response => { if (response) this.mode = mode; },
 				{ title: 'Warning', confirmText: 'Change Anyways' }
 			);
 			return this;
@@ -467,18 +541,18 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - Content Management
 	*/
 	getValue() {
-		if(this.mode === 'visual' && this.lexicalEditor){
+		if (this.mode === 'visual' && this.lexicalEditor) {
 			this.skipValueSync = true;
 			this.value = this.exportHtmlFromLexical();
 			this.skipValueSync = false;
-		} else if(this.mode === 'code' && this.monacoEditor){
+		} else if (this.mode === 'code' && this.monacoEditor) {
 			return this.monacoEditor.getValue();
 		}
 		return this.value;
 	}
 
 	setValue(htmlStr) {
-		if(this.lexicalEditor && this.mode === 'visual' && !this.isVisualCompatible(htmlStr)){
+		if (this.lexicalEditor && this.mode === 'visual' && !this.isVisualCompatible(htmlStr)) {
 			this.value = htmlStr;
 			this.skipLexicalExport = true;
 			this.mode = 'code';
@@ -487,8 +561,8 @@ export default class HtmlEditor extends ShadowComponent {
 		}
 		this.skipValueSync = true;
 		this.value = htmlStr;
-		if(this.mode === 'visual') this.syncContentToEditors();
-		else if(this.mode === 'code' && this.monacoEditor) this.monacoEditor.setValue(formatCode(htmlStr));
+		if (this.mode === 'visual') this.syncContentToEditors();
+		else if (this.mode === 'code' && this.monacoEditor) this.monacoEditor.setValue(formatCode(htmlStr));
 		this.updateFormValue();
 		this.skipValueSync = false;
 		return this;
@@ -521,11 +595,16 @@ export default class HtmlEditor extends ShadowComponent {
 		return this;
 	}
 
+	inlineCode() {
+		this.lexicalFormat('code');
+		return this;
+	}
+
 	/*
 		Public Methods - Lists
 	*/
 	orderedList() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		this.lexicalEditor.update(() => {
 			this.lx.list.$insertList('number');
 		}, { discrete: true });
@@ -533,7 +612,7 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	unorderedList() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		this.lexicalEditor.update(() => {
 			this.lx.list.$insertList('bullet');
 		}, { discrete: true });
@@ -567,44 +646,44 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - Text Color
 	*/
 	setTextColor(color) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, selection } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			selection.$patchStyleText(sel, { color });
 		}, { discrete: true });
 		return this;
 	}
 
 	removeTextColor() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, selection } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			selection.$patchStyleText(sel, { color: null });
 		}, { discrete: true });
 		return this;
 	}
 
 	setTextBackgroundColor(color) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, selection } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			selection.$patchStyleText(sel, { 'background-color': color });
 		}, { discrete: true });
 		return this;
 	}
 
 	removeTextBackgroundColor() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, selection } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			selection.$patchStyleText(sel, { 'background-color': null });
 		}, { discrete: true });
 		return this;
@@ -614,13 +693,13 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - Formatting Control
 	*/
 	removeFormat() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, selection } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			sel.getNodes().forEach(node => {
-				if(lexical.$isTextNode(node)) node.setFormat(0);
+				if (lexical.$isTextNode(node)) node.setFormat(0);
 			});
 			selection.$patchStyleText(sel, { color: null, 'background-color': null });
 		}, { discrete: true });
@@ -628,29 +707,29 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	formatBlock(tag) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, richText, code } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			const anchor = sel.anchor.getNode();
 			const topLevel = anchor.getTopLevelElementOrThrow();
 			const isCodeNode = code.$isCodeNode(topLevel);
 
 			let newBlock;
-			if(tag === 'p'){
+			if (tag === 'p') {
 				newBlock = lexical.$createParagraphNode();
-			} else if(tag.match(/^h[1-6]$/)){
+			} else if (tag.match(/^h[1-6]$/)) {
 				newBlock = richText.$createHeadingNode(tag);
-			} else if(tag === 'blockquote'){
+			} else if (tag === 'blockquote') {
 				newBlock = richText.$createQuoteNode();
-			} else if(tag === 'pre'){
+			} else if (tag === 'pre') {
 				newBlock = code.$createCodeNode();
 			} else {
 				return;
 			}
 
-			if(isCodeNode && tag !== 'pre'){
+			if (isCodeNode && tag !== 'pre') {
 				const text = topLevel.getTextContent();
 				topLevel.replace(newBlock);
 				newBlock.append(lexical.$createTextNode(text));
@@ -664,8 +743,68 @@ export default class HtmlEditor extends ShadowComponent {
 		return this;
 	}
 
+	isSelectionInCodeBlock() {
+		if (this.mode !== 'visual' || !this.lexicalEditor) return false;
+		let result = false;
+		const { lexical, code } = this.lx;
+		this.lexicalEditor.getEditorState().read(() => {
+			const sel = lexical.$getSelection();
+			if (!lexical.$isRangeSelection(sel)) return;
+			result = code.$isCodeNode(sel.anchor.getNode().getTopLevelElementOrThrow());
+		});
+		return result;
+	}
+
+	getTableAtSelection() {
+		if (this.mode !== 'visual' || !this.lexicalEditor) return null;
+		let result = null;
+		const { lexical, table } = this.lx;
+		this.lexicalEditor.getEditorState().read(() => {
+			const sel = lexical.$getSelection();
+			if (!lexical.$isRangeSelection(sel)) return;
+			let node = sel.anchor.getNode();
+			while (node) {
+				if (table.$isTableNode(node)) {
+					const rows = node.getChildren();
+					const cellData = [];
+					let hasHeaders = false;
+					let cols = 0;
+					rows.forEach((row, rowIndex) => {
+						const rowData = [];
+						row.getChildren().forEach(cell => {
+							if (rowIndex === 0 && table.$isTableCellNode(cell) && cell.getHeaderStyles() === table.TableCellHeaderStates.ROW) hasHeaders = true;
+							rowData.push(cell.getTextContent());
+						});
+						if (rowData.length > cols) cols = rowData.length;
+						cellData.push(rowData);
+					});
+					result = {
+						key: node.getKey(),
+						rows: hasHeaders ? rows.length - 1 : rows.length,
+						cols,
+						hasHeaders,
+						cellData
+					};
+					break;
+				}
+				node = node.getParent();
+			}
+		});
+		return result;
+	}
+
+	removeTableByKey(key) {
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
+		const { lexical } = this.lx;
+		this.lexicalEditor.update(() => {
+			const node = lexical.$getNodeByKey(key);
+			if (node) node.remove();
+		}, { discrete: true });
+		return this;
+	}
+
 	insertHTML(htmlStr) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, lexicalHtml } = this.lx;
 		this.lexicalEditor.update(() => {
 			const dom = new DOMParser().parseFromString(htmlStr, 'text/html');
@@ -680,14 +819,14 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	insertTable(rows, columns, includeHeaders = false, cellData = null) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, table } = this.lx;
 		this.lexicalEditor.update(() => {
 			const totalRows = rows + (includeHeaders ? 1 : 0);
 			const rowNodes = [];
-			for(let r = 0; r < totalRows; r++){
+			for (let r = 0; r < totalRows; r++) {
 				const cells = [];
-				for(let c = 0; c < columns; c++){
+				for (let c = 0; c < columns; c++) {
 					const isHeader = includeHeaders && r === 0;
 					const headerState = isHeader ? table.TableCellHeaderStates.ROW : table.TableCellHeaderStates.NO_STATUS;
 					const cell = table.$createTableCellNode(headerState);
@@ -701,7 +840,7 @@ export default class HtmlEditor extends ShadowComponent {
 			}
 			const tableNode = table.$createTableNode().append(...rowNodes);
 			const sel = lexical.$getSelection();
-			if(lexical.$isRangeSelection(sel)){
+			if (lexical.$isRangeSelection(sel)) {
 				const anchor = sel.anchor.getNode();
 				const topLevel = anchor.getTopLevelElementOrThrow();
 				topLevel.insertAfter(tableNode);
@@ -722,11 +861,11 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	replaceSelectionWithElement(element) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, lexicalHtml } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			sel.removeText();
 			const dom = new DOMParser().parseFromString(element.outerHTML, 'text/html');
 			const nodes = lexicalHtml.$generateNodesFromDOM(this.lexicalEditor, dom);
@@ -736,9 +875,9 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	wrapSelection(before, after, savedSelection = null) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const text = savedSelection || this.getSelectedText();
-		if(!text) return this;
+		if (!text) return this;
 		return this.insertHTML(before + text + after);
 	}
 
@@ -746,12 +885,12 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - Selection Management
 	*/
 	getSelection() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return null;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return null;
 		let result = null;
 		const { lexical } = this.lx;
 		this.lexicalEditor.getEditorState().read(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel) || sel.isCollapsed()) return;
+			if (!lexical.$isRangeSelection(sel) || sel.isCollapsed()) return;
 			result = { text: sel.getTextContent(), html: sel.getTextContent(), selection: sel };
 		});
 		return result;
@@ -759,11 +898,11 @@ export default class HtmlEditor extends ShadowComponent {
 
 	getSelectedText() {
 		let text = '';
-		if(this.mode !== 'visual' || !this.lexicalEditor) return text;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return text;
 		const { lexical } = this.lx;
 		this.lexicalEditor.getEditorState().read(() => {
 			const sel = lexical.$getSelection();
-			if(lexical.$isRangeSelection(sel)) text = sel.getTextContent();
+			if (lexical.$isRangeSelection(sel)) text = sel.getTextContent();
 		});
 		return text;
 	}
@@ -773,14 +912,14 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	selectAll() {
-		if(this.mode === 'visual' && this.lexicalEditor){
+		if (this.mode === 'visual' && this.lexicalEditor) {
 			const { lexical } = this.lx;
 			this.lexicalEditor.update(() => {
 				lexical.$selectAll();
 			}, { discrete: true });
-		} else if(this.monacoEditor){
+		} else if (this.monacoEditor) {
 			const model = this.monacoEditor.getModel();
-			if(model) this.monacoEditor.setSelection(model.getFullModelRange());
+			if (model) this.monacoEditor.setSelection(model.getFullModelRange());
 		}
 		return this;
 	}
@@ -790,24 +929,24 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	deleteSelection() {
-		if(this.mode === 'visual'){
+		if (this.mode === 'visual') {
 			this.lexicalCmd('DELETE_CHARACTER_COMMAND', false);
-		} else if(this.monacoEditor){
+		} else if (this.monacoEditor) {
 			this.monacoEditor.trigger('keyboard', 'deleteAllLeft', null);
 		}
 		return this;
 	}
 
 	getValueWithSelectionMarkers() {
-		if(this.mode !== 'visual' || !this.lexicalEditor){
+		if (this.mode !== 'visual' || !this.lexicalEditor) {
 			return { html: this.value, hasCursor: false, hasSelection: false, selectedText: '' };
 		}
 		let result = { html: this.exportHtmlFromLexical(), hasCursor: false, hasSelection: false, selectedText: '' };
 		const { lexical } = this.lx;
 		this.lexicalEditor.getEditorState().read(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
-			if(sel.isCollapsed()){
+			if (!lexical.$isRangeSelection(sel)) return;
+			if (sel.isCollapsed()) {
 				result.hasCursor = true;
 			} else {
 				result.hasSelection = true;
@@ -837,7 +976,7 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - Links and Media
 	*/
 	createLink(url) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { link } = this.lx;
 		this.lexicalEditor.update(() => {
 			link.$toggleLink(url);
@@ -846,11 +985,11 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	createLinkWithText(url, text) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, link } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(lexical.$isRangeSelection(sel) && !sel.isCollapsed()) sel.removeText();
+			if (lexical.$isRangeSelection(sel) && !sel.isCollapsed()) sel.removeText();
 			const linkNode = link.$createLinkNode(url);
 			linkNode.append(lexical.$createTextNode(text));
 			lexical.$insertNodes([linkNode]);
@@ -859,14 +998,14 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	unlink() {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return this;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return this;
 		const { lexical, link } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(!lexical.$isRangeSelection(sel)) return;
+			if (!lexical.$isRangeSelection(sel)) return;
 			sel.getNodes().forEach(node => {
 				const parent = node.getParent();
-				if(parent && link.$isLinkNode?.(parent)){
+				if (parent && link.$isLinkNode?.(parent)) {
 					parent.getChildren().forEach(child => parent.insertBefore(child));
 					parent.remove();
 				}
@@ -883,56 +1022,193 @@ export default class HtmlEditor extends ShadowComponent {
 		Public Methods - History
 	*/
 	undo() {
-		this.lexicalCmd('UNDO_COMMAND', undefined);
+		if (this.mode === 'code') this.monacoEditor?.trigger('toolbar', 'undo');
+		else this.lexicalCmd('UNDO_COMMAND', undefined);
 		return this;
 	}
 
 	redo() {
-		this.lexicalCmd('REDO_COMMAND', undefined);
+		if (this.mode === 'code') this.monacoEditor?.trigger('toolbar', 'redo');
+		else this.lexicalCmd('REDO_COMMAND', undefined);
 		return this;
+	}
+
+	/*
+		Public Methods - Code Editor Controls
+	*/
+	copyToClipboard() {
+		navigator.clipboard.writeText(this.getValue());
+		return this;
+	}
+
+	setEditorTheme(theme) {
+		if (['auto', 'light', 'dark'].includes(theme)) this.editorTheme = theme;
+		if (this.monacoEditor) window.monaco.editor.setTheme(this.resolveMonacoTheme());
+		return this;
+	}
+
+	openFind() {
+		this.monacoEditor?.getAction('actions.find')?.run();
+		return this;
+	}
+
+	foldAll() {
+		this.monacoEditor?.getAction('editor.foldAll')?.run();
+		return this;
+	}
+
+	unfoldAll() {
+		this.monacoEditor?.getAction('editor.unfoldAll')?.run();
+		return this;
+	}
+
+	enterFullscreen() {
+		this.fullscreen = true;
+		document.body.classList.add('no-scroll');
+		this.dispatchEvent(new CustomEvent('fullscreen-changed', { detail: { fullscreen: true }, bubbles: true }));
+		return this;
+	}
+
+	exitFullscreen() {
+		this.fullscreen = false;
+		document.body.classList.remove('no-scroll');
+		this.dispatchEvent(new CustomEvent('fullscreen-changed', { detail: { fullscreen: false }, bubbles: true }));
+		return this;
+	}
+
+	toggleFullscreen() {
+		return this.fullscreen ? this.exitFullscreen() : this.enterFullscreen();
+	}
+
+	increaseFontSize() {
+		this.fontSize = Math.min(this.fontSize + 2, 40);
+		this.monacoEditor?.updateOptions({ fontSize: this.fontSize });
+		return this;
+	}
+
+	decreaseFontSize() {
+		this.fontSize = Math.max(this.fontSize - 2, 8);
+		this.monacoEditor?.updateOptions({ fontSize: this.fontSize });
+		return this;
+	}
+
+	setWordWrap(enabled) {
+		this.wordWrap = enabled;
+		this.monacoEditor?.updateOptions({ wordWrap: enabled ? 'on' : 'off' });
+		return this;
+	}
+
+	setMinimap(enabled) {
+		this.minimapEnabled = enabled;
+		this.monacoEditor?.updateOptions({ minimap: { enabled } });
+		return this;
+	}
+
+	resolveMonacoTheme() {
+		if (this.editorTheme === 'dark') return 'vs-dark';
+		if (this.editorTheme === 'light') return 'vs';
+		return getCalculatedTheme() === 'dark' ? 'vs-dark' : 'vs';
 	}
 
 	/*
 		Utility Methods
 	*/
 	lexicalCmd(commandName, payload) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return;
 		const cmd = this.lx.lexical?.[commandName];
-		if(cmd) this.lexicalEditor.dispatchCommand(cmd, payload);
+		if (cmd) this.lexicalEditor.dispatchCommand(cmd, payload);
 	}
 
 	lexicalFormat(format) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return;
 		const { lexical } = this.lx;
 		this.lexicalEditor.update(() => {
 			const sel = lexical.$getSelection();
-			if(lexical.$isRangeSelection(sel)) sel.formatText(format);
+			if (lexical.$isRangeSelection(sel)) sel.formatText(format);
 		}, { discrete: true });
 	}
 
 	lexicalFormatElement(alignment) {
-		if(this.mode !== 'visual' || !this.lexicalEditor) return;
+		if (this.mode !== 'visual' || !this.lexicalEditor) return;
 		this.lexicalEditor.dispatchCommand(this.lx.lexical.FORMAT_ELEMENT_COMMAND, alignment);
 	}
 
 	/*
 		Rendering
 	*/
+	render() {
+		const set = this.constructor.controlSets[this.controls] ?? {};
+		return html`
+			${this.hasTopToolbar ? html`
+				<div class="toolbar-top bb">
+					<div class="toolbar-start">
+									<slot name="toolbar-top-left">${set.topLeft ?? ''}</slot>
+					</div>
+					<div class="toolbar-end">
+									<slot name="toolbar-top-right">${set.topRight ?? ''}</slot>
+					</div>
+				</div>
+			` : ''}
+			<div class="editor-container">
+				<div
+					class="lexical-editor"
+					contenteditable="true"
+					?hidden=${this.mode !== 'visual'}
+				></div>
+				<div
+					class="monaco-editor-container"
+					?hidden=${this.mode !== 'code'}
+				></div>
+			</div>
+			${this.hasBottomToolbar ? html`
+				<div class="toolbar-bottom bt">
+					<div class="toolbar-start">
+									<slot name="toolbar-bottom-left">${set.bottomLeft ?? ''}</slot>
+					</div>
+					<div class="toolbar-end">
+									<slot name="toolbar-bottom-right">${set.bottomRight ?? ''}</slot>
+					</div>
+				</div>
+			` : ''}
+		`;
+	}
+
+	
 	static styles = css`
 		:host {
 			display: flex;
 			flex-direction: column;
 			gap: 0;
-			height: 300px;
+			height: 400px;
+			background: var(--c_bg, rgb(249, 249, 249));
+		}
+		:host([fullscreen]) {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw !important;
+			height: 100vh !important;
+			z-index: 10000;
 		}
 		.toolbar-top,
 		.toolbar-bottom {
 			display: flex;
-			flex-wrap: wrap;
 			align-items: center;
-			gap: 0;
 			background: var(--bg-secondary);
 			min-height: 40px;
+			width: 100%;
+		}
+		.toolbar-start {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+		}
+		.toolbar-end {
+			display: flex;
+			flex-wrap: wrap-reverse;
+			align-items: center;
+			justify-content: flex-end;
+			margin-left: auto;
 		}
 		.editor-container {
 			position: relative;
@@ -1006,36 +1282,135 @@ export default class HtmlEditor extends ShadowComponent {
 		.monaco-editor-container {
 			border: 1px solid var(--border-color);
 		}
-		[hidden] {
-			display: none !important;
-		}
 	`;
 
-	render() {
-		return html`
-			${this.hasTopToolbar ? html`
-				<div class="toolbar-top bb">
-					<slot name="toolbar-top"></slot>
-				</div>
-			` : ''}
-			<div class="editor-container">
-				<div
-					class="lexical-editor"
-					contenteditable="true"
-					?hidden=${this.mode !== 'visual'}
-				></div>
-				<div
-					class="monaco-editor-container"
-					?hidden=${this.mode !== 'code'}
-				></div>
-			</div>
-			${this.hasBottomToolbar ? html`
-				<div class="toolbar-bottom bt">
-					<slot name="toolbar-bottom"></slot>
-				</div>
-			` : ''}
-		`;
-	}
+	/*
+		Static Properties
+	*/
+static controlSets = {
+		minimal: {
+			topLeft: html`
+				<k-hec-group>
+					<k-hec-bold></k-hec-bold>
+					<k-hec-italic></k-hec-italic>
+					<k-hec-underline></k-hec-underline>
+				</k-hec-group>
+				<k-hec-group>
+					<k-hec-bullet-list></k-hec-bullet-list>
+					<k-hec-number-list></k-hec-number-list>
+				</k-hec-group>
+			`,
+			topRight: null,
+			bottomLeft: null,
+			bottomRight: null,
+		},
+		normal: {
+			topLeft: html`
+				<k-hec-group>
+					<k-hec-bold></k-hec-bold>
+					<k-hec-italic></k-hec-italic>
+					<k-hec-underline></k-hec-underline>
+					<k-hec-strikethrough></k-hec-strikethrough>
+				</k-hec-group>
+				<k-hec-inline-code></k-hec-inline-code>
+				<k-hec-dropdown>
+					<k-icon slot="icon" name="format_paragraph"></k-icon>
+					<span slot="label">Text Style</span>
+					<k-hec-format-block tag="p">Paragraph</k-hec-format-block>
+					<k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
+					<k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
+					<k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
+					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
+					<k-hec-code-block></k-hec-code-block>
+				</k-hec-dropdown>
+				<k-hec-group>
+					<k-hec-bullet-list></k-hec-bullet-list>
+					<k-hec-number-list></k-hec-number-list>
+				</k-hec-group>
+			`,
+			topRight: html`
+				<k-hec-group>
+					<k-hec-align-left></k-hec-align-left>
+					<k-hec-align-center></k-hec-align-center>
+					<k-hec-align-right></k-hec-align-right>
+				</k-hec-group>
+				<k-hec-create-link></k-hec-create-link>
+				<k-cec-format-code></k-cec-format-code>
+				<k-hec-mode></k-hec-mode>
+			`,
+			bottomLeft: html`<k-hec-word-count></k-hec-word-count>`,
+			bottomRight: null,
+		},
+		full: {
+			topLeft: html`
+				<k-hec-group>
+					<k-hec-bold></k-hec-bold>
+					<k-hec-italic></k-hec-italic>
+					<k-hec-underline></k-hec-underline>
+					<k-hec-strikethrough></k-hec-strikethrough>
+				</k-hec-group>
+				<k-hec-inline-code></k-hec-inline-code>
+				<k-hec-dropdown>
+					<k-icon slot="icon" name="format_paragraph"></k-icon>
+					<span slot="label">Text Style</span>
+					<k-hec-format-block tag="p">Paragraph</k-hec-format-block>
+					<k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
+					<k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
+					<k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
+					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
+					<k-hec-code-block></k-hec-code-block>
+				</k-hec-dropdown>
+				<k-hec-group>
+					<k-hec-bullet-list></k-hec-bullet-list>
+					<k-hec-number-list></k-hec-number-list>
+				</k-hec-group>
+			`,
+			topRight: html`
+				<k-hec-group>
+					<k-hec-align-left></k-hec-align-left>
+					<k-hec-align-center></k-hec-align-center>
+					<k-hec-align-right></k-hec-align-right>
+					<k-hec-align-justify></k-hec-align-justify>
+				</k-hec-group>
+				<k-hec-create-link></k-hec-create-link>
+				<k-hec-group>
+					<k-hec-text-color></k-hec-text-color>
+					<k-hec-text-background-color></k-hec-text-background-color>
+				</k-hec-group>
+				<k-hec-clear-formatting></k-hec-clear-formatting>
+				<k-hec-insert-table></k-hec-insert-table>
+				<k-cec-group>
+					<k-cec-undo></k-cec-undo>
+					<k-cec-redo></k-cec-redo>
+				</k-cec-group>
+				<k-cec-group>
+					<k-cec-format-code></k-cec-format-code>
+					<k-cec-copy-code></k-cec-copy-code>
+					<k-cec-find-replace></k-cec-find-replace>
+				</k-cec-group>
+				<k-cec-group>
+					<k-cec-word-wrap></k-cec-word-wrap>
+					<k-cec-minimap></k-cec-minimap>
+					<k-cec-fold-all></k-cec-fold-all>
+				</k-cec-group>
+				<k-cec-font-size></k-cec-font-size>
+				<k-cec-editor-theme></k-cec-editor-theme>
+				<k-hec-mode></k-hec-mode>
+				<k-cec-fullscreen></k-cec-fullscreen>
+			`,
+			bottomLeft: html`
+				<k-hec-word-count></k-hec-word-count>
+				<k-hec-character-count></k-hec-character-count>
+			`,
+			bottomRight: null,
+		},
+		"": {
+			topLeft: null,
+			topRight: null,
+			bottomLeft: null,
+			bottomRight: null,
+		}
+	};
 }
 
 customElements.define('k-html-editor', HtmlEditor);

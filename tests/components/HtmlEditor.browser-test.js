@@ -375,5 +375,212 @@ export default {
 		}
 		cleanup(container);
 		pass('Empty spans are unwrapped');
+	},
+
+	/*
+		Code Editor Proxy Methods
+	*/
+	'should have code editor proxy methods': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		const methods = ['copyToClipboard', 'setEditorTheme', 'openFind', 'foldAll', 'unfoldAll', 'increaseFontSize', 'decreaseFontSize', 'setWordWrap', 'setMinimap', 'resolveMonacoTheme'];
+		for(const m of methods){
+			if(typeof editor[m] !== 'function'){
+				cleanup(container);
+				return fail(`Missing method: ${m}`);
+			}
+		}
+		cleanup(container);
+		pass('All code editor proxy methods exist');
+	},
+
+	'should initialize code editor properties': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		if(editor.editorTheme !== 'auto'){
+			cleanup(container);
+			return fail(`Expected editorTheme 'auto', got '${editor.editorTheme}'`);
+		}
+		if(editor.wordWrap !== true){
+			cleanup(container);
+			return fail(`Expected wordWrap true, got ${editor.wordWrap}`);
+		}
+		if(editor.minimapEnabled !== false){
+			cleanup(container);
+			return fail(`Expected minimapEnabled false, got ${editor.minimapEnabled}`);
+		}
+		if(editor.fontSize !== 14){
+			cleanup(container);
+			return fail(`Expected fontSize 14, got ${editor.fontSize}`);
+		}
+		cleanup(container);
+		pass('Code editor properties initialized correctly');
+	},
+
+	'undo should work in code mode': async ({pass, fail}) => {
+		const { container, editor } = await createEditor({ value: '<p>Hello</p>' });
+		await editor.setMode('code');
+		await wait(500);
+		try {
+			editor.undo();
+			cleanup(container);
+			pass('undo works in code mode');
+		} catch(e) {
+			cleanup(container);
+			fail(`undo threw in code mode: ${e.message}`);
+		}
+	},
+
+	'redo should work in code mode': async ({pass, fail}) => {
+		const { container, editor } = await createEditor({ value: '<p>Hello</p>' });
+		await editor.setMode('code');
+		await wait(500);
+		try {
+			editor.redo();
+			cleanup(container);
+			pass('redo works in code mode');
+		} catch(e) {
+			cleanup(container);
+			fail(`redo threw in code mode: ${e.message}`);
+		}
+	},
+
+	'setEditorTheme should update editorTheme property': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.setEditorTheme('dark');
+		if(editor.editorTheme !== 'dark'){
+			cleanup(container);
+			return fail(`Expected 'dark', got '${editor.editorTheme}'`);
+		}
+		editor.setEditorTheme('auto');
+		if(editor.editorTheme !== 'auto'){
+			cleanup(container);
+			return fail(`Expected 'auto', got '${editor.editorTheme}'`);
+		}
+		cleanup(container);
+		pass('setEditorTheme updates property');
+	},
+
+	'setEditorTheme should reject invalid values': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.setEditorTheme('invalid');
+		if(editor.editorTheme !== 'auto'){
+			cleanup(container);
+			return fail(`Should not accept invalid theme, got '${editor.editorTheme}'`);
+		}
+		cleanup(container);
+		pass('setEditorTheme rejects invalid values');
+	},
+
+	'increaseFontSize should increase fontSize': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.increaseFontSize();
+		if(editor.fontSize !== 16){
+			cleanup(container);
+			return fail(`Expected 16, got ${editor.fontSize}`);
+		}
+		cleanup(container);
+		pass('increaseFontSize works');
+	},
+
+	'decreaseFontSize should decrease fontSize': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.decreaseFontSize();
+		if(editor.fontSize !== 12){
+			cleanup(container);
+			return fail(`Expected 12, got ${editor.fontSize}`);
+		}
+		cleanup(container);
+		pass('decreaseFontSize works');
+	},
+
+	'fontSize should clamp to bounds': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		for(let i = 0; i < 20; i++) editor.increaseFontSize();
+		if(editor.fontSize !== 40){
+			cleanup(container);
+			return fail(`Expected max 40, got ${editor.fontSize}`);
+		}
+		editor.fontSize = 14;
+		for(let i = 0; i < 20; i++) editor.decreaseFontSize();
+		if(editor.fontSize !== 8){
+			cleanup(container);
+			return fail(`Expected min 8, got ${editor.fontSize}`);
+		}
+		cleanup(container);
+		pass('fontSize clamps correctly');
+	},
+
+	'setWordWrap should update wordWrap property': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.setWordWrap(false);
+		if(editor.wordWrap !== false){
+			cleanup(container);
+			return fail(`Expected false, got ${editor.wordWrap}`);
+		}
+		editor.setWordWrap(true);
+		if(editor.wordWrap !== true){
+			cleanup(container);
+			return fail(`Expected true, got ${editor.wordWrap}`);
+		}
+		cleanup(container);
+		pass('setWordWrap updates property');
+	},
+
+	'setMinimap should update minimapEnabled property': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.setMinimap(true);
+		if(editor.minimapEnabled !== true){
+			cleanup(container);
+			return fail(`Expected true, got ${editor.minimapEnabled}`);
+		}
+		editor.setMinimap(false);
+		if(editor.minimapEnabled !== false){
+			cleanup(container);
+			return fail(`Expected false, got ${editor.minimapEnabled}`);
+		}
+		cleanup(container);
+		pass('setMinimap updates property');
+	},
+
+	'resolveMonacoTheme should return correct theme strings': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		editor.editorTheme = 'dark';
+		if(editor.resolveMonacoTheme() !== 'vs-dark'){
+			cleanup(container);
+			return fail(`Expected 'vs-dark' for dark theme`);
+		}
+		editor.editorTheme = 'light';
+		if(editor.resolveMonacoTheme() !== 'vs'){
+			cleanup(container);
+			return fail(`Expected 'vs' for light theme`);
+		}
+		editor.editorTheme = 'auto';
+		const autoTheme = editor.resolveMonacoTheme();
+		if(autoTheme !== 'vs' && autoTheme !== 'vs-dark'){
+			cleanup(container);
+			return fail(`Expected 'vs' or 'vs-dark' for auto, got '${autoTheme}'`);
+		}
+		cleanup(container);
+		pass('resolveMonacoTheme returns correct strings');
+	},
+
+	'proxy methods should return this for chaining': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		const methods = [
+			['setEditorTheme', 'dark'],
+			['setWordWrap', false],
+			['setMinimap', true],
+			['increaseFontSize'],
+			['decreaseFontSize'],
+			['copyToClipboard']
+		];
+		for(const [method, ...args] of methods){
+			const result = editor[method](...args);
+			if(result !== editor){
+				cleanup(container);
+				return fail(`${method} should return this`);
+			}
+		}
+		cleanup(container);
+		pass('Proxy methods return this for chaining');
 	}
 };

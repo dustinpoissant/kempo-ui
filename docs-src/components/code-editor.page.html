@@ -1,0 +1,235 @@
+<page pageName="CodeEditor" title="CodeEditor - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicExample">Basic Example</a><br />
+        <a href="#controlsExample">Built-in Controls</a><br />
+        <a href="#customControls">Custom Controls</a><br />
+        <a href="#height">Setting Height</a><br />
+        <a href="#jsApi">JavaScript API</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#globalConfig">Global Configuration</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#slots">Toolbar Slots</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A Monaco-powered code editor component with language support, theme integration, optional toolbar controls, and form association.</p>
+
+    <h3 id="basicExample"><a href="#basicExample" class="no-link">Basic Example</a></h3>
+    <p>A simple code editor with JavaScript syntax highlighting:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;javascript&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-code-editor id="basicEditor" language="javascript" class="b r" value="function greet(name) {
+  return 'Hello, ' + name + '!';
+}
+
+console.log(greet('World'));"></k-code-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="controlsExample"><a href="#controlsExample" class="no-link">Built-in Controls</a></h3>
+    <p>Use the <code>controls</code> attribute to show built-in toolbar controls:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;javascript&#x27;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&#x27;full&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-code-editor id="controlsEditor" language="javascript" controls="full" class="b r" value="const arr = [3, 1, 4, 1, 5, 9];
+const sorted = arr.sort((a, b) => a - b);
+console.log(sorted);"></k-code-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customControls"><a href="#customControls" class="no-link">Custom Controls</a></h3>
+    <p>Slot controls into the toolbar for a custom layout:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;html&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-copy-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-copy-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-editor-theme</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-editor-theme</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-code-editor id="customEditor" language="html" class="b r" value="<div class='container'>
+  <h1>Hello World</h1>
+  <p>This is a paragraph.</p>
+</div>">
+            <k-cec-format-code slot="toolbar-top-left"></k-cec-format-code>
+            <k-cec-copy-code slot="toolbar-top-left"></k-cec-copy-code>
+            <k-cec-editor-theme slot="toolbar-top-right"></k-cec-editor-theme>
+            <k-cec-fullscreen slot="toolbar-top-right"></k-cec-fullscreen>
+          </k-code-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="height"><a href="#height" class="no-link">Setting Height</a></h3>
+    <p>The default height is <code>400px</code>. Override it with an inline style or CSS class on the element:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;height: 500px&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-code-editor class="b r" language="javascript" style="height: 500px" value="// Height set to 500px via style attribute
+const x = 42;
+console.log(x);"></k-code-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="jsApi"><a href="#jsApi" class="no-link">JavaScript API</a></h3>
+    <p>Interact with the editor programmatically:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> editor = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;k-code-editor&#x27;</span>);<br><span class="hljs-comment">// Get/set value</span><br>editor.<span class="hljs-title function_">setValue</span>(<span class="hljs-string">&#x27;console.log(&quot;hello&quot;)&#x27;</span>);<br><span class="hljs-keyword">const</span> code = editor.<span class="hljs-title function_">getValue</span>();<br><span class="hljs-comment">// Change language</span><br>editor.<span class="hljs-title function_">setLanguage</span>(<span class="hljs-string">&#x27;html&#x27;</span>);<br><span class="hljs-comment">// Format code</span><br>editor.<span class="hljs-title function_">formatCode</span>();<br><span class="hljs-comment">// Undo / Redo</span><br>editor.<span class="hljs-title function_">undo</span>();<br>editor.<span class="hljs-title function_">redo</span>();<br><span class="hljs-comment">// Copy to clipboard</span><br>editor.<span class="hljs-title function_">copyToClipboard</span>();<br><span class="hljs-comment">// Find &amp; Replace</span><br>editor.<span class="hljs-title function_">openFind</span>();<br><span class="hljs-comment">// Word wrap / Minimap</span><br>editor.<span class="hljs-title function_">setWordWrap</span>(<span class="hljs-literal">true</span>);<br>editor.<span class="hljs-title function_">setMinimap</span>(<span class="hljs-literal">true</span>);<br><span class="hljs-comment">// Font size</span><br>editor.<span class="hljs-title function_">increaseFontSize</span>();<br>editor.<span class="hljs-title function_">decreaseFontSize</span>();<br><span class="hljs-comment">// Fold / Unfold</span><br>editor.<span class="hljs-title function_">foldAll</span>();<br>editor.<span class="hljs-title function_">unfoldAll</span>();<br><span class="hljs-comment">// Change editor theme</span><br>editor.<span class="hljs-title function_">setEditorTheme</span>(<span class="hljs-string">&#x27;dark&#x27;</span>);</code></pre>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <p>The <code>CodeEditor</code> component is created via its custom element tag <code>&lt;k-code-editor&gt;</code>.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties / Attributes</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Property</th><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>name</code></td><td><code>name</code></td><td>String</td><td><code>''</code></td><td>Form field name</td></tr>
+        <tr><td><code>value</code></td><td><code>value</code></td><td>String</td><td><code>''</code></td><td>Editor content</td></tr>
+        <tr><td><code>language</code></td><td><code>language</code></td><td>String</td><td><code>'javascript'</code></td><td>Monaco language mode (e.g. <code>javascript</code>, <code>html</code>, <code>css</code>, <code>json</code>, <code>typescript</code>)</td></tr>
+        <tr><td><code>controls</code></td><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Set to <code>'full'</code> for built-in toolbar; <code>'none'</code> or empty for no built-in controls</td></tr>
+        <tr><td><code>monacoSrc</code></td><td><code>monaco-src</code></td><td>String</td><td><code>''</code></td><td>Custom Monaco CDN base URL</td></tr>
+        <tr><td><code>editorTheme</code></td><td><code>editor-theme</code></td><td>String</td><td><code>'auto'</code></td><td>Theme override: <code>'auto'</code> (matches site theme), <code>'light'</code>, or <code>'dark'</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="globalConfig"><a href="#globalConfig" class="no-link">Global Configuration</a></h3>
+    <p>Configure the Monaco CDN URL globally before importing the component:</p>
+    <pre><code class="hljs javascript"><span class="hljs-variable language_">window</span>.kempo = {<br>  <span class="hljs-attr">monacoUrl</span>: <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min&#x27;</span><br>};</code></pre>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Method</th><th>Returns</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>getValue()</code></td><td><code>String</code></td><td>Returns the current editor content</td></tr>
+        <tr><td><code>setValue(str)</code></td><td><code>this</code></td><td>Sets the editor content</td></tr>
+        <tr><td><code>clear()</code></td><td><code>this</code></td><td>Clears the editor content</td></tr>
+        <tr><td><code>formatCode()</code></td><td><code>this</code></td><td>Formats/beautifies the code using Monaco's built-in formatter</td></tr>
+        <tr><td><code>selectAll()</code></td><td><code>this</code></td><td>Selects all content</td></tr>
+        <tr><td><code>getSelectedText()</code></td><td><code>String</code></td><td>Returns the currently selected text</td></tr>
+        <tr><td><code>focus()</code></td><td><code>this</code></td><td>Focuses the editor</td></tr>
+        <tr><td><code>setLanguage(lang)</code></td><td><code>this</code></td><td>Changes the syntax language</td></tr>
+        <tr><td><code>setEditorTheme(theme)</code></td><td><code>this</code></td><td>Sets theme override: <code>'auto'</code>, <code>'light'</code>, or <code>'dark'</code></td></tr>
+        <tr><td><code>copyToClipboard()</code></td><td><code>this</code></td><td>Copies the editor content to the clipboard</td></tr>
+        <tr><td><code>undo()</code></td><td><code>this</code></td><td>Undoes the last edit</td></tr>
+        <tr><td><code>redo()</code></td><td><code>this</code></td><td>Redoes the last undone edit</td></tr>
+        <tr><td><code>setWordWrap(enabled)</code></td><td><code>this</code></td><td>Enables or disables word wrapping</td></tr>
+        <tr><td><code>setMinimap(enabled)</code></td><td><code>this</code></td><td>Shows or hides the minimap</td></tr>
+        <tr><td><code>openFind()</code></td><td><code>this</code></td><td>Opens Monaco's built-in Find &amp; Replace dialog</td></tr>
+        <tr><td><code>increaseFontSize()</code></td><td><code>this</code></td><td>Increases font size by 2px (max 40)</td></tr>
+        <tr><td><code>decreaseFontSize()</code></td><td><code>this</code></td><td>Decreases font size by 2px (min 8)</td></tr>
+        <tr><td><code>foldAll()</code></td><td><code>this</code></td><td>Folds all code regions</td></tr>
+        <tr><td><code>unfoldAll()</code></td><td><code>this</code></td><td>Unfolds all code regions</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Event</th><th>detail</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>ready</code></td><td><code>{ value }</code></td><td>Fired when Monaco is initialized and ready</td></tr>
+        <tr><td><code>change</code></td><td><code>{ value }</code></td><td>Fired when the content changes</td></tr>
+        <tr><td><code>input</code></td><td><code>{ value }</code></td><td>Fired on each keystroke/edit</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Toolbar Slots</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Slot</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>toolbar-top-left</code></td><td>Left section of the top toolbar</td></tr>
+        <tr><td><code>toolbar-top-center</code></td><td>Center section of the top toolbar</td></tr>
+        <tr><td><code>toolbar-top-right</code></td><td>Right section of the top toolbar</td></tr>
+        <tr><td><code>toolbar-top</code></td><td>Full-width top toolbar</td></tr>
+        <tr><td><code>toolbar-bottom-left</code></td><td>Left section of the bottom toolbar</td></tr>
+        <tr><td><code>toolbar-bottom-center</code></td><td>Center section of the bottom toolbar</td></tr>
+        <tr><td><code>toolbar-bottom-right</code></td><td>Right section of the bottom toolbar</td></tr>
+        <tr><td><code>toolbar-bottom</code></td><td>Full-width bottom toolbar</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Available Controls</h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Element</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>&lt;k-cec-format-code&gt;</code></td><td>Formats the code using Monaco's built-in formatter</td></tr>
+        <tr><td><code>&lt;k-cec-copy-code&gt;</code></td><td>Copies the editor content to the clipboard</td></tr>
+        <tr><td><code>&lt;k-cec-undo&gt;</code></td><td>Undoes the last edit</td></tr>
+        <tr><td><code>&lt;k-cec-redo&gt;</code></td><td>Redoes the last undone edit</td></tr>
+        <tr><td><code>&lt;k-cec-word-wrap&gt;</code></td><td>Toggles word wrapping on/off</td></tr>
+        <tr><td><code>&lt;k-cec-minimap&gt;</code></td><td>Toggles the minimap on/off</td></tr>
+        <tr><td><code>&lt;k-cec-find-replace&gt;</code></td><td>Opens Monaco's Find &amp; Replace dialog</td></tr>
+        <tr><td><code>&lt;k-cec-font-size&gt;</code></td><td>Increase/decrease font size buttons</td></tr>
+        <tr><td><code>&lt;k-cec-fold-all&gt;</code></td><td>Toggles fold/unfold all code regions</td></tr>
+        <tr><td><code>&lt;k-cec-fullscreen&gt;</code></td><td>Toggles the editor in and out of fullscreen — visible in all modes</td></tr>
+        <tr><td><code>&lt;k-cec-language&gt;</code></td><td>Select dropdown to change the syntax language</td></tr>
+        <tr><td><code>&lt;k-cec-editor-theme&gt;</code></td><td>Select dropdown to switch between auto, light, and dark editor themes</td></tr>
+        <tr><td><code>&lt;k-cec-group&gt;</code></td><td>Groups controls visually with shared borders</td></tr>
+        <tr><td><code>&lt;k-cec-spacer&gt;</code></td><td>Flexible spacer to push controls apart</td></tr>
+      </tbody>
+    </table>
+
+    <script type="module" src="{{pathToRoot}}src/components/CodeEditor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FormatCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/CopyCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/EditorTheme.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Undo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Redo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/WordWrap.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Minimap.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FindReplace.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FoldAll.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/LanguageSelect.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Fullscreen.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/ControlGroup.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/ControlSpacer.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

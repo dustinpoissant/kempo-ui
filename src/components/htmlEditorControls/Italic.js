@@ -31,9 +31,7 @@ export default class Italic extends HtmlEditorControl {
 	/*
 		Event Handlers
 	*/
-	handleMouseDown = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
+	handleClick = () => {
 		if(this.editor) this.editor.italic();
 	};
 
@@ -52,7 +50,7 @@ export default class Italic extends HtmlEditorControl {
 		this.hidden = this.editorMode === 'code';
 		
 		return html`
-			<button class="${this.buttonClasses}" @mousedown="${this.handleMouseDown}">
+			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
 					<k-icon name="format_italic"></k-icon>
 				</slot>

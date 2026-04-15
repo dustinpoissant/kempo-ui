@@ -30,52 +30,16 @@ export default class InsertTable extends HtmlEditorControl {
 	/*
 		Event Handlers
 	*/
-	handleMouseDown = (e) => {
+	handleClick = () => {
 		if(!this.editor) return;
 
-		e.preventDefault();
-		e.stopPropagation();
 
-		// Check if cursor is in a table using Lexical
-		let isEditing = false;
-		let defaultRows = 3;
-		let defaultCols = 3;
-		let defaultHeaders = true;
-		let cellData = null;
-		let tableNodeKey = null;
-
-		if(this.editor.lexicalEditor){
-			const { lexical, table } = this.editor.lx;
-			this.editor.lexicalEditor.getEditorState().read(() => {
-				const sel = lexical.$getSelection();
-				if(!lexical.$isRangeSelection(sel)) return;
-				let node = sel.anchor.getNode();
-				while(node){
-					if(table.$isTableNode(node)){
-						isEditing = true;
-						tableNodeKey = node.getKey();
-						cellData = [];
-						const rows = node.getChildren();
-						let hasHeaders = false;
-						rows.forEach((row, rowIndex) => {
-							const rowData = [];
-							row.getChildren().forEach(cell => {
-								if(rowIndex === 0 && table.$isTableCellNode(cell) && cell.getHeaderStyles() === table.TableCellHeaderStates.ROW){
-									hasHeaders = true;
-								}
-								rowData.push(cell.getTextContent());
-							});
-							cellData.push(rowData);
-							if(rowData.length > defaultCols) defaultCols = rowData.length;
-						});
-						defaultHeaders = hasHeaders;
-						defaultRows = hasHeaders ? rows.length - 1 : rows.length;
-						break;
-					}
-					node = node.getParent();
-				}
-			});
-		}
+		const existing = this.editor.getTableAtSelection();
+		const isEditing = !!existing;
+		const defaultRows = existing?.rows ?? 3;
+		const defaultCols = existing?.cols ?? 3;
+		const defaultHeaders = existing?.hasHeaders ?? true;
+		const cellData = existing?.cellData ?? null;
 
 		// Create dialog inputs
 		const rowsInput = document.createElement('input');
@@ -124,15 +88,7 @@ export default class InsertTable extends HtmlEditorControl {
 				const rows = parseInt(rowsInput.value) || 3;
 				const cols = parseInt(colsInput.value) || 3;
 				const includeHeaders = headersCheckbox.checked;
-
-				if(isEditing && tableNodeKey){
-					const { lexical } = this.editor.lx;
-					this.editor.lexicalEditor.update(() => {
-						const tableNode = lexical.$getNodeByKey(tableNodeKey);
-						if(tableNode) tableNode.remove();
-					}, { discrete: true });
-				}
-
+				if(isEditing) this.editor.removeTableByKey(existing.key);
 				this.editor.insertTable(rows, cols, includeHeaders, cellData);
 			}
 		});
@@ -147,7 +103,7 @@ export default class InsertTable extends HtmlEditorControl {
 		return html`
 			<button
 				class="${this.buttonClasses}"
-				@mousedown="${this.handleMouseDown}"
+				@click="${this.handleClick}"
 			>
 				<slot name="icon">
 					<k-icon name="table"></k-icon>

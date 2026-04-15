@@ -30,6 +30,7 @@
           <k-filter-item filter-keywords="accordion components"><a href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="aside sidebar components"><a href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="card components"><a href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a href="../components/code-editor.html">Code Editor<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="color picker colorpicker components"><a href="../components/color-picker.html">Color Picker<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="content slider components"><a href="../components/content-slider.html">Content Slider<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="context state global components"><a href="../components/context.html">Context<br><small>Component</small></a></k-filter-item>
@@ -108,6 +109,7 @@
         <a href="../components/accordion.html">Accordion</a>
         <a href="../components/aside.html">Aside</a>
         <a href="../components/card.html">Card</a>
+        <a href="../components/code-editor.html">Code Editor</a>
         <a href="../components/color-picker.html">ColorPicker</a>
         <a href="../components/content-slider.html">Content Slider</a>
         <a href="../components/context.html">Context</a>
@@ -255,13 +257,16 @@
       <div class="m pl">
         <h6>Examples</h6>
         <a href="#fullExample">Complete Editor Example</a><br />
-        <a href="#javascriptUsage">JavaScript API Example</a><br />
         <a href="#incompatibleContent">Incompatible Content Example</a><br />
         <a href="#customNodes">Custom Nodes Example</a><br />
-        
+        <a href="#preConfigured">Pre-Configured Editors</a><br />
+        <a href="#height">Setting Height</a><br />
+        <a href="#javascriptUsage">JavaScript API Example</a><br />
+
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
         <a href="#properties">Properties</a><br />
+        <a href="#globalConfig">Global Configuration</a><br />
         <a href="#methods">Methods</a><br />
         <a href="#events">Events</a><br />
       </div>
@@ -275,111 +280,159 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"content"</span>&gt;</span>
-  <span class="hljs-comment">&lt;!-- Text formatting --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bold</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-italic</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-underline</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-strikethrough</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Inline code --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-inline-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-inline-code</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Text style --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"..."</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"label"</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"p"</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"h1"</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"h2"</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">"h3"</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-code-block</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-code-block</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-dropdown</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Lists --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bullet-list</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-number-list</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Alignment --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-left</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-center</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-right</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-justify</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Colors --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-color</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-background-color</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Clear formatting --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-clear-formatting</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-clear-formatting</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Link and table --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-create-link</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-insert-table</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Spacer and mode toggle --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-spacer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-spacer</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-top"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span>
-  
-  <span class="hljs-comment">&lt;!-- Bottom toolbar stats --&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-bottom"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-word-count</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"toolbar-bottom"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-character-count</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;content&#x27;</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Text formatting --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-underline</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-strikethrough</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-inline-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-inline-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;icon&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;...&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;label&#x27;</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;p&#x27;</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h1&#x27;</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h2&#x27;</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h3&#x27;</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-code-block</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-code-block</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-dropdown</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Lists, alignment, colors, link, table --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-center&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-number-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-center&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-left</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-center</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-right</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-justify</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-center&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-color</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-background-color</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-clear-formatting</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-center&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-clear-formatting</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-center&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-create-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-insert-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-group</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Mode toggle + format code --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-fullscreen</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Bottom toolbar stats --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-word-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-character-count</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-html-editor class="b r" value="<h3>Welcome to the HTML Editor</h3><p>This editor includes all formatting controls. Try selecting text and using the toolbar:</p><ul><li><b>Bold</b>, <i>italic</i>, <u>underline</u>, and <s>strikethrough</s></li><li>Text <span style='color: #e60000;'>colors</span> and <span style='background-color: #ffffcc;'>backgrounds</span></li><li>Lists, alignment, and <a href='#'>links</a></li><li>Format as <code>inline code</code> or code blocks</li></ul><p>Use the mode toggle to switch between visual and code editing.</p>" style="height: 600px">
-            <k-hec-group slot="toolbar-top">
+            <k-hec-group slot="toolbar-top-left">
               <k-hec-bold></k-hec-bold>
               <k-hec-italic></k-hec-italic>
               <k-hec-underline></k-hec-underline>
               <k-hec-strikethrough></k-hec-strikethrough>
             </k-hec-group>
-            <k-hec-inline-code slot="toolbar-top"></k-hec-inline-code>
-            <k-hec-dropdown slot="toolbar-top">
+            <k-hec-inline-code slot="toolbar-top-left"></k-hec-inline-code>
+            <k-hec-dropdown slot="toolbar-top-left">
               <k-icon slot="icon" name="format_paragraph"></k-icon>
-              
               <k-hec-format-block tag="p">Paragraph</k-hec-format-block>
               <k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
               <k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
               <k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
               <k-hec-code-block>Code Block</k-hec-code-block>
             </k-hec-dropdown>
-            <k-hec-group slot="toolbar-top">
+            <k-hec-group slot="toolbar-top-center">
               <k-hec-bullet-list></k-hec-bullet-list>
               <k-hec-number-list></k-hec-number-list>
             </k-hec-group>
-            <k-hec-group slot="toolbar-top">
+            <k-hec-group slot="toolbar-top-center">
               <k-hec-align-left></k-hec-align-left>
               <k-hec-align-center></k-hec-align-center>
               <k-hec-align-right></k-hec-align-right>
               <k-hec-align-justify></k-hec-align-justify>
             </k-hec-group>
-            <k-hec-group slot="toolbar-top">
+            <k-hec-group slot="toolbar-top-center">
               <k-hec-text-color></k-hec-text-color>
               <k-hec-text-background-color></k-hec-text-background-color>
             </k-hec-group>
-            <k-hec-clear-formatting slot="toolbar-top"></k-hec-clear-formatting>
-            <k-hec-group slot="toolbar-top">
+            <k-hec-clear-formatting slot="toolbar-top-center"></k-hec-clear-formatting>
+            <k-hec-group slot="toolbar-top-center">
               <k-hec-create-link></k-hec-create-link>
               <k-hec-insert-table></k-hec-insert-table>
             </k-hec-group>
-            <k-hec-spacer slot="toolbar-top"></k-hec-spacer>
-            <k-hec-mode slot="toolbar-top"></k-hec-mode>
-            <k-hec-word-count slot="toolbar-bottom"></k-hec-word-count>
-            <k-hec-character-count slot="toolbar-bottom"></k-hec-character-count>
+            <k-cec-format-code slot="toolbar-top-right"></k-cec-format-code>
+            <k-cec-fullscreen slot="toolbar-top-right"></k-cec-fullscreen>
+            <k-hec-mode slot="toolbar-top-right"></k-hec-mode>
+            <k-hec-word-count slot="toolbar-bottom-left"></k-hec-word-count>
+            <k-hec-character-count slot="toolbar-bottom-left"></k-hec-character-count>
           </k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="incompatibleContent"><a href="#incompatibleContent" class="no-link">Incompatible Content Example</a></h3>
+    <p>When the editor's value contains HTML that Lexical does not support (such as <code>&lt;svg&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, <code>&lt;video&gt;</code>, etc.), it automatically defaults to code mode to preserve the content. If the user attempts to switch to visual mode, a confirmation dialog warns that the incompatible code will be lost.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">id</span>=<span class="hljs-string">svgEditor</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor id="svgEditor" class="b r" value="<p>This value contains an inline SVG which Lexical does not support:</p><svg width='120' height='60' xmlns='http://www.w3.org/2000/svg'><rect width='120' height='60' rx='8' fill='#4a90d9'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='14'>SVG</text></svg><p>The editor detected incompatible content and defaulted to code mode automatically.</p>">
+            <k-hec-mode slot="toolbar-top-right"></k-hec-mode>
+          </k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customNodes"><a href="#customNodes" class="no-link">Custom Nodes Example</a></h3>
+    <p>Custom nodes extend what Lexical understands in visual mode. Import a node file and list its name in the <code>nodes</code> attribute (comma-separated filenames without <code>.js</code>). The built-in <code>HtmlComment</code> node preserves HTML comments as inline visual chips rather than forcing code mode — comments round-trip through the editor without being stripped.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Import the HtmlComment node --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;src/components/htmlEditorNodes/HtmlComment.js&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- Register the node with nodes attribute --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">nodes</span>=<span class="hljs-string">&#x27;HtmlComment&#x27;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;&lt;p&gt;This paragraph has an &lt;!-- important note --&gt; inline comment.&lt;/p&gt;&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <script type="module" src="/src/components/htmlEditorNodes/HtmlComment.js"></script>
+          <k-html-editor id="commentEditor" class="b r" nodes="HtmlComment" value="<p>This paragraph has an <!-- important note --> inline comment.</p>">
+            <k-hec-mode slot="toolbar-top-right"></k-hec-mode>
+          </k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="preConfigured"><a href="#preConfigured" class="no-link">Pre-Configured Editors</a></h3>
+    <p>The <code>controls</code> attribute lets you opt into a built-in toolbar without writing any slot markup. Set it directly on <code>&lt;k-html-editor&gt;</code> to one of the four levels below.</p>
+    <p>The six toolbar slots — <code>toolbar-top-left</code>, <code>toolbar-top-center</code>, <code>toolbar-top-right</code>, <code>toolbar-bottom-left</code>, <code>toolbar-bottom-center</code>, <code>toolbar-bottom-right</code> — all have slot fallback content driven by the <code>controls</code> value. Providing your own child element for any of these slots replaces just that section while leaving the others intact.</p>
+
+    <h4>controls="full"</h4>
+    <p>Every available control: text formatting, inline code, text-style dropdown (p, h1–h3, blockquote, code block), lists, alignment (with justify), text and background colours, clear formatting, link, table insertion, mode toggle, and word/character count.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor controls="full" class="b r" style="height:500px" value="<h3>Full Editor</h3><p>All controls are pre-configured — just drop in the tag.</p>"></k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>controls="normal"</h4>
+    <p>A balanced everyday toolbar: bold, italic, underline, strikethrough, inline code, text-style dropdown, lists, alignment, link, and mode toggle. Word count shown in the bottom bar.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor class="b r" controls="normal" value="<p>Normal editor with a balanced set of controls.</p>"></k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>controls="minimal"</h4>
+    <p>Essential controls only: bold, italic, underline, bullet list, numbered list, and mode toggle. Ideal for simple content forms.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor controls="minimal" class="b r" value="<p>Minimal editor with only the essential controls.</p>"></k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <p>All <code>controls</code> levels share the full JavaScript API — <code>getValue()</code>, <code>setValue()</code>, <code>bold()</code>, etc. You can still target any individual section by slotting a child into the relevant named slot.</p>
+
+    <p>Slots available for custom content:
+      <code>toolbar-top-left</code>, <code>toolbar-top-center</code>, <code>toolbar-top-right</code>,
+      <code>toolbar-bottom-left</code>, <code>toolbar-bottom-center</code>, <code>toolbar-bottom-right</code>.
+      The legacy <code>toolbar-top</code> and <code>toolbar-bottom</code> slots are also still supported (content is appended after the right section).
+    </p>
+
+    <h3 id="height"><a href="#height" class="no-link">Setting Height</a></h3>
+    <p>The default height is <code>400px</code>. Override it with an inline style or CSS class on the element:</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;height: 500px&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor class="b r" style="height: 500px" value="<p>Height set to 500px via style attribute.</p>"></k-html-editor>
         </k-card>
       </div>
     </div>
@@ -447,43 +500,6 @@
       </div>
     </div>
 
-    <h3 id="incompatibleContent"><a href="#incompatibleContent" class="no-link">Incompatible Content Example</a></h3>
-    <p>When the editor's value contains HTML that Lexical does not support (such as <code>&lt;svg&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, <code>&lt;video&gt;</code>, etc.), it automatically defaults to code mode to preserve the content. If the user attempts to switch to visual mode, a confirmation dialog warns that the incompatible code will be lost.</p>
-    <div class="row -mx">
-      <div class="col m-span-12 px">
-        <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;svgEditor&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&lt;p&gt;This value contains an inline SVG which Lexical does not support:&lt;/p&gt;&lt;svg width=&#x27;120&#x27; height=&#x27;60&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27;&gt;&lt;rect width=&#x27;120&#x27; height=&#x27;60&#x27; rx=&#x27;8&#x27; fill=&#x27;#4a90d9&#x27;/&gt;&lt;text x=&#x27;50%&#x27; y=&#x27;50%&#x27; dominant-baseline=&#x27;middle&#x27; text-anchor=&#x27;middle&#x27; fill=&#x27;white&#x27; font-size=&#x27;14&#x27;&gt;SVG&lt;/text&gt;&lt;/svg&gt;&lt;p&gt;The editor detected incompatible content and defaulted to code mode automatically.&lt;/p&gt;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-spacer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-spacer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
-        </k-card>
-      </div>
-      <div class="col m-span-12 px">
-        <k-card label="Output">
-          <k-html-editor id="svgEditor" class="b r" value="<p>This value contains an inline SVG which Lexical does not support:</p><svg width='120' height='60' xmlns='http://www.w3.org/2000/svg'><rect width='120' height='60' rx='8' fill='#4a90d9'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='14'>SVG</text></svg><p>The editor detected incompatible content and defaulted to code mode automatically.</p>">
-            <k-hec-spacer slot="toolbar-top"></k-hec-spacer>
-            <k-hec-mode slot="toolbar-top"></k-hec-mode>
-          </k-html-editor>
-        </k-card>
-      </div>
-    </div>
-
-    <h3 id="customNodes"><a href="#customNodes" class="no-link">Custom Nodes Example</a></h3>
-    <p>Custom nodes extend what Lexical understands in visual mode. Import a node file and list its name in the <code>nodes</code> attribute (comma-separated filenames without <code>.js</code>). The built-in <code>HtmlComment</code> node preserves HTML comments as inline visual chips rather than forcing code mode — comments round-trip through the editor without being stripped.</p>
-    <div class="row -mx">
-      <div class="col m-span-12 px">
-        <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Import the HtmlComment node --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;src/components/htmlEditorNodes/HtmlComment.js&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- Register the node with nodes attribute --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">nodes</span>=<span class="hljs-string">&#x27;HtmlComment&#x27;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;&lt;p&gt;This paragraph has an &lt;!-- important note --&gt; inline comment.&lt;/p&gt;&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-spacer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-spacer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
-        </k-card>
-      </div>
-      <div class="col m-span-12 px">
-        <k-card label="Output">
-          <script type="module" src="/src/components/htmlEditorNodes/HtmlComment.js"></script>
-          <k-html-editor id="commentEditor" class="b r" nodes="HtmlComment" value="<p>This paragraph has an <!-- important note --> inline comment.</p>">
-            <k-hec-spacer slot="toolbar-top"></k-hec-spacer>
-            <k-hec-mode slot="toolbar-top"></k-hec-mode>
-          </k-html-editor>
-        </k-card>
-      </div>
-    </div>
-
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -501,12 +517,45 @@
     <h5><code>mode<i>: String</i></code></h5>
     <p>Current editing mode. Either <code>'visual'</code> (WYSIWYG) or <code>'code'</code> (raw HTML). Default: <code>'visual'</code>. If the initial <code>value</code> contains content that is incompatible with the visual editor (such as <code>&lt;svg&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, etc.), the editor automatically switches to <code>'code'</code> mode to preserve the content. Custom nodes can extend what is considered compatible by defining a static <code>isVisualCompatible(domNode)</code> method.</p>
 
+    <h5><code>controls<i>: String</i></code></h5>
+    <p>Activates a built-in toolbar. Accepted values:</p>
+    <ul>
+      <li><code>'none'</code> (default) — no built-in toolbar; use named slots to build your own</li>
+      <li><code>'minimal'</code> — bold, italic, underline, lists, mode toggle</li>
+      <li><code>'normal'</code> — adds strikethrough, inline code, text-style dropdown, alignment, link, word count</li>
+      <li><code>'full'</code> — every available control including colours, clear formatting, table insertion, and character count</li>
+    </ul>
+    <p>The built-in controls appear as slot fallback content in the six toolbar slots. Providing your own child with a matching slot name for any section replaces just that section's defaults.</p>
+
     <h5><code>nodes<i>: String</i></code></h5>
     <p>Comma-separated list of custom Lexical node module filenames (without <code>.js</code>) to load from the <code>htmlEditorNodes/</code> directory. Custom nodes can define two static hooks:</p>
     <ul>
       <li><code>isVisualCompatible(domNode)</code> — returns <code>true</code> if the node handles a DOM construct that would otherwise be considered incompatible (e.g., HTML comments)</li>
       <li><code>preprocessHtml(htmlString)</code> — transforms raw HTML before Lexical parses it (e.g., converting <code>&lt;!-- --&gt;</code> to a parseable <code>&lt;span&gt;</code>)</li>
     </ul>
+
+    <h5><code>lexical-src<i>: String</i></code></h5>
+    <p>Base URL for loading Lexical modules on this specific editor instance. When set, this overrides both the global <code>window.kempo.lexicalUrl</code> config and the built-in CDN default. See <a href="#globalConfig">Global Configuration</a> for the full resolution order.</p>
+
+    <h5><code>monaco-src<i>: String</i></code></h5>
+    <p>Base URL for loading the Monaco editor on this specific editor instance. When set, this overrides both the global <code>window.kempo.monacoUrl</code> config and the built-in CDN default. See <a href="#globalConfig">Global Configuration</a> for the full resolution order.</p>
+
+    <h3 id="globalConfig"><a href="#globalConfig" class="no-link">Global Configuration</a></h3>
+    <p>The editor resolves dependency URLs in the following priority order (highest to lowest):</p>
+    <ol>
+      <li><strong>Element attribute</strong> — <code>lexical-src</code> / <code>monaco-src</code> on the element itself</li>
+      <li><strong>Global config</strong> — <code>window.kempo.lexicalUrl</code> / <code>window.kempo.monacoUrl</code></li>
+      <li><strong>CDN fallback</strong> — <code>https://esm.sh</code> (Lexical) and <code>https://cdn.jsdelivr.net/npm/monaco-editor@…/min</code> (Monaco)</li>
+    </ol>
+    <p>Set the global config before any <code>&lt;k-html-editor&gt;</code> initialises to apply a custom URL site-wide. This is useful when you have installed the packages locally via <code>npm install lexical</code> or <code>npm install monaco-editor</code> and serve them yourself:</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">window</span>.kempo = <span class="hljs-keyword">window</span>.kempo || {};
+  <span class="hljs-comment">// Point to your locally served Lexical modules (must be an esm.sh-compatible base URL)</span>
+  <span class="hljs-keyword">window</span>.kempo.lexicalUrl = <span class="hljs-string">'/node_modules'</span>;
+  <span class="hljs-comment">// Point to your locally served Monaco build</span>
+  <span class="hljs-keyword">window</span>.kempo.monacoUrl = <span class="hljs-string">'/node_modules/monaco-editor/min'</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>The per-element attributes take precedence over the global config, so you can mix strategies — e.g., use a local Lexical build globally while one specific editor still points to a CDN via its <code>lexical-src</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
 
@@ -671,10 +720,43 @@
 
     <h4>History</h4>
     <h5><code>undo()<i>: this</i></code></h5>
-    <p>Undoes the last action.</p>
+    <p>Undoes the last action. Works in both visual mode (Lexical) and code mode (Monaco).</p>
 
     <h5><code>redo()<i>: this</i></code></h5>
-    <p>Redoes the last undone action.</p>
+    <p>Redoes the last undone action. Works in both visual mode (Lexical) and code mode (Monaco).</p>
+
+    <h4>Code Editor Controls</h4>
+    <p>These methods control the Monaco code editor and are available in code mode. When used with <code>controls="full"</code>, the toolbar exposes buttons for these automatically.</p>
+
+    <h5><code>copyToClipboard()<i>: this</i></code></h5>
+    <p>Copies the full editor content to the clipboard.</p>
+
+    <h5><code>setEditorTheme(theme)<i>: this</i></code></h5>
+    <p>Sets the Monaco editor theme. Accepts <code>'auto'</code>, <code>'light'</code>, or <code>'dark'</code>.</p>
+
+    <h5><code>openFind()<i>: this</i></code></h5>
+    <p>Opens the Monaco Find &amp; Replace widget.</p>
+
+    <h5><code>foldAll()<i>: this</i></code></h5>
+    <p>Folds all collapsible regions in the code editor.</p>
+
+    <h5><code>unfoldAll()<i>: this</i></code></h5>
+    <p>Unfolds all collapsed regions in the code editor.</p>
+
+    <h5><code>increaseFontSize()<i>: this</i></code></h5>
+    <p>Increases the code editor font size by 2px (max 40px).</p>
+
+    <h5><code>decreaseFontSize()<i>: this</i></code></h5>
+    <p>Decreases the code editor font size by 2px (min 8px).</p>
+
+    <h5><code>setWordWrap(enabled)<i>: this</i></code></h5>
+    <p>Enables or disables word wrapping in the code editor.</p>
+
+    <h5><code>setMinimap(enabled)<i>: this</i></code></h5>
+    <p>Shows or hides the minimap in the code editor.</p>
+
+    <h5><code>resolveMonacoTheme()<i>: String</i></code></h5>
+    <p>Returns the resolved Monaco theme string (<code>'vs'</code> or <code>'vs-dark'</code>) based on the current <code>editorTheme</code> setting.</p>
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
 
@@ -708,6 +790,8 @@
     <script type="module" src="../src/components/htmlEditorControls/CodeBlock.js"></script>
     <script type="module" src="../src/components/htmlEditorControls/ControlGroup.js"></script>
     <script type="module" src="../src/components/htmlEditorControls/ControlSpacer.js"></script>
+    <script type="module" src="../src/components/codeEditorControls/FormatCode.js"></script>
+    <script type="module" src="../src/components/codeEditorControls/Fullscreen.js"></script>
     <script type="module" src="../src/components/htmlEditorControls/TextColor.js"></script>
     <script type="module" src="../src/components/htmlEditorControls/TextBackgroundColor.js"></script>
     <script type="module" src="../src/components/htmlEditorControls/ClearFormatting.js"></script>

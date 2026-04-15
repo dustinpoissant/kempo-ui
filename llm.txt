@@ -55,6 +55,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-accordion>` `<k-accordion-header>` `<k-accordion-panel>` | `Accordion.js` | Collapsible panel groups; `for-panel` attribute links headers to panels | [accordion.html](https://dustinpoissant.github.io/kempo-ui/components/accordion.html) |
 | `<k-aside>` `<k-aside-item>` `<k-aside-label>` `<k-aside-menu>` `<k-aside-spacer>` `<k-aside-toggle>` | `Aside.js` | Sidebar/drawer; `main="push"` or `main="overlay"`, `side="left|right"` | [aside.html](https://dustinpoissant.github.io/kempo-ui/components/aside.html) |
 | `<k-card>` | `Card.js` | Bordered container; optional `label` attribute | [card.html](https://dustinpoissant.github.io/kempo-ui/components/card.html) |
+| `<k-code-editor>` | `CodeEditor.js` | Monaco-powered code editor; `value`, `language`, `controls` attributes; form-associated; theme-aware | [code-editor.html](https://dustinpoissant.github.io/kempo-ui/components/code-editor.html) |
 | `<k-color-picker>` | `ColorPicker.js` | Full color picker (hex, rgb, hsl, hsv, alpha); `value` property | [color-picker.html](https://dustinpoissant.github.io/kempo-ui/components/color-picker.html) |
 | `<k-content-slider>` | `ContentSlider.js` | Swipeable carousel | [content-slider.html](https://dustinpoissant.github.io/kempo-ui/components/content-slider.html) |
 | `<k-context>` | `Context.js` | Non-rendering state container; `set(key,value)`, `get(key)`, `delete(key)`, `clear()`, `getData()`; fires `context:create`, `context:set`, `context:delete` | [context.html](https://dustinpoissant.github.io/kempo-ui/components/context.html) |
@@ -62,7 +63,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-dropdown>` | `Dropdown.js` | Action menu with keyboard navigation | [dropdown.html](https://dustinpoissant.github.io/kempo-ui/components/dropdown.html) |
 | `<k-filter-list>` `<k-filter-item>` | `FilterList.js` `FilterItem.js` | Filter/search list; items have `filter` attribute with keywords | [filter-list.html](https://dustinpoissant.github.io/kempo-ui/components/filter-list.html) |
 | `<k-focus-capture>` | `FocusCapture.js` | Traps keyboard focus within children | [focus-capture.html](https://dustinpoissant.github.io/kempo-ui/components/focus-capture.html) |
-| `<k-html-editor>` | `HtmlEditor.js` | WYSIWYG rich text editor; `value` property | [html-editor.html](https://dustinpoissant.github.io/kempo-ui/components/html-editor.html) |
+| `<k-html-editor>` | `HtmlEditor.js` | WYSIWYG rich text editor; `value` property; `controls` attribute (`full`/`normal`/`minimal`/`none`) for built-in toolbars | [html-editor.html](https://dustinpoissant.github.io/kempo-ui/components/html-editor.html) |
 | `<k-icon>` | `Icon.js` | SVG icon; `name` (looked up in `pathsToIcons`) or `src` (direct URL); `rotation`, `direction`, `animation` attributes | [icon.html](https://dustinpoissant.github.io/kempo-ui/components/icon.html) |
 | `<k-import>` | `Import.js` | Includes external HTML fragments; `src` attribute | [import.html](https://dustinpoissant.github.io/kempo-ui/components/import.html) |
 | `<k-main>` | `Main.js` | Layout main; automatically adjusts margins when a `k-aside[main="push"]` opens | — |

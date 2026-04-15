@@ -3,8 +3,7 @@ import { html, css } from '../../lit-all.min.js';
 
 export default class ControlGroup extends ShadowComponent {
 	static properties = {
-		editorMode: {type: String, state: true},
-		hidden: {type: Boolean, reflect: true}
+		hidden: { type: Boolean, reflect: true }
 	};
 
 	/*
@@ -12,6 +11,7 @@ export default class ControlGroup extends ShadowComponent {
 	*/
 	constructor() {
 		super();
+		this.hidden = false;
 	}
 
 	/*
@@ -22,41 +22,25 @@ export default class ControlGroup extends ShadowComponent {
 		if(!this.hasAttribute('class')){
 			this.setAttribute('class', 'b r mq');
 		}
-		this.updateEditorMode();
-		this.editor?.addEventListener('mode-changed', () => this.updateEditorMode());
+		this.addEventListener('control_visibility_change', this.checkVisibility);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		this.removeEventListener('control_visibility_change', this.checkVisibility);
 	}
 
 	/*
-		Getters for Editor Integration
+		Event Handlers
 	*/
-	get editor() {
-		return this.closest('k-html-editor');
-	}
-
-	/*
-		Utility Functions
-	*/
-	updateEditorMode(){
-		if(!this.editor) return;
-		this.editorMode = this.editor.mode;
-		this.requestUpdate();
-	}
-
-	hasVisibleChildren(){
-		const children = Array.from(this.children).filter(
-			child => child.tagName.startsWith('K-HEC-') && child.tagName !== 'K-HEC-SPACER'
-		);
-		
-		// Check if any child is visible (not hidden)
-		// Also check computed style as fallback for elements that may not have hidden set yet
-		return children.some(child => {
-			if(child.hidden === false || child.hidden === undefined){
-				const style = window.getComputedStyle(child);
-				return style.display !== 'none';
-			}
-			return false;
-		});
-	}
+	checkVisibility = (e) => {
+		if(e.target === this) return;
+		const wasHidden = this.hidden;
+		this.hidden = Array.from(this.children).every(child => child.hidden === true);
+		if(this.hidden !== wasHidden){
+			this.dispatchEvent(new CustomEvent('control_visibility_change', { bubbles: true }));
+		}
+	};
 
 	/*
 		Styles
@@ -65,11 +49,9 @@ export default class ControlGroup extends ShadowComponent {
 		:host {
 			display: inline-flex;
 		}
-		
 		:host([hidden]) {
 			display: none !important;
 		}
-		
 		::slotted(*) {
 			margin-top: -1px;
 			margin-bottom: -1px;
@@ -82,14 +64,7 @@ export default class ControlGroup extends ShadowComponent {
 	render() {
 		return html`<slot></slot>`;
 	}
-
-	updated(){
-		super.updated();
-		// Check after children have rendered - use requestAnimationFrame to ensure children are fully updated
-		requestAnimationFrame(() => {
-			this.hidden = !this.hasVisibleChildren();
-		});
-	}
 }
 
 customElements.define('k-hec-group', ControlGroup);
+

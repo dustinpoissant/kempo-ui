@@ -97,8 +97,6 @@ export default class TextColor extends DropdownControl {
 		Event Handlers
 	*/
 	handleRemove = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
 		if(this.editor){
 			this.editor.removeTextColor();
 		}
@@ -106,8 +104,6 @@ export default class TextColor extends DropdownControl {
 	};
 
 	handleSwatchClick = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
 		const color = e.target.style.backgroundColor;
 		if(this.editor && color){
 			const rgb = color.match(/\d+/g);
@@ -118,8 +114,6 @@ export default class TextColor extends DropdownControl {
 	};
 
 	handlePickerChange = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
 		const color = e.target.value;
 		if(this.editor && color){
 			this.editor.setTextColor(color);

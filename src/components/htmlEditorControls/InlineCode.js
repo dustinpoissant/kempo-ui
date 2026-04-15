@@ -31,10 +31,8 @@ export default class InlineCode extends HtmlEditorControl {
 	/*
 		Event Handlers
 	*/
-	handleMouseDown = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
-		if(this.editor) this.editor.lexicalFormat('code');
+	handleClick = () => {
+		this.editor?.inlineCode();
 	};
 
 	/*
@@ -52,7 +50,7 @@ export default class InlineCode extends HtmlEditorControl {
 		this.hidden = this.editorMode === 'code';
 		
 		return html`
-			<button class="${this.buttonClasses}" @mousedown="${this.handleMouseDown}">
+			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
 					<k-icon name="code_blocks"></k-icon>
 				</slot>

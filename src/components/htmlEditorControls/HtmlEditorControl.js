@@ -18,22 +18,60 @@ export default class HtmlEditorControl extends ShadowComponent {
 		this.btnClass = 'b r mq ph';
 		this.groupBtnClass = 'br ph';
 		this.groupLastBtnClass = 'ph';
+		this.hidesInCodeMode = true;
+	}
+
+	/*
+		Lifecycle Callbacks
+	*/
+	connectedCallback() {
+		super.connectedCallback();
+		const editor = this.editor;
+		if(!editor) return;
+		this.modeEditor = editor;
+		this.modeHandler = () => {
+			const shouldHide = this.hidesInCodeMode && this.modeEditor.mode === 'code';
+			if(this.hidden !== shouldHide){
+				this.hidden = shouldHide;
+				this.dispatchEvent(new CustomEvent('control_visibility_change', { bubbles: true }));
+			}
+		};
+		editor.addEventListener('mode-changed', this.modeHandler);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		this.modeEditor?.removeEventListener('mode-changed', this.modeHandler);
+		this.modeEditor = null;
+		this.modeHandler = null;
+	}
+
+	updated(changed) {
+		super.updated(changed);
+		if(changed.has('hidden')){
+			this.dispatchEvent(new CustomEvent('control_visibility_change', { bubbles: true }));
+		}
 	}
 
 	/*
 		Getters for Editor Integration
 	*/
 	get editor() {
+		const isEditor = el => el?.tagName?.startsWith('K-HTML-EDITOR');
 		let current = this.getRootNode();
-		
+
 		while(current instanceof ShadowRoot){
 			const host = current.host;
-			const editor = host.closest('k-html-editor');
-			if(editor) return editor;
+			if(isEditor(host)) return host;
 			current = host.getRootNode();
 		}
-		
-		return this.closest('k-html-editor');
+
+		let el = this.parentElement;
+		while(el){
+			if(isEditor(el)) return el;
+			el = el.parentElement;
+		}
+		return null;
 	}
 
 	/*

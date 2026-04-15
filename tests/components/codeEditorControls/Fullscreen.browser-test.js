@@ -1,0 +1,152 @@
+import '../../../src/components/CodeEditor.js';
+import '../../../src/components/HtmlEditor.js';
+import '../../../src/components/codeEditorControls/Fullscreen.js';
+
+const createEditorWithControl = async () => {
+	const container = document.createElement('div');
+	container.innerHTML = `
+		<k-code-editor language="javascript" style="height:200px">
+			<k-cec-fullscreen slot="toolbar-top-right"></k-cec-fullscreen>
+		</k-code-editor>
+	`;
+	document.body.appendChild(container);
+	const editor = container.querySelector('k-code-editor');
+	await new Promise(r => editor.addEventListener('ready', r, { once: true }));
+	const control = container.querySelector('k-cec-fullscreen');
+	return { container, editor, control };
+};
+
+const cleanup = container => {
+	if(container?.parentNode) container.parentNode.removeChild(container);
+};
+
+export default {
+	'should create element with shadow root': async ({pass, fail}) => {
+		const { container, control } = await createEditorWithControl();
+		if(!control?.shadowRoot){
+			cleanup(container);
+			return fail('Should create element with shadow root');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should render a button': async ({pass, fail}) => {
+		const { container, control } = await createEditorWithControl();
+		await control.updateComplete;
+		if(!control.shadowRoot.querySelector('button')){
+			cleanup(container);
+			return fail('Should render a button');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should find parent editor': async ({pass, fail}) => {
+		const { container, editor, control } = await createEditorWithControl();
+		if(control.editor !== editor){
+			cleanup(container);
+			return fail('Should find parent k-code-editor');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should default to fullscreen false': async ({pass, fail}) => {
+		const { container, control } = await createEditorWithControl();
+		if(control.fullscreen !== false){
+			cleanup(container);
+			return fail('Should default to fullscreen=false');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'click should call toggleFullscreen on editor': async ({pass, fail}) => {
+		const { container, editor, control } = await createEditorWithControl();
+		await control.updateComplete;
+		let called = false;
+		const orig = editor.toggleFullscreen.bind(editor);
+		editor.toggleFullscreen = () => { called = true; return orig(); };
+		control.shadowRoot.querySelector('button').click();
+		if(!called){
+			cleanup(container);
+			return fail('Should call toggleFullscreen on click');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'click should toggle control fullscreen state to true': async ({pass, fail}) => {
+		const { container, control } = await createEditorWithControl();
+		await control.updateComplete;
+		control.shadowRoot.querySelector('button').click();
+		await control.updateComplete;
+		if(!control.fullscreen){
+			cleanup(container);
+			return fail('Should set fullscreen to true after click');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'button title should update on fullscreen': async ({pass, fail}) => {
+		const { container, editor, control } = await createEditorWithControl();
+		await control.updateComplete;
+		const btnBefore = control.shadowRoot.querySelector('button');
+		if(btnBefore.title !== 'Fullscreen'){
+			cleanup(container);
+			return fail(`Expected title "Fullscreen", got "${btnBefore.title}"`);
+		}
+		editor.enterFullscreen();
+		await control.updateComplete;
+		const btnAfter = control.shadowRoot.querySelector('button');
+		if(btnAfter.title !== 'Exit Fullscreen'){
+			cleanup(container);
+			editor.exitFullscreen();
+			return fail(`Expected title "Exit Fullscreen", got "${btnAfter.title}"`);
+		}
+		editor.exitFullscreen();
+		cleanup(container);
+		pass();
+	},
+
+	'control should sync state when editor dispatches fullscreen-changed': async ({pass, fail}) => {
+		const { container, editor, control } = await createEditorWithControl();
+		editor.enterFullscreen();
+		await control.updateComplete;
+		if(!control.fullscreen){
+			editor.exitFullscreen();
+			cleanup(container);
+			return fail('Control should sync to fullscreen=true');
+		}
+		editor.exitFullscreen();
+		await control.updateComplete;
+		if(control.fullscreen){
+			cleanup(container);
+			return fail('Control should sync to fullscreen=false');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should not be hidden in visual mode when in html editor': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-html-editor>
+				<k-cec-fullscreen slot="toolbar-top-right"></k-cec-fullscreen>
+			</k-html-editor>
+		`;
+		document.body.appendChild(container);
+		const editor = container.querySelector('k-html-editor');
+		await new Promise(r => editor.addEventListener('ready', r, { once: true }));
+		const control = container.querySelector('k-cec-fullscreen');
+		await control.updateComplete;
+		if(control.hidden){
+			cleanup(container);
+			return fail('Fullscreen control should not be hidden in visual mode');
+		}
+		cleanup(container);
+		pass();
+	}
+};
