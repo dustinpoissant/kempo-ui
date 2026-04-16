@@ -15,6 +15,7 @@
           <a href="#disabledItems">Disabled Items</a><br />
           <a href="#links">Using Links</a><br />
           <a href="#events">Events</a><br />
+          <a href="#hover">Hover</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -225,6 +226,26 @@
       </div>
     </div>
 
+    <h3 id="hover"><a href="#hover" class="no-link">Hover</a></h3>
+    <p>Add the <code>hover</code> attribute to open the menu when the trigger is hovered instead of clicked. The menu closes automatically 150ms after the cursor leaves the component.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-dropdown</span> <span class="hljs-attr">hover</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;trigger&#x27;</span>&gt;</span>Hover Me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&#x27;edit&#x27;</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&#x27;copy&#x27;</span>&gt;</span>Copy<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-value</span>=<span class="hljs-string">&#x27;delete&#x27;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropdown hover>
+            <button slot="trigger">Hover Me</button>
+            <button data-value="edit">Edit</button>
+            <button data-value="copy">Copy</button>
+            <button data-value="delete">Delete</button>
+          </k-dropdown>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -252,6 +273,9 @@
 
     <h5><code>submenu<i>: boolean</i></code></h5>
     <p>Automatically set to <code>true</code> when a <code>k-dropdown</code> is nested inside another <code>k-dropdown</code>. Sub menus open on hover/focus, display a chevron icon, and default to <code>open-direction="right down"</code>. Supports <code>ArrowRight</code> to open and <code>ArrowLeft</code> to close via keyboard.</p>
+
+    <h5><code>hover<i>: boolean</i></code></h5>
+    <p>When present, the menu opens on <code>mouseenter</code> instead of trigger click. The menu closes 150ms after the cursor leaves the component. Default is <code>false</code>.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>open()<i>: this</i></code></h5>

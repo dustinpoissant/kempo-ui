@@ -814,6 +814,147 @@ export default {
 		pass('Clicking collapsed menu expands aside');
 	},
 
+	'AsideMenu: clicking collapsed menu should also set open to true': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'collapsed' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		menu.label = 'Projects';
+		aside.appendChild(menu);
+		await menu.updateComplete;
+		const btn = menu.shadowRoot.querySelector('button');
+		btn.click();
+		await menu.updateComplete;
+		if(!menu.open) {
+			cleanup(aside);
+			return fail('Menu open should be true after clicking collapsed trigger');
+		}
+		cleanup(aside);
+		pass('Clicking collapsed trigger sets menu open to true');
+	},
+
+	'AsideMenu: collapsed state should render k-dropdown': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'collapsed' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		menu.label = 'Projects';
+		aside.appendChild(menu);
+		await menu.updateComplete;
+		const dropdown = menu.shadowRoot.querySelector('k-dropdown');
+		if(!dropdown) {
+			cleanup(aside);
+			return fail('Collapsed menu should render k-dropdown');
+		}
+		cleanup(aside);
+		pass('Collapsed menu renders k-dropdown');
+	},
+
+	'AsideMenu: collapsed k-dropdown should have hover attribute': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'collapsed' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		menu.label = 'Projects';
+		aside.appendChild(menu);
+		await menu.updateComplete;
+		const dropdown = menu.shadowRoot.querySelector('k-dropdown');
+		if(!dropdown || !dropdown.hasAttribute('hover')) {
+			cleanup(aside);
+			return fail('Collapsed k-dropdown should have hover attribute');
+		}
+		cleanup(aside);
+		pass('Collapsed k-dropdown has hover attribute');
+	},
+
+	'AsideMenu: collapsed k-dropdown open-direction should be right down for left aside': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'collapsed', side: 'left' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		aside.appendChild(menu);
+		await menu.updateComplete;
+		const dropdown = menu.shadowRoot.querySelector('k-dropdown');
+		if(!dropdown || dropdown.getAttribute('open-direction') !== 'right down') {
+			cleanup(aside);
+			return fail(`Expected open-direction "right down", got "${dropdown?.getAttribute('open-direction')}"`);
+		}
+		cleanup(aside);
+		pass('Left aside collapsed menu opens right down');
+	},
+
+	'AsideMenu: collapsed k-dropdown open-direction should be left down for right aside': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'collapsed', side: 'right' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		aside.appendChild(menu);
+		await menu.updateComplete;
+		const dropdown = menu.shadowRoot.querySelector('k-dropdown');
+		if(!dropdown || dropdown.getAttribute('open-direction') !== 'left down') {
+			cleanup(aside);
+			return fail(`Expected open-direction "left down", got "${dropdown?.getAttribute('open-direction')}"`);
+		}
+		cleanup(aside);
+		pass('Right aside collapsed menu opens left down');
+	},
+
+	'AsideMenu: should not render k-dropdown when expanded': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		menu.label = 'Projects';
+		aside.appendChild(menu);
+		await menu.updateComplete;
+		const dropdown = menu.shadowRoot.querySelector('k-dropdown');
+		if(dropdown) {
+			cleanup(aside);
+			return fail('Expanded menu should not render k-dropdown');
+		}
+		cleanup(aside);
+		pass('Expanded menu does not render k-dropdown');
+	},
+
+	'AsideItem: inside AsideMenu should not sync collapsed state from aside': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		menu.label = 'Projects';
+		const item = document.createElement('k-aside-item');
+		item.icon = 'cards';
+		item.textContent = 'Dashboard';
+		menu.appendChild(item);
+		aside.appendChild(menu);
+		await item.updateComplete;
+		aside.collapse();
+		await aside.updateComplete;
+		await item.updateComplete;
+		if(item.collapsed) {
+			cleanup(aside);
+			return fail('AsideItem inside AsideMenu should not become collapsed');
+		}
+		cleanup(aside);
+		pass('AsideItem inside AsideMenu ignores aside collapsed state');
+	},
+
+	'AsideItem: inside AsideMenu should render label (not dot) when aside is collapsed': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		const menu = document.createElement('k-aside-menu');
+		menu.icon = 'folder';
+		menu.label = 'Projects';
+		const item = document.createElement('k-aside-item');
+		item.icon = 'cards';
+		item.textContent = 'Dashboard';
+		menu.appendChild(item);
+		aside.appendChild(menu);
+		await item.updateComplete;
+		aside.collapse();
+		await aside.updateComplete;
+		await item.updateComplete;
+		const label = item.shadowRoot.querySelector('.label');
+		if(!label) {
+			cleanup(aside);
+			return fail('AsideItem inside AsideMenu should still render label when aside is collapsed');
+		}
+		cleanup(aside);
+		pass('AsideItem inside AsideMenu renders label regardless of aside state');
+	},
+
 	/*
 		AsideSpacer
 	*/

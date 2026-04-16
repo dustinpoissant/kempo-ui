@@ -11,7 +11,8 @@ export default class Dropdown extends ShadowComponent {
 		openDirection: { type: String, reflect: true, attribute: 'open-direction' },
 		closeOnSelect: { type: Boolean, reflect: true, attribute: 'close-on-select', converter: boolTrueFalse },
 		closeOnClickOutside: { type: Boolean, reflect: true, attribute: 'close-on-click-outside', converter: boolTrueFalse },
-		submenu: { type: Boolean, reflect: true }
+		submenu: { type: Boolean, reflect: true },
+		hover: { type: Boolean, reflect: true }
 	};
 
 	constructor() {
@@ -21,6 +22,7 @@ export default class Dropdown extends ShadowComponent {
 		this.closeOnSelect = true;
 		this.closeOnClickOutside = true;
 		this.submenu = false;
+		this.hover = false;
 	}
 
 	/*
@@ -37,6 +39,10 @@ export default class Dropdown extends ShadowComponent {
 			this.addEventListener('mouseleave', this.handleSubmenuLeave);
 		} else {
 			document.addEventListener('click', this.handleDocumentClick);
+			if(this.hover) {
+				this.addEventListener('mouseenter', this.handleHoverEnter);
+				this.addEventListener('mouseleave', this.handleHoverLeave);
+			}
 		}
 		document.addEventListener('keydown', this.handleKeydown);
 	}
@@ -48,6 +54,8 @@ export default class Dropdown extends ShadowComponent {
 			this.removeEventListener('mouseleave', this.handleSubmenuLeave);
 		} else {
 			document.removeEventListener('click', this.handleDocumentClick);
+			this.removeEventListener('mouseenter', this.handleHoverEnter);
+			this.removeEventListener('mouseleave', this.handleHoverLeave);
 		}
 		document.removeEventListener('keydown', this.handleKeydown);
 		openDropdowns.delete(this);
@@ -99,6 +107,7 @@ export default class Dropdown extends ShadowComponent {
 	};
 
 	handleTriggerClick = e => {
+		if(this.hover) return;
 		e.stopPropagation();
 		// Close all other dropdowns before opening this one
 		if(!this.opened) {
@@ -395,6 +404,15 @@ export default class Dropdown extends ShadowComponent {
 			opacity: 0.6;
 		}
 	`;
+
+	handleHoverEnter = () => {
+		clearTimeout(this.closeTimer);
+		if(!this.opened) this.open();
+	};
+
+	handleHoverLeave = () => {
+		this.closeTimer = setTimeout(() => this.close(), 150);
+	};
 
 	/*
 		Slot Change Handler

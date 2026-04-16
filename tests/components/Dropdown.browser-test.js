@@ -8,6 +8,7 @@ const createDropdown = async (options = {}) => {
 			${options.opened ? 'opened' : ''}
 			${options.closeOnSelect === false ? 'close-on-select="false"' : ''}
 			${options.closeOnClickOutside === false ? 'close-on-click-outside="false"' : ''}
+			${options.hover ? 'hover' : ''}
 		>
 			<button slot="trigger">Trigger</button>
 			<button data-value="item1">Item 1</button>
@@ -661,5 +662,65 @@ export default {
 		}
 		cleanup(container);
 		pass('Dropdown does not inflate in pre-wrap context');
+	},
+
+	/*
+		Hover Mode
+	*/
+	'hover should be false by default': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		if(dropdown.hover !== false) {
+			cleanup(container);
+			return fail(`Expected hover to be false, got ${dropdown.hover}`);
+		}
+		cleanup(container);
+		pass('hover is false by default');
+	},
+
+	'hover attribute should reflect': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown({ hover: true });
+		if(!dropdown.hasAttribute('hover')) {
+			cleanup(container);
+			return fail('hover attribute should be reflected');
+		}
+		cleanup(container);
+		pass('hover attribute reflects correctly');
+	},
+
+	'should open on mouseenter when hover is true': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown({ hover: true });
+		dropdown.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+		await dropdown.updateComplete;
+		if(!dropdown.opened) {
+			cleanup(container);
+			return fail('Dropdown should open on mouseenter in hover mode');
+		}
+		cleanup(container);
+		pass('Dropdown opens on mouseenter in hover mode');
+	},
+
+	'should close on mouseleave when hover is true': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown({ hover: true, opened: true });
+		dropdown.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+		await new Promise(r => setTimeout(r, 200));
+		if(dropdown.opened) {
+			cleanup(container);
+			return fail('Dropdown should close after mouseleave in hover mode');
+		}
+		cleanup(container);
+		pass('Dropdown closes on mouseleave in hover mode');
+	},
+
+	'trigger click should not toggle in hover mode': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown({ hover: true });
+		const trigger = dropdown.querySelector('[slot="trigger"]');
+		trigger.click();
+		await dropdown.updateComplete;
+		if(dropdown.opened) {
+			cleanup(container);
+			return fail('Trigger click should not open dropdown in hover mode');
+		}
+		cleanup(container);
+		pass('Trigger click does not toggle in hover mode');
 	}
 };

@@ -1,6 +1,7 @@
 import ShadowComponent from './ShadowComponent.js';
 import { html, css, nothing } from '../lit-all.min.js';
 import { boolTrueFalse } from '../utils/propConverters.js';
+import './Dropdown.js';
 import './FocusCapture.js';
 import './Icon.js';
 
@@ -240,10 +241,10 @@ export default class Aside extends ShadowComponent {
 		}
 		:host([main="push"][state="collapsed"]) aside {
 			width: var(--collapsed-width);
-			transform: translateX(0);
+			transform: none;
 		}
 		:host([main="push"][state="expanded"]) aside {
-			transform: translateX(0);
+			transform: none;
 		}
 		:host([main="overlay"]) aside {
 			width: var(--width);
@@ -252,13 +253,13 @@ export default class Aside extends ShadowComponent {
 			transform: translateX(-100%);
 		}
 		:host([main="overlay"][state="expanded"]) aside {
-			transform: translateX(0);
+			transform: none;
 		}
 		:host([main="overlay"][side="right"]) aside {
 			transform: translateX(100%);
 		}
 		:host([main="overlay"][side="right"][state="expanded"]) aside {
-			transform: translateX(0);
+			transform: none;
 		}
 	`;
 }
@@ -294,7 +295,8 @@ class AsideItem extends ShadowComponent {
 	connectedCallback() {
 		super.connectedCallback();
 		this.aside = this.closest('k-aside');
-		if(this.aside) {
+		this.inMenu = !!this.closest('k-aside-menu');
+		if(this.aside && !this.inMenu) {
 			this.collapsed = this.aside.state === 'collapsed';
 			this.aside.addEventListener('aside_state_change', this.handleStateChange);
 		}
@@ -466,6 +468,7 @@ class AsideMenu extends ShadowComponent {
 		label: { type: String },
 		open: { type: Boolean, reflect: true },
 		collapsed: { type: Boolean, reflect: true },
+		side: { type: String },
 		'no-expand': { type: Boolean, attribute: 'no-expand' },
 		'hide-when-collapsed': { type: Boolean, attribute: 'hide-when-collapsed' }
 	};
@@ -476,6 +479,7 @@ class AsideMenu extends ShadowComponent {
 		this.label = '';
 		this.open = false;
 		this.collapsed = false;
+		this.side = 'left';
 		this['no-expand'] = false;
 		this['hide-when-collapsed'] = false;
 	}
@@ -488,6 +492,7 @@ class AsideMenu extends ShadowComponent {
 		this.aside = this.closest('k-aside');
 		if(this.aside) {
 			this.collapsed = this.aside.state === 'collapsed';
+			this.side = this.aside.side || 'left';
 			this.aside.addEventListener('aside_state_change', this.handleStateChange);
 		}
 	}
@@ -510,28 +515,41 @@ class AsideMenu extends ShadowComponent {
 		} else if(state === 'expanded') {
 			this.collapsed = false;
 		}
+		this.side = this.aside?.side || 'left';
 	};
 
 	toggleMenu = () => {
-		if(this.collapsed && !this['no-expand'] && this.aside) {
-			this.aside.expand();
-		} else if(!this.collapsed) {
-			this.open = !this.open;
-		}
+		if(!this.collapsed) this.open = !this.open;
+	};
+
+	handleCollapsedClick = () => {
+		this.open = true;
+		this.aside?.expand();
 	};
 
 	/*
 		Rendering
 	*/
 	render() {
+		if(this.collapsed) {
+			const openDirection = this.side === 'right' ? 'left down' : 'right down';
+			return html`
+				<k-dropdown open-direction=${openDirection} hover>
+					<button slot="trigger" class="no-btn collapsed-trigger" @click=${this.handleCollapsedClick}>
+						${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : html`<k-icon name="dot"></k-icon>`}
+					</button>
+					<slot></slot>
+				</k-dropdown>
+			`;
+		}
 		return html`
 			<div class="menu-container">
 				<button class="no-btn menu-header ${this.open ? 'open' : ''}" @click=${this.toggleMenu}>
-					${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : this.collapsed ? html`<k-icon name="dot"></k-icon>` : nothing}
-					${this.collapsed ? nothing : html`<span class="label">${this.label}</span>`}
-					${!this.collapsed ? html`<k-icon class="chevron" name="chevron" direction="${this.open ? 'down' : 'right'}"></k-icon>` : nothing}
+					${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : nothing}
+					<span class="label">${this.label}</span>
+					<k-icon class="chevron" name="chevron" direction="${this.open ? 'down' : 'right'}"></k-icon>
 				</button>
-				<div class="menu-content ${this.open && !this.collapsed ? 'open' : ''}">
+				<div class="menu-content ${this.open ? 'open' : ''}">
 					<slot></slot>
 				</div>
 			</div>
@@ -564,11 +582,28 @@ class AsideMenu extends ShadowComponent {
 			white-space: nowrap;
 			transition: background var(--animation_ms);
 		}
-		:host([collapsed]) .menu-header {
-			width: auto;
-		}
 		.menu-header:hover {
 			background: var(--c_bg_hover);
+		}
+		.collapsed-trigger {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacer_h);
+			color: var(--tc);
+			background: transparent;
+			border: none;
+			appearance: none;
+			border-radius: var(--radius);
+			margin: 0 var(--spacer_h);
+			cursor: pointer;
+			transition: background var(--animation_ms);
+		}
+		.collapsed-trigger:hover {
+			background: var(--c_bg_hover);
+		}
+		k-dropdown {
+			display: block;
 		}
 		k-icon {
 			flex-shrink: 0;
@@ -587,9 +622,6 @@ class AsideMenu extends ShadowComponent {
 			overflow: hidden;
 			transition: max-height var(--animation_ms);
 			padding-left: calc(var(--spacer_h) * 2);
-		}
-		:host([collapsed]) .menu-content {
-			padding-left: 0;
 		}
 		.menu-content.open {
 			max-height: 500px;
@@ -717,6 +749,7 @@ class AsideToggle extends ShadowComponent {
 			width: 2rem;
 			height: 2rem;
 			border: none;
+			appearance: none;
 			background: transparent;
 			color: var(--c_text);
 			cursor: pointer;
