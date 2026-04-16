@@ -2,8 +2,8 @@ import t from"./HtmlEditorControl.js";import{html as e,css as o}from"../../lit-a
 			:host {
 				display: inline-flex;
 			}
-		`];connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleMouseDown=t=>{t.preventDefault(),t.stopPropagation(),this.editor&&this.editor.lexicalFormat("code")};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}render(){return this.hidden="code"===this.editorMode,e`
-			<button class="${this.buttonClasses}" @mousedown="${this.handleMouseDown}">
+		`];connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleClick=()=>{this.editor?.inlineCode()};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}render(){return this.hidden="code"===this.editorMode,e`
+			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
 					<k-icon name="code_blocks"></k-icon>
 				</slot>
