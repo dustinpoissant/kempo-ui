@@ -80,7 +80,7 @@ export default class HtmlEditor extends ShadowComponent {
 		this.cleanupFns?.forEach(fn => fn?.());
 		this.monacoEditor?.dispose();
 		this.unsubscribeTheme?.();
-		if (this.syncShadowSelection) document.removeEventListener('selectionchange', this.syncShadowSelection);
+
 		if(this.fullscreen) this.exitFullscreen();
 	}
 
@@ -268,6 +268,13 @@ export default class HtmlEditor extends ShadowComponent {
 
 		this.lexicalEditor = lexical.createEditor(editorConfig);
 		this.lexicalEditor.setRootElement(this.lexicalContainer);
+		this.lexicalEditor._window = new Proxy(window, {
+			get: (target, prop) => {
+				if(prop === 'getSelection') return () => this.shadowRoot.getSelection();
+				const val = Reflect.get(target, prop);
+				return typeof val === 'function' ? val.bind(target) : val;
+			}
+		});
 
 		this.cleanupFns = [
 			richText.registerRichText(this.lexicalEditor),
@@ -304,19 +311,7 @@ export default class HtmlEditor extends ShadowComponent {
 			lexical.COMMAND_PRIORITY_LOW
 		);
 
-		this.syncShadowSelection = () => {
-			if (this.mode !== 'visual' || !this.lexicalEditor) return;
-			const shadowSel = this.shadowRoot.getSelection?.();
-			if (!shadowSel || shadowSel.rangeCount === 0) return;
-			const range = shadowSel.getRangeAt(0);
-			if (!this.lexicalContainer.contains(range.startContainer)) return;
-			this.lexicalEditor.update(() => {
-				const lexSel = lexical.$createRangeSelectionFromDom(shadowSel, this.lexicalEditor);
-				if (lexSel) lexical.$setSelection(lexSel);
-			}, { discrete: true });
-			this.updateSelection();
-		};
-		document.addEventListener('selectionchange', this.syncShadowSelection);
+
 	}
 
 	async initMonaco() {
@@ -1364,21 +1359,6 @@ static controlSets = {
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
 				</k-hec-group>
-			`,
-			topRight: html`
-				<k-hec-group>
-					<k-hec-align-left></k-hec-align-left>
-					<k-hec-align-center></k-hec-align-center>
-					<k-hec-align-right></k-hec-align-right>
-					<k-hec-align-justify></k-hec-align-justify>
-				</k-hec-group>
-				<k-hec-create-link></k-hec-create-link>
-				<k-hec-group>
-					<k-hec-text-color></k-hec-text-color>
-					<k-hec-text-background-color></k-hec-text-background-color>
-				</k-hec-group>
-				<k-hec-clear-formatting></k-hec-clear-formatting>
-				<k-hec-insert-table></k-hec-insert-table>
 				<k-cec-group>
 					<k-cec-undo></k-cec-undo>
 					<k-cec-redo></k-cec-redo>
@@ -1394,6 +1374,21 @@ static controlSets = {
 					<k-cec-fold-all></k-cec-fold-all>
 				</k-cec-group>
 				<k-cec-font-size></k-cec-font-size>
+			`,
+			topRight: html`
+				<k-hec-group>
+					<k-hec-align-left></k-hec-align-left>
+					<k-hec-align-center></k-hec-align-center>
+					<k-hec-align-right></k-hec-align-right>
+					<k-hec-align-justify></k-hec-align-justify>
+				</k-hec-group>
+				<k-hec-create-link></k-hec-create-link>
+				<k-hec-group>
+					<k-hec-text-color></k-hec-text-color>
+					<k-hec-text-background-color></k-hec-text-background-color>
+				</k-hec-group>
+				<k-hec-clear-formatting></k-hec-clear-formatting>
+				<k-hec-insert-table></k-hec-insert-table>
 				<k-cec-editor-theme></k-cec-editor-theme>
 				<k-hec-mode></k-hec-mode>
 				<k-cec-fullscreen></k-cec-fullscreen>
