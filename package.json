@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^8.3.0",
-    "kempo-css": "^2.2.0"
+    "kempo-css": "^2.2.1"
   }
 }
