@@ -80,7 +80,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-tabs>` `<k-tab>` `<k-tab-content>` `<k-tab-spacer>` | `Tabs.js` | Tabbed interface; `<k-tab for-content="id">` links to `<k-tab-content name="id">` | [tabs.html](https://dustinpoissant.github.io/kempo-ui/components/tabs.html) |
 | `<k-tags>` `<k-tag>` | `Tags.js` | Tag input; add/remove tags; fires `change` | [tags.html](https://dustinpoissant.github.io/kempo-ui/components/tags.html) |
 | `<k-theme-select>` | `ThemeSelect.js` | Dropdown to pick a theme | [theme-select.html](https://dustinpoissant.github.io/kempo-ui/components/theme-select.html) |
-| `<k-theme-switcher>` | `ThemeSwitcher.js` | Light/dark/auto toggle button | [theme-switcher.html](https://dustinpoissant.github.io/kempo-ui/components/theme-switcher.html) |
+| `<k-theme-switcher>` | `ThemeSwitcher.js` | Theme switcher with segmented and toggle display modes | [theme-switcher.html](https://dustinpoissant.github.io/kempo-ui/components/theme-switcher.html) |
 | `<k-timestamp>` | `Timestamp.js` | Displays a `value` timestamp as human-readable relative time | [timestamp.html](https://dustinpoissant.github.io/kempo-ui/components/timestamp.html) |
 | `<k-toast>` `<k-toast-container>` | `Toast.js` | Toast notifications; use `<k-toast-container>` once in page, call `.addToast(options)` | [toast.html](https://dustinpoissant.github.io/kempo-ui/components/toast.html) |
 | `<k-toggle>` | `Toggle.js` | On/off toggle; `value` (Boolean, reflects); methods: `on()`, `off()`, `toggle()`; fires `change`, `on`, `off` | [toggle.html](https://dustinpoissant.github.io/kempo-ui/components/toggle.html) |

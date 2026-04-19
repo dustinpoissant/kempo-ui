@@ -1,0 +1,35 @@
+<page template="bare" title="ThemeSwitcher Aside Example">
+  <content location="head">
+    <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+    <script type="module">
+    import theme from '{{pathToRoot}}src/utils/theme.js';
+    theme.init();
+  </script>
+    <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Main.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ThemeSwitcher.js"></script>
+  </content>
+  <content>
+    <k-aside main="push" state="expanded" style="--aside_padding: 0;">
+    <k-aside-toggle><h5 class="m0">Kempo</h5></k-aside-toggle>
+    <k-aside-item icon="cards" href="#" active>Dashboard</k-aside-item>
+    <k-aside-item icon="check" href="#">Tasks</k-aside-item>
+    <k-aside-item icon="label" href="#">Email</k-aside-item>
+    <k-aside-spacer></k-aside-spacer>
+    <div class="p d-f jc-c">
+      <k-theme-switcher style="--padding: 0.5rem;"></k-theme-switcher>
+    </div>
+  </k-aside>
+  <k-main>
+    <h2>Main Content</h2>
+    <p>Toggle the aside between expanded and collapsed to see the ThemeSwitcher switch between segmented and toggle modes automatically.</p>
+  </k-main>
+  </content>
+</page>

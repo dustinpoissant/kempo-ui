@@ -5,7 +5,11 @@
       <k-accordion-panel name="toc-panel">
       <div class="m pl">
         <h6>Examples</h6>
-        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#basicUsage">Basic Usage (Segmented)</a><br />
+        <a href="#toggleMode">Toggle Mode</a><br />
+        <a href="#customOptions">Custom Options</a><br />
+        <a href="#autoMode">Auto Mode (Aside Detection)</a><br />
+        <a href="#labels">Labels</a><br />
         <a href="#customPadding">Custom Padding</a><br />
         
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -21,10 +25,11 @@
 
     <h3>Description</h3>
     <p>The <code>ThemeSwitcher</code> component provides a UI control for users to switch between different themes (auto, light, dark). It extends the <a href="./shadow-component.html">ShadowComponent</a> class and uses the <a href="{{pathToRoot}}utils/theme.html">theme utility</a> internally for state management, persistence, and synchronization.</p>
+    <p>The component supports two display modes: <strong>segmented</strong> (shows all options as buttons) and <strong>toggle</strong> (single button that cycles through options on click). When <code>mode</code> is <code>"auto"</code> (the default), the component detects if it is inside a <code>&lt;k-aside&gt;</code> and switches between segmented and toggle based on the aside state.</p>
     <p><strong>Note:</strong> You can manage theme state without this component by directly importing the <a href="{{pathToRoot}}utils/theme.html">theme utility</a>.</p>
 
-    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <p>Use the <code>ThemeSwitcher</code> component to allow users to cycle through themes. Clicking the button cycles through auto Ã¢â€ â€™ light Ã¢â€ â€™ dark Ã¢â€ â€™ auto. The component automatically detects the user's system preference when in auto mode.</p>
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage (Segmented)</a></h3>
+    <p>By default, the component renders as a segmented control with buttons for each theme option. The active theme is highlighted.</p>
     
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
@@ -35,6 +40,112 @@
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Output">
           <k-theme-switcher></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="toggleMode"><a href="#toggleMode" class="no-link">Toggle Mode</a></h3>
+    <p>Set <code>mode="toggle"</code> to display a single button that cycles through the theme options on each click.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&#x27;toggle&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher mode="toggle"></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customOptions"><a href="#customOptions" class="no-link">Custom Options</a></h3>
+    <p>Use the <code>options</code> attribute to control which themes are available and in what order. Provide a comma-separated list. Both toggle and segmented modes respect this attribute.</p>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML (segmented, dark &amp; light only)">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">options</span>=<span class="hljs-string">&#x27;dark, light&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher options="dark, light"></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML (toggle, dark &amp; light only)">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&#x27;toggle&#x27;</span> <span class="hljs-attr">options</span>=<span class="hljs-string">&#x27;dark, light&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher mode="toggle" options="dark, light"></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="autoMode"><a href="#autoMode" class="no-link">Auto Mode (Aside Detection)</a></h3>
+    <p>When <code>mode="auto"</code> (the default), the component checks if it is inside a <code>&lt;k-aside&gt;</code>. If so, it renders as <strong>segmented</strong> when the aside is expanded or offscreen, and as <strong>toggle</strong> when the aside is collapsed. If the component is not inside an aside, it always renders as segmented.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&#x27;push&#x27;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&#x27;expanded&#x27;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;--aside_padding: 0;&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;m0&#x27;</span>&gt;</span>Kempo<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&#x27;cards&#x27;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span> <span class="hljs-attr">active</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&#x27;check&#x27;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Tasks<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&#x27;label&#x27;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&#x27;#&#x27;</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-spacer</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-spacer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;p d-f jc-c&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;--padding: 0.5rem;&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Main Content<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Toggle the aside to see the ThemeSwitcher switch modes.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <iframe src="./theme-switcher-aside.html" style="width: 100%; height: 400px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="labels"><a href="#labels" class="no-link">Labels</a></h3>
+    <p>The <code>labels</code> attribute adds text labels next to each icon. Works in both segmented and toggle modes. Labels are automatically hidden when inside a collapsed <code>&lt;k-aside&gt;</code> to preserve space.</p>
+    <ul>
+      <li><code>labels</code> (no value) — uses capitalized option names: "Light", "Auto", "Dark"</li>
+      <li><code>labels="Claro, Auto, Oscuro"</code> — uses custom labels in the same order as <code>options</code></li>
+    </ul>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML (Segmented)">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">labels</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher labels></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML (Custom Labels)">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">labels</span>=<span class="hljs-string">&#x27;Claro, Auto, Oscuro&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher labels="Claro, Auto, Oscuro"></k-theme-switcher>
+        </k-card>
+      </div>
+    </div>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML (Toggle)">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-switcher</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&#x27;toggle&#x27;</span> <span class="hljs-attr">labels</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-switcher</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-switcher mode="toggle" labels></k-theme-switcher>
         </k-card>
       </div>
     </div>
@@ -75,12 +186,53 @@
     <h5><code>currentTheme<i>: string</i></code></h5>
     <p>Gets or sets the current theme. Possible values are <code>"auto"</code>, <code>"light"</code>, or <code>"dark"</code>. This property is reactive and will trigger a re-render when changed. Syncs to <code>current-theme</code> attribute.</p>
 
+    <h5><code>mode<i>: string</i></code></h5>
+    <p>Controls the display mode of the component. Possible values:</p>
+    <ul>
+      <li><code>"auto"</code> (default) - Detects if inside a <code>&lt;k-aside&gt;</code>. Shows segmented when aside is expanded/offscreen, toggle when collapsed. If not in an aside, shows segmented.</li>
+      <li><code>"toggle"</code> - Single button that cycles through options on click.</li>
+      <li><code>"segmented"</code> - Shows all options as separate buttons with the active one highlighted.</li>
+    </ul>
+
+    <h5><code>options<i>: string</i></code></h5>
+    <p>A comma-separated list of theme options to display. Defaults to <code>"light, auto, dark"</code>. Controls which themes are available and in what order for both toggle and segmented modes. Spaces around commas are optional.</p>
+
+    <h5><code>labels<i>: string</i></code></h5>
+    <p>A comma-separated list of labels to display next to each icon, matching the order of <code>options</code>. When present with no value (e.g., just <code>labels</code>), defaults to capitalized option names ("Light", "Auto", "Dark"). Labels are automatically hidden when inside a collapsed <code>&lt;k-aside&gt;</code> to preserve space. Works in both segmented and toggle modes.</p>
+
     <h3 id="cssCustomProperties"><a href="#cssCustomProperties" class="no-link">CSS Custom Properties</a></h3>
     <h5><code>--padding<i>: length</i></code></h5>
-    <p>Controls the padding of the theme switcher button. Defaults to <code>var(--spacer, 1rem)</code>. You can override this to customize the button's spacing.</p>
-    <pre><code class="hljs css"><span class="hljs-selector-tag">k-theme-switcher</span> {
-  <span class="hljs-attribute">--padding</span>: <span class="hljs-number">0.5rem</span>;
-}</code></pre>
+    <p>Padding of all buttons. Defaults to <code>var(--spacer, 1rem)</code>.</p>
+
+    <h5><code>--c_inactive<i>: color</i></code></h5>
+    <p>Background color of inactive buttons. Defaults to <code>transparent</code>.</p>
+
+    <h5><code>--tc_inactive<i>: color</i></code></h5>
+    <p>Text/icon color of inactive buttons. Defaults to <code>inherit</code>.</p>
+
+    <h5><code>--c_inactive__hover<i>: color</i></code></h5>
+    <p>Background color of inactive buttons on hover. Defaults to <code>var(--c_bg__alt)</code>.</p>
+
+    <h5><code>--tc_inactive__hover<i>: color</i></code></h5>
+    <p>Text/icon color of inactive buttons on hover. Defaults to <code>inherit</code>.</p>
+
+    <h5><code>--c_active<i>: color</i></code></h5>
+    <p>Background color of the active button. Defaults to <code>var(--c_primary)</code>.</p>
+
+    <h5><code>--tc_active<i>: color</i></code></h5>
+    <p>Text/icon color of the active button. Defaults to <code>var(--tc_light)</code>.</p>
+
+    <h5><code>--c_active__hover<i>: color</i></code></h5>
+    <p>Background color of the active button on hover. Defaults to <code>var(--c_active)</code>.</p>
+
+    <h5><code>--tc_active__hover<i>: color</i></code></h5>
+    <p>Text/icon color of the active button on hover. Defaults to <code>var(--tc_active)</code>.</p>
+
+    <h5><code>--border<i>: border</i></code></h5>
+    <p>Border applied to inactive buttons in segmented mode. Defaults to <code>1px solid var(--c_border)</code>.</p>
+
+    <p>Example — styling for use on a primary-colored nav background:</p>
+    <pre><code class="hljs css">k-theme-switcher {<br>  <span class="hljs-attr">--padding</span>: <span class="hljs-number">0.5rem</span>;<br>  <span class="hljs-attr">--c_inactive</span>: transparent;<br>  <span class="hljs-attr">--tc_inactive</span>: <span class="hljs-built_in">var</span>(--tc_light);<br>  <span class="hljs-attr">--c_active</span>: white;<br>  <span class="hljs-attr">--tc_active</span>: <span class="hljs-built_in">var</span>(--c_primary);<br>  <span class="hljs-attr">--border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-built_in">rgba</span>(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.4</span>);<br>}</code></pre>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <p>The <code>ThemeSwitcher</code> class does not introduce any new public methods beyond those provided by the <a href="./shadow-component.html">ShadowComponent</a> class.</p>
