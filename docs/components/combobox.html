@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combobox - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  
+</head>
+<body>
+  
+  <k-nav fixed class="bg-primary">
+    <button id="toggleNavSideMenu" class="link">
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a href="../" class="d-if ph" style="align-items: center">
+      <img src="../media/icon32.png" alt="Kempo UI Icon" class="pr" />
+      Kempo UI
+    </a>
+    <div style="position:relative;margin:0 .25rem;align-self:center;" theme="light">
+      <input id="navSearchInput" type="search" placeholder="Search docs..." autocomplete="off" style="width:11rem;" />
+      <div id="navSearchDropdown" hidden theme="light" style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);">
+        <k-filter-list id="navSearchList" style="display:block;padding:.25rem 0;">
+          <k-filter-item filter-keywords="accordion components"><a href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a href="../components/code-editor.html">Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a href="../components/combobox.html">Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a href="../components/color-picker.html">Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a href="../components/content-slider.html">Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a href="../components/context.html">Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a href="../components/filter-list.html">Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a href="../components/focus-capture.html">Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a href="../components/html-editor.html">HTML Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a href="../components/nav-spacer.html">Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a href="../components/photo-viewer.html">Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a href="../components/show-more.html">Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a href="../components/sortable.html">Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a href="../components/tableControls.html">Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a href="../components/tableCustomFields.html">Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a href="../components/tableFetchRecords.html">Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a href="../components/tableFieldSortHide.html">Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a href="../components/tablePagination.html">Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a href="../components/tableRecordEditing.html">Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a href="../components/tableRecordFiltering.html">Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a href="../components/tableRecordHiding.html">Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a href="../components/tableRecordSearching.html">Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a href="../components/tableRecordSelection.html">Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a href="../components/tableRowControls.html">Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a href="../components/tableServerSync.html">Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a href="../components/tableSorting.html">Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a href="../components/tablePlaceholder.html">Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a href="../components/theme-select.html">Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a href="../components/theme-switcher.html">Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a href="../components/timestamp.html">Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a href="../components/toast.html">Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a href="../components/toggle.html">Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a href="../components/shadow-component.html">Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a href="../components/light-component.html">Light Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a href="../components/hybrid-component.html">Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a href="../utils/formatTimestamp.html">formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a href="../utils/propConverters.html">propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <div class="flex"></div>
+    <a href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20" target="_blank"><k-icon name="license"></k-icon></a>
+    <a href="https://www.npmjs.com/package/kempo-ui" target="_blank"><k-icon name="npm"></k-icon></a>
+    <a href="https://github.com/dustinpoissant/kempo-ui" target="_blank"><k-icon name="github-mark"></k-icon></a>
+    <k-theme-switcher></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside id="navSideMenu" main="overlay" state="offscreen">
+    <menu>
+      <a href="../" class="ta-center bb mb r0">
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img src="../media/icon128.png" alt="Kempo UI Icon" />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+#navSearchList a{display:block;padding:.25rem .5rem;border-radius:var(--radius);text-decoration:none;color:var(--tc);}
+#navSearchList a:hover{background:rgba(128,128,128,.15);}
+#navSearchList a small{display:block;color:var(--tc_muted);}
+  </style>
+  <script src="../src/components/Nav.js" type="module"></script>
+  <script src="../src/components/FilterList.js" type="module"></script>
+  <script src="../src/components/FilterItem.js" type="module"></script>
+  <script src="../src/components/Aside.js" type="module"></script>
+  <script src="../src/components/Icon.js" type="module"></script>
+  <script src="../src/components/ThemeSwitcher.js" type="module"></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function(e) {
+      if(e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if(target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if(!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if(e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if(e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while(active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if(tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if(e.metaKey || e.ctrlKey || e.altKey) return;
+      if(e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+  <k-main>
+    
+    <h1 class="ta-center">Combobox</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m pl">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#dynamicSearch">Dynamic Search</a><br />
+          <a href="#required">Required</a><br />
+          <a href="#requireMatch">Require Match</a><br />
+          <a href="#maxVisible">Max Visible</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes / Properties</a><br />
+          <a href="#children">Children</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#eventsRef">Events</a><br />
+          <a href="#cssVars">CSS Custom Properties</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Define options as <code>&lt;k-option&gt;</code> children. As the user types, options are filtered to match the input.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Select a fruit...&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;apple&#x27;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;banana&#x27;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;cherry&#x27;</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;date&#x27;</span>&gt;</span>Date<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;elderberry&#x27;</span>&gt;</span>Elderberry<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;fig&#x27;</span>&gt;</span>Fig<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;grape&#x27;</span>&gt;</span>Grape<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;honeydew&#x27;</span>&gt;</span>Honeydew<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;kiwi&#x27;</span>&gt;</span>Kiwi<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;lemon&#x27;</span>&gt;</span>Lemon<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-combobox placeholder="Select a fruit...">
+            <k-option value="apple">Apple</k-option>
+            <k-option value="banana">Banana</k-option>
+            <k-option value="cherry">Cherry</k-option>
+            <k-option value="date">Date</k-option>
+            <k-option value="elderberry">Elderberry</k-option>
+            <k-option value="fig">Fig</k-option>
+            <k-option value="grape">Grape</k-option>
+            <k-option value="honeydew">Honeydew</k-option>
+            <k-option value="kiwi">Kiwi</k-option>
+            <k-option value="lemon">Lemon</k-option>
+          </k-combobox>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="dynamicSearch"><a href="#dynamicSearch" class="no-link">Dynamic Search</a></h3>
+    <p>Listen for the <code>search</code> event to fetch options from an external source when the user pauses typing. Use <code>setOptions()</code> to replace the <code>&lt;k-option&gt;</code> children programmatically. Set the <code>searching</code> attribute to show a loading spinner while results load.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;dynamicCombobox&#x27;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Search users...&#x27;</span> <span class="hljs-attr">debounce-ms</span>=<span class="hljs-string">&#x27;400&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> cb = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#dynamicCombobox&#x27;</span>);<br>cb.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;search&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>  cb.<span class="hljs-property">searching</span> = <span class="hljs-literal">true</span>;<br>  <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/users?q=&#x27;</span> + <span class="hljs-built_in">encodeURIComponent</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>)).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r.<span class="hljs-title function_">json</span>()).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">users</span> =&gt;</span> {<br>    cb.<span class="hljs-title function_">setOptions</span>(users.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">u</span> =&gt;</span> ({<br>      <span class="hljs-attr">label</span>: u.<span class="hljs-property">email</span>,<br>      <span class="hljs-attr">value</span>: u.<span class="hljs-property">id</span><br>    })));<br>    cb.<span class="hljs-property">searching</span> = <span class="hljs-literal">false</span>;<br>  });<br>});<br>cb.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;select&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Selected:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);<br>});</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-combobox id="dynamicCombobox" placeholder="Search users..." debounce-ms="400"></k-combobox>
+          <p class="mt" id="dynamicResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="required"><a href="#required" class="no-link">Required</a></h3>
+    <p>The combobox is form-associated. Use the <code>required</code> attribute to prevent submitting when the field is empty.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;requiredForm&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;fruit&#x27;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Required field...&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;apple&#x27;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;banana&#x27;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;cherry&#x27;</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;submit&#x27;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;btn primary mt&#x27;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="requiredForm">
+            <k-combobox name="fruit" required placeholder="Required field...">
+              <k-option value="apple">Apple</k-option>
+              <k-option value="banana">Banana</k-option>
+              <k-option value="cherry">Cherry</k-option>
+            </k-combobox>
+            <button type="submit" class="btn primary mt">Submit</button>
+          </form>
+          <p class="mt" id="requiredResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="requireMatch"><a href="#requireMatch" class="no-link">Require Match</a></h3>
+    <p>Use <code>require-match</code> to only accept values that match an existing option. An empty value is still valid (the field is not required), but any typed text that does not match an option label will fail validation.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;matchForm&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;color&#x27;</span> <span class="hljs-attr">require-match</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Type or pick a color...&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;red&#x27;</span>&gt;</span>Red<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;green&#x27;</span>&gt;</span>Green<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;blue&#x27;</span>&gt;</span>Blue<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;submit&#x27;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;btn primary mt&#x27;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="matchForm">
+            <k-combobox name="color" require-match placeholder="Type or pick a color...">
+              <k-option value="red">Red</k-option>
+              <k-option value="green">Green</k-option>
+              <k-option value="blue">Blue</k-option>
+            </k-combobox>
+            <button type="submit" class="btn primary mt">Submit</button>
+          </form>
+          <p class="mt" id="matchResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="maxVisible"><a href="#maxVisible" class="no-link">Max Visible</a></h3>
+    <p>Use <code>max-visible</code> to limit the number of options shown at once. A &ldquo;more&rdquo; indicator appears when additional matches exist.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Shows 4 at a time...&#x27;</span> <span class="hljs-attr">max-visible</span>=<span class="hljs-string">&#x27;4&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;1&#x27;</span>&gt;</span>Alpha<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;2&#x27;</span>&gt;</span>Bravo<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;3&#x27;</span>&gt;</span>Charlie<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;4&#x27;</span>&gt;</span>Delta<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;5&#x27;</span>&gt;</span>Echo<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;6&#x27;</span>&gt;</span>Foxtrot<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;7&#x27;</span>&gt;</span>Golf<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;8&#x27;</span>&gt;</span>Hotel<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-combobox placeholder="Shows 4 at a time..." max-visible="4">
+            <k-option value="1">Alpha</k-option>
+            <k-option value="2">Bravo</k-option>
+            <k-option value="3">Charlie</k-option>
+            <k-option value="4">Delta</k-option>
+            <k-option value="5">Echo</k-option>
+            <k-option value="6">Foxtrot</k-option>
+            <k-option value="7">Golf</k-option>
+            <k-option value="8">Hotel</k-option>
+          </k-combobox>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;path/to/Combobox.js&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p><code>Combobox.js</code> automatically imports <code>Option.js</code>, so only one script tag is needed. <code>k-spinner</code> must be loaded separately if using the <code>searching</code> indicator.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>The following components are required:</p>
+    <ul>
+      <li><a href="./spinner.html"><code>k-spinner</code></a> &mdash; used for the searching indicator</li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes / Properties</a></h3>
+    <table class="b r">
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>value</code></td>
+          <td><code>value</code></td>
+          <td><code>String</code></td>
+          <td><code>''</code></td>
+          <td>The current text input value.</td>
+        </tr>
+        <tr>
+          <td><code>name</code></td>
+          <td><code>name</code></td>
+          <td><code>String</code></td>
+          <td><code>''</code></td>
+          <td>Form field name, submitted with the form.</td>
+        </tr>
+        <tr>
+          <td><code>placeholder</code></td>
+          <td><code>placeholder</code></td>
+          <td><code>String</code></td>
+          <td><code>''</code></td>
+          <td>Placeholder text for the input field.</td>
+        </tr>
+        <tr>
+          <td><code>opened</code></td>
+          <td><code>opened</code></td>
+          <td><code>Boolean</code></td>
+          <td><code>false</code></td>
+          <td>Whether the options dropdown is visible.</td>
+        </tr>
+        <tr>
+          <td><code>searching</code></td>
+          <td><code>searching</code></td>
+          <td><code>Boolean</code></td>
+          <td><code>false</code></td>
+          <td>Shows a loading spinner in the dropdown.</td>
+        </tr>
+        <tr>
+          <td><code>required</code></td>
+          <td><code>required</code></td>
+          <td><code>Boolean</code></td>
+          <td><code>false</code></td>
+          <td>Marks the field as required for form validation.</td>
+        </tr>
+        <tr>
+          <td><code>require-match</code></td>
+          <td><code>requireMatch</code></td>
+          <td><code>Boolean</code></td>
+          <td><code>false</code></td>
+          <td>When set, only values matching an existing option are valid.</td>
+        </tr>
+        <tr>
+          <td><code>disabled</code></td>
+          <td><code>disabled</code></td>
+          <td><code>Boolean</code></td>
+          <td><code>false</code></td>
+          <td>Disables the combobox.</td>
+        </tr>
+        <tr>
+          <td><code>debounce-ms</code></td>
+          <td><code>debounceMs</code></td>
+          <td><code>Number</code></td>
+          <td><code>300</code></td>
+          <td>Milliseconds to wait after typing before firing the <code>search</code> event.</td>
+        </tr>
+        <tr>
+          <td><code>max-visible</code></td>
+          <td><code>maxVisible</code></td>
+          <td><code>Number</code></td>
+          <td><code>8</code></td>
+          <td>Maximum number of options visible at once.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="children"><a href="#children" class="no-link">Children</a></h3>
+    <table class="b r">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>&lt;k-option value="..."&gt;Label&lt;/k-option&gt;</code></td>
+          <td>Defines a selectable option. The <code>value</code> attribute is the form value; the text content is the displayed label. If <code>value</code> is omitted, the text content is used as both.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <table class="b r">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>setOptions(options)</code></td>
+          <td>Replaces all <code>&lt;k-option&gt;</code> children. Accepts an array of strings or <code>{label, value}</code> objects. Returns <code>this</code>.</td>
+        </tr>
+        <tr>
+          <td><code>clear()</code></td>
+          <td>Clears the input value and closes the dropdown. Returns <code>this</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Example:</p>
+    <pre><code class="hljs javascript">combobox.<span class="hljs-title function_">setOptions</span>([<span class="hljs-string">&#x27;Apple&#x27;</span>, <span class="hljs-string">&#x27;Banana&#x27;</span>, {<br>  <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;alice@example.com&#x27;</span>,<br>  <span class="hljs-attr">value</span>: <span class="hljs-number">101</span><br>}]);</code></pre>
+
+    <h3 id="eventsRef"><a href="#eventsRef" class="no-link">Events</a></h3>
+    <table class="b r">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Detail</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>search</code></td>
+          <td><code>{ value: String }</code></td>
+          <td>Fired after the user stops typing for <code>debounce-ms</code> milliseconds.</td>
+        </tr>
+        <tr>
+          <td><code>select</code></td>
+          <td><code>{ value: *, label: String }</code></td>
+          <td>Fired when the user selects an option from the list.</td>
+        </tr>
+        <tr>
+          <td><code>change</code></td>
+          <td>&mdash;</td>
+          <td>Fired after an option is selected.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
+    <p>The combobox inherits kempo-css variables for colors, borders, spacing, and animation timing. No additional custom properties are defined.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/Combobox.js"></script>
+    <script type="module" src="../src/components/Spinner.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+    <script type="module">
+      const fakeUsers = [
+        'alice@example.com', 'bob@example.com', 'carol@example.com',
+        'dave@example.com', 'eve@example.com', 'frank@example.com',
+        'grace@example.com', 'heidi@example.com', 'ivan@example.com',
+        'judy@example.com', 'kate@example.com', 'leo@example.com'
+      ];
+      const dynamicCb = document.querySelector('#dynamicCombobox');
+      const dynamicResult = document.querySelector('#dynamicResult');
+      dynamicCb.addEventListener('search', (e) => {
+        dynamicCb.searching = true;
+        setTimeout(() => {
+          dynamicCb.setOptions(
+            fakeUsers.filter(u => u.includes(e.detail.value.toLowerCase())).slice(0, 5)
+          );
+          dynamicCb.searching = false;
+        }, 800);
+      });
+      dynamicCb.addEventListener('select', (e) => {
+        dynamicResult.textContent = 'Selected: ' + e.detail.label;
+      });
+
+      document.querySelector('#requiredForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(e.target);
+        document.querySelector('#requiredResult').textContent = 'Submitted: fruit=' + data.get('fruit');
+      });
+
+      document.querySelector('#matchForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(e.target);
+        document.querySelector('#matchResult').textContent = 'Submitted: color=' + data.get('colorruit');
+      });
+
+      document.querySelector('#matchForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(e.target);
+        document.querySelector('#matchResult').textContent = 'Submitted: color=' + data.get('color');
+      });
+    </script>
+  
+</body>
+</html>

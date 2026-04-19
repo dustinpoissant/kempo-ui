@@ -57,6 +57,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-card>` | `Card.js` | Bordered container; optional `label` attribute | [card.html](https://dustinpoissant.github.io/kempo-ui/components/card.html) |
 | `<k-code-editor>` | `CodeEditor.js` | Monaco-powered code editor; `value`, `language`, `controls` attributes; form-associated; theme-aware | [code-editor.html](https://dustinpoissant.github.io/kempo-ui/components/code-editor.html) |
 | `<k-color-picker>` | `ColorPicker.js` | Full color picker (hex, rgb, hsl, hsv, alpha); `value` property | [color-picker.html](https://dustinpoissant.github.io/kempo-ui/components/color-picker.html) |
+| `<k-combobox>` | `Combobox.js` | Searchable dropdown with debounced `search` event, dynamic `setOptions()`, `searching` indicator, keyboard nav; options are strings or `{label, value}` objects | [combobox.html](https://dustinpoissant.github.io/kempo-ui/components/combobox.html) |
 | `<k-content-slider>` | `ContentSlider.js` | Swipeable carousel | [content-slider.html](https://dustinpoissant.github.io/kempo-ui/components/content-slider.html) |
 | `<k-context>` | `Context.js` | Non-rendering state container; `set(key,value)`, `get(key)`, `delete(key)`, `clear()`, `getData()`; fires `context:create`, `context:set`, `context:delete` | [context.html](https://dustinpoissant.github.io/kempo-ui/components/context.html) |
 | `<k-dialog>` | `Dialog.js` | Modal dialog with focus trapping; call `.open()` / `.close()` | [dialog.html](https://dustinpoissant.github.io/kempo-ui/components/dialog.html) |
