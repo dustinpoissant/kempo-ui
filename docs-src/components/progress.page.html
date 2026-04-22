@@ -1,0 +1,182 @@
+<page pageName="Progress" title="Progress - Components - Kempo Docs - A Web Components Solution">
+  <content location="header"></content>
+  <content>
+    <h1 class="ta-center">Progress</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#offset">Offset</a><br />
+          <a href="#color">Color</a><br />
+          <a href="#label">Label</a><br />
+          <a href="#styles">Styles</a><br />
+          <a href="#multiple">Multiple Bars</a><br />
+          <a href="#indeterminate">Indeterminate</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Create a progress bar using the <code>k-progress</code> component, set the size with the <code>percentage</code> attribute.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">percentage</span>=<span class="hljs-string">"50"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress percentage="50"></k-progress>
+        </k-card>
+      </div>
+    </div>
+    
+    <h3 id="offset"><a href="#offset" class="no-link">Offset</a></h3>
+    <p>Set the bar offset with the <code>offset</code> attribute.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">percentage</span>=<span class="hljs-string">"50"</span> <span class="hljs-attr">offset</span>=<span class="hljs-string">"25"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress percentage="50" offset="25"></k-progress>
+        </k-card>
+      </div>
+    </div>
+    
+    <h3 id="color"><a href="#color" class="no-link">Color</a></h3>
+    <p>Set the color with the <code>color</code> attribute.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">percentage</span>=<span class="hljs-string">"50"</span> <span class="hljs-attr">color</span>=<span class="hljs-string">"green"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress percentage="50" color="green"></k-progress>
+        </k-card>
+      </div>
+    </div>
+    
+    <h3 id="label"><a href="#label" class="no-link">Label</a></h3>
+    <p>Add a <code>label</code> attribute to see the percentage label added to the bar.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">percentage</span>=<span class="hljs-string">"33"</span> <span class="hljs-attr">label</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress percentage="33" label></k-progress>
+        </k-card>
+      </div>
+    </div>
+    
+    <h3 id="styles"><a href="#styles" class="no-link">Styles</a></h3>
+    <p>You can do quite a bit of customization with the css.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">"<br />    --radius: 0;<br />    height: 3rem;<br />    color: pink;<br />    font-size: 3rem;<br />    background-color: #ccf;<br />  "</span><br />  <span class="hljs-attr">percentage</span>=<span class="hljs-string">"33"</span><br />  <span class="hljs-attr">label</span><br />&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress
+            style="
+              --radius: 0;
+              height: 3rem;
+              color: pink;
+              font-size: 3rem;
+              background-color: #ccf;
+            "
+            percentage="33"
+            label
+          ></k-progress>
+        </k-card>
+      </div>
+    </div>
+    
+    <h3 id="multiple"><a href="#multiple" class="no-link">Multiple Bars</a></h3>
+    <p>Use a pipe-delimited (<code>|</code>) list in <code>percentage</code>, <code>color</code>, and <code>offset</code> to make multiple bars.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span><br />  <span class="hljs-attr">percentage</span>=<span class="hljs-string">"25|25"</span><br />  <span class="hljs-attr">color</span>=<span class="hljs-string">"blue|red"</span><br />  <span class="hljs-attr">offset</span>=<span class="hljs-string">"0|50"</span><br />&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress
+            percentage="25|25"
+            color="blue|red"
+            offset="0|50"
+          ></k-progress>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="indeterminate"><a href="#indeterminate" class="no-link">Indeterminate</a></h3>
+    <p>Use the <code>indeterminate</code> attribute to add infinite animations to the progress bar. set the speed by giving it a value of the animation time (defualt = <code>2s</code>)</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">indeterminate</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">indeterminate</span>=<span class="hljs-string">"1s"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-progress</span> <span class="hljs-attr">indeterminate</span>=<span class="hljs-string">"4s"</span> <span class="hljs-attr">color</span>=<span class="hljs-string">"linear-gradient(to right, var(--c_secondary) 0%, var(--c_primary) 100%)"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-progress</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-progress indeterminate ></k-progress>
+          <br />
+          <k-progress indeterminate="1s" ></k-progress>
+          <br />
+          <k-progress indeterminate="4s" color="linear-gradient(to right, var(--c_secondary) 0%, var(--c_primary) 100%)" ></k-progress>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Progress()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
+    <h5><code>percentage<i>: string</i></code></h5>
+    <p>The progress percentage(s). Accepts values from <code>0</code> to <code>100</code>. Use pipe-delimited (<code>|</code>) values for multiple bars. Default is <code>25</code>.</p>
+
+    <h5><code>offset<i>: string</i></code></h5>
+    <p>The offset position for the bar(s). Use pipe-delimited (<code>|</code>) values to match the number of bars in <code>percentage</code>. Default is <code>0</code>.</p>
+
+    <h5><code>color<i>: string</i></code></h5>
+    <p>The fill color for the bar(s). Supports any CSS color value including hex, rgb, variables, and gradients. Use pipe-delimited (<code>|</code>) values for multiple bars. Default is <code>var(--c_primary)</code>.</p>
+
+    <h5><code>label<i>: boolean</i></code></h5>
+    <p>When present, displays the percentage value inside the progress bar.</p>
+
+    <h5><code>indeterminate<i>: string</i></code></h5>
+    <p>When present, creates an animated indeterminate progress bar. Optionally set the animation duration (e.g., <code>indeterminate="1s"</code>, <code>indeterminate="4s"</code>). Default duration is <code>2s</code>.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Progress.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

@@ -13,6 +13,25 @@ export default class Spinner extends ShadowComponent {
 		this.variant = 'spinner';
 	}
 
+	
+
+	/*
+		Rendering
+	*/
+	render() {
+		switch(this.variant) {
+			case 'dots':
+				return html`<div class="dots"><span></span><span></span><span></span></div>`;
+			case 'bars':
+				return html`<div class="bars"><span></span><span></span><span></span><span></span></div>`;
+			case 'pulse':
+				return html`<div class="pulse"></div>`;
+			case 'ring':
+				return html`<div class="ring"></div>`;
+			default:
+				return html`<div class="spinner"></div>`;
+		}
+	}
 	/*
 		Styles
 	*/
@@ -129,24 +148,6 @@ export default class Spinner extends ShadowComponent {
 			100% { transform: rotate(360deg); border-color: var(--spinner-color) transparent transparent transparent; }
 		}
 	`;
-
-	/*
-		Rendering
-	*/
-	render() {
-		switch(this.variant) {
-			case 'dots':
-				return html`<div class="dots"><span></span><span></span><span></span></div>`;
-			case 'bars':
-				return html`<div class="bars"><span></span><span></span><span></span><span></span></div>`;
-			case 'pulse':
-				return html`<div class="pulse"></div>`;
-			case 'ring':
-				return html`<div class="ring"></div>`;
-			default:
-				return html`<div class="spinner"></div>`;
-		}
-	}
 }
 
 customElements.define('k-spinner', Spinner);
