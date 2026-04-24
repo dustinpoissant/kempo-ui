@@ -1,0 +1,331 @@
+<page pageName="Slider" title="Slider - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#withSteps">With Steps</a><br />
+        <a href="#rangeSlider">Range Slider</a><br />
+        <a href="#vertical">Vertical</a><br />
+        <a href="#verticalRange">Vertical Range</a><br />
+        <a href="#customStyles">Custom Styles</a><br />
+        <a href="#formatTooltip">Format Tooltip</a><br />
+        <a href="#javascriptUsage">JavaScript Usage</a><br />
+        <a href="#formUsage">Form Usage</a><br />
+        <a href="#disabled">Disabled</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>A continuous slider from 0 to 100.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider value="25" class="my"></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="withSteps"><a href="#withSteps" class="no-link">With Steps</a></h3>
+    <p>Use the <code>steps</code> attribute to define specific snap points. The slider will only stop on those values.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">steps</span>=<span class="hljs-string">&quot;0,25,50,75,100&quot;</span>&gt;</span>Volume<span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider min="0" max="100" value="50" steps="0,25,50,75,100" class="my">Volume</k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rangeSlider"><a href="#rangeSlider" class="no-link">Range Slider</a></h3>
+    <p>Pass two comma-separated numbers as the <code>value</code> to create a range slider with two handles. The first number is the lower bound and the second is the upper bound. The handles cannot cross each other.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;20,80&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider value="20,80" class="my"></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Range with Steps</h4>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;25,75&quot;</span> <span class="hljs-attr">steps</span>=<span class="hljs-string">&quot;0,25,50,75,100&quot;</span>&gt;</span>Price Range<span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider value="25,75" steps="0,25,50,75,100" class="my">Price Range</k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="vertical"><a href="#vertical" class="no-link">Vertical</a></h3>
+    <p>Add the <code>vertical</code> attribute to render the slider vertically. Set a height on the element or its container.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">vertical</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider vertical value="40"></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="verticalRange"><a href="#verticalRange" class="no-link">Vertical Range</a></h3>
+    <p>Combine <code>vertical</code> with a comma-separated <code>value</code> for a vertical range slider.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">vertical</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;20,80&quot;</span> <span class="hljs-attr">steps</span>=<span class="hljs-string">&quot;0,20,40,60,80,100&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider vertical value="20,80"></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customStyles"><a href="#customStyles" class="no-link">Custom Styles</a></h3>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;<br>    --track_height: 10px;<br>    --fill_background: var(--c_success);<br>    --thumb_size: 28px;<br>    --thumb_background: var(--c_success);<br>    --step_dot_size: 12px;<br>  &quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider
+            value="50"
+            style="
+              --track_height: 10px;
+              --fill_background: var(--c_success);
+              --thumb_size: 28px;
+              --thumb_background: var(--c_success);
+              --step_dot_size: 12px;
+            "
+          ></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formatTooltip"><a href="#formatTooltip" class="no-link">Format Tooltip</a></h3>
+    <p>Add the <code>tooltip</code> attribute to show a value tooltip above the handle while dragging. Use the <code>format</code> attribute to control how the value is displayed in the tooltip, change event, and form submission. The pattern <code>0.00</code> in the format string is replaced with the numeric value at the matching decimal precision.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;25&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;$0.00&quot;</span> <span class="hljs-attr">tooltip</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider value="25" min="0" max="100" format="$0.00" tooltip class="my"></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="javascriptUsage"><a href="#javascriptUsage" class="no-link">JavaScript Usage</a></h3>
+    <h4>Single Value</h4>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;jsSlider&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">tooltip</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Value: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sliderVal&quot;</span>&gt;</span>0<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $jsSlider = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;jsSlider&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $sliderVal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sliderVal&#x27;</span>);<br>  $jsSlider.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    $sliderVal.<span class="hljs-property">textContent</span> = e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider id="jsSlider" value="0" format="0" tooltip class="my"></k-slider>
+          <p>Value: <span id="sliderVal">0</span></p>
+          <script>
+            const $jsSlider = document.getElementById('jsSlider');
+            const $sliderVal = document.getElementById('sliderVal');
+            $jsSlider.addEventListener('change', (e) => {
+              $sliderVal.textContent = e.detail.value;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Range</h4>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;jsRangeSlider&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10,90&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">tooltip</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Range: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rangeDisplay&quot;</span>&gt;</span>10 - 90<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $rs = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;jsRangeSlider&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $rd = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;rangeDisplay&#x27;</span>);<br>  $rs.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-keyword">const</span> [lo, hi] = e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);<br>    $rd.<span class="hljs-property">textContent</span> = lo + <span class="hljs-string">&#x27; - &#x27;</span> + hi;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider id="jsRangeSlider" class="my" value="10,90" format="0" tooltip></k-slider>
+          <p>Range: <span id="rangeDisplay">10 - 90</span></p>
+          <script>
+            const $rs = document.getElementById('jsRangeSlider');
+            const $rd = document.getElementById('rangeDisplay');
+            $rs.addEventListener('change', (e) => {
+              const [lo, hi] = e.detail.value.split(',');
+              $rd.textContent = lo + ' - ' + hi;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Usage</a></h3>
+    <p>The slider is form-associated. Set a <code>name</code> attribute so it participates in form submission. When a <code>format</code> is set, the submitted value is the formatted string.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sliderForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;volume&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;75&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;0%&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;priceRange&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;20,80&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;$0&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Form Data: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;formOutput&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sliderForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> fd = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-keyword">const</span> entries = [...fd.<span class="hljs-title function_">entries</span>()].<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> k + <span class="hljs-string">&#x27;=&#x27;</span> + v);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;formOutput&#x27;</span>).<span class="hljs-property">textContent</span> = entries.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="sliderForm">
+            <k-slider name="volume" value="75" format="0%" class="my"></k-slider>
+            <k-slider name="priceRange" value="20,80" format="$0" class="my"></k-slider>
+            <button type="submit">Submit</button>
+          </form>
+          <p>Form Data: <span id="formOutput"></span></p>
+          <script>
+            document.getElementById('sliderForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const fd = new FormData(e.target);
+              const entries = [...fd.entries()].map(([k, v]) => k + '=' + v);
+              document.getElementById('formOutput').textContent = entries.join(', ');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction while displaying the current value.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-slider</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-slider disabled class="my" value="40"></k-slider>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Slider()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>value<i>: String</i></code></h5>
+    <p>The current value. A single number (e.g. <code>"50"</code>) for a standard slider, or two comma-separated numbers (e.g. <code>"20,80"</code>) for a range slider. Default is <code>"0"</code>. Syncs to <code>value</code> attribute.</p>
+
+    <h5><code>name<i>: String</i></code></h5>
+    <p>The form field name. When set inside a <code>&lt;form&gt;</code>, the slider participates in form submission. Syncs to <code>name</code> attribute.</p>
+
+    <h5><code>min<i>: Number</i></code></h5>
+    <p>The minimum value of the slider range. Default is <code>0</code>. Syncs to <code>min</code> attribute.</p>
+
+    <h5><code>max<i>: Number</i></code></h5>
+    <p>The maximum value of the slider range. Default is <code>100</code>. Syncs to <code>max</code> attribute.</p>
+
+    <h5><code>steps<i>: String</i></code></h5>
+    <p>A comma-separated list of specific values the slider can snap to (e.g. <code>"0,25,50,75,100"</code>). When set, the slider only stops on these values. When not set, the slider is continuous. Syncs to <code>steps</code> attribute.</p>
+
+    <h5><code>format<i>: String</i></code></h5>
+    <p>A pattern string for formatting the slider value. Applied to the tooltip display, the <code>change</code> event <code>detail.value</code>, and the form submission value. Use <code>0</code>s as digit placeholders — the number of <code>0</code>s after the decimal separator controls precision. For example <code>"$0.00"</code> formats <code>25</code> as <code>"$25.00"</code>. Default is <code>null</code> (raw number). Syncs to <code>format</code> attribute.</p>
+
+    <h5><code>tooltip<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, a tooltip showing the current value appears above the thumb handle during drag. Default is <code>false</code>. Syncs to <code>tooltip</code> attribute.</p>
+
+    <h5><code>vertical<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the slider renders vertically. Set a height on the element to control the track length. Default is <code>false</code>. Syncs to <code>vertical</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the slider cannot be changed by user interaction. The element appears at 50% opacity. Syncs to <code>disabled</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>setValue(newValue)<i>: void</i></code></h5>
+    <p>Sets the lower value, clamped to min/max and snapped to the nearest step. In range mode, it cannot exceed the upper value.</p>
+
+    <h5><code>setUpper(newValue)<i>: void</i></code></h5>
+    <p>Sets the upper value (range mode only), clamped to min/max and snapped to the nearest step. Cannot go below the lower value.</p>
+
+    <h5><code>isRange<i>: Boolean</i></code> (getter)</h5>
+    <p>Returns <code>true</code> when the <code>value</code> contains a comma (i.e. two handles are active).</p>
+
+    <h5><code>formattedValue<i>: String</i></code> (getter)</h5>
+    <p>Returns the value formatted with the <code>format</code> pattern. For range sliders, both halves are formatted (e.g. <code>"$20.00,$80.00"</code>). Returns the raw <code>value</code> when no format is set.</p>
+
+    <h5><code>lower<i>: Number</i></code> (getter)</h5>
+    <p>The numeric lower bound parsed from <code>value</code>.</p>
+
+    <h5><code>upper<i>: Number</i></code> (getter)</h5>
+    <p>The numeric upper bound parsed from <code>value</code>. Equals <code>max</code> when not in range mode.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <table class="b">
+      <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--track_height</code></td><td><code>6px</code></td><td>Thickness of the track (height when horizontal, width when vertical)</td></tr>
+        <tr><td><code>--track_background</code></td><td><code>var(--c_border)</code></td><td>Background color of the track</td></tr>
+        <tr><td><code>--track_radius</code></td><td><code>99999px</code></td><td>Border radius of the track</td></tr>
+        <tr><td><code>--fill_background</code></td><td><code>var(--c_primary)</code></td><td>Color of the filled portion</td></tr>
+        <tr><td><code>--thumb_size</code></td><td><code>20px</code></td><td>Diameter of the thumb handle(s)</td></tr>
+        <tr><td><code>--thumb_background</code></td><td><code>var(--c_primary)</code></td><td>Background color of the thumb(s)</td></tr>
+        <tr><td><code>--thumb_border</code></td><td><code>2px solid white</code></td><td>Border of the thumb(s)</td></tr>
+        <tr><td><code>--thumb_shadow</code></td><td><code>0 1px 3px rgba(0,0,0,.3)</code></td><td>Box shadow of the thumb(s)</td></tr>
+        <tr><td><code>--step_dot_size</code></td><td><code>8px</code></td><td>Diameter of step indicator dots</td></tr>
+        <tr><td><code>--step_dot_background</code></td><td><code>var(--c_bg__alt)</code></td><td>Background of step dots</td></tr>
+        <tr><td><code>--step_dot_border</code></td><td><code>1px solid var(--c_border)</code></td><td>Border of step dots</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fired when the value changes. The event <code>detail</code> contains <code>{ value: String }</code>. When a <code>format</code> is set, the value is formatted (e.g. <code>"$50.00"</code> or <code>"$20.00,$80.00"</code>). Without a format, the raw number string is used (e.g. <code>"50"</code> or <code>"20,80"</code>).</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Slider.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

@@ -73,6 +73,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-photo-viewer>` | `PhotoViewer.js` | Lightbox/gallery viewer | [photo-viewer.html](https://dustinpoissant.github.io/kempo-ui/components/photo-viewer.html) |
 | `<k-resize>` | `Resize.js` | Resizable pane with drag handle | [resize.html](https://dustinpoissant.github.io/kempo-ui/components/resize.html) |
 | `<k-show-more>` | `ShowMore.js` | Truncated content with expand toggle | [show-more.html](https://dustinpoissant.github.io/kempo-ui/components/show-more.html) |
+| `<k-slider>` | `Slider.js` | Slider with min, max, discrete step snap points, vertical orientation, and dual-handle range mode via comma-separated `value` (e.g. `"20,80"`); `format` attribute for value formatting (e.g. `"$0.00"`) applied to change events, form submission, and optional drag `tooltip`; form-associated; fires `change` | [slider.html](https://dustinpoissant.github.io/kempo-ui/components/slider.html) |
 | `<k-sortable>` `<k-sortable-item>` | `Sortable.js` | Drag-to-reorder list | [sortable.html](https://dustinpoissant.github.io/kempo-ui/components/sortable.html) |
 | `<k-spinner>` | `Spinner.js` | Loading indicator; `size` (xs/sm/md/lg/xl), `variant` (spinner/dots/bar) | [spinner.html](https://dustinpoissant.github.io/kempo-ui/components/spinner.html) |
 | `<k-split>` | `Split.js` | Resizable split panes | [split.html](https://dustinpoissant.github.io/kempo-ui/components/split.html) |
