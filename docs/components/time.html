@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Table - Fetch Records - Kempo Docs</title>
+  <title>Time - Components - Kempo Docs - A Web Components Solution</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
@@ -11,45 +11,6 @@
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
-  
-    <script type="module" src="../src/components/Table.js"></script>
-    <script>
-    window.contacts = [];
-    function generateContact(){
-      const maleNames = [
-        "Liam", "Noah", "Oliver", "Elijah", "William", "James", "Benjamin", 
-        "Lucas", "Henry", "Alexander", "Mason", "Michael", "Ethan", "Daniel", 
-        "Jacob", "Logan", "Jackson", "Levi", "Sebastian", "Mateo", "Jack", 
-        "Owen", "Theodore", "Aiden", "Samuel", "Joseph", "John", "David", 
-        "Wyatt", "Matthew"
-      ];
-      const femaleNames = [
-        "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Amelia", 
-        "Harper", "Evelyn", "Abigail", "Emily", "Ella", "Elizabeth", 
-        "Camila", "Luna", "Sofia", "Avery", "Mila", "Aria", "Scarlett", 
-        "Penelope", "Layla", "Chloe", "Victoria", "Madison", "Eleanor", 
-        "Grace", "Nora", "Riley", "Zoey"
-      ];
-      const lastNames = [
-        "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", 
-        "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", 
-        "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", 
-        "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", 
-        "Ramirez", "Lewis", "Robinson"
-      ];
-      const gender = Math.random() > 0.5 ? 'm' : 'f';
-      const firstName = gender === 'm' ? maleNames[Math.floor(Math.random() * maleNames.length)] : femaleNames[Math.floor(Math.random() * femaleNames.length)];
-      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-      const name = `${firstName} ${lastName}`;
-      const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@mailserver.com`;
-      const birthday = `${Math.floor(Math.random() * 100) + 1920}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
-      const phoneNumber = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
-      return { name, email, birthday, phoneNumber, gender };
-    }
-    for (let i = 0; i < 10; i++) {
-      contacts.push(generateContact());
-    };
-  </script>
   
 </head>
 <body>
@@ -489,65 +450,213 @@
   </script>
 
   
-    <h1 class="ta-center">Table - Fetch Records</h1>
+    <h1 class="ta-center">Time</h1>
   
   <k-main>
     
-    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#defaultValue">Default Value</a><br />
+        <a href="#increment">Minute Increment</a><br />
+        <a href="#military">24-Hour Time</a><br />
+        <a href="#javascriptUsage">JavaScript Usage</a><br />
+        <a href="#formUsage">Form Usage</a><br />
+        <a href="#disabled">Disabled</a><br />
 
-    <p>The <code>setupFetchRecords</code> function is used to configure the table to fetch records dynamically. It takes two parameters: the total number of records and a function that fetching records. It should be an asynconous function that returns/resolves an array of records that will populate the table.</p>
-    <p>In this example, the <code>simulateFetchRecords</code> function generates a specified number of random contact records and resolves the promise after a delay, simulating an asynchronous fetch operation.
-    </p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span><br />  <span class="hljs-attr">id</span>=<span class="hljs-string">"fetchRecordsExample"</span><br />  <span class="hljs-attr">enable-pages</span>=<span class="hljs-string">"true"</span><br />  <span class="hljs-attr">page-size</span>=<span class="hljs-string">"10"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-f full"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-first-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-first-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-prev-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-prev-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-next-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-next-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-last-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-last-page</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-page-select</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-page-select</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-page-size</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-page-size</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/FirstPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/PrevPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/NextPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/LastPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/PageSelect.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/PageSize.js'</span>;<br /><br />  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">simulateFetchRecords</span>(<span class="hljs-params">start, count</span>)</span>{<br />    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {<br />      <span class="hljs-keyword">const</span> newRecords = [];<br />      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>; i&lt;count; i++){<br />        newRecords.push(generateContact());<br />      }<br />      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>res(newRecords), <span class="hljs-number">1000</span>);<br />    });<br />  }<br /><br />  <span class="hljs-keyword">const</span> $table = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'fetchRecordsExample'</span>);<br />  <br />  $table.setRecords(contacts);<br />  $table.setupFetchRecords(<span class="hljs-number">100</span>, simulateFetchRecords);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-    <k-table
-      id="fetchRecordsExample"
-      enable-pages="true"
-      page-size="10"
-    >
-      <div class="d-f full">
-        <div>
-          <k-tc-first-page></k-tc-first-page>
-          <k-tc-prev-page></k-tc-prev-page>
-          <k-tc-next-page></k-tc-next-page>
-          <k-tc-last-page></k-tc-last-page>
-        </div>
-        <div class="flex"></div>
-        <div>
-          <k-tc-page-select></k-tc-page-select>
-        </div>
-        <div class="flex"></div>
-        <div>
-          <k-tc-page-size></k-tc-page-size>
-        </div>
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#events">Events</a><br />
       </div>
-    </k-table>
-    <script type="module">
-      import '/src/components/tableControls/FirstPage.js';
-      import '/src/components/tableControls/PrevPage.js';
-      import '/src/components/tableControls/NextPage.js';
-      import '/src/components/tableControls/LastPage.js';
-      import '/src/components/tableControls/PageSelect.js';
-      import '/src/components/tableControls/PageSize.js';
+    </k-accordion-panel>
+    </k-accordion>
 
-      function simulateFetchRecords(start, count){
-        return new Promise(res => {
-          const newRecords = [];
-          for(let i=0; i<count; i++){
-            newRecords.push(generateContact());
-          }
-          setTimeout(()=>res(newRecords), 1000);
-        });
-      }
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Wraps the browser's native <code>&lt;input type="time"&gt;</code> so the user can click or tab between the hour, minute, and AM/PM segments and type numbers to change each one. The <code>value</code> is always a 24-hour <code>HH:MM</code> string regardless of the locale-dependent display format.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time></k-time>
+        </k-card>
+      </div>
+    </div>
 
-      const $table = document.getElementById('fetchRecordsExample');
-      
-      $table.setRecords(contacts);
-      $table.setupFetchRecords(100, simulateFetchRecords);
-    </script>
+    <h3 id="defaultValue"><a href="#defaultValue" class="no-link">Default Value</a></h3>
+    <p>Set an initial value with the <code>value</code> attribute using 24-hour <code>HH:MM</code> format.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;14:30&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time value="14:30"></k-time>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="increment"><a href="#increment" class="no-link">Minute Increment</a></h3>
+    <p>The <code>increment</code> attribute controls the minute step when the user presses the up/down arrow keys on the minute segment. Defaults to <code>1</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;09:15&quot;</span> <span class="hljs-attr">increment</span>=<span class="hljs-string">&quot;15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time value="09:15" increment="15"></k-time>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Half-Hour Increment</h4>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;13:00&quot;</span> <span class="hljs-attr">increment</span>=<span class="hljs-string">&quot;30&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time value="13:00" increment="30"></k-time>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="military"><a href="#military" class="no-link">24-Hour Time</a></h3>
+    <p>Add the <code>military</code> attribute to render in 24-hour form without an AM/PM segment. Internally the input is tagged as <code>lang="en-GB"</code> to request a 24-hour display; most modern browsers respect this. The stored <code>value</code> format is unchanged.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">military</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;17:45&quot;</span> <span class="hljs-attr">increment</span>=<span class="hljs-string">&quot;15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time military value="17:45" increment="15"></k-time>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="javascriptUsage"><a href="#javascriptUsage" class="no-link">JavaScript Usage</a></h3>
+    <p>Listen for the <code>change</code> event to react to committed values. The <code>detail.value</code> is a <code>HH:MM</code> string in 24-hour format.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;jsTime&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;08:00&quot;</span> <span class="hljs-attr">increment</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Selected: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;jsTimeOutput&quot;</span>&gt;</span>08:00<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $time = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;jsTime&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $out = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;jsTimeOutput&#x27;</span>);<br>  $time.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    $out.<span class="hljs-property">textContent</span> = e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time id="jsTime" value="08:00" increment="5" class="mb"></k-time>
+          <p>Selected: <span id="jsTimeOutput">08:00</span></p>
+          <script>
+            const $time = document.getElementById('jsTime');
+            const $out = document.getElementById('jsTimeOutput');
+            $time.addEventListener('change', (e) => {
+              $out.textContent = e.detail.value;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Usage</a></h3>
+    <p>The component is form-associated. Set a <code>name</code> so it participates in form submission. The submitted value is always the 24-hour <code>HH:MM</code> string, regardless of display mode.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;timeForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Start: <span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;start&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;09:00&quot;</span> <span class="hljs-attr">increment</span>=<span class="hljs-string">&quot;15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>End: <span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;end&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;17:00&quot;</span> <span class="hljs-attr">increment</span>=<span class="hljs-string">&quot;15&quot;</span> <span class="hljs-attr">military</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Form Data: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;timeFormOutput&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;timeForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> fd = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-keyword">const</span> entries = [...fd.<span class="hljs-title function_">entries</span>()].<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> k + <span class="hljs-string">&#x27;=&#x27;</span> + v);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;timeFormOutput&#x27;</span>).<span class="hljs-property">textContent</span> = entries.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="timeForm" class="mb">
+            <label class="d-b mb">Start: <k-time name="start" value="09:00" increment="15"></k-time></label>
+            <label class="d-b mb">End: <k-time name="end" value="17:00" increment="15" military></k-time></label>
+            <button type="submit">Submit</button>
+          </form>
+          <p>Form Data: <span id="timeFormOutput"></span></p>
+          <script>
+            document.getElementById('timeForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const fd = new FormData(e.target);
+              const entries = [...fd.entries()].map(([k, v]) => k + '=' + v);
+              document.getElementById('timeFormOutput').textContent = entries.join(', ');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;12:00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time disabled value="12:00"></k-time>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Time()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>value<i>: String</i></code></h5>
+    <p>The committed time as a 24-hour <code>HH:MM</code> string (e.g. <code>"14:30"</code>). Empty string when no time is set. Syncs to <code>value</code> attribute.</p>
+
+    <h5><code>name<i>: String</i></code></h5>
+    <p>The form field name. When set inside a <code>&lt;form&gt;</code>, the component participates in form submission. Syncs to <code>name</code> attribute.</p>
+
+    <h5><code>increment<i>: Number</i></code></h5>
+    <p>The minute step used when the user presses the up/down arrow keys on the minute segment. Also sets the underlying <code>step</code> attribute on the native input in seconds (<code>increment &times; 60</code>). Default is <code>1</code>. Syncs to <code>increment</code> attribute.</p>
+
+    <h5><code>military<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the displayed time uses 24-hour format and no AM/PM segment. The stored <code>value</code> format is unchanged. Default is <code>false</code>. Syncs to <code>military</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the component cannot be changed by user interaction. The element appears at 50% opacity. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>required<i>: Boolean</i></code></h5>
+    <p>When <code>true</code> and no time is set, the element reports a <code>valueMissing</code> validity error for form validation. Syncs to <code>required</code> attribute.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fired when the committed <code>value</code> changes. The event <code>detail</code> contains <code>{ value: String }</code> in 24-hour <code>HH:MM</code> format, or an empty string when cleared.</p>
   
   </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/Time.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
   
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Table - Fetch Records - Kempo Docs</title>
+  <title>Calendar - Components - Kempo Docs - A Web Components Solution</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
@@ -11,45 +11,6 @@
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>window.litDisableBundleWarning = true;</script>
-  
-    <script type="module" src="../src/components/Table.js"></script>
-    <script>
-    window.contacts = [];
-    function generateContact(){
-      const maleNames = [
-        "Liam", "Noah", "Oliver", "Elijah", "William", "James", "Benjamin", 
-        "Lucas", "Henry", "Alexander", "Mason", "Michael", "Ethan", "Daniel", 
-        "Jacob", "Logan", "Jackson", "Levi", "Sebastian", "Mateo", "Jack", 
-        "Owen", "Theodore", "Aiden", "Samuel", "Joseph", "John", "David", 
-        "Wyatt", "Matthew"
-      ];
-      const femaleNames = [
-        "Olivia", "Emma", "Ava", "Sophia", "Isabella", "Mia", "Amelia", 
-        "Harper", "Evelyn", "Abigail", "Emily", "Ella", "Elizabeth", 
-        "Camila", "Luna", "Sofia", "Avery", "Mila", "Aria", "Scarlett", 
-        "Penelope", "Layla", "Chloe", "Victoria", "Madison", "Eleanor", 
-        "Grace", "Nora", "Riley", "Zoey"
-      ];
-      const lastNames = [
-        "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", 
-        "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", 
-        "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", 
-        "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", 
-        "Ramirez", "Lewis", "Robinson"
-      ];
-      const gender = Math.random() > 0.5 ? 'm' : 'f';
-      const firstName = gender === 'm' ? maleNames[Math.floor(Math.random() * maleNames.length)] : femaleNames[Math.floor(Math.random() * femaleNames.length)];
-      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-      const name = `${firstName} ${lastName}`;
-      const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@mailserver.com`;
-      const birthday = `${Math.floor(Math.random() * 100) + 1920}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
-      const phoneNumber = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
-      return { name, email, birthday, phoneNumber, gender };
-    }
-    for (let i = 0; i < 10; i++) {
-      contacts.push(generateContact());
-    };
-  </script>
   
 </head>
 <body>
@@ -489,65 +450,263 @@
   </script>
 
   
-    <h1 class="ta-center">Table - Fetch Records</h1>
+    <h1 class="ta-center">Calendar</h1>
   
   <k-main>
     
-    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#defaultValue">Default Value</a><br />
+        <a href="#rangeMode">Range Mode</a><br />
+        <a href="#rangeDefault">Range Default</a><br />
+        <a href="#minMax">Min / Max</a><br />
+        <a href="#javascriptUsage">JavaScript Usage</a><br />
+        <a href="#formUsage">Form Usage</a><br />
+        <a href="#disabled">Disabled</a><br />
 
-    <p>The <code>setupFetchRecords</code> function is used to configure the table to fetch records dynamically. It takes two parameters: the total number of records and a function that fetching records. It should be an asynconous function that returns/resolves an array of records that will populate the table.</p>
-    <p>In this example, the <code>simulateFetchRecords</code> function generates a specified number of random contact records and resolves the promise after a delay, simulating an asynchronous fetch operation.
-    </p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span><br />  <span class="hljs-attr">id</span>=<span class="hljs-string">"fetchRecordsExample"</span><br />  <span class="hljs-attr">enable-pages</span>=<span class="hljs-string">"true"</span><br />  <span class="hljs-attr">page-size</span>=<span class="hljs-string">"10"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-f full"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-first-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-first-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-prev-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-prev-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-next-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-next-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-last-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-last-page</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-page-select</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-page-select</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-page-size</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-page-size</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/FirstPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/PrevPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/NextPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/LastPage.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/PageSelect.js'</span>;<br />  <span class="hljs-keyword">import</span> <span class="hljs-string">'/src/components/tableControls/PageSize.js'</span>;<br /><br />  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">simulateFetchRecords</span>(<span class="hljs-params">start, count</span>)</span>{<br />    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {<br />      <span class="hljs-keyword">const</span> newRecords = [];<br />      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>; i&lt;count; i++){<br />        newRecords.push(generateContact());<br />      }<br />      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>res(newRecords), <span class="hljs-number">1000</span>);<br />    });<br />  }<br /><br />  <span class="hljs-keyword">const</span> $table = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'fetchRecordsExample'</span>);<br />  <br />  $table.setRecords(contacts);<br />  $table.setupFetchRecords(<span class="hljs-number">100</span>, simulateFetchRecords);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-    <k-table
-      id="fetchRecordsExample"
-      enable-pages="true"
-      page-size="10"
-    >
-      <div class="d-f full">
-        <div>
-          <k-tc-first-page></k-tc-first-page>
-          <k-tc-prev-page></k-tc-prev-page>
-          <k-tc-next-page></k-tc-next-page>
-          <k-tc-last-page></k-tc-last-page>
-        </div>
-        <div class="flex"></div>
-        <div>
-          <k-tc-page-select></k-tc-page-select>
-        </div>
-        <div class="flex"></div>
-        <div>
-          <k-tc-page-size></k-tc-page-size>
-        </div>
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
       </div>
-    </k-table>
-    <script type="module">
-      import '/src/components/tableControls/FirstPage.js';
-      import '/src/components/tableControls/PrevPage.js';
-      import '/src/components/tableControls/NextPage.js';
-      import '/src/components/tableControls/LastPage.js';
-      import '/src/components/tableControls/PageSelect.js';
-      import '/src/components/tableControls/PageSize.js';
+    </k-accordion-panel>
+    </k-accordion>
 
-      function simulateFetchRecords(start, count){
-        return new Promise(res => {
-          const newRecords = [];
-          for(let i=0; i<count; i++){
-            newRecords.push(generateContact());
-          }
-          setTimeout(()=>res(newRecords), 1000);
-        });
-      }
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>A month-grid calendar widget for selecting a single date. The <code>value</code> is an ISO <code>YYYY-MM-DD</code> string. Use the month and year dropdowns in the header to jump around quickly.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar></k-calendar>
+        </k-card>
+      </div>
+    </div>
 
-      const $table = document.getElementById('fetchRecordsExample');
-      
-      $table.setRecords(contacts);
-      $table.setupFetchRecords(100, simulateFetchRecords);
-    </script>
+    <h3 id="defaultValue"><a href="#defaultValue" class="no-link">Default Value</a></h3>
+    <p>Set an initial date with the <code>value</code> attribute. The calendar opens on that month.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-07-04&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar value="2026-07-04"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rangeMode"><a href="#rangeMode" class="no-link">Range Mode</a></h3>
+    <p>Set <code>mode="range"</code> to enable range selection. The first click sets the start date, the second sets the end. Hovering after the start shows a preview range. Clicking again starts a new range.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar mode="range"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rangeDefault"><a href="#rangeDefault" class="no-link">Range Default</a></h3>
+    <p>In range mode the <code>value</code> is two ISO dates separated by a comma. Both bounds are included in the range.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-04-10,2026-04-20&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar mode="range" value="2026-04-10,2026-04-20"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="minMax"><a href="#minMax" class="no-link">Min / Max</a></h3>
+    <p>Constrain the selectable range with the <code>min</code> and <code>max</code> attributes. Both accept an ISO date (<code>YYYY-MM-DD</code>) or one of the keywords <code>today</code>, <code>tomorrow</code>, <code>yesterday</code>. When omitted, <code>min</code> defaults to <code>1900-01-01</code> and <code>max</code> defaults to December 31st of the year 10 years from now. Dates outside the range are shown disabled, and the year dropdown is scoped to the available years.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-04-15&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;2026-04-05&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;2026-04-25&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar value="2026-04-15" min="2026-04-05" max="2026-04-25"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Appointment Scheduler (no past dates)</h4>
+    <p>Use <code>min="today"</code> or <code>min="tomorrow"</code> to lock out past dates in scheduling flows.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;tomorrow&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar min="tomorrow"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="javascriptUsage"><a href="#javascriptUsage" class="no-link">JavaScript Usage</a></h3>
+    <p>Listen for the <code>change</code> event. The <code>detail.value</code> is the selected date (or comma-separated range).</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;jsCal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Selected: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;jsCalOutput&quot;</span>&gt;</span>(none)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $cal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;jsCal&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $out = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;jsCalOutput&#x27;</span>);<br>  $cal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    $out.<span class="hljs-property">textContent</span> = e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span> || <span class="hljs-string">&#x27;(none)&#x27;</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar id="jsCal" class="mb"></k-calendar>
+          <p>Selected: <span id="jsCalOutput">(none)</span></p>
+          <script>
+            const $cal = document.getElementById('jsCal');
+            const $out = document.getElementById('jsCalOutput');
+            $cal.addEventListener('change', (e) => {
+              $out.textContent = e.detail.value || '(none)';
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Usage</a></h3>
+    <p>The calendar is form-associated. Set a <code>name</code> so it participates in form submission. In range mode the submitted value is the comma-separated pair.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;calForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Checkin / Checkout:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;stay&quot;</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-05-01,2026-05-07&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Form Data: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;calFormOutput&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;calForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> fd = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-keyword">const</span> entries = [...fd.<span class="hljs-title function_">entries</span>()].<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> k + <span class="hljs-string">&#x27;=&#x27;</span> + v);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;calFormOutput&#x27;</span>).<span class="hljs-property">textContent</span> = entries.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="calForm">
+            <label>Checkin / Checkout:</label>
+            <k-calendar name="stay" mode="range" value="2026-05-01,2026-05-07"></k-calendar>
+            <div class="mt">
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+          <p>Form Data: <span id="calFormOutput"></span></p>
+          <script>
+            document.getElementById('calForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const fd = new FormData(e.target);
+              const entries = [...fd.entries()].map(([k, v]) => k + '=' + v);
+              document.getElementById('calFormOutput').textContent = entries.join(', ');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-04-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar disabled value="2026-04-15"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new Calendar()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>value<i>: String</i></code></h5>
+    <p>In single mode, the selected date as <code>YYYY-MM-DD</code>. In range mode, two comma-separated ISO dates (e.g. <code>"2026-05-01,2026-05-07"</code>). Empty string when no selection. Syncs to <code>value</code> attribute.</p>
+
+    <h5><code>name<i>: String</i></code></h5>
+    <p>The form field name. When set inside a <code>&lt;form&gt;</code>, the component participates in form submission. Syncs to <code>name</code> attribute.</p>
+
+    <h5><code>mode<i>: String</i></code></h5>
+    <p>Either <code>"single"</code> (default) or <code>"range"</code>. Controls how clicks build the <code>value</code>. Syncs to <code>mode</code> attribute.</p>
+
+    <h5><code>min<i>: String</i></code></h5>
+    <p>Lower bound (inclusive) as <code>YYYY-MM-DD</code> or the keyword <code>today</code>, <code>tomorrow</code>, or <code>yesterday</code>. Dates before this are disabled and removed from the year dropdown. Default is <code>"1900-01-01"</code>. Syncs to <code>min</code> attribute.</p>
+
+    <h5><code>max<i>: String</i></code></h5>
+    <p>Upper bound (inclusive) as <code>YYYY-MM-DD</code> or the keyword <code>today</code>, <code>tomorrow</code>, or <code>yesterday</code>. Dates after this are disabled. Defaults to December 31st of the year 10 years from now. Syncs to <code>max</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the calendar cannot be changed by user interaction. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>required<i>: Boolean</i></code></h5>
+    <p>When <code>true</code> and no date is set, the element reports a <code>valueMissing</code> validity error for form validation. Syncs to <code>required</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>prevMonth()<i>: void</i></code></h5>
+    <p>Navigates the view to the previous month.</p>
+
+    <h5><code>nextMonth()<i>: void</i></code></h5>
+    <p>Navigates the view to the next month.</p>
+
+    <h5><code>goToMonth(year, month)<i>: void</i></code></h5>
+    <p>Navigates the view to the given year and zero-based month (e.g. <code>goToMonth(2026, 0)</code> for January 2026).</p>
+
+    <h5><code>goToToday()<i>: void</i></code></h5>
+    <p>Navigates the view back to the current month.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <table class="b">
+      <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--day_size</code></td><td><code>2rem</code></td><td>Width/height of each day cell</td></tr>
+        <tr><td><code>--day_radius</code></td><td><code>var(--radius)</code></td><td>Border radius of day cells</td></tr>
+        <tr><td><code>--day_bg__selected</code></td><td><code>var(--c_primary)</code></td><td>Background color of the selected day (or range endpoints)</td></tr>
+        <tr><td><code>--day_tc__selected</code></td><td><code>white</code></td><td>Text color of the selected day</td></tr>
+        <tr><td><code>--day_bg__range</code></td><td><code>var(--c_bg__alt)</code></td><td>Background color of days inside a range</td></tr>
+        <tr><td><code>--day_bg__hover</code></td><td><code>var(--c_bg__alt)</code></td><td>Background color of days on hover</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fired when the selected date (or range) changes. The event <code>detail</code> contains <code>{ value: String }</code> &mdash; an ISO date for single mode, a comma-separated pair for range mode, or an empty string when cleared.</p>
   
   </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/Calendar.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
   
 </body>
 </html>

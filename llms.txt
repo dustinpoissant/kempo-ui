@@ -54,6 +54,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 |-----------|------|-------------|------|
 | `<k-accordion>` `<k-accordion-header>` `<k-accordion-panel>` | `Accordion.js` | Collapsible panel groups; `for-panel` attribute links headers to panels | [accordion.html](https://dustinpoissant.github.io/kempo-ui/components/accordion.html) |
 | `<k-aside>` `<k-aside-item>` `<k-aside-label>` `<k-aside-menu>` `<k-aside-spacer>` `<k-aside-toggle>` | `Aside.js` | Sidebar/drawer; `main="push"` or `main="overlay"`, `side="left|right"` | [aside.html](https://dustinpoissant.github.io/kempo-ui/components/aside.html) |
+| `<k-calendar>` | `Calendar.js` | Inline month-grid date picker widget; `mode="single"` (default) or `mode="range"`; `value` is ISO `YYYY-MM-DD` (single) or comma-separated pair (range); `min`/`max` bounds; form-associated; fires `change` | [calendar.html](https://dustinpoissant.github.io/kempo-ui/components/calendar.html) |
 | `<k-card>` | `Card.js` | Bordered container; optional `label` attribute | [card.html](https://dustinpoissant.github.io/kempo-ui/components/card.html) |
 | `<k-code-editor>` | `CodeEditor.js` | Monaco-powered code editor; `value`, `language`, `controls` attributes; form-associated; theme-aware | [code-editor.html](https://dustinpoissant.github.io/kempo-ui/components/code-editor.html) |
 | `<k-color-picker>` | `ColorPicker.js` | Full color picker (hex, rgb, hsl, hsv, alpha); `value` property | [color-picker.html](https://dustinpoissant.github.io/kempo-ui/components/color-picker.html) |
@@ -82,6 +83,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-tags>` `<k-tag>` | `Tags.js` | Tag input; add/remove tags; fires `change` | [tags.html](https://dustinpoissant.github.io/kempo-ui/components/tags.html) |
 | `<k-theme-select>` | `ThemeSelect.js` | Dropdown to pick a theme | [theme-select.html](https://dustinpoissant.github.io/kempo-ui/components/theme-select.html) |
 | `<k-theme-switcher>` | `ThemeSwitcher.js` | Theme switcher with segmented and toggle display modes | [theme-switcher.html](https://dustinpoissant.github.io/kempo-ui/components/theme-switcher.html) |
+| `<k-time>` | `Time.js` | Wraps native `<input type="time">` with segmented hour/minute/AM-PM editing; `value` is 24-hour `HH:MM`; `increment` attr sets minute step (arrow-key granularity); `military` attr forces 24-hour display via `lang="en-GB"`; form-associated; fires `change` | [time.html](https://dustinpoissant.github.io/kempo-ui/components/time.html) |
 | `<k-timestamp>` | `Timestamp.js` | Displays a `value` timestamp as human-readable relative time | [timestamp.html](https://dustinpoissant.github.io/kempo-ui/components/timestamp.html) |
 | `<k-toast>` `<k-toast-container>` | `Toast.js` | Toast notifications; use `<k-toast-container>` once in page, call `.addToast(options)` | [toast.html](https://dustinpoissant.github.io/kempo-ui/components/toast.html) |
 | `<k-toggle>` | `Toggle.js` | On/off toggle; `value` (Boolean, reflects); methods: `on()`, `off()`, `toggle()`; fires `change`, `on`, `off` | [toggle.html](https://dustinpoissant.github.io/kempo-ui/components/toggle.html) |
