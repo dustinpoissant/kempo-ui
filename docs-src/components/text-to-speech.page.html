@@ -1,0 +1,202 @@
+<page pageName="Text To Speech" title="Text To Speech - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#slotted">Slotted Text</a><br />
+        <a href="#rate">Rate &amp; Pitch</a><br />
+        <a href="#language">Language</a><br />
+        <a href="#dynamic">Dynamic Text</a><br />
+        <a href="#disabled">Disabled</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>Wraps the browser's <a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis" target="_blank">SpeechSynthesis API</a> in a single button. Click to speak; click again while speaking to stop. Works in all modern browsers (Chromium, Firefox, Safari).</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The <code>text</code> attribute holds the phrase to read aloud.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Hello, world!&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Hello, world!"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="slotted"><a href="#slotted" class="no-link">Slotted Text</a></h3>
+    <p>If <code>text</code> is not set, the element's text content is spoken. Useful when the text is longer or already lives in the DOM.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span>&gt;</span>The quick brown fox jumps over the lazy dog.<span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech>The quick brown fox jumps over the lazy dog.</k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rate"><a href="#rate" class="no-link">Rate &amp; Pitch</a></h3>
+    <p>Tune playback with the <code>rate</code> (<code>0.1</code>&ndash;<code>10</code>, default <code>1</code>) and <code>pitch</code> (<code>0</code>&ndash;<code>2</code>, default <code>1</code>) attributes. <code>volume</code> (<code>0</code>&ndash;<code>1</code>, default <code>1</code>) is also available.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Wow that is fast&quot;</span> <span class="hljs-attr">rate</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;A bit higher pitch&quot;</span> <span class="hljs-attr">pitch</span>=<span class="hljs-string">&quot;1.6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Wow that is fast" rate="2" class="mr"></k-text-to-speech>
+          <k-text-to-speech text="A bit higher pitch" pitch="1.6"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="language"><a href="#language" class="no-link">Language</a></h3>
+    <p>Set <code>language</code> to a BCP&#x2011;47 tag to pick a localized voice (browser-dependent &mdash; the OS-installed voices determine availability).</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Bonjour le monde&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;fr-FR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Bonjour le monde" language="fr-FR"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="dynamic"><a href="#dynamic" class="no-link">Dynamic Text</a></h3>
+    <p>Set the <code>text</code> property at runtime to read whatever is in an input or other DOM source.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ttsExample&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ttsInput&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Type something then click the button&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $tts = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;ttsExample&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;ttsInput&#x27;</span>);<br>  $input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;input&#x27;</span>, <span class="hljs-function">() =&gt;</span> {<br>    $tts.<span class="hljs-property">text</span> = $input.<span class="hljs-property">value</span>;<br>  });<br>  $tts.<span class="hljs-property">text</span> = $input.<span class="hljs-property">value</span>;<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech id="ttsExample" class="mr"></k-text-to-speech>
+          <input id="ttsInput" type="text" value="Type something then click the button" />
+          <script>
+            const $tts = document.getElementById('ttsExample');
+            const $input = document.getElementById('ttsInput');
+            $input.addEventListener('input', () => {
+              $tts.text = $input.value;
+            });
+            $tts.text = $input.value;
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction. The button also auto-disables when the browser doesn't support the SpeechSynthesis API.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;You can't hear this&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech disabled text="You can't hear this"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new TextToSpeech()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li>A browser with <code>window.speechSynthesis</code> (all major modern browsers)</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>text<i>: String</i></code></h5>
+    <p>The text to speak. When empty, the element's slotted text content is used. Syncs to <code>text</code> attribute.</p>
+
+    <h5><code>voice<i>: String</i></code></h5>
+    <p>Optional voice name (matched against <code>speechSynthesis.getVoices()</code>). Falls back to the default voice for the language. Syncs to <code>voice</code> attribute.</p>
+
+    <h5><code>language<i>: String</i></code></h5>
+    <p>BCP&#x2011;47 language tag (e.g. <code>"en-US"</code>, <code>"fr-FR"</code>). Default is empty (browser default). Syncs to <code>language</code> attribute.</p>
+
+    <h5><code>rate<i>: Number</i></code></h5>
+    <p>Speech rate from <code>0.1</code> (slow) to <code>10</code> (fast). Default is <code>1</code>. Syncs to <code>rate</code> attribute.</p>
+
+    <h5><code>pitch<i>: Number</i></code></h5>
+    <p>Pitch from <code>0</code> to <code>2</code>. Default is <code>1</code>. Syncs to <code>pitch</code> attribute.</p>
+
+    <h5><code>volume<i>: Number</i></code></h5>
+    <p>Volume from <code>0</code> (silent) to <code>1</code> (loud). Default is <code>1</code>. Syncs to <code>volume</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the button cannot be clicked. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>speaking<i>: Boolean</i></code></h5>
+    <p>Reflects whether the component is currently speaking. The button shows the stop icon and switches to the active color while <code>true</code>. Syncs to <code>speaking</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>speak(textOverride?)<i>: void</i></code></h5>
+    <p>Begin speaking. If <code>textOverride</code> is supplied, it is spoken instead of <code>text</code>/slot content. Cancels any in-flight utterance first.</p>
+
+    <h5><code>stop()<i>: void</i></code></h5>
+    <p>Cancel any speech in progress.</p>
+
+    <h5><code>toggle()<i>: void</i></code></h5>
+    <p>Calls <code>stop()</code> if currently speaking, otherwise <code>speak()</code> &mdash; the same behavior as clicking the button.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <table class="b">
+      <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--btn_size</code></td><td><code>2.5rem</code></td><td>Diameter of the button</td></tr>
+        <tr><td><code>--btn_bg</code></td><td><code>var(--c_bg)</code></td><td>Background of the idle button</td></tr>
+        <tr><td><code>--btn_bg__speaking</code></td><td><code>var(--c_primary)</code></td><td>Background while actively speaking</td></tr>
+        <tr><td><code>--btn_tc__speaking</code></td><td><code>white</code></td><td>Icon color while speaking</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>start</code></h5>
+    <p>Fires when speech begins.</p>
+
+    <h5><code>end</code></h5>
+    <p>Fires when speech finishes (naturally or via <code>stop()</code>).</p>
+
+    <h5><code>error</code></h5>
+    <p>Fires if the underlying <code>SpeechSynthesisUtterance</code> reports an error. <code>detail</code> contains <code>{ error: String }</code>.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/TextToSpeech.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Icon.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

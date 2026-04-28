@@ -1,0 +1,251 @@
+<page pageName="Speech To Text" title="Speech To Text - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#liveTranscript">Live Transcript</a><br />
+        <a href="#continuous">Continuous</a><br />
+        <a href="#language">Language</a><br />
+        <a href="#minConfidence">Min Confidence</a><br />
+        <a href="#timeout">Timeout</a><br />
+        <a href="#disabled">Disabled</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>Wraps the browser's <a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition" target="_blank">Web Speech API</a> in a single microphone button. Click the button to start listening; the browser stops automatically when the user pauses (or click again to stop manually). Requires a secure context (HTTPS or <code>localhost</code>) and a Chromium-based browser at the time of writing.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The simplest setup &mdash; click the mic, speak, and the recognized text appears in the paragraph when you stop. The <code>end</code> event fires once with the full transcript.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;basicSpeech&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;basicSpeechOutput&quot;</span>&gt;</span>(say something...)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $stt = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;basicSpeech&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $out = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;basicSpeechOutput&#x27;</span>);<br>  $stt.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    $out.<span class="hljs-property">textContent</span> = e.<span class="hljs-property">detail</span>.<span class="hljs-property">text</span> || <span class="hljs-string">&#x27;(nothing heard)&#x27;</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text id="basicSpeech"></k-speech-to-text>
+          <p id="basicSpeechOutput" class="mt">(say something...)</p>
+          <script>
+            const $stt = document.getElementById('basicSpeech');
+            const $out = document.getElementById('basicSpeechOutput');
+            $stt.addEventListener('end', (e) => {
+              $out.textContent = e.detail.text || '(nothing heard)';
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="liveTranscript"><a href="#liveTranscript" class="no-link">Live Transcript</a></h3>
+    <p>Add the <code>interim</code> attribute and listen for the <code>result</code> event to update the paragraph as the user speaks. <code>detail.isFinal</code> indicates whether the chunk is finalized.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;liveSpeech&quot;</span> <span class="hljs-attr">interim</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;liveSpeechOutput&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $stt = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;liveSpeech&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $out = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;liveSpeechOutput&#x27;</span>);<br>  $stt.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;result&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    $out.<span class="hljs-property">textContent</span> = e.<span class="hljs-property">detail</span>.<span class="hljs-property">text</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text id="liveSpeech" interim></k-speech-to-text>
+          <p id="liveSpeechOutput" class="mt">&nbsp;</p>
+          <script>
+            const $sttLive = document.getElementById('liveSpeech');
+            const $outLive = document.getElementById('liveSpeechOutput');
+            $sttLive.addEventListener('result', (e) => {
+              $outLive.textContent = e.detail.text;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="continuous"><a href="#continuous" class="no-link">Continuous</a></h3>
+    <p>By default the recognizer stops automatically after a brief pause. Add <code>continuous</code> so it keeps listening until the user clicks the button a second time.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">continuous</span> <span class="hljs-attr">interim</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;contSpeech&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;contSpeechOutput&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text id="contSpeech" continuous interim></k-speech-to-text>
+          <p id="contSpeechOutput" class="mt">&nbsp;</p>
+          <script>
+            const $sttCont = document.getElementById('contSpeech');
+            const $outCont = document.getElementById('contSpeechOutput');
+            $sttCont.addEventListener('result', (e) => {
+              $outCont.textContent = e.detail.text;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="language"><a href="#language" class="no-link">Language</a></h3>
+    <p>Set the recognition <code>language</code> using a BCP&#x2011;47 tag (e.g. <code>"es-ES"</code>, <code>"fr-FR"</code>, <code>"de-DE"</code>). Defaults to <code>"en-US"</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;es-ES&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text language="es-ES"></k-speech-to-text>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="minConfidence"><a href="#minConfidence" class="no-link">Min Confidence</a></h3>
+    <p>Set <code>min-confidence</code> to a number between <code>0</code> and <code>1</code> to drop low-confidence transcripts. Chrome's recognizer reports a confidence score on each finalized result; values below your threshold are skipped (they don't accumulate into <code>end.detail.text</code>). Interim chunks usually have <code>confidence === 0</code> in Chrome, so any positive threshold also filters those out &mdash; useful when you want to ignore background noise or ambient audio. Default is <code>0</code> (no filtering).</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confSpeech&quot;</span> <span class="hljs-attr">min-confidence</span>=<span class="hljs-string">&quot;0.7&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confSpeechOutput&quot;</span>&gt;</span>(only confident speech...)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text id="confSpeech" min-confidence="0.7"></k-speech-to-text>
+          <p id="confSpeechOutput" class="mt">(only confident speech...)</p>
+          <script>
+            const $sttConf = document.getElementById('confSpeech');
+            const $outConf = document.getElementById('confSpeechOutput');
+            $sttConf.addEventListener('end', (e) => {
+              $outConf.textContent = e.detail.text || '(no high-confidence speech detected)';
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="timeout"><a href="#timeout" class="no-link">Timeout</a></h3>
+    <p>Set <code>timeout</code> to the maximum number of seconds the component should listen before stopping itself. The recognition stops automatically and the <code>end</code> event fires with whatever transcript was captured. Default is <code>0</code> (no timeout &mdash; recognition runs until the user stops, or the browser auto-stops on a pause when <code>continuous</code> is unset).</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;timeoutSpeech&quot;</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;timeoutSpeechOutput&quot;</span>&gt;</span>(stops after 5 seconds...)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text id="timeoutSpeech" timeout="5" continuous interim></k-speech-to-text>
+          <p id="timeoutSpeechOutput" class="mt">(stops after 5 seconds...)</p>
+          <script>
+            const $sttTimeout = document.getElementById('timeoutSpeech');
+            const $outTimeout = document.getElementById('timeoutSpeechOutput');
+            $sttTimeout.addEventListener('result', (e) => {
+              $outTimeout.textContent = e.detail.text;
+            });
+            $sttTimeout.addEventListener('end', (e) => {
+              if(!e.detail.text) $outTimeout.textContent = '(no speech captured)';
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction. The button also auto-disables when the browser doesn't support the Web Speech API.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-speech-to-text</span> <span class="hljs-attr">disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-speech-to-text</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-speech-to-text disabled></k-speech-to-text>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new SpeechToText()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li>A browser that supports <code>SpeechRecognition</code> (Chrome, Edge, Safari 14.1+, etc.) served over HTTPS or <code>localhost</code></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>language<i>: String</i></code></h5>
+    <p>BCP&#x2011;47 language tag passed to the underlying <code>SpeechRecognition.lang</code> (e.g. <code>"en-US"</code>, <code>"es-ES"</code>). Default is <code>"en-US"</code>. Syncs to <code>language</code> attribute.</p>
+
+    <h5><code>continuous<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, recognition keeps listening past pauses until <code>stop()</code> is called. Default is <code>false</code>. Syncs to <code>continuous</code> attribute.</p>
+
+    <h5><code>interim<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the recognizer emits unfinalized results as the user speaks (the <code>result</code> event fires for interim chunks too). Note that the underlying <code>SpeechRecognition.interimResults</code> is always <code>true</code> internally so the <code>end</code> event has a fallback transcript when the engine doesn't finalize; this attribute only controls public <code>result</code> dispatching. Default is <code>false</code>. Syncs to <code>interim</code> attribute.</p>
+
+    <h5><code>minConfidence<i>: Number</i></code></h5>
+    <p>A floor (<code>0</code>&ndash;<code>1</code>) on the confidence score Chrome reports for each result. Anything below the threshold is dropped. Useful for ignoring background noise: at <code>0.7</code> you'll only capture speech the engine is confident about. Default is <code>0</code> (accept everything). Syncs to <code>min-confidence</code> attribute.</p>
+
+    <h5><code>timeout<i>: Number</i></code></h5>
+    <p>Maximum recording duration in seconds. When non-zero, the component automatically calls <code>stop()</code> after this many seconds, firing the <code>end</code> event with the captured transcript. Default is <code>0</code> (no timeout). Syncs to <code>timeout</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the button cannot be clicked. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>listening<i>: Boolean</i></code></h5>
+    <p>Read-only-ish state that reflects whether recognition is active. The button shows a pulsing red state while listening. Syncs to <code>listening</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>start()<i>: void</i></code></h5>
+    <p>Begin listening. No-op if already listening, disabled, or unsupported.</p>
+
+    <h5><code>stop()<i>: void</i></code></h5>
+    <p>Stop listening and finalize the transcript.</p>
+
+    <h5><code>toggle()<i>: void</i></code></h5>
+    <p>Calls <code>start()</code> if idle, <code>stop()</code> if currently listening &mdash; the same behavior as clicking the button.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <table class="b">
+      <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--btn_size</code></td><td><code>2.5rem</code></td><td>Diameter of the microphone button</td></tr>
+        <tr><td><code>--btn_bg</code></td><td><code>var(--c_bg)</code></td><td>Background of the idle button</td></tr>
+        <tr><td><code>--btn_bg__listening</code></td><td><code>var(--c_danger, #d32f2f)</code></td><td>Background while actively listening</td></tr>
+        <tr><td><code>--btn_tc__listening</code></td><td><code>white</code></td><td>Icon color while listening</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>start</code></h5>
+    <p>Fires when recognition begins.</p>
+
+    <h5><code>result</code></h5>
+    <p>Fires for each recognized chunk. <code>detail</code> contains <code>{ text: String, isFinal: Boolean }</code>. With <code>interim</code> enabled, this fires repeatedly as the user speaks.</p>
+
+    <h5><code>end</code></h5>
+    <p>Fires when recognition stops (auto pause, manual stop, or error). <code>detail</code> contains <code>{ text: String }</code> &mdash; the full final transcript.</p>
+
+    <h5><code>error</code></h5>
+    <p>Fires when the underlying <code>SpeechRecognition</code> reports an error. <code>detail</code> contains <code>{ error: String, message: String }</code>.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/SpeechToText.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Icon.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

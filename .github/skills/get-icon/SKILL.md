@@ -124,9 +124,9 @@ When the script saves a right-facing icon (after a directional prompt), the `<k-
 **User asks to "add a thumbs up icon" (explicit, not in local icons)**
 
 1. **Local check:** No match in `icons/`
-2. **Find:** Search Material Symbols for `thumbs+up` → `thumb_up`
+2. **Find:** `npm run listicons -- thumbs+up` → `thumb_up`
 3. **Arrow check:** Not directional, proceed normally
-4. **Run:** `node .github/skills/get-icon/get_icon.js thumb_up`
+4. **Run:** `npm run geticon -- thumb_up`
 5. **Result:** `icons/thumb_up.svg` saved and build triggered
 
 **User asks for a "left arrow icon"**
@@ -138,7 +138,7 @@ When the script saves a right-facing icon (after a directional prompt), the `<k-
 **User asks for a "left arrow icon" (no arrow in local icons)**
 
 1. **Local check:** No arrow icon found
-2. **Find:** Search for `arrow_forward` or `arrow_right`
+2. **Find:** `npm run listicons -- arrow` → consider `arrow_forward` or `arrow_right`
 3. **Arrow check:** Directional — download the right-facing variant with a generic name
-4. **Run:** `node .github/skills/get-icon/get_icon.js arrow_forward arrow`
+4. **Run:** `npm run geticon -- arrow_forward arrow`
 5. **Use:** `<k-icon name="arrow" direction="left"></k-icon>`
