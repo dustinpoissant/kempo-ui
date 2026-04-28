@@ -90,6 +90,7 @@ import { html, css, LitElement } from 'kempo-ui/src/lit-all.min.js';
 | `<k-toast>` `<k-toast-container>` | `Toast.js` | Toast notifications; use `<k-toast-container>` once in page, call `.addToast(options)` | [toast.html](https://dustinpoissant.github.io/kempo-ui/components/toast.html) |
 | `<k-toggle>` | `Toggle.js` | On/off toggle; `value` (Boolean, reflects); methods: `on()`, `off()`, `toggle()`; fires `change`, `on`, `off` | [toggle.html](https://dustinpoissant.github.io/kempo-ui/components/toggle.html) |
 | `<k-tree>` `<k-tree-node>` | `Tree.js` | Expandable tree; nodes have `label`, `icon`, `href`, `expanded` | [tree.html](https://dustinpoissant.github.io/kempo-ui/components/tree.html) |
+| `<k-voice-selector>` | `VoiceSelector.js` | `<select>` populated with `speechSynthesis.getVoices()`; persists choice via the `voice` utility so any `<k-text-to-speech>` without an explicit `voice` attr uses the saved preference; `language` (BCP-47 prefix) attr filters the list; fires `change` | [voice-selector.html](https://dustinpoissant.github.io/kempo-ui/components/voice-selector.html) |
 
 ---
 
@@ -245,6 +246,7 @@ Located in `src/utils/`. Import individually.
 | `debounce.js` | `default` | `debounce(fn, ms)` — delay fn until calls stop | [debounce.html](https://dustinpoissant.github.io/kempo-ui/utils/debounce.html) |
 | `wait.js` | `wait`, `waitFrames` | `wait(ms)` → Promise; `waitFrames(n)` → Promise after n animation frames | [wait.html](https://dustinpoissant.github.io/kempo-ui/utils/wait.html) |
 | `theme.js` | `setTheme`, `getTheme`, `subscribeToTheme`, `initTheme`, `getCalculatedTheme` | Manage light/dark/auto theme; persists to localStorage | [theme.html](https://dustinpoissant.github.io/kempo-ui/utils/theme.html) |
+| `voice.js` | `getVoice`, `setVoice`, `subscribeToVoice`, `getAvailableVoices`, `waitForVoices`, `subscribeToAvailableVoices` | Persisted speech-synthesis voice preference (mirrors `theme`); used by `<k-voice-selector>` and consumed by `<k-text-to-speech>` when no explicit `voice` attr is set | [voice.html](https://dustinpoissant.github.io/kempo-ui/utils/voice.html) |
 | `propConverters.js` | `boolExists`, `boolTrueFalse` | Lit property converters for boolean attributes | [propConverters.html](https://dustinpoissant.github.io/kempo-ui/utils/propConverters.html) |
 | `context.js` | `default` | `createContext(key, initialValue)` → `{ get, set, subscribe }` pub/sub state | [context.html](https://dustinpoissant.github.io/kempo-ui/utils/context.html) |
 | `cookie.js` | `saveCookie`, `getCookie`, `deleteCookie` | Get/set/delete browser cookies | [cookie.html](https://dustinpoissant.github.io/kempo-ui/utils/cookie.html) |

@@ -1,4 +1,5 @@
 import TextToSpeech from '../../src/components/TextToSpeech.js';
+import { setVoice } from '../../src/utils/voice.js';
 
 const createTextToSpeech = async (attrs = {}, slot = '') => {
   const container = document.createElement('div');
@@ -26,7 +27,7 @@ const cleanup = (container) => {
 // Stub window.speechSynthesis (which is a read-only getter in Chrome) by
 // patching its methods on the live object. SpeechSynthesisUtterance is a
 // constructor, swapped via Object.defineProperty.
-const installSynthesisStub = () => {
+const installSynthesisStub = (voicesList = []) => {
   const captured = {
     spoken: [],
     cancelled: 0
@@ -34,6 +35,7 @@ const installSynthesisStub = () => {
   const synth = window.speechSynthesis;
   const originalSpeak = synth.speak.bind(synth);
   const originalCancel = synth.cancel.bind(synth);
+  const originalGetVoices = synth.getVoices.bind(synth);
   synth.speak = (utterance) => {
     captured.spoken.push(utterance);
     queueMicrotask(() => {
@@ -41,6 +43,7 @@ const installSynthesisStub = () => {
     });
   };
   synth.cancel = () => { captured.cancelled++; };
+  synth.getVoices = () => voicesList;
 
   const OriginalUtterance = window.SpeechSynthesisUtterance;
   function StubUtterance(text){
@@ -65,6 +68,7 @@ const installSynthesisStub = () => {
     restore: () => {
       synth.speak = originalSpeak;
       synth.cancel = originalCancel;
+      synth.getVoices = originalGetVoices;
       Object.defineProperty(window, 'SpeechSynthesisUtterance', {
         value: OriginalUtterance,
         configurable: true,
@@ -405,6 +409,151 @@ export default {
     }
     cleanup(container);
     pass('error event fires with detail.error');
+  },
+
+  /*
+    Voice Fallback Chain
+  */
+  'should pick first matching voice from a fallback chain': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Google US English' },
+      { name: 'Microsoft Zira' }
+    ]);
+    const { container, el } = await createTextToSpeech({
+      text: 'hi',
+      voice: 'Samantha, Google US English, Microsoft Zira'
+    });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(!u.voice || u.voice.name !== 'Google US English'){
+      stub.restore();
+      cleanup(container);
+      return fail(`Expected voice "Google US English", got ${u.voice ? u.voice.name : 'null'}`);
+    }
+    stub.restore();
+    cleanup(container);
+    pass('First installed voice in chain is selected');
+  },
+
+  'should fall through earlier missing entries in the chain': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Microsoft Zira' }
+    ]);
+    const { container, el } = await createTextToSpeech({
+      text: 'hi',
+      voice: 'Samantha, Google US English, Microsoft Zira'
+    });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(!u.voice || u.voice.name !== 'Microsoft Zira'){
+      stub.restore();
+      cleanup(container);
+      return fail(`Expected voice "Microsoft Zira", got ${u.voice ? u.voice.name : 'null'}`);
+    }
+    stub.restore();
+    cleanup(container);
+    pass('Falls through to a later installed voice');
+  },
+
+  'should not set voice when no candidate matches': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Karen' }
+    ]);
+    const { container, el } = await createTextToSpeech({
+      text: 'hi',
+      voice: 'Samantha, Google US English'
+    });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(u.voice !== null){
+      stub.restore();
+      cleanup(container);
+      return fail(`Expected voice null when no chain entry matches, got ${u.voice && u.voice.name}`);
+    }
+    stub.restore();
+    cleanup(container);
+    pass('voice stays null when no chain entry is installed');
+  },
+
+  'should ignore extra whitespace around chain entries': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Google US English' }
+    ]);
+    const { container, el } = await createTextToSpeech({
+      text: 'hi',
+      voice: '  Samantha ,   Google US English  '
+    });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(!u.voice || u.voice.name !== 'Google US English'){
+      stub.restore();
+      cleanup(container);
+      return fail(`Expected voice "Google US English" after trim, got ${u.voice && u.voice.name}`);
+    }
+    stub.restore();
+    cleanup(container);
+    pass('Whitespace around comma-separated entries is ignored');
+  },
+
+  'should fall back to saved voice preference when no voice attr is set': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Karen', lang: 'en-AU' }
+    ]);
+    setVoice('Karen');
+    const { container, el } = await createTextToSpeech({ text: 'hi' });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(!u.voice || u.voice.name !== 'Karen'){
+      stub.restore();
+      setVoice('');
+      cleanup(container);
+      return fail(`Expected fallback to saved voice "Karen", got ${u.voice && u.voice.name}`);
+    }
+    stub.restore();
+    setVoice('');
+    cleanup(container);
+    pass('Saved voice preference is used when voice attr is empty');
+  },
+
+  'should ignore saved voice preference when voice attr is set': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Karen', lang: 'en-AU' },
+      { name: 'Samantha', lang: 'en-US' }
+    ]);
+    setVoice('Karen');
+    const { container, el } = await createTextToSpeech({ text: 'hi', voice: 'Samantha' });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(!u.voice || u.voice.name !== 'Samantha'){
+      stub.restore();
+      setVoice('');
+      cleanup(container);
+      return fail(`Expected explicit voice "Samantha" to win over saved "Karen", got ${u.voice && u.voice.name}`);
+    }
+    stub.restore();
+    setVoice('');
+    cleanup(container);
+    pass('Explicit voice attr overrides saved preference');
+  },
+
+  'should still match a single voice name with no commas': async ({pass, fail}) => {
+    const stub = installSynthesisStub([
+      { name: 'Samantha' }
+    ]);
+    const { container, el } = await createTextToSpeech({
+      text: 'hi',
+      voice: 'Samantha'
+    });
+    el.speak();
+    const u = stub.captured.spoken[0];
+    if(!u.voice || u.voice.name !== 'Samantha'){
+      stub.restore();
+      cleanup(container);
+      return fail(`Expected voice "Samantha", got ${u.voice && u.voice.name}`);
+    }
+    stub.restore();
+    cleanup(container);
+    pass('Single voice name still works');
   },
 
   /*

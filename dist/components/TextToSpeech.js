@@ -1,8 +1,8 @@
-import{html as e,css as t}from"../lit-all.min.js";import n from"./ShadowComponent.js";import"./Icon.js";export default class s extends n{static properties={text:{type:String,reflect:!0},voice:{type:String,reflect:!0},language:{type:String,reflect:!0},rate:{type:Number,reflect:!0},pitch:{type:Number,reflect:!0},volume:{type:Number,reflect:!0},disabled:{type:Boolean,reflect:!0},speaking:{type:Boolean,reflect:!0}};#e=!1;#t=null;constructor(){super(),this.text="",this.voice="",this.language="",this.rate=1,this.pitch=1,this.volume=1,this.disabled=!1,this.speaking=!1}connectedCallback(){super.connectedCallback(),"undefined"!=typeof window&&window.speechSynthesis&&"function"==typeof window.SpeechSynthesisUtterance||(this.#e=!0)}disconnectedCallback(){super.disconnectedCallback(),this.stop()}get effectiveText(){return this.text?this.text:this.textContent.trim()}resolveVoice=()=>{if(!this.voice||this.#e)return null;return window.speechSynthesis.getVoices().find(e=>e.name===this.voice)||null};speak=e=>{if(this.disabled||this.#e)return;const t=(void 0!==e?String(e):this.effectiveText).trim();if(!t)return;window.speechSynthesis.cancel();const n=new window.SpeechSynthesisUtterance(t);n.rate=this.rate,n.pitch=this.pitch,n.volume=this.volume,this.language&&(n.lang=this.language);const s=this.resolveVoice();s&&(n.voice=s),n.onstart=this.handleStart,n.onend=this.handleEnd,n.onerror=this.handleError,this.#t=n,window.speechSynthesis.speak(n)};stop=()=>{this.#e||window.speechSynthesis.cancel()};toggle=()=>{this.speaking?this.stop():this.speak()};handleStart=()=>{this.speaking=!0,this.dispatchEvent(new CustomEvent("start",{bubbles:!0}))};handleEnd=()=>{this.speaking=!1,this.#t=null,this.dispatchEvent(new CustomEvent("end",{bubbles:!0}))};handleError=e=>{this.speaking=!1,this.#t=null,this.dispatchEvent(new CustomEvent("error",{detail:{error:e.error||"unknown"},bubbles:!0}))};handleClick=()=>{this.disabled||this.toggle()};render(){const t=!this.#e,n=t?this.speaking?"Stop speaking":"Speak":"Text-to-speech not supported in this browser";return e`
+import{html as t,css as e}from"../lit-all.min.js";import n from"./ShadowComponent.js";import{getVoice as s}from"../utils/voice.js";import"./Icon.js";export default class i extends n{static properties={text:{type:String,reflect:!0},voice:{type:String,reflect:!0},language:{type:String,reflect:!0},rate:{type:Number,reflect:!0},pitch:{type:Number,reflect:!0},volume:{type:Number,reflect:!0},disabled:{type:Boolean,reflect:!0},speaking:{type:Boolean,reflect:!0}};#t=!1;#e=null;constructor(){super(),this.text="",this.voice="",this.language="",this.rate=1,this.pitch=1,this.volume=1,this.disabled=!1,this.speaking=!1}connectedCallback(){super.connectedCallback(),"undefined"!=typeof window&&window.speechSynthesis&&"function"==typeof window.SpeechSynthesisUtterance||(this.#t=!0)}disconnectedCallback(){super.disconnectedCallback(),this.stop()}get effectiveText(){return this.text?this.text:this.textContent.trim()}resolveVoice=()=>{if(this.#t)return null;const t=this.voice||s()||"";if(!t)return null;const e=window.speechSynthesis.getVoices(),n=t.split(",").map(t=>t.trim()).filter(Boolean);for(const t of n){const n=e.find(e=>e.name===t);if(n)return n}return null};speak=t=>{if(this.disabled||this.#t)return;const e=(void 0!==t?String(t):this.effectiveText).trim();if(!e)return;window.speechSynthesis.cancel();const n=new window.SpeechSynthesisUtterance(e);n.rate=this.rate,n.pitch=this.pitch,n.volume=this.volume,this.language&&(n.lang=this.language);const s=this.resolveVoice();s&&(n.voice=s),n.onstart=this.handleStart,n.onend=this.handleEnd,n.onerror=this.handleError,this.#e=n,window.speechSynthesis.speak(n)};stop=()=>{this.#t||window.speechSynthesis.cancel()};toggle=()=>{this.speaking?this.stop():this.speak()};handleStart=()=>{this.speaking=!0,this.dispatchEvent(new CustomEvent("start",{bubbles:!0}))};handleEnd=()=>{this.speaking=!1,this.#e=null,this.dispatchEvent(new CustomEvent("end",{bubbles:!0}))};handleError=t=>{this.speaking=!1,this.#e=null,this.dispatchEvent(new CustomEvent("error",{detail:{error:t.error||"unknown"},bubbles:!0}))};handleClick=()=>{this.disabled||this.toggle()};render(){const e=!this.#t,n=e?this.speaking?"Stop speaking":"Speak":"Text-to-speech not supported in this browser";return t`
       <button
         type="button"
         class="no-btn btn"
-        ?disabled=${this.disabled||!t}
+        ?disabled=${this.disabled||!e}
         @click=${this.handleClick}
         aria-label=${n}
         title=${n}
@@ -10,7 +10,7 @@ import{html as e,css as t}from"../lit-all.min.js";import n from"./ShadowComponen
         <k-icon name=${this.speaking?"stop":"record_voice_over"}></k-icon>
       </button>
       <slot style="display:none"></slot>
-    `}static styles=t`
+    `}static styles=e`
     :host {
       --btn_size: 2.5rem;
       --btn_bg: var(--c_bg);
@@ -53,4 +53,4 @@ import{html as e,css as t}from"../lit-all.min.js";import n from"./ShadowComponen
     .btn:disabled {
       cursor: not-allowed;
     }
-  `}customElements.define("k-text-to-speech",s);
+  `}customElements.define("k-text-to-speech",i);

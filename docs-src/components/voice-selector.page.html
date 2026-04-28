@@ -1,0 +1,125 @@
+<page pageName="Voice Selector" title="Voice Selector - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#languageFilter">Language Filter</a><br />
+        <a href="#withTextToSpeech">With TextToSpeech</a><br />
+        <a href="#disabled">Disabled</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>Two cascading <code>&lt;select&gt;</code>s &mdash; the first picks a language, the second lists voices for that language. The chosen voice is persisted via the <a href="../utils/voice.html">voice utility</a>, so every <a href="./text-to-speech.html"><code>&lt;k-text-to-speech&gt;</code></a> on the page (and across reloads) uses it as a default when no <code>voice</code> attribute is set.</p>
+    <p>The language dropdown defaults to the browser's primary language (<code>navigator.language</code>) so a user almost always sees a relevant voice list immediately.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Just drop the element into a settings page or somewhere visible. Voices load asynchronously, so the dropdowns may briefly be empty before the rest populate.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-voice-selector</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-voice-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-voice-selector></k-voice-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="languageFilter"><a href="#languageFilter" class="no-link">Initial Language</a></h3>
+    <p>Set <code>language</code> to override the default browser language. Accepts a primary language code (e.g. <code>"fr"</code>, <code>"es"</code>) or a full BCP&#x2011;47 tag (the primary part is used). The user can still switch via the dropdown afterward.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-voice-selector</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-voice-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-voice-selector language="fr"></k-voice-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="withTextToSpeech"><a href="#withTextToSpeech" class="no-link">With TextToSpeech</a></h3>
+    <p>Pick a voice in the dropdown, then click any <code>&lt;k-text-to-speech&gt;</code> on the page that doesn't have its own <code>voice</code> attribute &mdash; it'll use your saved preference. The choice persists across page reloads.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-voice-selector</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-voice-selector</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;This will use the voice you picked above&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-voice-selector class="mr"></k-voice-selector>
+          <k-text-to-speech text="This will use the voice you picked above"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction. The dropdown also auto-disables when the browser doesn't support the SpeechSynthesis API.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-voice-selector</span> <span class="hljs-attr">disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-voice-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-voice-selector disabled></k-voice-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new VoiceSelector()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li>The <a href="../utils/voice.html">voice utility</a></li>
+      <li>A browser with <code>window.speechSynthesis</code></li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>language<i>: String</i></code></h5>
+    <p>Optional initial language. If set, overrides the default <code>navigator.language</code> on first render. Accepts a primary language code (<code>"en"</code>, <code>"es"</code>) or a full BCP&#x2011;47 tag (the primary part is used). The user can change the language via the first dropdown afterward. Syncs to <code>language</code> attribute.</p>
+
+    <h5><code>placeholder<i>: String</i></code></h5>
+    <p>Label for the empty-selection option. Default is <code>"Browser default"</code>. Syncs to <code>placeholder</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the dropdown cannot be changed. Syncs to <code>disabled</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>refresh()<i>: void</i></code></h5>
+    <p>Force a re-read of <code>speechSynthesis.getVoices()</code>. Rarely needed since the component subscribes to the <code>voiceschanged</code> event, but useful if you populate voices dynamically.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fires when the user picks a new voice. <code>detail</code> contains <code>{ voice: String }</code> &mdash; the voice name, or empty string for "browser default". The voice utility is updated automatically; this event is for callers that want to react in addition.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/VoiceSelector.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/TextToSpeech.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Icon.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

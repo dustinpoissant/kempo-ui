@@ -1,5 +1,6 @@
 import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
+import { getVoice as getPreferredVoice } from '../utils/voice.js';
 import './Icon.js';
 
 export default class TextToSpeech extends ShadowComponent {
@@ -53,9 +54,19 @@ export default class TextToSpeech extends ShadowComponent {
   }
 
   resolveVoice = () => {
-    if(!this.voice || this.#unsupported) return null;
+    if(this.#unsupported) return null;
+    // Use the explicit `voice` attribute first; if none is set, fall back to
+    // the user's saved preference from the voice utility (so a site-wide
+    // VoiceSelector can drive every TextToSpeech that hasn't opted out).
+    const source = this.voice || getPreferredVoice() || '';
+    if(!source) return null;
     const voices = window.speechSynthesis.getVoices();
-    return voices.find(v => v.name === this.voice) || null;
+    const candidates = source.split(',').map(s => s.trim()).filter(Boolean);
+    for(const name of candidates){
+      const match = voices.find(v => v.name === name);
+      if(match) return match;
+    }
+    return null;
   };
 
   /*

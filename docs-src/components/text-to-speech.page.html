@@ -9,6 +9,7 @@
         <a href="#slotted">Slotted Text</a><br />
         <a href="#rate">Rate &amp; Pitch</a><br />
         <a href="#language">Language</a><br />
+        <a href="#voice">Voice Selection</a><br />
         <a href="#dynamic">Dynamic Text</a><br />
         <a href="#disabled">Disabled</a><br />
 
@@ -86,6 +87,48 @@
       </div>
     </div>
 
+    <h3 id="voice"><a href="#voice" class="no-link">Voice Selection</a></h3>
+    <p>Set <code>voice</code> to a specific voice name. The component looks it up in <code>speechSynthesis.getVoices()</code>; if the name isn't installed on the user's device the component silently falls back to the language default. Voice availability varies by browser and OS &mdash; here's a quick reference:</p>
+    <table class="b">
+      <thead><tr><th>Platform</th><th>Available voices</th></tr></thead>
+      <tbody>
+        <tr><td>Chrome (any OS)</td><td><code>Google US English</code>, <code>Google UK English Female</code>, <code>Google UK English Male</code>, plus localized <code>Google fran&ccedil;ais</code>, <code>Google espa&ntilde;ol</code>, etc. Most reliable cross-platform names.</td></tr>
+        <tr><td>macOS / iOS Safari</td><td><code>Samantha</code>, <code>Alex</code>, <code>Karen</code>, <code>Daniel</code>, <code>Moira</code>, plus any "premium" voices the user has downloaded.</td></tr>
+        <tr><td>Windows (Edge / non-Chrome)</td><td><code>Microsoft David</code>, <code>Microsoft Zira</code>, <code>Microsoft Mark</code>, plus regional packs.</td></tr>
+        <tr><td>Linux / eSpeak</td><td>A single generic voice; quality is rough.</td></tr>
+        <tr><td>Android Chrome</td><td>Whatever TTS engine the user has installed; defaults to Google TTS.</td></tr>
+      </tbody>
+    </table>
+    <p class="mt">There is no voice name that is identical across every platform. For portable code, prefer <code>language</code> over <code>voice</code> &mdash; the browser will pick the best installed voice for that language tag. Only set <code>voice</code> when you specifically want one and accept the device-dependent fallback.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Hello, this is Google US English&quot;</span> <span class="hljs-attr">voice</span>=<span class="hljs-string">&quot;Google US English&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Hello in French (browser picks a voice)&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;fr-FR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Hello, this is Google US English" voice="Google US English" class="mr"></k-text-to-speech>
+          <k-text-to-speech text="Hello in French (browser picks a voice)" language="fr-FR"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Voice Fallback Chain</h4>
+    <p>The <code>voice</code> attribute accepts a comma-separated list (like CSS <code>font-family</code>). The component tries each name in order and uses the first one installed; if none match it falls back to the language default.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Trying Samantha first, then a Google fallback&quot;</span> <span class="hljs-attr">voice</span>=<span class="hljs-string">&quot;Samantha, Google US English, Microsoft Zira&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Trying Samantha first, then a Google fallback" voice="Samantha, Google US English, Microsoft Zira"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="dynamic"><a href="#dynamic" class="no-link">Dynamic Text</a></h3>
     <p>Set the <code>text</code> property at runtime to read whatever is in an input or other DOM source.</p>
     <div class="row -mx">
@@ -142,7 +185,7 @@
     <p>The text to speak. When empty, the element's slotted text content is used. Syncs to <code>text</code> attribute.</p>
 
     <h5><code>voice<i>: String</i></code></h5>
-    <p>Optional voice name (matched against <code>speechSynthesis.getVoices()</code>). Falls back to the default voice for the language. Syncs to <code>voice</code> attribute.</p>
+    <p>Optional voice name, or a comma-separated fallback chain (e.g. <code>"Samantha, Google US English, Microsoft Zira"</code>). Each name is matched against <code>speechSynthesis.getVoices()</code> in order; the first installed match wins. If none match, the component falls back to the default voice for the configured <code>language</code>. Syncs to <code>voice</code> attribute.</p>
 
     <h5><code>language<i>: String</i></code></h5>
     <p>BCP&#x2011;47 language tag (e.g. <code>"en-US"</code>, <code>"fr-FR"</code>). Default is empty (browser default). Syncs to <code>language</code> attribute.</p>
