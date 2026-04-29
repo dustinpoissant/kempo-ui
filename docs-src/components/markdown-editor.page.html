@@ -1,0 +1,439 @@
+<page pageName="Markdown Editor" title="Markdown Editor - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#withControls">With Controls</a><br />
+        <a href="#preConfigured">Pre-Configured Controls</a><br />
+        <a href="#bottomControls">Bottom Controls</a><br />
+        <a href="#defaultValue">Default Value</a><br />
+        <a href="#formUsage">Form Usage</a><br />
+        <a href="#disabled">Disabled / Read-only</a><br />
+        <a href="#tagFiltering">Tag Filtering</a><br />
+        <a href="#customControls">Custom Controls</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#controls">Built-in Controls</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A markdown editor with GitHub-style <strong>Write</strong> and <strong>Preview</strong> tabs. The user types markdown in the textarea and can flip to a live preview at any time. Markdown is parsed by <a href="https://marked.js.org" target="_blank">marked</a> &mdash; a full CommonMark + GFM parser &mdash; so tables, task lists, fenced code blocks, autolinks, and inline HTML all work out of the box. The rendered output runs through <a href="../utils/sanitizeHtml.html"><code>sanitizeHtml</code></a> using <code>allowed-tags</code> (an allowlist) <em>or</em> <code>disallowed-tags</code> (a denylist) &mdash; the two are mutually exclusive. <code>&lt;script&gt;</code> tags are <strong>always</strong> stripped unless you opt in via the <code>scripts-enabled</code> attribute, and <code>&lt;iframe&gt;</code> / <code>&lt;style&gt;</code> / similar dangerous tags are always stripped regardless of any setting.</p>
+    <p>Toolbar buttons are slotted via <code>controls-top</code> and <code>controls-bottom</code> &mdash; mix and match the built-in controls listed below or write your own by extending <a href="#customControls"><code>MarkdownEditorControl</code></a>.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Drop in the tag with a <code>placeholder</code> and you get a markdown textarea with a Write/Preview toggle. No toolbars, no controls &mdash; just the bare editor.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Type some **markdown**...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor placeholder="Type some **markdown**..."></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="withControls"><a href="#withControls" class="no-link">With Controls</a></h3>
+    <p>Wrap your toolbar buttons in a single <code>&lt;div slot="controls-top"&gt;</code> &mdash; that wrapper is the only element placed in the editor's <code>controls-top</code> slot, and you can lay it out however you like (the example below uses kempo-css's <code>d-f</code> for flex). Each control is its own custom element &mdash; import only the ones you need.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a comment...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-menu</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Heading&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;text_fields&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-md-menu</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-quote</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-quote</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-code</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-image</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-table</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-numbered-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-numbered-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor placeholder="Write a comment...">
+            <div slot="controls-top" class="d-f">
+              <k-md-menu label="Heading">
+                <k-icon slot="trigger" name="text_fields"></k-icon>
+                <k-md-format-block tag="h1"></k-md-format-block>
+                <k-md-format-block tag="h2"></k-md-format-block>
+                <k-md-format-block tag="h3"></k-md-format-block>
+                <k-md-format-block tag="h4"></k-md-format-block>
+                <k-md-format-block tag="h5"></k-md-format-block>
+                <k-md-format-block tag="h6"></k-md-format-block>
+              </k-md-menu>
+              <k-md-bold></k-md-bold>
+              <k-md-italic></k-md-italic>
+              <k-md-quote></k-md-quote>
+              <k-md-code></k-md-code>
+              <k-md-link></k-md-link>
+              <k-md-image></k-md-image>
+              <k-md-table></k-md-table>
+              <k-md-bullet-list></k-md-bullet-list>
+              <k-md-numbered-list></k-md-numbered-list>
+            </div>
+          </k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="preConfigured"><a href="#preConfigured" class="no-link">Pre-Configured Controls</a></h3>
+    <p>The <code>controls</code> attribute lets you opt into a built-in toolbar without writing any slot markup. Set it directly on <code>&lt;k-markdown-editor&gt;</code> to one of the three levels below; the matching control modules are imported automatically.</p>
+
+    <h4>controls="full"</h4>
+    <p>Every available control: heading menu (H1&ndash;H6), bold, italic, strikethrough, quote, code, link, image (with dialog/dropdown), table builder, bulleted and numbered lists, speech-to-text.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor controls="full" placeholder="Type some **markdown**..."></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>controls="normal"</h4>
+    <p>A balanced everyday toolbar: heading menu, bold, italic, quote, code, link, and lists.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor controls="normal" placeholder="Type some **markdown**..."></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>controls="minimal"</h4>
+    <p>Essential controls only: heading menu (H1, H3, H5), bold, italic, and lists. Ideal for simple comment forms.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor controls="minimal" placeholder="Type some **markdown**..."></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <p>If you provide your own children with <code>slot="controls-top"</code> (or <code>controls-bottom</code>), they replace the corresponding fallback content from the preset &mdash; so you can layer custom controls on top of any level.</p>
+
+    <h3 id="bottomControls"><a href="#bottomControls" class="no-link">Bottom Controls</a></h3>
+    <p>Same pattern for the bottom: wrap your action row in a single <code>&lt;div slot="controls-bottom"&gt;</code>. The footer is hidden until something is slotted in. Mix the built-in markdown controls with your own action buttons to build a Slack/GitHub-style composer.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a comment...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-link</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-bottom&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;align-items:center; width:100%;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tc-muted&quot;</span>&gt;</span>Markdown supported<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-left:auto&quot;</span>&gt;</span>Comment<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor placeholder="Write a comment...">
+            <div slot="controls-top" class="d-f">
+              <k-md-bold></k-md-bold>
+              <k-md-italic></k-md-italic>
+              <k-md-link></k-md-link>
+            </div>
+            <div slot="controls-bottom" class="d-f" style="align-items:center; width:100%;">
+              <small class="tc-muted">Markdown supported</small>
+              <button style="margin-left:auto">Comment</button>
+            </div>
+          </k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="defaultValue"><a href="#defaultValue" class="no-link">Default Value</a></h3>
+    <p>Set initial markdown via the <code>value</code> attribute. Children are reserved for slotted controls (and their own content like icons or labels), so they are <strong>not</strong> read as the editor's value &mdash; otherwise icon labels, separators, etc. would leak into what the user sees.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;# Hello&amp;#10;&amp;#10;Seeded from the value attribute. Try the Preview tab.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor value="# Hello&#10;&#10;Seeded from the value attribute. Try the Preview tab."></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Usage</a></h3>
+    <p>The component is form-associated. Set a <code>name</code> and the raw markdown is included in the form's <code>FormData</code>. <code>required</code> participates in the browser's standard validation when the editor is empty.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mdForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Comment:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;comment&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Markdown supported&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bold</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="mdForm">
+            <label class="d-b mb">Comment:</label>
+            <k-markdown-editor name="comment" required placeholder="Markdown supported">
+              <div slot="controls-top" class="d-f">
+                <k-md-bold></k-md-bold>
+                <k-md-italic></k-md-italic>
+              </div>
+            </k-markdown-editor>
+            <div class="mt">
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+          <p class="mt">Form data: <span id="mdOut">(submit to see)</span></p>
+          <script type="module">
+            document.getElementById('mdForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const fd = new FormData(e.target);
+              document.getElementById('mdOut').textContent = JSON.stringify([...fd.entries()]);
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled / Read-only</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction (including switching tabs) and excludes the field from form submission. The <code>readonly</code> attribute keeps the editor visible and lets the user switch to Preview, but the textarea cannot be edited; the value is still submitted with the form.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor disabled value="This is **disabled**." class="mb"></k-markdown-editor>
+          <k-markdown-editor readonly value="This is _read-only_ &mdash; check the Preview tab."></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="tagFiltering"><a href="#tagFiltering" class="no-link">Tag Filtering</a></h3>
+    <p>Inline HTML the user (or a custom control) types is filtered by either an allowlist or a denylist. The two attributes are mutually exclusive &mdash; if both are set, <code>allowed-tags</code> wins and a console warning fires.</p>
+
+    <h4>allowed-tags</h4>
+    <p>Permits only the tags you list. Anything else is unwrapped (its text survives, the wrapper is dropped). Type the markdown below and flip to Preview &mdash; only <code>strong</code>, <code>em</code>, <code>p</code>, and <code>br</code> get through; the <code>&lt;img&gt;</code>, <code>&lt;table&gt;</code>, and <code>&lt;script&gt;</code> are scrubbed out.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">allowed-tags</span>=<span class="hljs-string">&quot;strong,em,p,br&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor
+            allowed-tags="strong,em,p,br"
+            value="**Bold** and _italic_ pass through.&#10;&#10;An image is stripped: ![alt](https://example.com/x.png)&#10;&#10;A table is stripped:&#10;&#10;| a | b |&#10;| --- | --- |&#10;| 1 | 2 |&#10;&#10;A &lt;script&gt;alert('xss')&lt;/script&gt; is always nuked."
+          ></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>disallowed-tags</h4>
+    <p>Allows everything <em>except</em> the tags you list &mdash; useful when you only want to ban a couple of things rather than enumerate the whole set. Below, images are blocked but everything else (tables, code, etc.) renders normally.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">disallowed-tags</span>=<span class="hljs-string">&quot;img&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor
+            disallowed-tags="img"
+            value="Tables still work:&#10;&#10;| a | b |&#10;| --- | --- |&#10;| 1 | 2 |&#10;&#10;Images do not: ![alt](https://example.com/x.png)"
+          ></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customControls"><a href="#customControls" class="no-link">Custom Controls</a></h3>
+    <p>To write your own toolbar button, extend <code>MarkdownEditorControl</code>. Override <code>command()</code> and use the helpers (<code>wrapSelection</code>, <code>insertLinePrefix</code>, <code>replaceSelection</code>, <code>insertAtCursor</code>) to manipulate the textarea. The base class hides the control automatically when the editor flips to Preview mode.</p>
+    <p>Below is a tiny control that drops a horizontal rule (<code>---</code> on its own line) at the cursor &mdash; not common enough to ship as a built-in, but a clean example of using <code>insertAtCursor</code>.</p>
+    <k-card label="JavaScript">
+      <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">MarkdownEditorControl</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./markdownEditorControls/MarkdownEditorControl.js'</span>;
+<span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'./lit-all.min.js'</span>;
+
+<span class="hljs-comment">// Inserts a horizontal rule (`---`) on its own line at the cursor.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkdownHr</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">MarkdownEditorControl</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">super</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">label</span> = <span class="hljs-string">'Horizontal rule'</span>;
+  }
+  <span class="hljs-title function_">command</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">insertAtCursor</span>(<span class="hljs-string">'\n\n---\n\n'</span>);
+  }
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> html<span class="hljs-string">`
+      &lt;button type=&quot;button&quot; class=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">btnClass</span>}</span> @click=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">handleClick</span>}</span>&gt;&mdash;&lt;/button&gt;
+    `</span>;
+  }
+}
+customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">'k-md-hr'</span>, <span class="hljs-title class_">MarkdownHr</span>);</code></pre>
+    </k-card>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new MarkdownEditor()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><code>src/utils/renderMarkdown.js</code> (thin wrapper around marked)</li>
+      <li><code>src/utils/marked.esm.js</code> (vendored marked, ~42KB)</li>
+      <li><a href="../utils/sanitizeHtml.html"><code>sanitizeHtml</code></a> utility</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>value<i>: String</i></code></h5>
+    <p>The current markdown source. Reading returns whatever the user has typed; writing replaces the editor content. Initial value comes from the <code>value</code> attribute. (Children are reserved for slotted controls and are <em>not</em> read as the editor value &mdash; otherwise control content like icons / labels would leak in.)</p>
+
+    <h5><code>name<i>: String</i></code></h5>
+    <p>The form field name. When set inside a <code>&lt;form&gt;</code>, the component participates in form submission. The submitted value is the raw markdown string. Syncs to <code>name</code> attribute.</p>
+
+    <h5><code>placeholder<i>: String</i></code></h5>
+    <p>Placeholder text shown in the textarea when the editor is empty. Syncs to <code>placeholder</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the editor is non-interactive (textarea is disabled, mode tabs are disabled) and excluded from form submission. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>required<i>: Boolean</i></code></h5>
+    <p>When <code>true</code> and the editor is empty, the element reports a <code>valueMissing</code> validity error. Syncs to <code>required</code> attribute.</p>
+
+    <h5><code>readonly<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the user can switch to Preview but cannot edit the textarea. Form submission still includes the value. Syncs to <code>readonly</code> attribute.</p>
+
+    <h5><code>mode<i>: String</i></code></h5>
+    <p>Either <code>'write'</code> (default) or <code>'preview'</code>. Syncs to <code>mode</code> attribute.</p>
+
+    <h5><code>allowedTags<i>: String</i></code></h5>
+    <p>Comma-separated <em>allowlist</em> for the rendered preview. Tags outside the list are unwrapped (their text survives, the wrapper is dropped). Pass <code>"*"</code> to allow every tag. Empty / unset uses sanitizeHtml's default (headings, paragraphs, lists, links, code, images, tables, etc.). Mutually exclusive with <code>disallowed-tags</code> &mdash; setting both warns and <code>allowed-tags</code> wins. Syncs to <code>allowed-tags</code> attribute.</p>
+
+    <h5><code>disallowedTags<i>: String</i></code></h5>
+    <p>Comma-separated <em>denylist</em>. Allows everything except the listed tags &mdash; useful when you want to block a couple of tags rather than enumerate the whole allowed set. Mutually exclusive with <code>allowed-tags</code>. Syncs to <code>disallowed-tags</code> attribute.</p>
+
+    <h5><code>scriptsEnabled<i>: Boolean</i></code></h5>
+    <p>When this attribute is present, <code>&lt;script&gt;</code> tags survive sanitization (provided they also pass the allow/deny check). When absent (the default), <code>&lt;script&gt;</code> &mdash; including its content &mdash; is always stripped to prevent XSS, regardless of any other configuration. Other dangerous tags (<code>&lt;iframe&gt;</code>, <code>&lt;style&gt;</code>, etc.) are always stripped. Only enable this for trusted input. Syncs to <code>scripts-enabled</code> attribute.</p>
+
+    <h5><code>controls<i>: String</i></code></h5>
+    <p>Activates a built-in toolbar. Accepted values:</p>
+    <ul>
+      <li><code>'none'</code> / <code>''</code> (default) &mdash; no built-in toolbar; use named slots to build your own.</li>
+      <li><code>'minimal'</code> &mdash; heading menu (H1, H3, H5), bold, italic, link, bulleted list, numbered list.</li>
+      <li><code>'normal'</code> &mdash; full heading menu (H1&ndash;H6), bold, italic, quote, code, link, lists.</li>
+      <li><code>'full'</code> &mdash; everything from <code>normal</code> plus strikethrough, image, table builder, and speech-to-text.</li>
+    </ul>
+    <p>The chosen set renders as fallback content inside the <code>controls-top</code> slot. Providing your own slot content replaces it. Setting a non-empty value also dynamically imports every built-in control module so consumers don't have to remember which imports each preset needs.</p>
+
+    <h5><code>renderedHtml<i>: String</i></code> (getter)</h5>
+    <p>The current value rendered to HTML by <code>renderMarkdown</code> (marked, with GFM enabled) and then run through <code>sanitizeHtml</code> using <code>allowedTags</code>.</p>
+
+    <h5><code>isEmpty<i>: Boolean</i></code> (getter)</h5>
+    <p><code>true</code> when <code>value.trim()</code> is empty.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>focus()<i>: void</i></code></h5>
+    <p>Switches to write mode (if necessary) and focuses the textarea.</p>
+
+    <h5><code>blur()<i>: void</i></code></h5>
+    <p>Removes focus from the textarea.</p>
+
+    <h5><code>clear()<i>: void</i></code></h5>
+    <p>Empties the editor (equivalent to <code>el.value = ''</code>).</p>
+
+    <h5><code>setMode(mode)<i>: void</i></code></h5>
+    <p>Sets the mode to <code>'write'</code> or <code>'preview'</code>. Other values are ignored.</p>
+
+    <h5><code>togglePreview()<i>: void</i></code></h5>
+    <p>Flips between <code>'write'</code> and <code>'preview'</code>.</p>
+
+    <h5><code>getSelection()<i>: { start, end, text }</i></code></h5>
+    <p>Returns the current textarea selection. Used by control subclasses; in preview mode returns a zero-length selection at index 0.</p>
+
+    <h5><code>replaceSelection(text, options)<i>: void</i></code></h5>
+    <p>Replaces the current selection with <code>text</code>. <code>options.selectInserted</code> (default <code>true</code>) controls whether the inserted text ends up selected or whether the cursor moves to the end of it.</p>
+
+    <h5><code>wrapSelection(prefix, suffix, placeholder)<i>: void</i></code></h5>
+    <p>Wraps the current selection with <code>prefix</code>/<code>suffix</code>. If nothing is selected, inserts <code>placeholder</code> between them and selects it so the user can immediately overtype. <code>suffix</code> defaults to <code>prefix</code>.</p>
+
+    <h5><code>insertAtCursor(text)<i>: void</i></code></h5>
+    <p>Inserts <code>text</code> at the cursor position; selection is collapsed to the end of the inserted text.</p>
+
+    <h5><code>insertLinePrefix(prefix)<i>: void</i></code></h5>
+    <p>Prefixes every selected line (or the current line if no selection) with <code>prefix</code>. Used for headings, blockquotes, list items, etc.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <table class="b">
+      <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--min_height</code></td><td><code>6rem</code></td><td>Minimum height of the textarea / preview area</td></tr>
+        <tr><td><code>--max_height</code></td><td><code>24rem</code></td><td>Maximum height before the editor scrolls internally</td></tr>
+        <tr><td><code>--padding</code></td><td><code>0.5rem 0.75rem</code></td><td>Padding inside the textarea / preview</td></tr>
+        <tr><td><code>--border</code></td><td><code>1px solid var(--c_border)</code></td><td>Border around the editor</td></tr>
+      </tbody>
+    </table>
+    <p class="mt">The component also uses kempo-css's global <code>--c_border</code>, <code>--c_bg</code>, <code>--tc</code>, <code>--tc_muted</code>, <code>--radius</code>, <code>--animation_ms</code>, and <code>--focus_shadow</code>; override those globally for site-wide tuning.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>input</code></h5>
+    <p>Fires on every keystroke (or programmatic change via the selection-manipulation API). <code>detail.value</code> is the current markdown.</p>
+
+    <h5><code>change</code></h5>
+    <p>Fires when the textarea blurs. <code>detail.value</code> is the markdown at the moment focus left.</p>
+
+    <h5><code>mode-change</code></h5>
+    <p>Fires when the user switches between Write and Preview tabs. <code>detail.mode</code> is the new mode.</p>
+
+    <h3 id="controls"><a href="#controls" class="no-link">Built-in Controls</a></h3>
+    <p>Each control is a separate custom element under <code>src/components/markdownEditorControls/</code>. Import the ones you want and slot them into <code>controls-top</code> or <code>controls-bottom</code>.</p>
+    <table class="b">
+      <thead><tr><th>Tag</th><th>File</th><th>Inserts</th></tr></thead>
+      <tbody>
+        <tr><td><code>&lt;k-md-bold&gt;</code></td><td><code>Bold.js</code></td><td><code>**bold**</code></td></tr>
+        <tr><td><code>&lt;k-md-italic&gt;</code></td><td><code>Italic.js</code></td><td><code>_italic_</code></td></tr>
+        <tr><td><code>&lt;k-md-strikethrough&gt;</code></td><td><code>Strikethrough.js</code></td><td><code>~~strike~~</code> &mdash; GFM strikethrough; renders to <code>&lt;del&gt;</code>.</td></tr>
+        <tr><td><code>&lt;k-md-heading&gt;</code></td><td><code>Heading.js</code></td><td><code>## </code> on the current line; <code>level</code> attribute (1&ndash;6) selects heading depth</td></tr>
+        <tr><td><code>&lt;k-md-code&gt;</code></td><td><code>Code.js</code></td><td>Inline backticks for a single line, fenced <code>```</code> blocks for multi-line selections</td></tr>
+        <tr><td><code>&lt;k-md-link&gt;</code></td><td><code>Link.js</code></td><td><code>[text](url)</code> with the URL portion pre-selected</td></tr>
+        <tr><td><code>&lt;k-md-image&gt;</code></td><td><code>Image.js</code></td><td>Opens a popover (URL + alt text) and inserts <code>![alt](url)</code> at the cursor. The popover type is configurable via <code>popup="dropdown"</code> (default, anchored next to the button) or <code>popup="dialog"</code> (modal Dialog).</td></tr>
+        <tr><td><code>&lt;k-md-table&gt;</code></td><td><code>Table.js</code></td><td>Opens a small dropdown with <em>cols × rows</em> inputs and a Create button. Inserts a GFM markdown table (with <code>Header 1</code>, <code>Header 2</code>&hellip; placeholders and empty body cells) at the cursor.</td></tr>
+        <tr><td><code>&lt;k-md-menu&gt;</code></td><td><code>Menu.js</code></td><td>Renders a single toolbar button that opens a Dropdown containing whatever child controls you slot into the default slot. The trigger button content is fully customizable via the <code>trigger</code> slot (defaults to a <code>menu</code> icon); <code>label</code> sets the accessible name.</td></tr>
+        <tr><td><code>&lt;k-md-format-block&gt;</code></td><td><code>FormatBlock.js</code></td><td>Heading-block picker designed to go inside a <code>&lt;k-md-menu&gt;</code>. <code>tag="h1"</code>&hellip;<code>"h6"</code> sets the heading level on the current line(s), swapping out any existing heading.</td></tr>
+        <tr><td><code>&lt;k-md-speech-to-text&gt;</code></td><td><code>SpeechToText.js</code></td><td>Reuses the standalone <a href="./speech-to-text.html"><code>&lt;k-speech-to-text&gt;</code></a> component &mdash; click the mic to start recording, click again to stop. The final transcript is inserted at the cursor when the user finishes speaking. Forwards <code>language</code> and <code>continuous</code> attributes through.</td></tr>
+        <tr><td><code>&lt;k-md-bullet-list&gt;</code></td><td><code>BulletList.js</code></td><td><code>- </code> prefix on each selected line</td></tr>
+        <tr><td><code>&lt;k-md-numbered-list&gt;</code></td><td><code>NumberedList.js</code></td><td><code>1. </code>, <code>2. </code>, &hellip; numbering each non-empty selected line</td></tr>
+        <tr><td><code>&lt;k-md-quote&gt;</code></td><td><code>Quote.js</code></td><td><code>&gt; </code> prefix on each selected line</td></tr>
+      </tbody>
+    </table>
+    <p class="mt">All controls extend <code>MarkdownEditorControl</code> &mdash; see <a href="#customControls">Custom Controls</a> to write your own.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/MarkdownEditor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Bold.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Italic.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Strikethrough.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/SpeechToText.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Heading.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Code.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Link.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Image.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Table.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Menu.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/FormatBlock.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/BulletList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/NumberedList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/markdownEditorControls/Quote.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

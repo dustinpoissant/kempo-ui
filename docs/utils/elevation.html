@@ -67,6 +67,9 @@
             >Calendar<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="card components"><a
               href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
               href="../components/code-editor.html"
             >Code Editor<br><small>Component</small></a></k-filter-item>
@@ -95,6 +98,9 @@
           <k-filter-item filter-keywords="html editor components"><a
               href="../components/html-editor.html">HTML
               Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="icon components"><a
               href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="import components"><a
@@ -228,6 +234,9 @@
           <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
               href="../utils/propConverters.html"
             >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="string utils utility"><a
               href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="theme utils utility"><a
@@ -288,6 +297,7 @@
         <a href="../components/aside.html">Aside</a>
         <a href="../components/calendar.html">Calendar</a>
         <a href="../components/card.html">Card</a>
+        <a href="../components/chat.html">Chat</a>
         <a href="../components/code-editor.html">Code Editor</a>
         <a href="../components/combobox.html">Combobox</a>
         <a href="../components/color-picker.html">ColorPicker</a>
@@ -298,6 +308,7 @@
         <a href="../components/filter-list.html">Filter List</a>
         <a href="../components/focus-capture.html">FocusCapture</a>
         <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
         <a href="../components/icon.html">Icon</a>
         <a href="../components/import.html">Import</a>
         <a href="../components/nav.html">Nav</a>
@@ -342,6 +353,7 @@
         <a href="../utils/formatTimestamp.html">formatTimestamp</a>
         <a href="../utils/object.html">object</a>
         <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
         <a href="../utils/string.html">string</a>
         <a href="../utils/theme.html">theme</a>
         <a href="../utils/type.html">type</a>
@@ -516,11 +528,11 @@
         <tr><td>0</td><td>0</td><td>Behind the page — sunken or background elements</td></tr>
         <tr><td>1</td><td>10</td><td><em>Buffer zone — reserved for customization</em></td></tr>
         <tr><td>2</td><td>20</td><td>Page default — normal document flow</td></tr>
-        <tr><td>3</td><td>30</td><td>Fixed panels that sit below a navbar (push drawers)</td></tr>
+        <tr><td>3</td><td>30</td><td>Fixed panels that sit below a navbar (push drawers, dropdowns)</td></tr>
         <tr><td>4</td><td>40</td><td><em>Buffer zone — reserved for customization</em></td></tr>
         <tr><td>5</td><td>50</td><td>Fixed navbar (user-defined)</td></tr>
         <tr><td>6</td><td>60</td><td>Overlay drawers — above a fixed navbar</td></tr>
-        <tr><td>7</td><td>70</td><td>Floating menus (dropdowns, popovers)</td></tr>
+        <tr><td>7</td><td>70</td><td><em>Buffer zone — reserved for customization</em></td></tr>
         <tr><td>8</td><td>80</td><td>Full-screen modals and lightboxes</td></tr>
         <tr><td>9</td><td>90</td><td>Notification toasts</td></tr>
         <tr><td>10</td><td>100</td><td><em>Reserved — use only when absolutely necessary</em></td></tr>
@@ -545,7 +557,8 @@
           <td>30</td>
           <td>
             <a href="../components/aside.html">Aside</a> (<code>main="push"</code>),
-            <a href="../components/side-panel.html">Side Panel</a>
+            <a href="../components/side-panel.html">Side Panel</a>,
+            <a href="../components/dropdown.html">Dropdown</a>
           </td>
         </tr>
         <tr>
@@ -553,13 +566,6 @@
           <td>60</td>
           <td>
             <a href="../components/aside.html">Aside</a> (<code>main="overlay"</code>)
-          </td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>70</td>
-          <td>
-            <a href="../components/dropdown.html">Dropdown</a>
           </td>
         </tr>
         <tr>

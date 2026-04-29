@@ -80,7 +80,7 @@ import{html as e,css as t}from"../lit-all.min.js";import i from"./ShadowComponen
 			overflow: auto;
 		}
 		.lexical-editor {
-			padding: 1rem;
+			padding: var(--editor_padding, 1rem);
 			border: 1px solid var(--border-color);
 			background: var(--bg-primary);
 			color: var(--text-primary);
@@ -88,6 +88,25 @@ import{html as e,css as t}from"../lit-all.min.js";import i from"./ShadowComponen
 			font-size: inherit;
 			line-height: 1.5;
 			outline: none;
+			/* Always show a slim scrollbar when content overflows (macOS would
+			   otherwise hide overlay scrollbars when not actively scrolling,
+			   leaving users unaware they can scroll back). */
+			scrollbar-width: thin;
+			scrollbar-color: var(--c_border, rgba(128,128,128,0.4)) transparent;
+		}
+		.lexical-editor::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+		}
+		.lexical-editor::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		.lexical-editor::-webkit-scrollbar-thumb {
+			background: var(--c_border, rgba(128,128,128,0.4));
+			border-radius: 4px;
+		}
+		.lexical-editor::-webkit-scrollbar-thumb:hover {
+			background: rgba(128,128,128,0.7);
 		}
 		.lexical-editor:focus {
 			border-color: var(--primary-color);

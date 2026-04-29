@@ -29,7 +29,10 @@ export default class HtmlEditor extends ShadowComponent {
 		nodes: { type: String },
 		hasTopToolbar: { type: Boolean, state: true },
 		hasBottomToolbar: { type: Boolean, state: true },
-		fullscreen: { type: Boolean, reflect: true }
+		fullscreen: { type: Boolean, reflect: true },
+		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
+		required: { type: Boolean, reflect: true }
 	};
 
 	constructor() {
@@ -57,6 +60,9 @@ export default class HtmlEditor extends ShadowComponent {
 		this.minimapEnabled = false;
 		this.fontSize = 14;
 		this.fullscreen = false;
+		this.disabled = false;
+		this.readonly = false;
+		this.required = false;
 		this.lx = {};
 		this.debouncedSyncValue = debounce(() => this.syncValueFromLexical(), 300);
 	}
@@ -129,6 +135,35 @@ export default class HtmlEditor extends ShadowComponent {
 		}
 		if(changedProperties.has('fullscreen')){
 			requestAnimationFrame(() => this.monacoEditor?.layout());
+		}
+		if(changedProperties.has('disabled') || changedProperties.has('readonly')){
+			const ro = this.disabled || this.readonly;
+			this.lexicalEditor?.setEditable(!ro);
+			this.monacoEditor?.updateOptions({ readOnly: ro });
+		}
+		if(
+			changedProperties.has('value') ||
+			changedProperties.has('required') ||
+			changedProperties.has('disabled')
+		){
+			this.#updateValidity();
+		}
+	}
+
+	#updateValidity = () => {
+		if(this.disabled){
+			this.internals.setValidity({});
+			return;
+		}
+		const empty = !(this.value || '').replace(/<[^>]+>/g, '').trim();
+		if(this.required && empty){
+			this.internals.setValidity(
+				{ valueMissing: true },
+				'Please fill out this field.',
+				this.lexicalContainer || this
+			);
+		} else {
+			this.internals.setValidity({});
 		}
 	}
 
@@ -268,6 +303,7 @@ export default class HtmlEditor extends ShadowComponent {
 
 		this.lexicalEditor = lexical.createEditor(editorConfig);
 		this.lexicalEditor.setRootElement(this.lexicalContainer);
+		if(this.disabled || this.readonly) this.lexicalEditor.setEditable(false);
 		this.lexicalEditor._window = new Proxy(window, {
 			get: (target, prop) => {
 				if(prop === 'getSelection') return () => this.shadowRoot.getSelection();
@@ -356,7 +392,8 @@ export default class HtmlEditor extends ShadowComponent {
 			scrollBeyondLastLine: false,
 			automaticLayout: true,
 			tabSize: 2,
-			padding: { top: 8 }
+			padding: { top: 8 },
+			readOnly: this.disabled || this.readonly
 		});
 
 		const monacoCSS = document.querySelector('link[href*="monaco"][href*="editor.main.css"]');
@@ -489,6 +526,10 @@ export default class HtmlEditor extends ShadowComponent {
 
 	formStateRestoreCallback(state) {
 		this.value = state;
+	}
+
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
 	}
 
 	/*
@@ -1147,7 +1188,7 @@ export default class HtmlEditor extends ShadowComponent {
 			<div class="editor-container">
 				<div
 					class="lexical-editor"
-					contenteditable="true"
+					contenteditable=${(this.disabled || this.readonly) ? 'false' : 'true'}
 					?hidden=${this.mode !== 'visual'}
 				></div>
 				<div
@@ -1185,6 +1226,26 @@ export default class HtmlEditor extends ShadowComponent {
 			height: 100vh !important;
 			z-index: 10000;
 		}
+		:host([disabled]) {
+			opacity: 0.6;
+		}
+		/* disabled blocks all interaction -- toolbar AND editor. Lexical
+		   and Monaco both prevent typing on their own; pointer-events: none
+		   also stops focus / cursor placement, matching native form control
+		   semantics. */
+		:host([disabled]) .toolbar-top,
+		:host([disabled]) .toolbar-bottom,
+		:host([disabled]) .editor-container {
+			pointer-events: none;
+		}
+		/* readonly keeps the editor interactive (so users can place a cursor
+		   to select / copy) but mutes the toolbar so its buttons can't
+		   mutate the document. */
+		:host([readonly]) .toolbar-top,
+		:host([readonly]) .toolbar-bottom {
+			pointer-events: none;
+			opacity: 0.5;
+		}
 		.toolbar-top,
 		.toolbar-bottom {
 			display: flex;
@@ -1219,7 +1280,7 @@ export default class HtmlEditor extends ShadowComponent {
 			overflow: auto;
 		}
 		.lexical-editor {
-			padding: 1rem;
+			padding: var(--editor_padding, 1rem);
 			border: 1px solid var(--border-color);
 			background: var(--bg-primary);
 			color: var(--text-primary);
@@ -1227,6 +1288,25 @@ export default class HtmlEditor extends ShadowComponent {
 			font-size: inherit;
 			line-height: 1.5;
 			outline: none;
+			/* Always show a slim scrollbar when content overflows (macOS would
+			   otherwise hide overlay scrollbars when not actively scrolling,
+			   leaving users unaware they can scroll back). */
+			scrollbar-width: thin;
+			scrollbar-color: var(--c_border, rgba(128,128,128,0.4)) transparent;
+		}
+		.lexical-editor::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+		}
+		.lexical-editor::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		.lexical-editor::-webkit-scrollbar-thumb {
+			background: var(--c_border, rgba(128,128,128,0.4));
+			border-radius: 4px;
+		}
+		.lexical-editor::-webkit-scrollbar-thumb:hover {
+			background: rgba(128,128,128,0.7);
 		}
 		.lexical-editor:focus {
 			border-color: var(--primary-color);
