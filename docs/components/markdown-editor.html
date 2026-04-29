@@ -493,6 +493,7 @@
         <a href="#defaultValue">Default Value</a><br />
         <a href="#formUsage">Form Usage</a><br />
         <a href="#disabled">Disabled / Read-only</a><br />
+        <a href="#tagFiltering">Tag Filtering</a><br />
         <a href="#customControls">Custom Controls</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -507,7 +508,7 @@
     </k-accordion-panel>
     </k-accordion>
 
-    <p>A markdown editor with GitHub-style <strong>Write</strong> and <strong>Preview</strong> tabs. The user types markdown in the textarea and can flip to a live preview at any time. Markdown is parsed by <a href="https://marked.js.org" target="_blank">marked</a> &mdash; a full CommonMark + GFM parser &mdash; so tables, task lists, fenced code blocks, autolinks, and inline HTML all work out of the box. The rendered output runs through <a href="../utils/sanitizeHtml.html"><code>sanitizeHtml</code></a> using a configurable <code>allowed-tags</code> list, so user-typed inline HTML and HTML inserted by custom controls (e.g. a card-insert control) is supported safely &mdash; <code>&lt;script&gt;</code>, <code>&lt;iframe&gt;</code>, and other dangerous tags are always stripped regardless of the allow-list.</p>
+    <p>A markdown editor with GitHub-style <strong>Write</strong> and <strong>Preview</strong> tabs. The user types markdown in the textarea and can flip to a live preview at any time. Markdown is parsed by <a href="https://marked.js.org" target="_blank">marked</a> &mdash; a full CommonMark + GFM parser &mdash; so tables, task lists, fenced code blocks, autolinks, and inline HTML all work out of the box. The rendered output runs through <a href="../utils/sanitizeHtml.html"><code>sanitizeHtml</code></a> using <code>allowed-tags</code> (an allowlist) <em>or</em> <code>disallowed-tags</code> (a denylist) &mdash; the two are mutually exclusive. <code>&lt;script&gt;</code> tags are <strong>always</strong> stripped unless you opt in via the <code>scripts-enabled</code> attribute, and <code>&lt;iframe&gt;</code> / <code>&lt;style&gt;</code> / similar dangerous tags are always stripped regardless of any setting.</p>
     <p>Toolbar buttons are slotted via <code>controls-top</code> and <code>controls-bottom</code> &mdash; mix and match the built-in controls listed below or write your own by extending <a href="#customControls"><code>MarkdownEditorControl</code></a>.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
@@ -565,7 +566,7 @@
     <p>The <code>controls</code> attribute lets you opt into a built-in toolbar without writing any slot markup. Set it directly on <code>&lt;k-markdown-editor&gt;</code> to one of the three levels below; the matching control modules are imported automatically.</p>
 
     <h4>controls="full"</h4>
-    <p>Every available control: heading menu (H1&ndash;H6), bold, italic, quote, code, link, image (with dialog/dropdown), table builder, bulleted and numbered lists.</p>
+    <p>Every available control: heading menu (H1&ndash;H6), bold, italic, strikethrough, quote, code, link, image (with dialog/dropdown), table builder, bulleted and numbered lists, speech-to-text.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
@@ -696,28 +697,68 @@
       </div>
     </div>
 
+    <h3 id="tagFiltering"><a href="#tagFiltering" class="no-link">Tag Filtering</a></h3>
+    <p>Inline HTML the user (or a custom control) types is filtered by either an allowlist or a denylist. The two attributes are mutually exclusive &mdash; if both are set, <code>allowed-tags</code> wins and a console warning fires.</p>
+
+    <h4>allowed-tags</h4>
+    <p>Permits only the tags you list. Anything else is unwrapped (its text survives, the wrapper is dropped). Type the markdown below and flip to Preview &mdash; only <code>strong</code>, <code>em</code>, <code>p</code>, and <code>br</code> get through; the <code>&lt;img&gt;</code>, <code>&lt;table&gt;</code>, and <code>&lt;script&gt;</code> are scrubbed out.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">allowed-tags</span>=<span class="hljs-string">&quot;strong,em,p,br&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor
+            allowed-tags="strong,em,p,br"
+            value="**Bold** and _italic_ pass through.&#10;&#10;An image is stripped: ![alt](https://example.com/x.png)&#10;&#10;A table is stripped:&#10;&#10;| a | b |&#10;| --- | --- |&#10;| 1 | 2 |&#10;&#10;A &lt;script&gt;alert('xss')&lt;/script&gt; is always nuked."
+          ></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>disallowed-tags</h4>
+    <p>Allows everything <em>except</em> the tags you list &mdash; useful when you only want to ban a couple of things rather than enumerate the whole set. Below, images are blocked but everything else (tables, code, etc.) renders normally.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">disallowed-tags</span>=<span class="hljs-string">&quot;img&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor
+            disallowed-tags="img"
+            value="Tables still work:&#10;&#10;| a | b |&#10;| --- | --- |&#10;| 1 | 2 |&#10;&#10;Images do not: ![alt](https://example.com/x.png)"
+          ></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="customControls"><a href="#customControls" class="no-link">Custom Controls</a></h3>
     <p>To write your own toolbar button, extend <code>MarkdownEditorControl</code>. Override <code>command()</code> and use the helpers (<code>wrapSelection</code>, <code>insertLinePrefix</code>, <code>replaceSelection</code>, <code>insertAtCursor</code>) to manipulate the textarea. The base class hides the control automatically when the editor flips to Preview mode.</p>
+    <p>Below is a tiny control that drops a horizontal rule (<code>---</code> on its own line) at the cursor &mdash; not common enough to ship as a built-in, but a clean example of using <code>insertAtCursor</code>.</p>
     <k-card label="JavaScript">
       <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">MarkdownEditorControl</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./markdownEditorControls/MarkdownEditorControl.js'</span>;
 <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'./lit-all.min.js'</span>;
 
-<span class="hljs-comment">// Wraps the selection in ~~strikethrough~~</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkdownStrike</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">MarkdownEditorControl</span> {
+<span class="hljs-comment">// Inserts a horizontal rule (`---`) on its own line at the cursor.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkdownHr</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">MarkdownEditorControl</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">super</span>();
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">label</span> = <span class="hljs-string">'Strikethrough'</span>;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">label</span> = <span class="hljs-string">'Horizontal rule'</span>;
   }
   <span class="hljs-title function_">command</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">wrapSelection</span>(<span class="hljs-string">'~~'</span>, <span class="hljs-string">'~~'</span>, <span class="hljs-string">'strike'</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">insertAtCursor</span>(<span class="hljs-string">'\n\n---\n\n'</span>);
   }
   <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">return</span> html<span class="hljs-string">`
-      &lt;button type=&quot;button&quot; class=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">btnClass</span>}</span> @click=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">handleClick</span>}</span>&gt;S&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">btnClass</span>}</span> @click=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">handleClick</span>}</span>&gt;&mdash;&lt;/button&gt;
     `</span>;
   }
 }
-customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">'k-md-strike'</span>, <span class="hljs-title class_">MarkdownStrike</span>);</code></pre>
+customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">'k-md-hr'</span>, <span class="hljs-title class_">MarkdownHr</span>);</code></pre>
     </k-card>
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
@@ -757,7 +798,13 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
     <p>Either <code>'write'</code> (default) or <code>'preview'</code>. Syncs to <code>mode</code> attribute.</p>
 
     <h5><code>allowedTags<i>: String</i></code></h5>
-    <p>Comma-separated list of HTML tag names the rendered preview is allowed to contain. Anything outside the list (or in the always-stripped set &mdash; <code>script</code>, <code>iframe</code>, <code>style</code>, etc.) is removed before render. Empty / unset uses a sensible default for markdown output (headings, paragraphs, lists, links, code, images, etc.). Pass <code>"*"</code> to allow every tag (still scrubbed for unsafe ones). Useful when a custom control inserts non-standard HTML &mdash; for example a card-insert control emitting <code>&lt;div class="card"&gt;</code> works under the default; a control inserting <code>&lt;table&gt;</code> would need <code>allowed-tags="...,table,thead,tbody,tr,td,th"</code>. Syncs to <code>allowed-tags</code> attribute.</p>
+    <p>Comma-separated <em>allowlist</em> for the rendered preview. Tags outside the list are unwrapped (their text survives, the wrapper is dropped). Pass <code>"*"</code> to allow every tag. Empty / unset uses sanitizeHtml's default (headings, paragraphs, lists, links, code, images, tables, etc.). Mutually exclusive with <code>disallowed-tags</code> &mdash; setting both warns and <code>allowed-tags</code> wins. Syncs to <code>allowed-tags</code> attribute.</p>
+
+    <h5><code>disallowedTags<i>: String</i></code></h5>
+    <p>Comma-separated <em>denylist</em>. Allows everything except the listed tags &mdash; useful when you want to block a couple of tags rather than enumerate the whole allowed set. Mutually exclusive with <code>allowed-tags</code>. Syncs to <code>disallowed-tags</code> attribute.</p>
+
+    <h5><code>scriptsEnabled<i>: Boolean</i></code></h5>
+    <p>When this attribute is present, <code>&lt;script&gt;</code> tags survive sanitization (provided they also pass the allow/deny check). When absent (the default), <code>&lt;script&gt;</code> &mdash; including its content &mdash; is always stripped to prevent XSS, regardless of any other configuration. Other dangerous tags (<code>&lt;iframe&gt;</code>, <code>&lt;style&gt;</code>, etc.) are always stripped. Only enable this for trusted input. Syncs to <code>scripts-enabled</code> attribute.</p>
 
     <h5><code>controls<i>: String</i></code></h5>
     <p>Activates a built-in toolbar. Accepted values:</p>
@@ -765,7 +812,7 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
       <li><code>'none'</code> / <code>''</code> (default) &mdash; no built-in toolbar; use named slots to build your own.</li>
       <li><code>'minimal'</code> &mdash; heading menu (H1, H3, H5), bold, italic, link, bulleted list, numbered list.</li>
       <li><code>'normal'</code> &mdash; full heading menu (H1&ndash;H6), bold, italic, quote, code, link, lists.</li>
-      <li><code>'full'</code> &mdash; everything from <code>normal</code> plus image and table builders.</li>
+      <li><code>'full'</code> &mdash; everything from <code>normal</code> plus strikethrough, image, table builder, and speech-to-text.</li>
     </ul>
     <p>The chosen set renders as fallback content inside the <code>controls-top</code> slot. Providing your own slot content replaces it. Setting a non-empty value also dynamically imports every built-in control module so consumers don't have to remember which imports each preset needs.</p>
 
@@ -835,6 +882,7 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
       <tbody>
         <tr><td><code>&lt;k-md-bold&gt;</code></td><td><code>Bold.js</code></td><td><code>**bold**</code></td></tr>
         <tr><td><code>&lt;k-md-italic&gt;</code></td><td><code>Italic.js</code></td><td><code>_italic_</code></td></tr>
+        <tr><td><code>&lt;k-md-strikethrough&gt;</code></td><td><code>Strikethrough.js</code></td><td><code>~~strike~~</code> &mdash; GFM strikethrough; renders to <code>&lt;del&gt;</code>.</td></tr>
         <tr><td><code>&lt;k-md-heading&gt;</code></td><td><code>Heading.js</code></td><td><code>## </code> on the current line; <code>level</code> attribute (1&ndash;6) selects heading depth</td></tr>
         <tr><td><code>&lt;k-md-code&gt;</code></td><td><code>Code.js</code></td><td>Inline backticks for a single line, fenced <code>```</code> blocks for multi-line selections</td></tr>
         <tr><td><code>&lt;k-md-link&gt;</code></td><td><code>Link.js</code></td><td><code>[text](url)</code> with the URL portion pre-selected</td></tr>
@@ -842,6 +890,7 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
         <tr><td><code>&lt;k-md-table&gt;</code></td><td><code>Table.js</code></td><td>Opens a small dropdown with <em>cols × rows</em> inputs and a Create button. Inserts a GFM markdown table (with <code>Header 1</code>, <code>Header 2</code>&hellip; placeholders and empty body cells) at the cursor.</td></tr>
         <tr><td><code>&lt;k-md-menu&gt;</code></td><td><code>Menu.js</code></td><td>Renders a single toolbar button that opens a Dropdown containing whatever child controls you slot into the default slot. The trigger button content is fully customizable via the <code>trigger</code> slot (defaults to a <code>menu</code> icon); <code>label</code> sets the accessible name.</td></tr>
         <tr><td><code>&lt;k-md-format-block&gt;</code></td><td><code>FormatBlock.js</code></td><td>Heading-block picker designed to go inside a <code>&lt;k-md-menu&gt;</code>. <code>tag="h1"</code>&hellip;<code>"h6"</code> sets the heading level on the current line(s), swapping out any existing heading.</td></tr>
+        <tr><td><code>&lt;k-md-speech-to-text&gt;</code></td><td><code>SpeechToText.js</code></td><td>Reuses the standalone <a href="./speech-to-text.html"><code>&lt;k-speech-to-text&gt;</code></a> component &mdash; click the mic to start recording, click again to stop. The final transcript is inserted at the cursor when the user finishes speaking. Forwards <code>language</code> and <code>continuous</code> attributes through.</td></tr>
         <tr><td><code>&lt;k-md-bullet-list&gt;</code></td><td><code>BulletList.js</code></td><td><code>- </code> prefix on each selected line</td></tr>
         <tr><td><code>&lt;k-md-numbered-list&gt;</code></td><td><code>NumberedList.js</code></td><td><code>1. </code>, <code>2. </code>, &hellip; numbering each non-empty selected line</td></tr>
         <tr><td><code>&lt;k-md-quote&gt;</code></td><td><code>Quote.js</code></td><td><code>&gt; </code> prefix on each selected line</td></tr>
@@ -856,6 +905,8 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
     <script type="module" src="../src/components/MarkdownEditor.js"></script>
     <script type="module" src="../src/components/markdownEditorControls/Bold.js"></script>
     <script type="module" src="../src/components/markdownEditorControls/Italic.js"></script>
+    <script type="module" src="../src/components/markdownEditorControls/Strikethrough.js"></script>
+    <script type="module" src="../src/components/markdownEditorControls/SpeechToText.js"></script>
     <script type="module" src="../src/components/markdownEditorControls/Heading.js"></script>
     <script type="module" src="../src/components/markdownEditorControls/Code.js"></script>
     <script type="module" src="../src/components/markdownEditorControls/Link.js"></script>

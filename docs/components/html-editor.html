@@ -494,6 +494,7 @@
           <a href="#customNodes">Custom Nodes Example</a><br />
           <a href="#preConfigured">Pre-Configured Editors</a><br />
           <a href="#height">Setting Height</a><br />
+          <a href="#disabled">Disabled / Read-only</a><br />
           <a href="#javascriptUsage">JavaScript API Example</a><br />
 
           <h6 class="mt"><a
@@ -733,6 +734,37 @@
       </div>
     </div>
 
+    <h3 id="disabled"><a
+        href="#disabled"
+        class="no-link"
+      >Disabled / Read-only</a></h3>
+    <p>The <code>disabled</code> attribute makes the editor non-interactive (Lexical is set to non-editable in visual mode, Monaco is set to <code>readOnly</code> in code mode), mutes the toolbar, fades the host, and excludes the field from form submission. The <code>readonly</code> attribute lets the user select and copy text and switch modes, but they can't edit; the value is still submitted with the form.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-html-editor
+            disabled
+            controls="minimal"
+            class="b r mb"
+            style="height: 200px"
+            value="<p>This editor is <b>disabled</b> &mdash; the toolbar, content, and mode toggle are all inert.</p>"
+          ></k-html-editor>
+          <k-html-editor
+            readonly
+            controls="minimal"
+            class="b r"
+            style="height: 200px"
+            value="<p>This editor is <i>read-only</i> &mdash; you can select and copy, just not edit.</p>"
+          ></k-html-editor>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="javascriptUsage"><a
         href="#javascriptUsage"
         class="no-link"
@@ -869,6 +901,15 @@
       <code>window.kempo.monacoUrl</code> config and the built-in CDN default. See <a href="#globalConfig">Global
         Configuration</a> for the full resolution order.
     </p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the editor is non-interactive (Lexical's <code>setEditable(false)</code> in visual mode, Monaco's <code>readOnly</code> in code mode), the toolbar is muted, the host fades to <code>opacity: 0.6</code>, and the field is excluded from form submission. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>readonly<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the user can select and copy text but not edit. The value is still submitted with the form. Syncs to <code>readonly</code> attribute.</p>
+
+    <h5><code>required<i>: Boolean</i></code></h5>
+    <p>When <code>true</code> and the editor is empty (no non-whitespace text), the element reports a <code>valueMissing</code> validity error to its parent <code>&lt;form&gt;</code>. Syncs to <code>required</code> attribute.</p>
 
     <h3 id="globalConfig"><a
         href="#globalConfig"

@@ -490,6 +490,7 @@
         <a href="#controlsExample">Built-in Controls</a><br />
         <a href="#customControls">Custom Controls</a><br />
         <a href="#height">Setting Height</a><br />
+        <a href="#disabled">Disabled / Read-only</a><br />
         <a href="#jsApi">JavaScript API</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -581,6 +582,38 @@ console.log(x);"></k-code-editor>
       </div>
     </div>
 
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled / Read-only</a></h3>
+    <p>The <code>disabled</code> attribute makes the editor non-interactive (Monaco is set to <code>readOnly</code>), mutes the toolbar, fades the host, and excludes the field from form submission. The <code>readonly</code> attribute lets the user select and copy text but not edit; the value is still submitted with the form.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-code-editor
+            disabled
+            language="javascript"
+            class="b r mb"
+            style="height: 160px"
+            value="// This editor is disabled — toolbar is muted, content is locked.
+const x = 42;
+console.log(x);"
+          ></k-code-editor>
+          <k-code-editor
+            readonly
+            language="javascript"
+            class="b r"
+            style="height: 160px"
+            value="// This editor is read-only — select and copy, just not edit.
+const x = 42;
+console.log(x);"
+          ></k-code-editor>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="jsApi"><a href="#jsApi" class="no-link">JavaScript API</a></h3>
     <p>Interact with the editor programmatically:</p>
     <div class="row -mx">
@@ -608,6 +641,9 @@ console.log(x);"></k-code-editor>
         <tr><td><code>controls</code></td><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Set to <code>'full'</code> for built-in toolbar; <code>'none'</code> or empty for no built-in controls</td></tr>
         <tr><td><code>monacoSrc</code></td><td><code>monaco-src</code></td><td>String</td><td><code>''</code></td><td>Custom Monaco CDN base URL</td></tr>
         <tr><td><code>editorTheme</code></td><td><code>editor-theme</code></td><td>String</td><td><code>'auto'</code></td><td>Theme override: <code>'auto'</code> (matches site theme), <code>'light'</code>, or <code>'dark'</code></td></tr>
+        <tr><td><code>disabled</code></td><td><code>disabled</code></td><td>Boolean</td><td><code>false</code></td><td>Editor is non-interactive (Monaco set to <code>readOnly</code>), toolbar is muted, host fades, and the field is excluded from form submission</td></tr>
+        <tr><td><code>readonly</code></td><td><code>readonly</code></td><td>Boolean</td><td><code>false</code></td><td>User can select and copy text but not edit (Monaco set to <code>readOnly</code>); value still submitted with the form</td></tr>
+        <tr><td><code>required</code></td><td><code>required</code></td><td>Boolean</td><td><code>false</code></td><td>When <code>true</code> and the editor is empty, the element reports a <code>valueMissing</code> validity error</td></tr>
       </tbody>
     </table>
 
