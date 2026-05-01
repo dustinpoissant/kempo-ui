@@ -4,14 +4,14 @@ import formatTimestamp from '../utils/formatTimestamp.js';
 
 export default class Timestamp extends ShadowComponent {
   static properties = {
-    timestamp: { type: String, reflect: true },
+    timestamp: { type: Number, reflect: true },
     format: { type: String, reflect: true },
     locale: { type: String, reflect: true }
   };
 
   constructor() {
     super();
-    this.timestamp = '';
+    this.timestamp = 0;
     this.format = '';
     this.locale = '';
   }
