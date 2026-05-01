@@ -495,6 +495,7 @@
           <ul>
             <li><a href="#timeFormat">Time Format</a></li>
           </ul>
+          <a href="#supportedFormats">Supported Input Formats</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -562,6 +563,98 @@
 
 
 
+    <h3 id="supportedFormats"><a href="#supportedFormats" class="no-link">Supported Input Formats</a></h3>
+    <p>The <code>Timestamp</code> component accepts various date/time input formats. The component uses JavaScript's <code>Date.parse()</code> for parsing, which supports multiple standard formats:</p>
+    
+    <div class="table-wrapper mb">
+      <table>
+        <thead>
+          <tr>
+            <th>Format Type</th>
+            <th>Example</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>EPOCH Milliseconds</td>
+            <td><code>1633024800000</code></td>
+            <td>Number value representing milliseconds since January 1, 1970</td>
+          </tr>
+          <tr>
+            <td>ISO 8601 (Full)</td>
+            <td><code>2021-10-01T00:00:00Z</code></td>
+            <td>Includes date, time, and UTC timezone indicator</td>
+          </tr>
+          <tr>
+            <td>ISO 8601 (Date Only)</td>
+            <td><code>2021-10-01</code></td>
+            <td>Date portion only; time assumed to be midnight in UTC</td>
+          </tr>
+          <tr>
+            <td>ISO 8601 (With Timezone)</td>
+            <td><code>2021-10-01T00:00:00+00:00</code></td>
+            <td>Includes timezone offset; can use +/- with hours and minutes</td>
+          </tr>
+          <tr>
+            <td>ISO 8601 (No Timezone)</td>
+            <td><code>2021-10-01T00:00:00</code></td>
+            <td>Interpreted as local time</td>
+          </tr>
+          <tr>
+            <td>RFC 2822</td>
+            <td><code>Fri, 01 Oct 2021 00:00:00 GMT</code></td>
+            <td>Email date format with day of week and timezone</td>
+          </tr>
+          <tr>
+            <td>JavaScript Date String</td>
+            <td><code>Fri Oct 01 2021 00:00:00 GMT+0000</code></td>
+            <td>Output format from JavaScript's <code>Date.toString()</code></td>
+          </tr>
+          <tr>
+            <td>US Date Format</td>
+            <td><code>10/01/2021</code></td>
+            <td>MM/DD/YYYY format; ambiguous with international formats</td>
+          </tr>
+          <tr>
+            <td>ISO Date String</td>
+            <td><code>2021-10-01 00:00:00</code></td>
+            <td>YYYY-MM-DD HH:MM:SS format</td>
+          </tr>
+          <tr>
+            <td>Named Month Format</td>
+            <td><code>October 1, 2021</code></td>
+            <td>Month name followed by day and year</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h5>Format Examples</h5>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="ISO 8601">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-timestamp</span> <span class="hljs-attr">timestamp</span>=<span class="hljs-string">"2021-10-01T00:00:00Z"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-timestamp</span>&gt;</span></code></pre>
+          <p class="mt">Result:</p>
+          <k-timestamp timestamp="2021-10-01T00:00:00Z"></k-timestamp>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Named Month Format">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-timestamp</span> <span class="hljs-attr">timestamp</span>=<span class="hljs-string">"October 1, 2021"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-timestamp</span>&gt;</span></code></pre>
+          <p class="mt">Result:</p>
+          <k-timestamp timestamp="October 1, 2021"></k-timestamp>
+        </k-card>
+      </div>
+    </div>
+
+    <h5>Important Notes</h5>
+    <ul>
+      <li><strong>Browser Compatibility:</strong> Some formats may be parsed differently across browsers. ISO 8601 formats are the most reliable.</li>
+      <li><strong>Timezone Handling:</strong> Formats without explicit timezone information are interpreted as local time. ISO 8601 with <code>Z</code> or timezone offset are interpreted as absolute times.</li>
+      <li><strong>Format String Ambiguity:</strong> Ambiguous formats like <code>10/01/2021</code> may be interpreted differently depending on browser locale settings.</li>
+    </ul>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -574,8 +667,8 @@
     </ul>
 
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
-    <h5><code>timestamp<i>: number</i></code></h5>
-    <p>The timestamp to be formatted and displayed. Syncs to <code>timestamp</code> attribute.</p>
+    <h5><code>timestamp<i>: string | number</i></code></h5>
+    <p>The timestamp to be formatted and displayed. Accepts EPOCH milliseconds (number), ISO 8601 formats, RFC 2822 formats, or other JavaScript-parseable date strings. See <a href="#supportedFormats">Supported Input Formats</a> for details. Syncs to <code>timestamp</code> attribute.</p>
     <h5><code>format<i>: string</i></code></h5>
     <p>The format to be used for formatting the timestamp using tokens like YYYY, MM, DD, hh, mm, ss. If not provided,
       uses the default format. Syncs to <code>format</code> attribute.</p>
