@@ -96,6 +96,17 @@ Do not prefix identifiers with underscores.
   - Use clear, descriptive names without prefixes.
   - When true privacy is needed inside classes, prefer native JavaScript private fields (e.g., `#myField`) instead of simulated privacy via underscores.
 
+## Template and File Structure Rules
+
+### Follow Templates Exactly
+When using templates (task templates, component scaffolds, etc.), follow them **exactly as written**. Do not:
+- Add placeholder text or instructions to sections marked "leave blank"
+- Deviate from the template structure
+- Make creative changes or improvements to the template format
+- Add commentary or helper text beyond what is explicitly requested
+
+If a template section says "leave blank," that section must be completely empty — it signals that someone else will fill it later. Only replace the `{description}` placeholders with actual content.
+
 ## Development Workflow
 
 ### Local Development Server
