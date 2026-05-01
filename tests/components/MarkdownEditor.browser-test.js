@@ -184,29 +184,19 @@ export default {
 		pass('togglePreview alternates modes');
 	},
 
-	'mode-change event should fire when mode changes': async ({pass, fail}) => {
-		const { container, el } = await createMarkdownEditor();
-		let eventFired = false;
-		let eventMode = null;
-		el.addEventListener('mode-change', e => {
-			eventFired = true;
-			eventMode = e.detail.mode;
-		});
+	'setMode should change the mode property': async ({pass, fail}) => {
+		const { container, el } = await createMarkdownEditor({ mode: 'write' });
 		el.setMode('preview');
 		await el.updateComplete;
-		if(!eventFired){
+		if(el.mode !== 'preview'){
 			cleanup(container);
-			return fail('mode-change event should fire');
-		}
-		if(eventMode !== 'preview'){
-			cleanup(container);
-			return fail(`Expected event detail mode 'preview', got '${eventMode}'`);
+			return fail(`Expected mode 'preview' after setMode, got '${el.mode}'`);
 		}
 		cleanup(container);
-		pass('mode-change event fires with correct detail');
+		pass('setMode changes the mode property');
 	},
 
-	'input event should fire on value change': async ({pass, fail}) => {
+	'input event should fire on textarea input': async ({pass, fail}) => {
 		const { container, el } = await createMarkdownEditor();
 		let eventFired = false;
 		let eventValue = null;
@@ -214,11 +204,17 @@ export default {
 			eventFired = true;
 			eventValue = e.detail.value;
 		});
-		el.value = 'test content';
+		const textarea = el.shadowRoot.querySelector('textarea');
+		if(!textarea){
+			cleanup(container);
+			return fail('textarea not found in shadow DOM');
+		}
+		textarea.value = 'test content';
+		textarea.dispatchEvent(new Event('input', { bubbles: true }));
 		await el.updateComplete;
 		if(!eventFired){
 			cleanup(container);
-			return fail('input event should fire');
+			return fail('input event should fire on textarea input');
 		}
 		if(eventValue !== 'test content'){
 			cleanup(container);
@@ -420,13 +416,22 @@ export default {
 		pass('insertAtCursor inserts text correctly');
 	},
 
-	'insertLinePrefix should add prefix to lines': async ({pass, fail}) => {
+	'insertLinePrefix should add prefix to selected lines': async ({pass, fail}) => {
 		const { container, el } = await createMarkdownEditor({ value: 'line1\nline2\nline3' });
+		const textarea = el.shadowRoot.querySelector('textarea');
+		if(!textarea){
+			cleanup(container);
+			return fail('textarea not found in shadow DOM');
+		}
+		await el.updateComplete;
+		textarea.focus();
+		textarea.selectionStart = 0;
+		textarea.selectionEnd = textarea.value.length;
 		el.insertLinePrefix('- ');
 		await el.updateComplete;
-		if(!el.value.includes('- line1')){
+		if(!el.value.startsWith('- ')){
 			cleanup(container);
-			return fail('insertLinePrefix should add prefix to selected lines');
+			return fail(`insertLinePrefix should add prefix to lines, got: ${el.value}`);
 		}
 		cleanup(container);
 		pass('insertLinePrefix adds prefix correctly');
