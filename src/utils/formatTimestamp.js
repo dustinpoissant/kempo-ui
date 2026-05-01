@@ -1,5 +1,6 @@
 export default (timestamp, format, forceLocale) => {
-  const date = new Date(parseInt(timestamp));
+  const ms = isNaN(timestamp) ? Date.parse(timestamp) : parseInt(timestamp);
+  const date = new Date(ms);
   if (format) {
     const pad = (num, size) => ('000' + num).slice(size * -1);
     const tokens = {
