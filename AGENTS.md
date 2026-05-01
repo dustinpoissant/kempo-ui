@@ -7,7 +7,7 @@
  - All utility function module files should be in the `src/utils/` directory.
  - All documnentation should be in the `docs/` directory. This directory is used by GitHub as the "GitHub Pages", so all links need to be relative, and there will be a build script which copies all code to the `docs/` directory.
  - Documentation source files (templates, fragments, page files) are in the `docs-src/` directory. These use the kempo-server v3 templating system and are pre-rendered to `docs/` during build.
- - `llm.txt.md` in the root is the consumer-facing LLM reference for this library. **Keep it up to date**: when adding a new component or utility, add a row to the relevant table in `llm.txt.md`.
+ - `llms.txt` in the root is the consumer-facing LLM reference for this library. **Keep it up to date**: when adding a new component or utility, add a row to the relevant table in `llms.txt`.
  
 ## Dependencies
 
@@ -102,7 +102,7 @@ Do not prefix identifiers with underscores.
 - **DO NOT** start a development server - one is already running
 - Default port: **8083**
 - Base URL: `http://localhost:8083`
-- Documentation URLs follow the directory/file structure in `docs/` (e.g., `docs/components/color-picker.html` → `http://localhost:8083/components/color-picker.html`)
+- Documentation URLs follow the directory/file structure in `docs-src/` (e.g., source `docs-src/components/color-picker.page.html` → URL `http://localhost:8083/components/color-picker.html`). Edit the `*.page.html` source — never the generated `docs/` output.
 - Use this server for all testing and verification
 
 ### Testing and Verification

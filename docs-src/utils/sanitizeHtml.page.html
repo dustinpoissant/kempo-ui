@@ -1,0 +1,73 @@
+<page pageName="sanitizeHtml Utility" title="sanitizeHtml Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>sanitizeHtml Utility</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API</a><br />
+          <a href="#defaults">Defaults</a><br />
+          <a href="#customizing">Customizing the Whitelist</a><br />
+          <a href="#serverNote">Server-Side Caveat</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>A small whitelist-based HTML sanitizer for user-submitted rich text. Strips <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, <code>&lt;iframe&gt;</code>, event-handler attributes, and unsafe URL schemes (<code>javascript:</code>, <code>data:</code>, etc.). Used by <a href="../components/chat.html"><code>&lt;k-chat&gt;</code></a> on every message it accepts, but works as a standalone util for any place you accept HTML from a contenteditable or rich-text editor.</p>
+
+    <div class="callout warning b r p mb">
+      <strong>This is a frontend defense, not a substitute for server sanitization.</strong>
+      Anything you persist or rebroadcast must be sanitized again on the server &mdash; an attacker can submit raw HTTP without ever loading your client code.
+    </div>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> sanitizeHtml <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./utils/sanitizeHtml.js&#x27;</span>;<br><span class="hljs-keyword">const</span> dirty = <span class="hljs-string">&#x27;&lt;p&gt;Hello &lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;&lt;b&gt;world&lt;/b&gt;&lt;/p&gt;&#x27;</span>;<br><span class="hljs-keyword">const</span> clean = <span class="hljs-title function_">sanitizeHtml</span>(dirty);<br><span class="hljs-comment">// → &#x27;&lt;p&gt;Hello &lt;b&gt;world&lt;/b&gt;&lt;/p&gt;&#x27;</span></code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API</a></h3>
+
+    <h4><code>sanitizeHtml(html, options?)</code></h4>
+    <h5><code>html<i>: string</i></code></h5>
+    <p>Untrusted HTML to sanitize. <code>null</code>, <code>undefined</code>, and non-strings are coerced to <code>""</code>.</p>
+    <h5><code>options<i>: Object</i></code> (optional)</h5>
+    <ul>
+      <li><code>allowedTags</code> &mdash; <code>Set&lt;string&gt;</code> of UPPERCASE tag names (e.g. <code>"B"</code>, <code>"P"</code>). Overrides the default whitelist.</li>
+      <li><code>allowedAttrs</code> &mdash; <code>Set&lt;string&gt;</code> of attribute names allowed on every tag.</li>
+      <li><code>allowedAttrsPerTag</code> &mdash; <code>{ TAGNAME: Set&lt;string&gt; }</code> map of attributes allowed per specific tag.</li>
+    </ul>
+    <h5>Returns: <code>string</code></h5>
+    <p>The sanitized HTML. Disallowed elements are replaced by their (sanitized) children so user text is preserved; <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, and similar are removed entirely (children too).</p>
+
+    <h3 id="defaults"><a href="#defaults" class="no-link">Defaults</a></h3>
+
+    <h5>Allowed tags (default)</h5>
+    <p><code>A</code>, <code>B</code>, <code>STRONG</code>, <code>I</code>, <code>EM</code>, <code>U</code>, <code>S</code>, <code>STRIKE</code>, <code>BR</code>, <code>P</code>, <code>DIV</code>, <code>SPAN</code>, <code>UL</code>, <code>OL</code>, <code>LI</code>, <code>BLOCKQUOTE</code>, <code>CODE</code>, <code>PRE</code>, <code>H1</code>&ndash;<code>H6</code></p>
+
+    <h5>Tags removed completely (children too)</h5>
+    <p><code>SCRIPT</code>, <code>STYLE</code>, <code>IFRAME</code>, <code>OBJECT</code>, <code>EMBED</code>, <code>LINK</code>, <code>META</code>, <code>BASE</code>, <code>FRAME</code>, <code>FRAMESET</code>, <code>NOSCRIPT</code>, <code>SVG</code>, <code>MATH</code></p>
+
+    <h5>Allowed attributes (default)</h5>
+    <ul>
+      <li>Globally: <code>class</code>, plus any <code>data-*</code></li>
+      <li>On <code>&lt;a&gt;</code>: <code>href</code>, <code>title</code>, <code>target</code>, <code>rel</code></li>
+    </ul>
+
+    <h5>URL handling</h5>
+    <p><code>href</code> and <code>src</code> values are checked against a safe-scheme regex; anything that doesn't match <code>http(s):</code>, <code>mailto:</code>, <code>tel:</code>, a relative path, or a fragment is removed. Links with <code>target="_blank"</code> automatically get <code>rel="noopener noreferrer"</code> to prevent reverse-tabnabbing.</p>
+
+    <h3 id="customizing"><a href="#customizing" class="no-link">Customizing the Whitelist</a></h3>
+    <p>Pass an options object to tighten or loosen the defaults:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> html = <span class="hljs-title function_">sanitizeHtml</span>(userInput, {<br>  <span class="hljs-attr">allowedTags</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;I&#x27;</span>, <span class="hljs-string">&#x27;EM&#x27;</span>, <span class="hljs-string">&#x27;STRONG&#x27;</span>, <span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;BR&#x27;</span>, <span class="hljs-string">&#x27;P&#x27;</span>]),<br>  <span class="hljs-attr">allowedAttrsPerTag</span>: {<br>    <span class="hljs-attr">A</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;href&#x27;</span>])<br>  }<br>});</code></pre>
+
+    <h3 id="serverNote"><a href="#serverNote" class="no-link">Server-Side Caveat</a></h3>
+    <p>This util only protects content that flows through your client code. If your app accepts user-submitted HTML and stores or echoes it to other users, the server <strong>must</strong> independently sanitize before storing and again before sending it back. Battle-tested server libraries: <a href="https://github.com/cure53/DOMPurify" target="_blank" rel="noopener noreferrer">DOMPurify</a> (Node), <a href="https://github.com/apostrophecms/sanitize-html" target="_blank" rel="noopener noreferrer">sanitize-html</a> (Node), <a href="https://github.com/mozilla/bleach" target="_blank" rel="noopener noreferrer">Bleach</a> (Python), <a href="https://github.com/rgrove/sanitize" target="_blank" rel="noopener noreferrer">sanitize</a> (Ruby).</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

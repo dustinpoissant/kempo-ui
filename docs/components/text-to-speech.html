@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text To Speech - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center"
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      Kempo UI
+    </a>
+    <div
+      style="position:relative;margin:0 .25rem;align-self:center;"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+        style="width:11rem;"
+      />
+      <div
+        id="navSearchDropdown"
+        hidden
+        theme="light"
+        style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <div class="flex"></div>
+    <a
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+    ><k-icon name="license"></k-icon></a>
+    <a
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+    ><k-icon name="npm"></k-icon></a>
+    <a
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+    ><k-icon name="github-mark"></k-icon></a>
+    <k-theme-switcher
+      class="mr"
+      style="
+        --padding: 0.5rem;
+        --c_active: var(--tc_on_primary);
+        --tc_active: var(--c_primary);
+        --c_inactive__hover: rgba(255, 255, 255, 0.1);
+      "
+    ></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+    <h1 class="ta-center">Text To Speech</h1>
+  
+  <k-main>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#slotted">Slotted Text</a><br />
+        <a href="#rate">Rate &amp; Pitch</a><br />
+        <a href="#language">Language</a><br />
+        <a href="#voice">Voice Selection</a><br />
+        <a href="#dynamic">Dynamic Text</a><br />
+        <a href="#disabled">Disabled</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>Wraps the browser's <a href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis" target="_blank">SpeechSynthesis API</a> in a single button. Click to speak; click again while speaking to stop. Works in all modern browsers (Chromium, Firefox, Safari).</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The <code>text</code> attribute holds the phrase to read aloud.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Hello, world!&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Hello, world!"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="slotted"><a href="#slotted" class="no-link">Slotted Text</a></h3>
+    <p>If <code>text</code> is not set, the element's text content is spoken. Useful when the text is longer or already lives in the DOM.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span>&gt;</span>The quick brown fox jumps over the lazy dog.<span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech>The quick brown fox jumps over the lazy dog.</k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="rate"><a href="#rate" class="no-link">Rate &amp; Pitch</a></h3>
+    <p>Tune playback with the <code>rate</code> (<code>0.1</code>&ndash;<code>10</code>, default <code>1</code>) and <code>pitch</code> (<code>0</code>&ndash;<code>2</code>, default <code>1</code>) attributes. <code>volume</code> (<code>0</code>&ndash;<code>1</code>, default <code>1</code>) is also available.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Wow that is fast&quot;</span> <span class="hljs-attr">rate</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;A bit higher pitch&quot;</span> <span class="hljs-attr">pitch</span>=<span class="hljs-string">&quot;1.6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Wow that is fast" rate="2" class="mr"></k-text-to-speech>
+          <k-text-to-speech text="A bit higher pitch" pitch="1.6"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="language"><a href="#language" class="no-link">Language</a></h3>
+    <p>Set <code>language</code> to a BCP&#x2011;47 tag to pick a localized voice (browser-dependent &mdash; the OS-installed voices determine availability).</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Bonjour le monde&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;fr-FR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Bonjour le monde" language="fr-FR"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="voice"><a href="#voice" class="no-link">Voice Selection</a></h3>
+    <p>Set <code>voice</code> to a specific voice name. The component looks it up in <code>speechSynthesis.getVoices()</code>; if the name isn't installed on the user's device the component silently falls back to the language default. Voice availability varies by browser and OS &mdash; here's a quick reference:</p>
+    <table class="b">
+      <thead><tr><th>Platform</th><th>Available voices</th></tr></thead>
+      <tbody>
+        <tr><td>Chrome (any OS)</td><td><code>Google US English</code>, <code>Google UK English Female</code>, <code>Google UK English Male</code>, plus localized <code>Google fran&ccedil;ais</code>, <code>Google espa&ntilde;ol</code>, etc. Most reliable cross-platform names.</td></tr>
+        <tr><td>macOS / iOS Safari</td><td><code>Samantha</code>, <code>Alex</code>, <code>Karen</code>, <code>Daniel</code>, <code>Moira</code>, plus any "premium" voices the user has downloaded.</td></tr>
+        <tr><td>Windows (Edge / non-Chrome)</td><td><code>Microsoft David</code>, <code>Microsoft Zira</code>, <code>Microsoft Mark</code>, plus regional packs.</td></tr>
+        <tr><td>Linux / eSpeak</td><td>A single generic voice; quality is rough.</td></tr>
+        <tr><td>Android Chrome</td><td>Whatever TTS engine the user has installed; defaults to Google TTS.</td></tr>
+      </tbody>
+    </table>
+    <p class="mt">There is no voice name that is identical across every platform. For portable code, prefer <code>language</code> over <code>voice</code> &mdash; the browser will pick the best installed voice for that language tag. Only set <code>voice</code> when you specifically want one and accept the device-dependent fallback.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Hello, this is Google US English&quot;</span> <span class="hljs-attr">voice</span>=<span class="hljs-string">&quot;Google US English&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Hello in French (browser picks a voice)&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;fr-FR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Hello, this is Google US English" voice="Google US English" class="mr"></k-text-to-speech>
+          <k-text-to-speech text="Hello in French (browser picks a voice)" language="fr-FR"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Voice Fallback Chain</h4>
+    <p>The <code>voice</code> attribute accepts a comma-separated list (like CSS <code>font-family</code>). The component tries each name in order and uses the first one installed; if none match it falls back to the language default.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Trying Samantha first, then a Google fallback&quot;</span> <span class="hljs-attr">voice</span>=<span class="hljs-string">&quot;Samantha, Google US English, Microsoft Zira&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech text="Trying Samantha first, then a Google fallback" voice="Samantha, Google US English, Microsoft Zira"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="dynamic"><a href="#dynamic" class="no-link">Dynamic Text</a></h3>
+    <p>Set the <code>text</code> property at runtime to read whatever is in an input or other DOM source.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ttsExample&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ttsInput&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Type something then click the button&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $tts = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;ttsExample&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;ttsInput&#x27;</span>);<br>  $input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;input&#x27;</span>, <span class="hljs-function">() =&gt;</span> {<br>    $tts.<span class="hljs-property">text</span> = $input.<span class="hljs-property">value</span>;<br>  });<br>  $tts.<span class="hljs-property">text</span> = $input.<span class="hljs-property">value</span>;<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech id="ttsExample" class="mr"></k-text-to-speech>
+          <input id="ttsInput" type="text" value="Type something then click the button" />
+          <script>
+            const $tts = document.getElementById('ttsExample');
+            const $input = document.getElementById('ttsInput');
+            $input.addEventListener('input', () => {
+              $tts.text = $input.value;
+            });
+            $tts.text = $input.value;
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents user interaction. The button also auto-disables when the browser doesn't support the SpeechSynthesis API.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-text-to-speech</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;You can't hear this&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-text-to-speech</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-text-to-speech disabled text="You can't hear this"></k-text-to-speech>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new TextToSpeech()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li>A browser with <code>window.speechSynthesis</code> (all major modern browsers)</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>text<i>: String</i></code></h5>
+    <p>The text to speak. When empty, the element's slotted text content is used. Syncs to <code>text</code> attribute.</p>
+
+    <h5><code>voice<i>: String</i></code></h5>
+    <p>Optional voice name, or a comma-separated fallback chain (e.g. <code>"Samantha, Google US English, Microsoft Zira"</code>). Each name is matched against <code>speechSynthesis.getVoices()</code> in order; the first installed match wins. If none match, the component falls back to the default voice for the configured <code>language</code>. Syncs to <code>voice</code> attribute.</p>
+
+    <h5><code>language<i>: String</i></code></h5>
+    <p>BCP&#x2011;47 language tag (e.g. <code>"en-US"</code>, <code>"fr-FR"</code>). Default is empty (browser default). Syncs to <code>language</code> attribute.</p>
+
+    <h5><code>rate<i>: Number</i></code></h5>
+    <p>Speech rate from <code>0.1</code> (slow) to <code>10</code> (fast). Default is <code>1</code>. Syncs to <code>rate</code> attribute.</p>
+
+    <h5><code>pitch<i>: Number</i></code></h5>
+    <p>Pitch from <code>0</code> to <code>2</code>. Default is <code>1</code>. Syncs to <code>pitch</code> attribute.</p>
+
+    <h5><code>volume<i>: Number</i></code></h5>
+    <p>Volume from <code>0</code> (silent) to <code>1</code> (loud). Default is <code>1</code>. Syncs to <code>volume</code> attribute.</p>
+
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the button cannot be clicked. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>speaking<i>: Boolean</i></code></h5>
+    <p>Reflects whether the component is currently speaking. The button shows the stop icon and switches to the active color while <code>true</code>. Syncs to <code>speaking</code> attribute.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>speak(textOverride?)<i>: void</i></code></h5>
+    <p>Begin speaking. If <code>textOverride</code> is supplied, it is spoken instead of <code>text</code>/slot content. Cancels any in-flight utterance first.</p>
+
+    <h5><code>stop()<i>: void</i></code></h5>
+    <p>Cancel any speech in progress.</p>
+
+    <h5><code>toggle()<i>: void</i></code></h5>
+    <p>Calls <code>stop()</code> if currently speaking, otherwise <code>speak()</code> &mdash; the same behavior as clicking the button.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <table class="b">
+      <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--btn_size</code></td><td><code>2.5rem</code></td><td>Diameter of the button</td></tr>
+        <tr><td><code>--btn_bg</code></td><td><code>var(--c_bg)</code></td><td>Background of the idle button</td></tr>
+        <tr><td><code>--btn_bg__speaking</code></td><td><code>var(--c_primary)</code></td><td>Background while actively speaking</td></tr>
+        <tr><td><code>--btn_tc__speaking</code></td><td><code>white</code></td><td>Icon color while speaking</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>start</code></h5>
+    <p>Fires when speech begins.</p>
+
+    <h5><code>end</code></h5>
+    <p>Fires when speech finishes (naturally or via <code>stop()</code>).</p>
+
+    <h5><code>error</code></h5>
+    <p>Fires if the underlying <code>SpeechSynthesisUtterance</code> reports an error. <code>detail</code> contains <code>{ error: String }</code>.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/TextToSpeech.js"></script>
+    <script type="module" src="../src/components/Icon.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+  
+</body>
+</html>

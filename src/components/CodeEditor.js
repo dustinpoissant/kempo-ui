@@ -23,7 +23,10 @@ export default class CodeEditor extends ShadowComponent {
 		hasBottomToolbar: { type: Boolean, state: true },
 		fullscreen: { type: Boolean, reflect: true },
 		wordWrap: { type: Boolean },
-		minimapEnabled: { type: Boolean }
+		minimapEnabled: { type: Boolean },
+		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
+		required: { type: Boolean, reflect: true }
 	};
 
 	constructor() {
@@ -44,6 +47,9 @@ export default class CodeEditor extends ShadowComponent {
 		this.minimapEnabled = false;
 		this.fontSize = 14;
 		this.fullscreen = false;
+		this.disabled = false;
+		this.readonly = false;
+		this.required = false;
 	}
 
 	/*
@@ -114,6 +120,32 @@ export default class CodeEditor extends ShadowComponent {
 		if(changedProperties.has('fullscreen')){
 			if(!this.fullscreen) this.monacoEditor?.layout({ width: 0, height: 0 });
 			requestAnimationFrame(() => this.monacoEditor?.layout());
+		}
+		if(changedProperties.has('disabled') || changedProperties.has('readonly')){
+			this.monacoEditor?.updateOptions({ readOnly: this.disabled || this.readonly });
+		}
+		if(
+			changedProperties.has('value') ||
+			changedProperties.has('required') ||
+			changedProperties.has('disabled')
+		){
+			this.#updateValidity();
+		}
+	}
+
+	#updateValidity = () => {
+		if(this.disabled){
+			this.internals.setValidity({});
+			return;
+		}
+		if(this.required && !(this.getValue() || '').trim()){
+			this.internals.setValidity(
+				{ valueMissing: true },
+				'Please fill out this field.',
+				this.monacoContainer || this
+			);
+		} else {
+			this.internals.setValidity({});
 		}
 	}
 
@@ -193,7 +225,8 @@ export default class CodeEditor extends ShadowComponent {
 			scrollBeyondLastLine: false,
 			automaticLayout: true,
 			tabSize: 2,
-			padding: { top: 8 }
+			padding: { top: 8 },
+			readOnly: this.disabled || this.readonly
 		});
 
 		const monacoCSS = document.querySelector('link[href*="monaco"][href*="editor.main.css"]');
@@ -233,6 +266,10 @@ export default class CodeEditor extends ShadowComponent {
 
 	formStateRestoreCallback(state) {
 		this.value = state;
+	}
+
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
 	}
 
 	/*
@@ -459,6 +496,25 @@ export default class CodeEditor extends ShadowComponent {
 		}
 		[hidden] {
 			display: none !important;
+		}
+		:host([disabled]) {
+			opacity: 0.6;
+		}
+		/* disabled blocks all interaction -- toolbar AND editor. Monaco's
+		   readOnly already prevents typing; pointer-events: none also stops
+		   focus / cursor placement, matching native form control semantics. */
+		:host([disabled]) .toolbar-top,
+		:host([disabled]) .toolbar-bottom,
+		:host([disabled]) .editor-container {
+			pointer-events: none;
+		}
+		/* readonly keeps the editor interactive (so users can place a cursor
+		   to select / copy) but mutes the toolbar so its buttons can't
+		   mutate the document. */
+		:host([readonly]) .toolbar-top,
+		:host([readonly]) .toolbar-bottom {
+			pointer-events: none;
+			opacity: 0.5;
 		}
 	`;
 

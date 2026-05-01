@@ -121,6 +121,9 @@
     <h5><code>dimension<i>: string</i></code></h5>
     <p>Restricts resizing to a specific dimension. Possible values are <code>"width"</code> (horizontal only) or <code>"height"</code> (vertical only). If not specified, both dimensions can be resized. Syncs with the <code>dimension</code> attribute.</p>
 
+    <h5><code>disabled<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the resize handles can't capture pointer events &mdash; a drag can't start, and any in-progress drag handlers no-op. Handles fade to <code>opacity: 0.4</code> as a visual cue. Syncs with the <code>disabled</code> attribute.</p>
+
     <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
     <h5><code>default</code></h5>
     <p>The main content area that will be resizable. Content automatically gets scroll behavior when it overflows the container.</p>

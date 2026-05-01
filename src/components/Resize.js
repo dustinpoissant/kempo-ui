@@ -7,7 +7,8 @@ export default class Resize extends ShadowComponent {
 	/* Properties */
 	static properties = {
 		resizing: { type: String, reflect: true },
-		dimention: { type: String, reflect: true }
+		dimention: { type: String, reflect: true },
+		disabled: { type: Boolean, reflect: true }
 	};
 
 	/*
@@ -17,6 +18,7 @@ export default class Resize extends ShadowComponent {
 		super();
 		this.resizing = '';
 		this.dimension = '';
+		this.disabled = false;
 		this.startSize = { width: 0, height: 0 };
 		this.cleanupFuncs = [];
 	}
@@ -35,6 +37,7 @@ export default class Resize extends ShadowComponent {
 		Event Handlers
 	*/
 	dragStartHandler = ({ element }) => {
+		if(this.disabled) return;
 		const { width, height } = this.getBoundingClientRect();
 		this.startSize.width = width;
 		this.startSize.height = height;
@@ -46,14 +49,17 @@ export default class Resize extends ShadowComponent {
 	};
 
 	dragSideHandler = ({ x }) => {
+		if(this.disabled) return;
 		this.style.width = this.startSize.width + x + 'px';
 	};
 
 	dragBottomHandler = ({ y }) => {
+		if(this.disabled) return;
 		this.style.height = this.startSize.height + y + 'px';
 	};
 
 	dragCornerHandler = ({ x, y }) => {
+		if(this.disabled) return;
 		this.style.width = this.startSize.width + x + 'px';
 		this.style.height = this.startSize.height + y + 'px';
 	};
@@ -176,6 +182,16 @@ export default class Resize extends ShadowComponent {
 		:host([dimension="width"]) #bottom,
 		:host([dimension="width"]) #corner {
 			display: none;
+		}
+		/* Disabled: handles can't capture pointer events, so a drag can't
+		   start in the first place; visual cue: handles fade out and the
+		   cursor reverts to default. */
+		:host([disabled]) #side,
+		:host([disabled]) #bottom,
+		:host([disabled]) #corner {
+			pointer-events: none;
+			cursor: default;
+			opacity: 0.4;
 		}
 	`;
 
