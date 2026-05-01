@@ -1,12 +1,12 @@
 # 0002 - Add Unit Tests for MarkdownEditor Component
 
-## Status: Complete
+## Status: Released
 
 ## Dependency
 None
 
 ## References
-- [MarkdownEditor Component](../docs-src/components/markdown-editor.page.html)
+- [MarkdownEditor Component](../../docs-src/components/markdown-editor.page.html)
 - [Kempo Testing Framework Docs](https://raw.githubusercontent.com/dustinpoissant/kempo-testing-framework/refs/heads/main/llms.txt)
 
 ## Current State
