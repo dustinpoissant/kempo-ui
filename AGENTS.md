@@ -105,7 +105,20 @@ When using templates (task templates, component scaffolds, etc.), follow them **
 - Make creative changes or improvements to the template format
 - Add commentary or helper text beyond what is explicitly requested
 
-If a template section says "leave blank," that section must be completely empty — it signals that someone else will fill it later. Only replace the `{description}` placeholders with actual content.
+### Task Validation Result Sections - Critical Rules
+Task files have two validation sections that follow specific timing rules:
+
+**LLM Validation Results** (fill during step 6: task-validate)
+- **Leave blank** during task-create and task-prepare skills
+- **Fill in completely** during task-validate skill with:
+  - Subheading for each acceptance criterion tested
+  - Subheading for each testing plan item
+  - Pass/fail status with supporting evidence/screenshots
+  - At least one screenshot for visual changes
+
+**User Validation Results** (optionally filled by user during step 7)
+- **Always leave completely blank** — the user may optionally add notes here if they have additional information beyond what was documented in LLM Validation Results
+- Never add placeholder text, never auto-fill this section
 
 ## Development Workflow
 

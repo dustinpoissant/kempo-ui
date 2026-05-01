@@ -29,7 +29,11 @@
 ### Testing / Validation Results
 
 #### LLM Validation Results
-{IMPORTANT: Leave this section completely blank — do not add any text or placeholders}
+**IMPORTANT: DO NOT fill this in during task-create or task-prepare.** This section is filled in during the "task-validate" skill (which is linked from the "task-complete" skill step 6). Include:
+- Subheadings for each acceptance criterion that was validated
+- Subheadings for each item in the testing plan
+- Pass/fail status and details for each item
+- Screenshots or evidence showing validation passed
 
 #### User Validation Results
-{IMPORTANT: Leave this section completely blank — do not add any text or placeholders}
+**IMPORTANT: Always leave this section completely blank.** The user may optionally add notes here during the "task-complete" skill step 7 of task-complete if they have additional validation information beyond what the LLM documented in the LLM Validation Results section.
