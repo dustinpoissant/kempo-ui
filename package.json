@@ -18,7 +18,7 @@
     "geticon": "node bin/get_icon.js",
     "listicons": "node bin/list_icons.js",
     "highlightcode": "node bin/highlight_code.js",
-    "test": "npx kempo-test",
+    "test": "npx kempo-test -l minimal",
     "test:gui": "npx kempo-test --gui",
     "test:browser": "npx kempo-test -b",
     "test:node": "npx kempo-test -n"
