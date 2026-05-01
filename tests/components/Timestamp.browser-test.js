@@ -65,14 +65,14 @@ export default {
 	'should have default timestamp as 0': async ({pass, fail}) => {
 		const { container, timestamp } = await createTimestamp();
 
-		if(timestamp.timestamp !== 0){
+		if(timestamp.timestamp !== ''){
 			cleanup(container);
-			fail(`Expected timestamp 0, got ${timestamp.timestamp}`);
+			fail(`Expected timestamp '', got ${timestamp.timestamp}`);
 			return;
 		}
 
 		cleanup(container);
-		pass('Default timestamp is 0');
+		pass('Default timestamp is empty string');
 	},
 
 	'should have default format as empty string': async ({pass, fail}) => {
@@ -104,7 +104,7 @@ export default {
 	'should set timestamp from attribute': async ({pass, fail}) => {
 		const { container, timestamp } = await createTimestamp({ timestamp: testTimestamp });
 
-		if(timestamp.timestamp !== testTimestamp){
+		if(timestamp.timestamp !== String(testTimestamp)){
 			cleanup(container);
 			fail(`Expected timestamp ${testTimestamp}, got ${timestamp.timestamp}`);
 			return;
