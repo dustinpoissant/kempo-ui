@@ -408,9 +408,9 @@ export default class Chat extends ShadowComponent {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      padding: 0;
+      min-width: 2rem;
+      min-height: 2rem;
+      padding: 0.25rem;
       border: 1px solid transparent;
       border-radius: 50%;
       background: var(--c_primary);

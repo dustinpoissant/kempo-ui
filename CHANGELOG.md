@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.11] - 2026-05-01
+### Added
+- **Chat component**: Comprehensive unit test suite with 62 test cases
+  - Tests cover component initialization, properties, and attributes
+  - Tests for message management (add, update, remove, clear operations)
+  - Tests for send button styling and functionality
+  - Tests for message rendering, status displays, and sender names
+  - Tests for HTML sanitization and security
+  - Test file: `tests/components/Chat.browser-test.js`
+
+### Fixed
+- **Chat component**: Send button now displays at its natural size instead of being artificially constrained
+  - Changed from fixed `width` and `height` to `min-width` and `min-height` properties
+  - Added proper padding to allow button content to display comfortably
+  - Button maintains circular appearance and primary color styling
+
 ## [0.4.10] - 2026-05-01
 ### Added
 - **MarkdownEditor component**: Comprehensive unit test suite with 40+ test cases
