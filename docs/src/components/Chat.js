@@ -177,9 +177,9 @@ import{html as e,css as t,nothing as s}from"../lit-all.min.js";import i from"./S
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      padding: 0;
+      min-width: 2rem;
+      min-height: 2rem;
+      padding: var(--spacer_q);
       border: 1px solid transparent;
       border-radius: 50%;
       background: var(--c_primary);
