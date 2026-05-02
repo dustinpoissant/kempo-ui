@@ -45,8 +45,8 @@ The send button should be properly sized to display at its natural/comfortable s
 
 **Send Button Properly Sized**
 - ✅ PASS: The send button now displays at its natural size with proper padding and spacing
-- The CSS changes from fixed `width: 2rem; height: 2rem;` to `min-width: 2rem; min-height: 2rem; padding: 0.25rem;` allow the button to grow to accommodate its content
-- Screenshot: [after-fix-screenshot.png](0003-chat-send-button-size/after-fix-screenshot.png)
+- The CSS changes from fixed `width: 2rem; height: 2rem;` to `min-width: 2rem; min-height: 2rem; padding: var(--spacer_q);` allow the button to grow to accommodate its content
+- Screenshot: ![after-fix-screenshot.png](0003-chat-send-button-size/after-fix-screenshot.png)
 
 **Button Visually Appropriate**
 - ✅ PASS: The send button is now visually appropriate for user interaction

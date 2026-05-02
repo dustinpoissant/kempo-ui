@@ -410,7 +410,7 @@ export default class Chat extends ShadowComponent {
       justify-content: center;
       min-width: 2rem;
       min-height: 2rem;
-      padding: 0.25rem;
+      padding: var(--spacer_q);
       border: 1px solid transparent;
       border-radius: 50%;
       background: var(--c_primary);

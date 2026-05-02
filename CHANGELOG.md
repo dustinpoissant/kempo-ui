@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 - **Chat component**: Send button now displays at its natural size instead of being artificially constrained
   - Changed from fixed `width` and `height` to `min-width` and `min-height` properties
-  - Added proper padding to allow button content to display comfortably
+  - Added proper padding using theme-configurable `--spacer_q` custom property for consistent spacing
   - Button maintains circular appearance and primary color styling
 
 ## [0.4.10] - 2026-05-01
