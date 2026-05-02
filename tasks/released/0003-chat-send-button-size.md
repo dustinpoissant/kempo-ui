@@ -1,6 +1,6 @@
 # 0003 - Chat Send Button Size
 
-## Status: Complete
+## Status: Released
 
 ## Dependency
 
@@ -15,7 +15,7 @@ The Chat component has a send button that appears too small. The button should b
 The send button should be properly sized to display at its natural/comfortable size for user interaction. Unit tests should be created to verify the send button CSS properties allow it to grow appropriately.
 
 ### In-Scope
-- [src/components/chat.js](src/components/chat.js) or relevant chat component files
+- [src/components/Chat.js](../../src/components/Chat.js) or relevant chat component files
 - Chat component styles in shadow DOM or external stylesheets
 
 ### Out of Scope
@@ -23,7 +23,7 @@ The send button should be properly sized to display at its natural/comfortable s
 - Changes to chat component functionality or behavior
 
 ## Task Details
-1. Examine the `.send-btn` CSS rule in [src/components/Chat.js](src/components/Chat.js) (currently at lines 407-424)
+1. Examine the `.send-btn` CSS rule in [src/components/Chat.js](../../src/components/Chat.js) (currently at lines 407-424)
 2. The button currently has fixed `width: 2rem` and `height: 2rem` properties that constrain its size
 3. Modify the button sizing to allow it to grow to its natural size while maintaining proper dimensions
 4. Consider using `min-width` and `min-height` instead of fixed `width` and `height` properties, or removing the constraints entirely and letting the content determine size
