@@ -1,0 +1,236 @@
+<page pageName="Segmented Control" title="Segmented Control - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#selectedByDefault">Selected By Default</a><br />
+        <a href="#javascriptUsage">JavaScript Usage</a><br />
+        <a href="#customComponents">Icon Options</a><br />
+        <a href="#formUsage">Form Integration</a><br />
+        
+        <h6 class="mt"><a href="jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#optionElement">Option Element</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>A segmented control groups related options and allows the user to select one at a time. Provide your own sub-components as options.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"small"</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"large"</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-segmented-control>
+            <k-sc-option value="small">Small</k-sc-option>
+            <k-sc-option value="medium">Medium</k-sc-option>
+            <k-sc-option value="large">Large</k-sc-option>
+          </k-segmented-control>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="selectedByDefault"><a href="#selectedByDefault" class="no-link">Selected By Default</a></h3>
+    <p>Set an initial value to select an option by default.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"small"</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"large"</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-segmented-control value="medium">
+            <k-sc-option value="small">Small</k-sc-option>
+            <k-sc-option value="medium">Medium</k-sc-option>
+            <k-sc-option value="large">Large</k-sc-option>
+          </k-segmented-control>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="javascriptUsage"><a href="#javascriptUsage" class="no-link">JavaScript Usage</a></h3>
+    <p>Get and set the selected value programmatically using JavaScript.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"sizes"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"small"</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"large"</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Selected: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"output"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">const</span> $sizes = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'sizes'</span>);<br />  <span class="hljs-keyword">const</span> $output = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'output'</span>);<br />  <br />  $output.textContent = $sizes.value;<br />  <br />  $sizes.addEventListener(<span class="hljs-string">'change'</span>, (event) =&gt; {<br />    $output.textContent = event.detail.value;<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-segmented-control id="sizes" value="medium">
+            <k-sc-option value="small">Small</k-sc-option>
+            <k-sc-option value="medium">Medium</k-sc-option>
+            <k-sc-option value="large">Large</k-sc-option>
+          </k-segmented-control>
+          <p>Selected: <span id="output"></span></p>
+          <script>
+            const $sizes = document.getElementById('sizes');
+            const $output = document.getElementById('output');
+            
+            $output.textContent = $sizes.value;
+            
+            $sizes.addEventListener('change', (event) => {
+              $output.textContent = event.detail.value;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customComponents"><a href="#customComponents" class="no-link">Custom Components as Options</a></h3>
+    <p>Use any custom components as the options within the segmented control.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"list"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"grid"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"cards"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"list"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"format_list_bulleted"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-segmented-control value="list">
+            <k-sc-option value="grid"><k-icon name="cards"></k-icon></k-sc-option>
+            <k-sc-option value="list"><k-icon name="format_list_bulleted"></k-icon></k-sc-option>
+          </k-segmented-control>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>The segmented control integrates with HTML forms using the name attribute. The selected value is submitted with the form.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"sizeForm"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Size:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"size"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"small"</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"large"</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span><br />  <br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"reset"</span>&gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Submitted: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"result"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'sizeForm'</span>).addEventListener(<span class="hljs-string">'submit'</span>, (e) =&gt; {<br />    e.preventDefault();<br />    <span class="hljs-keyword">const</span> formData = <span class="hljs-keyword">new</span> FormData(e.target);<br />    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'result'</span>).textContent = formData.get(<span class="hljs-string">'size'</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="sizeForm">
+            <label>Size:</label>
+            <k-segmented-control name="size" value="medium">
+              <k-sc-option value="small">Small</k-sc-option>
+              <k-sc-option value="medium">Medium</k-sc-option>
+              <k-sc-option value="large">Large</k-sc-option>
+            </k-segmented-control>
+            <div class="mt">
+              <button type="submit" class="mr">Submit</button>
+              <button type="reset">Reset</button>
+            </div>
+          </form>
+          <p>Submitted: <span id="result"></span></p>
+          <script>
+            document.getElementById('sizeForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              document.getElementById('result').textContent = formData.get('size');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <hr class="mt" />
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">new</span> SegmentedControl();</code></pre>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>The segmented control component is a custom element and does not require any external dependencies beyond the Kempo-UI library.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td>String</td>
+            <td><code>''</code></td>
+            <td>The value of the currently selected option. Set this to match the `value` attribute of one of the `<k-sc-option>` children.</td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>String</td>
+            <td><code>''</code></td>
+            <td>The name attribute for form submission. When used in a form, this is the key under which the selected value is submitted.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Detail</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>change</code></td>
+            <td><code>{ value: String }</code></td>
+            <td>Fired when the selected option changes. The detail contains the new value.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="optionElement"><a href="#optionElement" class="no-link">Option Element (k-sc-option)</a></h3>
+    <p>The <code>&lt;k-sc-option&gt;</code> element represents a single option within the segmented control. It is a lightweight custom element that wraps your option content.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">new</span> SegmentedControlOption();</code></pre>
+
+    <h4>Attributes</h4>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td>String</td>
+            <td>Yes</td>
+            <td>The value identifier for this option. Should be unique among sibling options and used to select this option via the parent's <code>value</code> property.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Content</h4>
+    <p>The <code>&lt;k-sc-option&gt;</code> element accepts any HTML content or components as children. Common use cases include text labels or icons (e.g., <code>&lt;k-icon&gt;</code> elements).</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/SegmentedControl.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

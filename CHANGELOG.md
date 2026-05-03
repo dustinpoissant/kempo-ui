@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.12] - 2026-05-03
+### Added
+- **SegmentedControl component**: New form-integrated segmented control component
+  - Renders child `<k-sc-option>` elements as a button group using Kempo-CSS utility classes
+  - Supports rich content in options including text and icon elements (via `<k-icon>`)
+  - Full form integration using ElementInternals API (`formAssociated`) for proper form submission and reset
+  - `name` attribute for form field identification
+  - `value` property reflects and controls the selected option
+  - Dispatches `change` events when selection changes
+  - Comprehensive unit test suite with 13 test cases covering element creation, properties, option recognition, selection, styling, and events
+  - Complete documentation with examples: Basic Usage, Selected By Default, JavaScript Usage, Icon Options, and Form Integration
+  - Test file: `tests/components/SegmentedControl.browser-test.js`
+  - Documentation: `docs-src/components/segmented-control.page.html`
+
 ## [0.4.11] - 2026-05-01
 ### Added
 - **Chat component**: Comprehensive unit test suite with 62 test cases
