@@ -1,6 +1,6 @@
 # 0004 - Create Segmented Control Component
 
-## Status: Complete
+## Status: Released
 
 ## Dependency
 None - this is a standalone component that can be created independently.
