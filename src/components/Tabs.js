@@ -46,7 +46,6 @@ export class Tabs extends ShadowComponent {
 			const value = window.localStorage.getItem(key);
 			if(value !== null) {
 				this.active = value;
-				this.updateActiveElements();
 				this.dispatchEvent(new CustomEvent('restored', {
 					detail: { tab: value },
 					bubbles: true
