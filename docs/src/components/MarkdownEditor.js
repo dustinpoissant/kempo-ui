@@ -102,7 +102,7 @@ import{html as t,css as e,nothing as i}from"../lit-all.min.js";import s from"./S
       overflow-y: auto;
       scrollbar-width: thin;
       resize: none;
-      max-height: auto !important;
+      max-height: none !important;
     }
     .preview-empty {
       color: var(--tc_muted);
