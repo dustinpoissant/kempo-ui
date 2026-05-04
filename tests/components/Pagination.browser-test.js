@@ -5,6 +5,7 @@ const createPagination = async (attrs = {}) => {
 	const parts = [];
 	if(attrs['total-items'] !== undefined) parts.push(`total-items="${attrs['total-items']}"`);
 	if(attrs['items-per-page'] !== undefined) parts.push(`items-per-page="${attrs['items-per-page']}"`);
+	if(attrs.page !== undefined) parts.push(`page="${attrs.page}"`);
 	if(attrs.controls !== undefined) parts.push(`controls="${attrs.controls}"`);
 	container.innerHTML = `<k-pagination ${parts.join(' ')}></k-pagination>`;
 	document.body.appendChild(container);
@@ -52,12 +53,22 @@ export default {
 	*/
 	'should default currentPage to 1': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		if(el.currentPage !== 1){
+		if(el.page !== 1){
 			cleanup(container);
-			return fail(`Expected currentPage to be 1, got ${el.currentPage}`);
+			return fail(`Expected currentPage to be 1, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('currentPage defaults to 1');
+	},
+
+	'should set initial page via page attribute': async ({pass, fail}) => {
+		const { container, el } = await createPagination({ 'total-items': 100, page: 3 });
+		if(el.page !== 3){
+			cleanup(container);
+			return fail(`Expected currentPage to be 3 from page attribute, got ${el.page}`);
+		}
+		cleanup(container);
+		pass('page attribute sets initial currentPage');
 	},
 
 	'should default itemsPerPage to 10': async ({pass, fail}) => {
@@ -119,9 +130,9 @@ export default {
 	'should setPage to a specific page': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.setPage(5);
-		if(el.currentPage !== 5){
+		if(el.page !== 5){
 			cleanup(container);
-			return fail(`Expected currentPage to be 5 after setPage(5), got ${el.currentPage}`);
+			return fail(`Expected currentPage to be 5 after setPage(5), got ${el.page}`);
 		}
 		cleanup(container);
 		pass('setPage navigates to given page');
@@ -130,9 +141,9 @@ export default {
 	'should clamp setPage to totalPages': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.setPage(100);
-		if(el.currentPage !== 10){
+		if(el.page !== 10){
 			cleanup(container);
-			return fail(`Expected currentPage to be clamped to 10, got ${el.currentPage}`);
+			return fail(`Expected currentPage to be clamped to 10, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('setPage clamps to totalPages');
@@ -141,9 +152,9 @@ export default {
 	'should clamp setPage to 1 at minimum': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.setPage(-5);
-		if(el.currentPage !== 1){
+		if(el.page !== 1){
 			cleanup(container);
-			return fail(`Expected currentPage to be clamped to 1, got ${el.currentPage}`);
+			return fail(`Expected currentPage to be clamped to 1, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('setPage clamps to 1 at minimum');
@@ -186,9 +197,9 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.setPage(3);
 		el.nextPage();
-		if(el.currentPage !== 4){
+		if(el.page !== 4){
 			cleanup(container);
-			return fail(`Expected currentPage to be 4 after nextPage, got ${el.currentPage}`);
+			return fail(`Expected currentPage to be 4 after nextPage, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('nextPage increments current page');
@@ -198,9 +209,9 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.setPage(10);
 		el.nextPage();
-		if(el.currentPage !== 10){
+		if(el.page !== 10){
 			cleanup(container);
-			return fail(`Expected currentPage to stay at 10 on last page, got ${el.currentPage}`);
+			return fail(`Expected currentPage to stay at 10 on last page, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('nextPage does not exceed totalPages');
@@ -210,9 +221,9 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.setPage(5);
 		el.previousPage();
-		if(el.currentPage !== 4){
+		if(el.page !== 4){
 			cleanup(container);
-			return fail(`Expected currentPage to be 4 after previousPage, got ${el.currentPage}`);
+			return fail(`Expected currentPage to be 4 after previousPage, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('previousPage decrements current page');
@@ -221,9 +232,9 @@ export default {
 	'should previousPage not go below 1': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.previousPage();
-		if(el.currentPage !== 1){
+		if(el.page !== 1){
 			cleanup(container);
-			return fail(`Expected currentPage to stay at 1 when on first page, got ${el.currentPage}`);
+			return fail(`Expected currentPage to stay at 1 when on first page, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('previousPage does not go below 1');
@@ -238,9 +249,9 @@ export default {
 		await el.updateComplete;
 		el.itemsPerPage = 25;
 		await el.updateComplete;
-		if(el.currentPage !== 1){
+		if(el.page !== 1){
 			cleanup(container);
-			return fail(`Expected currentPage to reset to 1 when itemsPerPage changes, got ${el.currentPage}`);
+			return fail(`Expected currentPage to reset to 1 when itemsPerPage changes, got ${el.page}`);
 		}
 		cleanup(container);
 		pass('currentPage resets to 1 when itemsPerPage changes');
@@ -271,9 +282,9 @@ export default {
 		await el.updateComplete;
 		el.totalItems = 30;
 		await el.updateComplete;
-		if(el.currentPage > el.totalPages){
+		if(el.page > el.totalPages){
 			cleanup(container);
-			return fail(`currentPage ${el.currentPage} should not exceed totalPages ${el.totalPages}`);
+			return fail(`currentPage ${el.page} should not exceed totalPages ${el.totalPages}`);
 		}
 		cleanup(container);
 		pass('currentPage clamped when totalItems decreases');
@@ -330,3 +341,4 @@ export default {
 		pass('page-change detail contains full pagination state');
 	}
 };
+

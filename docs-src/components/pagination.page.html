@@ -10,6 +10,7 @@
         <a href="#simpleControls">Simple Preconfigured</a><br />
         <a href="#fullControls">Full Preconfigured</a><br />
         <a href="#gotoPageExample">Goto Page</a><br />
+        <a href="#itemsPerPageOptions">Items Per Page Options</a><br />
         <a href="#eventsExample">Live Demo</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -131,6 +132,26 @@
       </div>
     </div>
 
+    <h3 id="itemsPerPageOptions"><a href="#itemsPerPageOptions" class="no-link">Items Per Page Options</a></h3>
+    <p>Use the <code>options</code> attribute on <code>&lt;k-pg-items-per-page&gt;</code> to customize the available page-size choices. Pass a comma-separated list of numbers. Defaults to <code>10,25,50,100</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&#x27;100&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-items-per-page</span> <span class="hljs-attr">options</span>=<span class="hljs-string">&#x27;5,10,20,50&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-pagination total-items="100">
+            <k-pg-prev></k-pg-prev>
+            <k-pg-page-info></k-pg-page-info>
+            <k-pg-next></k-pg-next>
+            <k-pg-items-per-page options="5,10,20,50"></k-pg-items-per-page>
+          </k-pagination>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="eventsExample"><a href="#eventsExample" class="no-link">Live Demo</a></h3>
     <p>Listen for <code>page-change</code> to re-render content whenever the user navigates. The event <code>detail</code> carries the full pagination state so your content layer knows exactly which slice to show.</p>
     <div class="row -mx">
@@ -206,10 +227,10 @@
             <td>Preconfigured control set. One of <code>'simple'</code> or <code>'full'</code>. Auto-imports the required control modules.</td>
           </tr>
           <tr>
-            <td><code>currentPage</code> <em>(readonly)</em></td>
+            <td><code>page</code></td>
             <td>Number</td>
             <td><code>1</code></td>
-            <td>The current page number. Read-only; use <code>setPage()</code>, <code>nextPage()</code>, or <code>previousPage()</code> to change it.</td>
+            <td>The current page number. Can be set via attribute to start on a specific page. Use <code>setPage()</code>, <code>nextPage()</code>, or <code>previousPage()</code> to change it programmatically.</td>
           </tr>
           <tr>
             <td><code>totalPages</code> <em>(readonly)</em></td>
@@ -307,7 +328,7 @@
           <tr>
             <td><code>&lt;k-pg-items-per-page&gt;</code></td>
             <td><code>paginationControls/ItemsPerPage.js</code></td>
-            <td>A select input for choosing items per page (10, 25, 50, 100). Resets to page 1 on change.</td>
+            <td>A select input for choosing items per page. Defaults to options 10, 25, 50, 100. Use the <code>options</code> attribute with a comma-separated list to customize (e.g. <code>options="5,10,20"</code>). Resets to page 1 on change.</td>
           </tr>
           <tr>
             <td><code>&lt;k-pg-goto-page&gt;</code></td>

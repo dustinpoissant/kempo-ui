@@ -14,7 +14,7 @@ export default class PaginationGotoPage extends PaginationControl {
   */
   render() {
     const pg = this.pagination;
-    const current = pg?.currentPage ?? 1;
+    const current = pg?.page ?? 1;
     const total = pg?.totalPages ?? 1;
     return html`
       <select @change=${this.handleChange}>

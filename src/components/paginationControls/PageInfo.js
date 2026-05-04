@@ -4,7 +4,7 @@ import { html, css } from '../../lit-all.min.js';
 export default class PaginationPageInfo extends PaginationControl {
   render() {
     const pg = this.pagination;
-    const current = pg?.currentPage ?? 1;
+    const current = pg?.page ?? 1;
     const total = pg?.totalPages ?? 1;
     return html`<span class="info">Page ${current} of ${total}</span>`;
   }

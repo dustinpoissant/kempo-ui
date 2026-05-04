@@ -1,14 +1,16 @@
 import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 
-const page = Symbol();
 const controlsLoaded = Symbol();
+const autoPageReset = Symbol();
+const manualPageSet = Symbol();
 
 export default class Pagination extends ShadowComponent {
   /*
     Reactive Properties / Attributes
   */
   static properties = {
+    page: { type: Number, reflect: true, attribute: 'page' },
     totalItems: { type: Number, reflect: true, attribute: 'total-items' },
     itemsPerPage: { type: Number, reflect: true, attribute: 'items-per-page' },
     controls: { type: String, reflect: true }
@@ -19,7 +21,7 @@ export default class Pagination extends ShadowComponent {
   */
   constructor() {
     super();
-    this[page] = 1;
+    this.page = 1;
     this[controlsLoaded] = false;
     this.totalItems = 0;
     this.itemsPerPage = 10;
@@ -47,20 +49,37 @@ export default class Pagination extends ShadowComponent {
   }
 
   willUpdate(changedProperties) {
-    if(changedProperties.has('itemsPerPage')){
-      this[page] = 1;
+    if(changedProperties.has('itemsPerPage') && changedProperties.get('itemsPerPage') !== undefined){
+      this[autoPageReset] = true;
+      this.page = 1;
     } else if(changedProperties.has('totalItems')){
       const maxPage = Math.max(1, Math.ceil(this.totalItems / this.itemsPerPage));
-      if(this[page] > maxPage) this[page] = maxPage;
+      if(this.page > maxPage){
+        this[autoPageReset] = true;
+        this.page = maxPage;
+      }
     }
   }
 
   updated(changedProperties) {
     super.updated(changedProperties);
-    if(changedProperties.has('itemsPerPage')){
+    if(changedProperties.has('page') && changedProperties.get('page') !== undefined && !this[manualPageSet] && !this[autoPageReset]){
       this.dispatchEvent(new CustomEvent('page-change', {
         detail: {
-          currentPage: this[page],
+          currentPage: this.page,
+          totalPages: this.totalPages,
+          itemsPerPage: this.itemsPerPage,
+          totalItems: this.totalItems
+        },
+        bubbles: true
+      }));
+    }
+    this[manualPageSet] = false;
+    this[autoPageReset] = false;
+    if(changedProperties.has('itemsPerPage') && changedProperties.get('itemsPerPage') !== undefined){
+      this.dispatchEvent(new CustomEvent('page-change', {
+        detail: {
+          currentPage: this.page,
           totalPages: this.totalPages,
           itemsPerPage: this.itemsPerPage,
           totalItems: this.totalItems
@@ -76,10 +95,6 @@ export default class Pagination extends ShadowComponent {
   /*
     Protected Members
   */
-  get currentPage() {
-    return this[page];
-  }
-
   get totalPages() {
     if(!this.totalItems || !this.itemsPerPage) return 1;
     return Math.ceil(this.totalItems / this.itemsPerPage);
@@ -90,12 +105,12 @@ export default class Pagination extends ShadowComponent {
   */
   setPage(pageNumber) {
     const clamped = Math.max(1, Math.min(pageNumber, this.totalPages));
-    if(clamped === this[page]) return;
-    this[page] = clamped;
-    this.requestUpdate();
+    if(clamped === this.page) return;
+    this[manualPageSet] = true;
+    this.page = clamped;
     this.dispatchEvent(new CustomEvent('page-change', {
       detail: {
-        currentPage: this[page],
+        currentPage: this.page,
         totalPages: this.totalPages,
         itemsPerPage: this.itemsPerPage,
         totalItems: this.totalItems
@@ -105,11 +120,11 @@ export default class Pagination extends ShadowComponent {
   }
 
   nextPage() {
-    this.setPage(this[page] + 1);
+    this.setPage(this.page + 1);
   }
 
   previousPage() {
-    this.setPage(this[page] - 1);
+    this.setPage(this.page - 1);
   }
 
   /*

@@ -5,7 +5,7 @@ import '../Icon.js';
 export default class PaginationLastPage extends PaginationControl {
   render() {
     const pg = this.pagination;
-    const disabled = !pg || pg.currentPage >= pg.totalPages;
+    const disabled = !pg || pg.page >= pg.totalPages;
     return html`
       <button
         type="button"

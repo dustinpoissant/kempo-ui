@@ -1,4 +1,4 @@
-import t from"./PaginationControl.js";import{html as e}from"../../lit-all.min.js";import"../Icon.js";export default class a extends t{render(){const t=this.pagination,a=!t||t.currentPage>=t.totalPages;return e`
+import t from"./PaginationControl.js";import{html as e}from"../../lit-all.min.js";import"../Icon.js";export default class a extends t{render(){const t=this.pagination,a=!t||t.page>=t.totalPages;return e`
       <button
         type="button"
         title="Last Page"

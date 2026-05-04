@@ -1,4 +1,4 @@
-import e from"./PaginationControl.js";import{html as t}from"../../lit-all.min.js";import"../Icon.js";export default class o extends e{render(){const e=this.pagination,o=!e||e.currentPage<=1;return t`
+import e from"./PaginationControl.js";import{html as t}from"../../lit-all.min.js";import"../Icon.js";export default class o extends e{render(){const e=this.pagination,o=!e||e.page<=1;return t`
       <button
         type="button"
         title="Previous Page"
