@@ -2,12 +2,17 @@ import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import renderMarkdown from '../utils/renderMarkdown.js';
 import sanitizeHtml, { STRIP_COMPLETELY } from '../utils/sanitizeHtml.js';
+import debounce from '../utils/debounce.js';
 import './Resize.js';
 import './Tabs.js';
 
-/*
-  k-markdown-editor
+const defaultValue = Symbol();
+const debouncedChange = Symbol();
+const controlsLoaded = Symbol();
+const resolvedAllowedTags = Symbol();
+const updateValidity = Symbol();
 
+/*
   Textarea that writes markdown, with a live "Preview" tab. Designed to mimic
   GitHub's comment editor — write tab + preview tab + control slots above and
   below the textarea. Markdown is parsed by snarkdown, which intentionally
@@ -17,10 +22,12 @@ import './Tabs.js';
   Controls go in the `controls-top` and `controls-bottom` slots; subclass
   MarkdownEditorControl (./MarkdownEditorControl.js) to write your own.
 */
-
 export default class MarkdownEditor extends ShadowComponent {
   static formAssociated = true;
 
+  /*
+    Reactive Properties / Attributes
+  */
   static properties = {
     value: { type: String },
     name: { type: String, reflect: true },
@@ -62,10 +69,8 @@ export default class MarkdownEditor extends ShadowComponent {
     controls: { type: String, reflect: true }
   };
 
-  #defaultValue = '';
-
   /*
-    Lifecycle Callbacks
+    Constructor
   */
   constructor() {
     super();
@@ -81,20 +86,17 @@ export default class MarkdownEditor extends ShadowComponent {
     this.disallowedTags = '';
     this.scriptsEnabled = false;
     this.controls = '';
-    this.#controlsLoaded = false;
+    this[defaultValue] = '';
+    this[controlsLoaded] = false;
+    this[debouncedChange] = debounce(() => this.handleChange(), 300);
   }
 
-  #controlsLoaded = false;
-
   /*
-    Dynamically imports every built-in control module. Called whenever a
-    non-empty `controls` preset is set. Mirrors the HtmlEditor pattern so
-    consumers don't have to remember which control imports each preset
-    needs — they just set `controls="full"` and everything is loaded.
+    Lifecycle
   */
   async loadControls() {
-    if(this.#controlsLoaded) return;
-    this.#controlsLoaded = true;
+    if(this[controlsLoaded]) return;
+    this[controlsLoaded] = true;
     const base = new URL('./markdownEditorControls/', import.meta.url).href;
     await Promise.all([
       import(/* @vite-ignore */ `${base}Bold.js`),
@@ -117,14 +119,11 @@ export default class MarkdownEditor extends ShadowComponent {
 
   connectedCallback() {
     super.connectedCallback();
-    // Initial markdown comes from the `value` attribute only. Don't fall back
-    // to children/textContent — slotted controls' own text (icon labels,
-    // separators, etc.) would leak in and pollute the value.
     if(this.hasAttribute('value')){
-      this.#defaultValue = this.getAttribute('value');
+      this[defaultValue] = this.getAttribute('value');
     }
-    if(!this.value && this.#defaultValue){
-      this.value = this.#defaultValue;
+    if(!this.value && this[defaultValue]){
+      this.value = this[defaultValue];
     }
   }
 
@@ -136,14 +135,11 @@ export default class MarkdownEditor extends ShadowComponent {
     if(changedProperties.has('controls') && this.controls && this.controls !== 'none'){
       this.loadControls();
     }
-    this.#updateValidity();
+    this[updateValidity]();
   }
 
-  /*
-    Form-associated callbacks
-  */
   formResetCallback() {
-    this.value = this.#defaultValue;
+    this.value = this[defaultValue];
     this.mode = 'write';
   }
 
@@ -156,7 +152,7 @@ export default class MarkdownEditor extends ShadowComponent {
   }
 
   /*
-    Public API — generic
+    Public Methods
   */
   focus() {
     if(this.mode !== 'write') this.mode = 'write';
@@ -181,11 +177,6 @@ export default class MarkdownEditor extends ShadowComponent {
     this.mode = this.mode === 'write' ? 'preview' : 'write';
   }
 
-  /*
-    Public API — selection / text manipulation, used by MarkdownEditorControl
-    subclasses. All of these operate on the textarea (write mode); they
-    silently no-op in preview mode.
-  */
   get textarea() {
     return this.shadowRoot?.querySelector('textarea') || null;
   }
@@ -219,12 +210,6 @@ export default class MarkdownEditor extends ShadowComponent {
     });
   }
 
-  /*
-    Wrap (or unwrap) the selection. If the selection is already wrapped with
-    the given markers — either the selection itself starts/ends with them, or
-    the surrounding characters are the markers — the wrap is removed instead
-    of being added again. This makes formatting buttons toggle.
-  */
   wrapSelection(prefix, suffix = prefix, placeholder = '') {
     const ta = this.textarea;
     if(!ta){
@@ -282,19 +267,6 @@ export default class MarkdownEditor extends ShadowComponent {
     this.replaceSelection(text, { selectInserted: false });
   }
 
-  /*
-    Toggle a line-prefix on the selected lines (or the current line). If every
-    non-empty line in range already starts with `prefix`, the prefix is
-    removed; otherwise it's added. When `replacePattern` is provided, lines
-    that match it but do NOT yet have `prefix` get their match swapped out
-    rather than stacked — this is what lets headings switch levels (e.g.
-    `### Hello` becomes `## Hello` instead of `## ### Hello`).
-  */
-  /*
-    Run a regex `.replace(pattern, replacement)` on every selected line
-    (or the current line if no selection). Useful for "convert to plain
-    paragraph" — strip any heading prefix without toggling.
-  */
   replaceInSelectedLines(pattern, replacement = '') {
     const ta = this.textarea;
     if(!ta) return;
@@ -349,7 +321,7 @@ export default class MarkdownEditor extends ShadowComponent {
   }
 
   /*
-    Utility
+    Protected Members
   */
   get isEmpty() {
     return !(this.value || '').trim();
@@ -357,12 +329,9 @@ export default class MarkdownEditor extends ShadowComponent {
 
   get renderedHtml() {
     const opts = {};
-    const resolved = this.#resolvedAllowedTags;
+    const resolved = this[resolvedAllowedTags];
     if(resolved) opts.allowedTags = resolved;
     if(this.scriptsEnabled){
-      // Remove SCRIPT from the always-strip set so the allow/deny check
-      // gets the final say. SCRIPT is the only tag scripts-enabled affects;
-      // iframe/style/etc. stay nuked unconditionally.
       const stripCompletely = new Set(STRIP_COMPLETELY);
       stripCompletely.delete('SCRIPT');
       opts.stripCompletely = stripCompletely;
@@ -370,19 +339,7 @@ export default class MarkdownEditor extends ShadowComponent {
     return sanitizeHtml(renderMarkdown(this.value || ''), opts);
   }
 
-  /*
-    Resolve `allowed-tags` / `disallowed-tags` into the Set sanitizeHtml
-    expects. The two attributes are mutually exclusive — if both are set,
-    `allowed-tags` wins and a console warning fires.
-
-    Returns:
-      - For `allowed-tags="*"`     → proxy-Set that says yes to everything.
-      - For `allowed-tags="a,b,c"` → real Set of those uppercase names.
-      - For `disallowed-tags="x,y"` → proxy-Set that returns true for any
-        tag NOT in the deny list.
-      - For neither set            → null (sanitizeHtml uses DEFAULT_TAGS).
-  */
-  get #resolvedAllowedTags() {
+  get [resolvedAllowedTags]() {
     const allow = (this.allowedTags || '').trim();
     const deny = (this.disallowedTags || '').trim();
     if(allow && deny){
@@ -399,7 +356,7 @@ export default class MarkdownEditor extends ShadowComponent {
     return null;
   }
 
-  #updateValidity = () => {
+  [updateValidity] = () => {
     const ta = this.shadowRoot?.querySelector('textarea');
     if(this.required && this.isEmpty){
       this.internals.setValidity(
@@ -421,6 +378,7 @@ export default class MarkdownEditor extends ShadowComponent {
       detail: { value: this.value },
       bubbles: true
     }));
+    this[debouncedChange]();
   };
 
   handleChange = () => {
@@ -465,6 +423,7 @@ export default class MarkdownEditor extends ShadowComponent {
                 aria-label=${this.name || this.placeholder}
                 @input=${this.handleInput}
                 @blur=${this.handleChange}
+                @change=${this.handleChange}
               ></textarea>
             </k-tab-content>
             <k-tab-content name="preview">
@@ -483,9 +442,6 @@ export default class MarkdownEditor extends ShadowComponent {
     `;
   }
 
-  /*
-    Styles
-  */
   static styles = css`
     :host {
       --padding: 0.5rem 0.75rem;
@@ -576,8 +532,7 @@ export default class MarkdownEditor extends ShadowComponent {
     attribute is set. Tags reference custom elements that are loaded by
     `loadControls()` — listing them here doesn't require those modules to
     be imported eagerly. Lit creates the elements as plain HTMLElements
-    until their definitions arrive, then the browser upgrades them in
-    place.
+    until their definitions arrive, then the browser upgrades them in place.
   */
   static controlSets = {
     '': { top: null, bottom: null },

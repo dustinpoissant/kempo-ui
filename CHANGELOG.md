@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.16] - 2026-05-03
+### Added
+- **Markdown Editor component**: Debounced change event during input
+  - `change` event now fires with a 300ms debounce when text is being typed
+  - Previously, `change` events only fired on blur or native change events
+  - Enables apps to use the `change` event for enable/disable logic during long typing sessions
+  - Useful for "Save" button state management without waiting for blur
+
+### Changed
+- **Markdown Editor component**: Code style improvements
+  - Converted from hash private members (`#field`) to Symbol-keyed properties for full browser compatibility (Safari support)
+  - Reorganized comments to follow component-code skill pattern
+  - Removed unnecessary multi-line comments, keeping only documentation for properties and complex logic
+
 ## [0.4.13] - 2026-05-03
 ### Added
 - **Markdown Editor component**: spacing but
