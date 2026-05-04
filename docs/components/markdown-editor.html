@@ -502,6 +502,7 @@
         <a href="#disabled">Disabled / Read-only</a><br />
         <a href="#tagFiltering">Tag Filtering</a><br />
         <a href="#customControls">Custom Controls</a><br />
+        <a href="#sizingExample">Sizing Example</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -768,6 +769,25 @@
 customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">'k-md-hr'</span>, <span class="hljs-title class_">MarkdownHr</span>);</code></pre>
     </k-card>
 
+    <h3 id="sizingExample"><a href="#sizingExample" class="no-link">Sizing Example</a></h3>
+    <p>Use the three sizing CSS variables together to control the editor dimensions. Set <code>--height</code> for the default size, <code>--min-height</code> to prevent it from shrinking, and <code>--max-height</code> to add a vertical scrollbar when content grows.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="CSS">
+          <pre><code class="hljs css"><span class="hljs-selector-tag">k-markdown-editor</span> {
+  <span class="hljs-attr">--height</span>: <span class="hljs-number">20rem</span>;
+  <span class="hljs-attr">--min-height</span>: <span class="hljs-number">10rem</span>;
+  <span class="hljs-attr">--max-height</span>: <span class="hljs-number">40rem</span>;
+}</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-markdown-editor placeholder="Type to expand, but max out at 40rem..." style="--height: 20rem; --min-height: 10rem; --max-height: 40rem;"></k-markdown-editor>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -864,10 +884,10 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
     <table class="b">
       <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
-        <tr><td><code>--min_height</code></td><td><code>6rem</code></td><td>Minimum height of the textarea / preview area</td></tr>
-        <tr><td><code>--max_height</code></td><td><code>24rem</code></td><td>Maximum height before the editor scrolls internally</td></tr>
+        <tr><td><code>--height</code></td><td><code>14rem</code></td><td>Height of the editor container</td></tr>
+        <tr><td><code>--min-height</code></td><td>none</td><td>Minimum height of the editor</td></tr>
+        <tr><td><code>--max-height</code></td><td>none</td><td>Maximum height before the editor scrolls internally</td></tr>
         <tr><td><code>--padding</code></td><td><code>0.5rem 0.75rem</code></td><td>Padding inside the textarea / preview</td></tr>
-        <tr><td><code>--border</code></td><td><code>1px solid var(--c_border)</code></td><td>Border around the editor</td></tr>
       </tbody>
     </table>
     <p class="mt">The component also uses kempo-css's global <code>--c_border</code>, <code>--c_bg</code>, <code>--tc</code>, <code>--tc_muted</code>, <code>--radius</code>, <code>--animation_ms</code>, and <code>--focus_shadow</code>; override those globally for site-wide tuning.</p>
@@ -877,7 +897,7 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
     <p>Fires on every keystroke (or programmatic change via the selection-manipulation API). <code>detail.value</code> is the current markdown.</p>
 
     <h5><code>change</code></h5>
-    <p>Fires when the textarea blurs. <code>detail.value</code> is the markdown at the moment focus left.</p>
+    <p>Fires with a 300ms debounce whenever text is typed, and also on blur. <code>detail.value</code> is the current markdown. Useful for enabling/disabling a "Save" button during long typing sessions without waiting for blur.</p>
 
     <h5><code>mode-change</code></h5>
     <p>Fires when the user switches between Write and Preview tabs. <code>detail.mode</code> is the new mode.</p>

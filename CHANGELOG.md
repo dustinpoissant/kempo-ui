@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.17] - 2026-05-03
+### Added
+- **Markdown Editor component**: CSS size variables `--min-height` and `--max-height`
+  - New `--min-height` CSS variable to prevent editor from shrinking below a minimum size
+  - New `--max-height` CSS variable to add vertical scrollbar when content exceeds max height
+  - Works alongside existing `--height` variable for flexible sizing
+  - Documentation updated with sizing example showing all three variables used together
+
 ## [0.4.16] - 2026-05-03
 ### Added
 - **Markdown Editor component**: Debounced change event during input

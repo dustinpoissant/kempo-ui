@@ -470,6 +470,8 @@ export default class MarkdownEditor extends ShadowComponent {
     k-resize {
       width: 100%;
       height: var(--height, 14rem);
+      min-height: var(--min-height);
+      max-height: var(--max-height);
       background: var(--c_bg);
     }
     .frame {
@@ -508,6 +510,7 @@ export default class MarkdownEditor extends ShadowComponent {
       overflow-y: auto;
       scrollbar-width: thin;
       resize: none;
+      max-height: none !important;
     }
     .preview-empty {
       color: var(--tc_muted);

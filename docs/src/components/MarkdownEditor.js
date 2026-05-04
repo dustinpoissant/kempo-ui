@@ -62,6 +62,8 @@ import{html as t,css as e,nothing as i}from"../lit-all.min.js";import s from"./S
     k-resize {
       width: 100%;
       height: var(--height, 14rem);
+      min-height: var(--min-height);
+      max-height: var(--max-height);
       background: var(--c_bg);
     }
     .frame {
@@ -100,6 +102,7 @@ import{html as t,css as e,nothing as i}from"../lit-all.min.js";import s from"./S
       overflow-y: auto;
       scrollbar-width: thin;
       resize: none;
+      max-height: auto !important;
     }
     .preview-empty {
       color: var(--tc_muted);
