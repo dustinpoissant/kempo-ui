@@ -1,11 +1,11 @@
 # 0005 - Add persistentId Feature to Tabs Component
 
-## Status: Complete
+## Status: Released
 
 ## Dependency
 
 ## References
-- [Accordion persistentId implementation](../src/components/Accordion.js)
+- [Accordion persistentId implementation](../../src/components/Accordion.js)
 
 ## Current State
 The Tabs component does not have a `persistentId` feature. The Accordion component has this feature which allows the component to persist the state of open/closed panels to localStorage using a unique identifier key. The Tabs component should have similar functionality to persist the currently active tab to localStorage.
@@ -20,10 +20,10 @@ The Tabs component does not have a `persistentId` feature. The Accordion compone
 - A `restored` event should be fired when the persistent state is successfully restored from localStorage
 
 ### In-Scope
-- [src/components/Tabs.js](../src/components/Tabs.js)
-- [docs-src/components/tabs.page.html](../docs-src/components/tabs.page.html) - documentation updates
-- [llms.txt](../llms.txt) - update Tabs entry with persistentId property
-- [tests/components/tabs.test.js](../tests/components/tabs.test.js) - add tests for persistentId feature
+- [src/components/Tabs.js](../../src/components/Tabs.js)
+- [docs-src/components/tabs.page.html](../../docs-src/components/tabs.page.html) - documentation updates
+- [llms.txt](../../llms.txt) - update Tabs entry with persistentId property
+- [tests/components/tabs.test.js](../../tests/components/tabs.test.js) - add tests for persistentId feature
 
 ### Out of Scope
 - Other components should not be modified
