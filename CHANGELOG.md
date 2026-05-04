@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.19] - 2026-05-04
+### Added
+- **Pagination component** (`<k-pagination>`): Full-featured pagination with composable control sub-components
+  - `total-items` and `items-per-page` attributes control page count; `items-per-page` defaults to 10
+  - `controls` attribute accepts `"simple"` (prev / page-info / next) or `"full"` (first / prev / goto-page / next / last / items-per-page) preconfigured sets, or leave blank to slot controls manually
+  - `setPage(n)`, `nextPage()`, `previousPage()` methods for programmatic navigation; all clamp to valid range
+  - Fires `page-change` event on every navigation with `{ currentPage, totalPages, itemsPerPage, totalItems }` detail
+  - **Control sub-components** (all auto-wire to their nearest parent `<k-pagination>`):
+    - `<k-pg-first>` — navigates to page 1; disabled when already on first page
+    - `<k-pg-prev>` — navigates to previous page; disabled on first page
+    - `<k-pg-next>` — navigates to next page; disabled on last page
+    - `<k-pg-last>` — navigates to last page; disabled when already on last page
+    - `<k-pg-page-info>` — static "Page X of Y" text display
+    - `<k-pg-goto-page>` — dropdown `<select>` listing every page for direct navigation
+    - `<k-pg-count>` — inline text node showing total page count
+    - `<k-pg-items-per-page>` — dropdown to change items per page (10 / 25 / 50 / 100)
+
 ## [0.4.18] - 2026-05-04
 ### Added
 - **Combobox component**: `no-results-message` and `empty-message` attributes

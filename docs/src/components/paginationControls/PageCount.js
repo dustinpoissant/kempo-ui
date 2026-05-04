@@ -1,0 +1,1 @@
+import t from"./PaginationControl.js";import{html as n}from"../../lit-all.min.js";export default class e extends t{render(){return n`<span>${this.pagination?.totalPages??1}</span>`}}customElements.define("k-pg-count",e);

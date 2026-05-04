@@ -1,0 +1,5 @@
+import t from"../ShadowComponent.js";import{css as e}from"../../lit-all.min.js";export default class a extends t{connectedCallback(){super.connectedCallback();const t=this.pagination;t&&(this.boundPagination=t,this.pageChangeHandler=()=>this.requestUpdate(),t.addEventListener("page-change",this.pageChangeHandler),this.attrObserver=new MutationObserver(()=>this.requestUpdate()),this.attrObserver.observe(t,{attributes:!0,attributeFilter:["total-items","items-per-page"]}))}disconnectedCallback(){super.disconnectedCallback(),this.boundPagination&&this.pageChangeHandler&&this.boundPagination.removeEventListener("page-change",this.pageChangeHandler),this.attrObserver?.disconnect(),this.boundPagination=null,this.pageChangeHandler=null,this.attrObserver=null}get pagination(){return this.closest("k-pagination")||(this.getRootNode()instanceof ShadowRoot?this.getRootNode().host:null)}static styles=e`
+    :host {
+      display: inline-flex;
+    }
+  `}
