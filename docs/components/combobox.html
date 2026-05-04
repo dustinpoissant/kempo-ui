@@ -498,6 +498,7 @@
           <a href="#required">Required</a><br />
           <a href="#requireMatch">Require Match</a><br />
           <a href="#maxVisible">Max Visible</a><br />
+          <a href="#noResultsMessage">No Results Message &amp; Empty Message</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -628,6 +629,21 @@
       </div>
     </div>
 
+    <h3 id="noResultsMessage"><a href="#noResultsMessage" class="no-link">No Results Message &amp; Empty Message</a></h3>
+    <p>Use <code>no-results-message</code> to customize the text shown when the user has typed something but no options match. Use <code>empty-message</code> to customize the text shown when the input is empty and no options are loaded yet (e.g. before a dynamic search has fetched results). They default to <code>"No Matches"</code> and <code>"Type to search..."</code> respectively.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&#x27;Start typing to search...&#x27;</span> <span class="hljs-attr">no-results-message</span>=<span class="hljs-string">&#x27;No users found. Try a different search.&#x27;</span> <span class="hljs-attr">empty-message</span>=<span class="hljs-string">&#x27;Start typing to find a user...&#x27;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-combobox id="noResultsCb" placeholder="Start typing to search..." no-results-message="No users found. Try a different search." empty-message="Start typing to find a user..."></k-combobox>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -721,6 +737,20 @@
           <td><code>Number</code></td>
           <td><code>8</code></td>
           <td>Maximum number of options visible at once.</td>
+        </tr>
+        <tr>
+          <td><code>no-results-message</code></td>
+          <td><code>noResultsMessage</code></td>
+          <td><code>String</code></td>
+          <td><code>'No Matches'</code></td>
+          <td>Text displayed when the user has typed something but no options match.</td>
+        </tr>
+        <tr>
+          <td><code>empty-message</code></td>
+          <td><code>emptyMessage</code></td>
+          <td><code>String</code></td>
+          <td><code>'Type to search...'</code></td>
+          <td>Text displayed when the input is empty and no options are loaded (e.g. before an initial dynamic search fetch).</td>
         </tr>
       </tbody>
     </table>

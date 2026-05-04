@@ -12,8 +12,8 @@ const createCombobox = async (attrs = {}, children = '') => {
 			${attrs.disabled ? 'disabled' : ''}
 			${attrs.name ? `name="${attrs.name}"` : ''}
 			${attrs.debounceMs ? `debounce-ms="${attrs.debounceMs}"` : ''}
-			${attrs.maxVisible ? `max-visible="${attrs.maxVisible}"` : ''}
-		>${children}</k-combobox>
+			${attrs.maxVisible ? `max-visible="${attrs.maxVisible}"` : ''}		${attrs.noResultsMessage ? `no-results-message="${attrs.noResultsMessage}"` : ''}
+		${attrs.emptyMessage ? `empty-message="${attrs.emptyMessage}"` : ''}		>${children}</k-combobox>
 	`;
 	document.body.appendChild(container);
 	const el = container.querySelector('k-combobox');
@@ -119,6 +119,26 @@ export default {
 		pass();
 	},
 
+	'should have default noResultsMessage of No Matches': async ({pass, fail}) => {
+		const { container, el } = await createCombobox();
+		if(el.noResultsMessage !== 'No Matches') {
+			cleanup(container);
+			return fail(`Expected 'No Matches', got '${el.noResultsMessage}'`);
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should have default emptyMessage of Type to search...': async ({pass, fail}) => {
+		const { container, el } = await createCombobox();
+		if(el.emptyMessage !== 'Type to search...') {
+			cleanup(container);
+			return fail(`Expected 'Type to search...', got '${el.emptyMessage}'`);
+		}
+		cleanup(container);
+		pass();
+	},
+
 	'should not be required by default': async ({pass, fail}) => {
 		const { container, el } = await createCombobox();
 		if(el.required !== false) {
@@ -217,6 +237,26 @@ export default {
 		if(el.maxVisible !== 4) {
 			cleanup(container);
 			return fail(`Expected 4, got ${el.maxVisible}`);
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should reflect no-results-message attribute': async ({pass, fail}) => {
+		const { container, el } = await createCombobox({ noResultsMessage: 'Nothing found' });
+		if(el.noResultsMessage !== 'Nothing found') {
+			cleanup(container);
+			return fail(`Expected 'Nothing found', got '${el.noResultsMessage}'`);
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should reflect empty-message attribute': async ({pass, fail}) => {
+		const { container, el } = await createCombobox({ emptyMessage: 'Start searching' });
+		if(el.emptyMessage !== 'Start searching') {
+			cleanup(container);
+			return fail(`Expected 'Start searching', got '${el.emptyMessage}'`);
 		}
 		cleanup(container);
 		pass();
@@ -438,6 +478,33 @@ export default {
 		if(!el.shadowRoot.querySelector('.no-results')) {
 			cleanup(container);
 			return fail('No-results message should be displayed');
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should show noResultsMessage text when value typed but no matches': async ({pass, fail}) => {
+		const { container, el } = await createCombobox({ noResultsMessage: 'Custom no results' }, fruitOptions);
+		el.value = 'zzz';
+		el.opened = true;
+		await el.updateComplete;
+		const msg = el.shadowRoot.querySelector('.no-results');
+		if(!msg || msg.textContent.trim() !== 'Custom no results') {
+			cleanup(container);
+			return fail(`Expected 'Custom no results', got '${msg?.textContent}'`);
+		}
+		cleanup(container);
+		pass();
+	},
+
+	'should show emptyMessage text when no value and no options': async ({pass, fail}) => {
+		const { container, el } = await createCombobox({ emptyMessage: 'Custom empty' });
+		el.opened = true;
+		await el.updateComplete;
+		const msg = el.shadowRoot.querySelector('.no-results');
+		if(!msg || msg.textContent.trim() !== 'Custom empty') {
+			cleanup(container);
+			return fail(`Expected 'Custom empty', got '${msg?.textContent}'`);
 		}
 		cleanup(container);
 		pass();

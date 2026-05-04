@@ -917,7 +917,7 @@ export default {
 			fail(`Expected active to be "tab3", got "${tabs.active}"`);
 			return;
 		}
-		if(!tab3.active || content3.active){
+		if(!tab3.active || !content3.active){
 			fail('tab3 should be active (restored from localStorage)');
 			return;
 		}

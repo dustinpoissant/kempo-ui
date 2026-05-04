@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.18] - 2026-05-04
+### Added
+- **Combobox component**: `no-results-message` and `empty-message` attributes
+  - `no-results-message` customizes the text shown when the user has typed something but no options match (default: `"No Matches"`)
+  - `empty-message` customizes the text shown when the input is empty and no options are loaded, e.g. before a dynamic search has fetched results (default: `"Type to search..."`)
+  - Both attributes map to `noResultsMessage` and `emptyMessage` properties respectively
+
+### Fixed
+- **Tabs component**: Test for `persistent-id` localStorage restore had a logic inversion — `content3.active` was checked instead of `!content3.active`, causing the test to fail precisely when restoration was working correctly
+
 ## [0.4.17] - 2026-05-03
 ### Added
 - **Markdown Editor component**: CSS size variables `--min-height` and `--max-height`

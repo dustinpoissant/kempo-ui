@@ -16,7 +16,9 @@ export default class Combobox extends ShadowComponent {
 		requireMatch: { type: Boolean, reflect: true, attribute: 'require-match' },
 		disabled: { type: Boolean, reflect: true },
 		debounceMs: { type: Number, attribute: 'debounce-ms' },
-		maxVisible: { type: Number, attribute: 'max-visible' }
+		maxVisible: { type: Number, attribute: 'max-visible' },
+		noResultsMessage: { type: String, attribute: 'no-results-message' },
+		emptyMessage: { type: String, attribute: 'empty-message' }
 	};
 
 	#focusedIndex = -1;
@@ -38,6 +40,8 @@ export default class Combobox extends ShadowComponent {
 		this.disabled = false;
 		this.debounceMs = 300;
 		this.maxVisible = 8;
+		this.noResultsMessage = 'No Matches';
+		this.emptyMessage = 'Type to search...';
 		this.#setupDebounce(300);
 	}
 
@@ -255,7 +259,7 @@ export default class Combobox extends ShadowComponent {
 						<div class="more">${this.#filteredOptions.length - this.maxVisible} more...</div>
 					` : ''}
 					${visible.length === 0 && !this.searching ? html`
-						<div class="no-results">No matches</div>
+						<div class="no-results">${this.value ? this.noResultsMessage : this.emptyMessage}</div>
 					` : ''}
 					${this.searching ? html`
 						<div class="searching">
