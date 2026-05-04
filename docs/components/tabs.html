@@ -497,6 +497,7 @@
           <a href="#tabSpacers">Tab Spacers</a><br />
           <a href="#scrollingTabs">Scrolling Tabs</a><br />
           <a href="#fixedHeight">Fixed Height</a><br />
+          <a href="#persistentState">Persistent State</a><br />
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
           <a href="#requirements">Requirements</a><br />
@@ -643,6 +644,30 @@
       </div>
     </div>
 
+    <h3 id="persistentState"><a href="#persistentState" class="no-link">Persistent State</a></h3>
+    <p>Use the <code>persistent-id</code> attribute to automatically save and restore the active tab to browser localStorage. When the component is reloaded, it will restore the previously active tab.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tabs</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">"userPreferences"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tab</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"account"</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">k-tab</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tab</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"settings"</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">k-tab</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tab-content</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"account"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Account settings content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-tab-content</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tab-content</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"settings"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>General settings content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-tab-content</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-tabs</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-tabs persistent-id="tabsPersistentExample">
+            <k-tab for="account">Account</k-tab>
+            <k-tab for="settings">Settings</k-tab>
+            <k-tab-content name="account">
+              <p>Account settings content</p>
+            </k-tab-content>
+            <k-tab-content name="settings">
+              <p>General settings content</p>
+            </k-tab-content>
+          </k-tabs>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
     <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
@@ -658,6 +683,8 @@
     <p>The name of the active tab. Syncs to <code>active</code> attribute.</p>
     <h5><code>fixedHeight<i>: boolean</i></code></h5>
     <p>Whether the tabs component uses fixed height mode. Syncs to <code>fixed-height</code> attribute.</p>
+    <h5><code>persistentId<i>: string</i></code></h5>
+    <p>A unique identifier for persisting the active tab state to localStorage. When set, the component will save the active tab name and restore it on reload. Syncs to <code>persistent-id</code> attribute.</p>
     <h5><code>contents<i>: TabContent[]</i></code></h5>
     <p>Returns an array of all tab content elements.</p>
     <h5><code>tabs<i>: Tab[]</i></code></h5>
@@ -680,6 +707,8 @@
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
     <h5><code>tab</code></h5>
     <p>Fired when the active tab changes. Detail contains <code>{ tab }</code> with the name of the new active tab.</p>
+    <h5><code>restored</code></h5>
+    <p>Fired when the active tab is restored from persistent localStorage. Detail contains <code>{ tab }</code> with the name of the restored active tab. Only fires when <code>persistent-id</code> is set and a stored value is found.</p>
   
   </k-main>
   <div style="height:33vh"></div>
