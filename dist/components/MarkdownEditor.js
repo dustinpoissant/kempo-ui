@@ -77,9 +77,6 @@ import{html as t,css as e,nothing as i}from"../lit-all.min.js";import s from"./S
       display: flex;
       flex-direction: column;
     }
-    k-tab-content {
-      --spacer: 0;
-    }
     k-tab-content[active] {
       display: flex;
       flex-direction: column;
@@ -103,8 +100,6 @@ import{html as t,css as e,nothing as i}from"../lit-all.min.js";import s from"./S
       scrollbar-width: thin;
       resize: none;
     }
-    .preview > :first-child { margin-top: 0; }
-    .preview > :last-child { margin-bottom: 0; }
     .preview-empty {
       color: var(--tc_muted);
       font-style: italic;

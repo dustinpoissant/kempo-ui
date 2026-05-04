@@ -530,9 +530,6 @@ export default class MarkdownEditor extends ShadowComponent {
       display: flex;
       flex-direction: column;
     }
-    k-tab-content {
-      --spacer: 0;
-    }
     k-tab-content[active] {
       display: flex;
       flex-direction: column;
@@ -556,8 +553,6 @@ export default class MarkdownEditor extends ShadowComponent {
       scrollbar-width: thin;
       resize: none;
     }
-    .preview > :first-child { margin-top: 0; }
-    .preview > :last-child { margin-bottom: 0; }
     .preview-empty {
       color: var(--tc_muted);
       font-style: italic;
