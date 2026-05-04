@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **Tabs component**: `persistent-id` attribute for storing/restoring active tab state
+  - New `persistentId` property (String type, reflects to `persistent-id` attribute)
+  - Active tab state is automatically saved to localStorage when it changes
+  - Previously active tab is automatically restored on page load
+  - Fires `restored` event when state is restored from localStorage
+  - Fires `tab` event on both manual change and state restoration
+  - Supports multiple Tabs components with different `persistent-id` values for independent state management
+  - Safe fallback when localStorage is unavailable
+  - New unit test suite with 6 test cases covering all persistence scenarios
 
 ## [0.4.12] - 2026-05-03
 ### Added

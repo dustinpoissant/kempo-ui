@@ -843,5 +843,267 @@ export default {
 
 		cleanup(container);
 		pass('TabSpacer has flex grow');
+	},
+
+	'persistent-id: should save active tab to localStorage': async ({pass, fail}) => {
+		const id = 'test-tabs-save-' + Date.now();
+		const key = `tabs-persistent-id-${id}`;
+		window.localStorage.removeItem(key);
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs persistent-id="${id}">
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab for="tab3" slot="tabs">Tab 3</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+				<k-tab-content name="tab3">Content 3</k-tab-content>
+			</k-tabs>
+		`;
+		document.body.appendChild(container);
+
+		const tabs = container.querySelector('k-tabs');
+		await tabs.updateComplete;
+
+		tabs.active = 'tab2';
+		await tabs.updateComplete;
+
+		const stored = window.localStorage.getItem(key);
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(stored !== 'tab2'){
+			fail(`Expected localStorage to contain "tab2", got "${stored}"`);
+			return;
+		}
+
+		pass('Active tab saved to localStorage');
+	},
+
+	'persistent-id: should restore active tab from localStorage': async ({pass, fail}) => {
+		const id = 'test-tabs-restore-' + Date.now();
+		const key = `tabs-persistent-id-${id}`;
+		window.localStorage.setItem(key, 'tab3');
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs persistent-id="${id}">
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab for="tab3" slot="tabs">Tab 3</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+				<k-tab-content name="tab3">Content 3</k-tab-content>
+			</k-tabs>
+		`;
+		document.body.appendChild(container);
+
+		const tabs = container.querySelector('k-tabs');
+		await tabs.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		const tab1 = tabs.querySelector('k-tab[for="tab1"]');
+		const tab2 = tabs.querySelector('k-tab[for="tab2"]');
+		const tab3 = tabs.querySelector('k-tab[for="tab3"]');
+		const content1 = tabs.querySelector('k-tab-content[name="tab1"]');
+		const content2 = tabs.querySelector('k-tab-content[name="tab2"]');
+		const content3 = tabs.querySelector('k-tab-content[name="tab3"]');
+
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(tabs.active !== 'tab3'){
+			fail(`Expected active to be "tab3", got "${tabs.active}"`);
+			return;
+		}
+		if(!tab3.active || content3.active){
+			fail('tab3 should be active (restored from localStorage)');
+			return;
+		}
+		if(tab1.active || tab2.active || content1.active || content2.active){
+			fail('tab1 and tab2 should not be active');
+			return;
+		}
+
+		pass('Active tab restored from localStorage');
+	},
+
+	'persistent-id: should fire restored event when state is restored': async ({pass, fail}) => {
+		const id = 'test-tabs-event-' + Date.now();
+		const key = `tabs-persistent-id-${id}`;
+		window.localStorage.setItem(key, 'tab2');
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs persistent-id="${id}">
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+			</k-tabs>
+		`;
+		document.body.appendChild(container);
+
+		const tabs = container.querySelector('k-tabs');
+		let restoredFired = false;
+		let restoredDetail = null;
+
+		tabs.addEventListener('restored', (e) => {
+			restoredFired = true;
+			restoredDetail = e.detail;
+		});
+
+		await tabs.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(!restoredFired){
+			fail('restored event should be fired');
+			return;
+		}
+		if(!restoredDetail || restoredDetail.tab !== 'tab2'){
+			fail(`Expected restored event detail to contain tab: "tab2", got ${JSON.stringify(restoredDetail)}`);
+			return;
+		}
+
+		pass('restored event fired with correct detail');
+	},
+
+	'persistent-id: should fire tab event when restored': async ({pass, fail}) => {
+		const id = 'test-tabs-tab-event-' + Date.now();
+		const key = `tabs-persistent-id-${id}`;
+		window.localStorage.setItem(key, 'tab2');
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs persistent-id="${id}">
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+			</k-tabs>
+		`;
+		document.body.appendChild(container);
+
+		const tabs = container.querySelector('k-tabs');
+		let tabEventFired = false;
+		let tabDetail = null;
+
+		tabs.addEventListener('tab', (e) => {
+			tabEventFired = true;
+			tabDetail = e.detail;
+		});
+
+		await tabs.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(!tabEventFired){
+			fail('tab event should be fired on restoration');
+			return;
+		}
+		if(!tabDetail || tabDetail.tab !== 'tab2'){
+			fail(`Expected tab event detail to contain tab: "tab2", got ${JSON.stringify(tabDetail)}`);
+			return;
+		}
+
+		pass('tab event fired on restoration with correct detail');
+	},
+
+	'persistent-id: should handle missing localStorage gracefully': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs persistent-id="test">
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+			</k-tabs>
+		`;
+		document.body.appendChild(container);
+
+		const tabs = container.querySelector('k-tabs');
+		const originalLocalStorage = window.localStorage;
+
+		try {
+			Object.defineProperty(window, 'localStorage', {
+				value: null,
+				configurable: true
+			});
+
+			tabs.active = 'tab2';
+			await tabs.updateComplete;
+
+			window.Object.defineProperty(window, 'localStorage', {
+				value: originalLocalStorage,
+				configurable: true
+			});
+
+			cleanup(container);
+			pass('Handles missing localStorage gracefully');
+		} catch(e){
+			window.Object.defineProperty(window, 'localStorage', {
+				value: originalLocalStorage,
+				configurable: true
+			});
+			cleanup(container);
+			fail(`Should not throw error when localStorage is unavailable: ${e.message}`);
+		}
+	},
+
+	'persistent-id: should maintain separate states for different ids': async ({pass, fail}) => {
+		const id1 = 'test-tabs-id1-' + Date.now();
+		const id2 = 'test-tabs-id2-' + Date.now();
+		const key1 = `tabs-persistent-id-${id1}`;
+		const key2 = `tabs-persistent-id-${id2}`;
+
+		window.localStorage.setItem(key1, 'tab1');
+		window.localStorage.setItem(key2, 'tab2');
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<div>
+				<k-tabs persistent-id="${id1}">
+					<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+					<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+					<k-tab-content name="tab1">Content 1</k-tab-content>
+					<k-tab-content name="tab2">Content 2</k-tab-content>
+				</k-tabs>
+				<k-tabs persistent-id="${id2}">
+					<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+					<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+					<k-tab-content name="tab1">Content 1</k-tab-content>
+					<k-tab-content name="tab2">Content 2</k-tab-content>
+				</k-tabs>
+			</div>
+		`;
+		document.body.appendChild(container);
+
+		const tabs1 = container.querySelectorAll('k-tabs')[0];
+		const tabs2 = container.querySelectorAll('k-tabs')[1];
+
+		await tabs1.updateComplete;
+		await tabs2.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		window.localStorage.removeItem(key1);
+		window.localStorage.removeItem(key2);
+		cleanup(container);
+
+		if(tabs1.active !== 'tab1'){
+			fail(`tabs1 should have active "tab1", got "${tabs1.active}"`);
+			return;
+		}
+		if(tabs2.active !== 'tab2'){
+			fail(`tabs2 should have active "tab2", got "${tabs2.active}"`);
+			return;
+		}
+
+		pass('Separate persistent-id instances maintain separate states');
 	}
 };

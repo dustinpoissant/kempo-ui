@@ -8,13 +8,15 @@ import { boolExists } from '../utils/propConverters.js';
 export class Tabs extends ShadowComponent {
 	static properties = {
 		active: { type: String, reflect: true },
-		fixedHeight: { type: Boolean, reflect: true, attribute: 'fixed-height', converter: boolExists }
+		fixedHeight: { type: Boolean, reflect: true, attribute: 'fixed-height', converter: boolExists },
+		persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
 	};
 
 	constructor() {
 		super();
 		this.active = '';
 		this.fixedHeight = false;
+		this.persistentId = null;
 	}
 
 	/*
@@ -38,6 +40,19 @@ export class Tabs extends ShadowComponent {
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
+		
+		if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
+			const key = `tabs-persistent-id-${this.persistentId}`;
+			const value = window.localStorage.getItem(key);
+			if(value !== null) {
+				this.active = value;
+				this.updateActiveElements();
+				this.dispatchEvent(new CustomEvent('restored', {
+					detail: { tab: value },
+					bubbles: true
+				}));
+			}
+		}
 		
 		if(changedProperties.has('active')) {
 			this.updateActiveElements();
@@ -96,6 +111,12 @@ export class Tabs extends ShadowComponent {
 			detail: { tab: this.active },
 			bubbles: true
 		}));
+
+		// Save state if persistentId is set
+		if(this.persistentId && window?.localStorage) {
+			const key = `tabs-persistent-id-${this.persistentId}`;
+			window.localStorage.setItem(key, this.active);
+		}
 	}
 
 	get contents() {
