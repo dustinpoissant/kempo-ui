@@ -4,7 +4,7 @@ import t from"./PaginationControl.js";import{html as e}from"../../lit-all.min.js
         title="First Page"
         aria-label="First Page"
         ?disabled=${i}
-        @click=${()=>t?.setPage(1)}
+        @click=${()=>{t&&(t.page=1)}}
       >
         <k-icon name="chevron-line" direction="left"></k-icon>
       </button>

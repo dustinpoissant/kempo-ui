@@ -4,7 +4,7 @@ import t from"./PaginationControl.js";import{html as e}from"../../lit-all.min.js
         title="Last Page"
         aria-label="Last Page"
         ?disabled=${a}
-        @click=${()=>t?.setPage(t.totalPages)}
+        @click=${()=>{t&&(t.page=t.totalPages)}}
       >
         <k-icon name="chevron-line"></k-icon>
       </button>
