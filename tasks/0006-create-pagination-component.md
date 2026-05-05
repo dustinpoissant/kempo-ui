@@ -19,11 +19,13 @@ No pagination component exists yet. Pagination functionality is not available to
 A new Pagination component should be created that:
 - Acts as a UI interface component placed under content
 - Does not manage the actual content being paginated
-- Accepts attributes for total number of items, tems per page, and `page` the current page number.
+- Accepts attributes for total number of items, items per page, and current page number
 - Calculates total number of pages from total items and items per page
 - Displays and tracks the current page number
-- Exposes public methods: `setPage(pageNumber)`, `nextPage()`, `previousPage()`
-- Emits custom events when page changes so parent content can listen and update
+- Exposes public methods: `nextPage()`, `previousPage()`
+- Allows direct page assignment via the `page` property with automatic clamping
+- Emits `page-change` event when the user navigates to a different page
+- Emits `items-per-page-change` event when the items-per-page configuration changes
 - Has separate control components for common pagination controls (like HtmlEditor pattern)
 - Includes preconfigured control variants for common use cases
 
@@ -42,13 +44,15 @@ A new Pagination component should be created that:
 
 1. Set up the Pagination component using the component-setup skill
 2. Implement the base Pagination component with:
-   - Attributes: `totalItems` (total number of items) and `itemsPerPage` (items per page)
-   - Getter properties: `currentPage` and `totalPages` (calculated from totalItems and itemsPerPage)
+   - Attributes: `totalItems` (total number of items), `itemsPerPage` (items per page), and `page` (current page)
+   - Getter properties: `totalPages` (calculated from totalItems and itemsPerPage)
+   - `page` property with automatic clamping to [1, totalPages] range
    - Internal tracking of current page (default to page 1)
    - Display of page information (e.g., "Page 3 of 10")
-   - Public methods: `setPage(pageNumber)`, `nextPage()`, `previousPage()`
-   - Event emission on page changes with event details
-   - Navigation buttons (previous, next) with appropriate disabled states
+   - Public methods: `nextPage()`, `previousPage()` (automatically clamped)
+   - `page-change` event emission when user navigates (not fired on auto-resets)
+   - `items-per-page-change` event emission when items-per-page changes
+   - Event detail includes full pagination state
 3. Create pagination control component variants following the HtmlEditor control pattern
 4. Create preconfigured pagination control combinations
 5. Write component tests covering all functionality
@@ -58,10 +62,12 @@ A new Pagination component should be created that:
 ## Testing / Validation Plan
 
 - Verify component renders correctly with various page counts and items per page values
-- Test `setPage()` method sets the correct page and emits event
+- Test direct page assignment (`el.page = n`) sets the correct page with automatic clamping
 - Test `nextPage()` increments page and disables when at last page
 - Test `previousPage()` decrements page and disables when at first page
-- Verify events are properly emitted on all page changes
+- Verify `page-change` event fires only when user navigates (not on auto-resets)
+- Verify `items-per-page-change` event fires when itemsPerPage changes
+- Verify event details include full pagination state
 - Verify control components render and function correctly
 - Verify preconfigured controls work as expected
 - Test with browser DevTools to confirm no console errors
@@ -79,7 +85,7 @@ A new Pagination component should be created that:
 
 ##### setPage() sets the correct page and emits event
 
-**PASS.** Tested via unit tests (all 2153 pass) and interactively in the live demo. `setPage()` navigates to the given page, clamps out-of-range values, and fires `page-change` only when the page actually changes. The event detail includes `{ currentPage, totalPages, itemsPerPage, totalItems }`.
+**PASS.** The `page` property can be set directly (e.g. `el.page = 3`) and automatically clamps out-of-range values to [1, totalPages]. The `page-change` event fires only when the page actually changes (not during auto-resets). The event detail includes `{ currentPage, totalPages, itemsPerPage, totalItems }`.
 
 ##### nextPage() increments page and disables when at last page
 
@@ -95,7 +101,7 @@ A new Pagination component should be created that:
 
 ##### Events are properly emitted on all page changes
 
-**PASS.** The live demo re-renders cards on every `page-change` event. Unit tests verify the event fires on `setPage()`, `nextPage()`, `previousPage()`, and `itemsPerPage` changes, and does NOT fire when the page doesn't change.
+**PASS.** The `page-change` event fires when the user navigates (via direct page assignment, `nextPage()`, or `previousPage()`), but NOT when the page auto-resets due to configuration changes. The `items-per-page-change` event fires when `itemsPerPage` changes. The live demo re-renders cards on every `page-change` event. Unit tests (all 2157 pass) verify both events fire correctly and do NOT fire inappropriately.
 
 ##### Control components render and function correctly
 
@@ -113,12 +119,12 @@ A new Pagination component should be created that:
 
 ##### Unit tests
 
-**PASS.** All 2153 tests pass (includes 22 new Pagination-specific tests).
+**PASS.** All 2157 tests pass (includes 25+ Pagination-specific tests covering page navigation, clamping, direct assignment, event separation, and control rendering).
 
 ```
 === Test Summary ====
-Total Tests: 2153
-Passed: 2153
+Total Tests: 2157
+Passed: 2157
 Failed: 0
 
 All tests passed!
