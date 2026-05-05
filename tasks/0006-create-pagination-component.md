@@ -19,10 +19,9 @@ No pagination component exists yet. Pagination functionality is not available to
 A new Pagination component should be created that:
 - Acts as a UI interface component placed under content
 - Does not manage the actual content being paginated
-- Accepts attributes for total number of items and items per page
+- Accepts attributes for total number of items, tems per page, and `page` the current page number.
 - Calculates total number of pages from total items and items per page
 - Displays and tracks the current page number
-- Exposes getter properties: `currentPage` and `totalPages`
 - Exposes public methods: `setPage(pageNumber)`, `nextPage()`, `previousPage()`
 - Emits custom events when page changes so parent content can listen and update
 - Has separate control components for common pagination controls (like HtmlEditor pattern)

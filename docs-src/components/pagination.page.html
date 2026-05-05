@@ -24,7 +24,7 @@
     </k-accordion-panel>
     </k-accordion>
 
-    <p>A pagination interface component that tracks the current page, calculates total pages from <code>total-items</code> and <code>items-per-page</code>, and emits a <code>page-change</code> event when the page changes. It does not manage or render the paginated content &mdash; it is a pure navigation interface. Place it beneath your content and listen for <code>page-change</code> to know when to load new content.</p>
+    <p>A pagination interface component that tracks the current page, calculates total pages from <code>total-items</code> and <code>items-per-page</code>, and emits <code>page-change</code> and <code>items-per-page-change</code> events when the pagination state changes. It does not manage or render the paginated content &mdash; it is a pure navigation interface. Place it beneath your content and listen for these events to know when to load new content.</p>
     <p>Toolbar controls are slotted in &mdash; mix and match the built-in controls listed below, or write your own by extending <code>PaginationControl</code>. Use the <code>controls</code> attribute for preconfigured sets.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
@@ -153,7 +153,7 @@
     </div>
 
     <h3 id="eventsExample"><a href="#eventsExample" class="no-link">Live Demo</a></h3>
-    <p>Listen for <code>page-change</code> to re-render content whenever the user navigates. The event <code>detail</code> carries the full pagination state so your content layer knows exactly which slice to show.</p>
+    <p>Listen for <code>page-change</code> to re-render content whenever the user navigates, and <code>items-per-page-change</code> to handle items-per-page updates. The event <code>detail</code> carries the full pagination state so your content layer knows exactly which slice to show.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
@@ -218,7 +218,7 @@
             <td><code>itemsPerPage</code> / <code>items-per-page</code></td>
             <td>Number</td>
             <td><code>10</code></td>
-            <td>Number of items shown per page. Changing this resets the current page to 1 and fires <code>page-change</code>.</td>
+            <td>Number of items shown per page. Changing this resets the current page to 1 and fires <code>items-per-page-change</code>.</td>
           </tr>
           <tr>
             <td><code>controls</code></td>
@@ -278,7 +278,12 @@
           <tr>
             <td><code>page-change</code></td>
             <td><code>{ currentPage, totalPages, itemsPerPage, totalItems }</code></td>
-            <td>Fired when the current page changes (directly via <code>.page</code>, <code>nextPage()</code>, or <code>previousPage()</code>) and also when <code>itemsPerPage</code> changes (which resets to page 1).</td>
+            <td>Fired when the current page changes (directly via <code>.page</code>, <code>nextPage()</code>, or <code>previousPage()</code>). Not fired when the page auto-resets due to configuration changes.</td>
+          </tr>
+          <tr>
+            <td><code>items-per-page-change</code></td>
+            <td><code>{ itemsPerPage, totalPages, totalItems }</code></td>
+            <td>Fired when <code>itemsPerPage</code> changes (which resets the current page to 1).</td>
           </tr>
         </tbody>
       </table>

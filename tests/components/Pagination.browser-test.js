@@ -286,20 +286,20 @@ export default {
 		pass('currentPage resets to 1 when itemsPerPage changes');
 	},
 
-	'should fire page-change when itemsPerPage changes': async ({pass, fail}) => {
+	'should fire items-per-page-change when itemsPerPage changes': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.page = 5;
 		await el.updateComplete;
 		let fired = false;
-		el.addEventListener('page-change', () => { fired = true; });
+		el.addEventListener('items-per-page-change', () => { fired = true; });
 		el.itemsPerPage = 25;
 		await el.updateComplete;
 		if(!fired){
 			cleanup(container);
-			return fail('page-change should fire when itemsPerPage changes');
+			return fail('items-per-page-change should fire when itemsPerPage changes');
 		}
 		cleanup(container);
-		pass('page-change fires when itemsPerPage changes');
+		pass('items-per-page-change fires when itemsPerPage changes');
 	},
 
 	/*

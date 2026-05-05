@@ -79,11 +79,10 @@ export default class Pagination extends ShadowComponent {
     }
     this[autoPageReset] = false;
     if(changedProperties.has('itemsPerPage') && changedProperties.get('itemsPerPage') !== undefined){
-      this.dispatchEvent(new CustomEvent('page-change', {
+      this.dispatchEvent(new CustomEvent('items-per-page-change', {
         detail: {
-          currentPage: this.page,
-          totalPages: this.totalPages,
           itemsPerPage: this.itemsPerPage,
+          totalPages: this.totalPages,
           totalItems: this.totalItems
         },
         bubbles: true
