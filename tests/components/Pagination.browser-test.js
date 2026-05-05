@@ -71,6 +71,24 @@ export default {
 		pass('page attribute sets initial currentPage');
 	},
 
+	'should clamp page when set directly out of range': async ({pass, fail}) => {
+		const { container, el } = await createPagination({ 'total-items': 100 });
+		el.page = 999;
+		await el.updateComplete;
+		if(el.page !== 10){
+			cleanup(container);
+			return fail(`Expected page to clamp to 10, got ${el.page}`);
+		}
+		el.page = -5;
+		await el.updateComplete;
+		if(el.page !== 1){
+			cleanup(container);
+			return fail(`Expected page to clamp to 1, got ${el.page}`);
+		}
+		cleanup(container);
+		pass('direct page assignment clamps to valid range');
+	},
+
 	'should default itemsPerPage to 10': async ({pass, fail}) => {
 		const { container, el } = await createPagination();
 		if(el.itemsPerPage !== 10){
@@ -127,44 +145,47 @@ export default {
 	/*
 		setPage
 	*/
-	'should setPage to a specific page': async ({pass, fail}) => {
+	'should navigate to a specific page': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(5);
+		el.page = 5;
+		await el.updateComplete;
 		if(el.page !== 5){
 			cleanup(container);
-			return fail(`Expected currentPage to be 5 after setPage(5), got ${el.page}`);
+			return fail(`Expected page to be 5, got ${el.page}`);
 		}
 		cleanup(container);
-		pass('setPage navigates to given page');
+		pass('page assignment navigates to given page');
 	},
 
-	'should clamp setPage to totalPages': async ({pass, fail}) => {
+	'should clamp page to totalPages': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(100);
+		el.page = 100;
+		await el.updateComplete;
 		if(el.page !== 10){
 			cleanup(container);
-			return fail(`Expected currentPage to be clamped to 10, got ${el.page}`);
+			return fail(`Expected page to be clamped to 10, got ${el.page}`);
 		}
 		cleanup(container);
-		pass('setPage clamps to totalPages');
+		pass('page clamps to totalPages');
 	},
 
-	'should clamp setPage to 1 at minimum': async ({pass, fail}) => {
+	'should clamp page to 1 at minimum': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(-5);
+		el.page = -5;
+		await el.updateComplete;
 		if(el.page !== 1){
 			cleanup(container);
-			return fail(`Expected currentPage to be clamped to 1, got ${el.page}`);
+			return fail(`Expected page to be clamped to 1, got ${el.page}`);
 		}
 		cleanup(container);
-		pass('setPage clamps to 1 at minimum');
+		pass('page clamps to 1 at minimum');
 	},
 
 	'should not fire page-change event if page did not change': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		let fired = false;
 		el.addEventListener('page-change', () => { fired = true; });
-		el.setPage(1);
+		el.page = 1;
 		if(fired){
 			cleanup(container);
 			return fail('page-change should not fire when page is already 1');
@@ -177,7 +198,8 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		let eventDetail = null;
 		el.addEventListener('page-change', (e) => { eventDetail = e.detail; });
-		el.setPage(3);
+		el.page = 3;
+		await el.updateComplete;
 		if(!eventDetail){
 			cleanup(container);
 			return fail('page-change event should have fired');
@@ -195,8 +217,10 @@ export default {
 	*/
 	'should nextPage increment current page': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(3);
+		el.page = 3;
+		await el.updateComplete;
 		el.nextPage();
+		await el.updateComplete;
 		if(el.page !== 4){
 			cleanup(container);
 			return fail(`Expected currentPage to be 4 after nextPage, got ${el.page}`);
@@ -207,8 +231,10 @@ export default {
 
 	'should nextPage not exceed totalPages': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(10);
+		el.page = 10;
+		await el.updateComplete;
 		el.nextPage();
+		await el.updateComplete;
 		if(el.page !== 10){
 			cleanup(container);
 			return fail(`Expected currentPage to stay at 10 on last page, got ${el.page}`);
@@ -219,8 +245,10 @@ export default {
 
 	'should previousPage decrement current page': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(5);
+		el.page = 5;
+		await el.updateComplete;
 		el.previousPage();
+		await el.updateComplete;
 		if(el.page !== 4){
 			cleanup(container);
 			return fail(`Expected currentPage to be 4 after previousPage, got ${el.page}`);
@@ -232,6 +260,7 @@ export default {
 	'should previousPage not go below 1': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.previousPage();
+		await el.updateComplete;
 		if(el.page !== 1){
 			cleanup(container);
 			return fail(`Expected currentPage to stay at 1 when on first page, got ${el.page}`);
@@ -245,7 +274,7 @@ export default {
 	*/
 	'should reset to page 1 when itemsPerPage changes': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(5);
+		el.page = 5;
 		await el.updateComplete;
 		el.itemsPerPage = 25;
 		await el.updateComplete;
@@ -259,7 +288,7 @@ export default {
 
 	'should fire page-change when itemsPerPage changes': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(5);
+		el.page = 5;
 		await el.updateComplete;
 		let fired = false;
 		el.addEventListener('page-change', () => { fired = true; });
@@ -278,7 +307,7 @@ export default {
 	*/
 	'should clamp page when totalItems decreases': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.setPage(10);
+		el.page = 10;
 		await el.updateComplete;
 		el.totalItems = 30;
 		await el.updateComplete;
@@ -332,7 +361,8 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 100, 'items-per-page': 10 });
 		let detail = null;
 		el.addEventListener('page-change', (e) => { detail = e.detail; });
-		el.setPage(3);
+		el.page = 3;
+		await el.updateComplete;
 		if(!detail || detail.currentPage !== 3 || detail.totalPages !== 10 || detail.itemsPerPage !== 10 || detail.totalItems !== 100){
 			cleanup(container);
 			return fail(`page-change detail is incomplete or incorrect: ${JSON.stringify(detail)}`);
@@ -341,4 +371,5 @@ export default {
 		pass('page-change detail contains full pagination state');
 	}
 };
+
 

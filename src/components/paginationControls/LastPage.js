@@ -12,7 +12,7 @@ export default class PaginationLastPage extends PaginationControl {
         title="Last Page"
         aria-label="Last Page"
         ?disabled=${disabled}
-        @click=${() => pg?.setPage(pg.totalPages)}
+        @click=${() => { if(pg) pg.page = pg.totalPages; }}
       >
         <k-icon name="chevron-line"></k-icon>
       </button>

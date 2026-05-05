@@ -230,7 +230,7 @@
             <td><code>page</code></td>
             <td>Number</td>
             <td><code>1</code></td>
-            <td>The current page number. Can be set via attribute to start on a specific page. Use <code>setPage()</code>, <code>nextPage()</code>, or <code>previousPage()</code> to change it programmatically.</td>
+            <td>The current page number. Reflects to the <code>page</code> attribute. Set directly (<code>el.page = 3</code>) or via attribute; value is automatically clamped to <code>[1, totalPages]</code>.</td>
           </tr>
           <tr>
             <td><code>totalPages</code> <em>(readonly)</em></td>
@@ -252,10 +252,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>setPage(pageNumber)</code></td>
-            <td>Navigate to the given page number. Clamped to <code>[1, totalPages]</code>. Fires <code>page-change</code> if the page changed.</td>
-          </tr>
           <tr>
             <td><code>nextPage()</code></td>
             <td>Advance to the next page. No-op when already on the last page.</td>
@@ -282,7 +278,7 @@
           <tr>
             <td><code>page-change</code></td>
             <td><code>{ currentPage, totalPages, itemsPerPage, totalItems }</code></td>
-            <td>Fired when the current page changes via <code>setPage()</code>, <code>nextPage()</code>, or <code>previousPage()</code>, and also when <code>itemsPerPage</code> changes (which resets to page 1).</td>
+            <td>Fired when the current page changes (directly via <code>.page</code>, <code>nextPage()</code>, or <code>previousPage()</code>) and also when <code>itemsPerPage</code> changes (which resets to page 1).</td>
           </tr>
         </tbody>
       </table>

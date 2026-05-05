@@ -6,7 +6,7 @@ export default class PaginationGotoPage extends PaginationControl {
     Event Handlers
   */
   handleChange = (e) => {
-    this.pagination?.setPage(parseInt(e.target.value, 10));
+    if(this.pagination) this.pagination.page = parseInt(e.target.value, 10);
   };
 
   /*

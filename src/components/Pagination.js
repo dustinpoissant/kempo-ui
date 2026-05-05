@@ -3,7 +3,6 @@ import ShadowComponent from './ShadowComponent.js';
 
 const controlsLoaded = Symbol();
 const autoPageReset = Symbol();
-const manualPageSet = Symbol();
 
 export default class Pagination extends ShadowComponent {
   /*
@@ -59,11 +58,15 @@ export default class Pagination extends ShadowComponent {
         this.page = maxPage;
       }
     }
+    if(changedProperties.has('page') && !this[autoPageReset]){
+      const clamped = Math.max(1, Math.min(this.page, this.totalPages));
+      if(clamped !== this.page) this.page = clamped;
+    }
   }
 
   updated(changedProperties) {
     super.updated(changedProperties);
-    if(changedProperties.has('page') && changedProperties.get('page') !== undefined && !this[manualPageSet] && !this[autoPageReset]){
+    if(changedProperties.has('page') && changedProperties.get('page') !== undefined && !this[autoPageReset]){
       this.dispatchEvent(new CustomEvent('page-change', {
         detail: {
           currentPage: this.page,
@@ -74,7 +77,6 @@ export default class Pagination extends ShadowComponent {
         bubbles: true
       }));
     }
-    this[manualPageSet] = false;
     this[autoPageReset] = false;
     if(changedProperties.has('itemsPerPage') && changedProperties.get('itemsPerPage') !== undefined){
       this.dispatchEvent(new CustomEvent('page-change', {
@@ -103,28 +105,12 @@ export default class Pagination extends ShadowComponent {
   /*
     Public Methods
   */
-  setPage(pageNumber) {
-    const clamped = Math.max(1, Math.min(pageNumber, this.totalPages));
-    if(clamped === this.page) return;
-    this[manualPageSet] = true;
-    this.page = clamped;
-    this.dispatchEvent(new CustomEvent('page-change', {
-      detail: {
-        currentPage: this.page,
-        totalPages: this.totalPages,
-        itemsPerPage: this.itemsPerPage,
-        totalItems: this.totalItems
-      },
-      bubbles: true
-    }));
-  }
-
   nextPage() {
-    this.setPage(this.page + 1);
+    this.page = this.page + 1;
   }
 
   previousPage() {
-    this.setPage(this.page - 1);
+    this.page = this.page - 1;
   }
 
   /*

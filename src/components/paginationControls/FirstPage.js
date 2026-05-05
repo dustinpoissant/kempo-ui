@@ -12,7 +12,7 @@ export default class PaginationFirstPage extends PaginationControl {
         title="First Page"
         aria-label="First Page"
         ?disabled=${disabled}
-        @click=${() => pg?.setPage(1)}
+        @click=${() => { if(pg) pg.page = 1; }}
       >
         <k-icon name="chevron-line" direction="left"></k-icon>
       </button>
