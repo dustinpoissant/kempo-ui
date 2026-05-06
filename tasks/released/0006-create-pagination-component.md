@@ -1,6 +1,6 @@
 # 0006 - Create Pagination Component
 
-## Status: Release
+## Status: Complete
 
 ## Dependency
 None

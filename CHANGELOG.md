@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+
+## [0.4.19] - 2026-05-06
 ### Added
 - **Pagination component** (`<k-pagination>`): Full-featured pagination with composable control sub-components
   - `page` attribute reflects and controls the current page number (defaults to 1)
