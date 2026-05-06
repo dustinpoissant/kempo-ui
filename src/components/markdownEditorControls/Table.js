@@ -2,6 +2,7 @@ import MarkdownEditorControl from './MarkdownEditorControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 import '../Dropdown.js';
+import { bound } from '../../utils/number.js';
 
 /*
   Table control. Opens a small dropdown with two number inputs (cols × rows)
@@ -55,7 +56,7 @@ export default class MarkdownTable extends MarkdownEditorControl {
   #clamp(raw, min, max) {
     const n = parseInt(raw, 10);
     if(!Number.isFinite(n)) return 0;
-    return Math.max(min, Math.min(max, n));
+    return bound(n, min, max);
   }
 
   #buildTable(cols, rows) {

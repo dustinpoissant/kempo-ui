@@ -274,32 +274,57 @@ export default {
 	*/
 	'should reset to page 1 when itemsPerPage changes': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
-		el.page = 5;
+		el.page = 1;
 		await el.updateComplete;
 		el.itemsPerPage = 25;
 		await el.updateComplete;
 		if(el.page !== 1){
 			cleanup(container);
-			return fail(`Expected currentPage to reset to 1 when itemsPerPage changes, got ${el.page}`);
+			return fail(`Expected page to stay at 1 when itemsPerPage changes from page 1, got ${el.page}`);
 		}
 		cleanup(container);
-		pass('currentPage resets to 1 when itemsPerPage changes');
+		pass('page stays at 1 when changing itemsPerPage from page 1');
 	},
 
-	'should fire items-per-page-change when itemsPerPage changes': async ({pass, fail}) => {
+	'should adjust page when itemsPerPage changes': async ({pass, fail}) => {
 		const { container, el } = await createPagination({ 'total-items': 100 });
 		el.page = 5;
 		await el.updateComplete;
-		let fired = false;
-		el.addEventListener('items-per-page-change', () => { fired = true; });
+		let eventFired = false;
+		let eventDetail = null;
+		el.addEventListener('page-change', (e) => { eventFired = true; eventDetail = e.detail; });
 		el.itemsPerPage = 25;
 		await el.updateComplete;
-		if(!fired){
+		if(!eventFired){
 			cleanup(container);
-			return fail('items-per-page-change should fire when itemsPerPage changes');
+			return fail('page-change should fire when itemsPerPage changes and page adjusts');
+		}
+		if(el.page !== eventDetail.currentPage){
+			cleanup(container);
+			return fail(`page should be ${eventDetail.currentPage}, got ${el.page}`);
 		}
 		cleanup(container);
-		pass('items-per-page-change fires when itemsPerPage changes');
+		pass('page adjusts and page-change fires when itemsPerPage changes');
+	},
+
+	'should keep same first item on page when itemsPerPage changes': async ({pass, fail}) => {
+		const { container, el } = await createPagination({ 'total-items': 100, 'items-per-page': 10 });
+		el.page = 2;
+		await el.updateComplete;
+		const firstItemOldSize = (el.page - 1) * 10 + 1;
+		if(firstItemOldSize !== 11){
+			cleanup(container);
+			return fail(`Expected first item to be 11, got ${firstItemOldSize}`);
+		}
+		el.itemsPerPage = 5;
+		await el.updateComplete;
+		const firstItemNewSize = (el.page - 1) * 5 + 1;
+		if(firstItemNewSize !== 11){
+			cleanup(container);
+			return fail(`Expected first item to still be 11 after size change, but got ${firstItemNewSize} on page ${el.page}`);
+		}
+		cleanup(container);
+		pass('User stays viewing the same first item when itemsPerPage changes');
 	},
 
 	/*
@@ -369,6 +394,84 @@ export default {
 		}
 		cleanup(container);
 		pass('page-change detail contains full pagination state');
+	},
+
+	/*
+		Control Module Loading
+	*/
+	'should only load modules defined in the simple control set': async ({pass, fail}) => {
+		const savedSet = Pagination.loadedModules;
+		Pagination.loadedModules = new Set();
+		const { container, el } = await createPagination({ controls: 'simple', 'total-items': 100 });
+		const loaded = new Set(Pagination.loadedModules);
+		Pagination.loadedModules = savedSet;
+		cleanup(container);
+		const expected = new Set(Pagination.controlModules.simple);
+		const extra = [...loaded].filter(m => !expected.has(m));
+		const missing = [...expected].filter(m => !loaded.has(m));
+		if(extra.length || missing.length)
+			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
+		pass('Only simple preset modules were loaded');
+	},
+
+	'should only load modules defined in the full control set': async ({pass, fail}) => {
+		const savedSet = Pagination.loadedModules;
+		Pagination.loadedModules = new Set();
+		const { container, el } = await createPagination({ controls: 'full', 'total-items': 100 });
+		const loaded = new Set(Pagination.loadedModules);
+		Pagination.loadedModules = savedSet;
+		cleanup(container);
+		const expected = new Set(Pagination.controlModules.full);
+		const extra = [...loaded].filter(m => !expected.has(m));
+		const missing = [...expected].filter(m => !loaded.has(m));
+		if(extra.length || missing.length)
+			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
+		pass('Only full preset modules were loaded');
+	},
+
+	'should not load any modules when controls is not set': async ({pass, fail}) => {
+		const savedSet = Pagination.loadedModules;
+		Pagination.loadedModules = new Set();
+		const { container, el } = await createPagination({ 'total-items': 100 });
+		const loaded = new Set(Pagination.loadedModules);
+		Pagination.loadedModules = savedSet;
+		cleanup(container);
+		if(loaded.size !== 0)
+			return fail(`Expected no modules loaded, but got: [${[...loaded]}]`);
+		pass('No modules loaded when controls is not set');
+	},
+
+	'should not load any modules for an unknown controls preset': async ({pass, fail}) => {
+		const savedSet = Pagination.loadedModules;
+		Pagination.loadedModules = new Set();
+		const { container, el } = await createPagination({ controls: 'not_a_real_preset', 'total-items': 100 });
+		const loaded = new Set(Pagination.loadedModules);
+		Pagination.loadedModules = savedSet;
+		cleanup(container);
+		if(loaded.size !== 0)
+			return fail(`Expected no modules loaded for unknown preset, but got: [${[...loaded]}]`);
+		pass('No modules loaded for unknown controls preset');
+	},
+
+	'should not reload already-loaded modules when controls changes': async ({pass, fail}) => {
+		const savedSet = Pagination.loadedModules;
+		Pagination.loadedModules = new Set();
+		const { container, el } = await createPagination({ controls: 'simple', 'total-items': 100 });
+		const afterSimple = new Set(Pagination.loadedModules);
+		el.controls = 'full';
+		await el.updateComplete;
+		const afterFull = new Set(Pagination.loadedModules);
+		Pagination.loadedModules = savedSet;
+		cleanup(container);
+		const fullModules = new Set(Pagination.controlModules.full);
+		const missing = [...fullModules].filter(m => !afterFull.has(m));
+		const simpleModulesInFull = Pagination.controlModules.simple.filter(m => fullModules.has(m));
+		const reloaded = simpleModulesInFull.filter(m => !afterSimple.has(m));
+		if(missing.length)
+			return fail(`After switching to full, missing modules: [${missing}]`);
+		if(reloaded.length)
+			return fail(`Modules were not in loadedModules after simple load: [${reloaded}]`);
+		pass('Switching control sets only loads newly-needed modules');
 	}
 };
 

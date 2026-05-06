@@ -1,11 +1,11 @@
-import t from"./MarkdownEditorControl.js";import{html as e}from"../../lit-all.min.js";import"../Icon.js";export default class i extends t{static properties={...t.properties,level:{type:Number,reflect:!0}};constructor(){super(),this.level=2,this.label="Heading"}command(){const t=Math.min(6,Math.max(1,Number(this.level)||2));this.insertLinePrefix("#".repeat(t)+" ",/^#{1,6} /)}render(){const t=Math.min(6,Math.max(1,Number(this.level)||2));return e`
+import e from"./MarkdownEditorControl.js";import{html as t}from"../../lit-all.min.js";import"../Icon.js";import{bound as i}from"../../utils/number.js";export default class r extends e{static properties={...e.properties,level:{type:Number,reflect:!0}};constructor(){super(),this.level=2,this.label="Heading"}command(){const e=i(Number(this.level)||2,1,6);this.insertLinePrefix("#".repeat(e)+" ",/^#{1,6} /)}render(){const e=i(Number(this.level)||2,1,6);return t`
       <button
         type="button"
         class=${this.btnClass}
-        title="${this.label} ${t}"
-        aria-label="${this.label} ${t}"
+        title="${this.label} ${e}"
+        aria-label="${this.label} ${e}"
         @click=${this.handleClick}
       >
-        <k-icon name="format_h${t}"></k-icon>
+        <k-icon name="format_h${e}"></k-icon>
       </button>
-    `}}customElements.define("k-md-heading",i);
+    `}}customElements.define("k-md-heading",r);

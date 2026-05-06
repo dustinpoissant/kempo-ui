@@ -1,6 +1,7 @@
 import MarkdownEditorControl from './MarkdownEditorControl.js';
 import { html } from '../../lit-all.min.js';
 import '../Icon.js';
+import { bound } from '../../utils/number.js';
 
 /*
   Heading control. Defaults to H2 (the typical "section title" level inside
@@ -20,14 +21,14 @@ export default class MarkdownHeading extends MarkdownEditorControl {
   }
 
   command() {
-    const lvl = Math.min(6, Math.max(1, Number(this.level) || 2));
+    const lvl = bound(Number(this.level) || 2, 1, 6);
     // Pass a replacePattern so clicking a different heading level swaps the
     // existing one out instead of stacking another `#` group on top.
     this.insertLinePrefix('#'.repeat(lvl) + ' ', /^#{1,6} /);
   }
 
   render() {
-    const iconLevel = Math.min(6, Math.max(1, Number(this.level) || 2));
+    const iconLevel = bound(Number(this.level) || 2, 1, 6);
     return html`
       <button
         type="button"

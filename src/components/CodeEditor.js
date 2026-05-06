@@ -37,7 +37,6 @@ export default class CodeEditor extends ShadowComponent {
 		this.language = 'javascript';
 		this.monacoSrc = '';
 		this.controls = '';
-		this.controlsLoaded = false;
 		this.hasTopToolbar = false;
 		this.hasBottomToolbar = false;
 		this.monacoEditor = null;
@@ -161,27 +160,12 @@ export default class CodeEditor extends ShadowComponent {
 	/*
 		Module Loading
 	*/
-	async loadControls() {
-		if(this.controlsLoaded) return;
-		this.controlsLoaded = true;
+	loadControls() {
+		const modules = this.constructor.controlModules[this.controls];
+		if(!modules?.length) return;
+		const loaded = this.constructor.loadedModules;
 		const base = new URL('./codeEditorControls/', import.meta.url).href;
-		await Promise.all([
-			import(/* @vite-ignore */ `${base}FormatCode.js`),
-			import(/* @vite-ignore */ `${base}CopyCode.js`),
-			import(/* @vite-ignore */ `${base}EditorTheme.js`),
-			import(/* @vite-ignore */ `${base}Undo.js`),
-			import(/* @vite-ignore */ `${base}Redo.js`),
-			import(/* @vite-ignore */ `${base}WordWrap.js`),
-			import(/* @vite-ignore */ `${base}Minimap.js`),
-			import(/* @vite-ignore */ `${base}FindReplace.js`),
-			import(/* @vite-ignore */ `${base}FontSize.js`),
-			import(/* @vite-ignore */ `${base}FoldAll.js`),
-			import(/* @vite-ignore */ `${base}LanguageSelect.js`),
-			import(/* @vite-ignore */ `${base}Fullscreen.js`),
-			import(/* @vite-ignore */ `${base}ControlGroup.js`),
-			import(/* @vite-ignore */ `${base}ControlSpacer.js`)
-		]);
-		this.requestUpdate();
+		modules.filter(m => !loaded.has(m)).forEach(m => { loaded.add(m); import(`${base}${m}.js`); });
 	}
 
 	async initMonaco() {
@@ -417,6 +401,11 @@ export default class CodeEditor extends ShadowComponent {
 	/*
 		Rendering
 	*/
+	static loadedModules = new Set();
+	static controlModules = {
+		full: ['FormatCode', 'CopyCode', 'EditorTheme', 'Undo', 'Redo', 'WordWrap', 'Minimap', 'FindReplace', 'FontSize', 'FoldAll', 'LanguageSelect', 'Fullscreen', 'ControlGroup', 'ControlSpacer']
+	};
+
 	static controlSets = {
 		full: {
 			topLeft: html`

@@ -1,11 +1,1 @@
-import t from"./PaginationControl.js";import{html as e}from"../../lit-all.min.js";import"../Icon.js";export default class a extends t{render(){const t=this.pagination,a=!t||t.page>=t.totalPages;return e`
-      <button
-        type="button"
-        title="Last Page"
-        aria-label="Last Page"
-        ?disabled=${a}
-        @click=${()=>{t&&(t.page=t.totalPages)}}
-      >
-        <k-icon name="chevron-line"></k-icon>
-      </button>
-    `}}customElements.define("k-pg-last",a);
+import t from"./PaginationButtonControl.js";import{html as a}from"../../lit-all.min.js";import"../Icon.js";export default class e extends t{connectedCallback(){super.connectedCallback(),this.hasAttribute("aria-label")||this.setAttribute("aria-label","Last Page"),this.hasAttribute("title")||this.setAttribute("title","Last Page")}willUpdate(t){super.willUpdate(t);const a=this.pagination;this.disabled=!a||a.page>=a.totalPages}handleAction(){this.pagination&&(this.pagination.page=this.pagination.totalPages)}render(){return a`<k-icon name="chevron-line"></k-icon>`}}customElements.define("k-pg-last",e);

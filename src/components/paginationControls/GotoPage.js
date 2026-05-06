@@ -1,12 +1,24 @@
 import PaginationControl from './PaginationControl.js';
 import { html, css } from '../../lit-all.min.js';
+import '../Combobox.js';
 
 export default class PaginationGotoPage extends PaginationControl {
   /*
     Event Handlers
   */
-  handleChange = (e) => {
-    if(this.pagination) this.pagination.page = parseInt(e.target.value, 10);
+  handleInput = (e) => {
+    const cb = e.target;
+    if(this.pagination && cb.value) {
+      const page = parseInt(cb.value, 10);
+      if(!isNaN(page) && page > 0) this.pagination.page = page;
+    }
+  };
+
+  handleBlur = (e) => {
+    const pg = this.pagination;
+    if(pg) {
+      e.target.value = String(pg.page);
+    }
   };
 
   /*
@@ -17,19 +29,25 @@ export default class PaginationGotoPage extends PaginationControl {
     const current = pg?.page ?? 1;
     const total = pg?.totalPages ?? 1;
     return html`
-      <select @change=${this.handleChange}>
+      <k-combobox
+        .value=${String(current)}
+        @input=${this.handleInput}
+        @blur=${this.handleBlur}
+        placeholder="page"
+				no-results-message="Invalid Page"
+      >
         ${Array.from({ length: total }, (_, i) => html`
-          <option value=${i + 1} ?selected=${i + 1 === current}>${i + 1}</option>
+          <k-option value=${i + 1}>${i + 1}</k-option>
         `)}
-      </select>
+      </k-combobox>
     `;
   }
 
   static styles = [
     PaginationControl.styles,
     css`
-      select {
-        font: inherit;
+      k-combobox {
+        width: 5rem;
       }
     `
   ];

@@ -16,7 +16,7 @@ export default class PaginationControl extends ShadowComponent {
     this.pageChangeHandler = () => this.requestUpdate();
     pg.addEventListener('page-change', this.pageChangeHandler);
     this.attrObserver = new MutationObserver(() => this.requestUpdate());
-    this.attrObserver.observe(pg, { attributes: true, attributeFilter: ['total-items', 'items-per-page'] });
+    this.attrObserver.observe(pg, { attributes: true, attributeFilter: ['total-items', 'items-per-page', 'page-sizes'] });
   }
 
   disconnectedCallback() {

@@ -1,0 +1,95 @@
+<page pageName="Button" title="Button - Base Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Guide</h6>
+          <a href="#overview">Overview</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#customStyles">Custom Styles</a><br />
+          <a href="#overridingHandlers">Overriding Event Handlers</a><br />
+          <a href="#disabled">Disabled State</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#staticProperties">Static Properties</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#eventHandlers">Event Handlers</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="overview"><a href="#overview" class="no-link">Overview</a></h3>
+    <p>Button is a base class for creating custom elements that behave like buttons. Unlike using a native
+      <code>&lt;button&gt;</code> element internally, extending Button makes the custom element <em>itself</em> the
+      button — enabling direct styling via <code>:host</code>, <code>:host(:hover)</code>,
+      <code>:host([disabled])</code>, and so on, without <code>::part()</code>.</p>
+    <p>Button is <strong>not registered to a tag</strong>. It is a base class only. Extend it to create your own
+      button-like components.</p>
+    <ul>
+      <li>Shadow DOM with kempo-css button styles applied to <code>:host</code></li>
+      <li>Keyboard accessible: <kbd>Enter</kbd> and <kbd>Space</kbd> trigger <code>click()</code></li>
+      <li><code>role="button"</code> and <code>tabindex</code> set automatically</li>
+      <li><code>disabled</code> attribute blocks interaction and sets <code>aria-disabled</code></li>
+      <li>Inherits from <a href="./shadow-component.html">ShadowComponent</a></li>
+    </ul>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Extend Button and register a tag:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">Button</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/components/Button.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  html,<br>  css<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/lit-all.min.js&#x27;</span>;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyButton</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Button</span> {}<br>customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">&#x27;my-button&#x27;</span>, <span class="hljs-title class_">MyButton</span>);</code></pre>
+
+    <h3 id="customStyles"><a href="#customStyles" class="no-link">Custom Styles</a></h3>
+    <p>Extend <code>Button.styles</code> to preserve the base button appearance while adding your own:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">Button</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/components/Button.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  html,<br>  css<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/lit-all.min.js&#x27;</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">IconButton</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Button</span> {<br>  <span class="hljs-keyword">static</span> properties = {<br>    ...<span class="hljs-title class_">Button</span>.<span class="hljs-property">properties</span>,<br>    <span class="hljs-attr">icon</span>: {<br>      <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,<br>      <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span><br>    },<br>    <span class="hljs-attr">label</span>: {<br>      <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,<br>      <span class="hljs-attr">reflect</span>: <span class="hljs-literal">true</span><br>    }<br>  };<br>  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.icon}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span> </span><span class="hljs-subst">${<span class="hljs-variable language_">this</span>.label}</span><span class="language-xml">`</span>;<br>  }<br>  <span class="hljs-keyword">static</span> styles = [<br>    <span class="hljs-title class_">Button</span>.<span class="hljs-property">styles</span>,<br>    css`<span class="language-css"><br>      <span class="hljs-selector-pseudo">:host</span> {<br>        <span class="hljs-attribute">gap</span>: <span class="hljs-built_in">var</span>(--spacer_sm);<br>        <span class="hljs-attribute">align-items</span>: center;<br>        <span class="hljs-attribute">display</span>: inline-flex;<br>      }<br>    `</span><br>  ];<br>}<br>customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">&#x27;my-icon-button&#x27;</span>, <span class="hljs-title class_">IconButton</span>);</code></pre>
+
+    <h3 id="overridingHandlers"><a href="#overridingHandlers" class="no-link">Overriding Event Handlers</a></h3>
+    <p>Event handlers are public arrow function class fields. Subclasses can override them directly, or add their
+      own handlers on top. This is useful for building control components that perform an action when clicked:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">Button</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/components/Button.js&#x27;</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyControl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Button</span> {<br>  <span class="hljs-title function_">handleAction</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-comment">// override this in subclasses</span><br>  }<br>  handleClick = <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">handleAction</span>();<br>  <span class="hljs-title function_">connectedCallback</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">connectedCallback</span>();<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">handleClick</span>);<br>  }<br>  <span class="hljs-title function_">disconnectedCallback</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">disconnectedCallback</span>();<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">handleClick</span>);<br>  }<br>}</code></pre>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled State</a></h3>
+    <p>Set the <code>disabled</code> attribute or property to block interaction. When disabled:</p>
+    <ul>
+      <li>Click events are stopped via <code>stopImmediatePropagation()</code></li>
+      <li>Keyboard activation (<kbd>Enter</kbd> / <kbd>Space</kbd>) is suppressed</li>
+      <li><code>tabindex="-1"</code> removes it from the tab order</li>
+      <li><code>aria-disabled="true"</code> is set for screen readers</li>
+      <li><code>:host([disabled])</code> reduces opacity and changes cursor</li>
+    </ul>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends ShadowComponent</h6>
+    <h5><code>new Button()</code></h5>
+    <p>Base class only — not registered to a tag. Extend this class and register your own tag.</p>
+
+    <h3 id="staticProperties"><a href="#staticProperties" class="no-link">Static Properties</a></h3>
+    <h5><code>styles<i>: CSSResult | CSSResult[]</i></code></h5>
+    <p>Lit <code>static styles</code> providing the base button appearance. Spread or array-extend this in
+      subclasses: <code>static styles = [Button.styles, css`...`]</code>.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>disabled<i>: boolean</i></code></h5>
+    <p>Reflects to the <code>disabled</code> attribute. When <code>true</code>, blocks all interaction and updates
+      <code>tabindex</code> and <code>aria-disabled</code> accordingly.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <p>Inherits all methods from <a href="./shadow-component.html">ShadowComponent</a>.</p>
+
+    <h3 id="eventHandlers"><a href="#eventHandlers" class="no-link">Event Handlers</a></h3>
+    <p>These are public arrow function class fields — they can be referenced directly (e.g. to
+      <code>addEventListener</code> / <code>removeEventListener</code>) or overridden in a subclass.</p>
+    <h5><code>handleClick<i>: (e: Event) => void</i></code></h5>
+    <p>Stops propagation when <code>disabled</code>. Registered on the host element in
+      <code>connectedCallback</code>.</p>
+    <h5><code>handleKeyDown<i>: (e: KeyboardEvent) => void</i></code></h5>
+    <p>Calls <code>this.click()</code> when <kbd>Enter</kbd> or <kbd>Space</kbd> is pressed and the element is not
+      disabled.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

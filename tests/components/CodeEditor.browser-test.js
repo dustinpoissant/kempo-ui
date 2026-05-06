@@ -1,4 +1,4 @@
-import '../../src/components/CodeEditor.js';
+import CodeEditor from '../../src/components/CodeEditor.js';
 
 const createEditor = async (attrs = '') => {
 	const container = document.createElement('div');
@@ -293,5 +293,47 @@ export default {
 		}
 		cleanup(container);
 		pass();
+	},
+
+	/*
+		Control Module Loading
+	*/
+	'should only load modules defined in the full control set': async ({pass, fail}) => {
+		const savedSet = CodeEditor.loadedModules;
+		CodeEditor.loadedModules = new Set();
+		const { container, editor } = await createEditor('controls="full"');
+		const loaded = new Set(CodeEditor.loadedModules);
+		CodeEditor.loadedModules = savedSet;
+		cleanup(container);
+		const expected = new Set(CodeEditor.controlModules.full);
+		const extra = [...loaded].filter(m => !expected.has(m));
+		const missing = [...expected].filter(m => !loaded.has(m));
+		if(extra.length || missing.length)
+			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
+		pass('Only full preset modules were loaded for CodeEditor');
+	},
+
+	'should not load any modules when controls is not set': async ({pass, fail}) => {
+		const savedSet = CodeEditor.loadedModules;
+		CodeEditor.loadedModules = new Set();
+		const { container, editor } = await createEditor();
+		const loaded = new Set(CodeEditor.loadedModules);
+		CodeEditor.loadedModules = savedSet;
+		cleanup(container);
+		if(loaded.size !== 0)
+			return fail(`Expected no modules loaded, but got: [${[...loaded]}]`);
+		pass('No modules loaded when controls is not set for CodeEditor');
+	},
+
+	'should not load any modules for an unknown controls preset': async ({pass, fail}) => {
+		const savedSet = CodeEditor.loadedModules;
+		CodeEditor.loadedModules = new Set();
+		const { container, editor } = await createEditor('controls="not_a_real_preset"');
+		const loaded = new Set(CodeEditor.loadedModules);
+		CodeEditor.loadedModules = savedSet;
+		cleanup(container);
+		if(loaded.size !== 0)
+			return fail(`Expected no modules loaded for unknown preset, but got: [${[...loaded]}]`);
+		pass('No modules loaded for unknown controls preset in CodeEditor');
 	}
 };

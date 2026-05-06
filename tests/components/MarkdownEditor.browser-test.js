@@ -459,4 +459,76 @@ export default {
 		cleanup(container);
 		pass('Component has shadow DOM for accessibility');
 	},
+
+	/*
+		Control Module Loading
+	*/
+	'should only load modules defined in the minimal control set': async ({pass, fail}) => {
+		const savedSet = MarkdownEditor.loadedModules;
+		MarkdownEditor.loadedModules = new Set();
+		const { container, el } = await createMarkdownEditor({ controls: 'minimal' });
+		const loaded = new Set(MarkdownEditor.loadedModules);
+		MarkdownEditor.loadedModules = savedSet;
+		cleanup(container);
+		const expected = new Set(MarkdownEditor.controlModules.minimal);
+		const extra = [...loaded].filter(m => !expected.has(m));
+		const missing = [...expected].filter(m => !loaded.has(m));
+		if(extra.length || missing.length)
+			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
+		pass('Only minimal preset modules were loaded for MarkdownEditor');
+	},
+
+	'should only load modules defined in the normal control set': async ({pass, fail}) => {
+		const savedSet = MarkdownEditor.loadedModules;
+		MarkdownEditor.loadedModules = new Set();
+		const { container, el } = await createMarkdownEditor({ controls: 'normal' });
+		const loaded = new Set(MarkdownEditor.loadedModules);
+		MarkdownEditor.loadedModules = savedSet;
+		cleanup(container);
+		const expected = new Set(MarkdownEditor.controlModules.normal);
+		const extra = [...loaded].filter(m => !expected.has(m));
+		const missing = [...expected].filter(m => !loaded.has(m));
+		if(extra.length || missing.length)
+			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
+		pass('Only normal preset modules were loaded for MarkdownEditor');
+	},
+
+	'should only load modules defined in the full control set': async ({pass, fail}) => {
+		const savedSet = MarkdownEditor.loadedModules;
+		MarkdownEditor.loadedModules = new Set();
+		const { container, el } = await createMarkdownEditor({ controls: 'full' });
+		const loaded = new Set(MarkdownEditor.loadedModules);
+		MarkdownEditor.loadedModules = savedSet;
+		cleanup(container);
+		const expected = new Set(MarkdownEditor.controlModules.full);
+		const extra = [...loaded].filter(m => !expected.has(m));
+		const missing = [...expected].filter(m => !loaded.has(m));
+		if(extra.length || missing.length)
+			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
+		pass('Only full preset modules were loaded for MarkdownEditor');
+	},
+
+	'should not load any modules when controls is not set': async ({pass, fail}) => {
+		const savedSet = MarkdownEditor.loadedModules;
+		MarkdownEditor.loadedModules = new Set();
+		const { container, el } = await createMarkdownEditor();
+		const loaded = new Set(MarkdownEditor.loadedModules);
+		MarkdownEditor.loadedModules = savedSet;
+		cleanup(container);
+		if(loaded.size !== 0)
+			return fail(`Expected no modules loaded, but got: [${[...loaded]}]`);
+		pass('No modules loaded when controls is not set for MarkdownEditor');
+	},
+
+	'should not load any modules for an unknown controls preset': async ({pass, fail}) => {
+		const savedSet = MarkdownEditor.loadedModules;
+		MarkdownEditor.loadedModules = new Set();
+		const { container, el } = await createMarkdownEditor({ controls: 'not_a_real_preset' });
+		const loaded = new Set(MarkdownEditor.loadedModules);
+		MarkdownEditor.loadedModules = savedSet;
+		cleanup(container);
+		if(loaded.size !== 0)
+			return fail(`Expected no modules loaded for unknown preset, but got: [${[...loaded]}]`);
+		pass('No modules loaded for unknown controls preset in MarkdownEditor');
+	}
 };

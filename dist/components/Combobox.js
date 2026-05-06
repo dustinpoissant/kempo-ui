@@ -62,8 +62,9 @@ import{html as e,css as t}from"../lit-all.min.js";import s from"./ShadowComponen
 			top: 100%;
 			left: 0;
 			right: 0;
-			z-index: 70;
+			z-index: 30;
 			max-height: 20rem;
+			min-width: var(--min-width, 8rem);
 			overflow-y: auto;
 			background: var(--c_bg);
 			border: 1px solid var(--c_border);

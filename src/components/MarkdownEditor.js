@@ -8,7 +8,6 @@ import './Tabs.js';
 
 const defaultValue = Symbol();
 const debouncedChange = Symbol();
-const controlsLoaded = Symbol();
 const resolvedAllowedTags = Symbol();
 const updateValidity = Symbol();
 
@@ -87,34 +86,18 @@ export default class MarkdownEditor extends ShadowComponent {
     this.scriptsEnabled = false;
     this.controls = '';
     this[defaultValue] = '';
-    this[controlsLoaded] = false;
     this[debouncedChange] = debounce(() => this.handleChange(), 300);
   }
 
   /*
     Lifecycle
   */
-  async loadControls() {
-    if(this[controlsLoaded]) return;
-    this[controlsLoaded] = true;
+  loadControls() {
+    const modules = this.constructor.controlModules[this.controls];
+    if(!modules?.length) return;
+    const loaded = this.constructor.loadedModules;
     const base = new URL('./markdownEditorControls/', import.meta.url).href;
-    await Promise.all([
-      import(/* @vite-ignore */ `${base}Bold.js`),
-      import(/* @vite-ignore */ `${base}Italic.js`),
-      import(/* @vite-ignore */ `${base}Strikethrough.js`),
-      import(/* @vite-ignore */ `${base}Heading.js`),
-      import(/* @vite-ignore */ `${base}Code.js`),
-      import(/* @vite-ignore */ `${base}Link.js`),
-      import(/* @vite-ignore */ `${base}Image.js`),
-      import(/* @vite-ignore */ `${base}Table.js`),
-      import(/* @vite-ignore */ `${base}BulletList.js`),
-      import(/* @vite-ignore */ `${base}NumberedList.js`),
-      import(/* @vite-ignore */ `${base}Quote.js`),
-      import(/* @vite-ignore */ `${base}Menu.js`),
-      import(/* @vite-ignore */ `${base}FormatBlock.js`),
-      import(/* @vite-ignore */ `${base}SpeechToText.js`)
-    ]);
-    this.requestUpdate();
+    modules.filter(m => !loaded.has(m)).forEach(m => { loaded.add(m); import(`${base}${m}.js`); });
   }
 
   connectedCallback() {
@@ -537,6 +520,13 @@ export default class MarkdownEditor extends ShadowComponent {
     be imported eagerly. Lit creates the elements as plain HTMLElements
     until their definitions arrive, then the browser upgrades them in place.
   */
+  static loadedModules = new Set();
+  static controlModules = {
+    minimal: ['Menu', 'FormatBlock', 'Bold', 'Italic', 'BulletList', 'NumberedList'],
+    normal: ['Menu', 'FormatBlock', 'Bold', 'Italic', 'Quote', 'Code', 'Link', 'BulletList', 'NumberedList'],
+    full: ['Menu', 'FormatBlock', 'Bold', 'Italic', 'Strikethrough', 'Quote', 'Code', 'Link', 'Image', 'Table', 'BulletList', 'NumberedList', 'SpeechToText']
+  };
+
   static controlSets = {
     '': { top: null, bottom: null },
     none: { top: null, bottom: null },

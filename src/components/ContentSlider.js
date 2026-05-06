@@ -2,6 +2,7 @@ import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 import { boolTrueFalse } from '../utils/propConverters.js';
 import './Icon.js';
+import { bound } from '../utils/number.js';
 
 export default class ContentSlider extends ShadowComponent {
 	/* Properties */
@@ -88,7 +89,7 @@ export default class ContentSlider extends ShadowComponent {
 	validateAndSetIndex() {
 		if(this.content.length === 0) return;
 		
-		const validIndex = Math.max(Math.min(this.content.length - 1, this.index), 0);
+		const validIndex = bound(this.index, 0, this.content.length - 1);
 		if(this.index !== validIndex) {
 			this.index = validIndex;
 		}

@@ -7,8 +7,10 @@
         <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#withControls">With Controls</a><br />
+        <a href="#leftRightSlots">Left and Right Slots</a><br />
         <a href="#simpleControls">Simple Preconfigured</a><br />
         <a href="#fullControls">Full Preconfigured</a><br />
+        <a href="#allControls">All Controls Manually</a><br />
         <a href="#gotoPageExample">Goto Page</a><br />
         <a href="#itemsPerPageOptions">Items Per Page Options</a><br />
         <a href="#eventsExample">Live Demo</a><br />
@@ -24,7 +26,7 @@
     </k-accordion-panel>
     </k-accordion>
 
-    <p>A pagination interface component that tracks the current page, calculates total pages from <code>total-items</code> and <code>items-per-page</code>, and emits <code>page-change</code> and <code>items-per-page-change</code> events when the pagination state changes. It does not manage or render the paginated content &mdash; it is a pure navigation interface. Place it beneath your content and listen for these events to know when to load new content.</p>
+    <p>A pagination interface component that tracks the current page, calculates total pages from <code>total-items</code> and <code>items-per-page</code>, and emits a <code>page-change</code> event when the pagination state changes. It does not manage or render the paginated content — it is a pure navigation interface. Place it beneath your content and listen for <code>page-change</code> to know when to load new content.</p>
     <p>Toolbar controls are slotted in &mdash; mix and match the built-in controls listed below, or write your own by extending <code>PaginationControl</code>. Use the <code>controls</code> attribute for preconfigured sets.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
@@ -32,22 +34,38 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pagination1"</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">"100"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"back"</span>&gt;</span>Back<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"next"</span>&gt;</span>Next<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pageNumber"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">const</span> p1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'pagination1'</span>);<br />  p1.addEventListener(<span class="hljs-string">'page-change'</span>, ()=&gt; {<br />    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'pageNumber'</span>).innerText = p1.page;<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"back"</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    p1.previousPage();<br />  });<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"next"</span>).addEventListener(<span class="hljs-string">'click'</span>, () =&gt; {<br />    p1.nextPage();<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-pagination total-items="100"></k-pagination>
+          <k-pagination id="pagination1" total-items="100">
+            <button id="back">Back</button>
+            <button id="next">Next</button>
+            <span id="pageNumber">1</span>
+          </k-pagination>
+          <script>
+            const p1 = document.getElementById('pagination1');
+            p1.addEventListener('page-change', ()=> {
+              document.getElementById('pageNumber').innerText = p1.page;
+            });
+            document.getElementById("back").addEventListener('click', () => {
+              p1.previousPage();
+            });
+            document.getElementById("next").addEventListener('click', () => {
+              p1.nextPage();
+            });
+          </script>
         </k-card>
       </div>
     </div>
 
     <h3 id="withControls"><a href="#withControls" class="no-link">With Controls</a></h3>
-    <p>Slot any combination of built-in controls directly inside <code>&lt;k-pagination&gt;</code>. Import only what you need.</p>
+    <p>Slot any combination of built-in controls directly inside <code>&lt;k-pagination&gt;</code>. Import only what you need. By default, controls go in the left side. Use <code>slot="right"</code> to push controls to the right side with automatic spacing.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-items-per-page</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -56,6 +74,7 @@
             <k-pg-prev></k-pg-prev>
             <k-pg-page-info></k-pg-page-info>
             <k-pg-next></k-pg-next>
+            <k-pg-items-per-page slot="right"></k-pg-items-per-page>
           </k-pagination>
         </k-card>
       </div>
@@ -92,11 +111,11 @@
     </div>
 
     <h3 id="allControls"><a href="#allControls" class="no-link">All Controls Manually</a></h3>
-    <p>Slot all available controls yourself for full control over order and composition.</p>
+    <p>Slot all available controls yourself for full control over order and composition. Controls without <code>slot="right"</code> go on the left; controls with <code>slot="right"</code> are pushed to the right side with automatic spacing.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-first</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-first</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-goto-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-goto-page</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-count</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-last</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-last</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-first</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-first</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-goto-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-goto-page</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-count</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-last</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-last</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-items-per-page</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -109,7 +128,7 @@
             <k-pg-count></k-pg-count>
             <k-pg-next></k-pg-next>
             <k-pg-last></k-pg-last>
-            <k-pg-items-per-page></k-pg-items-per-page>
+            <k-pg-items-per-page slot="right"></k-pg-items-per-page>
           </k-pagination>
         </k-card>
       </div>
@@ -133,11 +152,11 @@
     </div>
 
     <h3 id="itemsPerPageOptions"><a href="#itemsPerPageOptions" class="no-link">Items Per Page Options</a></h3>
-    <p>Use the <code>options</code> attribute on <code>&lt;k-pg-items-per-page&gt;</code> to customize the available page-size choices. Pass a comma-separated list of numbers. Defaults to <code>10,25,50,100</code>.</p>
+    <p>Use the <code>options</code> attribute on <code>&lt;k-pg-items-per-page&gt;</code> to customize the available page-size choices. Pass a comma-separated list of numbers. Defaults to <code>5,10,25,50,100</code>. Typically placed on the right with <code>slot="right"</code>.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&#x27;100&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-items-per-page</span> <span class="hljs-attr">options</span>=<span class="hljs-string">&#x27;5,10,20,50&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&#x27;100&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-prev</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-page-info</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-pg-items-per-page</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;right&#x27;</span> <span class="hljs-attr">options</span>=<span class="hljs-string">&#x27;5,10,20,50&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pg-items-per-page</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -146,18 +165,18 @@
             <k-pg-prev></k-pg-prev>
             <k-pg-page-info></k-pg-page-info>
             <k-pg-next></k-pg-next>
-            <k-pg-items-per-page options="5,10,20,50"></k-pg-items-per-page>
+            <k-pg-items-per-page slot="right" options="5,10,20,50"></k-pg-items-per-page>
           </k-pagination>
         </k-card>
       </div>
     </div>
 
     <h3 id="eventsExample"><a href="#eventsExample" class="no-link">Live Demo</a></h3>
-    <p>Listen for <code>page-change</code> to re-render content whenever the user navigates, and <code>items-per-page-change</code> to handle items-per-page updates. The event <code>detail</code> carries the full pagination state so your content layer knows exactly which slice to show.</p>
+    <p>Listen for <code>page-change</code> to re-render content whenever the pagination state updates (either from user navigation or configuration changes). The event <code>detail</code> carries the full pagination state so your content layer knows exactly which slice to show.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pgDemoCards"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pgLive"</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">"47"</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">"full"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{<br />    <span class="hljs-keyword">const</span> pg = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'pgLive'</span>);<br />    <span class="hljs-keyword">const</span> container = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'pgDemoCards'</span>);<br />    <span class="hljs-keyword">const</span> renderCards = <span class="hljs-function">(<span class="hljs-params">{ currentPage, itemsPerPage, totalItems }</span>) =&gt;</span> {<br />      <span class="hljs-keyword">const</span> start = (currentPage - <span class="hljs-number">1</span>) * itemsPerPage + <span class="hljs-number">1</span>;<br />      <span class="hljs-keyword">const</span> end = <span class="hljs-built_in">Math</span>.min(currentPage * itemsPerPage, totalItems);<br />      container.innerHTML = <span class="hljs-string">''</span>;<br />      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = start; i &lt;= end; i++){<br />        <span class="hljs-keyword">const</span> card = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'k-card'</span>);<br />        card.textContent = <span class="hljs-string">'Item '</span> + i;<br />        container.appendChild(card);<br />      }<br />    };<br />    <span class="hljs-keyword">const</span> handlePaginationChange = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> renderCards(e.detail);<br />    pg.addEventListener(<span class="hljs-string">'page-change'</span>, handlePaginationChange);<br />    pg.addEventListener(<span class="hljs-string">'items-per-page-change'</span>, handlePaginationChange);<br />    renderCards({ <span class="hljs-attr">currentPage</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">itemsPerPage</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">totalItems</span>: <span class="hljs-number">47</span> });<br />  })();<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pgDemoCards"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pgLive"</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">"47"</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">"full"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{<br />    <span class="hljs-keyword">const</span> pg = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'pgLive'</span>);<br />    <span class="hljs-keyword">const</span> container = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'pgDemoCards'</span>);<br />    <span class="hljs-keyword">const</span> renderCards = <span class="hljs-function">(<span class="hljs-params">{ currentPage, itemsPerPage, totalItems }</span>) =&gt;</span> {<br />      <span class="hljs-keyword">const</span> start = (currentPage - <span class="hljs-number">1</span>) * itemsPerPage + <span class="hljs-number">1</span>;<br />      <span class="hljs-keyword">const</span> end = <span class="hljs-built_in">Math</span>.min(currentPage * itemsPerPage, totalItems);<br />      container.innerHTML = <span class="hljs-string">''</span>;<br />      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = start; i &lt;= end; i++){<br />        <span class="hljs-keyword">const</span> card = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'k-card'</span>);<br />        card.textContent = <span class="hljs-string">'Item '</span> + i;<br />        container.appendChild(card);<br />      }<br />    };<br />    pg.addEventListener(<span class="hljs-string">'page-change'</span>, e =&gt; renderCards(e.detail));<br />    renderCards({ <span class="hljs-attr">currentPage</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">itemsPerPage</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">totalItems</span>: <span class="hljs-number">47</span> });<br />  })();<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -178,9 +197,7 @@
                   container.appendChild(card);
                 }
               };
-              const handlePaginationChange = (e) => renderCards(e.detail);
-              pg.addEventListener('page-change', handlePaginationChange);
-              pg.addEventListener('items-per-page-change', handlePaginationChange);
+              pg.addEventListener('page-change', e => renderCards(e.detail));
               renderCards({ currentPage: 1, itemsPerPage: 10, totalItems: 47 });
             })();
           </script>
@@ -280,12 +297,7 @@
           <tr>
             <td><code>page-change</code></td>
             <td><code>{ currentPage, totalPages, itemsPerPage, totalItems }</code></td>
-            <td>Fired when the current page changes (directly via <code>.page</code>, <code>nextPage()</code>, or <code>previousPage()</code>). Not fired when the page auto-resets due to configuration changes.</td>
-          </tr>
-          <tr>
-            <td><code>items-per-page-change</code></td>
-            <td><code>{ currentPage, itemsPerPage, totalPages, totalItems }</code></td>
-            <td>Fired when <code>itemsPerPage</code> changes (which resets the current page to 1).</td>
+            <td>Fired when the current page changes due to user navigation (<code>.page</code>, <code>nextPage()</code>, <code>previousPage()</code>) or when configuration changes cause page adjustment.</td>
           </tr>
         </tbody>
       </table>

@@ -1,5 +1,6 @@
 import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
+import { bound } from '../utils/number.js';
 
 export default class Slider extends ShadowComponent {
   static formAssociated = true;
@@ -106,7 +107,7 @@ export default class Slider extends ShadowComponent {
 
   snapToNearest = (val) => {
     const sv = this.stepValues;
-    if(!sv || sv.length === 0) return Math.min(this.max, Math.max(this.min, val));
+    if(!sv || sv.length === 0) return bound(val, this.min, this.max);
     let closest = sv[0];
     let closestDist = Math.abs(val - closest);
     for(let i = 1; i < sv.length; i++) {
@@ -123,9 +124,9 @@ export default class Slider extends ShadowComponent {
     const track = this.shadowRoot.querySelector('#track');
     const rect = track.getBoundingClientRect();
     if(this.vertical) {
-      return Math.min(1, Math.max(0, 1 - (e.clientY - rect.top) / rect.height));
+      return bound(1 - (e.clientY - rect.top) / rect.height, 0, 1);
     }
-    return Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    return bound((e.clientX - rect.left) / rect.width, 0, 1);
   };
 
   valueFromEvent = (e) => {
@@ -135,7 +136,7 @@ export default class Slider extends ShadowComponent {
 
   setValue = (newValue) => {
     if(this.disabled) return;
-    const clamped = Math.min(this.max, Math.max(this.min, newValue));
+    const clamped = bound(newValue, this.min, this.max);
     const snapped = this.snapToNearest(clamped);
     if(this.isRange) {
       if(snapped > this.upper) return;
@@ -151,7 +152,7 @@ export default class Slider extends ShadowComponent {
 
   setUpper = (newValue) => {
     if(this.disabled || !this.isRange) return;
-    const clamped = Math.min(this.max, Math.max(this.min, newValue));
+    const clamped = bound(newValue, this.min, this.max);
     const snapped = this.snapToNearest(clamped);
     if(snapped < this.lower) return;
     if(snapped !== this.upper) {

@@ -44,7 +44,6 @@ export default class HtmlEditor extends ShadowComponent {
 		this.cursor = null;
 		this.mode = 'visual';
 		this.controls = '';
-		this.controlsLoaded = false;
 		this.lexicalSrc = '';
 		this.monacoSrc = '';
 		this.nodes = '';
@@ -180,59 +179,24 @@ export default class HtmlEditor extends ShadowComponent {
 	/*
 		Module Loading
 	*/
-	async loadControls() {
-		if (this.controlsLoaded) return;
-		this.controlsLoaded = true;
-		const base = new URL('./htmlEditorControls/', import.meta.url).href;
-		await Promise.all([
-			import(/* @vite-ignore */ `${base}Bold.js`),
-			import(/* @vite-ignore */ `${base}Italic.js`),
-			import(/* @vite-ignore */ `${base}Underline.js`),
-			import(/* @vite-ignore */ `${base}Strikethrough.js`),
-			import(/* @vite-ignore */ `${base}InlineCode.js`),
-			import(/* @vite-ignore */ `${base}DropdownControl.js`),
-			import(/* @vite-ignore */ `${base}FormatBlock.js`),
-			import(/* @vite-ignore */ `${base}CodeBlock.js`),
-			import(/* @vite-ignore */ `${base}BulletList.js`),
-			import(/* @vite-ignore */ `${base}NumberList.js`),
-			import(/* @vite-ignore */ `${base}AlignLeft.js`),
-			import(/* @vite-ignore */ `${base}AlignCenter.js`),
-			import(/* @vite-ignore */ `${base}AlignRight.js`),
-			import(/* @vite-ignore */ `${base}AlignJustify.js`),
-			import(/* @vite-ignore */ `${base}TextColor.js`),
-			import(/* @vite-ignore */ `${base}TextBackgroundColor.js`),
-			import(/* @vite-ignore */ `${base}ClearFormatting.js`),
-			import(/* @vite-ignore */ `${base}CreateLink.js`),
-			import(/* @vite-ignore */ `${base}InsertTable.js`),
-			import(/* @vite-ignore */ `${base}ControlGroup.js`),
-			import(/* @vite-ignore */ `${base}ControlSpacer.js`),
-			import(/* @vite-ignore */ `${base}Mode.js`),
-			import(/* @vite-ignore */ `${base}WordCount.js`),
-			import(/* @vite-ignore */ `${base}CharacterCount.js`),
-		]);
+	loadControls() {
+		const modules = this.constructor.controlModules[this.controls];
+		if(!modules?.length) return;
+		const loaded = this.constructor.loadedModules;
+		const hecBase = new URL('./htmlEditorControls/', import.meta.url).href;
 		const cecBase = new URL('./codeEditorControls/', import.meta.url).href;
-		await Promise.all([
-			import(/* @vite-ignore */ `${cecBase}FormatCode.js`),
-			import(/* @vite-ignore */ `${cecBase}CopyCode.js`),
-			import(/* @vite-ignore */ `${cecBase}Undo.js`),
-			import(/* @vite-ignore */ `${cecBase}Redo.js`),
-			import(/* @vite-ignore */ `${cecBase}WordWrap.js`),
-			import(/* @vite-ignore */ `${cecBase}Minimap.js`),
-			import(/* @vite-ignore */ `${cecBase}FindReplace.js`),
-			import(/* @vite-ignore */ `${cecBase}FontSize.js`),
-			import(/* @vite-ignore */ `${cecBase}FoldAll.js`),
-			import(/* @vite-ignore */ `${cecBase}EditorTheme.js`),
-			import(/* @vite-ignore */ `${cecBase}Fullscreen.js`),
-			import(/* @vite-ignore */ `${cecBase}ControlGroup.js`),
-		]);
-		this.requestUpdate();
+		modules.filter(m => !loaded.has(m)).forEach(m => {
+			loaded.add(m);
+			const [dir, file] = m.split('/');
+			import(`${dir === 'cec' ? cecBase : hecBase}${file}.js`);
+		});
 	}
 
 	async loadNodeModules() {
 		if (!this.nodes?.trim()) return [];
 		const base = new URL('./htmlEditorNodes/', import.meta.url).href;
 		const modules = await Promise.all(
-			this.nodes.split(',').map(n => n.trim()).filter(Boolean).map(n => import(/* @vite-ignore */ `${base}${n}.js`))
+			this.nodes.split(',').map(n => n.trim()).filter(Boolean).map(n => import(`${base}${n}.js`))
 		);
 		return modules.map(m => m.default?.lexicalNode).filter(Boolean);
 	}
@@ -241,15 +205,15 @@ export default class HtmlEditor extends ShadowComponent {
 		const base = this.lexicalSrc || window.kempo?.lexicalUrl || DEFAULT_LEXICAL_BASE;
 		const url = pkg => lexicalUrl(base, pkg);
 		const [lexical, richText, lexicalHtml, history, list, link, selection, table, code] = await Promise.all([
-			import(/* @vite-ignore */ url('lexical')),
-			import(/* @vite-ignore */ url('@lexical/rich-text')),
-			import(/* @vite-ignore */ url('@lexical/html')),
-			import(/* @vite-ignore */ url('@lexical/history')),
-			import(/* @vite-ignore */ url('@lexical/list')),
-			import(/* @vite-ignore */ url('@lexical/link')),
-			import(/* @vite-ignore */ url('@lexical/selection')),
-			import(/* @vite-ignore */ url('@lexical/table')),
-			import(/* @vite-ignore */ url('@lexical/code'))
+			import(url('lexical')),
+			import(url('@lexical/rich-text')),
+			import(url('@lexical/html')),
+			import(url('@lexical/history')),
+			import(url('@lexical/list')),
+			import(url('@lexical/link')),
+			import(url('@lexical/selection')),
+			import(url('@lexical/table')),
+			import(url('@lexical/code'))
 		]);
 		this.lx = { lexical, richText, lexicalHtml, history, list, link, selection, table, code };
 		this.StyledTextNode = class extends lexical.TextNode {
@@ -1362,7 +1326,29 @@ export default class HtmlEditor extends ShadowComponent {
 	/*
 		Static Properties
 	*/
-static controlSets = {
+	static loadedModules = new Set();
+	static controlModules = {
+		minimal: [
+			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/BulletList', 'hec/NumberList', 'hec/ControlGroup'
+		],
+		normal: [
+			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/Strikethrough', 'hec/InlineCode', 'hec/DropdownControl',
+			'hec/FormatBlock', 'hec/CodeBlock', 'hec/BulletList', 'hec/NumberList', 'hec/AlignLeft',
+			'hec/AlignCenter', 'hec/AlignRight', 'hec/CreateLink', 'hec/Mode', 'hec/WordCount', 'hec/ControlGroup',
+			'cec/FormatCode'
+		],
+		full: [
+			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/Strikethrough', 'hec/InlineCode', 'hec/DropdownControl',
+			'hec/FormatBlock', 'hec/CodeBlock', 'hec/BulletList', 'hec/NumberList', 'hec/AlignLeft',
+			'hec/AlignCenter', 'hec/AlignRight', 'hec/AlignJustify', 'hec/TextColor', 'hec/TextBackgroundColor',
+			'hec/ClearFormatting', 'hec/CreateLink', 'hec/InsertTable', 'hec/Mode', 'hec/WordCount',
+			'hec/CharacterCount', 'hec/ControlGroup',
+			'cec/Undo', 'cec/Redo', 'cec/FormatCode', 'cec/CopyCode', 'cec/FindReplace',
+			'cec/WordWrap', 'cec/Minimap', 'cec/FoldAll', 'cec/FontSize', 'cec/EditorTheme', 'cec/Fullscreen', 'cec/ControlGroup'
+		]
+	};
+
+	static controlSets = {
 		minimal: {
 			topLeft: html`
 				<k-hec-group>
