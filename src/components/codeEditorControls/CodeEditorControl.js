@@ -3,9 +3,6 @@ import { css } from '../../lit-all.min.js';
 
 export default class CodeEditorControl extends ShadowComponent {
 	static properties = {
-		btnClass: { type: String, attribute: 'btn-class' },
-		groupBtnClass: { type: String, attribute: 'group-btn-class' },
-		groupLastBtnClass: { type: String, attribute: 'group-last-btn-class' },
 		hidden: { type: Boolean, reflect: true }
 	};
 
@@ -14,9 +11,6 @@ export default class CodeEditorControl extends ShadowComponent {
 	*/
 	constructor() {
 		super();
-		this.btnClass = 'b r mq ph';
-		this.groupBtnClass = 'br ph';
-		this.groupLastBtnClass = 'ph';
 		this.hidden = false;
 	}
 
@@ -63,7 +57,7 @@ export default class CodeEditorControl extends ShadowComponent {
 	}
 
 	/*
-		Getters for Editor Integration
+		Getters
 	*/
 	get editor() {
 		const isEditor = el => el?.tagName === 'K-CODE-EDITOR' || el?.tagName === 'K-HTML-EDITOR';
@@ -82,36 +76,6 @@ export default class CodeEditorControl extends ShadowComponent {
 	}
 
 	/*
-		Getters for Group Detection
-	*/
-	get isInGroup() {
-		const parent = this.parentElement;
-		return parent && parent.tagName === 'K-CONTROL-GROUP';
-	}
-
-	get isLastInGroup() {
-		if(!this.isInGroup) return false;
-		const siblings = Array.from(this.parentElement.children).filter(
-			child => child.tagName.startsWith('K-CEC-') && child.tagName !== 'K-CEC-SPACER'
-		);
-		return siblings[siblings.length - 1] === this;
-	}
-
-	/*
-		Getters for Button Classes
-	*/
-	get buttonClasses() {
-		const baseClass = 'no-btn icon-btn';
-		let styleClass;
-		if(this.isInGroup){
-			styleClass = this.isLastInGroup ? this.groupLastBtnClass : this.groupBtnClass;
-		} else {
-			styleClass = this.btnClass;
-		}
-		return `${baseClass} ${styleClass}`.trim();
-	}
-
-	/*
 		Styles
 	*/
 	static styles = css`
@@ -121,14 +85,6 @@ export default class CodeEditorControl extends ShadowComponent {
 		}
 		:host([hidden]) {
 			display: none !important;
-		}
-		button {
-			cursor: pointer;
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 2rem;
-			min-height: 2rem;
 		}
 	`;
 }
