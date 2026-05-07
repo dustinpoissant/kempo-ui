@@ -30,12 +30,12 @@ export default {
 		pass();
 	},
 
-	'should render a button': async ({pass, fail}) => {
+	'should have button role': async ({pass, fail}) => {
 		const { container, control } = await createEditorWithControl();
 		await control.updateComplete;
-		if(!control.shadowRoot.querySelector('button')){
+		if(control.getAttribute('role') !== 'button'){
 			cleanup(container);
-			return fail('Should render a button');
+			return fail('Should have role="button"');
 		}
 		cleanup(container);
 		pass();
@@ -67,7 +67,7 @@ export default {
 		let called = false;
 		const orig = editor.toggleWordWrap.bind(editor);
 		editor.toggleWordWrap = () => { called = true; return orig(); };
-		control.shadowRoot.querySelector('button').click();
+		control.click();
 		await editor.updateComplete;
 		await control.updateComplete;
 		if(!called){

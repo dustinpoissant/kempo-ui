@@ -1,8 +1,4 @@
-import i from"./CodeEditorControl.js";import{html as t,css as e}from"../../lit-all.min.js";import"../Icon.js";export default class n extends i{static properties={active:{type:Boolean,state:!0}};constructor(){super(),this.active=!1}connectedCallback(){super.connectedCallback();const i=this.editor;i&&(this.active=i.minimapEnabled,this.minimapHandler=i=>{this.active=i.detail.minimapEnabled},i.addEventListener("minimap-changed",this.minimapHandler))}disconnectedCallback(){super.disconnectedCallback(),this.editor?.removeEventListener("minimap-changed",this.minimapHandler),this.minimapHandler=null}handleClick=()=>{this.editor?.toggleMinimap()};static styles=[i.styles,e`
+import t from"./CodeEditorButtonControl.js";import{html as i,css as e}from"../../lit-all.min.js";import"../Icon.js";export default class a extends t{static properties={active:{type:Boolean,state:!0}};constructor(){super(),this.active=!1}connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Toggle Minimap");const t=this.editor;t&&(this.active=t.minimapEnabled,this.minimapHandler=t=>{this.active=t.detail.minimapEnabled},t.addEventListener("minimap-changed",this.minimapHandler))}disconnectedCallback(){super.disconnectedCallback(),this.editor?.removeEventListener("minimap-changed",this.minimapHandler),this.minimapHandler=null}handleAction(){this.editor?.toggleMinimap()}static styles=[t.styles,e`
 			:host { display: inline-flex; }
-			button.active { background: var(--primary-bg, rgba(0,120,212,0.15)); }
-		`];render(){return t`
-			<button class="${this.buttonClasses} ${this.active?"active":""}" @click="${this.handleClick}" title="Toggle Minimap">
-				<k-icon name="map"></k-icon>
-			</button>
-		`}}customElements.define("k-cec-minimap",n);
+			:host(.active) { background: var(--primary-bg, rgba(0,120,212,0.15)); }
+		`];updated(t){super.updated(t),t.has("active")&&this.classList.toggle("active",this.active)}render(){return i`<k-icon name="map"></k-icon>`}}customElements.define("k-cec-minimap",a);

@@ -1,8 +1,8 @@
-import CodeEditorControl from './CodeEditorControl.js';
+import CodeEditorButtonControl from './CodeEditorButtonControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
-export default class Fullscreen extends CodeEditorControl {
+export default class Fullscreen extends CodeEditorButtonControl {
 	static properties = {
 		fullscreen: { type: Boolean, state: true }
 	};
@@ -17,6 +17,7 @@ export default class Fullscreen extends CodeEditorControl {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
+		if(!this.hasAttribute('title')) this.title = 'Fullscreen';
 		const editor = this.editor;
 		if(!editor) return;
 		this.fullscreen = editor.fullscreen;
@@ -36,36 +37,35 @@ export default class Fullscreen extends CodeEditorControl {
 	updateModeVisibility() {}
 
 	/*
-		Event Handlers
+		Public Methods
 	*/
-	handleClick = () => {
+	handleAction() {
 		this.editor?.toggleFullscreen();
-	};
+	}
 
 	/*
 		Styles
 	*/
 	static styles = [
-		CodeEditorControl.styles,
+		CodeEditorButtonControl.styles,
 		css`
 			:host { display: inline-flex; }
-			button.active { background: var(--primary-bg, rgba(0,120,212,0.15)); }
+			:host(.active) { background: var(--primary-bg, rgba(0,120,212,0.15)); }
 		`
 	];
+
+	updated(changed) {
+		super.updated(changed);
+		if(changed.has('fullscreen')){
+			this.classList.toggle('active', this.fullscreen);
+		}
+	}
 
 	/*
 		Rendering
 	*/
 	render() {
-		return html`
-			<button
-				class="${this.buttonClasses} ${this.fullscreen ? 'active' : ''}"
-				@click="${this.handleClick}"
-				title="${this.fullscreen ? 'Exit Fullscreen' : 'Fullscreen'}"
-			>
-				<k-icon name="${this.fullscreen ? 'fullscreen_exit' : 'fullscreen'}"></k-icon>
-			</button>
-		`;
+		return html`<k-icon name="${this.fullscreen ? 'fullscreen_exit' : 'fullscreen'}"></k-icon>`;
 	}
 }
 

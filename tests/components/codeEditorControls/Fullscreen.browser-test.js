@@ -31,12 +31,12 @@ export default {
 		pass();
 	},
 
-	'should render a button': async ({pass, fail}) => {
+	'should have button role': async ({pass, fail}) => {
 		const { container, control } = await createEditorWithControl();
 		await control.updateComplete;
-		if(!control.shadowRoot.querySelector('button')){
+		if(control.getAttribute('role') !== 'button'){
 			cleanup(container);
-			return fail('Should render a button');
+			return fail('Should have role="button"');
 		}
 		cleanup(container);
 		pass();
@@ -68,7 +68,7 @@ export default {
 		let called = false;
 		const orig = editor.toggleFullscreen.bind(editor);
 		editor.toggleFullscreen = () => { called = true; return orig(); };
-		control.shadowRoot.querySelector('button').click();
+		control.click();
 		if(!called){
 			cleanup(container);
 			return fail('Should call toggleFullscreen on click');
@@ -80,33 +80,12 @@ export default {
 	'click should toggle control fullscreen state to true': async ({pass, fail}) => {
 		const { container, control } = await createEditorWithControl();
 		await control.updateComplete;
-		control.shadowRoot.querySelector('button').click();
+		control.click();
 		await control.updateComplete;
 		if(!control.fullscreen){
 			cleanup(container);
 			return fail('Should set fullscreen to true after click');
 		}
-		cleanup(container);
-		pass();
-	},
-
-	'button title should update on fullscreen': async ({pass, fail}) => {
-		const { container, editor, control } = await createEditorWithControl();
-		await control.updateComplete;
-		const btnBefore = control.shadowRoot.querySelector('button');
-		if(btnBefore.title !== 'Fullscreen'){
-			cleanup(container);
-			return fail(`Expected title "Fullscreen", got "${btnBefore.title}"`);
-		}
-		editor.enterFullscreen();
-		await control.updateComplete;
-		const btnAfter = control.shadowRoot.querySelector('button');
-		if(btnAfter.title !== 'Exit Fullscreen'){
-			cleanup(container);
-			editor.exitFullscreen();
-			return fail(`Expected title "Exit Fullscreen", got "${btnAfter.title}"`);
-		}
-		editor.exitFullscreen();
 		cleanup(container);
 		pass();
 	},

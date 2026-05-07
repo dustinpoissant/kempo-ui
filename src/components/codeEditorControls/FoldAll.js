@@ -1,8 +1,8 @@
-import CodeEditorControl from './CodeEditorControl.js';
+import CodeEditorButtonControl from './CodeEditorButtonControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
-export default class FoldAll extends CodeEditorControl {
+export default class FoldAll extends CodeEditorButtonControl {
 	static properties = {
 		folded: { type: Boolean, state: true }
 	};
@@ -13,22 +13,30 @@ export default class FoldAll extends CodeEditorControl {
 	}
 
 	/*
-		Event Handlers
+		Lifecycle Callbacks
 	*/
-	handleClick = () => {
+	connectedCallback() {
+		super.connectedCallback();
+		if(!this.hasAttribute('title')) this.title = 'Fold All';
+	}
+
+	/*
+		Public Methods
+	*/
+	handleAction() {
 		this.folded = !this.folded;
 		if(this.folded){
 			this.editor?.foldAll();
 		} else {
 			this.editor?.unfoldAll();
 		}
-	};
+	}
 
 	/*
 		Styles
 	*/
 	static styles = [
-		CodeEditorControl.styles,
+		CodeEditorButtonControl.styles,
 		css`
 			:host { display: inline-flex; }
 		`
@@ -38,11 +46,7 @@ export default class FoldAll extends CodeEditorControl {
 		Rendering
 	*/
 	render() {
-		return html`
-			<button class="${this.buttonClasses}" @click="${this.handleClick}" title="${this.folded ? 'Unfold All' : 'Fold All'}">
-				<k-icon name="${this.folded ? 'unfold_more' : 'unfold_less'}"></k-icon>
-			</button>
-		`;
+		return html`<k-icon name="${this.folded ? 'unfold_more' : 'unfold_less'}"></k-icon>`;
 	}
 }
 

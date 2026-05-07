@@ -1,6 +1,8 @@
 import CodeEditorControl from './CodeEditorControl.js';
 import { html, css } from '../../lit-all.min.js';
-import '../Icon.js';
+import './FontSizeDecrease.js';
+import './FontSizeIncrease.js';
+import './ControlGroup.js';
 
 export default class FontSize extends CodeEditorControl {
 	/*
@@ -17,27 +19,14 @@ export default class FontSize extends CodeEditorControl {
 	];
 
 	/*
-		Event Handlers
-	*/
-	handleIncrease = () => {
-		this.editor?.increaseFontSize();
-	};
-
-	handleDecrease = () => {
-		this.editor?.decreaseFontSize();
-	};
-
-	/*
 		Rendering
 	*/
 	render() {
 		return html`
-			<button class="${this.buttonClasses}" @click="${this.handleDecrease}" title="Decrease Font Size">
-				<k-icon name="text_decrease"></k-icon>
-			</button>
-			<button class="${this.buttonClasses}" @click="${this.handleIncrease}" title="Increase Font Size">
-				<k-icon name="text_increase"></k-icon>
-			</button>
+			<k-cec-group class="b r mq">
+				<k-cec-font-size-decrease></k-cec-font-size-decrease>
+				<k-cec-font-size-increase></k-cec-font-size-increase>
+			</k-cec-group>
 		`;
 	}
 }

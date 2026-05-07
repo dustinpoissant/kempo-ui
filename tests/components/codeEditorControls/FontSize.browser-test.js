@@ -1,5 +1,7 @@
 import '../../../src/components/CodeEditor.js';
 import '../../../src/components/codeEditorControls/FontSize.js';
+import '../../../src/components/codeEditorControls/FontSizeDecrease.js';
+import '../../../src/components/codeEditorControls/FontSizeIncrease.js';
 
 const createEditorWithControl = async () => {
 	const container = document.createElement('div');
@@ -20,13 +22,14 @@ const cleanup = container => {
 };
 
 export default {
-	'should render two buttons': async ({pass, fail}) => {
+	'should render two button sub-components': async ({pass, fail}) => {
 		const { container, control } = await createEditorWithControl();
 		await control.updateComplete;
-		const buttons = control.shadowRoot.querySelectorAll('button');
-		if(buttons.length !== 2){
+		const decrease = control.shadowRoot.querySelector('k-cec-font-size-decrease');
+		const increase = control.shadowRoot.querySelector('k-cec-font-size-increase');
+		if(!decrease || !increase){
 			cleanup(container);
-			return fail(`Expected 2 buttons, got ${buttons.length}`);
+			return fail(`Expected decrease and increase sub-components, got decrease=${!!decrease}, increase=${!!increase}`);
 		}
 		cleanup(container);
 		pass();
@@ -45,13 +48,14 @@ export default {
 	'increase click should call editor.increaseFontSize()': async ({pass, fail}) => {
 		const { container, editor, control } = await createEditorWithControl();
 		await control.updateComplete;
+		const increase = control.shadowRoot.querySelector('k-cec-font-size-increase');
+		await increase.updateComplete;
 		let called = false;
 		editor.increaseFontSize = () => { called = true; return editor; };
-		const buttons = control.shadowRoot.querySelectorAll('button');
-		buttons[1].click();
+		increase.click();
 		if(!called){
 			cleanup(container);
-			return fail('Should call editor.increaseFontSize() on second button click');
+			return fail('Should call editor.increaseFontSize() on increase click');
 		}
 		cleanup(container);
 		pass();
@@ -60,13 +64,14 @@ export default {
 	'decrease click should call editor.decreaseFontSize()': async ({pass, fail}) => {
 		const { container, editor, control } = await createEditorWithControl();
 		await control.updateComplete;
+		const decrease = control.shadowRoot.querySelector('k-cec-font-size-decrease');
+		await decrease.updateComplete;
 		let called = false;
 		editor.decreaseFontSize = () => { called = true; return editor; };
-		const buttons = control.shadowRoot.querySelectorAll('button');
-		buttons[0].click();
+		decrease.click();
 		if(!called){
 			cleanup(container);
-			return fail('Should call editor.decreaseFontSize() on first button click');
+			return fail('Should call editor.decreaseFontSize() on decrease click');
 		}
 		cleanup(container);
 		pass();

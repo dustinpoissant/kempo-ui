@@ -2,7 +2,7 @@ import CodeEditorButtonControl from './CodeEditorButtonControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
-export default class Redo extends CodeEditorButtonControl {
+export default class FontSizeDecrease extends CodeEditorButtonControl {
 	/*
 		Styles
 	*/
@@ -18,22 +18,22 @@ export default class Redo extends CodeEditorButtonControl {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
-		if(!this.hasAttribute('title')) this.title = 'Redo';
+		if(!this.hasAttribute('title')) this.title = 'Decrease Font Size';
 	}
 
 	/*
 		Public Methods
 	*/
 	handleAction() {
-		this.editor?.redo();
+		this.editor?.decreaseFontSize();
 	}
 
 	/*
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="redo"></k-icon>`;
+		return html`<k-icon name="text_decrease"></k-icon>`;
 	}
 }
 
-customElements.define('k-cec-redo', Redo);
+customElements.define('k-cec-font-size-decrease', FontSizeDecrease);

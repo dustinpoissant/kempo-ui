@@ -1,13 +1,13 @@
-import CodeEditorControl from './CodeEditorControl.js';
+import CodeEditorButtonControl from './CodeEditorButtonControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
-export default class CopyCode extends CodeEditorControl {
+export default class CopyCode extends CodeEditorButtonControl {
 	/*
 		Styles
 	*/
 	static styles = [
-		CodeEditorControl.styles,
+		CodeEditorButtonControl.styles,
 		css`
 			:host {
 				display: inline-flex;
@@ -16,21 +16,25 @@ export default class CopyCode extends CodeEditorControl {
 	];
 
 	/*
-		Event Handlers
+		Lifecycle Callbacks
 	*/
-	handleClick = () => {
+	connectedCallback() {
+		super.connectedCallback();
+		if(!this.hasAttribute('title')) this.title = 'Copy Code';
+	}
+
+	/*
+		Public Methods
+	*/
+	handleAction() {
 		this.editor?.copyToClipboard();
-	};
+	}
 
 	/*
 		Rendering
 	*/
 	render() {
-		return html`
-			<button class="${this.buttonClasses}" @click="${this.handleClick}" title="Copy Code">
-				<k-icon name="content_copy"></k-icon>
-			</button>
-		`;
+		return html`<k-icon name="content_copy"></k-icon>`;
 	}
 }
 

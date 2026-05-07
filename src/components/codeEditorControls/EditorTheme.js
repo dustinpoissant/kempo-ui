@@ -44,21 +44,24 @@ export default class EditorTheme extends CodeEditorControl {
 		CodeEditorControl.styles,
 		css`
 			:host {
+				position: relative;
 				background-color: var(--input_bg);
 				color: var(--input_tc);
 				border: var(--input_border_width) solid var(--c_input_border);
 				border-radius: var(--radius);
 				transition: box-shadow var(--animation_ms);
-				position: relative;
 			}
 			k-icon {
-				pointer-events: none;
 				position: absolute;
 				left: 0.5rem;
+				top: 50%;
+				transform: translateY(-50%);
+				pointer-events: none;
 			}
 			select {
-				padding-left: 2rem;
 				border: 0;
+				padding: var(--spacer_h) 1rem var(--spacer_h) 2rem;
+				min-height: 2.5rem;
 			}
 		`
 	];
@@ -68,7 +71,7 @@ export default class EditorTheme extends CodeEditorControl {
 	*/
 	render() {
 		return html`
-			<k-icon name="contrast" style="font-size: 1.125rem; opacity: 0.7;"></k-icon>
+			<k-icon name="contrast"></k-icon>
 			<select .value=${this.value} @change=${this.handleChange} title="Editor Theme">
 				<option value="auto">Auto</option>
 				<option value="light">Light</option>

@@ -1,7 +1,3 @@
-import t from"./CodeEditorControl.js";import{html as e,css as o}from"../../lit-all.min.js";import"../Icon.js";export default class s extends t{static styles=[t.styles,o`
+import t from"./CodeEditorButtonControl.js";import{html as e,css as n}from"../../lit-all.min.js";import"../Icon.js";export default class o extends t{static styles=[t.styles,n`
 			:host { display: inline-flex; }
-		`];handleClick=()=>{this.editor?.undo()};render(){return e`
-			<button class="${this.buttonClasses}" @click="${this.handleClick}" title="Undo">
-				<k-icon name="undo"></k-icon>
-			</button>
-		`}}customElements.define("k-cec-undo",s);
+		`];connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Undo")}handleAction(){this.editor?.undo()}render(){return e`<k-icon name="undo"></k-icon>`}}customElements.define("k-cec-undo",o);

@@ -23,23 +23,23 @@ const cleanup = container => {
 };
 
 export default {
-	'undo should create element with button': async ({pass, fail}) => {
+	'undo should have button role': async ({pass, fail}) => {
 		const { container, undo } = await createEditorWithControls();
 		await undo.updateComplete;
-		if(!undo.shadowRoot.querySelector('button')){
+		if(undo.getAttribute('role') !== 'button'){
 			cleanup(container);
-			return fail('Undo should render a button');
+			return fail('Undo should have role="button"');
 		}
 		cleanup(container);
 		pass();
 	},
 
-	'redo should create element with button': async ({pass, fail}) => {
+	'redo should have button role': async ({pass, fail}) => {
 		const { container, redo } = await createEditorWithControls();
 		await redo.updateComplete;
-		if(!redo.shadowRoot.querySelector('button')){
+		if(redo.getAttribute('role') !== 'button'){
 			cleanup(container);
-			return fail('Redo should render a button');
+			return fail('Redo should have role="button"');
 		}
 		cleanup(container);
 		pass();
@@ -60,7 +60,7 @@ export default {
 		await undo.updateComplete;
 		let called = false;
 		editor.undo = () => { called = true; };
-		undo.shadowRoot.querySelector('button').click();
+		undo.click();
 		if(!called){
 			cleanup(container);
 			return fail('Should call editor.undo() on click');
@@ -74,7 +74,7 @@ export default {
 		await redo.updateComplete;
 		let called = false;
 		editor.redo = () => { called = true; };
-		redo.shadowRoot.querySelector('button').click();
+		redo.click();
 		if(!called){
 			cleanup(container);
 			return fail('Should call editor.redo() on click');

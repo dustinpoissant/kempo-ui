@@ -1,0 +1,3 @@
+import e from"./CodeEditorButtonControl.js";import{html as t,css as i}from"../../lit-all.min.js";import"../Icon.js";export default class n extends e{static styles=[e.styles,i`
+			:host { display: inline-flex; }
+		`];connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Increase Font Size")}handleAction(){this.editor?.increaseFontSize()}render(){return t`<k-icon name="text_increase"></k-icon>`}}customElements.define("k-cec-font-size-increase",n);

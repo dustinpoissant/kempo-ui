@@ -9,7 +9,8 @@
         <a href="#controlsExample">Built-in Controls</a><br />
         <a href="#customControls">Custom Controls</a><br />
         <a href="#height">Setting Height</a><br />
-        <a href="#disabled">Disabled / Read-only</a><br />
+        <a href="#formIntegration">Form Integration</a><br />
+        <a href="#disabled">Disabled</a><br />
         <a href="#jsApi">JavaScript API</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -101,12 +102,38 @@ console.log(x);"></k-code-editor>
       </div>
     </div>
 
-    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled / Read-only</a></h3>
-    <p>The <code>disabled</code> attribute makes the editor non-interactive (Monaco is set to <code>readOnly</code>), mutes the toolbar, fades the host, and excludes the field from form submission. The <code>readonly</code> attribute lets the user select and copy text but not edit; the value is still submitted with the form.</p>
+    <h3 id="formIntegration"><a href="#formIntegration" class="no-link">Form Integration</a></h3>
+    <p>The code editor supports form association. Add a <code>name</code> attribute so the value is submitted with the form, and use <code>required</code> to enforce validation:</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;codeForm&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;code&#x27;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;javascript&#x27;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;b r&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;submit&#x27;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&#x27;btn mt&#x27;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;formOutput&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;codeForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;formOutput&#x27;</span>).<span class="hljs-property">textContent</span> = data.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;code&#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="codeForm">
+            <k-code-editor name="code" language="javascript" required class="b r" style="height: 200px" value="console.log('hello');"></k-code-editor>
+            <button type="submit" class="btn mt">Submit</button>
+          </form>
+          <pre id="formOutput" class="mt b r p" style="min-height: 2rem;"></pre>
+          <script>
+            document.getElementById('codeForm').addEventListener('submit', e => {
+              e.preventDefault();
+              const data = new FormData(e.target);
+              document.getElementById('formOutput').textContent = data.get('code');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute makes the editor non-interactive (Monaco is set to <code>readOnly</code>), mutes the toolbar, fades the host, and excludes the field from form submission.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -114,18 +141,9 @@ console.log(x);"></k-code-editor>
           <k-code-editor
             disabled
             language="javascript"
-            class="b r mb"
-            style="height: 160px"
-            value="// This editor is disabled — toolbar is muted, content is locked.
-const x = 42;
-console.log(x);"
-          ></k-code-editor>
-          <k-code-editor
-            readonly
-            language="javascript"
             class="b r"
             style="height: 160px"
-            value="// This editor is read-only — select and copy, just not edit.
+            value="// This editor is disabled — toolbar is muted, content is locked.
 const x = 42;
 console.log(x);"
           ></k-code-editor>
@@ -161,7 +179,6 @@ console.log(x);"
         <tr><td><code>monacoSrc</code></td><td><code>monaco-src</code></td><td>String</td><td><code>''</code></td><td>Custom Monaco CDN base URL</td></tr>
         <tr><td><code>editorTheme</code></td><td><code>editor-theme</code></td><td>String</td><td><code>'auto'</code></td><td>Theme override: <code>'auto'</code> (matches site theme), <code>'light'</code>, or <code>'dark'</code></td></tr>
         <tr><td><code>disabled</code></td><td><code>disabled</code></td><td>Boolean</td><td><code>false</code></td><td>Editor is non-interactive (Monaco set to <code>readOnly</code>), toolbar is muted, host fades, and the field is excluded from form submission</td></tr>
-        <tr><td><code>readonly</code></td><td><code>readonly</code></td><td>Boolean</td><td><code>false</code></td><td>User can select and copy text but not edit (Monaco set to <code>readOnly</code>); value still submitted with the form</td></tr>
         <tr><td><code>required</code></td><td><code>required</code></td><td>Boolean</td><td><code>false</code></td><td>When <code>true</code> and the editor is empty, the element reports a <code>valueMissing</code> validity error</td></tr>
       </tbody>
     </table>
@@ -240,7 +257,9 @@ console.log(x);"
         <tr><td><code>&lt;k-cec-word-wrap&gt;</code></td><td>Toggles word wrapping on/off</td></tr>
         <tr><td><code>&lt;k-cec-minimap&gt;</code></td><td>Toggles the minimap on/off</td></tr>
         <tr><td><code>&lt;k-cec-find-replace&gt;</code></td><td>Opens Monaco's Find &amp; Replace dialog</td></tr>
-        <tr><td><code>&lt;k-cec-font-size&gt;</code></td><td>Increase/decrease font size buttons</td></tr>
+        <tr><td><code>&lt;k-cec-font-size&gt;</code></td><td>Container for increase/decrease font size buttons</td></tr>
+        <tr><td><code>&lt;k-cec-font-size-decrease&gt;</code></td><td>Decreases the editor font size</td></tr>
+        <tr><td><code>&lt;k-cec-font-size-increase&gt;</code></td><td>Increases the editor font size</td></tr>
         <tr><td><code>&lt;k-cec-fold-all&gt;</code></td><td>Toggles fold/unfold all code regions</td></tr>
         <tr><td><code>&lt;k-cec-fullscreen&gt;</code></td><td>Toggles the editor in and out of fullscreen — visible in all modes</td></tr>
         <tr><td><code>&lt;k-cec-language&gt;</code></td><td>Select dropdown to change the syntax language</td></tr>
@@ -260,6 +279,8 @@ console.log(x);"
     <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Minimap.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FindReplace.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSizeDecrease.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSizeIncrease.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FoldAll.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/LanguageSelect.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Fullscreen.js"></script>

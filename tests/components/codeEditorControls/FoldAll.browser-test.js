@@ -20,12 +20,12 @@ const cleanup = container => {
 };
 
 export default {
-	'should create element with button': async ({pass, fail}) => {
+	'should have button role': async ({pass, fail}) => {
 		const { container, control } = await createEditorWithControl();
 		await control.updateComplete;
-		if(!control.shadowRoot.querySelector('button')){
+		if(control.getAttribute('role') !== 'button'){
 			cleanup(container);
-			return fail('Should render a button');
+			return fail('Should have role="button"');
 		}
 		cleanup(container);
 		pass();
@@ -56,7 +56,7 @@ export default {
 		await control.updateComplete;
 		let called = false;
 		editor.foldAll = () => { called = true; return editor; };
-		control.shadowRoot.querySelector('button').click();
+		control.click();
 		if(!called){
 			cleanup(container);
 			return fail('Should call editor.foldAll()');
@@ -74,10 +74,10 @@ export default {
 		await control.updateComplete;
 		editor.foldAll = () => editor;
 		editor.unfoldAll = () => { return editor; };
-		control.shadowRoot.querySelector('button').click();
+		control.click();
 		let called = false;
 		editor.unfoldAll = () => { called = true; return editor; };
-		control.shadowRoot.querySelector('button').click();
+		control.click();
 		if(!called){
 			cleanup(container);
 			return fail('Should call editor.unfoldAll()');

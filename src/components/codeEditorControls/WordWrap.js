@@ -1,8 +1,8 @@
-import CodeEditorControl from './CodeEditorControl.js';
+import CodeEditorButtonControl from './CodeEditorButtonControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
-export default class WordWrap extends CodeEditorControl {
+export default class WordWrap extends CodeEditorButtonControl {
 	static properties = {
 		active: { type: Boolean, state: true }
 	};
@@ -14,6 +14,7 @@ export default class WordWrap extends CodeEditorControl {
 
 	connectedCallback() {
 		super.connectedCallback();
+		if(!this.hasAttribute('title')) this.title = 'Word Wrap';
 		const editor = this.editor;
 		if(!editor) return;
 		this.active = editor.wordWrap;
@@ -28,32 +29,35 @@ export default class WordWrap extends CodeEditorControl {
 	}
 
 	/*
-		Event Handlers
+		Public Methods
 	*/
-	handleClick = () => {
+	handleAction() {
 		this.editor?.toggleWordWrap();
-	};
+	}
 
 	/*
 		Styles
 	*/
 	static styles = [
-		CodeEditorControl.styles,
+		CodeEditorButtonControl.styles,
 		css`
 			:host { display: inline-flex; }
-			button.active { background: var(--primary-bg, rgba(0,120,212,0.15)); }
+			:host(.active) { background: var(--primary-bg, rgba(0,120,212,0.15)); }
 		`
 	];
+
+	updated(changed) {
+		super.updated(changed);
+		if(changed.has('active')){
+			this.classList.toggle('active', this.active);
+		}
+	}
 
 	/*
 		Rendering
 	*/
 	render() {
-		return html`
-			<button class="${this.buttonClasses} ${this.active ? 'active' : ''}" @click="${this.handleClick}" title="Word Wrap">
-				<k-icon name="wrap_text"></k-icon>
-			</button>
-		`;
+		return html`<k-icon name="wrap_text"></k-icon>`;
 	}
 }
 

@@ -43,18 +43,17 @@ export default {
 		pass('FormatCode has shadow root');
 	},
 
-	'should render a button': async ({pass, fail}) => {
+	'should have button role': async ({pass, fail}) => {
 		const { container, editor, control } = await createEditorWithControl();
 		editor.mode = 'code';
 		await new Promise(r => editor.addEventListener('mode-changed', r, { once: true }));
 		await control.updateComplete;
-		const button = control.shadowRoot.querySelector('button');
-		if(!button){
+		if(control.getAttribute('role') !== 'button'){
 			cleanup(container);
-			return fail('FormatCode should render a button');
+			return fail('FormatCode should have role="button"');
 		}
 		cleanup(container);
-		pass('FormatCode renders a button');
+		pass('FormatCode has button role');
 	},
 
 	'should render an icon': async ({pass, fail}) => {
@@ -90,7 +89,7 @@ export default {
 		await new Promise(r => editor.addEventListener('mode-changed', r, { once: true }));
 		await control.updateComplete;
 		try {
-			control.shadowRoot.querySelector('button').click();
+			control.click();
 			cleanup(container);
 			pass('Click with no monacoEditor does not throw');
 		} catch(e) {
@@ -99,30 +98,30 @@ export default {
 		}
 	},
 
-	'handleClick should call formatCode on editor': async ({pass, fail}) => {
+	'handleAction should call formatCode on editor': async ({pass, fail}) => {
 		const { container, editor, control } = await createEditorWithControl();
 		let called = false;
 		editor.formatCode = () => { called = true; };
-		control.handleClick();
+		control.handleAction();
 		if(!called){
 			cleanup(container);
-			return fail('handleClick should call editor.formatCode()');
+			return fail('handleAction should call editor.formatCode()');
 		}
 		cleanup(container);
 		pass();
 	},
 
-	'handleClick should do nothing when no editor': async ({pass, fail}) => {
+	'handleAction should do nothing when no editor': async ({pass, fail}) => {
 		const control = document.createElement('k-cec-format-code');
 		document.body.appendChild(control);
 		await control.updateComplete;
 		try {
-			control.handleClick();
+			control.handleAction();
 			document.body.removeChild(control);
 			pass();
 		} catch(e) {
 			document.body.removeChild(control);
-			fail(`handleClick threw when no editor: ${e.message}`);
+			fail(`handleAction threw when no editor: ${e.message}`);
 		}
 	},
 

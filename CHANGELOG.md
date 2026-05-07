@@ -7,6 +7,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [Unreleased]
 
 
+## [0.4.21] - 2026-05-07
+### Added
+- **CodeEditorButtonControl** base component — extends `Button` so toolbar button controls are proper accessible buttons (role, tabindex, keyboard interaction) that can be targeted externally for styling
+- **FontSizeDecrease** (`<k-cec-font-size-decrease>`) and **FontSizeIncrease** (`<k-cec-font-size-increase>`) standalone button sub-components
+- Form Integration documentation example for CodeEditor showing `name`, `required`, and submit handling
+
+### Changed
+- Converted 9 CodeEditor toolbar button controls (FormatCode, CopyCode, Undo, Redo, FindReplace, WordWrap, Minimap, FoldAll, Fullscreen) from internal `<button>` elements to extending `CodeEditorButtonControl` — host element is now the button
+- EditorTheme selector height now matches toolbar buttons; icon preserved with `padding-left` approach
+- FontSize control now renders `FontSizeDecrease` and `FontSizeIncrease` sub-components inside a `ControlGroup`
+
+### Removed
+- Readonly mode removed from CodeEditor documentation (code-level support remains for backwards compatibility)
+
+
 ## [0.4.19] - 2026-05-06
 ### Added
 - **Pagination component** (`<k-pagination>`): Full-featured pagination with composable control sub-components
