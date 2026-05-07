@@ -178,22 +178,22 @@ import{html as e,css as t}from"../lit-all.min.js";import i from"./ShadowComponen
 			border: 1px solid var(--border-color);
 		}
 	`;static loadedModules=new Set;static controlModules={minimal:["hec/Bold","hec/Italic","hec/Underline","hec/BulletList","hec/NumberList","hec/ControlGroup"],normal:["hec/Bold","hec/Italic","hec/Underline","hec/Strikethrough","hec/InlineCode","hec/DropdownControl","hec/FormatBlock","hec/CodeBlock","hec/BulletList","hec/NumberList","hec/AlignLeft","hec/AlignCenter","hec/AlignRight","hec/CreateLink","hec/Mode","hec/WordCount","hec/ControlGroup","cec/FormatCode"],full:["hec/Bold","hec/Italic","hec/Underline","hec/Strikethrough","hec/InlineCode","hec/DropdownControl","hec/FormatBlock","hec/CodeBlock","hec/BulletList","hec/NumberList","hec/AlignLeft","hec/AlignCenter","hec/AlignRight","hec/AlignJustify","hec/TextColor","hec/TextBackgroundColor","hec/ClearFormatting","hec/CreateLink","hec/InsertTable","hec/Mode","hec/WordCount","hec/CharacterCount","hec/ControlGroup","cec/Undo","cec/Redo","cec/FormatCode","cec/CopyCode","cec/FindReplace","cec/WordWrap","cec/Minimap","cec/FoldAll","cec/FontSize","cec/EditorTheme","cec/Fullscreen","cec/ControlGroup"]};static controlSets={minimal:{topLeft:e`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bold></k-hec-bold>
 					<k-hec-italic></k-hec-italic>
 					<k-hec-underline></k-hec-underline>
-				</k-hec-group>
-				<k-hec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
-				</k-hec-group>
+				</k-control-group>
 			`,topRight:null,bottomLeft:null,bottomRight:null},normal:{topLeft:e`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bold></k-hec-bold>
 					<k-hec-italic></k-hec-italic>
 					<k-hec-underline></k-hec-underline>
 					<k-hec-strikethrough></k-hec-strikethrough>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-inline-code></k-hec-inline-code>
 				<k-hec-dropdown>
 					<k-icon slot="icon" name="format_paragraph"></k-icon>
@@ -205,26 +205,26 @@ import{html as e,css as t}from"../lit-all.min.js";import i from"./ShadowComponen
 					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
 					<k-hec-code-block></k-hec-code-block>
 				</k-hec-dropdown>
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
-				</k-hec-group>
+				</k-control-group>
 			`,topRight:e`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-align-left></k-hec-align-left>
 					<k-hec-align-center></k-hec-align-center>
 					<k-hec-align-right></k-hec-align-right>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-create-link></k-hec-create-link>
 				<k-cec-format-code></k-cec-format-code>
 				<k-hec-mode></k-hec-mode>
 			`,bottomLeft:e`<k-hec-word-count></k-hec-word-count>`,bottomRight:null},full:{topLeft:e`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bold></k-hec-bold>
 					<k-hec-italic></k-hec-italic>
 					<k-hec-underline></k-hec-underline>
 					<k-hec-strikethrough></k-hec-strikethrough>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-inline-code></k-hec-inline-code>
 				<k-hec-dropdown>
 					<k-icon slot="icon" name="format_paragraph"></k-icon>
@@ -236,37 +236,37 @@ import{html as e,css as t}from"../lit-all.min.js";import i from"./ShadowComponen
 					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
 					<k-hec-code-block></k-hec-code-block>
 				</k-hec-dropdown>
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
-				</k-hec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-undo></k-cec-undo>
 					<k-cec-redo></k-cec-redo>
-				</k-cec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-format-code></k-cec-format-code>
 					<k-cec-copy-code></k-cec-copy-code>
 					<k-cec-find-replace></k-cec-find-replace>
-				</k-cec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-word-wrap></k-cec-word-wrap>
 					<k-cec-minimap></k-cec-minimap>
 					<k-cec-fold-all></k-cec-fold-all>
-				</k-cec-group>
+				</k-control-group>
 				<k-cec-font-size></k-cec-font-size>
 			`,topRight:e`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-align-left></k-hec-align-left>
 					<k-hec-align-center></k-hec-align-center>
 					<k-hec-align-right></k-hec-align-right>
 					<k-hec-align-justify></k-hec-align-justify>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-create-link></k-hec-create-link>
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-text-color></k-hec-text-color>
 					<k-hec-text-background-color></k-hec-text-background-color>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-clear-formatting></k-hec-clear-formatting>
 				<k-hec-insert-table></k-hec-insert-table>
 				<k-cec-editor-theme></k-cec-editor-theme>

@@ -190,3 +190,11 @@ All tests passed!
 
 #### User Validation Results
 I (Dustin Poissant) have validated this. Everything in the LLM Validation above is correct.
+
+#### Post-Validation Refactor: ControlGroup Promotion
+After validation, the `ControlGroup` component was refactored from editor-specific (`k-cec-group` / `k-hec-group`) to a shared top-level component at `src/components/ControlGroup.js` registered as `<k-control-group>`. This:
+- Moves all group-child styling (`::slotted(*)` border/radius/margin overrides) into the group so button controls are completely unaware of their group context
+- Removes all group-detection logic (`isInGroup`, `isLastInGroup`, `updateGroupState`, `in-group`/`last-in-group` attributes) from `CodeEditorButtonControl`
+- Makes the component reusable for HtmlEditor, MarkdownEditor, Pagination, and Table toolbars
+- Sub-directory files (`codeEditorControls/ControlGroup.js`, `htmlEditorControls/ControlGroup.js`) are now thin re-exports for dynamic import compatibility
+- All 2231 tests still pass after the refactor

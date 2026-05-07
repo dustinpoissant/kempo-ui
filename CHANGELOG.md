@@ -9,11 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [0.4.21] - 2026-05-07
 ### Added
+- **ControlGroup** (`<k-control-group>`): Shared toolbar control-grouping component at `src/components/ControlGroup.js`; groups children visually with border separators via `::slotted(*)`; auto-hides when all children are hidden
 - **CodeEditorButtonControl** base component — extends `Button` so toolbar button controls are proper accessible buttons (role, tabindex, keyboard interaction) that can be targeted externally for styling
 - **FontSizeDecrease** (`<k-cec-font-size-decrease>`) and **FontSizeIncrease** (`<k-cec-font-size-increase>`) standalone button sub-components
 - Form Integration documentation example for CodeEditor showing `name`, `required`, and submit handling
 
 ### Changed
+- Promoted `ControlGroup` from editor-specific (`k-cec-group` / `k-hec-group`) to a shared top-level component registered as `<k-control-group>`; sub-directory files are now thin re-exports for dynamic import compatibility
+- Group-child styling (border collapsing, radius removal) now lives entirely in `ControlGroup` via `::slotted(*)` — button controls no longer need group-detection logic
 - Converted 9 CodeEditor toolbar button controls (FormatCode, CopyCode, Undo, Redo, FindReplace, WordWrap, Minimap, FoldAll, Fullscreen) from internal `<button>` elements to extending `CodeEditorButtonControl` — host element is now the button
 - EditorTheme selector height now matches toolbar buttons; icon preserved with `padding-left` approach
 - FontSize control now renders `FontSizeDecrease` and `FontSizeIncrease` sub-components inside a `ControlGroup`

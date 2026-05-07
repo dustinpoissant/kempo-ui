@@ -409,20 +409,20 @@ export default class CodeEditor extends ShadowComponent {
 	static controlSets = {
 		full: {
 			topLeft: html`
-				<k-cec-group>
+				<k-control-group>
 					<k-cec-undo></k-cec-undo>
 					<k-cec-redo></k-cec-redo>
-				</k-cec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-format-code></k-cec-format-code>
 					<k-cec-copy-code></k-cec-copy-code>
 					<k-cec-find-replace></k-cec-find-replace>
-				</k-cec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-word-wrap></k-cec-word-wrap>
 					<k-cec-minimap></k-cec-minimap>
 					<k-cec-fold-all></k-cec-fold-all>
-				</k-cec-group>
+				</k-control-group>
 				<k-cec-font-size></k-cec-font-size>
 			`,
 			topRight: html`

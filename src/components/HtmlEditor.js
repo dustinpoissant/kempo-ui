@@ -1351,15 +1351,15 @@ export default class HtmlEditor extends ShadowComponent {
 	static controlSets = {
 		minimal: {
 			topLeft: html`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bold></k-hec-bold>
 					<k-hec-italic></k-hec-italic>
 					<k-hec-underline></k-hec-underline>
-				</k-hec-group>
-				<k-hec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
-				</k-hec-group>
+				</k-control-group>
 			`,
 			topRight: null,
 			bottomLeft: null,
@@ -1367,12 +1367,12 @@ export default class HtmlEditor extends ShadowComponent {
 		},
 		normal: {
 			topLeft: html`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bold></k-hec-bold>
 					<k-hec-italic></k-hec-italic>
 					<k-hec-underline></k-hec-underline>
 					<k-hec-strikethrough></k-hec-strikethrough>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-inline-code></k-hec-inline-code>
 				<k-hec-dropdown>
 					<k-icon slot="icon" name="format_paragraph"></k-icon>
@@ -1384,17 +1384,17 @@ export default class HtmlEditor extends ShadowComponent {
 					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
 					<k-hec-code-block></k-hec-code-block>
 				</k-hec-dropdown>
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
-				</k-hec-group>
+				</k-control-group>
 			`,
 			topRight: html`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-align-left></k-hec-align-left>
 					<k-hec-align-center></k-hec-align-center>
 					<k-hec-align-right></k-hec-align-right>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-create-link></k-hec-create-link>
 				<k-cec-format-code></k-cec-format-code>
 				<k-hec-mode></k-hec-mode>
@@ -1404,12 +1404,12 @@ export default class HtmlEditor extends ShadowComponent {
 		},
 		full: {
 			topLeft: html`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bold></k-hec-bold>
 					<k-hec-italic></k-hec-italic>
 					<k-hec-underline></k-hec-underline>
 					<k-hec-strikethrough></k-hec-strikethrough>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-inline-code></k-hec-inline-code>
 				<k-hec-dropdown>
 					<k-icon slot="icon" name="format_paragraph"></k-icon>
@@ -1421,38 +1421,38 @@ export default class HtmlEditor extends ShadowComponent {
 					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
 					<k-hec-code-block></k-hec-code-block>
 				</k-hec-dropdown>
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-bullet-list></k-hec-bullet-list>
 					<k-hec-number-list></k-hec-number-list>
-				</k-hec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-undo></k-cec-undo>
 					<k-cec-redo></k-cec-redo>
-				</k-cec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-format-code></k-cec-format-code>
 					<k-cec-copy-code></k-cec-copy-code>
 					<k-cec-find-replace></k-cec-find-replace>
-				</k-cec-group>
-				<k-cec-group>
+				</k-control-group>
+				<k-control-group>
 					<k-cec-word-wrap></k-cec-word-wrap>
 					<k-cec-minimap></k-cec-minimap>
 					<k-cec-fold-all></k-cec-fold-all>
-				</k-cec-group>
+				</k-control-group>
 				<k-cec-font-size></k-cec-font-size>
 			`,
 			topRight: html`
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-align-left></k-hec-align-left>
 					<k-hec-align-center></k-hec-align-center>
 					<k-hec-align-right></k-hec-align-right>
 					<k-hec-align-justify></k-hec-align-justify>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-create-link></k-hec-create-link>
-				<k-hec-group>
+				<k-control-group>
 					<k-hec-text-color></k-hec-text-color>
 					<k-hec-text-background-color></k-hec-text-background-color>
-				</k-hec-group>
+				</k-control-group>
 				<k-hec-clear-formatting></k-hec-clear-formatting>
 				<k-hec-insert-table></k-hec-insert-table>
 				<k-cec-editor-theme></k-cec-editor-theme>

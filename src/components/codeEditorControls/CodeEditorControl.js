@@ -86,7 +86,7 @@ export default class CodeEditorControl extends ShadowComponent {
 	*/
 	get isInGroup() {
 		const parent = this.parentElement;
-		return parent && parent.tagName === 'K-CEC-GROUP';
+		return parent && parent.tagName === 'K-CONTROL-GROUP';
 	}
 
 	get isLastInGroup() {

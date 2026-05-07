@@ -2,7 +2,7 @@ import CodeEditorControl from './CodeEditorControl.js';
 import { html, css } from '../../lit-all.min.js';
 import './FontSizeDecrease.js';
 import './FontSizeIncrease.js';
-import './ControlGroup.js';
+import '../ControlGroup.js';
 
 export default class FontSize extends CodeEditorControl {
 	/*
@@ -23,10 +23,10 @@ export default class FontSize extends CodeEditorControl {
 	*/
 	render() {
 		return html`
-			<k-cec-group class="b r mq">
+			<k-control-group class="b r mq">
 				<k-cec-font-size-decrease></k-cec-font-size-decrease>
 				<k-cec-font-size-increase></k-cec-font-size-increase>
-			</k-cec-group>
+			</k-control-group>
 		`;
 	}
 }

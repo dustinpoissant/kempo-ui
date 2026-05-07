@@ -79,7 +79,7 @@ export default class HtmlEditorControl extends ShadowComponent {
 	*/
 	get isInGroup() {
 		const parent = this.parentElement;
-		return parent && parent.tagName === 'K-HEC-GROUP';
+		return parent && parent.tagName === 'K-CONTROL-GROUP';
 	}
 
 	get isInDropdown() {

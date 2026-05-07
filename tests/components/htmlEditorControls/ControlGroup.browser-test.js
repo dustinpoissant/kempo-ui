@@ -7,16 +7,16 @@ const createEditorWithGroup = async () => {
 	const container = document.createElement('div');
 	container.innerHTML = `
 		<k-html-editor>
-			<k-hec-group slot="toolbar-top-left">
+			<k-control-group slot="toolbar-top-left">
 				<k-hec-bold></k-hec-bold>
 				<k-hec-italic></k-hec-italic>
-			</k-hec-group>
+			</k-control-group>
 		</k-html-editor>
 	`;
 	document.body.appendChild(container);
 	const editor = container.querySelector('k-html-editor');
 	await new Promise(r => editor.addEventListener('ready', r, { once: true }));
-	const group = container.querySelector('k-hec-group');
+	const group = container.querySelector('k-control-group');
 	return { container, editor, group };
 };
 
@@ -28,7 +28,7 @@ export default {
 	/*
 		Element Creation
 	*/
-	'should create k-hec-group element': async ({pass, fail}) => {
+	'should create k-control-group element': async ({pass, fail}) => {
 		const { container, group } = await createEditorWithGroup();
 		if(!(group instanceof ControlGroup)){
 			cleanup(container);

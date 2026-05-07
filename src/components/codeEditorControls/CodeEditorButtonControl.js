@@ -20,7 +20,6 @@ export default class CodeEditorButtonControl extends Button {
 	connectedCallback() {
 		super.connectedCallback();
 		this.addEventListener('click', this.handleActionClick);
-		this.updateGroupState();
 		this.updateModeVisibility();
 		const editor = this.editor;
 		if(editor?.tagName === 'K-HTML-EDITOR'){
@@ -84,34 +83,6 @@ export default class CodeEditorButtonControl extends Button {
 	}
 
 	/*
-		Group Detection
-	*/
-	get isInGroup() {
-		return this.parentElement?.tagName === 'K-CEC-GROUP';
-	}
-
-	get isLastInGroup() {
-		if(!this.isInGroup) return false;
-		const siblings = Array.from(this.parentElement.children).filter(
-			child => child.tagName.startsWith('K-CEC-') && child.tagName !== 'K-CEC-SPACER'
-		);
-		return siblings[siblings.length - 1] === this;
-	}
-
-	updateGroupState() {
-		if(this.isLastInGroup){
-			this.setAttribute('last-in-group', '');
-			this.setAttribute('in-group', '');
-		} else if(this.isInGroup){
-			this.setAttribute('in-group', '');
-			this.removeAttribute('last-in-group');
-		} else {
-			this.removeAttribute('in-group');
-			this.removeAttribute('last-in-group');
-		}
-	}
-
-	/*
 		Public Methods
 	*/
 	handleAction() {}
@@ -144,17 +115,7 @@ export default class CodeEditorButtonControl extends Button {
 			user-select: none;
 			transition: background-color var(--animation_ms), box-shadow var(--animation_ms);
 		}
-		:host([in-group]) {
-			border: 0;
-			border-right: 1px solid var(--c_border);
-			border-radius: 0;
-			margin: 0;
-		}
-		:host([last-in-group]) {
-			border: 0;
-			border-radius: 0;
-			margin: 0;
-		}
+
 		:host(:not([disabled]):hover) {
 			background: oklch(from var(--c_bg__inv) l c h / 0.15);
 			color: inherit;
