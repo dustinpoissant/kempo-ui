@@ -185,10 +185,11 @@ export default class HtmlEditor extends ShadowComponent {
 		const loaded = this.constructor.loadedModules;
 		const hecBase = new URL('./htmlEditorControls/', import.meta.url).href;
 		const cecBase = new URL('./codeEditorControls/', import.meta.url).href;
+		const componentsBase = new URL('./', import.meta.url).href;
 		modules.filter(m => !loaded.has(m)).forEach(m => {
 			loaded.add(m);
-			const [dir, file] = m.split('/');
-			import(`${dir === 'cec' ? cecBase : hecBase}${file}.js`);
+			if(m.startsWith('components/')) import(`${componentsBase}${m.slice('components/'.length)}.js`);
+			else { const [dir, file] = m.split('/'); import(`${dir === 'cec' ? cecBase : hecBase}${file}.js`); }
 		});
 	}
 
@@ -1329,12 +1330,12 @@ export default class HtmlEditor extends ShadowComponent {
 	static loadedModules = new Set();
 	static controlModules = {
 		minimal: [
-			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/BulletList', 'hec/NumberList', 'hec/ControlGroup'
+			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/BulletList', 'hec/NumberList', 'components/ControlGroup'
 		],
 		normal: [
 			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/Strikethrough', 'hec/InlineCode', 'hec/DropdownControl',
 			'hec/FormatBlock', 'hec/CodeBlock', 'hec/BulletList', 'hec/NumberList', 'hec/AlignLeft',
-			'hec/AlignCenter', 'hec/AlignRight', 'hec/CreateLink', 'hec/Mode', 'hec/WordCount', 'hec/ControlGroup',
+			'hec/AlignCenter', 'hec/AlignRight', 'hec/CreateLink', 'hec/Mode', 'hec/WordCount', 'components/ControlGroup',
 			'cec/FormatCode'
 		],
 		full: [
@@ -1342,9 +1343,9 @@ export default class HtmlEditor extends ShadowComponent {
 			'hec/FormatBlock', 'hec/CodeBlock', 'hec/BulletList', 'hec/NumberList', 'hec/AlignLeft',
 			'hec/AlignCenter', 'hec/AlignRight', 'hec/AlignJustify', 'hec/TextColor', 'hec/TextBackgroundColor',
 			'hec/ClearFormatting', 'hec/CreateLink', 'hec/InsertTable', 'hec/Mode', 'hec/WordCount',
-			'hec/CharacterCount', 'hec/ControlGroup',
+			'hec/CharacterCount', 'components/ControlGroup',
 			'cec/Undo', 'cec/Redo', 'cec/FormatCode', 'cec/CopyCode', 'cec/FindReplace',
-			'cec/WordWrap', 'cec/Minimap', 'cec/FoldAll', 'cec/FontSize', 'cec/EditorTheme', 'cec/Fullscreen', 'cec/ControlGroup'
+			'cec/WordWrap', 'cec/Minimap', 'cec/FoldAll', 'cec/FontSize', 'cec/EditorTheme', 'cec/Fullscreen', 'components/ControlGroup'
 		]
 	};
 

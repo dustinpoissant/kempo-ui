@@ -164,8 +164,13 @@ export default class CodeEditor extends ShadowComponent {
 		const modules = this.constructor.controlModules[this.controls];
 		if(!modules?.length) return;
 		const loaded = this.constructor.loadedModules;
-		const base = new URL('./codeEditorControls/', import.meta.url).href;
-		modules.filter(m => !loaded.has(m)).forEach(m => { loaded.add(m); import(`${base}${m}.js`); });
+		const cecBase = new URL('./codeEditorControls/', import.meta.url).href;
+		const componentsBase = new URL('./', import.meta.url).href;
+		modules.filter(m => !loaded.has(m)).forEach(m => {
+			loaded.add(m);
+			if(m.startsWith('components/')) import(`${componentsBase}${m.slice('components/'.length)}.js`);
+			else import(`${cecBase}${m}.js`);
+		});
 	}
 
 	async initMonaco() {
@@ -403,7 +408,7 @@ export default class CodeEditor extends ShadowComponent {
 	*/
 	static loadedModules = new Set();
 	static controlModules = {
-		full: ['FormatCode', 'CopyCode', 'EditorTheme', 'Undo', 'Redo', 'WordWrap', 'Minimap', 'FindReplace', 'FontSize', 'FoldAll', 'LanguageSelect', 'Fullscreen', 'ControlGroup', 'ControlSpacer']
+		full: ['FormatCode', 'CopyCode', 'EditorTheme', 'Undo', 'Redo', 'WordWrap', 'Minimap', 'FindReplace', 'FontSize', 'FoldAll', 'LanguageSelect', 'Fullscreen', 'components/ControlGroup', 'ControlSpacer']
 	};
 
 	static controlSets = {

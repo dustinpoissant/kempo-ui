@@ -1,5 +1,5 @@
 import '../../../src/components/HtmlEditor.js';
-import ControlGroup from '../../../src/components/htmlEditorControls/ControlGroup.js';
+import ControlGroup from '../../../src/components/ControlGroup.js';
 import '../../../src/components/htmlEditorControls/Bold.js';
 import '../../../src/components/htmlEditorControls/Italic.js';
 
