@@ -1,19 +1,27 @@
-import t from"./HtmlEditorControl.js";import{html as o,css as e}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class n extends t{static properties={opened:{type:Boolean,reflect:!0},editorMode:{type:String,state:!0}};constructor(){super(),this.opened=!1}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}updated(t){super.updated(t),t.has("editorMode")&&requestAnimationFrame(()=>{this.hidden="code"===this.editorMode&&!this.hasVisibleChildren()})}updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}hasVisibleChildren(){return Array.from(this.children).filter(t=>!t.hasAttribute("slot")).some(t=>{if(!1===t.hidden||void 0===t.hidden){return"none"!==window.getComputedStyle(t).display}return!1})}static styles=[t.styles,e`
+import t from"./HtmlEditorControl.js";import{html as o,css as e}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class i extends t{static properties={opened:{type:Boolean,reflect:!0},editorMode:{type:String,state:!0}};constructor(){super(),this.opened=!1}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}updated(t){super.updated(t),t.has("editorMode")&&requestAnimationFrame(()=>{this.hidden="code"===this.editorMode&&!this.hasVisibleChildren()})}updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}hasVisibleChildren(){return Array.from(this.children).filter(t=>!t.hasAttribute("slot")).some(t=>{if(!1===t.hidden||void 0===t.hidden){return"none"!==window.getComputedStyle(t).display}return!1})}static styles=[t.styles,e`
       k-dropdown {
         display: inline-flex;
       }
       
-      /* Override fixed sizing for dropdown trigger */
+      /* Trigger button: auto-size to fit icon + label */
       button[slot="trigger"] {
         width: auto !important;
         height: auto !important;
         min-width: 40px;
         min-height: 40px;
+        padding: 0 0.75rem;
       }
       
-      /* Style slotted items (not icon or label) */
+      /* Slotted dropdown items: remove individual borders/radius for unified menu look */
       ::slotted(:not([slot="icon"]):not([slot="label"])) {
         display: block !important;
+        border: none !important;
+        border-radius: 0 !important;
+        border-bottom: 1px solid var(--c_border) !important;
+      }
+      
+      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) {
+        border-bottom: none !important;
       }
       
       ::slotted(:not([slot="icon"]):not([slot="label"])) .icon-btn,
@@ -26,12 +34,6 @@ import t from"./HtmlEditorControl.js";import{html as o,css as e}from"../../lit-a
         margin: 0 !important;
         border: none !important;
         border-radius: 0 !important;
-        border-bottom: 1px solid var(--c_border) !important;
-      }
-      
-      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) .icon-btn,
-      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) button {
-        border-bottom: none !important;
       }
     `];handleToggle=()=>{this.opened=!this.opened};handleOpened=()=>{this.opened=!0};handleClosed=()=>{this.opened=!1};render(){return o`
       <k-dropdown 
@@ -50,4 +52,4 @@ import t from"./HtmlEditorControl.js";import{html as o,css as e}from"../../lit-a
         </button>
         <slot></slot>
       </k-dropdown>
-    `}}customElements.define("k-hec-dropdown",n);
+    `}}customElements.define("k-hec-dropdown",i);

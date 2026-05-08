@@ -51,9 +51,7 @@ export default class HtmlEditorControl extends ShadowComponent {
 		Getters
 	*/
 	get buttonClasses() {
-		return this.parentElement?.tagName === 'K-HEC-DROPDOWN'
-			? 'no-btn icon-btn dropdown-item'
-			: 'no-btn icon-btn';
+		return 'no-btn icon-btn';
 	}
 
 	get editor() {
@@ -104,23 +102,6 @@ export default class HtmlEditorControl extends ShadowComponent {
 			width: auto;
 			padding-left: 0.75rem;
 			padding-right: 0.75rem;
-		}
-		
-		/* Styles for controls in dropdown */
-		.icon-btn.dropdown-item {
-			display: flex !important;
-			width: 100% !important;
-			height: auto !important;
-			justify-content: flex-start !important;
-			padding: 0.5rem 0.75rem !important;
-			margin: 0 !important;
-			border: none !important;
-			border-radius: 0 !important;
-			border-bottom: 1px solid var(--c_border) !important;
-		}
-		
-		:host(:last-child) .icon-btn.dropdown-item {
-			border-bottom: none !important;
 		}
 	`;
 }

@@ -69,17 +69,25 @@ export default class DropdownControl extends HtmlEditorControl {
         display: inline-flex;
       }
       
-      /* Override fixed sizing for dropdown trigger */
+      /* Trigger button: auto-size to fit icon + label */
       button[slot="trigger"] {
         width: auto !important;
         height: auto !important;
         min-width: 40px;
         min-height: 40px;
+        padding: 0 0.75rem;
       }
       
-      /* Style slotted items (not icon or label) */
+      /* Slotted dropdown items: remove individual borders/radius for unified menu look */
       ::slotted(:not([slot="icon"]):not([slot="label"])) {
         display: block !important;
+        border: none !important;
+        border-radius: 0 !important;
+        border-bottom: 1px solid var(--c_border) !important;
+      }
+      
+      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) {
+        border-bottom: none !important;
       }
       
       ::slotted(:not([slot="icon"]):not([slot="label"])) .icon-btn,
@@ -92,12 +100,6 @@ export default class DropdownControl extends HtmlEditorControl {
         margin: 0 !important;
         border: none !important;
         border-radius: 0 !important;
-        border-bottom: 1px solid var(--c_border) !important;
-      }
-      
-      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) .icon-btn,
-      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) button {
-        border-bottom: none !important;
       }
     `
   ];
