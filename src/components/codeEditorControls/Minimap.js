@@ -56,7 +56,7 @@ export default class Minimap extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="map"></k-icon>`;
+		return html`<slot><k-icon name="map"></k-icon></slot>`;
 	}
 }
 

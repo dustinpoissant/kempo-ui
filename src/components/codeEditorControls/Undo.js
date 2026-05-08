@@ -22,7 +22,7 @@ export default class Undo extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="undo"></k-icon>`;
+		return html`<slot><k-icon name="undo"></k-icon></slot>`;
 	}
 }
 

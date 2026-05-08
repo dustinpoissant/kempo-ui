@@ -56,7 +56,7 @@ export default class WordWrap extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="wrap_text"></k-icon>`;
+		return html`<slot><k-icon name="wrap_text"></k-icon></slot>`;
 	}
 }
 

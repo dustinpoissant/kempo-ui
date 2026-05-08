@@ -64,7 +64,7 @@ export default class Fullscreen extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="${this.fullscreen ? 'fullscreen_exit' : 'fullscreen'}"></k-icon>`;
+		return html`<slot><k-icon name="${this.fullscreen ? 'fullscreen_exit' : 'fullscreen'}"></k-icon></slot>`;
 	}
 }
 

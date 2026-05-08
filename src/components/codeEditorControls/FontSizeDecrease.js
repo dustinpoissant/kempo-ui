@@ -22,7 +22,7 @@ export default class FontSizeDecrease extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="text_decrease"></k-icon>`;
+		return html`<slot><k-icon name="text_decrease"></k-icon></slot>`;
 	}
 }
 

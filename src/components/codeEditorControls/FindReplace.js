@@ -22,7 +22,7 @@ export default class FindReplace extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="search"></k-icon>`;
+		return html`<slot><k-icon name="search"></k-icon></slot>`;
 	}
 }
 

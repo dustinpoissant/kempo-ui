@@ -22,7 +22,7 @@ export default class CopyCode extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="content_copy"></k-icon>`;
+		return html`<slot><k-icon name="content_copy"></k-icon></slot>`;
 	}
 }
 

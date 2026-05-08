@@ -22,7 +22,7 @@ export default class FormatCode extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="frame_source"></k-icon>`;
+		return html`<slot><k-icon name="frame_source"></k-icon></slot>`;
 	}
 }
 

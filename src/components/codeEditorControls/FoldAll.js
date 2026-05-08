@@ -36,7 +36,7 @@ export default class FoldAll extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="${this.folded ? 'unfold_more' : 'unfold_less'}"></k-icon>`;
+		return html`<slot><k-icon name="${this.folded ? 'unfold_more' : 'unfold_less'}"></k-icon></slot>`;
 	}
 }
 

@@ -22,7 +22,7 @@ export default class Redo extends CodeEditorButtonControl {
 		Rendering
 	*/
 	render() {
-		return html`<k-icon name="redo"></k-icon>`;
+		return html`<slot><k-icon name="redo"></k-icon></slot>`;
 	}
 }
 
