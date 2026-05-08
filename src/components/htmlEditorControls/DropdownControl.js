@@ -81,12 +81,13 @@ export default class DropdownControl extends HtmlEditorControl {
       /* Slotted dropdown items: remove individual borders/radius for unified menu look */
       ::slotted(:not([slot="icon"]):not([slot="label"])) {
         display: block !important;
+        margin: 0 !important;
         border: none !important;
         border-radius: 0 !important;
         border-bottom: 1px solid var(--c_border) !important;
       }
       
-      ::slotted(:not([slot="icon"]):not([slot="label"]):last-of-type) {
+      ::slotted(:not([slot="icon"]):not([slot="label"]):last-child) {
         border-bottom: none !important;
       }
       
