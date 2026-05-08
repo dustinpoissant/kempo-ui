@@ -4,9 +4,6 @@ import { html, css } from '../../lit-all.min.js';
 export default class HtmlEditorControl extends ShadowComponent {
 	/* Properties */
 	static properties = {
-		btnClass: { type: String, attribute: 'btn-class' },
-		groupBtnClass: { type: String, attribute: 'group-btn-class' },
-		groupLastBtnClass: { type: String, attribute: 'group-last-btn-class' },
 		hidden: { type: Boolean, reflect: true }
 	};
 
@@ -15,9 +12,6 @@ export default class HtmlEditorControl extends ShadowComponent {
 	*/
 	constructor() {
 		super();
-		this.btnClass = 'b r mq ph';
-		this.groupBtnClass = 'br ph';
-		this.groupLastBtnClass = 'ph';
 		this.hidesInCodeMode = true;
 	}
 
@@ -54,8 +48,14 @@ export default class HtmlEditorControl extends ShadowComponent {
 	}
 
 	/*
-		Getters for Editor Integration
+		Getters
 	*/
+	get buttonClasses() {
+		return this.parentElement?.tagName === 'K-HEC-DROPDOWN'
+			? 'no-btn icon-btn dropdown-item'
+			: 'no-btn icon-btn';
+	}
+
 	get editor() {
 		const isEditor = el => el?.tagName?.startsWith('K-HTML-EDITOR');
 		let current = this.getRootNode();
@@ -75,49 +75,13 @@ export default class HtmlEditorControl extends ShadowComponent {
 	}
 
 	/*
-		Getters for Group Detection
-	*/
-	get isInGroup() {
-		const parent = this.parentElement;
-		return parent && parent.tagName === 'K-CONTROL-GROUP';
-	}
-
-	get isInDropdown() {
-		const parent = this.parentElement;
-		return parent && parent.tagName === 'K-HEC-DROPDOWN';
-	}
-
-	get isLastInGroup() {
-		if(!this.isInGroup) return false;
-		const parent = this.parentElement;
-		const siblings = Array.from(parent.children).filter(
-			child => child.tagName.startsWith('K-HEC-') && child.tagName !== 'K-HEC-SPACER'
-		);
-		return siblings[siblings.length - 1] === this;
-	}
-
-	/*
-		Getters for Button Classes
-	*/
-	get buttonClasses() {
-		const baseClass = 'no-btn icon-btn';
-		let styleClass;
-		if(this.isInDropdown){
-			styleClass = 'dropdown-item';
-		} else if(this.isInGroup){
-			styleClass = this.isLastInGroup ? this.groupLastBtnClass : this.groupBtnClass;
-		} else {
-			styleClass = this.btnClass;
-		}
-		return `${baseClass} ${styleClass}`.trim();
-	}
-
-	/*
 		Styles
 	*/
 	static styles = css`
 		:host {
 			display: inline-flex;
+			border: 1px solid var(--c_border);
+			border-radius: var(--radius);
 		}
 		
 		:host([hidden]) {
