@@ -1,5 +1,5 @@
 import HtmlEditorControl from './HtmlEditorControl.js';
-import { html, css } from '../../lit-all.min.js';
+import { html } from '../../lit-all.min.js';
 import '../Icon.js';
 
 export default class FormatBlock extends HtmlEditorControl {
@@ -9,17 +9,6 @@ export default class FormatBlock extends HtmlEditorControl {
 		label: {type: String}
 	};
 
-	/*
-		Styles
-	*/
-	static styles = [
-		HtmlEditorControl.styles,
-		css`
-			:host {
-				display: inline-flex;
-			}
-		`
-	];
 
 	/*
 		Constructor

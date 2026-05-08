@@ -1,8 +1,4 @@
-import t from"./HtmlEditorControl.js";import{html as e,css as a}from"../../lit-all.min.js";import"../Icon.js";export default class o extends t{static properties={editorMode:{type:String,state:!0},tag:{type:String},label:{type:String}};static styles=[t.styles,a`
-			:host {
-				display: inline-flex;
-			}
-		`];constructor(){super(),this.tag="p",this.label=""}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleClick=()=>{this.editor&&this.editor.formatBlock(this.tag)};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}render(){this.hidden="code"===this.editorMode;this.label||this.getDefaultLabel();const t=this.getDefaultIcon();return e`
+import t from"./HtmlEditorControl.js";import{html as e}from"../../lit-all.min.js";import"../Icon.js";export default class o extends t{static properties={editorMode:{type:String,state:!0},tag:{type:String},label:{type:String}};constructor(){super(),this.tag="p",this.label=""}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}handleClick=()=>{this.editor&&this.editor.formatBlock(this.tag)};updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}render(){this.hidden="code"===this.editorMode;this.label||this.getDefaultLabel();const t=this.getDefaultIcon();return e`
 			<button class="${this.buttonClasses}" @click="${this.handleClick}">
 				<slot name="icon">
 					<k-icon name="${t}"></k-icon>

@@ -1,5 +1,5 @@
 import HtmlEditorControl from './HtmlEditorControl.js';
-import { html, css } from '../../lit-all.min.js';
+import { html } from '../../lit-all.min.js';
 import '../Icon.js';
 
 export default class AlignLeft extends HtmlEditorControl {
@@ -7,17 +7,6 @@ export default class AlignLeft extends HtmlEditorControl {
 		editorMode: {type: String, state: true}
 	};
 
-	/*
-		Styles
-	*/
-	static styles = [
-		HtmlEditorControl.styles,
-		css`
-			:host {
-				display: inline-flex;
-			}
-		`
-	];
 
 	/*
 		Lifecycle Callbacks

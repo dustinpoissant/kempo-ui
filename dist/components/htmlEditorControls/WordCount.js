@@ -4,7 +4,6 @@ import t from"./HtmlEditorControl.js";import{html as e,css as s}from"../../lit-a
 			</span>
 		`}static styles=[t.styles,s`
 			:host {
-				display: inline-flex;
 				align-items: center;
 				padding: 0 0.5rem;
 				font-size: 0.875rem;

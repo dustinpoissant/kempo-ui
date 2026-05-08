@@ -1,5 +1,5 @@
 import HtmlEditorControl from './HtmlEditorControl.js';
-import { html, css } from '../../lit-all.min.js';
+import { html } from '../../lit-all.min.js';
 import '../Icon.js';
 import Dialog from '../Dialog.js';
 

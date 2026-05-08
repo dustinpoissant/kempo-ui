@@ -1,8 +1,4 @@
 import t from"./HtmlEditorControl.js";import{html as o,css as e}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class n extends t{static properties={opened:{type:Boolean,reflect:!0},editorMode:{type:String,state:!0}};constructor(){super(),this.opened=!1}connectedCallback(){super.connectedCallback(),this.updateEditorMode(),this.editor?.addEventListener("mode-changed",()=>this.updateEditorMode())}updated(t){super.updated(t),t.has("editorMode")&&requestAnimationFrame(()=>{this.hidden="code"===this.editorMode&&!this.hasVisibleChildren()})}updateEditorMode(){this.editor&&(this.editorMode=this.editor.mode)}hasVisibleChildren(){return Array.from(this.children).filter(t=>!t.hasAttribute("slot")).some(t=>{if(!1===t.hidden||void 0===t.hidden){return"none"!==window.getComputedStyle(t).display}return!1})}static styles=[t.styles,e`
-      :host {
-        display: inline-flex;
-      }
-      
       k-dropdown {
         display: inline-flex;
       }

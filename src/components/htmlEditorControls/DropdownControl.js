@@ -65,10 +65,6 @@ export default class DropdownControl extends HtmlEditorControl {
   static styles = [
     HtmlEditorControl.styles,
     css`
-      :host {
-        display: inline-flex;
-      }
-      
       k-dropdown {
         display: inline-flex;
       }

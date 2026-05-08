@@ -57,7 +57,6 @@ export default class CharacterCount extends HtmlEditorControl {
 		HtmlEditorControl.styles,
 		css`
 			:host {
-				display: inline-flex;
 				align-items: center;
 				padding: 0 0.5rem;
 				font-size: 0.875rem;

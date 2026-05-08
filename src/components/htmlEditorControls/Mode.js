@@ -38,17 +38,6 @@ export default class Mode extends HtmlEditorControl {
     this.mode = this.editor.mode;
   }
 
-  /*
-    Styles
-  */
-  static styles = [
-    HtmlEditorControl.styles,
-    css`
-      :host {
-        display: inline-flex;
-      }
-    `
-  ];
 
   /*
     Rendering
