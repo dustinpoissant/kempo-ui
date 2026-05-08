@@ -80,6 +80,7 @@ export default class HtmlEditorControl extends ShadowComponent {
 			display: inline-flex;
 			border: 1px solid var(--c_border);
 			border-radius: var(--radius);
+			margin: 0 0.25rem;
 		}
 		
 		:host([hidden]) {

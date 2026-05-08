@@ -3,6 +3,7 @@ import e from"../ShadowComponent.js";import{html as t,css as n}from"../../lit-al
 			display: inline-flex;
 			border: 1px solid var(--c_border);
 			border-radius: var(--radius);
+			margin: 0 0.25rem;
 		}
 		
 		:host([hidden]) {
