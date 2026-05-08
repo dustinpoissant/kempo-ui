@@ -41,7 +41,6 @@ export default class WordWrap extends CodeEditorButtonControl {
 	static styles = [
 		CodeEditorButtonControl.styles,
 		css`
-			:host { display: inline-flex; }
 			:host(.active) { background: var(--primary-bg, rgba(0,120,212,0.15)); }
 		`
 	];

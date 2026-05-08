@@ -1,3 +1,1 @@
-import e from"./CodeEditorButtonControl.js";import{html as t,css as s}from"../../lit-all.min.js";import"../Icon.js";export default class i extends e{static styles=[e.styles,s`
-			:host { display: inline-flex; }
-		`];connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Decrease Font Size")}handleAction(){this.editor?.decreaseFontSize()}render(){return t`<k-icon name="text_decrease"></k-icon>`}}customElements.define("k-cec-font-size-decrease",i);
+import e from"./CodeEditorButtonControl.js";import{html as t}from"../../lit-all.min.js";import"../Icon.js";export default class o extends e{connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Decrease Font Size")}handleAction(){this.editor?.decreaseFontSize()}render(){return t`<k-icon name="text_decrease"></k-icon>`}}customElements.define("k-cec-font-size-decrease",o);

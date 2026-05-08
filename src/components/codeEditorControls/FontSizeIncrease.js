@@ -1,18 +1,8 @@
 import CodeEditorButtonControl from './CodeEditorButtonControl.js';
-import { html, css } from '../../lit-all.min.js';
+import { html } from '../../lit-all.min.js';
 import '../Icon.js';
 
 export default class FontSizeIncrease extends CodeEditorButtonControl {
-	/*
-		Styles
-	*/
-	static styles = [
-		CodeEditorButtonControl.styles,
-		css`
-			:host { display: inline-flex; }
-		`
-	];
-
 	/*
 		Lifecycle Callbacks
 	*/

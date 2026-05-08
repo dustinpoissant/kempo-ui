@@ -1,3 +1,1 @@
-import e from"./CodeEditorButtonControl.js";import{html as t,css as i}from"../../lit-all.min.js";import"../Icon.js";export default class n extends e{static styles=[e.styles,i`
-			:host { display: inline-flex; }
-		`];connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Find & Replace")}handleAction(){this.editor?.openFind()}render(){return t`<k-icon name="search"></k-icon>`}}customElements.define("k-cec-find-replace",n);
+import e from"./CodeEditorButtonControl.js";import{html as t}from"../../lit-all.min.js";import"../Icon.js";export default class n extends e{connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Find & Replace")}handleAction(){this.editor?.openFind()}render(){return t`<k-icon name="search"></k-icon>`}}customElements.define("k-cec-find-replace",n);

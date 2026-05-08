@@ -12,7 +12,6 @@ export default class FontSize extends CodeEditorControl {
 		CodeEditorControl.styles,
 		css`
 			:host {
-				display: inline-flex;
 				gap: 0;
 			}
 		`

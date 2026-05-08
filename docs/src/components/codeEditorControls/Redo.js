@@ -1,3 +1,1 @@
-import t from"./CodeEditorButtonControl.js";import{html as e,css as o}from"../../lit-all.min.js";import"../Icon.js";export default class i extends t{static styles=[t.styles,o`
-			:host { display: inline-flex; }
-		`];connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Redo")}handleAction(){this.editor?.redo()}render(){return e`<k-icon name="redo"></k-icon>`}}customElements.define("k-cec-redo",i);
+import e from"./CodeEditorButtonControl.js";import{html as t}from"../../lit-all.min.js";import"../Icon.js";export default class o extends e{connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Redo")}handleAction(){this.editor?.redo()}render(){return t`<k-icon name="redo"></k-icon>`}}customElements.define("k-cec-redo",o);

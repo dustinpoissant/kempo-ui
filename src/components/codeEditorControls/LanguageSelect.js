@@ -48,7 +48,6 @@ export default class LanguageSelect extends CodeEditorControl {
 		CodeEditorControl.styles,
 		css`
 			:host {
-				display: inline-flex;
 				align-items: center;
 				padding: 0 0.25rem;
 				gap: 0.25rem;

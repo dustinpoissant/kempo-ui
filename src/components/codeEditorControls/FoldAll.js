@@ -1,5 +1,5 @@
 import CodeEditorButtonControl from './CodeEditorButtonControl.js';
-import { html, css } from '../../lit-all.min.js';
+import { html } from '../../lit-all.min.js';
 import '../Icon.js';
 
 export default class FoldAll extends CodeEditorButtonControl {
@@ -31,16 +31,6 @@ export default class FoldAll extends CodeEditorButtonControl {
 			this.editor?.unfoldAll();
 		}
 	}
-
-	/*
-		Styles
-	*/
-	static styles = [
-		CodeEditorButtonControl.styles,
-		css`
-			:host { display: inline-flex; }
-		`
-	];
 
 	/*
 		Rendering
