@@ -19,7 +19,6 @@ export default class CodeEditorButtonControl extends Button {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
-		this.addEventListener('click', this.handleActionClick);
 		this.updateModeVisibility();
 		const editor = this.editor;
 		if(editor?.tagName === 'K-HTML-EDITOR'){
@@ -30,7 +29,6 @@ export default class CodeEditorButtonControl extends Button {
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-		this.removeEventListener('click', this.handleActionClick);
 		if(this.modeHandler){
 			this.editor?.removeEventListener('mode-changed', this.modeHandler);
 			this.modeHandler = null;
@@ -90,7 +88,13 @@ export default class CodeEditorButtonControl extends Button {
 	/*
 		Event Handlers
 	*/
-	handleActionClick = () => this.handleAction();
+	handleClick = e => {
+		if(this.disabled){
+			e.stopImmediatePropagation();
+			return;
+		}
+		this.handleAction();
+	};
 
 	/*
 		Styles
