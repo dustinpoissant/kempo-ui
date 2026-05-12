@@ -38,18 +38,19 @@ Problems with the current architecture:
    - `ControlMenu extends Control` — for dropdown-style controls (replaces `DropdownControl`).
 4. **Auto-disable when host doesn't support the action**: Each control declares which method(s) it calls on its host. If `closest('[controlled]')` returns a host that does not implement those methods, the control disables itself (sets `disabled` and shows in disabled state). Example: dropping `<k-control-bold>` inside `<k-table>` shows a disabled bold button rather than throwing.
 5. **Cross-host reusability via shared controls**: Controls that have the same semantics across hosts are unified into one component. Examples (non-exhaustive):
-   - `<k-control-bold>` works in HtmlEditor and MarkdownEditor
-   - `<k-control-italic>`, `<k-control-underline>`, `<k-control-strikethrough>` — same as above
-   - `<k-control-undo>`, `<k-control-redo>` — work in CodeEditor, HtmlEditor, MarkdownEditor
-   - `<k-control-copy>` — works in CodeEditor, HtmlEditor, MarkdownEditor
-   - `<k-control-word-wrap>` — works in CodeEditor and HtmlEditor (code mode)
-   - `<k-control-find-replace>` — works in CodeEditor and HtmlEditor (code mode)
-   - `<k-control-fullscreen>` — works in any host that supports a fullscreen toggle
-6. **Tag naming**: All controls use the prefix `k-control-*` (replacing `k-cec-*`, `k-hec-*`, `k-mec-*`, `k-tc-*`, `k-pg-*`).
-7. **Mode-aware visibility preserved**: Controls that only make sense in a specific host mode (e.g., text-formatting controls in HtmlEditor visual mode, code-only controls in code mode) hide themselves automatically based on the host's mode events.
-8. **No regressions**: Existing demo pages (`docs-src/components/code-editor.page.html`, `html-editor.page.html`, `markdown-editor.page.html`, `table.page.html`, `pagination.page.html`) work identically after the refactor — visually and functionally.
-9. **Documentation updated**: `docs-src/` pages and `llms.txt` are updated to reflect the new tag names and the unified architecture.
-10. **All tests pass**: 0 test failures across the suite.
+   - `<kc-bold>` works in HtmlEditor and MarkdownEditor
+   - `<kc-italic>`, `<kc-underline>`, `<kc-strikethrough>` — same as above
+   - `<kc-undo>`, `<kc-redo>` — work in CodeEditor, HtmlEditor, MarkdownEditor
+   - `<kc-copy>` — works in CodeEditor, HtmlEditor, MarkdownEditor
+   - `<kc-word-wrap>` — works in CodeEditor and HtmlEditor (code mode)
+   - `<kc-find-replace>` — works in CodeEditor and HtmlEditor (code mode)
+   - `<kc-fullscreen>` — works in any host that supports a fullscreen toggle
+6. **Tag naming**: All controls use the prefix `kc-*` ("kempo control"). This fully replaces the old `k-cec-*`, `k-hec-*`, `k-mec-*`, `k-tc-*`, `k-pg-*` prefixes. The project is in beta — no backward-compatibility aliases are required; old tags are simply removed.
+7. **Preconfigured control set helper**: Hosts ship with a small set of named preset configurations (e.g. `controls="full"`, `controls="minimal"`). These presets are defined in code as Lit tagged-template-literal HTML fragments (e.g. `` html`<kc-bold></kc-bold><kc-italic></kc-italic>...` ``). A shared helper parses the template, discovers which `<kc-*>` tags it references, and dynamically imports the matching modules from `src/components/controls/` before rendering. This replaces the current per-editor `loadControls()` duplication.
+8. **Mode-aware visibility preserved**: Controls that only make sense in a specific host mode (e.g., text-formatting controls in HtmlEditor visual mode, code-only controls in code mode) hide themselves automatically based on the host's mode events.
+9. **No regressions**: Existing demo pages (`docs-src/components/code-editor.page.html`, `html-editor.page.html`, `markdown-editor.page.html`, `table.page.html`, `pagination.page.html`) work identically after the refactor — visually and functionally.
+10. **Documentation updated**: `docs-src/` pages and `llms.txt` are updated to reflect the new tag names and the unified architecture.
+11. **All tests pass**: 0 test failures across the suite.
 
 ### In-Scope
 - `src/components/controls/` (new merged directory)
@@ -71,9 +72,13 @@ Problems with the current architecture:
 - Exact API for `Control`, `ButtonControl`, `ControlMenu` base classes
 - Method-existence check mechanism (declared on the control class via a static property listing required methods? duck-typed at click time? something else?)
 - Migration order — which host's controls to migrate first
-- Backward compatibility plan — should the old `k-cec-*`, `k-hec-*`, etc. tags still work as aliases for one release?
-- How `loadControls()` in editor components changes (now that controls live in one directory)
-- How `ControlGroup` interacts with the new bases (should remain unchanged)}
+- Implementation details for the control-loading helper:
+  - Function signature (e.g. `loadControlsFromTemplate(htmlResult)` returning a Promise)
+  - How to extract tag names from a Lit `TemplateResult` (walk the `strings` array with a regex for `<kc-[a-z-]+`?)
+  - How tag → module path mapping works (kebab-case → PascalCase filename in `src/components/controls/`)
+  - Whether preset configurations are also stored as Lit templates or as plain strings parsed by the same helper
+- How `ControlGroup` interacts with the new bases (should remain unchanged)
+- Confirm full removal of old prefixed tags (no aliases) and that all docs/tests reference only the new tags}
 
 ## Testing / Validation Plan
 {To be filled in during task-prepare. Should cover:
