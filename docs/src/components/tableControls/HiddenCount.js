@@ -1,3 +1,0 @@
-import e from"./TableControl.js";import{html as d}from"../../lit-all.min.js";export default class n extends e{static properties={hiddenCount:{type:Number}};connectedCallback(){super.connectedCallback(),this.updateHiddenCount(),this.onTableEvent("recordHidden recordShown",this.handleHiddenChange)}handleHiddenChange=()=>{this.updateHiddenCount()};updateHiddenCount=()=>{this.hiddenCount=this.table?.getHiddenRecords().length||0};render(){return d`
-			<div class="pyq pxh"><span>${this.hiddenCount}</span>&nbsp;Hidden Records</div>
-		`}}customElements.define("k-tc-hidden-count",n);

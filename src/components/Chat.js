@@ -3,13 +3,13 @@ import ShadowComponent from './ShadowComponent.js';
 import sanitizeHtml from '../utils/sanitizeHtml.js';
 import renderMarkdown from '../utils/renderMarkdown.js';
 import './MarkdownEditor.js';
-import './markdownEditorControls/Bold.js';
-import './markdownEditorControls/Italic.js';
-import './markdownEditorControls/Code.js';
-import './markdownEditorControls/Link.js';
-import './markdownEditorControls/BulletList.js';
-import './markdownEditorControls/NumberedList.js';
-import './markdownEditorControls/Quote.js';
+import './controls/Bold.js';
+import './controls/Italic.js';
+import './controls/InlineCode.js';
+import './controls/MdLink.js';
+import './controls/BulletList.js';
+import './controls/NumberList.js';
+import './controls/Quote.js';
 import './Spinner.js';
 import './Icon.js';
 
@@ -247,13 +247,13 @@ export default class Chat extends ShadowComponent {
         >
           <div slot="controls-top" class="controls-top">
             <slot name="controls-top">
-              <k-md-bold></k-md-bold>
-              <k-md-italic></k-md-italic>
-              <k-md-code></k-md-code>
-              <k-md-link></k-md-link>
-              <k-md-bullet-list></k-md-bullet-list>
-              <k-md-numbered-list></k-md-numbered-list>
-              <k-md-quote></k-md-quote>
+              <kc-bold></kc-bold>
+              <kc-italic></kc-italic>
+              <kc-inline-code></kc-inline-code>
+              <kc-md-link></kc-md-link>
+              <kc-bullet-list></kc-bullet-list>
+              <kc-number-list></kc-number-list>
+              <kc-quote></kc-quote>
             </slot>
           </div>
           <div slot="controls-bottom" class="controls-bottom">

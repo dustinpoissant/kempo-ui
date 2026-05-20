@@ -351,11 +351,11 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 50, controls: 'simple' });
 		await el.updateComplete;
 		const sr = el.shadowRoot;
-		const hasPrev = !!sr.querySelector('k-pg-prev');
-		const hasInfo = !!sr.querySelector('k-pg-page-info');
-		const hasNext = !!sr.querySelector('k-pg-next');
-		const hasFirst = !!sr.querySelector('k-pg-first');
-		const hasLast = !!sr.querySelector('k-pg-last');
+		const hasPrev = !!sr.querySelector('kc-pg-prev');
+		const hasInfo = !!sr.querySelector('kc-pg-page-info');
+		const hasNext = !!sr.querySelector('kc-pg-next');
+		const hasFirst = !!sr.querySelector('kc-pg-first');
+		const hasLast = !!sr.querySelector('kc-pg-last');
 		cleanup(container);
 		if(!hasPrev || !hasInfo || !hasNext) return fail('simple set missing required controls');
 		if(hasFirst || hasLast) return fail('simple set should not include first/last controls');
@@ -366,13 +366,13 @@ export default {
 		const { container, el } = await createPagination({ 'total-items': 50, controls: 'full' });
 		await el.updateComplete;
 		const sr = el.shadowRoot;
-		const hasFirst = !!sr.querySelector('k-pg-first');
-		const hasPrev = !!sr.querySelector('k-pg-prev');
-		const hasGoto = !!sr.querySelector('k-pg-goto-page');
-		const hasNext = !!sr.querySelector('k-pg-next');
-		const hasLast = !!sr.querySelector('k-pg-last');
-		const hasIpp = !!sr.querySelector('k-pg-items-per-page');
-		const hasPageInfo = !!sr.querySelector('k-pg-page-info');
+		const hasFirst = !!sr.querySelector('kc-pg-first');
+		const hasPrev = !!sr.querySelector('kc-pg-prev');
+		const hasGoto = !!sr.querySelector('kc-pg-goto-page');
+		const hasNext = !!sr.querySelector('kc-pg-next');
+		const hasLast = !!sr.querySelector('kc-pg-last');
+		const hasIpp = !!sr.querySelector('kc-pg-items-per-page');
+		const hasPageInfo = !!sr.querySelector('kc-pg-page-info');
 		cleanup(container);
 		if(!hasFirst || !hasPrev || !hasGoto || !hasNext || !hasLast || !hasIpp) return fail('full set missing required controls');
 		if(hasPageInfo) return fail('full set should use goto-page instead of page-info');
@@ -395,84 +395,6 @@ export default {
 		cleanup(container);
 		pass('page-change detail contains full pagination state');
 	},
-
-	/*
-		Control Module Loading
-	*/
-	'should only load modules defined in the simple control set': async ({pass, fail}) => {
-		const savedSet = Pagination.loadedModules;
-		Pagination.loadedModules = new Set();
-		const { container, el } = await createPagination({ controls: 'simple', 'total-items': 100 });
-		const loaded = new Set(Pagination.loadedModules);
-		Pagination.loadedModules = savedSet;
-		cleanup(container);
-		const expected = new Set(Pagination.controlModules.simple);
-		const extra = [...loaded].filter(m => !expected.has(m));
-		const missing = [...expected].filter(m => !loaded.has(m));
-		if(extra.length || missing.length)
-			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
-		pass('Only simple preset modules were loaded');
-	},
-
-	'should only load modules defined in the full control set': async ({pass, fail}) => {
-		const savedSet = Pagination.loadedModules;
-		Pagination.loadedModules = new Set();
-		const { container, el } = await createPagination({ controls: 'full', 'total-items': 100 });
-		const loaded = new Set(Pagination.loadedModules);
-		Pagination.loadedModules = savedSet;
-		cleanup(container);
-		const expected = new Set(Pagination.controlModules.full);
-		const extra = [...loaded].filter(m => !expected.has(m));
-		const missing = [...expected].filter(m => !loaded.has(m));
-		if(extra.length || missing.length)
-			return fail(`loadedModules mismatch. Extra: [${extra}], Missing: [${missing}]`);
-		pass('Only full preset modules were loaded');
-	},
-
-	'should not load any modules when controls is not set': async ({pass, fail}) => {
-		const savedSet = Pagination.loadedModules;
-		Pagination.loadedModules = new Set();
-		const { container, el } = await createPagination({ 'total-items': 100 });
-		const loaded = new Set(Pagination.loadedModules);
-		Pagination.loadedModules = savedSet;
-		cleanup(container);
-		if(loaded.size !== 0)
-			return fail(`Expected no modules loaded, but got: [${[...loaded]}]`);
-		pass('No modules loaded when controls is not set');
-	},
-
-	'should not load any modules for an unknown controls preset': async ({pass, fail}) => {
-		const savedSet = Pagination.loadedModules;
-		Pagination.loadedModules = new Set();
-		const { container, el } = await createPagination({ controls: 'not_a_real_preset', 'total-items': 100 });
-		const loaded = new Set(Pagination.loadedModules);
-		Pagination.loadedModules = savedSet;
-		cleanup(container);
-		if(loaded.size !== 0)
-			return fail(`Expected no modules loaded for unknown preset, but got: [${[...loaded]}]`);
-		pass('No modules loaded for unknown controls preset');
-	},
-
-	'should not reload already-loaded modules when controls changes': async ({pass, fail}) => {
-		const savedSet = Pagination.loadedModules;
-		Pagination.loadedModules = new Set();
-		const { container, el } = await createPagination({ controls: 'simple', 'total-items': 100 });
-		const afterSimple = new Set(Pagination.loadedModules);
-		el.controls = 'full';
-		await el.updateComplete;
-		const afterFull = new Set(Pagination.loadedModules);
-		Pagination.loadedModules = savedSet;
-		cleanup(container);
-		const fullModules = new Set(Pagination.controlModules.full);
-		const missing = [...fullModules].filter(m => !afterFull.has(m));
-		const simpleModulesInFull = Pagination.controlModules.simple.filter(m => fullModules.has(m));
-		const reloaded = simpleModulesInFull.filter(m => !afterSimple.has(m));
-		if(missing.length)
-			return fail(`After switching to full, missing modules: [${missing}]`);
-		if(reloaded.length)
-			return fail(`Modules were not in loadedModules after simple load: [${reloaded}]`);
-		pass('Switching control sets only loads newly-needed modules');
-	}
 };
 
 

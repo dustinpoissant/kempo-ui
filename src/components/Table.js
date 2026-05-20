@@ -74,6 +74,11 @@ export default class Table extends ShadowComponent {
 
   /* Lifecycle Callbacks */
 
+  connectedCallback() {
+    super.connectedCallback();
+    if(!this.hasAttribute('controlled')) this.setAttribute('controlled', '');
+  }
+
   firstUpdated() {
     this.setData({
       records: this.records,

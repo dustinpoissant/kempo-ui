@@ -1,1 +1,0 @@
-import t from"./CodeEditorButtonControl.js";import{html as o}from"../../lit-all.min.js";import"../Icon.js";export default class e extends t{connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Undo")}handleAction(){this.editor?.undo()}render(){return o`<slot><k-icon name="undo"></k-icon></slot>`}}customElements.define("k-cec-undo",e);

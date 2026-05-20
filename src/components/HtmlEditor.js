@@ -4,6 +4,7 @@ import formatCode from '../utils/formatCode.js';
 import debounce from '../utils/debounce.js';
 import { getCalculatedTheme, subscribeToTheme } from '../utils/theme.js';
 import Dialog from './Dialog.js';
+import loadControlModules from './controls/loadControls.js';
 
 /*
 	Default CDN URLs
@@ -71,6 +72,7 @@ export default class HtmlEditor extends ShadowComponent {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
+		if(!this.hasAttribute('controlled')) this.setAttribute('controlled', '');
 		if (this.hasAttribute('value')) {
 			this.value = this.getAttribute('value');
 		}
@@ -180,17 +182,9 @@ export default class HtmlEditor extends ShadowComponent {
 		Module Loading
 	*/
 	loadControls() {
-		const modules = this.constructor.controlModules[this.controls];
-		if(!modules?.length) return;
-		const loaded = this.constructor.loadedModules;
-		const hecBase = new URL('./htmlEditorControls/', import.meta.url).href;
-		const cecBase = new URL('./codeEditorControls/', import.meta.url).href;
-		const componentsBase = new URL('./', import.meta.url).href;
-		modules.filter(m => !loaded.has(m)).forEach(m => {
-			loaded.add(m);
-			if(m.startsWith('components/')) import(`${componentsBase}${m.slice('components/'.length)}.js`);
-			else { const [dir, file] = m.split('/'); import(`${dir === 'cec' ? cecBase : hecBase}${file}.js`); }
-		});
+		const set = this.constructor.controlSets[this.controls];
+		if(!set) return;
+		loadControlModules(Object.values(set));
 	}
 
 	async loadNodeModules() {
@@ -617,6 +611,16 @@ export default class HtmlEditor extends ShadowComponent {
 		this.lexicalEditor.update(() => {
 			this.lx.list.$insertList('bullet');
 		}, { discrete: true });
+		return this;
+	}
+
+	/* Aliases matching the unified controls API */
+	bulletList() { return this.unorderedList(); }
+	numberList() { return this.orderedList(); }
+	toggleWordWrap() { return this.setWordWrap(!this.wordWrap); }
+	toggleMinimap() { return this.setMinimap(!this.minimapEnabled); }
+	formatCode() {
+		this.monacoEditor?.getAction('editor.action.formatDocument')?.run();
 		return this;
 	}
 
@@ -1327,39 +1331,17 @@ export default class HtmlEditor extends ShadowComponent {
 	/*
 		Static Properties
 	*/
-	static loadedModules = new Set();
-	static controlModules = {
-		minimal: [
-			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/BulletList', 'hec/NumberList', 'components/ControlGroup'
-		],
-		normal: [
-			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/Strikethrough', 'hec/InlineCode', 'hec/DropdownControl',
-			'hec/FormatBlock', 'hec/CodeBlock', 'hec/BulletList', 'hec/NumberList', 'hec/AlignLeft',
-			'hec/AlignCenter', 'hec/AlignRight', 'hec/CreateLink', 'hec/Mode', 'hec/WordCount', 'components/ControlGroup',
-			'cec/FormatCode'
-		],
-		full: [
-			'hec/Bold', 'hec/Italic', 'hec/Underline', 'hec/Strikethrough', 'hec/InlineCode', 'hec/DropdownControl',
-			'hec/FormatBlock', 'hec/CodeBlock', 'hec/BulletList', 'hec/NumberList', 'hec/AlignLeft',
-			'hec/AlignCenter', 'hec/AlignRight', 'hec/AlignJustify', 'hec/TextColor', 'hec/TextBackgroundColor',
-			'hec/ClearFormatting', 'hec/CreateLink', 'hec/InsertTable', 'hec/Mode', 'hec/WordCount',
-			'hec/CharacterCount', 'components/ControlGroup',
-			'cec/Undo', 'cec/Redo', 'cec/FormatCode', 'cec/CopyCode', 'cec/FindReplace',
-			'cec/WordWrap', 'cec/Minimap', 'cec/FoldAll', 'cec/FontSize', 'cec/EditorTheme', 'cec/Fullscreen', 'components/ControlGroup'
-		]
-	};
-
 	static controlSets = {
 		minimal: {
 			topLeft: html`
 				<k-control-group>
-					<k-hec-bold></k-hec-bold>
-					<k-hec-italic></k-hec-italic>
-					<k-hec-underline></k-hec-underline>
+					<kc-bold></kc-bold>
+					<kc-italic></kc-italic>
+					<kc-underline></kc-underline>
 				</k-control-group>
 				<k-control-group>
-					<k-hec-bullet-list></k-hec-bullet-list>
-					<k-hec-number-list></k-hec-number-list>
+					<kc-bullet-list></kc-bullet-list>
+					<kc-number-list></kc-number-list>
 				</k-control-group>
 			`,
 			topRight: null,
@@ -1369,100 +1351,100 @@ export default class HtmlEditor extends ShadowComponent {
 		normal: {
 			topLeft: html`
 				<k-control-group>
-					<k-hec-bold></k-hec-bold>
-					<k-hec-italic></k-hec-italic>
-					<k-hec-underline></k-hec-underline>
-					<k-hec-strikethrough></k-hec-strikethrough>
+					<kc-bold></kc-bold>
+					<kc-italic></kc-italic>
+					<kc-underline></kc-underline>
+					<kc-strikethrough></kc-strikethrough>
 				</k-control-group>
-				<k-hec-inline-code></k-hec-inline-code>
-				<k-hec-dropdown>
+				<kc-inline-code></kc-inline-code>
+				<kc-menu>
 					<k-icon slot="icon" name="format_paragraph"></k-icon>
 					<span slot="label">Text Style</span>
-					<k-hec-format-block tag="p">Paragraph</k-hec-format-block>
-					<k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
-					<k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
-					<k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
-					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
-					<k-hec-code-block></k-hec-code-block>
-				</k-hec-dropdown>
+					<kc-format-block tag="p">Paragraph</kc-format-block>
+					<kc-format-block tag="h1">Heading 1</kc-format-block>
+					<kc-format-block tag="h2">Heading 2</kc-format-block>
+					<kc-format-block tag="h3">Heading 3</kc-format-block>
+					<kc-format-block tag="blockquote">Blockquote</kc-format-block>
+					<kc-code-block></kc-code-block>
+				</kc-menu>
 				<k-control-group>
-					<k-hec-bullet-list></k-hec-bullet-list>
-					<k-hec-number-list></k-hec-number-list>
+					<kc-bullet-list></kc-bullet-list>
+					<kc-number-list></kc-number-list>
 				</k-control-group>
 			`,
 			topRight: html`
 				<k-control-group>
-					<k-hec-align-left></k-hec-align-left>
-					<k-hec-align-center></k-hec-align-center>
-					<k-hec-align-right></k-hec-align-right>
+					<kc-align-left></kc-align-left>
+					<kc-align-center></kc-align-center>
+					<kc-align-right></kc-align-right>
 				</k-control-group>
-				<k-hec-create-link></k-hec-create-link>
-				<k-cec-format-code></k-cec-format-code>
-				<k-hec-mode></k-hec-mode>
+				<kc-create-link></kc-create-link>
+				<kc-format-code></kc-format-code>
+				<kc-mode></kc-mode>
 			`,
-			bottomLeft: html`<k-hec-word-count></k-hec-word-count>`,
+			bottomLeft: html`<kc-word-count></kc-word-count>`,
 			bottomRight: null,
 		},
 		full: {
 			topLeft: html`
 				<k-control-group>
-					<k-hec-bold></k-hec-bold>
-					<k-hec-italic></k-hec-italic>
-					<k-hec-underline></k-hec-underline>
-					<k-hec-strikethrough></k-hec-strikethrough>
+					<kc-bold></kc-bold>
+					<kc-italic></kc-italic>
+					<kc-underline></kc-underline>
+					<kc-strikethrough></kc-strikethrough>
 				</k-control-group>
-				<k-hec-inline-code></k-hec-inline-code>
-				<k-hec-dropdown>
+				<kc-inline-code></kc-inline-code>
+				<kc-menu>
 					<k-icon slot="icon" name="format_paragraph"></k-icon>
 					<span slot="label">Text Style</span>
-					<k-hec-format-block tag="p">Paragraph</k-hec-format-block>
-					<k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
-					<k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
-					<k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
-					<k-hec-format-block tag="blockquote">Blockquote</k-hec-format-block>
-					<k-hec-code-block></k-hec-code-block>
-				</k-hec-dropdown>
+					<kc-format-block tag="p">Paragraph</kc-format-block>
+					<kc-format-block tag="h1">Heading 1</kc-format-block>
+					<kc-format-block tag="h2">Heading 2</kc-format-block>
+					<kc-format-block tag="h3">Heading 3</kc-format-block>
+					<kc-format-block tag="blockquote">Blockquote</kc-format-block>
+					<kc-code-block></kc-code-block>
+				</kc-menu>
 				<k-control-group>
-					<k-hec-bullet-list></k-hec-bullet-list>
-					<k-hec-number-list></k-hec-number-list>
+					<kc-bullet-list></kc-bullet-list>
+					<kc-number-list></kc-number-list>
 				</k-control-group>
 				<k-control-group>
-					<k-cec-undo></k-cec-undo>
-					<k-cec-redo></k-cec-redo>
+					<kc-undo></kc-undo>
+					<kc-redo></kc-redo>
 				</k-control-group>
 				<k-control-group>
-					<k-cec-format-code></k-cec-format-code>
-					<k-cec-copy-code></k-cec-copy-code>
-					<k-cec-find-replace></k-cec-find-replace>
+					<kc-format-code></kc-format-code>
+					<kc-copy-code></kc-copy-code>
+					<kc-find-replace></kc-find-replace>
 				</k-control-group>
 				<k-control-group>
-					<k-cec-word-wrap></k-cec-word-wrap>
-					<k-cec-minimap></k-cec-minimap>
-					<k-cec-fold-all></k-cec-fold-all>
+					<kc-word-wrap></kc-word-wrap>
+					<kc-minimap></kc-minimap>
+					<kc-fold-all></kc-fold-all>
 				</k-control-group>
-				<k-cec-font-size></k-cec-font-size>
+				<kc-font-size></kc-font-size>
 			`,
 			topRight: html`
 				<k-control-group>
-					<k-hec-align-left></k-hec-align-left>
-					<k-hec-align-center></k-hec-align-center>
-					<k-hec-align-right></k-hec-align-right>
-					<k-hec-align-justify></k-hec-align-justify>
+					<kc-align-left></kc-align-left>
+					<kc-align-center></kc-align-center>
+					<kc-align-right></kc-align-right>
+					<kc-align-justify></kc-align-justify>
 				</k-control-group>
-				<k-hec-create-link></k-hec-create-link>
+				<kc-create-link></kc-create-link>
 				<k-control-group>
-					<k-hec-text-color></k-hec-text-color>
-					<k-hec-text-background-color></k-hec-text-background-color>
+					<kc-text-color></kc-text-color>
+					<kc-text-background-color></kc-text-background-color>
 				</k-control-group>
-				<k-hec-clear-formatting></k-hec-clear-formatting>
-				<k-hec-insert-table></k-hec-insert-table>
-				<k-cec-editor-theme></k-cec-editor-theme>
-				<k-hec-mode></k-hec-mode>
-				<k-cec-fullscreen></k-cec-fullscreen>
+				<kc-clear-formatting></kc-clear-formatting>
+				<kc-insert-table></kc-insert-table>
+				<kc-editor-theme></kc-editor-theme>
+				<kc-mode></kc-mode>
+				<kc-fullscreen></kc-fullscreen>
 			`,
 			bottomLeft: html`
-				<k-hec-word-count></k-hec-word-count>
-				<k-hec-character-count></k-hec-character-count>
+				<kc-word-count></kc-word-count>
+				<kc-character-count></kc-character-count>
 			`,
 			bottomRight: null,
 		},

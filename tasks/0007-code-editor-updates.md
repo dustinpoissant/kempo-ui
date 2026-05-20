@@ -1,6 +1,6 @@
 # 0007 - Unified Control Architecture
 
-## Status: Planning
+## Status: In Progress
 
 ## Dependency
 None

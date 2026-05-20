@@ -538,7 +538,7 @@
         <p>The table component supports pagination, enable it by adding the <code>enable-pages</code> attribute to the <code>k-table</code> element.</p>
     <p>You can optionally set the page size and page size options by setting the <code>page-size</code> and <code>page-size-options</code> attributes respectively. <code>page-size-options</code> must be in the format of an array of numbers (with brackets).</p>
     
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span><br />  <span class="hljs-attr">id</span>=<span class="hljs-string">"paginationExample"</span><br />  <span class="hljs-attr">enable-pages</span><br />  <span class="hljs-attr">page-size</span>=<span class="hljs-string">"10"</span><br />  <span class="hljs-attr">page-size-options</span>=<span class="hljs-string">"[5,10,25,50]"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-f full"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"align-items: center;"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-first-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-first-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-prev-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-prev-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-next-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-next-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-last-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-last-page</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-page-select</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-page-select</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-page-size</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-page-size</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">await</span> <span class="hljs-built_in">window</span>.customElements.whenDefined(<span class="hljs-string">'k-table'</span>);<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'paginationExample'</span>).setRecords(contacts);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span><br />  <span class="hljs-attr">id</span>=<span class="hljs-string">"paginationExample"</span><br />  <span class="hljs-attr">enable-pages</span><br />  <span class="hljs-attr">page-size</span>=<span class="hljs-string">"10"</span><br />  <span class="hljs-attr">page-size-options</span>=<span class="hljs-string">"[5,10,25,50]"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-f full"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"align-items: center;"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-first-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-first-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-prev-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-prev-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-next-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-next-page</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-last-page</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-last-page</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-page-select</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-page-select</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"flex"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br />      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-page-size</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-page-size</span>&gt;</span><br />    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">await</span> <span class="hljs-built_in">window</span>.customElements.whenDefined(<span class="hljs-string">'k-table'</span>);<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'paginationExample'</span>).setRecords(contacts);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <k-table
       id="paginationExample"
@@ -548,18 +548,18 @@
     >
       <div class="d-f full" style="align-items: center;">
         <div>
-          <k-tc-first-page></k-tc-first-page>
-          <k-tc-prev-page></k-tc-prev-page>
-          <k-tc-next-page></k-tc-next-page>
-          <k-tc-last-page></k-tc-last-page>
+          <kc-tc-first-page></kc-tc-first-page>
+          <kc-tc-prev-page></kc-tc-prev-page>
+          <kc-tc-next-page></kc-tc-next-page>
+          <kc-tc-last-page></kc-tc-last-page>
         </div>
         <div class="flex"></div>
         <div>
-          <k-tc-page-select></k-tc-page-select>
+          <kc-tc-page-select></kc-tc-page-select>
         </div>
         <div class="flex"></div>
         <div>
-          <k-tc-page-size></k-tc-page-size>
+          <kc-tc-page-size></kc-tc-page-size>
         </div>
       </div>
     </k-table>
@@ -573,12 +573,12 @@
   <script type="module" src="../src/components/Main.js"></script>
   
     <script type="module" src="../src/components/Table.js"></script>
-    <script type="module" src="../src/components/tableControls/FirstPage.js"></script>
-    <script type="module" src="../src/components/tableControls/PrevPage.js"></script>
-    <script type="module" src="../src/components/tableControls/NextPage.js"></script>
-    <script type="module" src="../src/components/tableControls/LastPage.js"></script>
-    <script type="module" src="../src/components/tableControls/PageSelect.js"></script>
-    <script type="module" src="../src/components/tableControls/PageSize.js"></script>
+    <script type="module" src="../src/components/controls/TcFirstPage.js"></script>
+    <script type="module" src="../src/components/controls/TcPrevPage.js"></script>
+    <script type="module" src="../src/components/controls/TcNextPage.js"></script>
+    <script type="module" src="../src/components/controls/TcLastPage.js"></script>
+    <script type="module" src="../src/components/controls/TcPageSelect.js"></script>
+    <script type="module" src="../src/components/controls/TcPageSize.js"></script>
   
 </body>
 </html>

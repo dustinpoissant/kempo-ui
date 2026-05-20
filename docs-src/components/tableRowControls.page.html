@@ -42,12 +42,12 @@
 
     <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
     <p>The table component can display controls before or after each row. Each control is defined by an icon name, a callback function, and optionally an HTML string or a render function. Use <code>slot="before"</code> to add the control before each row, and use <code>slot="after"</code> to add the control after each row.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"rowControlsExample"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-export-json</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"before"</span> <span class="hljs-attr">max-width</span>=<span class="hljs-string">"40"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"export-file"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-export-json</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-tc-delete-record</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"after"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-tc-delete-record</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">await</span> <span class="hljs-built_in">window</span>.customElements.whenDefined(<span class="hljs-string">'k-table'</span>);<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'rowControlsExample'</span>).setRecords(contacts);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"rowControlsExample"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-json</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"before"</span> <span class="hljs-attr">max-width</span>=<span class="hljs-string">"40"</span>&gt;</span><br />    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"export-file"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br />  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-json</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-delete-record</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"after"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-delete-record</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">await</span> <span class="hljs-built_in">window</span>.customElements.whenDefined(<span class="hljs-string">'k-table'</span>);<br />  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'rowControlsExample'</span>).setRecords(contacts);<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <k-table id="rowControlsExample">
-      <k-tc-export-json slot="before" max-width="40">
+      <kc-tc-export-json slot="before" max-width="40">
         <k-icon name="export-file"></k-icon>
-      </k-tc-export-json>
-      <k-tc-delete-record slot="after"></k-tc-delete-record>
+      </kc-tc-export-json>
+      <kc-tc-delete-record slot="after"></kc-tc-delete-record>
     </k-table>
     <script type="module">
       await window.customElements.whenDefined('k-table');
@@ -56,7 +56,7 @@
   </content>
   <content location="scripts">
     <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/tableControls/ExportJson.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/tableControls/DeleteRecord.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcExportJson.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcDeleteRecord.js"></script>
   </content>
 </page>

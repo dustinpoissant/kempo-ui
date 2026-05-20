@@ -2,6 +2,7 @@ import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import formatCode from '../utils/formatCode.js';
 import { getCalculatedTheme, subscribeToTheme } from '../utils/theme.js';
+import loadControlModules from './controls/loadControls.js';
 
 /*
 	Default CDN URL
@@ -56,6 +57,7 @@ export default class CodeEditor extends ShadowComponent {
 	*/
 	connectedCallback() {
 		super.connectedCallback();
+		if(!this.hasAttribute('controlled')) this.setAttribute('controlled', '');
 		if(this.hasAttribute('value')){
 			this.value = this.getAttribute('value');
 		}
@@ -161,16 +163,9 @@ export default class CodeEditor extends ShadowComponent {
 		Module Loading
 	*/
 	loadControls() {
-		const modules = this.constructor.controlModules[this.controls];
-		if(!modules?.length) return;
-		const loaded = this.constructor.loadedModules;
-		const cecBase = new URL('./codeEditorControls/', import.meta.url).href;
-		const componentsBase = new URL('./', import.meta.url).href;
-		modules.filter(m => !loaded.has(m)).forEach(m => {
-			loaded.add(m);
-			if(m.startsWith('components/')) import(`${componentsBase}${m.slice('components/'.length)}.js`);
-			else import(`${cecBase}${m}.js`);
-		});
+		const set = this.constructor.controlSets[this.controls];
+		if(!set) return;
+		loadControlModules(Object.values(set));
 	}
 
 	async initMonaco() {
@@ -406,34 +401,29 @@ export default class CodeEditor extends ShadowComponent {
 	/*
 		Rendering
 	*/
-	static loadedModules = new Set();
-	static controlModules = {
-		full: ['FormatCode', 'CopyCode', 'EditorTheme', 'Undo', 'Redo', 'WordWrap', 'Minimap', 'FindReplace', 'FontSize', 'FoldAll', 'LanguageSelect', 'Fullscreen', 'components/ControlGroup', 'ControlSpacer']
-	};
-
 	static controlSets = {
 		full: {
 			topLeft: html`
 				<k-control-group>
-					<k-cec-undo></k-cec-undo>
-					<k-cec-redo></k-cec-redo>
+					<kc-undo></kc-undo>
+					<kc-redo></kc-redo>
 				</k-control-group>
 				<k-control-group>
-					<k-cec-format-code></k-cec-format-code>
-					<k-cec-copy-code></k-cec-copy-code>
-					<k-cec-find-replace></k-cec-find-replace>
+					<kc-format-code></kc-format-code>
+					<kc-copy-code></kc-copy-code>
+					<kc-find-replace></kc-find-replace>
 				</k-control-group>
 				<k-control-group>
-					<k-cec-word-wrap></k-cec-word-wrap>
-					<k-cec-minimap></k-cec-minimap>
-					<k-cec-fold-all></k-cec-fold-all>
+					<kc-word-wrap></kc-word-wrap>
+					<kc-minimap></kc-minimap>
+					<kc-fold-all></kc-fold-all>
 				</k-control-group>
-				<k-cec-font-size></k-cec-font-size>
+				<kc-font-size></kc-font-size>
 			`,
 			topRight: html`
-				<k-cec-language></k-cec-language>
-				<k-cec-editor-theme></k-cec-editor-theme>
-				<k-cec-fullscreen></k-cec-fullscreen>
+				<kc-language></kc-language>
+				<kc-editor-theme></kc-editor-theme>
+				<kc-fullscreen></kc-fullscreen>
 			`,
 			bottomLeft: null,
 			bottomRight: null,

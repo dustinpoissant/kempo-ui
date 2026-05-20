@@ -534,7 +534,7 @@
       >Complete Editor Example</a></h3>
     <p>A fully-featured editor with all controls. Copy and paste this example to get started quickly:</p>
     <k-card label="HTML">
-      <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;content&#x27;</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Text formatting --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-underline</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-strikethrough</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-inline-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-inline-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;icon&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;...&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;label&#x27;</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;p&#x27;</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h1&#x27;</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h2&#x27;</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h3&#x27;</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-code-block</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-code-block</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-dropdown</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Lists, alignment, colors, link, table --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-number-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-left</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-center</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-right</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-align-justify</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-color</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-text-background-color</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-clear-formatting</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-clear-formatting</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-create-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-insert-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Mode toggle + format code --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-fullscreen</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Bottom toolbar stats --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-word-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-character-count</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+      <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;content&#x27;</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Text formatting --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-underline</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-strikethrough</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-inline-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-inline-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-menu</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;icon&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;...&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;label&#x27;</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;p&#x27;</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h1&#x27;</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h2&#x27;</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h3&#x27;</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-code-block</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-code-block</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-menu</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Lists, alignment, colors, link, table --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-number-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-left</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-center</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-right</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-justify</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-text-color</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-text-background-color</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-clear-formatting</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-clear-formatting</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-create-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-insert-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Mode toggle + format code --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-mode</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Bottom toolbar stats --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-word-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-character-count</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
     </k-card>
     <k-card label="Output">
       <k-html-editor
@@ -543,48 +543,48 @@
         style="height: 600px"
       >
         <k-control-group slot="toolbar-top-left">
-          <k-hec-bold></k-hec-bold>
-          <k-hec-italic></k-hec-italic>
-          <k-hec-underline></k-hec-underline>
-          <k-hec-strikethrough></k-hec-strikethrough>
+          <kc-bold></kc-bold>
+          <kc-italic></kc-italic>
+          <kc-underline></kc-underline>
+          <kc-strikethrough></kc-strikethrough>
         </k-control-group>
-        <k-hec-inline-code slot="toolbar-top-left"></k-hec-inline-code>
-        <k-hec-dropdown slot="toolbar-top-left">
+        <kc-inline-code slot="toolbar-top-left"></kc-inline-code>
+        <kc-menu slot="toolbar-top-left">
           <k-icon
             slot="icon"
             name="format_paragraph"
           ></k-icon>
           <span slot="label">Text Style</span>
-          <k-hec-format-block tag="p">Paragraph</k-hec-format-block>
-          <k-hec-format-block tag="h1">Heading 1</k-hec-format-block>
-          <k-hec-format-block tag="h2">Heading 2</k-hec-format-block>
-          <k-hec-format-block tag="h3">Heading 3</k-hec-format-block>
-          <k-hec-code-block>Code Block</k-hec-code-block>
-        </k-hec-dropdown>
+          <kc-format-block tag="p">Paragraph</kc-format-block>
+          <kc-format-block tag="h1">Heading 1</kc-format-block>
+          <kc-format-block tag="h2">Heading 2</kc-format-block>
+          <kc-format-block tag="h3">Heading 3</kc-format-block>
+          <kc-code-block>Code Block</kc-code-block>
+        </kc-menu>
         <k-control-group slot="toolbar-top-left">
-          <k-hec-bullet-list></k-hec-bullet-list>
-          <k-hec-number-list></k-hec-number-list>
+          <kc-bullet-list></kc-bullet-list>
+          <kc-number-list></kc-number-list>
         </k-control-group>
         <k-control-group slot="toolbar-top-left">
-          <k-hec-align-left></k-hec-align-left>
-          <k-hec-align-center></k-hec-align-center>
-          <k-hec-align-right></k-hec-align-right>
-          <k-hec-align-justify></k-hec-align-justify>
+          <kc-align-left></kc-align-left>
+          <kc-align-center></kc-align-center>
+          <kc-align-right></kc-align-right>
+          <kc-align-justify></kc-align-justify>
         </k-control-group>
         <k-control-group slot="toolbar-top-left">
-          <k-hec-text-color></k-hec-text-color>
-          <k-hec-text-background-color></k-hec-text-background-color>
+          <kc-text-color></kc-text-color>
+          <kc-text-background-color></kc-text-background-color>
         </k-control-group>
-        <k-hec-clear-formatting slot="toolbar-top-left"></k-hec-clear-formatting>
+        <kc-clear-formatting slot="toolbar-top-left"></kc-clear-formatting>
         <k-control-group slot="toolbar-top-left">
-          <k-hec-create-link></k-hec-create-link>
-          <k-hec-insert-table></k-hec-insert-table>
+          <kc-create-link></kc-create-link>
+          <kc-insert-table></kc-insert-table>
         </k-control-group>
-        <k-cec-format-code slot="toolbar-top-right"></k-cec-format-code>
-        <k-hec-mode slot="toolbar-top-right"></k-hec-mode>
-        <k-cec-fullscreen slot="toolbar-top-right"></k-cec-fullscreen>
-        <k-hec-word-count slot="toolbar-bottom-left"></k-hec-word-count>
-        <k-hec-character-count slot="toolbar-bottom-left"></k-hec-character-count>
+        <kc-format-code slot="toolbar-top-right"></kc-format-code>
+        <kc-mode slot="toolbar-top-right"></kc-mode>
+        <kc-fullscreen slot="toolbar-top-right"></kc-fullscreen>
+        <kc-word-count slot="toolbar-bottom-left"></kc-word-count>
+        <kc-character-count slot="toolbar-bottom-left"></kc-character-count>
       </k-html-editor>
     </k-card>
 
@@ -601,7 +601,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">id</span>=<span class="hljs-string">svgEditor</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">id</span>=<span class="hljs-string">svgEditor</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -611,7 +611,7 @@
             class="b r"
             value="<p>This value contains an inline SVG which Lexical does not support:</p><svg width='120' height='60' xmlns='http://www.w3.org/2000/svg'><rect width='120' height='60' rx='8' fill='#4a90d9'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='14'>SVG</text></svg><p>The editor detected incompatible content and defaulted to code mode automatically.</p>"
           >
-            <k-hec-mode slot="toolbar-top-right"></k-hec-mode>
+            <kc-mode slot="toolbar-top-right"></kc-mode>
           </k-html-editor>
         </k-card>
       </div>
@@ -629,7 +629,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Import the HtmlComment node --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;src/components/htmlEditorNodes/HtmlComment.js&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- Register the node with nodes attribute --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">nodes</span>=<span class="hljs-string">&#x27;HtmlComment&#x27;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;&lt;p&gt;This paragraph has an &lt;!-- important note --&gt; inline comment.&lt;/p&gt;&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-hec-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-hec-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- Import the HtmlComment node --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;src/components/htmlEditorNodes/HtmlComment.js&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- Register the node with nodes attribute --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">nodes</span>=<span class="hljs-string">&#x27;HtmlComment&#x27;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;&lt;p&gt;This paragraph has an &lt;!-- important note --&gt; inline comment.&lt;/p&gt;&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-mode</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -644,7 +644,7 @@
             nodes="HtmlComment"
             value="<p>This paragraph has an <!-- important note --> inline comment.</p>"
           >
-            <k-hec-mode slot="toolbar-top-right"></k-hec-mode>
+            <kc-mode slot="toolbar-top-right"></kc-mode>
           </k-html-editor>
         </k-card>
       </div>
@@ -1203,107 +1203,107 @@
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/Bold.js"
+      src="../src/components/controls/Bold.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/Italic.js"
+      src="../src/components/controls/Italic.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/Underline.js"
+      src="../src/components/controls/Underline.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/Strikethrough.js"
+      src="../src/components/controls/Strikethrough.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/BulletList.js"
+      src="../src/components/controls/BulletList.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/NumberList.js"
+      src="../src/components/controls/NumberList.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/AlignLeft.js"
+      src="../src/components/controls/AlignLeft.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/AlignCenter.js"
+      src="../src/components/controls/AlignCenter.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/AlignRight.js"
+      src="../src/components/controls/AlignRight.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/AlignJustify.js"
+      src="../src/components/controls/AlignJustify.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/CreateLink.js"
+      src="../src/components/controls/CreateLink.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/Mode.js"
+      src="../src/components/controls/Mode.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/DropdownControl.js"
+      src="../src/components/controls/Menu.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/FormatBlock.js"
+      src="../src/components/controls/FormatBlock.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/InlineCode.js"
+      src="../src/components/controls/InlineCode.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/CodeBlock.js"
+      src="../src/components/controls/CodeBlock.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/ControlGroup.js"
+      src="../src/components/ControlGroup.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/ControlSpacer.js"
+      src="../src/components/controls/Spacer.js"
     ></script>
     <script
       type="module"
-      src="../src/components/codeEditorControls/FormatCode.js"
+      src="../src/components/controls/FormatCode.js"
     ></script>
     <script
       type="module"
-      src="../src/components/codeEditorControls/Fullscreen.js"
+      src="../src/components/controls/Fullscreen.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/TextColor.js"
+      src="../src/components/controls/TextColor.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/TextBackgroundColor.js"
+      src="../src/components/controls/TextBackgroundColor.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/ClearFormatting.js"
+      src="../src/components/controls/ClearFormatting.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/WordCount.js"
+      src="../src/components/controls/WordCount.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/CharacterCount.js"
+      src="../src/components/controls/CharacterCount.js"
     ></script>
     <script
       type="module"
-      src="../src/components/htmlEditorControls/InsertTable.js"
+      src="../src/components/controls/InsertTable.js"
     ></script>
     <script
       type="module"

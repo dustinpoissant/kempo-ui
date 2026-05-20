@@ -1,1 +1,0 @@
-import t from"./CodeEditorButtonControl.js";import{html as e}from"../../lit-all.min.js";import"../Icon.js";export default class o extends t{connectedCallback(){super.connectedCallback(),this.hasAttribute("title")||(this.title="Redo")}handleAction(){this.editor?.redo()}render(){return e`<slot><k-icon name="redo"></k-icon></slot>`}}customElements.define("k-cec-redo",o);

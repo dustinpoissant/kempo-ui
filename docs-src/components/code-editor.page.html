@@ -67,7 +67,7 @@ console.log(sorted);"></k-code-editor>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;html&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-copy-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-copy-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-editor-theme</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-editor-theme</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-cec-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-cec-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&#x27;html&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-copy-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-copy-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-editor-theme</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-editor-theme</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -76,10 +76,10 @@ console.log(sorted);"></k-code-editor>
   <h1>Hello World</h1>
   <p>This is a paragraph.</p>
 </div>">
-            <k-cec-format-code slot="toolbar-top-left"></k-cec-format-code>
-            <k-cec-copy-code slot="toolbar-top-left"></k-cec-copy-code>
-            <k-cec-editor-theme slot="toolbar-top-right"></k-cec-editor-theme>
-            <k-cec-fullscreen slot="toolbar-top-right"></k-cec-fullscreen>
+            <kc-format-code slot="toolbar-top-left"></kc-format-code>
+            <kc-copy-code slot="toolbar-top-left"></kc-copy-code>
+            <kc-editor-theme slot="toolbar-top-right"></kc-editor-theme>
+            <kc-fullscreen slot="toolbar-top-right"></kc-fullscreen>
           </k-code-editor>
         </k-card>
       </div>
@@ -250,42 +250,42 @@ console.log(x);"
         <tr><th>Element</th><th>Description</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>&lt;k-cec-format-code&gt;</code></td><td>Formats the code using Monaco's built-in formatter</td></tr>
-        <tr><td><code>&lt;k-cec-copy-code&gt;</code></td><td>Copies the editor content to the clipboard</td></tr>
-        <tr><td><code>&lt;k-cec-undo&gt;</code></td><td>Undoes the last edit</td></tr>
-        <tr><td><code>&lt;k-cec-redo&gt;</code></td><td>Redoes the last undone edit</td></tr>
-        <tr><td><code>&lt;k-cec-word-wrap&gt;</code></td><td>Toggles word wrapping on/off</td></tr>
-        <tr><td><code>&lt;k-cec-minimap&gt;</code></td><td>Toggles the minimap on/off</td></tr>
-        <tr><td><code>&lt;k-cec-find-replace&gt;</code></td><td>Opens Monaco's Find &amp; Replace dialog</td></tr>
-        <tr><td><code>&lt;k-cec-font-size&gt;</code></td><td>Container for increase/decrease font size buttons</td></tr>
-        <tr><td><code>&lt;k-cec-font-size-decrease&gt;</code></td><td>Decreases the editor font size</td></tr>
-        <tr><td><code>&lt;k-cec-font-size-increase&gt;</code></td><td>Increases the editor font size</td></tr>
-        <tr><td><code>&lt;k-cec-fold-all&gt;</code></td><td>Toggles fold/unfold all code regions</td></tr>
-        <tr><td><code>&lt;k-cec-fullscreen&gt;</code></td><td>Toggles the editor in and out of fullscreen — visible in all modes</td></tr>
-        <tr><td><code>&lt;k-cec-language&gt;</code></td><td>Select dropdown to change the syntax language</td></tr>
-        <tr><td><code>&lt;k-cec-editor-theme&gt;</code></td><td>Select dropdown to switch between auto, light, and dark editor themes</td></tr>
+        <tr><td><code>&lt;kc-format-code&gt;</code></td><td>Formats the code using Monaco's built-in formatter</td></tr>
+        <tr><td><code>&lt;kc-copy-code&gt;</code></td><td>Copies the editor content to the clipboard</td></tr>
+        <tr><td><code>&lt;kc-undo&gt;</code></td><td>Undoes the last edit</td></tr>
+        <tr><td><code>&lt;kc-redo&gt;</code></td><td>Redoes the last undone edit</td></tr>
+        <tr><td><code>&lt;kc-word-wrap&gt;</code></td><td>Toggles word wrapping on/off</td></tr>
+        <tr><td><code>&lt;kc-minimap&gt;</code></td><td>Toggles the minimap on/off</td></tr>
+        <tr><td><code>&lt;kc-find-replace&gt;</code></td><td>Opens Monaco's Find &amp; Replace dialog</td></tr>
+        <tr><td><code>&lt;kc-font-size&gt;</code></td><td>Container for increase/decrease font size buttons</td></tr>
+        <tr><td><code>&lt;kc-font-size-decrease&gt;</code></td><td>Decreases the editor font size</td></tr>
+        <tr><td><code>&lt;kc-font-size-increase&gt;</code></td><td>Increases the editor font size</td></tr>
+        <tr><td><code>&lt;kc-fold-all&gt;</code></td><td>Toggles fold/unfold all code regions</td></tr>
+        <tr><td><code>&lt;kc-fullscreen&gt;</code></td><td>Toggles the editor in and out of fullscreen — visible in all modes</td></tr>
+        <tr><td><code>&lt;kc-language&gt;</code></td><td>Select dropdown to change the syntax language</td></tr>
+        <tr><td><code>&lt;kc-editor-theme&gt;</code></td><td>Select dropdown to switch between auto, light, and dark editor themes</td></tr>
         <tr><td><code>&lt;k-control-group&gt;</code></td><td>Groups controls visually with shared borders</td></tr>
-        <tr><td><code>&lt;k-cec-spacer&gt;</code></td><td>Flexible spacer to push controls apart</td></tr>
+        <tr><td><code>&lt;kc-spacer&gt;</code></td><td>Flexible spacer to push controls apart</td></tr>
       </tbody>
     </table>
 
     <script type="module" src="{{pathToRoot}}src/components/CodeEditor.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FormatCode.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/CopyCode.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/EditorTheme.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Undo.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Redo.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/WordWrap.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Minimap.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FindReplace.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSize.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSizeDecrease.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FontSizeIncrease.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/FoldAll.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/LanguageSelect.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/Fullscreen.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/ControlGroup.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/codeEditorControls/ControlSpacer.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FormatCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/CopyCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/EditorTheme.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Undo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Redo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/WordWrap.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Minimap.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FindReplace.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FontSize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FontSizeDecrease.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FontSizeIncrease.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FoldAll.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Language.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Fullscreen.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ControlGroup.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Spacer.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
   </content>

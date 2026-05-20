@@ -2,6 +2,7 @@ import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import { bound, closest } from '../utils/number.js';
 import { commaSeparatedArray } from '../utils/propConverters.js';
+import loadControlModules from './controls/loadControls.js';
 
 export default class Pagination extends ShadowComponent {
 	/*
@@ -37,15 +38,15 @@ export default class Pagination extends ShadowComponent {
 	/*
 		Lifecycle
 	*/
+	connectedCallback() {
+		super.connectedCallback();
+		if(!this.hasAttribute('controlled')) this.setAttribute('controlled', '');
+	}
+
 	loadControls() {
-		const modules = this.constructor.controlModules[this.controls];
-		if (!modules?.length) return;
-		const loaded = this.constructor.loadedModules;
-		const base = new URL('./paginationControls/', import.meta.url).href;
-		modules.filter(m => !loaded.has(m)).forEach(m => {
-			loaded.add(m);
-			import(`${base}${m}.js`);
-		});
+		const set = this.constructor.controlSets[this.controls];
+		if(!set) return;
+		loadControlModules(Object.values(set));
 	}
 
 	willUpdate(changedProperties) {
@@ -174,32 +175,26 @@ export default class Pagination extends ShadowComponent {
     }
   `;
 
-	static loadedModules = new Set();
-	static controlModules = {
-		simple: ['PrevPage', 'NextPage', 'PageInfo'],
-		full: ['FirstPage', 'PrevPage', 'GotoPage', 'NextPage', 'LastPage', 'ItemsPerPage']
-	};
-
 	static controlSets = {
 		'': { left: null, right: null },
 		none: { left: null, right: null },
 		simple: {
 			left: html`
-        <k-pg-prev></k-pg-prev>
-        <k-pg-page-info></k-pg-page-info>
-        <k-pg-next></k-pg-next>
+        <kc-pg-prev></kc-pg-prev>
+        <kc-pg-page-info></kc-pg-page-info>
+        <kc-pg-next></kc-pg-next>
       `,
 			right: null
 		},
 		full: {
 			left: html`
-        <k-pg-first></k-pg-first>
-        <k-pg-prev></k-pg-prev>
-        <k-pg-goto-page></k-pg-goto-page>
-        <k-pg-next></k-pg-next>
-        <k-pg-last></k-pg-last>
+        <kc-pg-first></kc-pg-first>
+        <kc-pg-prev></kc-pg-prev>
+        <kc-pg-goto-page></kc-pg-goto-page>
+        <kc-pg-next></kc-pg-next>
+        <kc-pg-last></kc-pg-last>
       `,
-			right: html`<k-pg-items-per-page></k-pg-items-per-page>`
+			right: html`<kc-pg-items-per-page></kc-pg-items-per-page>`
 		}
 	};
 }

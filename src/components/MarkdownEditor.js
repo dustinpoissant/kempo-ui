@@ -3,6 +3,7 @@ import ShadowComponent from './ShadowComponent.js';
 import renderMarkdown from '../utils/renderMarkdown.js';
 import sanitizeHtml, { STRIP_COMPLETELY } from '../utils/sanitizeHtml.js';
 import debounce from '../utils/debounce.js';
+import loadControls from './controls/loadControls.js';
 import './Resize.js';
 import './Tabs.js';
 
@@ -93,15 +94,14 @@ export default class MarkdownEditor extends ShadowComponent {
     Lifecycle
   */
   loadControls() {
-    const modules = this.constructor.controlModules[this.controls];
-    if(!modules?.length) return;
-    const loaded = this.constructor.loadedModules;
-    const base = new URL('./markdownEditorControls/', import.meta.url).href;
-    modules.filter(m => !loaded.has(m)).forEach(m => { loaded.add(m); import(`${base}${m}.js`); });
+    const set = this.constructor.controlSets[this.controls];
+    if(!set) return;
+    loadControls(Object.values(set));
   }
 
   connectedCallback() {
     super.connectedCallback();
+    if(!this.hasAttribute('controlled')) this.setAttribute('controlled', '');
     if(this.hasAttribute('value')){
       this[defaultValue] = this.getAttribute('value');
     }
@@ -304,6 +304,71 @@ export default class MarkdownEditor extends ShadowComponent {
   }
 
   /*
+    Unified Formatting API — implemented as text-manipulation wrappers
+    over the helpers above so controls (kc-bold, kc-italic, etc.) can
+    target this host the same way they target HtmlEditor.
+  */
+  bold() { this.wrapSelection('**', '**', 'bold text'); return this; }
+  italic() { this.wrapSelection('_', '_', 'italic text'); return this; }
+  strikethrough() { this.wrapSelection('~~', '~~', 'strikethrough'); return this; }
+  inlineCode() {
+    const sel = this.getSelection();
+    if(sel.text.includes('\n')) this.wrapSelection('```\n', '\n```', 'code');
+    else this.wrapSelection('`', '`', 'code');
+    return this;
+  }
+  quote() { this.insertLinePrefix('> '); return this; }
+  bulletList() { this.insertLinePrefix('- '); return this; }
+  numberList() {
+    const ta = this.textarea;
+    if(!ta) return this;
+    if(this.mode !== 'write') this.mode = 'write';
+    this.updateComplete.then(() => {
+      ta.focus();
+      const { selectionStart: start, selectionEnd: end, value } = ta;
+      const lineStart = value.lastIndexOf('\n', start - 1) + 1;
+      const lineEndIdx = value.indexOf('\n', end);
+      const lineEnd = lineEndIdx === -1 ? value.length : lineEndIdx;
+      const block = value.substring(lineStart, lineEnd);
+      const lines = block.split('\n');
+      const numbered = /^\d+\. /;
+      const nonEmpty = lines.filter(l => l.length > 0);
+      const allNumbered = nonEmpty.length > 0 && nonEmpty.every(l => numbered.test(l));
+      let processed;
+      if(allNumbered){
+        processed = lines.map(l => l.replace(numbered, ''));
+      } else {
+        let n = 1;
+        processed = lines.map(l => {
+          if(!l) return l;
+          const stripped = l.replace(numbered, '');
+          return `${n++}. ${stripped}`;
+        });
+      }
+      const nextBlock = processed.join('\n');
+      const next = value.substring(0, lineStart) + nextBlock + value.substring(lineEnd);
+      ta.value = next;
+      ta.selectionStart = lineStart;
+      ta.selectionEnd = lineStart + nextBlock.length;
+      this.value = next;
+      ta.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    return this;
+  }
+  formatBlock(tag) {
+    const t = (tag || '').toLowerCase();
+    if(/^h[1-6]$/.test(t)){
+      const lvl = parseInt(t.slice(1), 10);
+      this.insertLinePrefix('#'.repeat(lvl) + ' ', /^#{1,6} /);
+    } else if(t === 'blockquote'){
+      this.quote();
+    } else if(t === 'pre'){
+      this.wrapSelection('```\n', '\n```', 'code');
+    }
+    return this;
+  }
+
+  /*
     Protected Members
   */
   get isEmpty() {
@@ -375,7 +440,7 @@ export default class MarkdownEditor extends ShadowComponent {
     const newMode = e.detail?.tab;
     if(!newMode || newMode === this.mode) return;
     this.mode = newMode;
-    this.dispatchEvent(new CustomEvent('mode-change', {
+    this.dispatchEvent(new CustomEvent('mode-changed', {
       detail: { mode: newMode },
       bubbles: true
     }));
@@ -520,74 +585,67 @@ export default class MarkdownEditor extends ShadowComponent {
     be imported eagerly. Lit creates the elements as plain HTMLElements
     until their definitions arrive, then the browser upgrades them in place.
   */
-  static loadedModules = new Set();
-  static controlModules = {
-    minimal: ['Menu', 'FormatBlock', 'Bold', 'Italic', 'BulletList', 'NumberedList'],
-    normal: ['Menu', 'FormatBlock', 'Bold', 'Italic', 'Quote', 'Code', 'Link', 'BulletList', 'NumberedList'],
-    full: ['Menu', 'FormatBlock', 'Bold', 'Italic', 'Strikethrough', 'Quote', 'Code', 'Link', 'Image', 'Table', 'BulletList', 'NumberedList', 'SpeechToText']
-  };
-
   static controlSets = {
     '': { top: null, bottom: null },
     none: { top: null, bottom: null },
     minimal: {
       top: html`
-        <k-md-menu label="Heading">
-          <k-icon slot="trigger" name="text_fields"></k-icon>
-          <k-md-format-block tag="h1"></k-md-format-block>
-          <k-md-format-block tag="h3"></k-md-format-block>
-          <k-md-format-block tag="h5"></k-md-format-block>
-        </k-md-menu>
-        <k-md-bold></k-md-bold>
-        <k-md-italic></k-md-italic>
-        <k-md-bullet-list></k-md-bullet-list>
-        <k-md-numbered-list></k-md-numbered-list>
+        <kc-menu>
+          <k-icon slot="icon" name="text_fields"></k-icon>
+          <kc-format-block tag="h1"></kc-format-block>
+          <kc-format-block tag="h3"></kc-format-block>
+          <kc-format-block tag="h5"></kc-format-block>
+        </kc-menu>
+        <kc-bold></kc-bold>
+        <kc-italic></kc-italic>
+        <kc-bullet-list></kc-bullet-list>
+        <kc-number-list></kc-number-list>
       `,
       bottom: null
     },
     normal: {
       top: html`
-        <k-md-menu label="Heading">
-          <k-icon slot="trigger" name="text_fields"></k-icon>
-          <k-md-format-block tag="h1"></k-md-format-block>
-          <k-md-format-block tag="h2"></k-md-format-block>
-          <k-md-format-block tag="h3"></k-md-format-block>
-          <k-md-format-block tag="h4"></k-md-format-block>
-          <k-md-format-block tag="h5"></k-md-format-block>
-          <k-md-format-block tag="h6"></k-md-format-block>
-        </k-md-menu>
-        <k-md-bold></k-md-bold>
-        <k-md-italic></k-md-italic>
-        <k-md-quote></k-md-quote>
-        <k-md-code></k-md-code>
-        <k-md-link></k-md-link>
-        <k-md-bullet-list></k-md-bullet-list>
-        <k-md-numbered-list></k-md-numbered-list>
+        <kc-menu>
+          <k-icon slot="icon" name="text_fields"></k-icon>
+          <kc-format-block tag="h1"></kc-format-block>
+          <kc-format-block tag="h2"></kc-format-block>
+          <kc-format-block tag="h3"></kc-format-block>
+          <kc-format-block tag="h4"></kc-format-block>
+          <kc-format-block tag="h5"></kc-format-block>
+          <kc-format-block tag="h6"></kc-format-block>
+        </kc-menu>
+        <kc-bold></kc-bold>
+        <kc-italic></kc-italic>
+        <kc-quote></kc-quote>
+        <kc-inline-code></kc-inline-code>
+        <kc-md-link></kc-md-link>
+        <kc-bullet-list></kc-bullet-list>
+        <kc-number-list></kc-number-list>
       `,
       bottom: null
     },
     full: {
       top: html`
-        <k-md-menu label="Heading">
-          <k-icon slot="trigger" name="text_fields"></k-icon>
-          <k-md-format-block tag="h1"></k-md-format-block>
-          <k-md-format-block tag="h2"></k-md-format-block>
-          <k-md-format-block tag="h3"></k-md-format-block>
-          <k-md-format-block tag="h4"></k-md-format-block>
-          <k-md-format-block tag="h5"></k-md-format-block>
-          <k-md-format-block tag="h6"></k-md-format-block>
-        </k-md-menu>
-        <k-md-bold></k-md-bold>
-        <k-md-italic></k-md-italic>
-        <k-md-strikethrough></k-md-strikethrough>
-        <k-md-quote></k-md-quote>
-        <k-md-code></k-md-code>
-        <k-md-link></k-md-link>
-        <k-md-image></k-md-image>
-        <k-md-table></k-md-table>
-        <k-md-bullet-list></k-md-bullet-list>
-        <k-md-numbered-list></k-md-numbered-list>
-        <k-md-speech-to-text></k-md-speech-to-text>
+        <kc-menu>
+          <k-icon slot="icon" name="text_fields"></k-icon>
+          <kc-format-block tag="h1"></kc-format-block>
+          <kc-format-block tag="h2"></kc-format-block>
+          <kc-format-block tag="h3"></kc-format-block>
+          <kc-format-block tag="h4"></kc-format-block>
+          <kc-format-block tag="h5"></kc-format-block>
+          <kc-format-block tag="h6"></kc-format-block>
+        </kc-menu>
+        <kc-bold></kc-bold>
+        <kc-italic></kc-italic>
+        <kc-strikethrough></kc-strikethrough>
+        <kc-quote></kc-quote>
+        <kc-inline-code></kc-inline-code>
+        <kc-md-link></kc-md-link>
+        <kc-md-image></kc-md-image>
+        <kc-md-table></kc-md-table>
+        <kc-bullet-list></kc-bullet-list>
+        <kc-number-list></kc-number-list>
+        <kc-md-speech-to-text></kc-md-speech-to-text>
       `,
       bottom: null
     }

@@ -525,7 +525,7 @@
     </k-accordion>
 
     <p>A markdown editor with GitHub-style <strong>Write</strong> and <strong>Preview</strong> tabs. The user types markdown in the textarea and can flip to a live preview at any time. Markdown is parsed by <a href="https://marked.js.org" target="_blank">marked</a> &mdash; a full CommonMark + GFM parser &mdash; so tables, task lists, fenced code blocks, autolinks, and inline HTML all work out of the box. The rendered output runs through <a href="../utils/sanitizeHtml.html"><code>sanitizeHtml</code></a> using <code>allowed-tags</code> (an allowlist) <em>or</em> <code>disallowed-tags</code> (a denylist) &mdash; the two are mutually exclusive. <code>&lt;script&gt;</code> tags are <strong>always</strong> stripped unless you opt in via the <code>scripts-enabled</code> attribute, and <code>&lt;iframe&gt;</code> / <code>&lt;style&gt;</code> / similar dangerous tags are always stripped regardless of any setting.</p>
-    <p>Toolbar buttons are slotted via <code>controls-top</code> and <code>controls-bottom</code> &mdash; mix and match the built-in controls listed below or write your own by extending <a href="#customControls"><code>MarkdownEditorControl</code></a>.</p>
+    <p>Toolbar buttons are slotted via <code>controls-top</code> and <code>controls-bottom</code> &mdash; mix and match the built-in controls listed below or write your own by extending <a href="#customControls"><code>ButtonControl</code></a>.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Drop in the tag with a <code>placeholder</code> and you get a markdown textarea with a Write/Preview toggle. No toolbars, no controls &mdash; just the bare editor.</p>
@@ -547,31 +547,31 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a comment...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-menu</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Heading&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;text_fields&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-md-menu</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-quote</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-quote</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-code</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-image</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-table</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-numbered-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-numbered-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a comment...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-menu</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Heading&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;text_fields&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">kc-menu</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-quote</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-quote</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-inline-code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-inline-code</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-image</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-table</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-number-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-markdown-editor placeholder="Write a comment...">
             <div slot="controls-top" class="d-f">
-              <k-md-menu label="Heading">
+              <kc-menu label="Heading">
                 <k-icon slot="trigger" name="text_fields"></k-icon>
-                <k-md-format-block tag="h1"></k-md-format-block>
-                <k-md-format-block tag="h2"></k-md-format-block>
-                <k-md-format-block tag="h3"></k-md-format-block>
-                <k-md-format-block tag="h4"></k-md-format-block>
-                <k-md-format-block tag="h5"></k-md-format-block>
-                <k-md-format-block tag="h6"></k-md-format-block>
-              </k-md-menu>
-              <k-md-bold></k-md-bold>
-              <k-md-italic></k-md-italic>
-              <k-md-quote></k-md-quote>
-              <k-md-code></k-md-code>
-              <k-md-link></k-md-link>
-              <k-md-image></k-md-image>
-              <k-md-table></k-md-table>
-              <k-md-bullet-list></k-md-bullet-list>
-              <k-md-numbered-list></k-md-numbered-list>
+                <kc-format-block tag="h1"></kc-format-block>
+                <kc-format-block tag="h2"></kc-format-block>
+                <kc-format-block tag="h3"></kc-format-block>
+                <kc-format-block tag="h4"></kc-format-block>
+                <kc-format-block tag="h5"></kc-format-block>
+                <kc-format-block tag="h6"></kc-format-block>
+              </kc-menu>
+              <kc-bold></kc-bold>
+              <kc-italic></kc-italic>
+              <kc-quote></kc-quote>
+              <kc-inline-code></kc-inline-code>
+              <kc-md-link></kc-md-link>
+              <kc-md-image></kc-md-image>
+              <kc-md-table></kc-md-table>
+              <kc-bullet-list></kc-bullet-list>
+              <kc-number-list></kc-number-list>
             </div>
           </k-markdown-editor>
         </k-card>
@@ -633,16 +633,16 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a comment...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-link</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-bottom&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;align-items:center; width:100%;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tc-muted&quot;</span>&gt;</span>Markdown supported<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-left:auto&quot;</span>&gt;</span>Comment<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a comment...&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-link</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-bottom&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;align-items:center; width:100%;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tc-muted&quot;</span>&gt;</span>Markdown supported<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-left:auto&quot;</span>&gt;</span>Comment<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-markdown-editor placeholder="Write a comment...">
             <div slot="controls-top" class="d-f">
-              <k-md-bold></k-md-bold>
-              <k-md-italic></k-md-italic>
-              <k-md-link></k-md-link>
+              <kc-bold></kc-bold>
+              <kc-italic></kc-italic>
+              <kc-md-link></kc-md-link>
             </div>
             <div slot="controls-bottom" class="d-f" style="align-items:center; width:100%;">
               <small class="tc-muted">Markdown supported</small>
@@ -673,7 +673,7 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mdForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Comment:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;comment&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Markdown supported&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-bold</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-md-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-md-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mdForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Comment:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;comment&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Markdown supported&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-f&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
@@ -682,8 +682,8 @@
             <label class="d-b mb">Comment:</label>
             <k-markdown-editor name="comment" required placeholder="Markdown supported">
               <div slot="controls-top" class="d-f">
-                <k-md-bold></k-md-bold>
-                <k-md-italic></k-md-italic>
+                <kc-bold></kc-bold>
+                <kc-italic></kc-italic>
               </div>
             </k-markdown-editor>
             <div class="mt">
@@ -753,28 +753,10 @@
     </div>
 
     <h3 id="customControls"><a href="#customControls" class="no-link">Custom Controls</a></h3>
-    <p>To write your own toolbar button, extend <code>MarkdownEditorControl</code>. Override <code>command()</code> and use the helpers (<code>wrapSelection</code>, <code>insertLinePrefix</code>, <code>replaceSelection</code>, <code>insertAtCursor</code>) to manipulate the textarea. The base class hides the control automatically when the editor flips to Preview mode.</p>
-    <p>Below is a tiny control that drops a horizontal rule (<code>---</code> on its own line) at the cursor &mdash; not common enough to ship as a built-in, but a clean example of using <code>insertAtCursor</code>.</p>
+    <p>To write your own toolbar button, extend <code>ButtonControl</code> from <code>controls/Button.js</code>. Override <code>handleAction()</code> and call the host&rsquo;s public methods (<code>wrapSelection</code>, <code>insertLinePrefix</code>, <code>replaceSelection</code>, <code>insertAtCursor</code>) via <code>this.host</code> to manipulate the textarea. The base class auto-discovers the host via <code>closest('[controlled]')</code> and disables itself when required host methods are missing.</p>
+    <p>Below is a tiny control that drops a horizontal rule (<code>---</code> on its own line) at the cursor &mdash; not common enough to ship as a built-in, but a clean example of using <code>invokeHost</code>.</p>
     <k-card label="JavaScript">
-      <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">MarkdownEditorControl</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'./markdownEditorControls/MarkdownEditorControl.js'</span>;
-<span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'./lit-all.min.js'</span>;
-
-<span class="hljs-comment">// Inserts a horizontal rule (`---`) on its own line at the cursor.</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkdownHr</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">MarkdownEditorControl</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">super</span>();
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">label</span> = <span class="hljs-string">'Horizontal rule'</span>;
-  }
-  <span class="hljs-title function_">command</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">insertAtCursor</span>(<span class="hljs-string">'\n\n---\n\n'</span>);
-  }
-  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> html<span class="hljs-string">`
-      &lt;button type=&quot;button&quot; class=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">btnClass</span>}</span> @click=<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.<span class="hljs-property">handleClick</span>}</span>&gt;&mdash;&lt;/button&gt;
-    `</span>;
-  }
-}
-customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">'k-md-hr'</span>, <span class="hljs-title class_">MarkdownHr</span>);</code></pre>
+      <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">ButtonControl</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./controls/Button.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  html<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./lit-all.min.js&#x27;</span>;<br><span class="hljs-comment">// Inserts a horizontal rule (`---`) on its own line at the cursor.</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkdownHr</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">ButtonControl</span> {<br>  <span class="hljs-keyword">static</span> requires = [<span class="hljs-string">&#x27;insertAtCursor&#x27;</span>];<br>  <span class="hljs-keyword">static</span> hostMode = <span class="hljs-string">&#x27;write&#x27;</span>;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-variable language_">super</span>();<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = <span class="hljs-string">&#x27;Horizontal rule&#x27;</span>;<br>  }<br>  <span class="hljs-title function_">handleAction</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">invokeHost</span>(<span class="hljs-string">&#x27;insertAtCursor&#x27;</span>, <span class="hljs-string">&#x27;\n\n---\n\n&#x27;</span>);<br>  }<br>  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {<br>    <span class="hljs-keyword">return</span> html`<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-symbol">&amp;mdash;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>`</span>;<br>  }<br>}<br>customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">&#x27;kc-md-hr&#x27;</span>, <span class="hljs-title class_">MarkdownHr</span>);</code></pre>
     </k-card>
 
     <h3 id="sizingExample"><a href="#sizingExample" class="no-link">Sizing Example</a></h3>
@@ -907,51 +889,50 @@ customElements.<span class="hljs-title function_">define</span>(<span class="hlj
     <h5><code>change</code></h5>
     <p>Fires with a 300ms debounce whenever text is typed, and also on blur. <code>detail.value</code> is the current markdown. Useful for enabling/disabling a "Save" button during long typing sessions without waiting for blur.</p>
 
-    <h5><code>mode-change</code></h5>
+    <h5><code>mode-changed</code></h5>
     <p>Fires when the user switches between Write and Preview tabs. <code>detail.mode</code> is the new mode.</p>
 
     <h3 id="controls"><a href="#controls" class="no-link">Built-in Controls</a></h3>
-    <p>Each control is a separate custom element under <code>src/components/markdownEditorControls/</code>. Import the ones you want and slot them into <code>controls-top</code> or <code>controls-bottom</code>.</p>
+    <p>Each control is a separate custom element under <code>src/components/controls/</code>. Import the ones you want and slot them into <code>controls-top</code> or <code>controls-bottom</code>.</p>
     <table class="b">
       <thead><tr><th>Tag</th><th>File</th><th>Inserts</th></tr></thead>
       <tbody>
-        <tr><td><code>&lt;k-md-bold&gt;</code></td><td><code>Bold.js</code></td><td><code>**bold**</code></td></tr>
-        <tr><td><code>&lt;k-md-italic&gt;</code></td><td><code>Italic.js</code></td><td><code>_italic_</code></td></tr>
-        <tr><td><code>&lt;k-md-strikethrough&gt;</code></td><td><code>Strikethrough.js</code></td><td><code>~~strike~~</code> &mdash; GFM strikethrough; renders to <code>&lt;del&gt;</code>.</td></tr>
-        <tr><td><code>&lt;k-md-heading&gt;</code></td><td><code>Heading.js</code></td><td><code>## </code> on the current line; <code>level</code> attribute (1&ndash;6) selects heading depth</td></tr>
-        <tr><td><code>&lt;k-md-code&gt;</code></td><td><code>Code.js</code></td><td>Inline backticks for a single line, fenced <code>```</code> blocks for multi-line selections</td></tr>
-        <tr><td><code>&lt;k-md-link&gt;</code></td><td><code>Link.js</code></td><td><code>[text](url)</code> with the URL portion pre-selected</td></tr>
-        <tr><td><code>&lt;k-md-image&gt;</code></td><td><code>Image.js</code></td><td>Opens a popover (URL + alt text) and inserts <code>![alt](url)</code> at the cursor. The popover type is configurable via <code>popup="dropdown"</code> (default, anchored next to the button) or <code>popup="dialog"</code> (modal Dialog).</td></tr>
-        <tr><td><code>&lt;k-md-table&gt;</code></td><td><code>Table.js</code></td><td>Opens a small dropdown with <em>cols × rows</em> inputs and a Create button. Inserts a GFM markdown table (with <code>Header 1</code>, <code>Header 2</code>&hellip; placeholders and empty body cells) at the cursor.</td></tr>
-        <tr><td><code>&lt;k-md-menu&gt;</code></td><td><code>Menu.js</code></td><td>Renders a single toolbar button that opens a Dropdown containing whatever child controls you slot into the default slot. The trigger button content is fully customizable via the <code>trigger</code> slot (defaults to a <code>menu</code> icon); <code>label</code> sets the accessible name.</td></tr>
-        <tr><td><code>&lt;k-md-format-block&gt;</code></td><td><code>FormatBlock.js</code></td><td>Heading-block picker designed to go inside a <code>&lt;k-md-menu&gt;</code>. <code>tag="h1"</code>&hellip;<code>"h6"</code> sets the heading level on the current line(s), swapping out any existing heading.</td></tr>
-        <tr><td><code>&lt;k-md-speech-to-text&gt;</code></td><td><code>SpeechToText.js</code></td><td>Reuses the standalone <a href="./speech-to-text.html"><code>&lt;k-speech-to-text&gt;</code></a> component &mdash; click the mic to start recording, click again to stop. The final transcript is inserted at the cursor when the user finishes speaking. Forwards <code>language</code> and <code>continuous</code> attributes through.</td></tr>
-        <tr><td><code>&lt;k-md-bullet-list&gt;</code></td><td><code>BulletList.js</code></td><td><code>- </code> prefix on each selected line</td></tr>
-        <tr><td><code>&lt;k-md-numbered-list&gt;</code></td><td><code>NumberedList.js</code></td><td><code>1. </code>, <code>2. </code>, &hellip; numbering each non-empty selected line</td></tr>
-        <tr><td><code>&lt;k-md-quote&gt;</code></td><td><code>Quote.js</code></td><td><code>&gt; </code> prefix on each selected line</td></tr>
+        <tr><td><code>&lt;kc-bold&gt;</code></td><td><code>Bold.js</code></td><td><code>**bold**</code></td></tr>
+        <tr><td><code>&lt;kc-italic&gt;</code></td><td><code>Italic.js</code></td><td><code>_italic_</code></td></tr>
+        <tr><td><code>&lt;kc-strikethrough&gt;</code></td><td><code>Strikethrough.js</code></td><td><code>~~strike~~</code> &mdash; GFM strikethrough; renders to <code>&lt;del&gt;</code>.</td></tr>
+        <tr><td><code>&lt;kc-inline-code&gt;</code></td><td><code>InlineCode.js</code></td><td>Inline backticks for a single line, fenced <code>```</code> blocks for multi-line selections</td></tr>
+        <tr><td><code>&lt;kc-md-link&gt;</code></td><td><code>MdLink.js</code></td><td><code>[text](url)</code> with the URL portion pre-selected</td></tr>
+        <tr><td><code>&lt;kc-md-image&gt;</code></td><td><code>MdImage.js</code></td><td>Opens a popover (URL + alt text) and inserts <code>![alt](url)</code> at the cursor. The popover type is configurable via <code>popup="dropdown"</code> (default, anchored next to the button) or <code>popup="dialog"</code> (modal Dialog).</td></tr>
+        <tr><td><code>&lt;kc-md-table&gt;</code></td><td><code>MdTable.js</code></td><td>Opens a small dropdown with <em>cols × rows</em> inputs and a Create button. Inserts a GFM markdown table (with <code>Header 1</code>, <code>Header 2</code>&hellip; placeholders and empty body cells) at the cursor.</td></tr>
+        <tr><td><code>&lt;kc-menu&gt;</code></td><td><code>Menu.js</code></td><td>Renders a single toolbar button that opens a Dropdown containing whatever child controls you slot into the default slot. The trigger button content is fully customizable via the <code>trigger</code> slot (defaults to a <code>menu</code> icon); <code>label</code> sets the accessible name.</td></tr>
+        <tr><td><code>&lt;kc-format-block&gt;</code></td><td><code>FormatBlock.js</code></td><td>Heading-block picker designed to go inside a <code>&lt;kc-menu&gt;</code>. <code>tag="h1"</code>&hellip;<code>"h6"</code> sets the heading level on the current line(s), swapping out any existing heading.</td></tr>
+        <tr><td><code>&lt;kc-md-speech-to-text&gt;</code></td><td><code>MdSpeechToText.js</code></td><td>Reuses the standalone <a href="./speech-to-text.html"><code>&lt;k-speech-to-text&gt;</code></a> component &mdash; click the mic to start recording, click again to stop. The final transcript is inserted at the cursor when the user finishes speaking. Forwards <code>language</code> and <code>continuous</code> attributes through.</td></tr>
+        <tr><td><code>&lt;kc-bullet-list&gt;</code></td><td><code>BulletList.js</code></td><td><code>- </code> prefix on each selected line</td></tr>
+        <tr><td><code>&lt;kc-number-list&gt;</code></td><td><code>NumberList.js</code></td><td><code>1. </code>, <code>2. </code>, &hellip; numbering each non-empty selected line</td></tr>
+        <tr><td><code>&lt;kc-quote&gt;</code></td><td><code>Quote.js</code></td><td><code>&gt; </code> prefix on each selected line</td></tr>
       </tbody>
     </table>
-    <p class="mt">All controls extend <code>MarkdownEditorControl</code> &mdash; see <a href="#customControls">Custom Controls</a> to write your own.</p>
+    <p class="mt">All controls extend <code>ButtonControl</code> from <code>controls/Button.js</code> &mdash; see <a href="#customControls">Custom Controls</a> to write your own.</p>
   
   </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Main.js"></script>
   
     <script type="module" src="../src/components/MarkdownEditor.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Bold.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Italic.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Strikethrough.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/SpeechToText.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Heading.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Code.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Link.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Image.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Table.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Menu.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/FormatBlock.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/BulletList.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/NumberedList.js"></script>
-    <script type="module" src="../src/components/markdownEditorControls/Quote.js"></script>
+    <script type="module" src="../src/components/controls/Bold.js"></script>
+    <script type="module" src="../src/components/controls/Italic.js"></script>
+    <script type="module" src="../src/components/controls/Strikethrough.js"></script>
+    <script type="module" src="../src/components/controls/MdSpeechToText.js"></script>
+    <script type="module" src="../src/components/controls/FormatBlock.js"></script>
+    <script type="module" src="../src/components/controls/InlineCode.js"></script>
+    <script type="module" src="../src/components/controls/MdLink.js"></script>
+    <script type="module" src="../src/components/controls/MdImage.js"></script>
+    <script type="module" src="../src/components/controls/MdTable.js"></script>
+    <script type="module" src="../src/components/controls/Menu.js"></script>
+    <script type="module" src="../src/components/controls/FormatBlock.js"></script>
+    <script type="module" src="../src/components/controls/BulletList.js"></script>
+    <script type="module" src="../src/components/controls/NumberList.js"></script>
+    <script type="module" src="../src/components/controls/Quote.js"></script>
     <script type="module" src="../src/components/Accordion.js"></script>
     <script type="module" src="../src/components/Card.js"></script>
   
