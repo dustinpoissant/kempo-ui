@@ -28,10 +28,9 @@ import{html as t,css as e}from"../lit-all.min.js";import o from"./ShadowComponen
 		}
 		:host([fullscreen]) {
 			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
+			inset: 0;
+			width: auto;
+			height: auto;
 			z-index: 10000;
 		}
 		.toolbar-top,

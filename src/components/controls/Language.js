@@ -40,9 +40,17 @@ export default class LanguageSelect extends Control {
     Control.styles,
     css`
       :host {
-        align-items: center;
-        padding: 0 0.25rem;
-        gap: 0.25rem;
+        background-color: var(--input_bg);
+        color: var(--input_tc);
+        border: var(--input_border_width) solid var(--c_input_border);
+        border-radius: var(--radius);
+        transition: box-shadow var(--animation_ms);
+        margin-right: var(--spacer_q);
+      }
+      select {
+        border: 0;
+        padding: var(--spacer_h) var(--spacer);
+        min-height: 2.5rem;
       }
     `
   ];

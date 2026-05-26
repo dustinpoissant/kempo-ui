@@ -3,7 +3,7 @@ import ShadowComponent from './ShadowComponent.js';
 import renderMarkdown from '../utils/renderMarkdown.js';
 import sanitizeHtml, { STRIP_COMPLETELY } from '../utils/sanitizeHtml.js';
 import debounce from '../utils/debounce.js';
-import loadControls from './controls/loadControls.js';
+import Control from './controls/Control.js';
 import './Resize.js';
 import './Tabs.js';
 
@@ -96,7 +96,7 @@ export default class MarkdownEditor extends ShadowComponent {
   loadControls() {
     const set = this.constructor.controlSets[this.controls];
     if(!set) return;
-    loadControls(Object.values(set));
+    Control.load(Object.values(set));
   }
 
   connectedCallback() {

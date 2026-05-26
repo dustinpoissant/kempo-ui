@@ -122,6 +122,49 @@ export default class Control extends ShadowComponent {
   }
 
   /*
+    Static Helpers
+  */
+  static load = (() => {
+    const TAG_RE = /<(kc-[a-z][a-z0-9-]*|k-control-group)\b/g;
+    const loaded = new Set();
+
+    const tagToPath = (tag) => {
+      if(tag === 'k-control-group') return '../ControlGroup.js';
+      const pascal = tag.slice('kc-'.length).split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('');
+      return `./${pascal}.js`;
+    };
+
+    const collectTags = (t, tags = new Set()) => {
+      if(!t) return tags;
+      if(Array.isArray(t)){ t.forEach(i => collectTags(i, tags)); return tags; }
+      if(t.strings){
+        for(const s of t.strings){
+          let m; TAG_RE.lastIndex = 0;
+          while((m = TAG_RE.exec(s)) !== null) tags.add(m[1]);
+        }
+      }
+      if(typeof t === 'object'){
+        for(const v of Object.values(t)){
+          if(v && (Array.isArray(v) || v.strings)) collectTags(v, tags);
+        }
+      }
+      return tags;
+    };
+
+    return async (templates) => {
+      const tags = collectTags(templates);
+      const base = new URL('./', import.meta.url).href;
+      const imports = [];
+      for(const tag of tags){
+        if(loaded.has(tag)) continue;
+        loaded.add(tag);
+        imports.push(import(/* @vite-ignore */ new URL(tagToPath(tag), base).href));
+      }
+      if(imports.length) await Promise.all(imports);
+    };
+  })()
+
+  /*
     Styles
   */
   static styles = css`

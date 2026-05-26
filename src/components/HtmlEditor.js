@@ -4,7 +4,7 @@ import formatCode from '../utils/formatCode.js';
 import debounce from '../utils/debounce.js';
 import { getCalculatedTheme, subscribeToTheme } from '../utils/theme.js';
 import Dialog from './Dialog.js';
-import loadControlModules from './controls/loadControls.js';
+import Control from './controls/Control.js';
 
 /*
 	Default CDN URLs
@@ -184,7 +184,7 @@ export default class HtmlEditor extends ShadowComponent {
 	loadControls() {
 		const set = this.constructor.controlSets[this.controls];
 		if(!set) return;
-		loadControlModules(Object.values(set));
+		Control.load(Object.values(set));
 	}
 
 	async loadNodeModules() {
@@ -1189,10 +1189,9 @@ export default class HtmlEditor extends ShadowComponent {
 		}
 		:host([fullscreen]) {
 			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw !important;
-			height: 100vh !important;
+			inset: 0;
+			width: auto;
+			height: auto;
 			z-index: 10000;
 		}
 		:host([disabled]) {

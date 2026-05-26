@@ -1,13 +1,21 @@
-import t from"./Control.js";import{html as e,css as s}from"../../lit-all.min.js";import"../Icon.js";const a=["javascript","typescript","html","css","json","markdown","python","java","csharp","cpp","go","rust","php","ruby","sql","xml","yaml","shell","plaintext"];export default class l extends t{static requires=["setLanguage"];static hostMode="code";static hostEvents=["language-changed"];static properties={...t.properties,value:{type:String,state:!0}};constructor(){super(),this.value="javascript"}connectedCallback(){super.connectedCallback(),this.host&&(this.value=this.host.language||"javascript")}willUpdate(t){super.willUpdate?.(t),this.host&&(this.value=this.host.language||"javascript")}handleChange=t=>{this.invokeHost("setLanguage",t.target.value)};static styles=[t.styles,s`
+import t from"./Control.js";import{html as e,css as a}from"../../lit-all.min.js";import"../Icon.js";const s=["javascript","typescript","html","css","json","markdown","python","java","csharp","cpp","go","rust","php","ruby","sql","xml","yaml","shell","plaintext"];export default class r extends t{static requires=["setLanguage"];static hostMode="code";static hostEvents=["language-changed"];static properties={...t.properties,value:{type:String,state:!0}};constructor(){super(),this.value="javascript"}connectedCallback(){super.connectedCallback(),this.host&&(this.value=this.host.language||"javascript")}willUpdate(t){super.willUpdate?.(t),this.host&&(this.value=this.host.language||"javascript")}handleChange=t=>{this.invokeHost("setLanguage",t.target.value)};static styles=[t.styles,a`
       :host {
-        align-items: center;
-        padding: 0 0.25rem;
-        gap: 0.25rem;
+        background-color: var(--input_bg);
+        color: var(--input_tc);
+        border: var(--input_border_width) solid var(--c_input_border);
+        border-radius: var(--radius);
+        transition: box-shadow var(--animation_ms);
+        margin-right: var(--spacer_q);
+      }
+      select {
+        border: 0;
+        padding: var(--spacer_h) var(--spacer);
+        min-height: 2.5rem;
       }
     `];render(){return e`
       <select .value=${this.value} @change=${this.handleChange} title="Language">
-        ${a.map(t=>e`
+        ${s.map(t=>e`
           <option value="${t}" ?selected=${this.value===t}>${t}</option>
         `)}
       </select>
-    `}}customElements.define("kc-language",l);
+    `}}customElements.define("kc-language",r);

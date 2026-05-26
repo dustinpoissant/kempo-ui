@@ -6,6 +6,7 @@ import t from"./Control.js";import{html as e,css as o}from"../../lit-all.min.js"
         border: var(--input_border_width) solid var(--c_input_border);
         border-radius: var(--radius);
         transition: box-shadow var(--animation_ms);
+        margin-right: var(--spacer_q);
       }
       k-icon {
         position: absolute;

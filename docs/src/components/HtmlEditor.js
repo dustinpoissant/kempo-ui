@@ -40,10 +40,9 @@ import{html as t,css as e}from"../lit-all.min.js";import i from"./ShadowComponen
 		}
 		:host([fullscreen]) {
 			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw !important;
-			height: 100vh !important;
+			inset: 0;
+			width: auto;
+			height: auto;
 			z-index: 10000;
 		}
 		:host([disabled]) {

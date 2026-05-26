@@ -2,7 +2,7 @@ import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import formatCode from '../utils/formatCode.js';
 import { getCalculatedTheme, subscribeToTheme } from '../utils/theme.js';
-import loadControlModules from './controls/loadControls.js';
+import Control from './controls/Control.js';
 
 /*
 	Default CDN URL
@@ -165,7 +165,7 @@ export default class CodeEditor extends ShadowComponent {
 	loadControls() {
 		const set = this.constructor.controlSets[this.controls];
 		if(!set) return;
-		loadControlModules(Object.values(set));
+		Control.load(Object.values(set));
 	}
 
 	async initMonaco() {
@@ -440,10 +440,9 @@ export default class CodeEditor extends ShadowComponent {
 		}
 		:host([fullscreen]) {
 			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
+			inset: 0;
+			width: auto;
+			height: auto;
 			z-index: 10000;
 		}
 		.toolbar-top,

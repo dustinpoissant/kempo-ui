@@ -2,7 +2,7 @@ import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import { bound, closest } from '../utils/number.js';
 import { commaSeparatedArray } from '../utils/propConverters.js';
-import loadControlModules from './controls/loadControls.js';
+import Control from './controls/Control.js';
 
 export default class Pagination extends ShadowComponent {
 	/*
@@ -46,7 +46,7 @@ export default class Pagination extends ShadowComponent {
 	loadControls() {
 		const set = this.constructor.controlSets[this.controls];
 		if(!set) return;
-		loadControlModules(Object.values(set));
+		Control.load(Object.values(set));
 	}
 
 	willUpdate(changedProperties) {

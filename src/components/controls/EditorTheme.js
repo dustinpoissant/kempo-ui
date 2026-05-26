@@ -39,6 +39,7 @@ export default class EditorTheme extends Control {
         border: var(--input_border_width) solid var(--c_input_border);
         border-radius: var(--radius);
         transition: box-shadow var(--animation_ms);
+        margin-right: var(--spacer_q);
       }
       k-icon {
         position: absolute;
