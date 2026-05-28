@@ -23,8 +23,8 @@ export default class FoldAll extends ButtonControl {
 
   handleAction() {
     this.folded = !this.folded;
-    if(this.folded) this.invokeHost('foldAll');
-    else this.invokeHost('unfoldAll');
+    if(this.folded) this.host?.foldAll?.();
+    else this.host?.unfoldAll?.();
   }
 
   render() {

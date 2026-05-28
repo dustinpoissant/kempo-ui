@@ -28,7 +28,7 @@ export default class Minimap extends ButtonControl {
     if(this.host) this.active = !!this.host.minimapEnabled;
   }
 
-  handleAction() { this.invokeHost('toggleMinimap'); }
+  handleAction() { this.host?.toggleMinimap?.(); }
 
   render() { return html`<slot><k-icon name="map"></k-icon></slot>`; }
 }

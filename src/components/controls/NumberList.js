@@ -11,7 +11,7 @@ export default class NumberList extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Numbered List';
   }
 
-  handleAction() { this.invokeHost('numberList'); }
+  handleAction() { this.host?.numberList?.(); }
 
   render() { return html`<slot><k-icon name="format_list_numbered"></k-icon></slot>`; }
 }

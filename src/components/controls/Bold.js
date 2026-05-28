@@ -11,7 +11,7 @@ export default class Bold extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Bold';
   }
 
-  handleAction() { this.invokeHost('bold'); }
+  handleAction() { this.host?.bold?.(); }
 
   render() { return html`<slot><k-icon name="format_bold"></k-icon></slot>`; }
 }

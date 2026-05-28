@@ -11,7 +11,7 @@ export default class Underline extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Underline';
   }
 
-  handleAction() { this.invokeHost('underline'); }
+  handleAction() { this.host?.underline?.(); }
 
   render() { return html`<slot><k-icon name="format_underlined"></k-icon></slot>`; }
 }

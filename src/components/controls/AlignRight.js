@@ -11,7 +11,7 @@ export default class AlignRight extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Align Right';
   }
 
-  handleAction() { this.invokeHost('alignRight'); }
+  handleAction() { this.host?.alignRight?.(); }
 
   render() { return html`<slot><k-icon name="format_align_right"></k-icon></slot>`; }
 }

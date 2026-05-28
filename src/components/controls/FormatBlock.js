@@ -40,7 +40,7 @@ export default class FormatBlock extends ButtonControl {
   getDefaultLabel(tag) { return TAG_LABELS[tag || this.tag] || (tag || this.tag).toUpperCase(); }
   getDefaultIcon(tag) { return TAG_ICONS[tag || this.tag] || 'format_paragraph'; }
 
-  handleAction() { this.invokeHost('formatBlock', this.tag); }
+  handleAction() { this.host?.formatBlock?.(this.tag); }
 
   render() {
     const label = TAG_LABELS[this.tag] || this.tag.toUpperCase();

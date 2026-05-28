@@ -27,7 +27,7 @@ export default class TextBackgroundColor extends Control {
   set opened(v) { const dd = this.shadowRoot?.querySelector('k-dropdown'); if(dd) dd.opened = v; }
 
   handleRemove = () => {
-    this.invokeHost('removeTextBackgroundColor');
+    this.host?.removeTextBackgroundColor?.();
     this.shadowRoot.querySelector('k-dropdown')?.close();
   };
 
@@ -36,12 +36,12 @@ export default class TextBackgroundColor extends Control {
     if(!bg) return;
     const rgb = bg.match(/\d+/g);
     const hex = rgb ? '#' + rgb.map(x => parseInt(x).toString(16).padStart(2, '0')).join('') : bg;
-    this.invokeHost('setTextBackgroundColor', hex);
+    this.host?.setTextBackgroundColor?.(hex);
     this.shadowRoot.querySelector('k-dropdown')?.close();
   };
 
   handlePicker = (e) => {
-    this.invokeHost('setTextBackgroundColor', e.target.value);
+    this.host?.setTextBackgroundColor?.(e.target.value);
     this.shadowRoot.querySelector('k-dropdown')?.close();
   };
 

@@ -11,7 +11,7 @@ export default class Italic extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Italic';
   }
 
-  handleAction() { this.invokeHost('italic'); }
+  handleAction() { this.host?.italic?.(); }
 
   render() { return html`<slot><k-icon name="format_italic"></k-icon></slot>`; }
 }

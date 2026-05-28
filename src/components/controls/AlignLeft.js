@@ -11,7 +11,7 @@ export default class AlignLeft extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Align Left';
   }
 
-  handleAction() { this.invokeHost('alignLeft'); }
+  handleAction() { this.host?.alignLeft?.(); }
 
   render() { return html`<slot><k-icon name="format_align_left"></k-icon></slot>`; }
 }

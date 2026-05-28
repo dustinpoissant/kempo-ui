@@ -11,7 +11,7 @@ export default class FormatCode extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Format Code';
   }
 
-  handleAction() { this.invokeHost('formatCode'); }
+  handleAction() { this.host?.formatCode?.(); }
 
   render() { return html`<slot><k-icon name="frame_source"></k-icon></slot>`; }
 }

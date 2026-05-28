@@ -27,7 +27,7 @@ export default class EditorTheme extends Control {
     if(this.host) this.value = this.host.editorTheme || 'auto';
   }
 
-  handleChange = e => { this.invokeHost('setEditorTheme', e.target.value); };
+  handleChange = e => { this.host?.setEditorTheme?.(e.target.value); };
 
   static styles = [
     Control.styles,

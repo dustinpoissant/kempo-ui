@@ -9,7 +9,7 @@ import { css, html } from '../../lit-all.min.js';
 
   Subclasses typically:
     static requires = ['methodName']
-    handleAction() { this.invokeHost('methodName'); }
+    handleAction() { this.host?.methodName?.(); }
     render() { return html`<k-icon name="..."></k-icon>`; }
 */
 export default class ButtonControl extends Control {

@@ -18,7 +18,7 @@ export default class CodeBlock extends ButtonControl {
   handleAction() {
     const host = this.host;
     const inCode = host?.isSelectionInCodeBlock?.();
-    this.invokeHost('formatBlock', inCode ? 'p' : 'pre');
+    host?.formatBlock?.(inCode ? 'p' : 'pre');
   }
 
   render() { return html`<slot><k-icon name="code_blocks"></k-icon></slot>`; }

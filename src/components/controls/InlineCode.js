@@ -11,7 +11,7 @@ export default class InlineCode extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Inline Code';
   }
 
-  handleAction() { this.invokeHost('inlineCode'); }
+  handleAction() { this.host?.inlineCode?.(); }
 
   render() { return html`<slot><k-icon name="code_blocks"></k-icon></slot>`; }
 }

@@ -11,7 +11,7 @@ export default class AlignJustify extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Justify';
   }
 
-  handleAction() { this.invokeHost('alignJustify'); }
+  handleAction() { this.host?.alignJustify?.(); }
 
   render() { return html`<slot><k-icon name="format_align_justify"></k-icon></slot>`; }
 }

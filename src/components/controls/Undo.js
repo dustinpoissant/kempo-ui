@@ -10,7 +10,7 @@ export default class Undo extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Undo';
   }
 
-  handleAction() { this.invokeHost('undo'); }
+  handleAction() { this.host?.undo?.(); }
 
   render() { return html`<slot><k-icon name="undo"></k-icon></slot>`; }
 }

@@ -11,7 +11,7 @@ export default class BulletList extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Bulleted List';
   }
 
-  handleAction() { this.invokeHost('bulletList'); }
+  handleAction() { this.host?.bulletList?.(); }
 
   render() { return html`<slot><k-icon name="format_list_bulleted"></k-icon></slot>`; }
 }

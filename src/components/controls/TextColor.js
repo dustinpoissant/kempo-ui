@@ -27,7 +27,7 @@ export default class TextColor extends Control {
   set opened(v) { const dd = this.shadowRoot?.querySelector('k-dropdown'); if(dd) dd.opened = v; }
 
   handleRemove = () => {
-    this.invokeHost('removeTextColor');
+    this.host?.removeTextColor?.();
     this.shadowRoot.querySelector('k-dropdown')?.close();
   };
 
@@ -36,12 +36,12 @@ export default class TextColor extends Control {
     if(!bg) return;
     const rgb = bg.match(/\d+/g);
     const hex = rgb ? '#' + rgb.map(x => parseInt(x).toString(16).padStart(2, '0')).join('') : bg;
-    this.invokeHost('setTextColor', hex);
+    this.host?.setTextColor?.(hex);
     this.shadowRoot.querySelector('k-dropdown')?.close();
   };
 
   handlePicker = (e) => {
-    this.invokeHost('setTextColor', e.target.value);
+    this.host?.setTextColor?.(e.target.value);
     this.shadowRoot.querySelector('k-dropdown')?.close();
   };
 

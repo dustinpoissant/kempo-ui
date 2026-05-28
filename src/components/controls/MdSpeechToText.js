@@ -21,7 +21,7 @@ export default class MdSpeechToText extends Control {
   handleEnd = (e) => {
     const text = (e.detail?.text || '').trim();
     if(!text) return;
-    this.invokeHost('replaceSelection', text + ' ', { selectInserted: false });
+    this.host?.replaceSelection?.(text + ' ', { selectInserted: false });
   };
 
   render() {

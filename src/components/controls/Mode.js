@@ -22,7 +22,7 @@ export default class Mode extends ButtonControl {
 
   get mode() { return this.host?.mode; }
 
-  handleAction() { this.invokeHost('toggleMode'); }
+  handleAction() { this.host?.toggleMode?.(); }
 
   render() { return html`<slot><k-icon name="code"></k-icon></slot>`; }
 }

@@ -11,7 +11,7 @@ export default class FontSizeDecrease extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Decrease Font Size';
   }
 
-  handleAction() { this.invokeHost('decreaseFontSize'); }
+  handleAction() { this.host?.decreaseFontSize?.(); }
 
   render() { return html`<slot><k-icon name="text_decrease"></k-icon></slot>`; }
 }

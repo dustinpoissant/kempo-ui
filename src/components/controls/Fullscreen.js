@@ -32,7 +32,7 @@ export default class Fullscreen extends ButtonControl {
     if(changed.has('fullscreen')) this.toggleAttribute('active', this.fullscreen);
   }
 
-  handleAction() { this.invokeHost('toggleFullscreen'); }
+  handleAction() { this.host?.toggleFullscreen?.(); }
 
   render() {
     return html`<slot><k-icon name="${this.fullscreen ? 'fullscreen_exit' : 'fullscreen'}"></k-icon></slot>`;

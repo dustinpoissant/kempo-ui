@@ -11,7 +11,7 @@ export default class CopyCode extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Copy Code';
   }
 
-  handleAction() { this.invokeHost('copyToClipboard'); }
+  handleAction() { this.host?.copyToClipboard?.(); }
 
   render() { return html`<slot><k-icon name="content_copy"></k-icon></slot>`; }
 }

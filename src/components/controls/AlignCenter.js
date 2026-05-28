@@ -11,7 +11,7 @@ export default class AlignCenter extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Align Center';
   }
 
-  handleAction() { this.invokeHost('alignCenter'); }
+  handleAction() { this.host?.alignCenter?.(); }
 
   render() { return html`<slot><k-icon name="format_align_center"></k-icon></slot>`; }
 }

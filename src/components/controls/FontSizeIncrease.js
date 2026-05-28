@@ -11,7 +11,7 @@ export default class FontSizeIncrease extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Increase Font Size';
   }
 
-  handleAction() { this.invokeHost('increaseFontSize'); }
+  handleAction() { this.host?.increaseFontSize?.(); }
 
   render() { return html`<slot><k-icon name="text_increase"></k-icon></slot>`; }
 }

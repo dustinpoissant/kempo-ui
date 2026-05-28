@@ -16,8 +16,6 @@ import { css } from '../../lit-all.min.js';
     static hostEvents = ['evt', ...]       // host events that trigger
                                            // requestUpdate() on this control
 
-  Subclasses should call this.invokeHost('methodName', ...args) to call
-  a host method safely (no-op if missing).
 */
 export default class Control extends ShadowComponent {
   static properties = {
@@ -113,12 +111,6 @@ export default class Control extends ShadowComponent {
     const allowed = Array.isArray(required) ? required : [required];
     const shouldHide = !allowed.includes(host.mode);
     if(this.hidden !== shouldHide) this.hidden = shouldHide;
-  }
-
-  invokeHost(method, ...args) {
-    const host = this.host;
-    if(host && typeof host[method] === 'function') return host[method](...args);
-    return undefined;
   }
 
   /*

@@ -11,7 +11,7 @@ export default class Strikethrough extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Strikethrough';
   }
 
-  handleAction() { this.invokeHost('strikethrough'); }
+  handleAction() { this.host?.strikethrough?.(); }
 
   render() { return html`<slot><k-icon name="strikethrough_s"></k-icon></slot>`; }
 }

@@ -28,7 +28,7 @@ export default class WordWrap extends ButtonControl {
     if(this.host) this.active = this.host.wordWrap !== false;
   }
 
-  handleAction() { this.invokeHost('toggleWordWrap'); }
+  handleAction() { this.host?.toggleWordWrap?.(); }
 
   render() { return html`<slot><k-icon name="wrap_text"></k-icon></slot>`; }
 }

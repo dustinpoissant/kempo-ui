@@ -26,7 +26,7 @@ export default class MdTable extends Control {
     const cols = this.clamp(this.shadowRoot.querySelector('.tbl-cols').value, 1, 20);
     const rows = this.clamp(this.shadowRoot.querySelector('.tbl-rows').value, 1, 50);
     if(!cols || !rows) return;
-    this.invokeHost('replaceSelection', this.buildTable(cols, rows), { selectInserted: false });
+    this.host?.replaceSelection?.(this.buildTable(cols, rows), { selectInserted: false });
     this.shadowRoot.querySelector('k-dropdown')?.close();
   }
 

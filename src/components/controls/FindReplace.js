@@ -11,7 +11,7 @@ export default class FindReplace extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Find & Replace';
   }
 
-  handleAction() { this.invokeHost('openFind'); }
+  handleAction() { this.host?.openFind?.(); }
 
   render() { return html`<slot><k-icon name="search"></k-icon></slot>`; }
 }

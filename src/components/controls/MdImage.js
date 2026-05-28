@@ -33,7 +33,7 @@ export default class MdImage extends Control {
     const url = this.shadowRoot.querySelector('.image-url').value.trim();
     const alt = this.shadowRoot.querySelector('.image-alt').value.trim();
     if(!url){ this.shadowRoot.querySelector('.image-url').focus(); return; }
-    this.invokeHost('replaceSelection', `![${alt}](${url})`, { selectInserted: false });
+    this.host?.replaceSelection?.(`![${alt}](${url})`, { selectInserted: false });
     this.shadowRoot.querySelector('k-dropdown')?.close();
   }
 

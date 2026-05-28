@@ -34,7 +34,7 @@ export default class LanguageSelect extends Control {
     if(this.host) this.value = this.host.language || 'javascript';
   }
 
-  handleChange = e => { this.invokeHost('setLanguage', e.target.value); };
+  handleChange = e => { this.host?.setLanguage?.(e.target.value); };
 
   static styles = [
     Control.styles,

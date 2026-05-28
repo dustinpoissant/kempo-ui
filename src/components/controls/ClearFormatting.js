@@ -11,7 +11,7 @@ export default class ClearFormatting extends ButtonControl {
     if(!this.hasAttribute('title')) this.title = 'Clear Formatting';
   }
 
-  handleAction() { this.invokeHost('removeFormat'); }
+  handleAction() { this.host?.removeFormat?.(); }
 
   render() { return html`<slot><k-icon name="format_clear"></k-icon></slot>`; }
 }
