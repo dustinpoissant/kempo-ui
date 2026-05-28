@@ -1,4 +1,4 @@
-import ButtonControl from './Button.js';
+import ButtonControl from './ButtonControl.js';
 import { html } from '../../lit-all.min.js';
 import '../Icon.js';
 import Dialog from '../Dialog.js';
