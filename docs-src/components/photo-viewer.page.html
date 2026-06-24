@@ -13,9 +13,11 @@
           <a href="#globalNavigation">Global Navigation</a><br />
           <a href="#customControls">Custom Controls</a><br />
           <a href="#captions">Captions</a><br />
-          
+          <a href="#programmaticGallery">Programmatic Gallery</a><br />
+
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
+          <a href="#staticMethods">Static Methods</a><br />
           <a href="#requirements">Requirements</a><br />
           <a href="#properties">Properties</a><br />
           <a href="#methods">Methods</a><br />
@@ -172,6 +174,34 @@
       </div>
     </div>
 
+    <h3 id="programmaticGallery"><a href="#programmaticGallery" class="no-link">Programmatic Gallery</a></h3>
+    <p>Use the static <code>PhotoViewer.open(content, openIndex, options)</code> method to launch a fullscreen gallery popup directly from JavaScript, without needing any <code>k-photo-viewer</code> thumbnails in the page. <code>content</code> is an array of <code>{ src, caption }</code> objects, where <code>caption</code> can be an HTML string or a lit <code>html</code> template. <code>openIndex</code> (optional, default <code>0</code>) is the index of the photo to open first, and navigation wraps within the array.</p>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"galleryBtn"</span>&gt;</span>Open Gallery<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br /><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript"><br />  <span class="hljs-keyword">import</span> <span class="hljs-title class_">PhotoViewer</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/components/PhotoViewer.js'</span>;<br />  <span class="hljs-keyword">import</span> { html } <span class="hljs-keyword">from</span> <span class="hljs-string">'/src/lit-all.min.js'</span>;<br /><br />  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'galleryBtn'</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'click'</span>, () =&gt; {<br />    <span class="hljs-title class_">PhotoViewer</span>.<span class="hljs-title function_">open</span>([<br />      { <span class="hljs-attr">src</span>: <span class="hljs-string">'../media/civic.jpg'</span>, <span class="hljs-attr">caption</span>: <span class="hljs-string">'&lt;h6&gt;Honda Civic Type R&lt;/h6&gt;'</span> },<br />      { <span class="hljs-attr">src</span>: <span class="hljs-string">'../media/corvette.jpg'</span>, <span class="hljs-attr">caption</span>: html`<span class="hljs-tag">&lt;<span class="hljs-name">h6</span>&gt;</span>Chevrolet Corvette C8<span class="hljs-tag">&lt;/<span class="hljs-name">h6</span>&gt;</span>` },<br />      { <span class="hljs-attr">src</span>: <span class="hljs-string">'../media/evo.jpg'</span>, <span class="hljs-attr">caption</span>: <span class="hljs-string">'&lt;h6&gt;Mitsubishi Lancer Evolution&lt;/h6&gt;'</span> }<br />    ], <span class="hljs-number">1</span>);<br />  });<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <button id="galleryBtn" class="mb">Open Gallery</button>
+          <script type="module">
+            import PhotoViewer from '{{pathToRoot}}src/components/PhotoViewer.js';
+            import { html } from '{{pathToRoot}}src/lit-all.min.js';
+
+            document.getElementById('galleryBtn').addEventListener('click', () => {
+              PhotoViewer.open([
+                { src: '{{pathToRoot}}media/civic.jpg', caption: '<h6>Honda Civic Type R</h6>' },
+                { src: '{{pathToRoot}}media/corvette.jpg', caption: html`<h6>Chevrolet Corvette C8</h6>` },
+                { src: '{{pathToRoot}}media/evo.jpg', caption: '<h6>Mitsubishi Lancer Evolution</h6>' }
+              ], 1);
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -180,6 +210,17 @@
       <code>new PhotoViewer()</code>
     </h5>
     <p>Creates a new PhotoViewer instance. Configuration is done through attributes or properties.</p>
+
+    <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
+    <h5><code>PhotoViewer.open(content<i>: Array&lt;{ src, caption }&gt;</i>, openIndex<i>?: number</i>, options<i>?: object</i>)<i>: PhotoViewer</i></code></h5>
+    <p>Opens a fullscreen gallery popup without needing any <code>k-photo-viewer</code> elements on the page. Creates a hidden, isolated set of PhotoViewers, opens the one at <code>openIndex</code>, and removes them all from the DOM once the gallery is fully closed.</p>
+    <ul>
+      <li><strong>content</strong>: Array of <code>{ src, caption, alt }</code> objects. <code>src</code> is the image URL. <code>caption</code> is optional and may be an HTML string or a lit <code>html</code> template result; it's used as both the default caption and the fullscreen caption. <code>alt</code> is optional alt text for the image.</li>
+      <li><strong>openIndex</strong>: Index within <code>content</code> to open first. Defaults to <code>0</code>.</li>
+      <li><strong>options.keyboardControls</strong>: Whether keyboard controls (Escape, Arrow Left/Right) are enabled for the popup. Defaults to <code>true</code>.</li>
+      <li><strong>options.onClose</strong>: Callback invoked after the gallery is fully closed and removed from the DOM.</li>
+    </ul>
+    <p>Returns the <code>PhotoViewer</code> instance that was opened.</p>
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>

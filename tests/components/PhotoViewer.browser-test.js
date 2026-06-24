@@ -1,4 +1,5 @@
 import PhotoViewer from '../../src/components/PhotoViewer.js';
+import { html } from '../../src/lit-all.min.js';
 
 const createPhotoViewer = async (options = {}) => {
 	const container = document.createElement('div');
@@ -636,5 +637,180 @@ export default {
 
 		cleanup(container);
 		pass('Caption content slotted correctly');
+	},
+
+	/*
+		Static open() Tests
+	*/
+	'should create and open a viewer with PhotoViewer.open': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300', caption: '<span>Photo 1</span>' },
+			{ src: 'https://picsum.photos/200/301', caption: '<span>Photo 2</span>' }
+		]);
+		await viewer.updateComplete;
+
+		if(!(viewer instanceof PhotoViewer)){
+			viewer.close();
+			fail('open() should return a PhotoViewer instance');
+			return;
+		}
+
+		if(viewer.fullscreen !== true){
+			viewer.close();
+			fail('open() should open the viewer in fullscreen');
+			return;
+		}
+
+		viewer.close();
+		pass('PhotoViewer.open() creates and opens a viewer');
+	},
+
+	'should open at the given openIndex': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300', caption: 'Photo 1' },
+			{ src: 'https://picsum.photos/200/301', caption: 'Photo 2' },
+			{ src: 'https://picsum.photos/200/302', caption: 'Photo 3' }
+		], 1);
+		await viewer.updateComplete;
+
+		if(viewer.src !== 'https://picsum.photos/200/301'){
+			viewer.close();
+			fail(`Expected src for index 1, got "${viewer.src}"`);
+			return;
+		}
+
+		viewer.close();
+		pass('PhotoViewer.open() opens at the given openIndex');
+	},
+
+	'should default to openIndex 0': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' },
+			{ src: 'https://picsum.photos/200/301' }
+		]);
+		await viewer.updateComplete;
+
+		if(viewer.src !== 'https://picsum.photos/200/300'){
+			viewer.close();
+			fail(`Expected src for index 0, got "${viewer.src}"`);
+			return;
+		}
+
+		viewer.close();
+		pass('PhotoViewer.open() defaults to openIndex 0');
+	},
+
+	'should remove the gallery from the DOM after closing': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' }
+		]);
+		await viewer.updateComplete;
+
+		viewer.close();
+		await viewer.updateComplete;
+
+		if(document.body.contains(viewer)){
+			fail('Gallery should be removed from the DOM after closing');
+			return;
+		}
+
+		pass('Gallery removed from the DOM after closing');
+	},
+
+	'should not remove the gallery from the DOM while navigating': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' },
+			{ src: 'https://picsum.photos/200/301' }
+		], 0);
+		await viewer.updateComplete;
+
+		const next = viewer.getNextSibling();
+		viewer.handleNextClick({ stopPropagation: () => {} });
+		await next.updateComplete;
+
+		if(!document.body.contains(next)){
+			next.close();
+			fail('Gallery should remain in the DOM while navigating between photos');
+			return;
+		}
+
+		if(next.fullscreen !== true){
+			next.close();
+			fail('Next photo should be opened after navigating');
+			return;
+		}
+
+		next.close();
+		pass('Gallery remains in the DOM while navigating');
+	},
+
+	'should call onClose when the gallery is fully closed': async ({pass, fail}) => {
+		let closed = false;
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' }
+		], 0, { onClose: () => { closed = true; } });
+		await viewer.updateComplete;
+
+		viewer.close();
+		await viewer.updateComplete;
+
+		if(!closed){
+			fail('onClose callback should be called after the gallery closes');
+			return;
+		}
+
+		pass('onClose callback called after gallery closes');
+	},
+
+	'should render string captions in the opened viewer': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300', caption: '<span class="open-test-caption">Hello</span>' }
+		]);
+		await viewer.updateComplete;
+
+		const caption = viewer.querySelector('.open-test-caption');
+		if(!caption || caption.textContent !== 'Hello'){
+			viewer.close();
+			fail('String caption should be rendered as HTML content');
+			return;
+		}
+
+		viewer.close();
+		pass('String caption rendered correctly');
+	},
+
+	'should render lit html template captions in the opened viewer': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300', caption: html`<span class="open-test-lit-caption">Lit Hello</span>` }
+		]);
+		await viewer.updateComplete;
+
+		const caption = viewer.querySelector('.open-test-lit-caption');
+		if(!caption || caption.textContent !== 'Lit Hello'){
+			viewer.close();
+			fail('Lit html caption should be rendered as content');
+			return;
+		}
+
+		viewer.close();
+		pass('Lit html template caption rendered correctly');
+	},
+
+	'should keep multiple opened photos isolated as siblings': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' },
+			{ src: 'https://picsum.photos/200/301' }
+		]);
+		await viewer.updateComplete;
+
+		const hasSiblings = viewer.hasPhotoSiblings();
+		if(!hasSiblings){
+			viewer.close();
+			fail('Opened gallery photos should detect each other as siblings');
+			return;
+		}
+
+		viewer.close();
+		pass('Opened gallery photos are isolated siblings');
 	}
 };

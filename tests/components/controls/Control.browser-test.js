@@ -114,19 +114,19 @@ export default {
 	},
 
 	/*
-		invokeHost Tests
+		Host Method Invocation Tests
 	*/
-	'should invoke host method via invokeHost': async ({pass, fail}) => {
+	'should invoke host method directly via host getter': async ({pass, fail}) => {
 		const { container, table, control } = await createTableWithControl();
 		const newRecords = [{ id: 99, name: 'Zara', age: 22 }];
-		control.invokeHost('setRecords', newRecords);
+		control.host?.setRecords(newRecords);
 		await table.updateComplete;
 		if(table.records.length !== 1 || table.records[0].name !== 'Zara'){
 			cleanup(container);
-			return fail('invokeHost should call host method');
+			return fail('Host method should be callable via control.host');
 		}
 		cleanup(container);
-		pass('invokeHost calls host method correctly');
+		pass('Host method invoked correctly via control.host');
 	},
 
 	/*

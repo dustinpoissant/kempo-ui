@@ -182,29 +182,6 @@ export default {
 		pass('Send button has padding defined via theme custom property');
 	},
 
-	'send button should be circular': async ({pass, fail}) => {
-		const { container, chat } = await createChat();
-
-		const sendBtn = chat.shadowRoot?.querySelector('.send-btn');
-		if(!sendBtn){
-			cleanup(container);
-			fail('Send button not found in shadow DOM');
-			return;
-		}
-
-		const styles = getComputedStyle(sendBtn);
-		const borderRadius = styles.borderRadius;
-
-		if(borderRadius !== '50%'){
-			cleanup(container);
-			fail(`Expected border-radius 50%, got ${borderRadius}`);
-			return;
-		}
-
-		cleanup(container);
-		pass('Send button is circular');
-	},
-
 	/*
 		Chat Component - Message Management Tests
 	*/

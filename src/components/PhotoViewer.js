@@ -1,5 +1,5 @@
 import ShadowComponent from './ShadowComponent.js';
-import { html, css } from '../lit-all.min.js';
+import { html, css, render } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
 import './Icon.js';
 
@@ -136,6 +136,53 @@ export default class PhotoViewer extends ShadowComponent {
 
 	toggle() {
 		this.fullscreen = !this.fullscreen;
+	}
+
+	/*
+		Static Methods
+	*/
+	static open(content, openIndex = 0, options = {}) {
+		const { keyboardControls = true, onClose } = options;
+
+		const container = document.createElement('div');
+		container.style.position = 'fixed';
+		container.style.top = '0';
+		container.style.left = '0';
+		container.style.width = '0';
+		container.style.height = '0';
+		container.style.overflow = 'hidden';
+
+		const viewers = content.map(item => {
+			const viewer = document.createElement('k-photo-viewer');
+			viewer.src = item.src;
+			viewer.alt = item.alt || '';
+			viewer.keyboardControls = keyboardControls;
+			if(item.caption !== undefined) {
+				if(typeof item.caption === 'string') {
+					viewer.innerHTML = item.caption;
+				} else {
+					render(item.caption, viewer);
+				}
+			}
+			container.appendChild(viewer);
+			return viewer;
+		});
+
+		document.body.appendChild(container);
+
+		const handleClose = () => {
+			if(!viewers.some(viewer => viewer.fullscreen)) {
+				viewers.forEach(viewer => viewer.removeEventListener('fullscreenclose', handleClose));
+				container.remove();
+				onClose?.();
+			}
+		};
+		viewers.forEach(viewer => viewer.addEventListener('fullscreenclose', handleClose));
+
+		const startIndex = Math.min(Math.max(openIndex, 0), viewers.length - 1);
+		viewers[startIndex].open();
+
+		return viewers[startIndex];
 	}
 
 	/*
