@@ -169,7 +169,8 @@ export default class PhotoViewer extends ShadowComponent {
 			return viewer;
 		});
 
-		document.body.appendChild(container);
+		const mountRoot = document.querySelector('[data-overlay-root]') || document.body;
+		mountRoot.appendChild(container);
 
 		const handleClose = () => {
 			if(!viewers.some(viewer => viewer.fullscreen)) {

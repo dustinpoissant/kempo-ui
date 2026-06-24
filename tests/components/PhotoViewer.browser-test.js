@@ -831,5 +831,46 @@ export default {
 
 		viewer.close();
 		pass('Container has correct z-index elevation');
+	},
+
+	'should mount into document.body by default': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' }
+		]);
+		await viewer.updateComplete;
+
+		const container = viewer.parentElement;
+		if(container.parentElement !== document.body){
+			viewer.close();
+			fail('Container should mount into document.body by default');
+			return;
+		}
+
+		viewer.close();
+		pass('Container mounts into document.body by default');
+	},
+
+	'should mount into the nearest [data-overlay-root] when present': async ({pass, fail}) => {
+		const root = document.createElement('div');
+		root.setAttribute('data-overlay-root', '');
+		document.body.appendChild(root);
+
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' }
+		]);
+		await viewer.updateComplete;
+
+		const container = viewer.parentElement;
+		const mountedInRoot = container.parentElement === root;
+
+		viewer.close();
+		root.remove();
+
+		if(!mountedInRoot){
+			fail('Container should mount into the [data-overlay-root] element');
+			return;
+		}
+
+		pass('Container mounts into the [data-overlay-root] element');
 	}
 };
