@@ -104,7 +104,11 @@ export default class PhotoViewer extends ShadowComponent {
 			}));
 			this.dispatchEvent(new CustomEvent(this.fullscreen ? 'fullscreen' : 'fullscreenclose'));
 			this.updateNavigationState();
-			
+
+			document.body.classList.toggle('no-scroll', this.fullscreen);
+			const overlayRoot = this.closest('[data-overlay-root]');
+			if(overlayRoot) overlayRoot.classList.toggle('no-scroll', this.fullscreen);
+
 			if(this.keyboardControls) {
 				if(this.fullscreen) {
 					document.addEventListener('keydown', this.handleKeydown);

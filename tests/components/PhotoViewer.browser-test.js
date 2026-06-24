@@ -872,5 +872,69 @@ export default {
 		}
 
 		pass('Container mounts into the [data-overlay-root] element');
+	},
+
+	/*
+		Scroll Lock Tests
+	*/
+	'should add no-scroll to body when opened': async ({pass, fail}) => {
+		const { container, viewer } = await createPhotoViewer();
+
+		viewer.open();
+		await viewer.updateComplete;
+
+		const hasClass = document.body.classList.contains('no-scroll');
+		viewer.close();
+		await viewer.updateComplete;
+
+		cleanup(container);
+		if(!hasClass){
+			fail('document.body should have no-scroll class when fullscreen');
+			return;
+		}
+
+		pass('document.body gets no-scroll class when opened');
+	},
+
+	'should remove no-scroll from body when closed': async ({pass, fail}) => {
+		const { container, viewer } = await createPhotoViewer({ fullscreen: true });
+
+		viewer.close();
+		await viewer.updateComplete;
+
+		const hasClass = document.body.classList.contains('no-scroll');
+		cleanup(container);
+
+		if(hasClass){
+			fail('document.body should not have no-scroll class when closed');
+			return;
+		}
+
+		pass('document.body loses no-scroll class when closed');
+	},
+
+	'should add no-scroll to the nearest [data-overlay-root] when opened': async ({pass, fail}) => {
+		const root = document.createElement('div');
+		root.setAttribute('data-overlay-root', '');
+		document.body.appendChild(root);
+
+		const viewer = document.createElement('k-photo-viewer');
+		root.appendChild(viewer);
+		await viewer.updateComplete;
+
+		viewer.open();
+		await viewer.updateComplete;
+
+		const hasClass = root.classList.contains('no-scroll');
+		viewer.close();
+		await viewer.updateComplete;
+		root.remove();
+
+		if(!hasClass){
+			fail('[data-overlay-root] should have no-scroll class when a descendant viewer is fullscreen');
+			return;
+		}
+
+		pass('[data-overlay-root] gets no-scroll class when opened');
 	}
 };
