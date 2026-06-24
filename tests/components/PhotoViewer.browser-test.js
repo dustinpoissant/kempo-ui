@@ -812,5 +812,24 @@ export default {
 
 		viewer.close();
 		pass('Opened gallery photos are isolated siblings');
+	},
+
+	'should have z-index to prevent stacking context issues': async ({pass, fail}) => {
+		const viewer = PhotoViewer.open([
+			{ src: 'https://picsum.photos/200/300' }
+		]);
+		await viewer.updateComplete;
+
+		const container = viewer.parentElement;
+		const zIndex = window.getComputedStyle(container).zIndex;
+
+		if(zIndex !== '80'){
+			viewer.close();
+			fail(`Expected container z-index 80, got ${zIndex}`);
+			return;
+		}
+
+		viewer.close();
+		pass('Container has correct z-index elevation');
 	}
 };

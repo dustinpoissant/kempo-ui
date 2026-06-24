@@ -151,6 +151,7 @@ export default class PhotoViewer extends ShadowComponent {
 		container.style.width = '0';
 		container.style.height = '0';
 		container.style.overflow = 'hidden';
+		container.style.zIndex = '80';
 
 		const viewers = content.map(item => {
 			const viewer = document.createElement('k-photo-viewer');
