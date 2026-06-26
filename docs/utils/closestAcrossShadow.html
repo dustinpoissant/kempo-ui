@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Voice Utility - Kempo UI</title>
+  <title>closestAcrossShadow - Kempo UI</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
@@ -497,64 +497,47 @@
   
   <k-main>
     
-    <h1>Voice Utility</h1>
-
+    <h1>closestAcrossShadow</h1>
     <k-accordion persistent-id="toc" class="b r mb">
       <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
       <k-accordion-panel name="toc-panel">
-        <div class="m">
+        <div class="m ">
           <h6>Usage</h6>
           <a href="#basicUsage">Basic Usage</a><br />
-          <a href="#api">API Methods</a><br />
+          <a href="#parameters">Parameters</a><br />
           <a href="#examples">Examples</a><br />
         </div>
       </k-accordion-panel>
     </k-accordion>
 
     <h3>Description</h3>
-    <p>The <code>voice</code> utility manages the user's preferred speech-synthesis voice across the site. It mirrors the <a href="./theme.html">theme</a> utility &mdash; persisting to <code>localStorage</code>, syncing across tabs via the <code>storage</code> event, and exposing a pub/sub API. Pair it with <a href="../components/voice-selector.html"><code>&lt;k-voice-selector&gt;</code></a> for a settings UI; <a href="../components/text-to-speech.html"><code>&lt;k-text-to-speech&gt;</code></a> automatically uses the saved preference when no <code>voice</code> attribute is set.</p>
+    <p>The <code>closestAcrossShadow</code> utility works like the native
+      <code>Element.closest()</code>, but it does not stop at shadow-DOM boundaries.
+      When the current tree yields no match it continues from the host of the enclosing
+      shadow root and keeps walking up toward the document, returning the nearest matching
+      ancestor (or the element itself), or <code>null</code> if there is none.</p>
+    <p>This is useful when a component nested inside another component's shadow root needs
+      to locate a shared ancestor — for example a <a href="../components/context.html"><code>k-context</code></a> —
+      which native <code>closest()</code> cannot reach because it never crosses shadow boundaries.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> voice <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./utils/voice.js&#x27;</span>;<br><span class="hljs-comment">// Get current preferred voice (empty string = use browser default)</span><br><span class="hljs-keyword">const</span> current = voice.<span class="hljs-title function_">get</span>();<br><span class="hljs-comment">// Set a preferred voice</span><br>voice.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;Google US English&#x27;</span>);<br><span class="hljs-comment">// Subscribe to changes</span><br><span class="hljs-keyword">const</span> unsubscribe = voice.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Voice preference changed to:&#x27;</span>, name);<br>});<br><span class="hljs-comment">// Enumerate available voices (may need to wait — the list loads async)</span><br><span class="hljs-keyword">const</span> voices = <span class="hljs-keyword">await</span> voice.<span class="hljs-title function_">waitForVoices</span>();</code></pre>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> closestAcrossShadow <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/closestAcrossShadow.js'</span>;<br /><br /><span class="hljs-comment">// From inside a deeply nested component, reach a shared k-context:</span><br /><span class="hljs-keyword">const</span> ctx = closestAcrossShadow(<span class="hljs-keyword">this</span>, <span class="hljs-string">'k-context'</span>);<br /><span class="hljs-keyword">const</span> settings = ctx?.get(<span class="hljs-string">'settings'</span>);</code></pre>
 
-    <h3 id="api"><a href="#api" class="no-link">API Methods</a></h3>
-
-    <h4><code>voice.get()</code></h4>
-    <p>Returns the user's saved voice name. An empty string means "no preference &mdash; use the browser default for the language".</p>
-    <h5>Returns: <code>string</code></h5>
-
-    <h4><code>voice.set(name)</code></h4>
-    <p>Sets the saved voice and persists it to <code>localStorage</code>. Pass an empty string (or a falsy value) to clear the preference.</p>
-    <h5><code>name<i>: string</i></code></h5>
-    <p>The voice <code>name</code> as reported by <code>speechSynthesis.getVoices()</code>, or a comma-separated fallback chain (<code>"Samantha, Google US English"</code>).</p>
-
-    <h4><code>voice.subscribe(callback)</code></h4>
-    <p>Subscribes to preference changes. Fires once immediately with the current value, then on every change (including changes from other tabs).</p>
-    <h5>Returns: <code>Function</code></h5>
-    <p>An unsubscribe function.</p>
-
-    <h4><code>voice.getAvailable()</code></h4>
-    <p>Synchronous shortcut for <code>window.speechSynthesis.getVoices()</code>. May return <code>[]</code> if the browser hasn't populated the list yet.</p>
-    <h5>Returns: <code>SpeechSynthesisVoice[]</code></h5>
-
-    <h4><code>voice.waitForVoices(timeoutMs?)</code></h4>
-    <p>Returns a promise that resolves with the list of available voices, waiting for the browser's <code>voiceschanged</code> event if the list is initially empty.</p>
-    <h5><code>timeoutMs<i>: number</i></code> &mdash; default <code>2000</code></h5>
-    <p>How long to wait before giving up and resolving with whatever the browser has.</p>
-    <h5>Returns: <code>Promise&lt;SpeechSynthesisVoice[]&gt;</code></h5>
-
-    <h4><code>voice.subscribeAvailable(callback)</code></h4>
-    <p>Subscribes to changes in the available voice list (fires on the <code>voiceschanged</code> event). Useful when populating a settings UI.</p>
-    <h5>Returns: <code>Function</code></h5>
-    <p>An unsubscribe function.</p>
+    <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
+    <h5><code>element<i>: Element</i></code></h5>
+    <p>The element to start searching from. The element itself is included in the match, just like <code>closest()</code>.</p>
+    <h5><code>selector<i>: string</i></code></h5>
+    <p>A CSS selector to match ancestors against.</p>
+    <h5><code><i>returns</i>: Element | null</code></h5>
+    <p>The nearest matching ancestor across shadow boundaries, or <code>null</code> if none match.</p>
 
     <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
 
-    <h4>Building a Voice Picker by Hand</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> voice <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./utils/voice.js&#x27;</span>;<br><br><span class="hljs-keyword">const</span> $select = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;voice-picker&#x27;</span>);<br><br>voice.<span class="hljs-title function_">subscribeAvailable</span>(<span class="hljs-function">(<span class="hljs-params">voices</span>) =&gt;</span> {<br>  $select.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&#x27;&lt;option value=&quot;&quot;&gt;Browser default&lt;/option&gt;&#x27;</span>;<br>  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> v <span class="hljs-keyword">of</span> voices){<br>    <span class="hljs-keyword">const</span> opt = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;option&#x27;</span>);<br>    opt.<span class="hljs-property">value</span> = v.<span class="hljs-property">name</span>;<br>    opt.<span class="hljs-property">textContent</span> = <span class="hljs-string">`<span class="hljs-subst">${v.name}</span> (<span class="hljs-subst">${v.lang}</span>)`</span>;<br>    $select.<span class="hljs-title function_">appendChild</span>(opt);<br>  }<br>  $select.<span class="hljs-property">value</span> = voice.<span class="hljs-title function_">get</span>();<br>});<br><br>$select.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">() =&gt;</span> voice.<span class="hljs-title function_">set</span>($select.<span class="hljs-property">value</span>));</code></pre>
+    <h4>Reading a context from a nested shadow component</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> closestAcrossShadow <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/closestAcrossShadow.js'</span>;<br /><br />connectedCallback() {<br />  <span class="hljs-keyword">super</span>.connectedCallback();<br />  <span class="hljs-keyword">const</span> ctx = closestAcrossShadow(<span class="hljs-keyword">this</span>, <span class="hljs-string">'k-context'</span>);<br />  ctx?.addEventListener(<span class="hljs-string">'context:set'</span>, () =&gt; <span class="hljs-keyword">this</span>.requestUpdate());<br />}</code></pre>
 
-    <h4>Reading the Preference Without a Component</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> voice <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./utils/voice.js&#x27;</span>;<br><br><span class="hljs-keyword">const</span> preferred = voice.<span class="hljs-title function_">get</span>();<br><span class="hljs-keyword">if</span>(preferred){<br>  <span class="hljs-built_in">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`User picked: <span class="hljs-subst">${preferred}</span>`</span>);<br>} <span class="hljs-keyword">else</span> {<br>  <span class="hljs-built_in">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;No preference set — using browser default&#x27;</span>);<br>}</code></pre>
+    <h4>Falls back to null</h4>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// No matching ancestor in any tree:</span><br>closestAcrossShadow(someDetachedNode, <span class="hljs-string">'.missing'</span>); <span class="hljs-comment">// =&gt; null</span></code></pre>
   
   </k-main>
   <div style="height:33vh"></div>

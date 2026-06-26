@@ -1,0 +1,49 @@
+<page pageName="closestAcrossShadow" title="closestAcrossShadow - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>closestAcrossShadow</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#parameters">Parameters</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>closestAcrossShadow</code> utility works like the native
+      <code>Element.closest()</code>, but it does not stop at shadow-DOM boundaries.
+      When the current tree yields no match it continues from the host of the enclosing
+      shadow root and keeps walking up toward the document, returning the nearest matching
+      ancestor (or the element itself), or <code>null</code> if there is none.</p>
+    <p>This is useful when a component nested inside another component's shadow root needs
+      to locate a shared ancestor — for example a <a href="{{pathToRoot}}components/context.html"><code>k-context</code></a> —
+      which native <code>closest()</code> cannot reach because it never crosses shadow boundaries.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> closestAcrossShadow <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/closestAcrossShadow.js'</span>;<br /><br /><span class="hljs-comment">// From inside a deeply nested component, reach a shared k-context:</span><br /><span class="hljs-keyword">const</span> ctx = closestAcrossShadow(<span class="hljs-keyword">this</span>, <span class="hljs-string">'k-context'</span>);<br /><span class="hljs-keyword">const</span> settings = ctx?.get(<span class="hljs-string">'settings'</span>);</code></pre>
+
+    <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
+    <h5><code>element<i>: Element</i></code></h5>
+    <p>The element to start searching from. The element itself is included in the match, just like <code>closest()</code>.</p>
+    <h5><code>selector<i>: string</i></code></h5>
+    <p>A CSS selector to match ancestors against.</p>
+    <h5><code><i>returns</i>: Element | null</code></h5>
+    <p>The nearest matching ancestor across shadow boundaries, or <code>null</code> if none match.</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Reading a context from a nested shadow component</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> closestAcrossShadow <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/closestAcrossShadow.js'</span>;<br /><br />connectedCallback() {<br />  <span class="hljs-keyword">super</span>.connectedCallback();<br />  <span class="hljs-keyword">const</span> ctx = closestAcrossShadow(<span class="hljs-keyword">this</span>, <span class="hljs-string">'k-context'</span>);<br />  ctx?.addEventListener(<span class="hljs-string">'context:set'</span>, () =&gt; <span class="hljs-keyword">this</span>.requestUpdate());<br />}</code></pre>
+
+    <h4>Falls back to null</h4>
+    <pre><code class="hljs javascript"><span class="hljs-comment">// No matching ancestor in any tree:</span><br>closestAcrossShadow(someDetachedNode, <span class="hljs-string">'.missing'</span>); <span class="hljs-comment">// =&gt; null</span></code></pre>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>
