@@ -9,6 +9,7 @@
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#events">Listening to Events</a><br />
           <a href="#usingInComponents">Using in Components</a><br />
+          <a href="#persistence">Persistence</a><br />
           <a href="#interactiveDemo">Interactive Demo</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -68,6 +69,17 @@
       </div>
     </div>
     <p>To react to context changes from inside a shadow-DOM component, listen on the context element directly — events bubble and are <code>composed: true</code> so they also cross shadow boundaries.</p>
+
+    <h3 id="persistence"><a href="#persistence" class="no-link">Persistence</a></h3>
+    <p>Set a <code>persistent-id</code> to automatically save the store to <code>localStorage</code> and restore it on the next page load — the same convention used by <code>Split</code>, <code>Accordion</code>, <code>Tabs</code> and <code>Aside</code>. The data is reloaded in <code>connectedCallback</code> (before descendants read it) and re-saved on every <code>set()</code>, <code>delete()</code> and <code>clear()</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-context</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;app-settings&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-context</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+    </div>
+    <p>Because the entire store is JSON-serialized into a single value, keep persisted contexts to small, serializable state (settings, selections, ids) — not large or non-JSON data. Scope what you persist by giving config its own <code>persistent-id</code> context and leaving transient state in a separate, non-persistent <code>k-context</code>.</p>
 
     <h3 id="interactiveDemo"><a href="#interactiveDemo" class="no-link">Interactive Demo</a></h3>
     <div class="row -mx">
@@ -133,6 +145,11 @@
           <td><code>data</code></td>
           <td><code>String</code> (JSON)</td>
           <td>A JSON string representing the initial store state. Reflects back to the attribute as state changes via the component's methods. Defaults to <code>'{}'</code>.</td>
+        </tr>
+        <tr>
+          <td><code>persistent-id</code></td>
+          <td><code>String</code></td>
+          <td>When set, the store is auto-saved to <code>localStorage</code> (key <code>context-persistent-id-&lt;id&gt;</code>) on every change and restored on connect. Defaults to <code>null</code> (no persistence).</td>
         </tr>
       </tbody>
     </table>

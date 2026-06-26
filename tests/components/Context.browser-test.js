@@ -10,6 +10,17 @@ const createContext = async () => {
   return { container, el };
 };
 
+const createPersistentContext = async (persistentId) => {
+  const container = document.createElement('div');
+  container.innerHTML = `<k-context persistent-id="${persistentId}"></k-context>`;
+  document.body.appendChild(container);
+  const el = container.querySelector('k-context');
+  await el.updateComplete;
+  return { container, el };
+};
+
+const storageKey = (id) => `context-persistent-id-${id}`;
+
 const cleanup = (container) => {
   if(container && container.parentNode){
     container.parentNode.removeChild(container);
@@ -234,5 +245,68 @@ export default {
     }
     cleanup(container);
     pass('getData() returns a shallow copy of all data');
+  },
+
+  /*
+    persistent-id (localStorage auto save/load)
+  */
+  'set() writes data to localStorage when persistent-id is set': async ({pass, fail}) => {
+    const id = 'persist-set-' + Date.now();
+    window.localStorage.removeItem(storageKey(id));
+    const { container, el } = await createPersistentContext(id);
+    el.set('theme', 'dark');
+    let stored;
+    try { stored = JSON.parse(window.localStorage.getItem(storageKey(id))); } catch(e) {
+      cleanup(container); window.localStorage.removeItem(storageKey(id));
+      return fail('localStorage value is not valid JSON');
+    }
+    cleanup(container); window.localStorage.removeItem(storageKey(id));
+    if(!stored || stored.theme !== 'dark'){
+      return fail(`Expected stored {theme:'dark'}, got ${JSON.stringify(stored)}`);
+    }
+    pass('set() persisted to localStorage');
+  },
+
+  'restores data from localStorage on connect': async ({pass, fail}) => {
+    const id = 'persist-load-' + Date.now();
+    window.localStorage.setItem(storageKey(id), JSON.stringify({ count: 7 }));
+    const { container, el } = await createPersistentContext(id);
+    const value = el.get('count');
+    cleanup(container); window.localStorage.removeItem(storageKey(id));
+    if(value !== 7){
+      return fail(`Expected restored count to be 7, got ${value}`);
+    }
+    pass('data restored from localStorage on connect');
+  },
+
+  'delete() updates localStorage': async ({pass, fail}) => {
+    const id = 'persist-delete-' + Date.now();
+    window.localStorage.removeItem(storageKey(id));
+    const { container, el } = await createPersistentContext(id);
+    el.set('a', 1);
+    el.set('b', 2);
+    el.delete('a');
+    let stored;
+    try { stored = JSON.parse(window.localStorage.getItem(storageKey(id))); } catch(e) {
+      cleanup(container); window.localStorage.removeItem(storageKey(id));
+      return fail('localStorage value is not valid JSON');
+    }
+    cleanup(container); window.localStorage.removeItem(storageKey(id));
+    if(!stored || 'a' in stored || stored.b !== 2){
+      return fail(`Expected stored to drop 'a' and keep b:2, got ${JSON.stringify(stored)}`);
+    }
+    pass('delete() updated localStorage');
+  },
+
+  'does not write to localStorage without a persistent-id': async ({pass, fail}) => {
+    const before = window.localStorage.length;
+    const { container, el } = await createContext();
+    el.set('x', 1);
+    const after = window.localStorage.length;
+    cleanup(container);
+    if(after !== before){
+      return fail('A context without persistent-id should not touch localStorage');
+    }
+    pass('no persistent-id means no localStorage writes');
   }
 };
