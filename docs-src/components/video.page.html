@@ -11,7 +11,12 @@
           <a href="#normalControls">Normal Preconfigured</a><br />
           <a href="#fullControls">Full Preconfigured</a><br />
           <a href="#timeCombo">Combining Time and Duration</a><br />
-          <a href="#keyboardShortcut">Page-Level Keyboard Shortcut</a><br />
+          <a href="#bigPlayButton">Big Play Button</a><br />
+          <a href="#doubleClickSeek">Double-Click to Seek</a><br />
+          <a href="#autoHideControls">Auto-Hide Controls</a><br />
+          <a href="#bufferingIndicator">Buffering Indicator</a><br />
+          <a href="#resumePosition">Resume Playback Position</a><br />
+          <a href="#keyboardShortcut">Page-Level Keyboard Shortcuts</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -44,17 +49,18 @@
     </div>
 
     <h3 id="manualControls"><a href="#manualControls" class="no-link">Manual Controls</a></h3>
-    <p>Slot any combination of built-in controls directly inside <code>&lt;k-video&gt;</code>. Unnamed slot content renders in a control bar overlaid at the bottom of the player; <code>slot="top"</code> renders above the video.</p>
+    <p>Slot any combination of built-in controls directly inside <code>&lt;k-video&gt;</code>, into one of three regions: unnamed (default) slot content renders in a control bar overlaid at the <strong>bottom</strong> of the player, <code>slot="top"</code> renders above the video, and <code>slot="center"</code> renders centered over the video — the last is where <code>&lt;kc-vid-play-big&gt;</code> normally goes.</p>
 
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-time</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-time</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 480px;">
+            <kc-vid-play-big slot="center"></kc-vid-play-big>
             <kc-vid-play-pause></kc-vid-play-pause>
             <kc-vid-time></kc-vid-time>
             <kc-vid-seek></kc-vid-seek>
@@ -68,7 +74,7 @@
     </div>
 
     <h3 id="minimalControls"><a href="#minimalControls" class="no-link">Minimal Preconfigured</a></h3>
-    <p>Use <code>controls="minimal"</code> for play/pause, a scrub bar, current time / duration, and fullscreen.</p>
+    <p>Use <code>controls="minimal"</code> for play/pause, a scrub bar, current time / duration, and fullscreen. A <code>slot="center"</code> big play/replay button is included by default.</p>
 
     <div class="row -mx">
       <div class="col m-span-12 px">
@@ -100,7 +106,7 @@
     </div>
 
     <h3 id="fullControls"><a href="#fullControls" class="no-link">Full Preconfigured</a></h3>
-    <p>Use <code>controls="full"</code> for everything: skip &plusmn;10s, download, volume, speed, and loop.</p>
+    <p>Use <code>controls="full"</code> for everything: skip &plusmn;10s, download, volume, speed, loop, and Picture-in-Picture.</p>
 
     <div class="row -mx">
       <div class="col m-span-12 px">
@@ -138,9 +144,68 @@
       </div>
     </div>
 
-    <h3 id="keyboardShortcut"><a href="#keyboardShortcut" class="no-link">Page-Level Keyboard Shortcut</a></h3>
-    <p>A common pattern: a global space-bar handler that toggles play/pause. With a native <code>&lt;video controls&gt;</code>, dragging the native seek bar focuses it, and pressing space toggles <em>that control</em> instead of bubbling up to your page handler. <code>k-video</code> has no native controls to capture focus — its bundled <code>kc-vid-seek</code> is built on <code>k-slider</code>, which doesn't handle the space key, so the keydown event bubbles up to <code>document</code> as expected.</p>
-    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;player&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-comment">// Page-level shortcut — works even after the user drags the seek bar,</span><br>  <span class="hljs-comment">// because k-video has no native &lt;input type=&quot;range&quot;&gt; to steal focus.</span><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;keydown&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">code</span> === <span class="hljs-string">&#x27;Space&#x27;</span> &amp;&amp; e.<span class="hljs-property">target</span> === <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>) {<br>      e.<span class="hljs-title function_">preventDefault</span>();<br>      <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;player&#x27;</span>).<span class="hljs-title function_">togglePlayPause</span>();<br>    }<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <h3 id="bigPlayButton"><a href="#bigPlayButton" class="no-link">Big Play Button</a></h3>
+    <p><code>&lt;kc-vid-play-big&gt;</code> shows a large centered play button (or a replay icon once playback ends) whenever the player is paused — the same pattern used by YouTube and most native players. Clicking anywhere on the video still toggles play/pause as usual. It's slotted into <code>slot="center"</code> and included by default in the <code>minimal</code>, <code>normal</code>, and <code>full</code> preconfigured sets (see above); it also works standalone with no other controls at all:</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 480px;">
+            <kc-vid-play-big slot="center"></kc-vid-play-big>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="doubleClickSeek"><a href="#doubleClickSeek" class="no-link">Double-Click to Seek</a></h3>
+    <p>Double-click (or double-tap) the left half of the video to rewind 10 seconds, or the right half to skip forward 10 seconds — the same convention used by YouTube and most native players. A brief icon flashes on the side that was clicked. This is always on, no attribute required.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="autoHideControls"><a href="#autoHideControls" class="no-link">Auto-Hide Controls</a></h3>
+    <p>The control bar fades out after a couple of seconds of no mouse movement while the video is playing, and reappears instantly on mouse movement or whenever playback pauses. Also always on — play the video below and hold your mouse still over it.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="bufferingIndicator"><a href="#bufferingIndicator" class="no-link">Buffering Indicator</a></h3>
+    <p>A spinner automatically appears over the video whenever the browser has to pause for buffering (the native <code>waiting</code> event) and disappears once playback can resume (<code>playing</code> / <code>canplay</code>) — handy on slower connections or with kempo-server's HTTP Range-backed seeking. Nothing to configure; it's driven entirely by the underlying <code>&lt;video&gt;</code> element's own buffering state.</p>
+
+    <h3 id="resumePosition"><a href="#resumePosition" class="no-link">Resume Playback Position</a></h3>
+    <p>Set <code>persistent-id</code> to remember the playback position in <code>localStorage</code> and resume from there next time this player loads &mdash; the same <code>persistent-id</code> convention used by <a href="{{pathToRoot}}components/tabs.html">Tabs</a>, <a href="{{pathToRoot}}components/accordion.html">Accordion</a>, and <a href="{{pathToRoot}}components/split.html">Split</a>. Play the video below, seek somewhere, then reload this page — it picks up where you left off. The saved position clears automatically once playback reaches the end.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;docs-demo&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" persistent-id="docs-demo" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="keyboardShortcut"><a href="#keyboardShortcut" class="no-link">Page-Level Keyboard Shortcuts</a></h3>
+    <p>A common pattern: a global handler that maps keys to player methods. With a native <code>&lt;video controls&gt;</code>, dragging the native seek bar focuses it, and further key presses toggle <em>that control</em> instead of bubbling up to your page handler. <code>k-video</code> has no native controls to capture focus — its bundled <code>kc-vid-seek</code> is built on <code>k-slider</code>, which doesn't handle these keys, so they bubble up to <code>document</code> as expected. The <code>e.target === document.body</code> guard keeps this from firing while focus is on some other element (a text input, etc.).</p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;player&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-comment">// Page-level shortcuts — work even after the user drags the seek bar,</span><br>  <span class="hljs-comment">// because k-video has no native &lt;input type=&quot;range&quot;&gt; to steal focus.</span><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;keydown&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span> !== <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-keyword">const</span> player = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;player&#x27;</span>);<br>    <span class="hljs-keyword">switch</span> (e.<span class="hljs-property">code</span>) {<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Space&#x27;</span>:<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyK&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">togglePlayPause</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowLeft&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">skip</span>(-<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowRight&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">skip</span>(<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowUp&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">setVolume</span>(player.<span class="hljs-property">volume</span> + <span class="hljs-number">0.1</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowDown&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">setVolume</span>(player.<span class="hljs-property">volume</span> - <span class="hljs-number">0.1</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyM&#x27;</span>:<br>        player.<span class="hljs-title function_">toggleMute</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyF&#x27;</span>:<br>        player.<span class="hljs-title function_">toggleFullscreen</span>();<br>        <span class="hljs-keyword">break</span>;<br>    }<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <hr class="mt" />
 
@@ -170,7 +235,9 @@
           <tr><td><code>volume</code></td><td>Number</td><td><code>1</code></td><td>Playback volume from 0 to 1. Prefer <code>setVolume()</code>, which also handles unmuting.</td></tr>
           <tr><td><code>playbackRate</code> / <code>playback-rate</code></td><td>Number</td><td><code>1</code></td><td>Playback speed multiplier.</td></tr>
           <tr><td><code>fullscreen</code></td><td>Boolean</td><td><code>false</code></td><td>True while the player is the fullscreen element. Read-only in practice — use the fullscreen methods to change it.</td></tr>
+          <tr><td><code>pictureInPicture</code> / <code>picture-in-picture</code></td><td>Boolean</td><td><code>false</code></td><td>True while the player is in Picture-in-Picture. Read-only in practice — use the Picture-in-Picture methods to change it.</td></tr>
           <tr><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Preconfigured control set: 'minimal', 'normal', 'full', or 'none'/empty for none.</td></tr>
+          <tr><td><code>persistentId</code> / <code>persistent-id</code></td><td>String</td><td><code>null</code></td><td>When set, remembers <code>currentTime</code> in <code>localStorage</code> and restores it on load. Cleared automatically when playback reaches the end.</td></tr>
           <tr><td><code>currentTime</code></td><td>Number</td><td><code>0</code></td><td>Current playback position in seconds. Get/set directly, or use <code>seek()</code>.</td></tr>
           <tr><td><code>duration</code></td><td>Number</td><td><code>0</code></td><td>Total duration in seconds. Read-only.</td></tr>
           <tr><td><code>paused</code></td><td>Boolean</td><td><code>true</code></td><td>Whether playback is paused. Read-only.</td></tr>
@@ -199,6 +266,9 @@
           <tr><td><code>enterFullscreen()</code></td><td>Requests fullscreen on the <code>&lt;k-video&gt;</code> element itself (not the bare <code>&lt;video&gt;</code>) so slotted controls stay visible.</td></tr>
           <tr><td><code>exitFullscreen()</code></td><td>Exits fullscreen if this player is the fullscreen element.</td></tr>
           <tr><td><code>toggleFullscreen()</code></td><td>Enters or exits fullscreen based on current state.</td></tr>
+          <tr><td><code>enterPictureInPicture()</code></td><td>Requests Picture-in-Picture on the underlying <code>&lt;video&gt;</code> element.</td></tr>
+          <tr><td><code>exitPictureInPicture()</code></td><td>Exits Picture-in-Picture if this player is the active element.</td></tr>
+          <tr><td><code>togglePictureInPicture()</code></td><td>Enters or exits Picture-in-Picture based on current state.</td></tr>
           <tr><td><code>download()</code></td><td>Triggers a browser download of <code>src</code> using a temporary anchor, named via <code>downloadName</code> when set.</td></tr>
         </tbody>
       </table>
@@ -211,12 +281,15 @@
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>fullscreen-changed</code></td><td><code>{ fullscreen }</code></td><td>Fired when entering or exiting fullscreen.</td></tr>
+          <tr><td><code>picture-in-picture-changed</code></td><td><code>{ pictureInPicture }</code></td><td>Fired when entering or exiting Picture-in-Picture.</td></tr>
           <tr><td><code>loop-changed</code></td><td><code>{ loop }</code></td><td>Fired when the <code>loop</code> property changes.</td></tr>
+          <tr><td><code>restored</code></td><td><code>{ time }</code></td><td>Fired once, when a saved position is restored from <code>persistent-id</code>.</td></tr>
           <tr><td><code>play / pause / playing / ended</code></td><td>&mdash;</td><td>Forwarded directly from the underlying <code>&lt;video&gt;</code> element.</td></tr>
           <tr><td><code>timeupdate</code></td><td>&mdash;</td><td>Forwarded from the underlying video; fires frequently during playback.</td></tr>
           <tr><td><code>durationchange / loadedmetadata</code></td><td>&mdash;</td><td>Forwarded once media metadata is available — useful for reading <code>duration</code>.</td></tr>
           <tr><td><code>volumechange / ratechange</code></td><td>&mdash;</td><td>Forwarded when volume/mute or playback rate change, whether from your code or browser policy (e.g. forced autoplay muting).</td></tr>
           <tr><td><code>seeking / seeked / waiting / progress / canplay / error</code></td><td>&mdash;</td><td>Forwarded as-is from the underlying video element.</td></tr>
+          <tr><td><code>enterpictureinpicture / leavepictureinpicture</code></td><td>&mdash;</td><td>Forwarded as-is from the underlying video element.</td></tr>
         </tbody>
       </table>
     </div>
@@ -229,6 +302,7 @@
         <thead><tr><th>Tag</th><th>Import</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>&lt;kc-vid-play-pause&gt;</code></td><td><code>controls/VidPlayPause.js</code></td><td>Toggles playback. Shows a play or pause icon based on <code>host.paused</code>.</td></tr>
+          <tr><td><code>&lt;kc-vid-play-big&gt;</code></td><td><code>controls/VidPlayBig.js</code></td><td>Large centered play/replay button, only rendered while paused. Belongs in <code>slot="center"</code>.</td></tr>
           <tr><td><code>&lt;kc-vid-seek&gt;</code></td><td><code>controls/VidSeek.js</code></td><td>Scrub bar built on <code>k-slider</code>. Grows to fill available space in the toolbar.</td></tr>
           <tr><td><code>&lt;kc-vid-time&gt;</code></td><td><code>controls/VidTime.js</code></td><td>Current playback position, formatted as <code>m:ss</code> (or <code>h:mm:ss</code>).</td></tr>
           <tr><td><code>&lt;kc-vid-duration&gt;</code></td><td><code>controls/VidDuration.js</code></td><td>Total duration, same formatting as <code>kc-vid-time</code>. Slot them next to each other for a <code>"1:00 / 2:25"</code> readout.</td></tr>
@@ -238,6 +312,7 @@
           <tr><td><code>&lt;kc-vid-loop&gt;</code></td><td><code>controls/VidLoop.js</code></td><td>Toggles <code>loop</code>. Reflects an <code>active</code> attribute while looping is enabled.</td></tr>
           <tr><td><code>&lt;kc-vid-download&gt;</code></td><td><code>controls/VidDownload.js</code></td><td>Downloads the current <code>src</code>.</td></tr>
           <tr><td><code>&lt;kc-vid-skip-back&gt; / &lt;kc-vid-skip-forward&gt;</code></td><td><code>controls/VidSkipBack.js / VidSkipForward.js</code></td><td>Jump 10 seconds backward/forward.</td></tr>
+          <tr><td><code>&lt;kc-vid-pip&gt;</code></td><td><code>controls/VidPip.js</code></td><td>Toggles Picture-in-Picture. Reflects an <code>active</code> attribute while in Picture-in-Picture.</td></tr>
           <tr><td><code>&lt;kc-fullscreen&gt;</code></td><td><code>controls/controls/Fullscreen.js</code></td><td>The same generic fullscreen control used by other kempo components &mdash; works with <code>k-video</code> without modification.</td></tr>
         </tbody>
       </table>
@@ -246,6 +321,7 @@
     <script type="module" src="{{pathToRoot}}src/components/Video.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/Control.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidPlayPause.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/VidPlayBig.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidSeek.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidTime.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidDuration.js"></script>
@@ -257,6 +333,8 @@
     <script type="module" src="{{pathToRoot}}src/components/controls/VidSkipBack.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidSkipForward.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/Fullscreen.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/VidPip.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
   </content>
 </page>

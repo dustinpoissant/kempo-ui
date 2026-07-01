@@ -1,0 +1,1 @@
+export default t=>{(!isFinite(t)||t<0)&&(t=0);const r=Math.floor(t),a=Math.floor(r/3600),o=Math.floor(r%3600/60),i=r%60,n=a>0?String(o).padStart(2,"0"):String(o),S=String(i).padStart(2,"0");return a>0?`${a}:${n}:${S}`:`${n}:${S}`};

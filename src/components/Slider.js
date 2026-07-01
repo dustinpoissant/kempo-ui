@@ -60,13 +60,22 @@ export default class Slider extends ShadowComponent {
   updated(changedProperties) {
     super.updated(changedProperties);
     this.internals.setFormValue(this.formattedValue);
-    if(changedProperties.has('value') && changedProperties.get('value') !== undefined) {
-      this.dispatchEvent(new CustomEvent('change', {
-        detail: { value: this.formattedValue },
-        bubbles: true
-      }));
-    }
   }
+
+  /*
+    Dispatched only from setValue/setUpper, i.e. genuine user-driven
+    interaction (click, drag, keyboard). Programmatic `.value =`
+    assignment (e.g. a host re-rendering the slider from its own state)
+    must not re-trigger 'change', or a host that forwards 'change' back
+    into its own state (like k-video's seek bar) would feed back into
+    itself on every host-driven update.
+  */
+  dispatchChange = () => {
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: { value: this.formattedValue },
+      bubbles: true
+    }));
+  };
 
   /*
     Utility
@@ -142,10 +151,12 @@ export default class Slider extends ShadowComponent {
       if(snapped > this.upper) return;
       if(snapped !== this.lower) {
         this.value = `${snapped},${this.upper}`;
+        this.dispatchChange();
       }
     } else {
       if(snapped !== this.lower) {
         this.value = String(snapped);
+        this.dispatchChange();
       }
     }
   };
@@ -157,6 +168,7 @@ export default class Slider extends ShadowComponent {
     if(snapped < this.lower) return;
     if(snapped !== this.upper) {
       this.value = `${this.lower},${snapped}`;
+      this.dispatchChange();
     }
   };
 

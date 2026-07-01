@@ -1,0 +1,15 @@
+[     225ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/menu.svg:0
+[     225ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/license.svg:0
+[     226ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/npm.svg:0
+[     226ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/github-mark.svg:0
+[     226ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/close.svg:0
+[     226ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/mode-light.svg:0
+[     226ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/mode-auto.svg:0
+[     227ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/mode-dark.svg:0
+[     227ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/play.svg:0
+[     238ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/volume_up.svg:0
+[     239ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/repeat.svg:0
+[     239ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/download.svg:0
+[     240ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/fast_rewind.svg:0
+[     240ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/fast_forward.svg:0
+[     240ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8083/components/icons/fullscreen.svg:0

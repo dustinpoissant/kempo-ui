@@ -1,0 +1,888 @@
+- generic [active] [ref=f14e1]:
+  - navigation [ref=f14e4]:
+    - generic:
+      - button [ref=f14e5] [cursor=pointer]:
+        - img [ref=f14e9]
+      - link "Kempo UI Icon Kempo UI" [ref=f14e11] [cursor=pointer]:
+        - /url: ../
+        - img "Kempo UI Icon" [ref=f14e12]
+        - text: Kempo UI
+      - searchbox "Search docs..." [ref=f14e14]
+      - link [ref=f14e15] [cursor=pointer]:
+        - /url: https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20
+        - img [ref=f14e19]
+      - link [ref=f14e21] [cursor=pointer]:
+        - /url: https://www.npmjs.com/package/kempo-ui
+        - img [ref=f14e25]
+      - link [ref=f14e27] [cursor=pointer]:
+        - /url: https://github.com/dustinpoissant/kempo-ui
+        - img [ref=f14e31]
+      - generic [ref=f14e35]:
+        - button "light" [ref=f14e36] [cursor=pointer]:
+          - img [ref=f14e40]
+        - button "auto" [ref=f14e42] [cursor=pointer]:
+          - img [ref=f14e46]
+        - button "dark" [ref=f14e48] [cursor=pointer]:
+          - img [ref=f14e52]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - button:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+            - complementary:
+              - generic:
+                - list:
+                  - link "Kempo UI Kempo UI Icon":
+                    - /url: ../
+                    - heading "Kempo UI" [level=1]
+                    - img "Kempo UI Icon"
+                  - generic:
+                    - heading "Components" [level=3]
+                    - link "Accordion":
+                      - /url: ../components/accordion.html
+                    - link "Aside":
+                      - /url: ../components/aside.html
+                    - link "Calendar":
+                      - /url: ../components/calendar.html
+                    - link "Card":
+                      - /url: ../components/card.html
+                    - link "Chat":
+                      - /url: ../components/chat.html
+                    - link "Code Editor":
+                      - /url: ../components/code-editor.html
+                    - link "Combobox":
+                      - /url: ../components/combobox.html
+                    - link "ColorPicker":
+                      - /url: ../components/color-picker.html
+                    - link "Content Slider":
+                      - /url: ../components/content-slider.html
+                    - link "Context":
+                      - /url: ../components/context.html
+                    - link "Dialog":
+                      - /url: ../components/dialog.html
+                    - link "Dropdown":
+                      - /url: ../components/dropdown.html
+                    - link "Filter List":
+                      - /url: ../components/filter-list.html
+                    - link "FocusCapture":
+                      - /url: ../components/focus-capture.html
+                    - link "HTML Editor":
+                      - /url: ../components/html-editor.html
+                    - link "Markdown":
+                      - /url: ../components/markdown.html
+                    - link "Markdown Editor":
+                      - /url: ../components/markdown-editor.html
+                    - link "Icon":
+                      - /url: ../components/icon.html
+                    - link "Import":
+                      - /url: ../components/import.html
+                    - link "Nav":
+                      - /url: ../components/nav.html
+                    - link "Nav Spacer":
+                      - /url: ../components/nav-spacer.html
+                    - link "Photo Viewer":
+                      - /url: ../components/photo-viewer.html
+                    - link "Pagination":
+                      - /url: ../components/pagination.html
+                    - link "Progress":
+                      - /url: ../components/progress.html
+                    - link "Resize":
+                      - /url: ../components/resize.html
+                    - link "Show More":
+                      - /url: ../components/show-more.html
+                    - link "Slider":
+                      - /url: ../components/slider.html
+                    - link "Sortable":
+                      - /url: ../components/sortable.html
+                    - link "Speech To Text":
+                      - /url: ../components/speech-to-text.html
+                    - link "Spinner":
+                      - /url: ../components/spinner.html
+                    - link "Split":
+                      - /url: ../components/split.html
+                    - link "Table":
+                      - /url: ../components/table.html
+                    - link "Tabs":
+                      - /url: ../components/tabs.html
+                    - link "Tags":
+                      - /url: ../components/tags.html
+                    - link "Text To Speech":
+                      - /url: ../components/text-to-speech.html
+                    - link "Theme Select":
+                      - /url: ../components/theme-select.html
+                    - link "Theme Switcher":
+                      - /url: ../components/theme-switcher.html
+                    - link "Time":
+                      - /url: ../components/time.html
+                    - link "Timestamp":
+                      - /url: ../components/timestamp.html
+                    - link "Toast":
+                      - /url: ../components/toast.html
+                    - link "Toggle":
+                      - /url: ../components/toggle.html
+                    - link "Tree":
+                      - /url: ../components/tree.html
+                    - link "Video":
+                      - /url: ../components/video.html
+                    - link "Voice Selector":
+                      - /url: ../components/voice-selector.html
+                  - heading "Base Components" [level=5]
+                  - generic:
+                    - link "Shadow Component":
+                      - /url: ../components/shadow-component.html
+                    - link "Light Component":
+                      - /url: ../components/light-component.html
+                    - link "Hybrid Component":
+                      - /url: ../components/hybrid-component.html
+                    - link "Button":
+                      - /url: ../components/button.html
+                  - heading "Utils" [level=5]
+                  - generic:
+                    - link "closestAcrossShadow":
+                      - /url: ../utils/closestAcrossShadow.html
+                    - link "cookie":
+                      - /url: ../utils/cookie.html
+                    - link "context":
+                      - /url: ../utils/context.html
+                    - link "debounce":
+                      - /url: ../utils/debounce.html
+                    - link "drag":
+                      - /url: ../utils/drag.html
+                    - link "elevation":
+                      - /url: ../utils/elevation.html
+                    - link "formatTimestamp":
+                      - /url: ../utils/formatTimestamp.html
+                    - link "object":
+                      - /url: ../utils/object.html
+                    - link "propConverters":
+                      - /url: ../utils/propConverters.html
+                    - link "sanitizeHtml":
+                      - /url: ../utils/sanitizeHtml.html
+                    - link "string":
+                      - /url: ../utils/string.html
+                    - link "theme":
+                      - /url: ../utils/theme.html
+                    - link "type":
+                      - /url: ../utils/type.html
+                    - link "voice":
+                      - /url: ../utils/voice.html
+                    - link "wait":
+                      - /url: ../utils/wait.html
+  - heading "Video" [level=1] [ref=f14e55]
+  - main [ref=f14e58]:
+    - generic:
+      - generic [ref=f14e59]:
+        - text: Table of Contents
+        - generic [ref=f14e61]:
+          - heading "Examples" [level=6] [ref=f14e62]
+          - link "Basic Usage" [ref=f14e63] [cursor=pointer]:
+            - /url: "#basicUsage"
+          - link "Manual Controls" [ref=f14e64] [cursor=pointer]:
+            - /url: "#manualControls"
+          - link "Minimal Preconfigured" [ref=f14e65] [cursor=pointer]:
+            - /url: "#minimalControls"
+          - link "Normal Preconfigured" [ref=f14e66] [cursor=pointer]:
+            - /url: "#normalControls"
+          - link "Full Preconfigured" [ref=f14e67] [cursor=pointer]:
+            - /url: "#fullControls"
+          - link "Combining Time and Duration" [ref=f14e68] [cursor=pointer]:
+            - /url: "#timeCombo"
+          - link "Page-Level Keyboard Shortcut" [ref=f14e69] [cursor=pointer]:
+            - /url: "#keyboardShortcut"
+          - heading "JavaScript Reference" [level=6] [ref=f14e70]:
+            - link "JavaScript Reference" [ref=f14e71] [cursor=pointer]:
+              - /url: "#jsRef"
+          - link "Constructor" [ref=f14e72] [cursor=pointer]:
+            - /url: "#constructor"
+          - link "Requirements" [ref=f14e73] [cursor=pointer]:
+            - /url: "#requirements"
+          - link "Properties" [ref=f14e74] [cursor=pointer]:
+            - /url: "#properties"
+          - link "Methods" [ref=f14e75] [cursor=pointer]:
+            - /url: "#methods"
+          - link "Events" [ref=f14e76] [cursor=pointer]:
+            - /url: "#events"
+          - link "Built-in Controls" [ref=f14e77] [cursor=pointer]:
+            - /url: "#controls"
+      - paragraph [ref=f14e78]:
+        - text: A
+        - code [ref=f14e79]: <video>
+        - text: wrapper with
+        - strong [ref=f14e80]: no native controls
+        - text: . Build your own toolbar by slotting in the bundled
+        - code [ref=f14e81]: kc-vid-*
+        - text: controls (or your own custom elements) — exactly the same slotted-control pattern used by
+        - link "Table" [ref=f14e82] [cursor=pointer]:
+          - /url: ../components/table.html
+        - text: ","
+        - link "Pagination" [ref=f14e83] [cursor=pointer]:
+          - /url: ../components/pagination.html
+        - text: ", and"
+        - link "Markdown Editor" [ref=f14e84] [cursor=pointer]:
+          - /url: ../components/markdown-editor.html
+        - text: . Use the
+        - code [ref=f14e85]: controls
+        - text: attribute for a preconfigured toolbar, or mix and match.
+      - paragraph [ref=f14e86]:
+        - text: Because there's no native
+        - code [ref=f14e87]: <input type="range">
+        - text: seek bar, there's nothing for the browser to give keyboard focus to when the user drags it — so a page-level
+        - code [ref=f14e88]: keydown
+        - text: listener (e.g. space bar to play/pause) keeps working after the user interacts with the player. See
+        - link "Page-Level Keyboard Shortcut" [ref=f14e89] [cursor=pointer]:
+          - /url: "#keyboardShortcut"
+        - text: below.
+      - heading "Basic Usage" [level=3] [ref=f14e90]:
+        - link "Basic Usage" [ref=f14e91] [cursor=pointer]:
+          - /url: "#basicUsage"
+      - paragraph [ref=f14e92]:
+        - text: With no
+        - code [ref=f14e93]: controls
+        - text: attribute and nothing slotted in,
+        - code [ref=f14e94]: k-video
+        - text: renders just the bare video — useful when you want full control over the UI, or are driving playback entirely from your own buttons.
+      - generic [ref=f14e95]:
+        - generic [ref=f14e99]:
+          - generic [ref=f14e100]: HTML
+          - code [ref=f14e102]:
+            - generic [ref=f14e103]: <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png">
+            - generic [ref=f14e104]: </k-video>
+        - generic [ref=f14e109]: Output
+      - heading "Manual Controls" [level=3] [ref=f14e115]:
+        - link "Manual Controls" [ref=f14e116] [cursor=pointer]:
+          - /url: "#manualControls"
+      - paragraph [ref=f14e117]:
+        - text: Slot any combination of built-in controls directly inside
+        - code [ref=f14e118]: <k-video>
+        - text: . Unnamed slot content renders in a control bar overlaid at the bottom of the player;
+        - code [ref=f14e119]: slot="top"
+        - text: renders above the video.
+      - generic [ref=f14e120]:
+        - generic [ref=f14e124]:
+          - generic [ref=f14e125]: HTML
+          - code [ref=f14e127]:
+            - generic [ref=f14e128]: "<k-video src=\"../media/evo.mp4\" poster=\"../media/evo-mp4.png\" style=\"max-width: 480px;\">"
+            - generic [ref=f14e129]: <kc-vid-play-pause>
+            - generic [ref=f14e130]: </kc-vid-play-pause>
+            - generic [ref=f14e131]: <kc-vid-time>
+            - generic [ref=f14e132]: </kc-vid-time>
+            - generic [ref=f14e133]: <kc-vid-seek>
+            - generic [ref=f14e134]: </kc-vid-seek>
+            - generic [ref=f14e135]: <kc-vid-duration>
+            - generic [ref=f14e136]: </kc-vid-duration>
+            - generic [ref=f14e137]: <kc-vid-volume>
+            - generic [ref=f14e138]: </kc-vid-volume>
+            - generic [ref=f14e139]: <kc-vid-loop>
+            - generic [ref=f14e140]: </kc-vid-loop>
+            - generic [ref=f14e141]: <kc-fullscreen>
+            - generic [ref=f14e142]: </kc-fullscreen>
+            - generic [ref=f14e143]: </k-video>
+        - generic [ref=f14e147]:
+          - generic [ref=f14e148]: Output
+          - generic [ref=f14e153]:
+            - generic:
+              - button "Play / Pause" [ref=f14e154] [cursor=pointer]:
+                - img [ref=f14e160]
+              - generic [ref=f14e164]: 0:00
+              - generic [ref=f14e174]: 0:32
+              - generic "Mute / Unmute" [ref=f14e180] [cursor=pointer]:
+                - img [ref=f14e184]
+              - button "Loop" [ref=f14e186] [cursor=pointer]:
+                - img [ref=f14e192]
+              - button "Fullscreen" [ref=f14e194] [cursor=pointer]:
+                - img [ref=f14e200]
+      - heading "Minimal Preconfigured" [level=3] [ref=f14e202]:
+        - link "Minimal Preconfigured" [ref=f14e203] [cursor=pointer]:
+          - /url: "#minimalControls"
+      - paragraph [ref=f14e204]:
+        - text: Use
+        - code [ref=f14e205]: controls="minimal"
+        - text: for play/pause, a scrub bar, current time / duration, and fullscreen.
+      - generic [ref=f14e206]:
+        - generic [ref=f14e210]:
+          - generic [ref=f14e211]: HTML
+          - code [ref=f14e213]:
+            - generic [ref=f14e214]: "<k-video src=\"../media/evo.mp4\" poster=\"../media/evo-mp4.png\" controls=\"minimal\" style=\"max-width: 480px;\">"
+            - generic [ref=f14e215]: </k-video>
+        - generic [ref=f14e219]:
+          - generic [ref=f14e220]: Output
+          - generic [ref=f14e226]:
+            - button "Play / Pause" [ref=f14e227] [cursor=pointer]:
+              - img [ref=f14e233]
+            - generic [ref=f14e237]: 0:00
+            - generic [ref=f14e247]: 0:32
+            - button "Fullscreen" [ref=f14e248] [cursor=pointer]:
+              - img [ref=f14e254]
+      - heading "Normal Preconfigured" [level=3] [ref=f14e256]:
+        - link "Normal Preconfigured" [ref=f14e257] [cursor=pointer]:
+          - /url: "#normalControls"
+      - paragraph [ref=f14e258]:
+        - text: Use
+        - code [ref=f14e259]: controls="normal"
+        - text: to add volume, playback speed, and loop on top of the minimal set.
+      - generic [ref=f14e260]:
+        - generic [ref=f14e264]:
+          - generic [ref=f14e265]: HTML
+          - code [ref=f14e267]:
+            - generic [ref=f14e268]: "<k-video src=\"../media/evo.mp4\" poster=\"../media/evo-mp4.png\" controls=\"normal\" style=\"max-width: 480px;\">"
+            - generic [ref=f14e269]: </k-video>
+        - generic [ref=f14e273]:
+          - generic [ref=f14e274]: Output
+          - generic [ref=f14e280]:
+            - button "Play / Pause" [ref=f14e281] [cursor=pointer]:
+              - img [ref=f14e287]
+            - generic [ref=f14e291]: 0:00
+            - generic [ref=f14e301]: 0:32
+            - generic "Mute / Unmute" [ref=f14e307] [cursor=pointer]:
+              - img [ref=f14e311]
+            - button "1x" [ref=f14e318] [cursor=pointer]:
+              - text: 1x
+              - img [ref=f14e322]
+            - button "Loop" [ref=f14e324] [cursor=pointer]:
+              - img [ref=f14e330]
+            - button "Fullscreen" [ref=f14e332] [cursor=pointer]:
+              - img [ref=f14e338]
+      - heading "Full Preconfigured" [level=3] [ref=f14e340]:
+        - link "Full Preconfigured" [ref=f14e341] [cursor=pointer]:
+          - /url: "#fullControls"
+      - paragraph [ref=f14e342]:
+        - text: Use
+        - code [ref=f14e343]: controls="full"
+        - text: "for everything: skip ±10s, download, volume, speed, and loop."
+      - generic [ref=f14e344]:
+        - generic [ref=f14e348]:
+          - generic [ref=f14e349]: HTML
+          - code [ref=f14e351]:
+            - generic [ref=f14e352]: "<k-video src=\"../media/evo.mp4\" poster=\"../media/evo-mp4.png\" controls=\"full\" style=\"max-width: 480px;\">"
+            - generic [ref=f14e353]: </k-video>
+        - generic [ref=f14e357]:
+          - generic [ref=f14e358]: Output
+          - generic [ref=f14e364]:
+            - button "Back 10 Seconds" [ref=f14e365] [cursor=pointer]:
+              - img [ref=f14e371]
+            - button "Play / Pause" [ref=f14e373] [cursor=pointer]:
+              - img [ref=f14e379]
+            - button "Forward 10 Seconds" [ref=f14e381] [cursor=pointer]:
+              - img [ref=f14e387]
+            - generic [ref=f14e391]: 0:00
+            - generic [ref=f14e401]: 0:32
+            - generic "Mute / Unmute" [ref=f14e407] [cursor=pointer]:
+              - img [ref=f14e411]
+            - button "1x" [ref=f14e418] [cursor=pointer]:
+              - text: 1x
+              - img [ref=f14e422]
+            - button "Loop" [ref=f14e424] [cursor=pointer]:
+              - img [ref=f14e430]
+            - button "Download" [ref=f14e432] [cursor=pointer]:
+              - img [ref=f14e438]
+            - button "Fullscreen" [ref=f14e441] [cursor=pointer]:
+              - img [ref=f14e447]
+      - heading "Combining Time and Duration" [level=3] [ref=f14e449]:
+        - link "Combining Time and Duration" [ref=f14e450] [cursor=pointer]:
+          - /url: "#timeCombo"
+      - paragraph [ref=f14e451]:
+        - text: Slot
+        - code [ref=f14e452]: <kc-vid-time>
+        - text: and
+        - code [ref=f14e453]: <kc-vid-duration>
+        - text: next to each other (with a literal
+        - code [ref=f14e454]: /
+        - text: between them) for a familiar “1:00 / 2:25” readout.
+      - generic [ref=f14e455]:
+        - generic [ref=f14e459]:
+          - generic [ref=f14e460]: HTML
+          - code [ref=f14e462]:
+            - generic [ref=f14e463]: "<k-video src=\"../media/evo.mp4\" poster=\"../media/evo-mp4.png\" style=\"max-width: 480px;\">"
+            - generic [ref=f14e464]: <kc-vid-play-pause>
+            - generic [ref=f14e465]: </kc-vid-play-pause>
+            - generic [ref=f14e466]: <kc-vid-seek>
+            - generic [ref=f14e467]: </kc-vid-seek>
+            - generic [ref=f14e468]: <span class="time-combo">
+            - generic [ref=f14e469]: <kc-vid-time>
+            - generic [ref=f14e470]: </kc-vid-time>
+            - text: /
+            - generic [ref=f14e471]: <kc-vid-duration>
+            - generic [ref=f14e472]: </kc-vid-duration>
+            - generic [ref=f14e473]: </span>
+            - generic [ref=f14e474]: <kc-fullscreen>
+            - generic [ref=f14e475]: </kc-fullscreen>
+            - generic [ref=f14e476]: </k-video>
+        - generic [ref=f14e480]:
+          - generic [ref=f14e481]: Output
+          - generic [ref=f14e486]:
+            - generic:
+              - button "Play / Pause" [ref=f14e487] [cursor=pointer]:
+                - img [ref=f14e493]
+              - generic [ref=f14e502]:
+                - generic [ref=f14e505]: 0:00
+                - text: /
+                - generic [ref=f14e508]: 0:32
+              - button "Fullscreen" [ref=f14e509] [cursor=pointer]:
+                - img [ref=f14e515]
+      - heading "Page-Level Keyboard Shortcut" [level=3] [ref=f14e517]:
+        - link "Page-Level Keyboard Shortcut" [ref=f14e518] [cursor=pointer]:
+          - /url: "#keyboardShortcut"
+      - paragraph [ref=f14e519]:
+        - text: "A common pattern: a global space-bar handler that toggles play/pause. With a native"
+        - code [ref=f14e520]: <video controls>
+        - text: ", dragging the native seek bar focuses it, and pressing space toggles"
+        - emphasis [ref=f14e521]: that control
+        - text: instead of bubbling up to your page handler.
+        - code [ref=f14e522]: k-video
+        - text: has no native controls to capture focus — its bundled
+        - code [ref=f14e523]: kc-vid-seek
+        - text: is built on
+        - code [ref=f14e524]: k-slider
+        - text: ", which doesn't handle the space key, so the keydown event bubbles up to"
+        - code [ref=f14e525]: document
+        - text: as expected.
+      - code [ref=f14e527]:
+        - generic [ref=f14e528]: <k-video id="player" src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal">
+        - generic [ref=f14e529]: </k-video>
+        - generic [ref=f14e530]: <script>
+        - generic [ref=f14e531]:
+          - text: // Page-level shortcut — works even after the user drags the seek bar,
+          - text: // because k-video has no native <input type="range"> to steal focus.
+          - text: document.addEventListener('keydown',
+          - generic [ref=f14e532]: (e) =>
+          - text: "{"
+          - text: "if (e.code === 'Space' && e.target === document.body) {"
+          - text: e.preventDefault();
+          - text: document.getElementById('player').togglePlayPause();
+          - text: "}"
+          - text: "});"
+        - generic [ref=f14e533]: </script>
+      - separator [ref=f14e534]
+      - heading "JavaScript Reference" [level=2] [ref=f14e535]:
+        - link "JavaScript Reference" [ref=f14e536] [cursor=pointer]:
+          - /url: "#jsRef"
+      - heading "Constructor" [level=3] [ref=f14e537]:
+        - link "Constructor" [ref=f14e538] [cursor=pointer]:
+          - /url: "#constructor"
+      - code [ref=f14e540]: new Video();
+      - heading "Requirements" [level=3] [ref=f14e541]:
+        - link "Requirements" [ref=f14e542] [cursor=pointer]:
+          - /url: "#requirements"
+      - paragraph [ref=f14e543]:
+        - text: Import the main component. When using controls, import each control individually or use the
+        - code [ref=f14e544]: controls
+        - text: attribute, which auto-imports all required control modules.
+      - heading "Properties" [level=3] [ref=f14e545]:
+        - link "Properties" [ref=f14e546] [cursor=pointer]:
+          - /url: "#properties"
+      - table [ref=f14e548]:
+        - rowgroup [ref=f14e549]:
+          - row "Property / Attribute Type Default Description" [ref=f14e550]:
+            - columnheader "Property / Attribute" [ref=f14e551]
+            - columnheader "Type" [ref=f14e552]
+            - columnheader "Default" [ref=f14e553]
+            - columnheader "Description" [ref=f14e554]
+        - rowgroup [ref=f14e555]:
+          - row "src String '' URL of the video source." [ref=f14e556]:
+            - cell "src" [ref=f14e557]:
+              - code [ref=f14e558]: src
+            - cell "String" [ref=f14e559]
+            - cell "''" [ref=f14e560]:
+              - code [ref=f14e561]: "''"
+            - cell "URL of the video source." [ref=f14e562]
+          - row "poster String '' Image shown before playback starts." [ref=f14e563]:
+            - cell "poster" [ref=f14e564]:
+              - code [ref=f14e565]: poster
+            - cell "String" [ref=f14e566]
+            - cell "''" [ref=f14e567]:
+              - code [ref=f14e568]: "''"
+            - cell "Image shown before playback starts." [ref=f14e569]
+          - 'row "preload String ''metadata'' Native preload hint: ''none'', ''metadata'', or ''auto''." [ref=f14e570]':
+            - cell "preload" [ref=f14e571]:
+              - code [ref=f14e572]: preload
+            - cell "String" [ref=f14e573]
+            - cell "'metadata'" [ref=f14e574]:
+              - code [ref=f14e575]: "'metadata'"
+            - 'cell "Native preload hint: ''none'', ''metadata'', or ''auto''." [ref=f14e576]'
+          - row "autoplay Boolean false Attempts to play automatically once a source is available (most browsers require muted as well)." [ref=f14e577]:
+            - cell "autoplay" [ref=f14e578]:
+              - code [ref=f14e579]: autoplay
+            - cell "Boolean" [ref=f14e580]
+            - cell "false" [ref=f14e581]:
+              - code [ref=f14e582]: "false"
+            - cell "Attempts to play automatically once a source is available (most browsers require muted as well)." [ref=f14e583]:
+              - text: Attempts to play automatically once a source is available (most browsers require
+              - code [ref=f14e584]: muted
+              - text: as well).
+          - row "loop Boolean false Replays from the start when playback ends. Toggling fires loop-changed." [ref=f14e585]:
+            - cell "loop" [ref=f14e586]:
+              - code [ref=f14e587]: loop
+            - cell "Boolean" [ref=f14e588]
+            - cell "false" [ref=f14e589]:
+              - code [ref=f14e590]: "false"
+            - cell "Replays from the start when playback ends. Toggling fires loop-changed." [ref=f14e591]:
+              - text: Replays from the start when playback ends. Toggling fires
+              - code [ref=f14e592]: loop-changed
+              - text: .
+          - row "muted Boolean false Mutes audio output." [ref=f14e593]:
+            - cell "muted" [ref=f14e594]:
+              - code [ref=f14e595]: muted
+            - cell "Boolean" [ref=f14e596]
+            - cell "false" [ref=f14e597]:
+              - code [ref=f14e598]: "false"
+            - cell "Mutes audio output." [ref=f14e599]
+          - row "playsinline Boolean true Plays inline on mobile browsers instead of forcing fullscreen." [ref=f14e600]:
+            - cell "playsinline" [ref=f14e601]:
+              - code [ref=f14e602]: playsinline
+            - cell "Boolean" [ref=f14e603]
+            - cell "true" [ref=f14e604]:
+              - code [ref=f14e605]: "true"
+            - cell "Plays inline on mobile browsers instead of forcing fullscreen." [ref=f14e606]
+          - row "crossorigin String '' Native crossorigin passthrough ('anonymous' / 'use-credentials')." [ref=f14e607]:
+            - cell "crossorigin" [ref=f14e608]:
+              - code [ref=f14e609]: crossorigin
+            - cell "String" [ref=f14e610]
+            - cell "''" [ref=f14e611]:
+              - code [ref=f14e612]: "''"
+            - cell "Native crossorigin passthrough ('anonymous' / 'use-credentials')." [ref=f14e613]:
+              - text: Native
+              - code [ref=f14e614]: crossorigin
+              - text: passthrough ('anonymous' / 'use-credentials').
+          - row "downloadName / download-name String '' Suggested filename used by download()." [ref=f14e615]:
+            - cell "downloadName / download-name" [ref=f14e616]:
+              - code [ref=f14e617]: downloadName
+              - text: /
+              - code [ref=f14e618]: download-name
+            - cell "String" [ref=f14e619]
+            - cell "''" [ref=f14e620]:
+              - code [ref=f14e621]: "''"
+            - cell "Suggested filename used by download()." [ref=f14e622]:
+              - text: Suggested filename used by
+              - code [ref=f14e623]: download()
+              - text: .
+          - row "volume Number 1 Playback volume from 0 to 1. Prefer setVolume(), which also handles unmuting." [ref=f14e624]:
+            - cell "volume" [ref=f14e625]:
+              - code [ref=f14e626]: volume
+            - cell "Number" [ref=f14e627]
+            - cell "1" [ref=f14e628]:
+              - code [ref=f14e629]: "1"
+            - cell "Playback volume from 0 to 1. Prefer setVolume(), which also handles unmuting." [ref=f14e630]:
+              - text: Playback volume from 0 to 1. Prefer
+              - code [ref=f14e631]: setVolume()
+              - text: ", which also handles unmuting."
+          - row "playbackRate / playback-rate Number 1 Playback speed multiplier." [ref=f14e632]:
+            - cell "playbackRate / playback-rate" [ref=f14e633]:
+              - code [ref=f14e634]: playbackRate
+              - text: /
+              - code [ref=f14e635]: playback-rate
+            - cell "Number" [ref=f14e636]
+            - cell "1" [ref=f14e637]:
+              - code [ref=f14e638]: "1"
+            - cell "Playback speed multiplier." [ref=f14e639]
+          - row "fullscreen Boolean false True while the player is the fullscreen element. Read-only in practice — use the fullscreen methods to change it." [ref=f14e640]:
+            - cell "fullscreen" [ref=f14e641]:
+              - code [ref=f14e642]: fullscreen
+            - cell "Boolean" [ref=f14e643]
+            - cell "false" [ref=f14e644]:
+              - code [ref=f14e645]: "false"
+            - cell "True while the player is the fullscreen element. Read-only in practice — use the fullscreen methods to change it." [ref=f14e646]
+          - 'row "controls String '''' Preconfigured control set: ''minimal'', ''normal'', ''full'', or ''none''/empty for none." [ref=f14e647]':
+            - cell "controls" [ref=f14e648]:
+              - code [ref=f14e649]: controls
+            - cell "String" [ref=f14e650]
+            - cell "''" [ref=f14e651]:
+              - code [ref=f14e652]: "''"
+            - 'cell "Preconfigured control set: ''minimal'', ''normal'', ''full'', or ''none''/empty for none." [ref=f14e653]'
+          - row "currentTime Number 0 Current playback position in seconds. Get/set directly, or use seek()." [ref=f14e654]:
+            - cell "currentTime" [ref=f14e655]:
+              - code [ref=f14e656]: currentTime
+            - cell "Number" [ref=f14e657]
+            - cell "0" [ref=f14e658]:
+              - code [ref=f14e659]: "0"
+            - cell "Current playback position in seconds. Get/set directly, or use seek()." [ref=f14e660]:
+              - text: Current playback position in seconds. Get/set directly, or use
+              - code [ref=f14e661]: seek()
+              - text: .
+          - row "duration Number 0 Total duration in seconds. Read-only." [ref=f14e662]:
+            - cell "duration" [ref=f14e663]:
+              - code [ref=f14e664]: duration
+            - cell "Number" [ref=f14e665]
+            - cell "0" [ref=f14e666]:
+              - code [ref=f14e667]: "0"
+            - cell "Total duration in seconds. Read-only." [ref=f14e668]
+          - row "paused Boolean true Whether playback is paused. Read-only." [ref=f14e669]:
+            - cell "paused" [ref=f14e670]:
+              - code [ref=f14e671]: paused
+            - cell "Boolean" [ref=f14e672]
+            - cell "true" [ref=f14e673]:
+              - code [ref=f14e674]: "true"
+            - cell "Whether playback is paused. Read-only." [ref=f14e675]
+          - row "ended Boolean false Whether playback has reached the end. Read-only." [ref=f14e676]:
+            - cell "ended" [ref=f14e677]:
+              - code [ref=f14e678]: ended
+            - cell "Boolean" [ref=f14e679]
+            - cell "false" [ref=f14e680]:
+              - code [ref=f14e681]: "false"
+            - cell "Whether playback has reached the end. Read-only." [ref=f14e682]
+      - heading "Methods" [level=3] [ref=f14e683]:
+        - link "Methods" [ref=f14e684] [cursor=pointer]:
+          - /url: "#methods"
+      - table [ref=f14e686]:
+        - rowgroup [ref=f14e687]:
+          - row "Method Description" [ref=f14e688]:
+            - columnheader "Method" [ref=f14e689]
+            - columnheader "Description" [ref=f14e690]
+        - rowgroup [ref=f14e691]:
+          - row "play() Starts (or resumes) playback. Chainable; swallows the rejected promise some browsers return when playback is blocked." [ref=f14e692]:
+            - cell "play()" [ref=f14e693]:
+              - code [ref=f14e694]: play()
+            - cell "Starts (or resumes) playback. Chainable; swallows the rejected promise some browsers return when playback is blocked." [ref=f14e695]
+          - row "pause() Pauses playback. Chainable." [ref=f14e696]:
+            - cell "pause()" [ref=f14e697]:
+              - code [ref=f14e698]: pause()
+            - cell "Pauses playback. Chainable." [ref=f14e699]
+          - row "togglePlayPause() Plays if paused/ended, otherwise pauses. This is what <kc-vid-play-pause> calls." [ref=f14e700]:
+            - cell "togglePlayPause()" [ref=f14e701]:
+              - code [ref=f14e702]: togglePlayPause()
+            - cell "Plays if paused/ended, otherwise pauses. This is what <kc-vid-play-pause> calls." [ref=f14e703]:
+              - text: Plays if paused/ended, otherwise pauses. This is what
+              - code [ref=f14e704]: <kc-vid-play-pause>
+              - text: calls.
+          - row "seek(time) Jumps to time seconds, clamped to [0, duration]." [ref=f14e705]:
+            - cell "seek(time)" [ref=f14e706]:
+              - code [ref=f14e707]: seek(time)
+            - cell "Jumps to time seconds, clamped to [0, duration]." [ref=f14e708]:
+              - text: Jumps to
+              - code [ref=f14e709]: time
+              - text: seconds, clamped to
+              - code [ref=f14e710]: "[0, duration]"
+              - text: .
+          - row "skip(seconds) Seeks relative to the current position (negative to rewind)." [ref=f14e711]:
+            - cell "skip(seconds)" [ref=f14e712]:
+              - code [ref=f14e713]: skip(seconds)
+            - cell "Seeks relative to the current position (negative to rewind)." [ref=f14e714]
+          - row "setVolume(volume) Sets volume, clamped to [0, 1]. Automatically unmutes when raised above 0." [ref=f14e715]:
+            - cell "setVolume(volume)" [ref=f14e716]:
+              - code [ref=f14e717]: setVolume(volume)
+            - cell "Sets volume, clamped to [0, 1]. Automatically unmutes when raised above 0." [ref=f14e718]:
+              - text: Sets volume, clamped to
+              - code [ref=f14e719]: "[0, 1]"
+              - text: . Automatically unmutes when raised above 0.
+          - row "mute() Mutes the player." [ref=f14e720]:
+            - cell "mute()" [ref=f14e721]:
+              - code [ref=f14e722]: mute()
+            - cell "Mutes the player." [ref=f14e723]
+          - row "unmute() Unmutes the player." [ref=f14e724]:
+            - cell "unmute()" [ref=f14e725]:
+              - code [ref=f14e726]: unmute()
+            - cell "Unmutes the player." [ref=f14e727]
+          - row "toggleMute() Flips the muted state." [ref=f14e728]:
+            - cell "toggleMute()" [ref=f14e729]:
+              - code [ref=f14e730]: toggleMute()
+            - cell "Flips the muted state." [ref=f14e731]
+          - row "setPlaybackRate(rate) Sets playback speed, clamped to [0.25, 4]." [ref=f14e732]:
+            - cell "setPlaybackRate(rate)" [ref=f14e733]:
+              - code [ref=f14e734]: setPlaybackRate(rate)
+            - cell "Sets playback speed, clamped to [0.25, 4]." [ref=f14e735]:
+              - text: Sets playback speed, clamped to
+              - code [ref=f14e736]: "[0.25, 4]"
+              - text: .
+          - row "toggleLoop() Flips the loop property and fires loop-changed." [ref=f14e737]:
+            - cell "toggleLoop()" [ref=f14e738]:
+              - code [ref=f14e739]: toggleLoop()
+            - cell "Flips the loop property and fires loop-changed." [ref=f14e740]:
+              - text: Flips the
+              - code [ref=f14e741]: loop
+              - text: property and fires
+              - code [ref=f14e742]: loop-changed
+              - text: .
+          - row "enterFullscreen() Requests fullscreen on the <k-video> element itself (not the bare <video>) so slotted controls stay visible." [ref=f14e743]:
+            - cell "enterFullscreen()" [ref=f14e744]:
+              - code [ref=f14e745]: enterFullscreen()
+            - cell "Requests fullscreen on the <k-video> element itself (not the bare <video>) so slotted controls stay visible." [ref=f14e746]:
+              - text: Requests fullscreen on the
+              - code [ref=f14e747]: <k-video>
+              - text: element itself (not the bare
+              - code [ref=f14e748]: <video>
+              - text: ) so slotted controls stay visible.
+          - row "exitFullscreen() Exits fullscreen if this player is the fullscreen element." [ref=f14e749]:
+            - cell "exitFullscreen()" [ref=f14e750]:
+              - code [ref=f14e751]: exitFullscreen()
+            - cell "Exits fullscreen if this player is the fullscreen element." [ref=f14e752]
+          - row "toggleFullscreen() Enters or exits fullscreen based on current state." [ref=f14e753]:
+            - cell "toggleFullscreen()" [ref=f14e754]:
+              - code [ref=f14e755]: toggleFullscreen()
+            - cell "Enters or exits fullscreen based on current state." [ref=f14e756]
+          - row "download() Triggers a browser download of src using a temporary anchor, named via downloadName when set." [ref=f14e757]:
+            - cell "download()" [ref=f14e758]:
+              - code [ref=f14e759]: download()
+            - cell "Triggers a browser download of src using a temporary anchor, named via downloadName when set." [ref=f14e760]:
+              - text: Triggers a browser download of
+              - code [ref=f14e761]: src
+              - text: using a temporary anchor, named via
+              - code [ref=f14e762]: downloadName
+              - text: when set.
+      - heading "Events" [level=3] [ref=f14e763]:
+        - link "Events" [ref=f14e764] [cursor=pointer]:
+          - /url: "#events"
+      - table [ref=f14e766]:
+        - rowgroup [ref=f14e767]:
+          - row "Event Detail Description" [ref=f14e768]:
+            - columnheader "Event" [ref=f14e769]
+            - columnheader "Detail" [ref=f14e770]
+            - columnheader "Description" [ref=f14e771]
+        - rowgroup [ref=f14e772]:
+          - 'row "fullscreen-changed { fullscreen } Fired when entering or exiting fullscreen." [ref=f14e773]':
+            - cell "fullscreen-changed" [ref=f14e774]:
+              - code [ref=f14e775]: fullscreen-changed
+            - 'cell "{ fullscreen }" [ref=f14e776]':
+              - code [ref=f14e777]: "{ fullscreen }"
+            - cell "Fired when entering or exiting fullscreen." [ref=f14e778]
+          - 'row "loop-changed { loop } Fired when the loop property changes." [ref=f14e779]':
+            - cell "loop-changed" [ref=f14e780]:
+              - code [ref=f14e781]: loop-changed
+            - 'cell "{ loop }" [ref=f14e782]':
+              - code [ref=f14e783]: "{ loop }"
+            - cell "Fired when the loop property changes." [ref=f14e784]:
+              - text: Fired when the
+              - code [ref=f14e785]: loop
+              - text: property changes.
+          - row "play / pause / playing / ended — Forwarded directly from the underlying <video> element." [ref=f14e786]:
+            - cell "play / pause / playing / ended" [ref=f14e787]:
+              - code [ref=f14e788]: play / pause / playing / ended
+            - cell "—" [ref=f14e789]
+            - cell "Forwarded directly from the underlying <video> element." [ref=f14e790]:
+              - text: Forwarded directly from the underlying
+              - code [ref=f14e791]: <video>
+              - text: element.
+          - row "timeupdate — Forwarded from the underlying video; fires frequently during playback." [ref=f14e792]:
+            - cell "timeupdate" [ref=f14e793]:
+              - code [ref=f14e794]: timeupdate
+            - cell "—" [ref=f14e795]
+            - cell "Forwarded from the underlying video; fires frequently during playback." [ref=f14e796]
+          - row "durationchange / loadedmetadata — Forwarded once media metadata is available — useful for reading duration." [ref=f14e797]:
+            - cell "durationchange / loadedmetadata" [ref=f14e798]:
+              - code [ref=f14e799]: durationchange / loadedmetadata
+            - cell "—" [ref=f14e800]
+            - cell "Forwarded once media metadata is available — useful for reading duration." [ref=f14e801]:
+              - text: Forwarded once media metadata is available — useful for reading
+              - code [ref=f14e802]: duration
+              - text: .
+          - row "volumechange / ratechange — Forwarded when volume/mute or playback rate change, whether from your code or browser policy (e.g. forced autoplay muting)." [ref=f14e803]:
+            - cell "volumechange / ratechange" [ref=f14e804]:
+              - code [ref=f14e805]: volumechange / ratechange
+            - cell "—" [ref=f14e806]
+            - cell "Forwarded when volume/mute or playback rate change, whether from your code or browser policy (e.g. forced autoplay muting)." [ref=f14e807]
+          - row "seeking / seeked / waiting / progress / canplay / error — Forwarded as-is from the underlying video element." [ref=f14e808]:
+            - cell "seeking / seeked / waiting / progress / canplay / error" [ref=f14e809]:
+              - code [ref=f14e810]: seeking / seeked / waiting / progress / canplay / error
+            - cell "—" [ref=f14e811]
+            - cell "Forwarded as-is from the underlying video element." [ref=f14e812]
+      - heading "Built-in Controls" [level=3] [ref=f14e813]:
+        - link "Built-in Controls" [ref=f14e814] [cursor=pointer]:
+          - /url: "#controls"
+      - paragraph [ref=f14e815]:
+        - text: Each control is a separate custom element that finds its parent
+        - code [ref=f14e816]: <k-video>
+        - text: and wires up automatically. Import only the controls you need.
+      - table [ref=f14e818]:
+        - rowgroup [ref=f14e819]:
+          - row "Tag Import Description" [ref=f14e820]:
+            - columnheader "Tag" [ref=f14e821]
+            - columnheader "Import" [ref=f14e822]
+            - columnheader "Description" [ref=f14e823]
+        - rowgroup [ref=f14e824]:
+          - row "<kc-vid-play-pause> controls/VidPlayPause.js Toggles playback. Shows a play or pause icon based on host.paused." [ref=f14e825]:
+            - cell "<kc-vid-play-pause>" [ref=f14e826]:
+              - code [ref=f14e827]: <kc-vid-play-pause>
+            - cell "controls/VidPlayPause.js" [ref=f14e828]:
+              - code [ref=f14e829]: controls/VidPlayPause.js
+            - cell "Toggles playback. Shows a play or pause icon based on host.paused." [ref=f14e830]:
+              - text: Toggles playback. Shows a play or pause icon based on
+              - code [ref=f14e831]: host.paused
+              - text: .
+          - row "<kc-vid-seek> controls/VidSeek.js Scrub bar built on k-slider. Grows to fill available space in the toolbar." [ref=f14e832]:
+            - cell "<kc-vid-seek>" [ref=f14e833]:
+              - code [ref=f14e834]: <kc-vid-seek>
+            - cell "controls/VidSeek.js" [ref=f14e835]:
+              - code [ref=f14e836]: controls/VidSeek.js
+            - cell "Scrub bar built on k-slider. Grows to fill available space in the toolbar." [ref=f14e837]:
+              - text: Scrub bar built on
+              - code [ref=f14e838]: k-slider
+              - text: . Grows to fill available space in the toolbar.
+          - row "<kc-vid-time> controls/VidTime.js Current playback position, formatted as m:ss (or h:mm:ss)." [ref=f14e839]:
+            - cell "<kc-vid-time>" [ref=f14e840]:
+              - code [ref=f14e841]: <kc-vid-time>
+            - cell "controls/VidTime.js" [ref=f14e842]:
+              - code [ref=f14e843]: controls/VidTime.js
+            - cell "Current playback position, formatted as m:ss (or h:mm:ss)." [ref=f14e844]:
+              - text: Current playback position, formatted as
+              - code [ref=f14e845]: m:ss
+              - text: (or
+              - code [ref=f14e846]: h:mm:ss
+              - text: ).
+          - row "<kc-vid-duration> controls/VidDuration.js Total duration, same formatting as kc-vid-time. Slot them next to each other for a \"1:00 / 2:25\" readout." [ref=f14e847]:
+            - cell "<kc-vid-duration>" [ref=f14e848]:
+              - code [ref=f14e849]: <kc-vid-duration>
+            - cell "controls/VidDuration.js" [ref=f14e850]:
+              - code [ref=f14e851]: controls/VidDuration.js
+            - cell "Total duration, same formatting as kc-vid-time. Slot them next to each other for a \"1:00 / 2:25\" readout." [ref=f14e852]:
+              - text: Total duration, same formatting as
+              - code [ref=f14e853]: kc-vid-time
+              - text: . Slot them next to each other for a
+              - code [ref=f14e854]: "\"1:00 / 2:25\""
+              - text: readout.
+          - row "<kc-vid-mute> controls/VidMute.js A plain mute/unmute toggle button with no popup." [ref=f14e855]:
+            - cell "<kc-vid-mute>" [ref=f14e856]:
+              - code [ref=f14e857]: <kc-vid-mute>
+            - cell "controls/VidMute.js" [ref=f14e858]:
+              - code [ref=f14e859]: controls/VidMute.js
+            - cell "A plain mute/unmute toggle button with no popup." [ref=f14e860]
+          - row "<kc-vid-volume> controls/VidVolume.js Mute button that reveals a popup vertical volume slider on hover, like a native player." [ref=f14e861]:
+            - cell "<kc-vid-volume>" [ref=f14e862]:
+              - code [ref=f14e863]: <kc-vid-volume>
+            - cell "controls/VidVolume.js" [ref=f14e864]:
+              - code [ref=f14e865]: controls/VidVolume.js
+            - cell "Mute button that reveals a popup vertical volume slider on hover, like a native player." [ref=f14e866]
+          - row "<kc-vid-speed> controls/VidSpeed.js A playback-rate select (0.25x–2x)." [ref=f14e867]:
+            - cell "<kc-vid-speed>" [ref=f14e868]:
+              - code [ref=f14e869]: <kc-vid-speed>
+            - cell "controls/VidSpeed.js" [ref=f14e870]:
+              - code [ref=f14e871]: controls/VidSpeed.js
+            - cell "A playback-rate select (0.25x–2x)." [ref=f14e872]
+          - row "<kc-vid-loop> controls/VidLoop.js Toggles loop. Reflects an active attribute while looping is enabled." [ref=f14e873]:
+            - cell "<kc-vid-loop>" [ref=f14e874]:
+              - code [ref=f14e875]: <kc-vid-loop>
+            - cell "controls/VidLoop.js" [ref=f14e876]:
+              - code [ref=f14e877]: controls/VidLoop.js
+            - cell "Toggles loop. Reflects an active attribute while looping is enabled." [ref=f14e878]:
+              - text: Toggles
+              - code [ref=f14e879]: loop
+              - text: . Reflects an
+              - code [ref=f14e880]: active
+              - text: attribute while looping is enabled.
+          - row "<kc-vid-download> controls/VidDownload.js Downloads the current src." [ref=f14e881]:
+            - cell "<kc-vid-download>" [ref=f14e882]:
+              - code [ref=f14e883]: <kc-vid-download>
+            - cell "controls/VidDownload.js" [ref=f14e884]:
+              - code [ref=f14e885]: controls/VidDownload.js
+            - cell "Downloads the current src." [ref=f14e886]:
+              - text: Downloads the current
+              - code [ref=f14e887]: src
+              - text: .
+          - row "<kc-vid-skip-back> / <kc-vid-skip-forward> controls/VidSkipBack.js / VidSkipForward.js Jump 10 seconds backward/forward." [ref=f14e888]:
+            - cell "<kc-vid-skip-back> / <kc-vid-skip-forward>" [ref=f14e889]:
+              - code [ref=f14e890]: <kc-vid-skip-back> / <kc-vid-skip-forward>
+            - cell "controls/VidSkipBack.js / VidSkipForward.js" [ref=f14e891]:
+              - code [ref=f14e892]: controls/VidSkipBack.js / VidSkipForward.js
+            - cell "Jump 10 seconds backward/forward." [ref=f14e893]
+          - row "<kc-fullscreen> controls/controls/Fullscreen.js The same generic fullscreen control used by other kempo components — works with k-video without modification." [ref=f14e894]:
+            - cell "<kc-fullscreen>" [ref=f14e895]:
+              - code [ref=f14e896]: <kc-fullscreen>
+            - cell "controls/controls/Fullscreen.js" [ref=f14e897]:
+              - code [ref=f14e898]: controls/controls/Fullscreen.js
+            - cell "The same generic fullscreen control used by other kempo components — works with k-video without modification." [ref=f14e899]:
+              - text: The same generic fullscreen control used by other kempo components — works with
+              - code [ref=f14e900]: k-video
+              - text: without modification.

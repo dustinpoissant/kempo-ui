@@ -352,6 +352,21 @@ export default {
     pass('Change event dispatched correctly');
   },
 
+  'should not dispatch change event when value is set programmatically': async ({pass, fail}) => {
+    const { container, el } = await createSlider({ value: '0' });
+    let eventFired = false;
+    el.addEventListener('change', () => {
+      eventFired = true;
+    });
+    el.value = '50';
+    await el.updateComplete;
+    cleanup(container);
+    if(eventFired){
+      return fail('Change event should not fire from external/programmatic value assignment, only from setValue/setUpper (user interaction)');
+    }
+    pass('No change event from programmatic value assignment');
+  },
+
   'should not dispatch change event when value stays the same': async ({pass, fail}) => {
     const { container, el } = await createSlider({ value: '50' });
     let eventFired = false;

@@ -441,7 +441,7 @@ export default class Dropdown extends ShadowComponent {
 				<slot name="trigger"></slot>
 				${this.submenu ? html`<k-icon name="chevron"></k-icon>` : ''}
 			</div>
-			<div id="menu" role="menu" @click=${this.handleMenuClick}>
+			<div id="menu" part="menu" role="menu" @click=${this.handleMenuClick}>
 				<slot @slotchange=${this.handleSlotChange}></slot>
 			</div>
 		`;

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center"
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      Kempo UI
+    </a>
+    <div
+      style="position:relative;margin:0 .25rem;align-self:center;"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+        style="width:11rem;"
+      />
+      <div
+        id="navSearchDropdown"
+        hidden
+        theme="light"
+        style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <div class="flex"></div>
+    <a
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+    ><k-icon name="license"></k-icon></a>
+    <a
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+    ><k-icon name="npm"></k-icon></a>
+    <a
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+    ><k-icon name="github-mark"></k-icon></a>
+    <k-theme-switcher
+      class="mr"
+      style="
+        --padding: 0.5rem;
+        --c_active: var(--tc_on_primary);
+        --tc_active: var(--c_primary);
+        --c_inactive__hover: rgba(255, 255, 255, 0.1);
+      "
+    ></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+    <h1 class="ta-center">Video</h1>
+  
+  <k-main>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#manualControls">Manual Controls</a><br />
+          <a href="#minimalControls">Minimal Preconfigured</a><br />
+          <a href="#normalControls">Normal Preconfigured</a><br />
+          <a href="#fullControls">Full Preconfigured</a><br />
+          <a href="#timeCombo">Combining Time and Duration</a><br />
+          <a href="#bigPlayButton">Big Play Button</a><br />
+          <a href="#doubleClickSeek">Double-Click to Seek</a><br />
+          <a href="#autoHideControls">Auto-Hide Controls</a><br />
+          <a href="#bufferingIndicator">Buffering Indicator</a><br />
+          <a href="#resumePosition">Resume Playback Position</a><br />
+          <a href="#keyboardShortcut">Page-Level Keyboard Shortcuts</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
+          <a href="#controls">Built-in Controls</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p>A <code>&lt;video&gt;</code> wrapper with <strong>no native controls</strong>. Build your own toolbar by slotting in the bundled <code>kc-vid-*</code> controls (or your own custom elements) — exactly the same slotted-control pattern used by <a href="../components/table.html">Table</a>, <a href="../components/pagination.html">Pagination</a>, and <a href="../components/markdown-editor.html">Markdown Editor</a>. Use the <code>controls</code> attribute for a preconfigured toolbar, or mix and match.</p>
+    <p>Because there's no native <code>&lt;input type="range"&gt;</code> seek bar, there's nothing for the browser to give keyboard focus to when the user drags it — so a page-level <code>keydown</code> listener (e.g. space bar to play/pause) keeps working after the user interacts with the player. See <a href="#keyboardShortcut">Page-Level Keyboard Shortcut</a> below.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>With no <code>controls</code> attribute and nothing slotted in, <code>k-video</code> renders just the bare video — useful when you want full control over the UI, or are driving playback entirely from your own buttons.</p>
+    
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="manualControls"><a href="#manualControls" class="no-link">Manual Controls</a></h3>
+    <p>Slot any combination of built-in controls directly inside <code>&lt;k-video&gt;</code>, into one of three regions: unnamed (default) slot content renders in a control bar overlaid at the <strong>bottom</strong> of the player, <code>slot="top"</code> renders above the video, and <code>slot="center"</code> renders centered over the video — the last is where <code>&lt;kc-vid-play-big&gt;</code> normally goes.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-time</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" style="max-width: 480px;">
+            <kc-vid-play-big slot="center"></kc-vid-play-big>
+            <kc-vid-play-pause></kc-vid-play-pause>
+            <kc-vid-time></kc-vid-time>
+            <kc-vid-seek></kc-vid-seek>
+            <kc-vid-duration></kc-vid-duration>
+            <kc-vid-volume></kc-vid-volume>
+            <kc-vid-loop></kc-vid-loop>
+            <kc-fullscreen></kc-fullscreen>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="minimalControls"><a href="#minimalControls" class="no-link">Minimal Preconfigured</a></h3>
+    <p>Use <code>controls="minimal"</code> for play/pause, a scrub bar, current time / duration, and fullscreen. A <code>slot="center"</code> big play/replay button is included by default.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="minimal" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="normalControls"><a href="#normalControls" class="no-link">Normal Preconfigured</a></h3>
+    <p>Use <code>controls="normal"</code> to add volume, playback speed, and loop on top of the minimal set.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fullControls"><a href="#fullControls" class="no-link">Full Preconfigured</a></h3>
+    <p>Use <code>controls="full"</code> for everything: skip &plusmn;10s, download, volume, speed, loop, and Picture-in-Picture.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="full" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="timeCombo"><a href="#timeCombo" class="no-link">Combining Time and Duration</a></h3>
+    <p>Slot <code>&lt;kc-vid-time&gt;</code> and <code>&lt;kc-vid-duration&gt;</code> next to each other (with a literal <code>/</code> between them) for a familiar &ldquo;1:00 / 2:25&rdquo; readout.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;time-combo&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-time</span>&gt;</span> / <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" style="max-width: 480px;">
+            <kc-vid-play-pause></kc-vid-play-pause>
+            <kc-vid-seek></kc-vid-seek>
+            <span style="color: #fff; padding: 0 0.25rem; white-space: nowrap;">
+              <kc-vid-time></kc-vid-time> / <kc-vid-duration></kc-vid-duration>
+            </span>
+            <kc-fullscreen></kc-fullscreen>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="bigPlayButton"><a href="#bigPlayButton" class="no-link">Big Play Button</a></h3>
+    <p><code>&lt;kc-vid-play-big&gt;</code> shows a large centered play button (or a replay icon once playback ends) whenever the player is paused — the same pattern used by YouTube and most native players. Clicking anywhere on the video still toggles play/pause as usual. It's slotted into <code>slot="center"</code> and included by default in the <code>minimal</code>, <code>normal</code>, and <code>full</code> preconfigured sets (see above); it also works standalone with no other controls at all:</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" style="max-width: 480px;">
+            <kc-vid-play-big slot="center"></kc-vid-play-big>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="doubleClickSeek"><a href="#doubleClickSeek" class="no-link">Double-Click to Seek</a></h3>
+    <p>Double-click (or double-tap) the left half of the video to rewind 10 seconds, or the right half to skip forward 10 seconds — the same convention used by YouTube and most native players. A brief icon flashes on the side that was clicked. This is always on, no attribute required.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="autoHideControls"><a href="#autoHideControls" class="no-link">Auto-Hide Controls</a></h3>
+    <p>The control bar fades out after a couple of seconds of no mouse movement while the video is playing, and reappears instantly on mouse movement or whenever playback pauses. Also always on — play the video below and hold your mouse still over it.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="bufferingIndicator"><a href="#bufferingIndicator" class="no-link">Buffering Indicator</a></h3>
+    <p>A spinner automatically appears over the video whenever the browser has to pause for buffering (the native <code>waiting</code> event) and disappears once playback can resume (<code>playing</code> / <code>canplay</code>) — handy on slower connections or with kempo-server's HTTP Range-backed seeking. Nothing to configure; it's driven entirely by the underlying <code>&lt;video&gt;</code> element's own buffering state.</p>
+
+    <h3 id="resumePosition"><a href="#resumePosition" class="no-link">Resume Playback Position</a></h3>
+    <p>Set <code>persistent-id</code> to remember the playback position in <code>localStorage</code> and resume from there next time this player loads &mdash; the same <code>persistent-id</code> convention used by <a href="../components/tabs.html">Tabs</a>, <a href="../components/accordion.html">Accordion</a>, and <a href="../components/split.html">Split</a>. Play the video below, seek somewhere, then reload this page — it picks up where you left off. The saved position clears automatically once playback reaches the end.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;docs-demo&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" persistent-id="docs-demo" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="keyboardShortcut"><a href="#keyboardShortcut" class="no-link">Page-Level Keyboard Shortcuts</a></h3>
+    <p>A common pattern: a global handler that maps keys to player methods. With a native <code>&lt;video controls&gt;</code>, dragging the native seek bar focuses it, and further key presses toggle <em>that control</em> instead of bubbling up to your page handler. <code>k-video</code> has no native controls to capture focus — its bundled <code>kc-vid-seek</code> is built on <code>k-slider</code>, which doesn't handle these keys, so they bubble up to <code>document</code> as expected. The <code>e.target === document.body</code> guard keeps this from firing while focus is on some other element (a text input, etc.).</p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;player&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-comment">// Page-level shortcuts — work even after the user drags the seek bar,</span><br>  <span class="hljs-comment">// because k-video has no native &lt;input type=&quot;range&quot;&gt; to steal focus.</span><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;keydown&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span> !== <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-keyword">const</span> player = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;player&#x27;</span>);<br>    <span class="hljs-keyword">switch</span> (e.<span class="hljs-property">code</span>) {<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Space&#x27;</span>:<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyK&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">togglePlayPause</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowLeft&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">skip</span>(-<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowRight&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">skip</span>(<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowUp&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">setVolume</span>(player.<span class="hljs-property">volume</span> + <span class="hljs-number">0.1</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowDown&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">setVolume</span>(player.<span class="hljs-property">volume</span> - <span class="hljs-number">0.1</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyM&#x27;</span>:<br>        player.<span class="hljs-title function_">toggleMute</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyF&#x27;</span>:<br>        player.<span class="hljs-title function_">toggleFullscreen</span>();<br>        <span class="hljs-keyword">break</span>;<br>    }<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <hr class="mt" />
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">new</span> <span class="hljs-title class_">Video</span>();</code></pre>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>Import the main component. When using controls, import each control individually or use the <code>controls</code> attribute, which auto-imports all required control modules.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    
+    <div class="table-wrapper mb">
+      <table>
+        <thead><tr><th>Property / Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>src</code></td><td>String</td><td><code>''</code></td><td>URL of the video source.</td></tr>
+          <tr><td><code>poster</code></td><td>String</td><td><code>''</code></td><td>Image shown before playback starts.</td></tr>
+          <tr><td><code>preload</code></td><td>String</td><td><code>'metadata'</code></td><td>Native preload hint: 'none', 'metadata', or 'auto'.</td></tr>
+          <tr><td><code>autoplay</code></td><td>Boolean</td><td><code>false</code></td><td>Attempts to play automatically once a source is available (most browsers require <code>muted</code> as well).</td></tr>
+          <tr><td><code>loop</code></td><td>Boolean</td><td><code>false</code></td><td>Replays from the start when playback ends. Toggling fires <code>loop-changed</code>.</td></tr>
+          <tr><td><code>muted</code></td><td>Boolean</td><td><code>false</code></td><td>Mutes audio output.</td></tr>
+          <tr><td><code>playsinline</code></td><td>Boolean</td><td><code>true</code></td><td>Plays inline on mobile browsers instead of forcing fullscreen.</td></tr>
+          <tr><td><code>crossorigin</code></td><td>String</td><td><code>''</code></td><td>Native <code>crossorigin</code> passthrough ('anonymous' / 'use-credentials').</td></tr>
+          <tr><td><code>downloadName</code> / <code>download-name</code></td><td>String</td><td><code>''</code></td><td>Suggested filename used by <code>download()</code>.</td></tr>
+          <tr><td><code>volume</code></td><td>Number</td><td><code>1</code></td><td>Playback volume from 0 to 1. Prefer <code>setVolume()</code>, which also handles unmuting.</td></tr>
+          <tr><td><code>playbackRate</code> / <code>playback-rate</code></td><td>Number</td><td><code>1</code></td><td>Playback speed multiplier.</td></tr>
+          <tr><td><code>fullscreen</code></td><td>Boolean</td><td><code>false</code></td><td>True while the player is the fullscreen element. Read-only in practice — use the fullscreen methods to change it.</td></tr>
+          <tr><td><code>pictureInPicture</code> / <code>picture-in-picture</code></td><td>Boolean</td><td><code>false</code></td><td>True while the player is in Picture-in-Picture. Read-only in practice — use the Picture-in-Picture methods to change it.</td></tr>
+          <tr><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Preconfigured control set: 'minimal', 'normal', 'full', or 'none'/empty for none.</td></tr>
+          <tr><td><code>persistentId</code> / <code>persistent-id</code></td><td>String</td><td><code>null</code></td><td>When set, remembers <code>currentTime</code> in <code>localStorage</code> and restores it on load. Cleared automatically when playback reaches the end.</td></tr>
+          <tr><td><code>currentTime</code></td><td>Number</td><td><code>0</code></td><td>Current playback position in seconds. Get/set directly, or use <code>seek()</code>.</td></tr>
+          <tr><td><code>duration</code></td><td>Number</td><td><code>0</code></td><td>Total duration in seconds. Read-only.</td></tr>
+          <tr><td><code>paused</code></td><td>Boolean</td><td><code>true</code></td><td>Whether playback is paused. Read-only.</td></tr>
+          <tr><td><code>ended</code></td><td>Boolean</td><td><code>false</code></td><td>Whether playback has reached the end. Read-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    
+    <div class="table-wrapper mb">
+      <table>
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>play()</code></td><td>Starts (or resumes) playback. Chainable; swallows the rejected promise some browsers return when playback is blocked.</td></tr>
+          <tr><td><code>pause()</code></td><td>Pauses playback. Chainable.</td></tr>
+          <tr><td><code>togglePlayPause()</code></td><td>Plays if paused/ended, otherwise pauses. This is what <code>&lt;kc-vid-play-pause&gt;</code> calls.</td></tr>
+          <tr><td><code>seek(time)</code></td><td>Jumps to <code>time</code> seconds, clamped to <code>[0, duration]</code>.</td></tr>
+          <tr><td><code>skip(seconds)</code></td><td>Seeks relative to the current position (negative to rewind).</td></tr>
+          <tr><td><code>setVolume(volume)</code></td><td>Sets volume, clamped to <code>[0, 1]</code>. Automatically unmutes when raised above 0.</td></tr>
+          <tr><td><code>mute()</code></td><td>Mutes the player.</td></tr>
+          <tr><td><code>unmute()</code></td><td>Unmutes the player.</td></tr>
+          <tr><td><code>toggleMute()</code></td><td>Flips the muted state.</td></tr>
+          <tr><td><code>setPlaybackRate(rate)</code></td><td>Sets playback speed, clamped to <code>[0.25, 4]</code>.</td></tr>
+          <tr><td><code>toggleLoop()</code></td><td>Flips the <code>loop</code> property and fires <code>loop-changed</code>.</td></tr>
+          <tr><td><code>enterFullscreen()</code></td><td>Requests fullscreen on the <code>&lt;k-video&gt;</code> element itself (not the bare <code>&lt;video&gt;</code>) so slotted controls stay visible.</td></tr>
+          <tr><td><code>exitFullscreen()</code></td><td>Exits fullscreen if this player is the fullscreen element.</td></tr>
+          <tr><td><code>toggleFullscreen()</code></td><td>Enters or exits fullscreen based on current state.</td></tr>
+          <tr><td><code>enterPictureInPicture()</code></td><td>Requests Picture-in-Picture on the underlying <code>&lt;video&gt;</code> element.</td></tr>
+          <tr><td><code>exitPictureInPicture()</code></td><td>Exits Picture-in-Picture if this player is the active element.</td></tr>
+          <tr><td><code>togglePictureInPicture()</code></td><td>Enters or exits Picture-in-Picture based on current state.</td></tr>
+          <tr><td><code>download()</code></td><td>Triggers a browser download of <code>src</code> using a temporary anchor, named via <code>downloadName</code> when set.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    
+    <div class="table-wrapper mb">
+      <table>
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>fullscreen-changed</code></td><td><code>{ fullscreen }</code></td><td>Fired when entering or exiting fullscreen.</td></tr>
+          <tr><td><code>picture-in-picture-changed</code></td><td><code>{ pictureInPicture }</code></td><td>Fired when entering or exiting Picture-in-Picture.</td></tr>
+          <tr><td><code>loop-changed</code></td><td><code>{ loop }</code></td><td>Fired when the <code>loop</code> property changes.</td></tr>
+          <tr><td><code>restored</code></td><td><code>{ time }</code></td><td>Fired once, when a saved position is restored from <code>persistent-id</code>.</td></tr>
+          <tr><td><code>play / pause / playing / ended</code></td><td>&mdash;</td><td>Forwarded directly from the underlying <code>&lt;video&gt;</code> element.</td></tr>
+          <tr><td><code>timeupdate</code></td><td>&mdash;</td><td>Forwarded from the underlying video; fires frequently during playback.</td></tr>
+          <tr><td><code>durationchange / loadedmetadata</code></td><td>&mdash;</td><td>Forwarded once media metadata is available — useful for reading <code>duration</code>.</td></tr>
+          <tr><td><code>volumechange / ratechange</code></td><td>&mdash;</td><td>Forwarded when volume/mute or playback rate change, whether from your code or browser policy (e.g. forced autoplay muting).</td></tr>
+          <tr><td><code>seeking / seeked / waiting / progress / canplay / error</code></td><td>&mdash;</td><td>Forwarded as-is from the underlying video element.</td></tr>
+          <tr><td><code>enterpictureinpicture / leavepictureinpicture</code></td><td>&mdash;</td><td>Forwarded as-is from the underlying video element.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="controls"><a href="#controls" class="no-link">Built-in Controls</a></h3>
+    <p>Each control is a separate custom element that finds its parent <code>&lt;k-video&gt;</code> and wires up automatically. Import only the controls you need.</p>
+    
+    <div class="table-wrapper mb">
+      <table>
+        <thead><tr><th>Tag</th><th>Import</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;kc-vid-play-pause&gt;</code></td><td><code>controls/VidPlayPause.js</code></td><td>Toggles playback. Shows a play or pause icon based on <code>host.paused</code>.</td></tr>
+          <tr><td><code>&lt;kc-vid-play-big&gt;</code></td><td><code>controls/VidPlayBig.js</code></td><td>Large centered play/replay button, only rendered while paused. Belongs in <code>slot="center"</code>.</td></tr>
+          <tr><td><code>&lt;kc-vid-seek&gt;</code></td><td><code>controls/VidSeek.js</code></td><td>Scrub bar built on <code>k-slider</code>. Grows to fill available space in the toolbar.</td></tr>
+          <tr><td><code>&lt;kc-vid-time&gt;</code></td><td><code>controls/VidTime.js</code></td><td>Current playback position, formatted as <code>m:ss</code> (or <code>h:mm:ss</code>).</td></tr>
+          <tr><td><code>&lt;kc-vid-duration&gt;</code></td><td><code>controls/VidDuration.js</code></td><td>Total duration, same formatting as <code>kc-vid-time</code>. Slot them next to each other for a <code>"1:00 / 2:25"</code> readout.</td></tr>
+          <tr><td><code>&lt;kc-vid-mute&gt;</code></td><td><code>controls/VidMute.js</code></td><td>A plain mute/unmute toggle button with no popup.</td></tr>
+          <tr><td><code>&lt;kc-vid-volume&gt;</code></td><td><code>controls/VidVolume.js</code></td><td>Mute button that reveals a popup vertical volume slider on hover, like a native player.</td></tr>
+          <tr><td><code>&lt;kc-vid-speed&gt;</code></td><td><code>controls/VidSpeed.js</code></td><td>A playback-rate select (0.25x&ndash;2x).</td></tr>
+          <tr><td><code>&lt;kc-vid-loop&gt;</code></td><td><code>controls/VidLoop.js</code></td><td>Toggles <code>loop</code>. Reflects an <code>active</code> attribute while looping is enabled.</td></tr>
+          <tr><td><code>&lt;kc-vid-download&gt;</code></td><td><code>controls/VidDownload.js</code></td><td>Downloads the current <code>src</code>.</td></tr>
+          <tr><td><code>&lt;kc-vid-skip-back&gt; / &lt;kc-vid-skip-forward&gt;</code></td><td><code>controls/VidSkipBack.js / VidSkipForward.js</code></td><td>Jump 10 seconds backward/forward.</td></tr>
+          <tr><td><code>&lt;kc-vid-pip&gt;</code></td><td><code>controls/VidPip.js</code></td><td>Toggles Picture-in-Picture. Reflects an <code>active</code> attribute while in Picture-in-Picture.</td></tr>
+          <tr><td><code>&lt;kc-fullscreen&gt;</code></td><td><code>controls/controls/Fullscreen.js</code></td><td>The same generic fullscreen control used by other kempo components &mdash; works with <code>k-video</code> without modification.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script type="module" src="../src/components/Video.js"></script>
+    <script type="module" src="../src/components/controls/Control.js"></script>
+    <script type="module" src="../src/components/controls/VidPlayPause.js"></script>
+    <script type="module" src="../src/components/controls/VidPlayBig.js"></script>
+    <script type="module" src="../src/components/controls/VidSeek.js"></script>
+    <script type="module" src="../src/components/controls/VidTime.js"></script>
+    <script type="module" src="../src/components/controls/VidDuration.js"></script>
+    <script type="module" src="../src/components/controls/VidMute.js"></script>
+    <script type="module" src="../src/components/controls/VidVolume.js"></script>
+    <script type="module" src="../src/components/controls/VidSpeed.js"></script>
+    <script type="module" src="../src/components/controls/VidLoop.js"></script>
+    <script type="module" src="../src/components/controls/VidDownload.js"></script>
+    <script type="module" src="../src/components/controls/VidSkipBack.js"></script>
+    <script type="module" src="../src/components/controls/VidSkipForward.js"></script>
+    <script type="module" src="../src/components/controls/Fullscreen.js"></script>
+    <script type="module" src="../src/components/controls/VidPip.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+</body>
+</html>

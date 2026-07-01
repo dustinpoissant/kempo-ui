@@ -1,0 +1,3 @@
+import t from"./Control.js";import{html as a,css as s}from"../../lit-all.min.js";import r from"../../utils/formatDuration.js";export default class e extends t{static requires=[];static hostEvents=["durationchange","loadedmetadata"];render(){return a`<span class="duration">${r(this.host?.duration??0)}</span>`}static styles=[t.styles,s`
+      .duration { padding: 0 0.15rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    `]}customElements.define("kc-vid-duration",e);
