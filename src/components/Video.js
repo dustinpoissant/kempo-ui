@@ -424,22 +424,26 @@ export default class Video extends ShadowComponent {
     return html`
       <div id="frame">
         <slot name="top"></slot>
-        <video
-          id="player"
-          part="video"
-          .src=${this.src || ''}
-          .poster=${this.poster || ''}
-          .muted=${this.muted}
-          .volume=${this.volume}
-          .playbackRate=${this.playbackRate}
-          .defaultPlaybackRate=${this.playbackRate}
-          ?autoplay=${this.autoplay}
-          ?loop=${this.loop}
-          ?playsinline=${this.playsinline}
-          preload=${this.preload || 'metadata'}
-          crossorigin=${this.crossorigin || nothing}
+        <div
+          id="video-wrapper"
           @click=${this.handleVideoClick}
-        ></video>
+        >
+          <video
+            id="player"
+            part="video"
+            .src=${this.src || ''}
+            .poster=${this.poster || ''}
+            .muted=${this.muted}
+            .volume=${this.volume}
+            .playbackRate=${this.playbackRate}
+            .defaultPlaybackRate=${this.playbackRate}
+            ?autoplay=${this.autoplay}
+            ?loop=${this.loop}
+            ?playsinline=${this.playsinline}
+            preload=${this.preload || 'metadata'}
+            crossorigin=${this.crossorigin || nothing}
+          ></video>
+        </div>
         ${this.buffering ? html`
           <div id="buffering"><k-spinner size="lg"></k-spinner></div>
         ` : nothing}
@@ -478,6 +482,7 @@ export default class Video extends ShadowComponent {
       max-height: var(--max-height);
       background: #000;
       cursor: pointer;
+      pointer-events: none;
     }
     :host(:fullscreen),
     :host([fullscreen]) {
