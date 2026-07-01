@@ -395,11 +395,13 @@ export default class Slider extends ShadowComponent {
       background: var(--track_background);
       border-radius: var(--track_radius);
       position: relative;
+      margin: 0 calc(var(--thumb_size) / 2);
     }
     :host([vertical]) #track {
       height: auto;
       width: var(--track_height);
       min-height: var(--vertical_height);
+      margin: calc(var(--thumb_size) / 2) 0;
     }
     #fill {
       background: var(--fill_background);

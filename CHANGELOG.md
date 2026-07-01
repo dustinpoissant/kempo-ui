@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.29]
+### Added
+ - Fixed padding in sliders so that the handle does not leave the component when at 0 or 100%.
+
+## [0.4.28]
 ### Added
 - Video component (`<k-video>`) and its `kc-vid-*` controls, with docs and full test coverage
 

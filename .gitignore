@@ -1,3 +1,4 @@
 node_modules
 .github/skills/
 .claude/settings.local.json
+.playwright-mcp
