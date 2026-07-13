@@ -16,6 +16,7 @@
           <a href="#doubleClickSeek">Double-Click to Seek</a><br />
           <a href="#autoHideControls">Auto-Hide Controls</a><br />
           <a href="#bufferingIndicator">Buffering Indicator</a><br />
+          <a href="#aspectRatio">Custom Sizes &amp; Aspect Ratios</a><br />
           <a href="#resumePosition">Resume Playback Position</a><br />
           <a href="#keyboardShortcut">Page-Level Keyboard Shortcuts</a><br />
 
@@ -225,6 +226,32 @@
 
     <h3 id="bufferingIndicator"><a href="#bufferingIndicator" class="no-link">Buffering Indicator</a></h3>
     <p>A spinner automatically appears over the video whenever the browser has to pause for buffering (the native <code>waiting</code> event) and disappears once playback can resume (<code>playing</code> / <code>canplay</code>) — handy on slower connections or with kempo-server's HTTP Range-backed seeking. Nothing to configure; it's driven entirely by the underlying <code>&lt;video&gt;</code> element's own buffering state.</p>
+
+    <h3 id="aspectRatio"><a href="#aspectRatio" class="no-link">Custom Sizes &amp; Aspect Ratios</a></h3>
+    <p>By default <code>k-video</code> sizes itself to the video's own aspect ratio. If you force it into a <code>width</code>/<code>height</code> that doesn't match — a fixed-size player showing videos of varying dimensions, for example — the video letterboxes or pillarboxes to fit, centered both ways, with <code>k-video</code>'s own black background filling the bars. It never stretches or crops the content.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Wide player, 16:9 video → pillarboxed">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 480px; height: 200px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="width: 480px; height: 200px;"></k-video>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Tall player, 16:9 video → letterboxed">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 200px; height: 400px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="width: 200px; height: 400px;"></k-video>
+        </k-card>
+      </div>
+    </div>
 
     <h3 id="resumePosition"><a href="#resumePosition" class="no-link">Resume Playback Position</a></h3>
     <p>Set <code>persistent-id</code> to remember the playback position in <code>localStorage</code> and resume from there next time this player loads &mdash; the same <code>persistent-id</code> convention used by <a href="{{pathToRoot}}components/tabs.html">Tabs</a>, <a href="{{pathToRoot}}components/accordion.html">Accordion</a>, and <a href="{{pathToRoot}}components/split.html">Split</a>. Play the video below, seek somewhere, then reload this page — it picks up where you left off. The saved position clears automatically once playback reaches the end.</p>

@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.32] - 2026-07-13
+## [0.4.33] - 2026-07-13
 ### Added
  - `<k-video>`: `idle-delay-ms`, `skip-flash-ms`, and `skip-duration` attributes to customize the auto-hide delay, skip-indicator flash duration, and double-click/tap skip amount (previously hardcoded)
  - `<kc-vid-menu>` control: groups less-common video controls into a dropdown menu button, injecting a matching icon and label for each slotted control automatically
@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
  - `<kc-vid-speed>` now switches into `k-dropdown`'s native "submenu" mode (hover-to-open, flyout, chevron) when nested inside `<kc-vid-menu>`, instead of its own bespoke up-popup, so it behaves consistently with other nested dropdown menus
 
 ### Fixed
+ - `<k-video>` no longer stretches or crops its content when forced into a size/aspect ratio that doesn't match the actual video — it now letterboxes/pillarboxes to fit, centered both ways, with `k-video`'s own black background filling the bars
  - `<k-video>` auto-hide controls no longer disappear immediately when the mouse leaves the player while playing — the idle timer now runs its full duration regardless of `pointerleave`
  - `<k-video>` cursor now correctly hides during the idle state
  - `k-dropdown` submenus now open on a single tap on touch devices (previously required two taps due to a `mouseenter`/`click` race)

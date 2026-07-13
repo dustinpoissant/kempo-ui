@@ -763,6 +763,105 @@ export default {
 	},
 
 	/*
+		Custom Sizes / Aspect Ratio
+	*/
+	'internal video element should use object-fit: contain': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		const inner = el.shadowRoot.querySelector('#player');
+		const objectFit = getComputedStyle(inner).objectFit;
+		cleanup(container);
+		if(objectFit !== 'contain') return fail(`Expected object-fit: contain, got "${objectFit}"`);
+		pass('internal video element uses object-fit: contain');
+	},
+
+	'internal video element should center its content both ways': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		const inner = el.shadowRoot.querySelector('#player');
+		const objectPosition = getComputedStyle(inner).objectPosition;
+		cleanup(container);
+		if(objectPosition !== '50% 50%') return fail(`Expected object-position centered (50% 50%), got "${objectPosition}"`);
+		pass('internal video element centers its content both ways');
+	},
+
+	'#video-wrapper should fill a host forced to an explicit size': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video style="width: 480px; height: 200px; display: block;"></k-video>`;
+		document.body.appendChild(container);
+		const el = container.querySelector('k-video');
+		await el.updateComplete;
+		const wrapperRect = el.shadowRoot.querySelector('#video-wrapper').getBoundingClientRect();
+		cleanup(container);
+		if(Math.round(wrapperRect.width) !== 480) return fail(`Expected #video-wrapper width 480, got ${wrapperRect.width}`);
+		if(Math.round(wrapperRect.height) !== 200) return fail(`Expected #video-wrapper height 200, got ${wrapperRect.height}`);
+		pass('#video-wrapper fills a forced host size');
+	},
+
+	'forcing the host to a mismatched size should size the internal video element to match it, not overflow or shrink-wrap': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video style="width: 480px; height: 200px; display: block;"></k-video>`;
+		document.body.appendChild(container);
+		const el = container.querySelector('k-video');
+		await el.updateComplete;
+		const inner = el.shadowRoot.querySelector('#player');
+		const rect = inner.getBoundingClientRect();
+		cleanup(container);
+		if(Math.round(rect.width) !== 480) return fail(`Expected internal video width to match the forced host width (480), got ${rect.width}`);
+		if(Math.round(rect.height) !== 200) return fail(`Expected internal video height to match the forced host height (200), got ${rect.height}`);
+		pass('internal video element is sized to the forced host box, so object-fit: contain can letterbox/pillarbox within it');
+	},
+
+	'forcing the host to a tall/narrow mismatched size should size the internal video element to match it too': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video style="width: 200px; height: 400px; display: block;"></k-video>`;
+		document.body.appendChild(container);
+		const el = container.querySelector('k-video');
+		await el.updateComplete;
+		const inner = el.shadowRoot.querySelector('#player');
+		const rect = inner.getBoundingClientRect();
+		cleanup(container);
+		if(Math.round(rect.width) !== 200) return fail(`Expected internal video width to match the forced host width (200), got ${rect.width}`);
+		if(Math.round(rect.height) !== 400) return fail(`Expected internal video height to match the forced host height (400), got ${rect.height}`);
+		pass('internal video element matches a forced tall/narrow host box too');
+	},
+
+	'--height and --max-height custom properties should still override the fallback height': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video style="width: 480px; height: 200px; display: block; --height: 120px;"></k-video>`;
+		document.body.appendChild(container);
+		const el = container.querySelector('k-video');
+		await el.updateComplete;
+		const inner = el.shadowRoot.querySelector('#player');
+		const height = getComputedStyle(inner).height;
+		cleanup(container);
+		if(height !== '120px') return fail(`Expected --height to override the internal video's height to 120px, got "${height}"`);
+		pass('--height custom property still overrides the internal video element\'s height');
+	},
+
+	'a host with no explicit size should not collapse the internal video element to zero height': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video style="width: 400px; display: block;"></k-video>`;
+		document.body.appendChild(container);
+		const el = container.querySelector('k-video');
+		await el.updateComplete;
+		const inner = el.shadowRoot.querySelector('#player');
+		const rect = inner.getBoundingClientRect();
+		cleanup(container);
+		if(rect.width === 0 || rect.height === 0) return fail(`Expected non-zero natural size, got ${rect.width}x${rect.height}`);
+		pass('Video with no forced host height still lays out via the natural auto-height fallback');
+	},
+
+	'fullscreen attribute should still apply object-fit: contain': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		el.setAttribute('fullscreen', '');
+		await el.updateComplete;
+		const inner = el.shadowRoot.querySelector('#player');
+		const objectFit = getComputedStyle(inner).objectFit;
+		cleanup(container);
+		if(objectFit !== 'contain') return fail(`Expected object-fit: contain while fullscreen, got "${objectFit}"`);
+		pass('object-fit: contain still applies in the fullscreen attribute state');
+	},
+
+	/*
 		Auto-Hide Controls (idle)
 	*/
 	'pause should immediately clear the idle attribute': async ({pass, fail}) => {

@@ -49,14 +49,33 @@ import{html as e,css as t,nothing as i}from"../lit-all.min.js";import s from"./S
       width: 100%;
       height: 100%;
     }
+    /* #video-wrapper has no forced size of its own, so it passes #frame's
+       height through unchanged. If :host has no explicit height either,
+       percentage heights bottom out as "auto" down this whole chain and
+       <video> falls back to its intrinsic aspect ratio — same natural
+       sizing as before. If the consumer DOES force :host to a size, that
+       height is now definite and propagates all the way down to <video>,
+       which is what makes object-fit: contain below able to letterbox it
+       instead of just overflowing/getting clipped by :host's own
+       overflow: hidden. */
+    #video-wrapper {
+      width: 100%;
+      height: 100%;
+    }
     video {
       display: block;
       width: 100%;
-      height: var(--height, auto);
+      height: var(--height, 100%);
       max-height: var(--max-height);
       background: #000;
       cursor: pointer;
       pointer-events: none;
+      /* When the consumer forces k-video into a size/aspect-ratio that
+         doesn't match the actual video, fit it within that box instead
+         of stretching — letterboxed/pillarboxed with the video's own
+         black background, rather than distorted to fill:fill it. */
+      object-fit: contain;
+      object-position: center center;
     }
     :host(:fullscreen),
     :host([fullscreen]) {
@@ -66,7 +85,6 @@ import{html as e,css as t,nothing as i}from"../lit-all.min.js";import s from"./S
     :host(:fullscreen) video,
     :host([fullscreen]) video {
       height: 100%;
-      object-fit: contain;
     }
     :host([idle]) {
       cursor: none;
