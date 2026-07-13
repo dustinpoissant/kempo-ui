@@ -10,6 +10,7 @@ import VidSkipForward from '../../../src/components/controls/VidSkipForward.js';
 import VidSkipBack from '../../../src/components/controls/VidSkipBack.js';
 import VidPip from '../../../src/components/controls/VidPip.js';
 import VidPlayBig from '../../../src/components/controls/VidPlayBig.js';
+import VidMenu from '../../../src/components/controls/VidMenu.js';
 
 const createVideoWithControl = async (tag) => {
 	const container = document.createElement('div');
@@ -20,6 +21,19 @@ const createVideoWithControl = async (tag) => {
 	const control = video.querySelector(tag.match(/^<([a-z0-9-]+)/i)[1]);
 	await control.updateComplete;
 	return { container, video, control };
+};
+
+const createVideoWithMenu = async (innerHTML) => {
+	const container = document.createElement('div');
+	container.innerHTML = `<k-video><kc-vid-menu>${innerHTML}</kc-vid-menu></k-video>`;
+	document.body.appendChild(container);
+	const video = container.querySelector('k-video');
+	await video.updateComplete;
+	const menu = video.querySelector('kc-vid-menu');
+	await menu.updateComplete;
+	// Let the menu's slotchange handler (icon/label injection) run.
+	await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+	return { container, video, menu };
 };
 
 const cleanup = (container) => {
@@ -199,6 +213,47 @@ export default {
 		cleanup(container);
 		if(rateSet !== 1.5) return fail(`Expected setPlaybackRate(1.5) to be called, got ${rateSet}`);
 		pass('kc-vid-speed forwards menu clicks to host.setPlaybackRate');
+	},
+
+	'kc-vid-speed standalone should not be in submenu mode': async ({pass, fail}) => {
+		const { container, control } = await createVideoWithControl('<kc-vid-speed></kc-vid-speed>');
+		const inMenu = control.inMenu;
+		const dd = control.shadowRoot.querySelector('k-dropdown');
+		const submenu = dd.submenu;
+		const openDirection = dd.openDirection;
+		cleanup(container);
+		if(inMenu) return fail('Standalone kc-vid-speed should not detect itself as inMenu');
+		if(submenu) return fail('Standalone kc-vid-speed should not switch its internal k-dropdown to submenu mode');
+		if(openDirection !== 'up center') return fail(`Expected standalone open-direction "up center", got "${openDirection}"`);
+		pass('Standalone kc-vid-speed keeps its compact up-popup behavior');
+	},
+
+	'kc-vid-speed inside kc-vid-menu should switch to submenu mode': async ({pass, fail}) => {
+		const { container, menu } = await createVideoWithMenu('<kc-vid-speed>Speed</kc-vid-speed>');
+		const speed = menu.querySelector('kc-vid-speed');
+		await speed.updateComplete;
+		const inMenu = speed.inMenu;
+		const dd = speed.shadowRoot.querySelector('k-dropdown');
+		const submenu = dd.submenu;
+		const openDirection = dd.openDirection;
+		cleanup(container);
+		if(!inMenu) return fail('kc-vid-speed nested inside kc-vid-menu should detect itself as inMenu');
+		if(!submenu) return fail('kc-vid-speed nested inside kc-vid-menu should switch its internal k-dropdown to submenu mode');
+		if(openDirection !== 'right down') return fail(`Expected submenu open-direction "right down", got "${openDirection}"`);
+		pass('kc-vid-speed inside kc-vid-menu behaves as a native submenu');
+	},
+
+	'kc-vid-speed submenu should still forward rate selection to host.setPlaybackRate': async ({pass, fail}) => {
+		const { container, video, menu } = await createVideoWithMenu('<kc-vid-speed>Speed</kc-vid-speed>');
+		const speed = menu.querySelector('kc-vid-speed');
+		await speed.updateComplete;
+		let rateSet = null;
+		video.setPlaybackRate = (r) => { rateSet = r; };
+		const target = [...speed.shadowRoot.querySelectorAll('k-dropdown > button')].find(b => b.textContent.trim() === '1.75x');
+		target.click();
+		cleanup(container);
+		if(rateSet !== 1.75) return fail(`Expected setPlaybackRate(1.75) to be called, got ${rateSet}`);
+		pass('kc-vid-speed submenu still forwards rate selection to host.setPlaybackRate');
 	},
 
 	/*
@@ -439,4 +494,91 @@ export default {
 		if(!played) return fail('Expected play() to be called after seek(0)');
 		pass('Click when ended seeks to 0 then plays');
 	},
+
+	/*
+		kc-vid-menu
+	*/
+	'kc-vid-menu should be an instance of VidMenu': async ({pass, fail}) => {
+		const { container, menu } = await createVideoWithMenu('<kc-vid-loop>Loop</kc-vid-loop>');
+		const ok = menu instanceof VidMenu;
+		cleanup(container);
+		if(!ok) return fail('Element should be instance of VidMenu');
+		pass('kc-vid-menu created correctly');
+	},
+
+	'kc-vid-menu should default its icon to more_vert': async ({pass, fail}) => {
+		const { container, menu } = await createVideoWithMenu('<kc-vid-loop>Loop</kc-vid-loop>');
+		const triggerIcon = menu.shadowRoot.querySelector('button[slot="trigger"] k-icon')?.getAttribute('name');
+		cleanup(container);
+		if(triggerIcon !== 'more_vert') return fail(`Expected default trigger icon "more_vert", got "${triggerIcon}"`);
+		pass('kc-vid-menu trigger defaults to more_vert icon');
+	},
+
+	'kc-vid-menu should respect a custom icon attribute': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video><kc-vid-menu icon="settings"><kc-vid-loop>Loop</kc-vid-loop></kc-vid-menu></k-video>`;
+		document.body.appendChild(container);
+		const video = container.querySelector('k-video');
+		await video.updateComplete;
+		const menu = video.querySelector('kc-vid-menu');
+		await menu.updateComplete;
+		const triggerIcon = menu.shadowRoot.querySelector('button[slot="trigger"] k-icon')?.getAttribute('name');
+		cleanup(container);
+		if(triggerIcon !== 'settings') return fail(`Expected trigger icon "settings", got "${triggerIcon}"`);
+		pass('kc-vid-menu respects the icon attribute');
+	},
+
+	'kc-vid-menu should inject a matching icon and the label text into a slotted control': async ({pass, fail}) => {
+		const { container, menu } = await createVideoWithMenu('<kc-vid-loop>Loop</kc-vid-loop>');
+		const loop = menu.querySelector('kc-vid-loop');
+		const icon = loop.querySelector('k-icon');
+		const label = loop.querySelector('span');
+		cleanup(container);
+		if(icon?.getAttribute('name') !== 'repeat') return fail(`Expected injected icon "repeat" (matching VidLoop's own default), got "${icon?.getAttribute('name')}"`);
+		if(label?.textContent !== 'Loop') return fail(`Expected injected label text "Loop", got "${label?.textContent}"`);
+		pass('kc-vid-menu injects a matching icon and label into a slotted control');
+	},
+
+	'kc-vid-menu should use kc-vid-pip\'s own "pip" icon, not a mismatched one': async ({pass, fail}) => {
+		const { container, menu } = await createVideoWithMenu('<kc-vid-pip>Picture-in-Picture</kc-vid-pip>');
+		const pip = menu.querySelector('kc-vid-pip');
+		const icon = pip.querySelector('k-icon');
+		cleanup(container);
+		if(icon?.getAttribute('name') !== 'pip') return fail(`Expected injected PiP icon "pip", got "${icon?.getAttribute('name')}"`);
+		pass('kc-vid-menu uses kc-vid-pip\'s own "pip" icon');
+	},
+
+	'kc-vid-menu should preserve kc-vid-loop\'s active state and its color styling': async ({pass, fail}) => {
+		// --tc_primary normally comes from kempo-css (via light-dark(), which
+		// also needs color-scheme), neither of which this isolated test page
+		// loads — define it explicitly so the test doesn't depend on that.
+		document.documentElement.style.setProperty('--tc_primary', 'rgb(51, 102, 255)');
+		const { container, video, menu } = await createVideoWithMenu('<kc-vid-loop>Loop</kc-vid-loop>');
+		const loop = menu.querySelector('kc-vid-loop');
+		const dd = menu.shadowRoot.querySelector('k-dropdown');
+		dd.open();
+		video.toggleLoop();
+		await video.updateComplete;
+		await loop.updateComplete;
+		const active = loop.hasAttribute('active');
+		const color = getComputedStyle(loop).color;
+		cleanup(container);
+		document.documentElement.style.removeProperty('--tc_primary');
+		if(!active) return fail('kc-vid-loop inside kc-vid-menu should still set the active attribute when host.loop is true');
+		// A rule in kc-vid-menu's own ::slotted(*) clobbering kc-vid-loop's
+		// :host([active]) color would show up here as black instead.
+		if(color !== 'rgb(51, 102, 255)') return fail(`Expected kc-vid-loop's active-state color (rgb(51, 102, 255)) to win, got ${color} — kc-vid-menu's own color rule is clobbering it`);
+		pass('kc-vid-menu preserves kc-vid-loop\'s active attribute and its own active-state color');
+	},
+
+	'kc-vid-menu should still forward clicks on a slotted control to the host': async ({pass, fail}) => {
+		const { container, video, menu } = await createVideoWithMenu('<kc-vid-loop>Loop</kc-vid-loop>');
+		const loop = menu.querySelector('kc-vid-loop');
+		let called = false;
+		video.toggleLoop = () => { called = true; };
+		loop.click();
+		cleanup(container);
+		if(!called) return fail('Clicking kc-vid-loop inside kc-vid-menu should still call host.toggleLoop()');
+		pass('kc-vid-menu forwards clicks on slotted controls to the host');
+	}
 };

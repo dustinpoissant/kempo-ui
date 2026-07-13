@@ -5,6 +5,20 @@ import { boolTrueFalse } from '../utils/propConverters.js';
 // Track all open dropdowns for mutual exclusion
 const openDropdowns = new Set();
 
+// Tracks the currently open submenu per "submenu parent" (see
+// submenuParent getter), so only one submenu is open under a given menu
+// at a time — keyed this way instead of a light-DOM :scope query so it
+// also works when the submenu's k-dropdown lives inside another custom
+// element's own shadow root (e.g. kc-vid-speed inside kc-vid-menu).
+const openSubmenuByParent = new Map();
+
+// Menus render as top-layer popovers, which flattens anchor-name
+// resolution across the whole document instead of keeping it scoped to
+// each dropdown's own shadow root — every instance needs its own
+// anchor-name or an open dropdown can anchor to a different instance's
+// trigger.
+let anchorNameCounter = 0;
+
 export default class Dropdown extends ShadowComponent {
 	static properties = {
 		opened: { type: Boolean, reflect: true },
@@ -23,6 +37,7 @@ export default class Dropdown extends ShadowComponent {
 		this.closeOnClickOutside = true;
 		this.submenu = false;
 		this.hover = false;
+		this.anchorName = `--dropdown-trigger-${anchorNameCounter++}`;
 	}
 
 	/*
@@ -59,6 +74,11 @@ export default class Dropdown extends ShadowComponent {
 		}
 		document.removeEventListener('keydown', this.handleKeydown);
 		openDropdowns.delete(this);
+		if(this.submenu) {
+			const parent = this.submenuParent;
+			if(parent && openSubmenuByParent.get(parent) === this) openSubmenuByParent.delete(parent);
+		}
+		openSubmenuByParent.delete(this);
 	}
 
 	updated(changedProperties) {
@@ -71,10 +91,36 @@ export default class Dropdown extends ShadowComponent {
 					openDropdowns.delete(this);
 				}
 			}
+			this.syncPopoverState();
 			this.dispatchEvent(new CustomEvent(this.opened ? 'opened' : 'closed', {
 				bubbles: true
 			}));
 		}
+	}
+
+	/*
+		The menu is a native popover (top layer) so it always renders above
+		everything and is never clipped by an ancestor's overflow/stacking
+		context — e.g. kc-video's host has overflow: hidden. `opened` stays
+		the single source of truth; this just keeps the popover's own
+		show/hide state in sync with it, however `opened` was set (open(),
+		close(), or a direct property/attribute assignment).
+	*/
+	syncPopoverState() {
+		const menu = this.menuEl;
+		if(!menu) return;
+		try {
+			const isShowing = menu.matches(':popover-open');
+			if(this.opened && !isShowing) menu.showPopover();
+			else if(!this.opened && isShowing) menu.hidePopover();
+		} catch {
+			// Not connected yet, or already in the target state — a later
+			// updated() pass will retry if needed.
+		}
+	}
+
+	get menuEl() {
+		return this.shadowRoot?.querySelector('#menu') ?? null;
 	}
 
 	/*
@@ -87,8 +133,11 @@ export default class Dropdown extends ShadowComponent {
 		if(isTrigger) {
 			const triggerDropdown = isTrigger.closest('k-dropdown');
 			if(triggerDropdown === this) return;
-			// Child submenu trigger — don't close
-			if(this.contains(triggerDropdown)) return;
+			// Child submenu trigger — don't close. Crosses shadow-DOM
+			// boundaries so a dropdown rendered inside another custom
+			// element's own shadow root (e.g. a control nested inside
+			// kc-vid-menu) is still recognized as nested.
+			if(this.containsAcrossShadow(triggerDropdown)) return;
 			if(this.opened) this.close();
 			return;
 		}
@@ -107,12 +156,20 @@ export default class Dropdown extends ShadowComponent {
 	};
 
 	handleTriggerClick = e => {
-		if(this.hover) return;
+		// Submenus (like hover mode) open purely on mouseenter/mouseleave.
+		// On touch devices, a single tap synthesizes mouseenter *and* click
+		// in quick succession — toggling here too would immediately close
+		// what mouseenter just opened, requiring a second tap.
+		if(this.hover || this.submenu) return;
 		e.stopPropagation();
-		// Close all other dropdowns before opening this one
+		// Close all other dropdowns before opening this one — but not an
+		// ancestor dropdown this one is nested within, even across
+		// shadow-DOM boundaries introduced by intermediate custom elements.
 		if(!this.opened) {
 			openDropdowns.forEach(dropdown => {
-				if(dropdown !== this) dropdown.close();
+				if(dropdown === this) return;
+				if(dropdown.containsAcrossShadow(this)) return;
+				dropdown.close();
 			});
 		}
 		this.toggle();
@@ -150,14 +207,14 @@ export default class Dropdown extends ShadowComponent {
 			this.focusPreviousItem();
 		} else if(e.key === 'ArrowRight') {
 			const submenu = focused?.closest('k-dropdown[submenu]');
-			if(submenu?.parentElement === this) {
+			if(submenu?.submenuParent === this) {
 				e.preventDefault();
 				submenu.open();
 				submenu.focusFirstItem();
 			}
 		} else if(e.key === 'Enter' || e.key === ' ') {
 			const submenu = focused?.closest('k-dropdown[submenu]');
-			if(submenu?.parentElement === this) {
+			if(submenu?.submenuParent === this) {
 				e.preventDefault();
 				submenu.open();
 				submenu.focusFirstItem();
@@ -173,12 +230,22 @@ export default class Dropdown extends ShadowComponent {
 	*/
 	open() {
 		if(this.submenu) {
-			[...this.parentElement.querySelectorAll(':scope > k-dropdown[opened]')].forEach(sub => {
-				if(sub !== this) sub.close();
-			});
+			const parent = this.submenuParent;
+			if(parent) {
+				const currentlyOpen = openSubmenuByParent.get(parent);
+				if(currentlyOpen && currentlyOpen !== this) currentlyOpen.close();
+				openSubmenuByParent.set(parent, this);
+			}
 		} else {
 			openDropdowns.forEach(dropdown => {
-				if(dropdown !== this) dropdown.close();
+				if(dropdown === this) return;
+				// Don't close an ancestor dropdown that this one is nested
+				// within — including nesting introduced by intermediate
+				// custom elements with their own shadow roots (e.g. a
+				// control that renders its own k-dropdown, slotted inside
+				// another control that also renders one).
+				if(dropdown.containsAcrossShadow(this)) return;
+				dropdown.close();
 			});
 		}
 		this.opened = true;
@@ -186,8 +253,59 @@ export default class Dropdown extends ShadowComponent {
 		return this;
 	}
 
+	/*
+		Like Node.contains(), but keeps walking past shadow-DOM boundaries
+		introduced by intermediate custom elements. Used to recognize a
+		dropdown as "nested" inside this one even when a control in between
+		(e.g. kc-vid-speed inside kc-vid-menu) renders its own shadow root.
+	*/
+	containsAcrossShadow(node) {
+		const thisRoot = this.getRootNode();
+		let current = node;
+		while(current) {
+			if(current === this) return true;
+			if(current instanceof ShadowRoot) {
+				current = current.host;
+				continue;
+			}
+			if(current.shadowRoot === thisRoot) return true;
+			current = current.parentNode;
+		}
+		return false;
+	}
+
+	/*
+		Like this.parentElement, but for submenus: keeps walking past
+		shadow-DOM boundaries introduced by an intermediate custom element
+		(e.g. kc-vid-speed renders its own k-dropdown inside its own shadow
+		root; its submenuParent is the outer k-dropdown it's slotted into,
+		not null). Falls back to plain parentElement for vanilla light-DOM
+		nesting, which is also a k-dropdown found this same way.
+	*/
+	get submenuParent() {
+		let node = this.parentNode;
+		while(node) {
+			if(node instanceof ShadowRoot) {
+				node = node.host;
+				continue;
+			}
+			if(node.tagName === 'K-DROPDOWN') return node;
+			if(node.shadowRoot) {
+				const hostDropdown = node.shadowRoot.querySelector(':scope > k-dropdown');
+				if(hostDropdown && hostDropdown !== this) return hostDropdown;
+			}
+			node = node.parentNode;
+		}
+		return null;
+	}
+
 	close() {
-		this.querySelectorAll(':scope > k-dropdown[opened]').forEach(sub => sub.close());
+		const openChild = openSubmenuByParent.get(this);
+		if(openChild) openChild.close();
+		if(this.submenu) {
+			const parent = this.submenuParent;
+			if(parent && openSubmenuByParent.get(parent) === this) openSubmenuByParent.delete(parent);
+		}
 		this.opened = false;
 		return this;
 	}
@@ -251,13 +369,9 @@ export default class Dropdown extends ShadowComponent {
 			display: inline-flex;
 			align-items: center;
 			cursor: pointer;
-			anchor-name: --dropdown-trigger;
 		}
 		#menu {
-			display: none;
 			position: fixed;
-			position-anchor: --dropdown-trigger;
-			z-index: 30;
 			min-width: anchor-size(width);
 			background: var(--c_bg);
 			border: 1px solid var(--c_border);
@@ -266,9 +380,6 @@ export default class Dropdown extends ShadowComponent {
 			margin: 0.25rem;
 			overflow: hidden;
 		}
-		:host([opened]) #menu {
-			display: block;
-		}
 		:host([submenu]) #menu {
 			margin: 0;
 		}
@@ -276,6 +387,7 @@ export default class Dropdown extends ShadowComponent {
 		#menu {
 			position-area: bottom span-right;
 			position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+			padding: 0; 
 		}
 		/* down right */
 		:host([open-direction="down right"]) #menu {
@@ -437,11 +549,11 @@ export default class Dropdown extends ShadowComponent {
 	*/
 	render() {
 		return html`
-			<div id="trigger" @click=${this.handleTriggerClick}>
+			<div id="trigger" part="trigger" style="anchor-name: ${this.anchorName}" @click=${this.handleTriggerClick}>
 				<slot name="trigger"></slot>
 				${this.submenu ? html`<k-icon name="chevron"></k-icon>` : ''}
 			</div>
-			<div id="menu" part="menu" role="menu" @click=${this.handleMenuClick}>
+			<div id="menu" part="menu" role="menu" popover="manual" style="position-anchor: ${this.anchorName}" @click=${this.handleMenuClick}>
 				<slot @slotchange=${this.handleSlotChange}></slot>
 			</div>
 		`;

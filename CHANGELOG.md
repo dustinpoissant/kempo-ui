@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.32] - 2026-07-13
+### Added
+ - `<k-video>`: `idle-delay-ms`, `skip-flash-ms`, and `skip-duration` attributes to customize the auto-hide delay, skip-indicator flash duration, and double-click/tap skip amount (previously hardcoded)
+ - `<kc-vid-menu>` control: groups less-common video controls into a dropdown menu button, injecting a matching icon and label for each slotted control automatically
+ - `k-dropdown`: exposed `::part(trigger)` for styling the trigger wrapper from outside the component
+
+### Changed
+ - `k-dropdown`'s menu now renders as a native popover (top layer), so it's never clipped by an ancestor's `overflow: hidden` or stacking context
+ - `<kc-vid-speed>` now switches into `k-dropdown`'s native "submenu" mode (hover-to-open, flyout, chevron) when nested inside `<kc-vid-menu>`, instead of its own bespoke up-popup, so it behaves consistently with other nested dropdown menus
+
+### Fixed
+ - `<k-video>` auto-hide controls no longer disappear immediately when the mouse leaves the player while playing — the idle timer now runs its full duration regardless of `pointerleave`
+ - `<k-video>` cursor now correctly hides during the idle state
+ - `k-dropdown` submenus now open on a single tap on touch devices (previously required two taps due to a `mouseenter`/`click` race)
+ - `k-dropdown` no longer closes an ancestor dropdown when a control nested inside it renders its own `k-dropdown` inside another component's shadow root (e.g. `<kc-vid-speed>` inside `<kc-vid-menu>`)
+ - `k-dropdown` anchor positioning no longer collides between multiple dropdown instances on the same page
+ - `<kc-vid-menu>` now shows the correct icon for Picture-in-Picture, and no longer overrides an active-state color set by a slotted control (e.g. `<kc-vid-loop>` while looping)
+
 ## [0.4.30]
 ### Fixed
  - Disabled pointer events on the `<video>` within the Video component to disable native controls.

@@ -12,16 +12,6 @@ const debouncedChange = Symbol();
 const resolvedAllowedTags = Symbol();
 const updateValidity = Symbol();
 
-/*
-  Textarea that writes markdown, with a live "Preview" tab. Designed to mimic
-  GitHub's comment editor — write tab + preview tab + control slots above and
-  below the textarea. Markdown is parsed by snarkdown, which intentionally
-  does NOT support inline HTML so user input can't smuggle in <script> or
-  similar. Form-associated; the submitted value is the raw markdown.
-
-  Controls go in the `controls-top` and `controls-bottom` slots; subclass
-  MarkdownEditorControl (./MarkdownEditorControl.js) to write your own.
-*/
 export default class MarkdownEditor extends ShadowComponent {
   static formAssociated = true;
 
@@ -36,36 +26,9 @@ export default class MarkdownEditor extends ShadowComponent {
     required: { type: Boolean, reflect: true },
     readonly: { type: Boolean, reflect: true },
     mode: { type: String, reflect: true }, // 'write' | 'preview'
-    /*
-      Comma-separated allowlist for the rendered preview. Tags not in the
-      list are unwrapped (their text survives, the wrapper is dropped). Pass
-      `*` to allow every tag. Mutually exclusive with `disallowed-tags` —
-      setting both warns and `allowed-tags` wins. Empty / unset = use
-      sanitizeHtml's DEFAULT_TAGS.
-    */
     allowedTags: { type: String, reflect: true, attribute: 'allowed-tags' },
-    /*
-      Comma-separated denylist for the rendered preview — allows everything
-      except the listed tags. Useful when you want to ban a couple of tags
-      rather than enumerate the whole allowed set. Mutually exclusive with
-      `allowed-tags`.
-    */
     disallowedTags: { type: String, reflect: true, attribute: 'disallowed-tags' },
-    /*
-      Opt-in: when this attribute is present, `<script>` tags are kept
-      through sanitization (provided they also pass the allow/deny tag
-      check). When absent (the default), `<script>` is always stripped
-      entirely — including its content — to prevent XSS regardless of any
-      other configuration.
-    */
     scriptsEnabled: { type: Boolean, reflect: true, attribute: 'scripts-enabled' },
-    /*
-      Pre-built control set. One of `'minimal'`, `'normal'`, `'full'`, or
-      empty/`'none'` (default — toolbar empty until consumers slot their own
-      controls in). When set, the matching set of buttons is rendered as
-      slot fallback content for `controls-top` / `controls-bottom`, and the
-      relevant control modules are dynamically imported.
-    */
     controls: { type: String, reflect: true }
   };
 
@@ -578,13 +541,6 @@ export default class MarkdownEditor extends ShadowComponent {
     }
   `;
 
-  /*
-    Pre-built sets used as slot fallback content when the `controls`
-    attribute is set. Tags reference custom elements that are loaded by
-    `loadControls()` — listing them here doesn't require those modules to
-    be imported eagerly. Lit creates the elements as plain HTMLElements
-    until their definitions arrive, then the browser upgrades them in place.
-  */
   static controlSets = {
     '': { top: null, bottom: null },
     none: { top: null, bottom: null },

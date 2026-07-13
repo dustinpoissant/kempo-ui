@@ -8,24 +8,7 @@ import './Spinner.js';
 
 const pendingSeek = Symbol();
 const forwardedHandlers = Symbol();
-const IDLE_DELAY_MS = 2500;
-const SKIP_FLASH_MS = 600;
 
-/*
-  A <video> wrapper with no native controls. Custom controls are slotted in
-  as children (kc-vid-*, see controls/) and talk to the host the same way
-  every other kempo control does — via Control's closest('[controlled]')
-  discovery. This sidesteps the classic "native seek bar steals keyboard
-  focus from a page-level space-to-toggle-play handler" problem: there is
-  no native control to capture focus, and the bundled kc-vid-seek control
-  (built on k-slider) doesn't handle the space key, so it bubbles up to any
-  document-level shortcut handler.
-
-  Use the `controls` attribute for a preconfigured bottom toolbar, or slot
-  controls yourself — unnamed slot content renders in the bottom overlay
-  bar, `slot="top"` renders above the video, `slot="center"` renders
-  centered over the video (e.g. kc-vid-play-big).
-*/
 export default class Video extends ShadowComponent {
   static properties = {
     src: { type: String, reflect: true },
@@ -42,7 +25,10 @@ export default class Video extends ShadowComponent {
     fullscreen: { type: Boolean, reflect: true },
     pictureInPicture: { type: Boolean, reflect: true, attribute: 'picture-in-picture' },
     controls: { type: String, reflect: true },
-    persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
+    persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
+    idleDelayMs: { type: Number, reflect: true, attribute: 'idle-delay-ms' },
+    skipFlashMs: { type: Number, reflect: true, attribute: 'skip-flash-ms' },
+    skipDuration: { type: Number, reflect: true, attribute: 'skip-duration' }
   };
 
   static forwardedEvents = [
@@ -72,6 +58,9 @@ export default class Video extends ShadowComponent {
     this.pictureInPicture = false;
     this.controls = '';
     this.persistentId = null;
+    this.idleDelayMs = 2500;
+    this.skipFlashMs = 600;
+    this.skipDuration = 10;
     this[pendingSeek] = null;
     this.buffering = false;
     this.skipFlash = null;
@@ -340,7 +329,7 @@ export default class Video extends ShadowComponent {
     this.removeAttribute('idle');
     clearTimeout(this.idleTimer);
     if(!this.paused){
-      this.idleTimer = setTimeout(() => this.setAttribute('idle', ''), IDLE_DELAY_MS);
+      this.idleTimer = setTimeout(() => this.setAttribute('idle', ''), this.idleDelayMs);
     }
   }
 
@@ -357,8 +346,9 @@ export default class Video extends ShadowComponent {
   };
 
   handlePointerLeave = () => {
-    if(!this.paused) this.setAttribute('idle', '');
-    clearTimeout(this.idleTimer);
+    // Don't immediately hide controls when pointer leaves.
+    // The idle timeout continues counting and will hide them
+    // after the full idle delay if there's no activity.
   };
 
   handleVideoClick = (e) => {
@@ -366,7 +356,7 @@ export default class Video extends ShadowComponent {
     if(e.detail >= 2){
       const rect = this.videoEl.getBoundingClientRect();
       const isRight = (e.clientX - rect.left) > rect.width / 2;
-      this.skip(isRight ? 10 : -10);
+      this.skip(isRight ? this.skipDuration : -this.skipDuration);
       this.flashSkip(isRight ? 'forward' : 'backward');
     } else {
       this.clickTimer = setTimeout(() => this.togglePlayPause(), 220);
@@ -380,7 +370,7 @@ export default class Video extends ShadowComponent {
     this.skipFlashTimer = setTimeout(() => {
       this.skipFlash = null;
       this.requestUpdate();
-    }, SKIP_FLASH_MS);
+    }, this.skipFlashMs);
   }
 
   makeForwardHandler(type) {
@@ -450,7 +440,7 @@ export default class Video extends ShadowComponent {
         ${this.skipFlash ? html`
           <div class="skip-flash ${this.skipFlash}">
             <k-icon name="${this.skipFlash === 'forward' ? 'fast_forward' : 'fast_rewind'}"></k-icon>
-            <span>10s</span>
+            <span>${this.skipDuration}s</span>
           </div>
         ` : nothing}
         <slot name="center">${set.center ?? nothing}</slot>
@@ -494,12 +484,12 @@ export default class Video extends ShadowComponent {
       height: 100%;
       object-fit: contain;
     }
+    :host([idle]) {
+      cursor: none;
+    }
     :host([idle]) #controls-bar {
       opacity: 0;
       pointer-events: none;
-    }
-    :host([idle]) video {
-      cursor: none;
     }
     #controls-bar {
       position: absolute;

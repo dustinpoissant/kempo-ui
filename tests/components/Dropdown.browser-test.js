@@ -722,5 +722,279 @@ export default {
 		}
 		cleanup(container);
 		pass('Trigger click does not toggle in hover mode');
+	},
+
+	/*
+		Popover Integration
+	*/
+	'menu should render as a manual popover': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		const menu = dropdown.shadowRoot.querySelector('#menu');
+		const popoverAttr = menu.getAttribute('popover');
+		cleanup(container);
+		if(popoverAttr !== 'manual') return fail(`Expected #menu popover attribute to be "manual", got "${popoverAttr}"`);
+		pass('#menu renders as popover="manual"');
+	},
+
+	'opening the dropdown should show the menu as an open popover': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		dropdown.open();
+		await dropdown.updateComplete;
+		const menu = dropdown.shadowRoot.querySelector('#menu');
+		const isShowing = menu.matches(':popover-open');
+		cleanup(container);
+		if(!isShowing) return fail('#menu should match :popover-open after open()');
+		pass('open() shows the menu as an open popover');
+	},
+
+	'closing the dropdown should hide the popover': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown({ opened: true });
+		await dropdown.updateComplete;
+		dropdown.close();
+		await dropdown.updateComplete;
+		const menu = dropdown.shadowRoot.querySelector('#menu');
+		const isShowing = menu.matches(':popover-open');
+		cleanup(container);
+		if(isShowing) return fail('#menu should not match :popover-open after close()');
+		pass('close() hides the popover');
+	},
+
+	'setting opened as a plain property (not via open()) should still sync the popover': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		dropdown.opened = true;
+		await dropdown.updateComplete;
+		const menu = dropdown.shadowRoot.querySelector('#menu');
+		const isShowing = menu.matches(':popover-open');
+		cleanup(container);
+		if(!isShowing) return fail('Setting the opened property directly should still show the popover');
+		pass('Direct opened property assignment syncs the popover');
+	},
+
+	/*
+		Unique Anchor Names
+	*/
+	'each dropdown instance should get its own anchorName': async ({pass, fail}) => {
+		const { container: c1, dropdown: d1 } = await createDropdown();
+		const { container: c2, dropdown: d2 } = await createDropdown();
+		const a1 = d1.anchorName;
+		const a2 = d2.anchorName;
+		cleanup(c1);
+		cleanup(c2);
+		if(!a1 || !a2) return fail('Both dropdowns should have an anchorName');
+		if(a1 === a2) return fail(`Expected distinct anchorName values, both were "${a1}"`);
+		pass('Dropdown instances get distinct anchorName values');
+	},
+
+	'trigger and menu should share the same anchorName': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		const trigger = dropdown.shadowRoot.querySelector('#trigger');
+		const menu = dropdown.shadowRoot.querySelector('#menu');
+		const anchorName = trigger.style.anchorName;
+		const positionAnchor = menu.style.positionAnchor;
+		cleanup(container);
+		if(!anchorName) return fail('#trigger should have an anchor-name style');
+		if(anchorName !== positionAnchor) return fail(`Expected #menu position-anchor ("${positionAnchor}") to match #trigger anchor-name ("${anchorName}")`);
+		pass('#trigger anchor-name matches #menu position-anchor');
+	},
+
+	/*
+		containsAcrossShadow
+	*/
+	'containsAcrossShadow should return true for the dropdown itself': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		const result = dropdown.containsAcrossShadow(dropdown);
+		cleanup(container);
+		if(!result) return fail('containsAcrossShadow(this) should return true');
+		pass('containsAcrossShadow returns true for the dropdown itself');
+	},
+
+	'containsAcrossShadow should return false for an unrelated dropdown': async ({pass, fail}) => {
+		const { container: c1, dropdown: d1 } = await createDropdown();
+		const { container: c2, dropdown: d2 } = await createDropdown();
+		const result = d1.containsAcrossShadow(d2);
+		cleanup(c1);
+		cleanup(c2);
+		if(result) return fail('containsAcrossShadow should return false for two independent dropdowns');
+		pass('containsAcrossShadow returns false for unrelated dropdowns');
+	},
+
+	'containsAcrossShadow should return true for a light-DOM nested submenu': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown>
+				<button slot="trigger">Outer</button>
+				<button data-value="1">Item 1</button>
+				<k-dropdown>
+					<button slot="trigger">Inner</button>
+					<button data-value="a">A</button>
+				</k-dropdown>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const inner = outer.querySelector('k-dropdown');
+		await outer.updateComplete;
+		await inner.updateComplete;
+		const result = outer.containsAcrossShadow(inner);
+		cleanup(container);
+		if(!result) return fail('containsAcrossShadow should recognize a light-DOM nested k-dropdown as contained');
+		pass('containsAcrossShadow returns true for a light-DOM nested submenu');
+	},
+
+	/*
+		submenuParent
+	*/
+	'submenuParent should be null for a top-level dropdown': async ({pass, fail}) => {
+		const { container, dropdown } = await createDropdown();
+		const parent = dropdown.submenuParent;
+		cleanup(container);
+		if(parent !== null) return fail(`Expected submenuParent to be null, got ${parent}`);
+		pass('submenuParent is null for a top-level dropdown');
+	},
+
+	'submenuParent should find the outer k-dropdown for a light-DOM nested submenu': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown>
+				<button slot="trigger">Outer</button>
+				<button data-value="1">Item 1</button>
+				<k-dropdown>
+					<button slot="trigger">Inner</button>
+					<button data-value="a">A</button>
+				</k-dropdown>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const inner = outer.querySelector('k-dropdown');
+		await outer.updateComplete;
+		await inner.updateComplete;
+		const isSubmenu = inner.submenu;
+		const parent = inner.submenuParent;
+		cleanup(container);
+		if(!isSubmenu) return fail('Nested k-dropdown should be auto-detected as a submenu');
+		if(parent !== outer) return fail('submenuParent should return the outer k-dropdown');
+		pass('submenuParent finds the outer k-dropdown for a nested submenu');
+	},
+
+	/*
+		Submenu Interaction
+	*/
+	'submenu should open via mouseenter': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown opened>
+				<button slot="trigger">Outer</button>
+				<k-dropdown>
+					<button slot="trigger">Inner</button>
+					<button data-value="a">A</button>
+				</k-dropdown>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const inner = outer.querySelector('k-dropdown');
+		await outer.updateComplete;
+		inner.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+		await inner.updateComplete;
+		const opened = inner.opened;
+		cleanup(container);
+		if(!opened) return fail('Submenu should open on mouseenter');
+		pass('Submenu opens via mouseenter');
+	},
+
+	'a click on an already-mouseenter-opened submenu trigger should not close it': async ({pass, fail}) => {
+		// Regression test: on touch devices a single tap synthesizes
+		// mouseenter followed immediately by click. Before the fix,
+		// handleTriggerClick would toggle() and immediately re-close what
+		// mouseenter had just opened, requiring a second tap.
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown opened>
+				<button slot="trigger">Outer</button>
+				<k-dropdown>
+					<button slot="trigger">Inner</button>
+					<button data-value="a">A</button>
+				</k-dropdown>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const inner = outer.querySelector('k-dropdown');
+		await outer.updateComplete;
+		const trigger = inner.shadowRoot.querySelector('#trigger');
+		// mouseenter/mouseleave don't bubble, so the listener (attached to
+		// the host in connectedCallback) must be dispatched on the host
+		// itself, not on the shadow-internal #trigger div.
+		inner.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+		await inner.updateComplete;
+		trigger.click();
+		await inner.updateComplete;
+		const opened = inner.opened;
+		cleanup(container);
+		if(!opened) return fail('Submenu should stay open after a click that follows mouseenter (same tap)');
+		pass('Submenu trigger click does not undo a mouseenter-triggered open');
+	},
+
+	'opening a second submenu under the same parent should close the first': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown opened>
+				<button slot="trigger">Outer</button>
+				<k-dropdown>
+					<button slot="trigger">First</button>
+					<button data-value="a">A</button>
+				</k-dropdown>
+				<k-dropdown>
+					<button slot="trigger">Second</button>
+					<button data-value="b">B</button>
+				</k-dropdown>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const [first, second] = outer.querySelectorAll(':scope > k-dropdown');
+		await outer.updateComplete;
+		first.open();
+		await first.updateComplete;
+		const firstOpenedBefore = first.opened;
+		second.open();
+		await first.updateComplete;
+		await second.updateComplete;
+		const firstOpenedAfter = first.opened;
+		const secondOpened = second.opened;
+		cleanup(container);
+		if(!firstOpenedBefore) return fail('First submenu should have opened');
+		if(firstOpenedAfter) return fail('First submenu should close when a sibling submenu opens');
+		if(!secondOpened) return fail('Second submenu should be open');
+		pass('Opening a submenu closes a sibling submenu under the same parent');
+	},
+
+	'closing the outer dropdown should also close an open submenu': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown opened>
+				<button slot="trigger">Outer</button>
+				<k-dropdown>
+					<button slot="trigger">Inner</button>
+					<button data-value="a">A</button>
+				</k-dropdown>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const inner = outer.querySelector('k-dropdown');
+		await outer.updateComplete;
+		inner.open();
+		await inner.updateComplete;
+		outer.close();
+		await outer.updateComplete;
+		await inner.updateComplete;
+		const outerOpened = outer.opened;
+		const innerOpened = inner.opened;
+		cleanup(container);
+		if(outerOpened) return fail('Outer dropdown should be closed');
+		if(innerOpened) return fail('Submenu should be closed when its parent closes');
+		pass('Closing the outer dropdown cascades to close an open submenu');
 	}
 };

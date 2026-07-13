@@ -105,6 +105,30 @@ export default {
 		pass('currentTime and duration default to 0');
 	},
 
+	'should default idleDelayMs to 2500': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		const v = el.idleDelayMs;
+		cleanup(container);
+		if(v !== 2500) return fail(`Expected idleDelayMs to default to 2500, got ${v}`);
+		pass('idleDelayMs defaults to 2500');
+	},
+
+	'should default skipFlashMs to 600': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		const v = el.skipFlashMs;
+		cleanup(container);
+		if(v !== 600) return fail(`Expected skipFlashMs to default to 600, got ${v}`);
+		pass('skipFlashMs defaults to 600');
+	},
+
+	'should default skipDuration to 10': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		const v = el.skipDuration;
+		cleanup(container);
+		if(v !== 10) return fail(`Expected skipDuration to default to 10, got ${v}`);
+		pass('skipDuration defaults to 10');
+	},
+
 	/*
 		Attribute Reflection
 	*/
@@ -130,6 +154,40 @@ export default {
 		cleanup(container);
 		if(muted !== true) return fail(`Expected muted to be true, got ${muted}`);
 		pass('muted attribute reflected to property');
+	},
+
+	'should reflect idle-delay-ms attribute to property': async ({pass, fail}) => {
+		const { container, el } = await createVideo('idle-delay-ms="5000"');
+		const v = el.idleDelayMs;
+		cleanup(container);
+		if(v !== 5000) return fail(`Expected idleDelayMs to be 5000, got ${v}`);
+		pass('idle-delay-ms attribute reflected to property');
+	},
+
+	'should reflect skip-flash-ms attribute to property': async ({pass, fail}) => {
+		const { container, el } = await createVideo('skip-flash-ms="1000"');
+		const v = el.skipFlashMs;
+		cleanup(container);
+		if(v !== 1000) return fail(`Expected skipFlashMs to be 1000, got ${v}`);
+		pass('skip-flash-ms attribute reflected to property');
+	},
+
+	'should reflect skip-duration attribute to property': async ({pass, fail}) => {
+		const { container, el } = await createVideo('skip-duration="20"');
+		const v = el.skipDuration;
+		cleanup(container);
+		if(v !== 20) return fail(`Expected skipDuration to be 20, got ${v}`);
+		pass('skip-duration attribute reflected to property');
+	},
+
+	'should reflect idleDelayMs property back to idle-delay-ms attribute': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		el.idleDelayMs = 4000;
+		await el.updateComplete;
+		const attr = el.getAttribute('idle-delay-ms');
+		cleanup(container);
+		if(attr !== '4000') return fail(`Expected idle-delay-ms attribute to be "4000", got "${attr}"`);
+		pass('idleDelayMs reflects to idle-delay-ms attribute');
 	},
 
 	/*
@@ -640,6 +698,39 @@ export default {
 		pass('skip-flash indicator shows and clears itself');
 	},
 
+	'double click should skip by the custom skip-duration instead of the default 10': async ({pass, fail}) => {
+		const { container, el } = await createVideo('skip-duration="5"');
+		const inner = el.shadowRoot.querySelector('#player');
+		const rect = inner.getBoundingClientRect();
+		let skippedBy = null;
+		el.skip = (s) => { skippedBy = s; };
+		const rightX = rect.left + rect.width * 0.9;
+		const midY = rect.top + rect.height / 2;
+		inner.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 1, clientX: rightX, clientY: midY }));
+		inner.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 2, clientX: rightX, clientY: midY }));
+		cleanup(container);
+		if(skippedBy !== 5) return fail(`Expected skip(5) with skip-duration="5", got ${skippedBy}`);
+		pass('double click respects custom skip-duration');
+	},
+
+	'skip-flash indicator should clear after the custom skip-flash-ms duration': async ({pass, fail}) => {
+		const { container, el } = await createVideo('skip-flash-ms="200"');
+		const inner = el.shadowRoot.querySelector('#player');
+		const rect = inner.getBoundingClientRect();
+		const rightX = rect.left + rect.width * 0.9;
+		const midY = rect.top + rect.height / 2;
+		inner.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 1, clientX: rightX, clientY: midY }));
+		inner.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 2, clientX: rightX, clientY: midY }));
+		await el.updateComplete;
+		const flashPresent = !!el.shadowRoot.querySelector('.skip-flash');
+		await new Promise(r => setTimeout(r, 300));
+		const flashGone = !el.shadowRoot.querySelector('.skip-flash');
+		cleanup(container);
+		if(!flashPresent) return fail('skip-flash indicator should render immediately after a double-click');
+		if(!flashGone) return fail('skip-flash indicator should have cleared within the custom 200ms duration');
+		pass('skip-flash indicator respects custom skip-flash-ms');
+	},
+
 	/*
 		Buffering Indicator
 	*/
@@ -686,7 +777,7 @@ export default {
 		pass('pause clears idle attribute immediately');
 	},
 
-	'pointerleave while playing should set idle immediately': async ({pass, fail}) => {
+	'pointerleave while playing should not immediately set idle': async ({pass, fail}) => {
 		const { container, el } = await createVideo();
 		const inner = el.shadowRoot.querySelector('#player');
 		Object.defineProperty(inner, 'paused', { value: false, configurable: true });
@@ -694,8 +785,8 @@ export default {
 		el.dispatchEvent(new Event('pointerleave', { bubbles: true }));
 		const idle = el.hasAttribute('idle');
 		cleanup(container);
-		if(!idle) return fail('idle attribute should be set immediately on pointerleave while playing');
-		pass('pointerleave while playing sets idle immediately');
+		if(idle) return fail('idle attribute should not be set immediately on pointerleave - should wait for the idle timeout');
+		pass('pointerleave does not immediately set idle, timeout continues');
 	},
 
 	'pointermove should clear idle immediately': async ({pass, fail}) => {
@@ -721,4 +812,35 @@ export default {
 		if(!idleAfter) return fail('idle should be set automatically after the inactivity delay while playing');
 		pass('control bar auto-hides after inactivity while playing');
 	},
+
+	'control bar should respect a custom idle-delay-ms': async ({pass, fail}) => {
+		const { container, el } = await createVideo('controls="normal" idle-delay-ms="150"');
+		const inner = el.shadowRoot.querySelector('#player');
+		Object.defineProperty(inner, 'paused', { value: false, configurable: true });
+		inner.dispatchEvent(new Event('play'));
+		await new Promise(r => setTimeout(r, 100));
+		const idleBeforeCustomDelay = el.hasAttribute('idle');
+		await new Promise(r => setTimeout(r, 200));
+		const idleAfterCustomDelay = el.hasAttribute('idle');
+		cleanup(container);
+		if(idleBeforeCustomDelay) return fail('idle should not be set before the custom 150ms delay elapses');
+		if(!idleAfterCustomDelay) return fail('idle should be set once the custom 150ms delay elapses');
+		pass('control bar auto-hides using the custom idle-delay-ms');
+	},
+
+	'wakeControls should not immediately clear idle after pointerleave (mouseenter/click race)': async ({pass, fail}) => {
+		const { container, el } = await createVideo('controls="normal" idle-delay-ms="150"');
+		const inner = el.shadowRoot.querySelector('#player');
+		Object.defineProperty(inner, 'paused', { value: false, configurable: true });
+		inner.dispatchEvent(new Event('play'));
+		el.dispatchEvent(new Event('pointermove', { bubbles: true }));
+		el.dispatchEvent(new Event('pointerleave', { bubbles: true }));
+		const idleImmediatelyAfterLeave = el.hasAttribute('idle');
+		await new Promise(r => setTimeout(r, 250));
+		const idleAfterDelay = el.hasAttribute('idle');
+		cleanup(container);
+		if(idleImmediatelyAfterLeave) return fail('pointerleave should not immediately set idle — the timer started by pointermove should still run');
+		if(!idleAfterDelay) return fail('idle should still be set once the delay from the last pointermove elapses');
+		pass('pointerleave does not cut the idle timer short');
+	}
 };

@@ -512,6 +512,7 @@
           <a href="#minimalControls">Minimal Preconfigured</a><br />
           <a href="#normalControls">Normal Preconfigured</a><br />
           <a href="#fullControls">Full Preconfigured</a><br />
+          <a href="#menuControl">Menu Control</a><br />
           <a href="#timeCombo">Combining Time and Duration</a><br />
           <a href="#bigPlayButton">Big Play Button</a><br />
           <a href="#doubleClickSeek">Double-Click to Seek</a><br />
@@ -608,7 +609,7 @@
     </div>
 
     <h3 id="fullControls"><a href="#fullControls" class="no-link">Full Preconfigured</a></h3>
-    <p>Use <code>controls="full"</code> for everything: skip &plusmn;10s, download, volume, speed, loop, and Picture-in-Picture.</p>
+    <p>Use <code>controls="full"</code> for everything: skip forward/backward, download, volume, speed, loop, and Picture-in-Picture. Skip duration is customizable via <code>skip-duration</code> (default: 10 seconds).</p>
 
     <div class="row -mx">
       <div class="col m-span-12 px">
@@ -619,6 +620,34 @@
       <div class="col m-span-12 px">
         <k-card label="Output">
           <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="full" style="max-width: 480px;"></k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="menuControl"><a href="#menuControl" class="no-link">Menu Control</a></h3>
+    <p>Use <code>&lt;kc-vid-menu&gt;</code> to group controls into a dropdown menu, saving toolbar space. The menu button displays a customizable icon and opens a dropdown containing your slotted controls. This is useful for grouping less-frequently-used options like download, loop, or Picture-in-Picture.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Menu with Multiple Controls">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-menu</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-speed</span>&gt;</span>Speed<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-speed</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-loop</span>&gt;</span>Loop<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-loop</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-pip</span>&gt;</span>Picture-in-Picture<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-pip</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-download</span>&gt;</span>Download<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-download</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-menu</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Live Example">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" style="max-width: 100%; height: auto;">
+            <kc-vid-play-big slot="center"></kc-vid-play-big>
+            <kc-vid-play-pause></kc-vid-play-pause>
+            <kc-vid-seek></kc-vid-seek>
+            <kc-vid-volume></kc-vid-volume>
+            <kc-vid-menu icon="settings">
+              <kc-vid-speed>Speed</kc-vid-speed>
+              <kc-vid-loop>Loop</kc-vid-loop>
+              <kc-vid-pip>Picture-in-Picture</kc-vid-pip>
+              <kc-vid-download>Download</kc-vid-download>
+            </kc-vid-menu>
+            <kc-fullscreen></kc-fullscreen>
+          </k-video>
         </k-card>
       </div>
     </div>
@@ -665,23 +694,33 @@
     </div>
 
     <h3 id="doubleClickSeek"><a href="#doubleClickSeek" class="no-link">Double-Click to Seek</a></h3>
-    <p>Double-click (or double-tap) the left half of the video to rewind 10 seconds, or the right half to skip forward 10 seconds — the same convention used by YouTube and most native players. A brief icon flashes on the side that was clicked. This is always on, no attribute required.</p>
+    <p>Double-click (or double-tap) the left half of the video to rewind, or the right half to skip forward — the same convention used by YouTube and most native players. A brief icon flashes on the side that was clicked. By default, skips 10 seconds; customize both the skip duration and flash indicator duration with attributes. This is always on, no attribute required to enable it.</p>
 
     <div class="row -mx">
-      <div class="col m-span-12 px">
-        <k-card label="Output">
-          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Customizable Skip Duration">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">skip-duration</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">skip-flash-ms</span>=<span class="hljs-string">&quot;300&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Live Example">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" skip-duration="5" skip-flash-ms="300" style="max-width: 100%; height: auto;"></k-video>
         </k-card>
       </div>
     </div>
 
     <h3 id="autoHideControls"><a href="#autoHideControls" class="no-link">Auto-Hide Controls</a></h3>
-    <p>The control bar fades out after a couple of seconds of no mouse movement while the video is playing, and reappears instantly on mouse movement or whenever playback pauses. Also always on — play the video below and hold your mouse still over it.</p>
+    <p>The control bar fades out after a couple of seconds of no mouse movement while the video is playing, and reappears instantly on mouse movement or whenever playback pauses. Customize the delay before auto-hide with the <code>idle-delay-ms</code> attribute. This is always on — play the video below and hold your mouse still over it.</p>
 
     <div class="row -mx">
-      <div class="col m-span-12 px">
-        <k-card label="Output">
-          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Customizable Idle Delay">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">idle-delay-ms</span>=<span class="hljs-string">&quot;5000&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 t-span-6 d-span-6 px">
+        <k-card label="Live Example">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" idle-delay-ms="5000" style="max-width: 100%; height: auto;"></k-video>
         </k-card>
       </div>
     </div>
@@ -740,6 +779,9 @@
           <tr><td><code>pictureInPicture</code> / <code>picture-in-picture</code></td><td>Boolean</td><td><code>false</code></td><td>True while the player is in Picture-in-Picture. Read-only in practice — use the Picture-in-Picture methods to change it.</td></tr>
           <tr><td><code>controls</code></td><td>String</td><td><code>''</code></td><td>Preconfigured control set: 'minimal', 'normal', 'full', or 'none'/empty for none.</td></tr>
           <tr><td><code>persistentId</code> / <code>persistent-id</code></td><td>String</td><td><code>null</code></td><td>When set, remembers <code>currentTime</code> in <code>localStorage</code> and restores it on load. Cleared automatically when playback reaches the end.</td></tr>
+          <tr><td><code>idleDelayMs</code> / <code>idle-delay-ms</code></td><td>Number</td><td><code>2500</code></td><td>Milliseconds before control bar fades out during playback. Set to <code>0</code> to disable auto-hide.</td></tr>
+          <tr><td><code>skipFlashMs</code> / <code>skip-flash-ms</code></td><td>Number</td><td><code>600</code></td><td>Milliseconds to display the skip indicator after double-clicking.</td></tr>
+          <tr><td><code>skipDuration</code> / <code>skip-duration</code></td><td>Number</td><td><code>10</code></td><td>Seconds to skip forward or backward on double-click.</td></tr>
           <tr><td><code>currentTime</code></td><td>Number</td><td><code>0</code></td><td>Current playback position in seconds. Get/set directly, or use <code>seek()</code>.</td></tr>
           <tr><td><code>duration</code></td><td>Number</td><td><code>0</code></td><td>Total duration in seconds. Read-only.</td></tr>
           <tr><td><code>paused</code></td><td>Boolean</td><td><code>true</code></td><td>Whether playback is paused. Read-only.</td></tr>
@@ -815,6 +857,7 @@
           <tr><td><code>&lt;kc-vid-download&gt;</code></td><td><code>controls/VidDownload.js</code></td><td>Downloads the current <code>src</code>.</td></tr>
           <tr><td><code>&lt;kc-vid-skip-back&gt; / &lt;kc-vid-skip-forward&gt;</code></td><td><code>controls/VidSkipBack.js / VidSkipForward.js</code></td><td>Jump 10 seconds backward/forward.</td></tr>
           <tr><td><code>&lt;kc-vid-pip&gt;</code></td><td><code>controls/VidPip.js</code></td><td>Toggles Picture-in-Picture. Reflects an <code>active</code> attribute while in Picture-in-Picture.</td></tr>
+          <tr><td><code>&lt;kc-vid-menu&gt;</code></td><td><code>controls/VidMenu.js</code></td><td>Menu button that opens a dropdown containing slotted child controls. Customize the icon with the <code>icon</code> attribute (default: <code>more_vert</code>). Useful for grouping less-common controls to save toolbar space.</td></tr>
           <tr><td><code>&lt;kc-fullscreen&gt;</code></td><td><code>controls/controls/Fullscreen.js</code></td><td>The same generic fullscreen control used by other kempo components &mdash; works with <code>k-video</code> without modification.</td></tr>
         </tbody>
       </table>
@@ -834,6 +877,7 @@
     <script type="module" src="../src/components/controls/VidDownload.js"></script>
     <script type="module" src="../src/components/controls/VidSkipBack.js"></script>
     <script type="module" src="../src/components/controls/VidSkipForward.js"></script>
+    <script type="module" src="../src/components/controls/VidMenu.js"></script>
     <script type="module" src="../src/components/controls/Fullscreen.js"></script>
     <script type="module" src="../src/components/controls/VidPip.js"></script>
     <script type="module" src="../src/components/Accordion.js"></script>
