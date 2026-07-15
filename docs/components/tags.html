@@ -510,6 +510,7 @@
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#allowedTags">Allowed Tags</a><br />
           <a href="#disallowedTags">Disallowed Tags</a><br />
+          <a href="#suggestions">Suggestions</a><br />
           <a href="#disabled">Disabled</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -528,8 +529,8 @@
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>Use the <code>Tags</code> component to allow users to add and remove tags. Tags can be added by typing them into
-      the input field and pressing Enter or by pasting a comma-separated list of tags. You can delete a tag by clicking
-      on it.</p>
+      the input field and pressing Enter or Tab, or by pasting a comma-separated list of tags. You can delete a tag by
+      clicking on it.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
@@ -585,6 +586,42 @@
 
 
 
+    <h3 id="suggestions"><a href="#suggestions" class="no-link">Suggestions</a></h3>
+    <p>Provide a <code>getSuggestions</code> function to give the user inline autocomplete as they type. After a short
+      pause (see the <code>suggestion-debounce</code> attribute) the component calls your function with the current query. The first
+      returned suggestion that starts with what the user typed is shown as muted "ghost" text ahead of the cursor.</p>
+    <ul>
+      <li>Press <strong>Tab</strong> or <strong>Enter</strong> to save the suggested tag (or the typed text when no
+        suggestion is showing).</li>
+      <li>Press <strong>Backspace</strong> or <strong>Escape</strong> to cancel the suggestion. This does not delete any
+        typed characters, so you can keep exactly what you typed and then press Tab/Enter to save it.</li>
+    </ul>
+    <p>The <code>getSuggestions</code> function is called as <code>getSuggestions(query, callback)</code>. Respond either
+      by invoking the <code>callback</code> with an array of suggestions, or by returning an array or a
+      <code>Promise</code> that resolves to one. This makes it easy to fetch suggestions from a server, such as the top
+      tags that start with the typed string.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tags</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;imageTags&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Image Tags<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-tags</span>&gt;</span></code></pre>
+        </k-card>
+        <k-card label="JavaScript (callback)">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> tags = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;imageTags&#x27;</span>);<br>tags.<span class="hljs-property">suggestionDebounce</span> = <span class="hljs-number">300</span>;<br>tags.<span class="hljs-property">getSuggestions</span> = <span class="hljs-function">(<span class="hljs-params">query, callback</span>) =&gt;</span> {<br>  <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`/api/tags?startsWith=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(query)}</span>&amp;limit=50`</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.<span class="hljs-title function_">json</span>()).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">suggestions</span> =&gt;</span> <span class="hljs-title function_">callback</span>(suggestions));<br>};</code></pre>
+        </k-card>
+        <k-card label="JavaScript (async)">
+          <pre><code class="hljs javascript">tags.<span class="hljs-property">getSuggestions</span> = <span class="hljs-keyword">async</span> query =&gt; {<br>  <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`/api/tags?startsWith=<span class="hljs-subst">${query}</span>&amp;limit=50`</span>);<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();<br>};</code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-tags id="suggestionsDemo">
+            <label>Image Tags</label>
+          </k-tags>
+          <p class="tc-muted">Try typing <code>tag</code>, <code>land</code>, or <code>sun</code>.</p>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
     <p>Use the <code>disabled</code> attribute to prevent the user from adding or removing tags while still displaying the current value.</p>
     <div class="row -mx mb">
@@ -625,6 +662,14 @@
     <h5><code>disallowedTags<i>: string</i></code></h5>
     <p>A comma-separated list of disallowed tags. If specified, these tags cannot be added. Syncs with the
       <code>disallowed-tags</code> attribute.</p>
+    <h5><code>suggestionDebounce<i>: number</i></code></h5>
+    <p>The delay in milliseconds after the user stops typing before <code>getSuggestions</code> is called. Defaults to
+      <code>300</code>. Syncs with the <code>suggestion-debounce</code> attribute.</p>
+    <h5><code>getSuggestions<i>: (query: string, callback: (suggestions: string[]) =&gt; void) =&gt; void | string[] | Promise&lt;string[]&gt;</i></code></h5>
+    <p>A function you provide to supply inline autocomplete suggestions. It is called with the current query and a
+      callback. Respond by invoking the callback with an array of suggestions, or by returning an array or a
+      <code>Promise</code> that resolves to one. When unset, no suggestions are shown. This is a JavaScript-only property
+      and has no corresponding attribute.</p>
     <h5><code>disabled<i>: boolean</i></code></h5>
     <p>When <code>true</code>, prevents the user from adding or removing tags. The current value is still displayed. The element appears at 50% opacity. Syncs with the <code>disabled</code> attribute.</p>
 
@@ -658,6 +703,14 @@
     <script type="module" src="../src/components/Tags.js"></script>
     <script type="module" src="../src/components/Accordion.js"></script>
     <script type="module" src="../src/components/Card.js"></script>
+    <script type="module">
+      const demo = document.getElementById('suggestionsDemo');
+      const sampleTags = ['tag1', 'tag12', 'tag123', 'landscape', 'landmark', 'sunset', 'sunrise', 'sunflower'];
+      demo.suggestionDebounce = 300;
+      demo.getSuggestions = (query, callback) => {
+        callback(sampleTags.filter(tag => tag.toLowerCase().startsWith(query.toLowerCase())));
+      };
+    </script>
   
 </body>
 </html>

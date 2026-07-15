@@ -705,5 +705,124 @@ export default {
 		}
 		cleanup(container);
 		pass('Input is disabled when Tags is disabled');
+	},
+
+	/*
+		Suggestions
+	*/
+	'suggestionDebounce should default to 300': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		if(tags.suggestionDebounce !== 300){
+			cleanup(container);
+			return fail(`Expected suggestionDebounce 300, got ${tags.suggestionDebounce}`);
+		}
+		cleanup(container);
+		pass('suggestionDebounce defaults to 300');
+	},
+
+	'getSuggestions should default to null': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		if(tags.getSuggestions !== null){
+			cleanup(container);
+			return fail('getSuggestions should default to null');
+		}
+		cleanup(container);
+		pass('getSuggestions defaults to null');
+	},
+
+	'should show ghost suggestion after typing': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		tags.suggestionDebounce = 0;
+		tags.getSuggestions = (query, cb) => cb(['tag1', 'tag12', 'tag123'].filter(t => t.startsWith(query)));
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'tag1';
+		input.dispatchEvent(new InputEvent('input', { data: '1' }));
+		await new Promise(r => setTimeout(r, 20));
+		const ghost = tags.shadowRoot.getElementById('ghost');
+		if(ghost.textContent !== 'tag12'){
+			cleanup(container);
+			return fail(`Expected ghost "tag12", got "${ghost.textContent}"`);
+		}
+		if(ghost.querySelector('.suffix')?.textContent !== '2'){
+			cleanup(container);
+			return fail(`Expected muted suffix "2", got "${ghost.querySelector('.suffix')?.textContent}"`);
+		}
+		cleanup(container);
+		pass('Ghost suggestion shown after typing');
+	},
+
+	'should support async getSuggestions': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		tags.suggestionDebounce = 0;
+		tags.getSuggestions = async query => ['tag12'].filter(t => t.startsWith(query));
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'tag1';
+		input.dispatchEvent(new InputEvent('input', { data: '1' }));
+		await new Promise(r => setTimeout(r, 20));
+		if(tags.shadowRoot.getElementById('ghost').textContent !== 'tag12'){
+			cleanup(container);
+			return fail('Async getSuggestions should populate the ghost');
+		}
+		cleanup(container);
+		pass('Async getSuggestions supported');
+	},
+
+	'backspace should cancel suggestion without deleting text': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		tags.suggestionDebounce = 0;
+		tags.getSuggestions = (query, cb) => cb(['tag12']);
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'tag1';
+		input.dispatchEvent(new InputEvent('input', { data: '1' }));
+		await new Promise(r => setTimeout(r, 20));
+		input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+		await tags.updateComplete;
+		if(tags.shadowRoot.getElementById('ghost').textContent !== ''){
+			cleanup(container);
+			return fail('Backspace should clear the ghost suggestion');
+		}
+		if(input.value !== 'tag1'){
+			cleanup(container);
+			return fail(`Backspace should not delete typed text, got "${input.value}"`);
+		}
+		cleanup(container);
+		pass('Backspace cancels suggestion without deleting text');
+	},
+
+	'enter should accept the full suggestion': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		tags.suggestionDebounce = 0;
+		tags.getSuggestions = (query, cb) => cb(['tag12']);
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'tag1';
+		input.dispatchEvent(new InputEvent('input', { data: '1' }));
+		await new Promise(r => setTimeout(r, 20));
+		input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+		await tags.updateComplete;
+		if(tags.value !== 'tag12'){
+			cleanup(container);
+			return fail(`Enter should save the full suggestion "tag12", got "${tags.value}"`);
+		}
+		cleanup(container);
+		pass('Enter accepts the full suggestion');
+	},
+
+	'tab after cancelling suggestion should save typed text': async ({pass, fail}) => {
+		const { container, tags } = await createTags();
+		tags.suggestionDebounce = 0;
+		tags.getSuggestions = (query, cb) => cb(['tag12']);
+		const input = tags.shadowRoot.getElementById('tagsInput');
+		input.value = 'tag1';
+		input.dispatchEvent(new InputEvent('input', { data: '1' }));
+		await new Promise(r => setTimeout(r, 20));
+		input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+		input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
+		await tags.updateComplete;
+		if(tags.value !== 'tag1'){
+			cleanup(container);
+			return fail(`Tab after cancel should save "tag1", got "${tags.value}"`);
+		}
+		cleanup(container);
+		pass('Tab after cancel saves typed text');
 	}
 };
