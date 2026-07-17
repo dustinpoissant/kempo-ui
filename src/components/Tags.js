@@ -355,12 +355,13 @@ class Tag extends ShadowComponent {
 	static styles = css`
 		:host {
 			display: inline-block;
-			width: min-content;
+			max-width: 100%;
 			margin: var(--spacer_q);
 			padding: var(--spacer_q) var(--spacer_h);
 			border: 1px solid var(--c_border);
 			border-radius: var(--radius);
 			cursor: pointer;
+			box-sizing: border-box;
 		}
 
 		:host(:hover) {

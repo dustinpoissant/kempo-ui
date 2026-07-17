@@ -824,5 +824,58 @@ export default {
 		}
 		cleanup(container);
 		pass('Tab after cancel saves typed text');
+	},
+
+	/*
+		Tag Wrapping
+	*/
+	'short two-word tag should not wrap onto multiple lines': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.style.width = '250px';
+		container.innerHTML = '<k-tags value="Under Twenty"></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		const tagEl = tags.shadowRoot.getElementById('tags').querySelector('k-tag');
+		await tagEl.updateComplete;
+		const span = tagEl.shadowRoot.querySelector('span');
+		const cs = getComputedStyle(span);
+		const fontSize = parseFloat(cs.fontSize) || 16;
+		const lineHeight = parseFloat(cs.lineHeight) || fontSize * 1.2;
+		const height = span.getBoundingClientRect().height;
+
+		if(height > lineHeight * 1.5){
+			cleanup(container);
+			return fail(`Expected "Under Twenty" to render on a single line, got height ${height}px vs line-height ${lineHeight}px`);
+		}
+		cleanup(container);
+		pass('Short two-word tag renders on a single line');
+	},
+
+	'very long tag should wrap onto multiple lines': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.style.width = '250px';
+		container.innerHTML = '<k-tags value="this is a very long tag that should wrap across multiple lines eventually"></k-tags>';
+		document.body.appendChild(container);
+		const tags = container.querySelector('k-tags');
+		await tags.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		const tagEl = tags.shadowRoot.getElementById('tags').querySelector('k-tag');
+		await tagEl.updateComplete;
+		const span = tagEl.shadowRoot.querySelector('span');
+		const cs = getComputedStyle(span);
+		const fontSize = parseFloat(cs.fontSize) || 16;
+		const lineHeight = parseFloat(cs.lineHeight) || fontSize * 1.2;
+		const height = span.getBoundingClientRect().height;
+
+		if(height <= lineHeight * 1.5){
+			cleanup(container);
+			return fail(`Expected the long tag to wrap onto multiple lines, got height ${height}px vs line-height ${lineHeight}px`);
+		}
+		cleanup(container);
+		pass('Very long tag wraps onto multiple lines');
 	}
 };
