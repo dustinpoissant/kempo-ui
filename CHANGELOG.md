@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.35] - 2026-07-19
+### Added
+ - `<k-rating>`: 5-star rating widget; stars render outlined by default and fill in up to the applied `value` (0-5); click a star to set the value, hover previews the fill without changing it; form-associated via `name`, supports `disabled`, fires `change`
+
 ## [0.4.34] - 2026-07-15
 ### Added
  - `<k-tags>`: inline autocomplete suggestions. Provide a `getSuggestions(query, callback)` function (which may call the callback, or return an array or a `Promise`) and the component shows the completion as muted "ghost" text ahead of the cursor after a configurable `suggestion-debounce` (default 300ms). Tab/Enter saves the suggested tag, and Backspace/Escape cancels the suggestion without deleting typed characters

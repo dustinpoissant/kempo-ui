@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>closestAcrossShadow - Kempo UI</title>
+  <title>Rating - Components - Kempo Docs - A Web Components Solution</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
@@ -502,55 +502,231 @@
   </script>
 
   
+    <h1 class="ta-center">Rating</h1>
+  
   <k-main>
     
-    <h1>closestAcrossShadow</h1>
     <k-accordion persistent-id="toc" class="b r mb">
       <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
       <k-accordion-panel name="toc-panel">
-        <div class="m ">
-          <h6>Usage</h6>
-          <a href="#basicUsage">Basic Usage</a><br />
-          <a href="#parameters">Parameters</a><br />
-          <a href="#examples">Examples</a><br />
-        </div>
-      </k-accordion-panel>
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#valueByDefault">Value By Default</a><br />
+        <a href="#javascriptUsage">JavaScript Usage</a><br />
+        <a href="#formUsage">Form Integration</a><br />
+        <a href="#disabled">Disabled</a><br />
+        <a href="#customStyles">Custom Styles</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#events">Events</a><br />
+      </div>
+    </k-accordion-panel>
     </k-accordion>
 
-    <h3>Description</h3>
-    <p>The <code>closestAcrossShadow</code> utility works like the native
-      <code>Element.closest()</code>, but it does not stop at shadow-DOM boundaries.
-      When the current tree yields no match it continues from the host of the enclosing
-      shadow root and keeps walking up toward the document, returning the nearest matching
-      ancestor (or the element itself), or <code>null</code> if there is none.</p>
-    <p>This is useful when a component nested inside another component's shadow root needs
-      to locate a shared ancestor — for example a <a href="../components/context.html"><code>k-context</code></a> —
-      which native <code>closest()</code> cannot reach because it never crosses shadow boundaries.</p>
-
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> closestAcrossShadow <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/closestAcrossShadow.js'</span>;<br /><br /><span class="hljs-comment">// From inside a deeply nested component, reach a shared k-context:</span><br /><span class="hljs-keyword">const</span> ctx = closestAcrossShadow(<span class="hljs-keyword">this</span>, <span class="hljs-string">'k-context'</span>);<br /><span class="hljs-keyword">const</span> settings = ctx?.get(<span class="hljs-string">'settings'</span>);</code></pre>
+    <p>A row of 5 stars. Each star is outlined until a rating is applied, click a star to set the value, hovering previews the fill without changing the value.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-rating></k-rating>
+        </k-card>
+      </div>
+    </div>
 
-    <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
-    <h5><code>element<i>: Element</i></code></h5>
-    <p>The element to start searching from. The element itself is included in the match, just like <code>closest()</code>.</p>
-    <h5><code>selector<i>: string</i></code></h5>
-    <p>A CSS selector to match ancestors against.</p>
-    <h5><code><i>returns</i>: Element | null</code></h5>
-    <p>The nearest matching ancestor across shadow boundaries, or <code>null</code> if none match.</p>
+    <h3 id="valueByDefault"><a href="#valueByDefault" class="no-link">Value By Default</a></h3>
+    <p>Set the <code>value</code> attribute to fill in stars up front. Stars <code>1</code> through <code>value</code> render filled, the rest stay outlined.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-rating value="3"></k-rating>
+        </k-card>
+      </div>
+    </div>
 
-    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+    <h3 id="javascriptUsage"><a href="#javascriptUsage" class="no-link">JavaScript Usage</a></h3>
+    <p>Read the current value from the <code>value</code> property, or listen for the <code>change</code> event to react as the user rates. Set <code>value</code> directly to apply or clear a rating programmatically &mdash; this also fires <code>change</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;movieRating&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>You rated: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;output&quot;</span>&gt;</span>0<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span> / 5<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;setFive&quot;</span>&gt;</span>Set 5<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;clearRating&quot;</span>&gt;</span>Clear<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> $rating = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;movieRating&#x27;</span>);<br>  <span class="hljs-keyword">const</span> $output = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;output&#x27;</span>);<br>  $rating.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {<br>    $output.<span class="hljs-property">textContent</span> = event.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>;<br>  });<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;setFive&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {<br>    $rating.<span class="hljs-property">value</span> = <span class="hljs-number">5</span>;<br>  });<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;clearRating&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {<br>    $rating.<span class="hljs-property">value</span> = <span class="hljs-number">0</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-rating id="movieRating"></k-rating>
+          <p>You rated: <span id="output">0</span> / 5</p>
+          <button id="setFive" class="mr">Set 5</button>
+          <button id="clearRating">Clear</button>
+          <script>
+            const $rating = document.getElementById('movieRating');
+            const $output = document.getElementById('output');
+            $rating.addEventListener('change', (event) => {
+              $output.textContent = event.detail.value;
+            });
+            document.getElementById('setFive').addEventListener('click', () => {
+              $rating.value = 5;
+            });
+            document.getElementById('clearRating').addEventListener('click', () => {
+              $rating.value = 0;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
 
-    <h4>Reading a context from a nested shadow component</h4>
-    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> closestAcrossShadow <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/closestAcrossShadow.js'</span>;<br /><br />connectedCallback() {<br />  <span class="hljs-keyword">super</span>.connectedCallback();<br />  <span class="hljs-keyword">const</span> ctx = closestAcrossShadow(<span class="hljs-keyword">this</span>, <span class="hljs-string">'k-context'</span>);<br />  ctx?.addEventListener(<span class="hljs-string">'context:set'</span>, () =&gt; <span class="hljs-keyword">this</span>.requestUpdate());<br />}</code></pre>
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>Rating is form-associated. Set a <code>name</code> attribute and its value submits along with the rest of the form.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;reviewForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Rate this product:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;rating&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mr&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;reset&quot;</span>&gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Submitted: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;result&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;reviewForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> formData = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;result&#x27;</span>).<span class="hljs-property">textContent</span> = formData.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;rating&#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="reviewForm">
+            <label>Rate this product:</label>
+            <k-rating name="rating" value="3"></k-rating>
+            <div class="mt">
+              <button type="submit" class="mr">Submit</button>
+              <button type="reset">Reset</button>
+            </div>
+          </form>
+          <p>Submitted: <span id="result"></span></p>
+          <script>
+            document.getElementById('reviewForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              document.getElementById('result').textContent = formData.get('rating');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
 
-    <h4>Falls back to null</h4>
-    <pre><code class="hljs javascript"><span class="hljs-comment">// No matching ancestor in any tree:</span><br>closestAcrossShadow(someDetachedNode, <span class="hljs-string">'.missing'</span>); <span class="hljs-comment">// =&gt; null</span></code></pre>
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute prevents the user from changing the value while still displaying it. The stars appear at 50% opacity and clicks have no effect.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-rating disabled value="4"></k-rating>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customStyles"><a href="#customStyles" class="no-link">Custom Styles</a></h3>
+    <p>Override the <code>--star_size</code>, <code>--star_color</code>, <code>--star_color__filled</code>, and <code>--star_gap</code> custom properties to restyle the widget.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span><br />  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;4&quot;</span><br />  <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;<br />    --star_size: 2.5rem;<br />    --star_color: var(--c_border);<br />    --star_color__filled: var(--c_danger);<br />    --star_gap: 0.5rem;<br />  &quot;</span><br />&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-rating
+            value="4"
+            style="
+              --star_size: 2.5rem;
+              --star_color: var(--c_border);
+              --star_color__filled: var(--c_danger);
+              --star_gap: 0.5rem;
+            "
+          ></k-rating>
+        </k-card>
+      </div>
+    </div>
+
+    <hr class="mt" />
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">new</span> Rating();</code></pre>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>The rating component is a custom element and does not require any external dependencies beyond the Kempo-UI library. It renders 5 <code>&lt;k-icon&gt;</code> elements internally using the bundled <code>star</code> and <code>star_filled</code> icons.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td>Number</td>
+            <td><code>0</code></td>
+            <td>The applied rating, from <code>0</code> (no stars filled) to <code>5</code>. Stars <code>1</code> through <code>value</code> render filled, the rest render outlined. Syncs to the <code>value</code> attribute.</td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>String</td>
+            <td><code>''</code></td>
+            <td>The name attribute for form submission. When used in a form, this is the key under which the value is submitted.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td>Boolean</td>
+            <td><code>false</code></td>
+            <td>When <code>true</code>, the stars cannot be changed by user interaction. The current value is still displayed at 50% opacity. Syncs to the <code>disabled</code> attribute.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Detail</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>change</code></td>
+            <td><code>{ value: Number }</code></td>
+            <td>Fired whenever the value changes, whether from a click or set programmatically. The detail contains the new value.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   
   </k-main>
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Main.js"></script>
   
+    <script type="module" src="../src/components/Rating.js"></script>
     <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
   
 </body>
 </html>
