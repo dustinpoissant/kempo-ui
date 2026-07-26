@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.38] - 2026-07-26
+### Changed
+ - `window.kempo.toastContainer` renamed to `window.kempo.overlayRoot` — generalized from a `Toast`-only setting to one shared by every component that portals fixed-position content to `document.body` (`Toast`, `Dialog`, `PhotoViewer`), since all three needed the identical override for the identical reason
+ - `Dialog` now respects `overlayRoot`: dialogs (and their full-viewport backdrop) mount into the configured element instead of always `document.body` — fixes the same titlebar-overlap problem `Toast` had in 0.4.37, which `Dialog` shared but didn't yet handle
+ - `PhotoViewer.open()`'s gallery mount point, and a nested `<k-photo-viewer>`'s scroll-lock ancestor lookup, now go through `overlayRoot` instead of a hardcoded `[data-overlay-root]` selector — same effective behavior for existing kempo-app consumers once they set the config (kempo-app itself does, as of its own next release), but `Dialog`/`PhotoViewer`/`Toast` now share one mechanism instead of `PhotoViewer` special-casing one specific attribute name
+ - Extracted the shared resolution logic to `src/utils/overlayRoot.js` (`getOverlayRoot()`), used internally by all three components
+
 ## [0.4.37] - 2026-07-26
 ### Added
  - `window.kempo.toastContainer`: CSS selector for the element `Toast` containers should be appended into instead of `document.body`, for host pages that render their own chrome (e.g. a fixed header, or a custom titlebar in an Electron app) that toasts shouldn't render over. Resolved lazily on first use, so it can be set at any point; falls back to `document.body` if unset or the selector matches nothing

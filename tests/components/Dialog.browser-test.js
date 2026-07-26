@@ -770,5 +770,45 @@ export default {
 
 		cleanupAllDialogs();
 		pass('Dialog.success accepts Lit TemplateResult');
+	},
+
+	'Dialog.alert should mount into document.body by default': async ({pass, fail}) => {
+		const prevKempo = window.kempo;
+		delete window.kempo;
+
+		const dialog = Dialog.alert('Test message');
+		await dialog.updateComplete;
+
+		const mountedInBody = dialog.parentElement === document.body;
+		cleanupAllDialogs();
+		window.kempo = prevKempo;
+
+		if(!mountedInBody){
+			fail('Dialog should mount into document.body when window.kempo.overlayRoot is unset');
+			return;
+		}
+		pass('Dialog mounts into document.body by default');
+	},
+
+	'Dialog.alert should mount into window.kempo.overlayRoot when configured': async ({pass, fail}) => {
+		const root = document.createElement('div');
+		root.id = 'test-dialog-root';
+		document.body.appendChild(root);
+		const prevKempo = window.kempo;
+		window.kempo = { ...window.kempo, overlayRoot: '#test-dialog-root' };
+
+		const dialog = Dialog.alert('Test message');
+		await dialog.updateComplete;
+
+		const mountedInRoot = dialog.parentElement === root;
+		cleanupAllDialogs();
+		window.kempo = prevKempo;
+		root.remove();
+
+		if(!mountedInRoot){
+			fail('Dialog should mount into the element matching window.kempo.overlayRoot');
+			return;
+		}
+		pass('Dialog mounts into the configured overlayRoot');
 	}
 };

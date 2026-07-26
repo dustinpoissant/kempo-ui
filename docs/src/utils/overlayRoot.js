@@ -1,0 +1,1 @@
+export default()=>window.kempo?.overlayRoot&&document.querySelector(window.kempo.overlayRoot)||document.body;

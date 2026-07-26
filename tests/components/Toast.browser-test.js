@@ -528,7 +528,7 @@ export default {
 
 			const container = document.querySelector('k-toast-container[position="bottom center"]');
 			if(!container || container.parentElement !== document.body){
-				fail('Container should be appended to document.body when window.kempo.toastContainer is unset');
+				fail('Container should be appended to document.body when window.kempo.overlayRoot is unset');
 				return;
 			}
 
@@ -542,14 +542,14 @@ export default {
 		}
 	},
 
-	'Toast.create should append container into window.kempo.toastContainer when set': async ({pass, fail}) => {
+	'Toast.create should append container into window.kempo.overlayRoot when set': async ({pass, fail}) => {
 		document.querySelectorAll('k-toast-container').forEach(c => c.remove());
 		document.querySelectorAll('k-toast').forEach(t => t.remove());
 		const prevKempo = window.kempo;
 		const root = document.createElement('div');
 		root.id = 'test-toast-root';
 		document.body.appendChild(root);
-		window.kempo = { toastContainer: '#test-toast-root' };
+		window.kempo = { overlayRoot: '#test-toast-root' };
 
 		try {
 			Toast.create('Test message', { position: 'bottom center', timeout: 0 });
@@ -557,7 +557,7 @@ export default {
 
 			const container = document.querySelector('k-toast-container[position="bottom center"]');
 			if(!container || container.parentElement !== root){
-				fail('Container should be appended into the element matching window.kempo.toastContainer');
+				fail('Container should be appended into the element matching window.kempo.overlayRoot');
 				return;
 			}
 
@@ -572,11 +572,11 @@ export default {
 		}
 	},
 
-	'Toast.create should fall back to document.body when window.kempo.toastContainer matches nothing': async ({pass, fail}) => {
+	'Toast.create should fall back to document.body when window.kempo.overlayRoot matches nothing': async ({pass, fail}) => {
 		document.querySelectorAll('k-toast-container').forEach(c => c.remove());
 		document.querySelectorAll('k-toast').forEach(t => t.remove());
 		const prevKempo = window.kempo;
-		window.kempo = { toastContainer: '#does-not-exist' };
+		window.kempo = { overlayRoot: '#does-not-exist' };
 
 		try {
 			Toast.create('Test message', { position: 'bottom center', timeout: 0 });

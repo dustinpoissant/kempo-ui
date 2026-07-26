@@ -840,17 +840,19 @@
     <h3 id="configuration"><a href="#configuration" class="no-link">Configuration</a></h3>
     <p>By default, toast containers are appended to <code>document.body</code>, so they can render over anything else
       on the page — including chrome the host page draws itself, like a fixed header or a custom window titlebar in
-      an Electron app. To keep toasts inside a specific element instead, set the global <code>window.kempo.toastContainer</code>
+      an Electron app. To keep toasts inside a specific element instead, set the global <code>window.kempo.overlayRoot</code>
       config to a CSS selector before the container is first created (for example in the head of the document). The
       selector is only resolved once a toast is actually shown, so this can be set at any point beforehand — it does
-      not need to run before other components load.</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    toastContainer: <span class="hljs-string">'#app'</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+      not need to run before other components load. This same config is shared by
+      <a href="./dialog.html#configuration">Dialog</a> and <a href="./photo-viewer.html#configuration">PhotoViewer</a>,
+      so setting it once covers every component that portals fixed-position content above the whole page.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    overlayRoot: <span class="hljs-string">'#app'</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <p>If the selector does not match any element — or nothing was configured — toast containers fall back to
       <code>document.body</code>.</p>
 
-    <h5><code>toastContainer<i>: string</i></code></h5>
-    <p>A CSS selector for the element toast containers should be appended into. This is configured via the global
-      <code>window.kempo.toastContainer</code> config object.</p>
+    <h5><code>overlayRoot<i>: string</i></code></h5>
+    <p>A CSS selector for the element fixed-position overlay content should be appended into. This is configured via
+      the global <code>window.kempo.overlayRoot</code> config object.</p>
   
   </k-main>
   <div style="height:33vh"></div>

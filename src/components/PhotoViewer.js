@@ -1,6 +1,7 @@
 import ShadowComponent from './ShadowComponent.js';
 import { html, css, render } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
+import getOverlayRoot from '../utils/overlayRoot.js';
 import './Icon.js';
 
 export default class PhotoViewer extends ShadowComponent {
@@ -106,7 +107,10 @@ export default class PhotoViewer extends ShadowComponent {
 			this.updateNavigationState();
 
 			document.body.classList.toggle('no-scroll', this.fullscreen);
-			const overlayRoot = this.closest('[data-overlay-root]');
+			// Ancestor-relative (this.closest), not the portal target getOverlayRoot() resolves —
+			// a viewer nested directly in markup (rather than mounted via .open()) needs whichever
+			// overlay root actually contains IT, which document.querySelector can't answer.
+			const overlayRoot = window.kempo?.overlayRoot ? this.closest(window.kempo.overlayRoot) : null;
 			if(overlayRoot) overlayRoot.classList.toggle('no-scroll', this.fullscreen);
 
 			if(this.keyboardControls) {
@@ -173,8 +177,7 @@ export default class PhotoViewer extends ShadowComponent {
 			return viewer;
 		});
 
-		const mountRoot = document.querySelector('[data-overlay-root]') || document.body;
-		mountRoot.appendChild(container);
+		getOverlayRoot().appendChild(container);
 
 		const handleClose = () => {
 			if(!viewers.some(viewer => viewer.fullscreen)) {

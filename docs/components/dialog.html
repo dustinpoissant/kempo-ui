@@ -526,6 +526,7 @@
           <a href="#properties">Properties</a><br />
           <a href="#methods">Methods</a><br />
           <a href="#staticMethods">Static Methods</a><br />
+          <a href="#configuration">Configuration</a><br />
         </div>
       </k-accordion-panel>
     </k-accordion>
@@ -851,6 +852,23 @@
       <li><code>title</code>: <i>string</i> - The title of the dialog. Default is <code>'Success'</code>.</li>
       <li><code>cancelText</code>: <i>string</i> - Text for the OK button. Default is <code>'Ok'</code>.</li>
     </ul>
+
+    <h3 id="configuration"><a href="#configuration" class="no-link">Configuration</a></h3>
+    <p>By default, dialogs are appended to <code>document.body</code>, so they can render over anything else on the
+      page — including chrome the host page draws itself, like a fixed header or a custom window titlebar in an
+      Electron app. To keep dialogs inside a specific element instead, set the global <code>window.kempo.overlayRoot</code>
+      config to a CSS selector before the first dialog is created (for example in the head of the document). The
+      selector is only resolved once a dialog is actually opened, so this can be set at any point beforehand. This
+      same config is shared by <a href="./toast.html#configuration">Toast</a> and
+      <a href="./photo-viewer.html#configuration">PhotoViewer</a>, so setting it once covers every component that
+      portals fixed-position content above the whole page.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"><br />  window.kempo = {<br />    overlayRoot: <span class="hljs-string">'#app'</span><br />  };<br /></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>If the selector does not match any element — or nothing was configured — dialogs fall back to
+      <code>document.body</code>.</p>
+
+    <h5><code>overlayRoot<i>: string</i></code></h5>
+    <p>A CSS selector for the element fixed-position overlay content should be appended into. This is configured via
+      the global <code>window.kempo.overlayRoot</code> config object.</p>
   
   </k-main>
   <div style="height:33vh"></div>

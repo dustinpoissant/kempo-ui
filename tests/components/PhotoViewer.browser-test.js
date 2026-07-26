@@ -850,10 +850,12 @@ export default {
 		pass('Container mounts into document.body by default');
 	},
 
-	'should mount into the nearest [data-overlay-root] when present': async ({pass, fail}) => {
+	'should mount into window.kempo.overlayRoot when configured': async ({pass, fail}) => {
 		const root = document.createElement('div');
 		root.setAttribute('data-overlay-root', '');
 		document.body.appendChild(root);
+		const prevKempo = window.kempo;
+		window.kempo = { ...window.kempo, overlayRoot: '[data-overlay-root]' };
 
 		const viewer = PhotoViewer.open([
 			{ src: 'https://picsum.photos/200/300' }
@@ -864,14 +866,15 @@ export default {
 		const mountedInRoot = container.parentElement === root;
 
 		viewer.close();
+		window.kempo = prevKempo;
 		root.remove();
 
 		if(!mountedInRoot){
-			fail('Container should mount into the [data-overlay-root] element');
+			fail('Container should mount into the configured overlayRoot element');
 			return;
 		}
 
-		pass('Container mounts into the [data-overlay-root] element');
+		pass('Container mounts into the configured overlayRoot element');
 	},
 
 	/*
@@ -913,10 +916,12 @@ export default {
 		pass('document.body loses no-scroll class when closed');
 	},
 
-	'should add no-scroll to the nearest [data-overlay-root] when opened': async ({pass, fail}) => {
+	'should add no-scroll to the nearest window.kempo.overlayRoot ancestor when opened': async ({pass, fail}) => {
 		const root = document.createElement('div');
 		root.setAttribute('data-overlay-root', '');
 		document.body.appendChild(root);
+		const prevKempo = window.kempo;
+		window.kempo = { ...window.kempo, overlayRoot: '[data-overlay-root]' };
 
 		const viewer = document.createElement('k-photo-viewer');
 		root.appendChild(viewer);
@@ -928,13 +933,14 @@ export default {
 		const hasClass = root.classList.contains('no-scroll');
 		viewer.close();
 		await viewer.updateComplete;
+		window.kempo = prevKempo;
 		root.remove();
 
 		if(!hasClass){
-			fail('[data-overlay-root] should have no-scroll class when a descendant viewer is fullscreen');
+			fail('overlayRoot ancestor should have no-scroll class when a descendant viewer is fullscreen');
 			return;
 		}
 
-		pass('[data-overlay-root] gets no-scroll class when opened');
+		pass('overlayRoot ancestor gets no-scroll class when opened');
 	}
 };

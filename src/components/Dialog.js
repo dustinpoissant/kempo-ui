@@ -1,6 +1,7 @@
 import ShadowComponent from './ShadowComponent.js';
 import { html, css, render } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
+import getOverlayRoot from '../utils/overlayRoot.js';
 import './Icon.js';
 import './FocusCapture.js';
 
@@ -357,7 +358,7 @@ export default class Dialog extends ShadowComponent {
 		if(options.minHeight) dialog.style.setProperty('--min_height', options.minHeight);
 		if(options.maxHeight) dialog.style.setProperty('--max_height', options.maxHeight);
 
-		document.body.appendChild(dialog);
+		getOverlayRoot().appendChild(dialog);
 		dialog.open();
 		
 		return dialog;

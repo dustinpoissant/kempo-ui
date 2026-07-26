@@ -1,12 +1,7 @@
 import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
+import getOverlayRoot from '../utils/overlayRoot.js';
 import './Icon.js';
-
-// window.kempo.toastContainer lets a host page keep toasts out of chrome it renders
-// itself (e.g. a custom titlebar) by naming a CSS selector to append containers into
-// instead of document.body. Resolved lazily, only when a container is actually created,
-// so it can be set at any point before that — no load-order requirement on the host page.
-const getContainerRoot = () => (window.kempo?.toastContainer && document.querySelector(window.kempo.toastContainer)) || document.body;
 
 export default class Toast extends ShadowComponent {
   static properties = {
@@ -445,7 +440,7 @@ class ToastContainer extends HTMLElement {
     let container = document.querySelector(`k-toast-container[position="${position}"]`);
     if (!container) {
       container = new ToastContainer(position);
-      getContainerRoot().appendChild(container);
+      getOverlayRoot().appendChild(container);
     }
     return container;
   }
