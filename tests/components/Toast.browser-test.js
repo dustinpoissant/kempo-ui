@@ -516,6 +516,88 @@ export default {
 		}
 	},
 
+	'Toast.create should append container to document.body by default': async ({pass, fail}) => {
+		document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+		document.querySelectorAll('k-toast').forEach(t => t.remove());
+		const prevKempo = window.kempo;
+		delete window.kempo;
+
+		try {
+			Toast.create('Test message', { position: 'bottom center', timeout: 0 });
+			await new Promise(r => setTimeout(r, 50));
+
+			const container = document.querySelector('k-toast-container[position="bottom center"]');
+			if(!container || container.parentElement !== document.body){
+				fail('Container should be appended to document.body when window.kempo.toastContainer is unset');
+				return;
+			}
+
+			pass('Container appended to document.body by default');
+		} catch(e) {
+			fail(`Error: ${e.message}`);
+		} finally {
+			window.kempo = prevKempo;
+			document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+			document.querySelectorAll('k-toast').forEach(t => t.remove());
+		}
+	},
+
+	'Toast.create should append container into window.kempo.toastContainer when set': async ({pass, fail}) => {
+		document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+		document.querySelectorAll('k-toast').forEach(t => t.remove());
+		const prevKempo = window.kempo;
+		const root = document.createElement('div');
+		root.id = 'test-toast-root';
+		document.body.appendChild(root);
+		window.kempo = { toastContainer: '#test-toast-root' };
+
+		try {
+			Toast.create('Test message', { position: 'bottom center', timeout: 0 });
+			await new Promise(r => setTimeout(r, 50));
+
+			const container = document.querySelector('k-toast-container[position="bottom center"]');
+			if(!container || container.parentElement !== root){
+				fail('Container should be appended into the element matching window.kempo.toastContainer');
+				return;
+			}
+
+			pass('Container appended into configured root');
+		} catch(e) {
+			fail(`Error: ${e.message}`);
+		} finally {
+			window.kempo = prevKempo;
+			root.remove();
+			document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+			document.querySelectorAll('k-toast').forEach(t => t.remove());
+		}
+	},
+
+	'Toast.create should fall back to document.body when window.kempo.toastContainer matches nothing': async ({pass, fail}) => {
+		document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+		document.querySelectorAll('k-toast').forEach(t => t.remove());
+		const prevKempo = window.kempo;
+		window.kempo = { toastContainer: '#does-not-exist' };
+
+		try {
+			Toast.create('Test message', { position: 'bottom center', timeout: 0 });
+			await new Promise(r => setTimeout(r, 50));
+
+			const container = document.querySelector('k-toast-container[position="bottom center"]');
+			if(!container || container.parentElement !== document.body){
+				fail('Container should fall back to document.body when the configured selector matches nothing');
+				return;
+			}
+
+			pass('Falls back to document.body for a non-matching selector');
+		} catch(e) {
+			fail(`Error: ${e.message}`);
+		} finally {
+			window.kempo = prevKempo;
+			document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+			document.querySelectorAll('k-toast').forEach(t => t.remove());
+		}
+	},
+
 	'Toast.success should add bg-success class': async ({pass, fail}) => {
 		// Clean up first
 		document.querySelectorAll('k-toast-container').forEach(c => c.remove());

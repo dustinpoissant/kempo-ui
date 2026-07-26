@@ -12,19 +12,21 @@ npm install kempo-ui
 
 ## Page Setup
 
-Configure `window.kempo` before importing components. Both properties are optional:
+Configure `window.kempo` before importing components. All properties are optional:
 
 ```html
 <script>
   window.kempo = {
     pathToStylesheet: '/assets/kempo.min.css',
-    pathsToIcons: ['/icons']
+    pathsToIcons: ['/icons'],
+    toastContainer: '#app'
   };
 </script>
 ```
 
 `pathToStylesheet` defaults to `https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css` if unset.
 `pathsToIcons` defaults to `['./icons', '/icons', '../icons', '../../icons']` if unset; these are local paths searched in order when resolving `<k-icon name="...">`.
+`toastContainer` is a CSS selector for the element toast containers should be appended into instead of `document.body` (e.g. to keep toasts out of a fixed header). Resolved lazily on first use, so it can be set at any point. Falls back to `document.body` if unset or the selector matches nothing.
 
 ---
 

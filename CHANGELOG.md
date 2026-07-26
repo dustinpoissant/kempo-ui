@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.37] - 2026-07-26
+### Added
+ - `window.kempo.toastContainer`: CSS selector for the element `Toast` containers should be appended into instead of `document.body`, for host pages that render their own chrome (e.g. a fixed header, or a custom titlebar in an Electron app) that toasts shouldn't render over. Resolved lazily on first use, so it can be set at any point; falls back to `document.body` if unset or the selector matches nothing
+
 ## [0.4.35] - 2026-07-19
 ### Added
  - `<k-rating>`: 5-star rating widget; stars render outlined by default and fill in up to the applied `value` (0-5); click a star to set the value, hover previews the fill without changing it; form-associated via `name`, supports `disabled`, fires `change`
