@@ -37,6 +37,11 @@ jobs:
         run: |
           npm run build
 
+      # Gate the release on the suite. Note the tests import from src/, not the minified dist/ that
+      # actually ships, so this catches source regressions but not a bad build.
+      - name: Run Unit Tests
+        run: npm test
+
       - name: Set version type
         id: version
         run: |

@@ -1,0 +1,33 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    # ~1m45s locally for 2397 tests, nearly all of them browser tests driving a real Chromium.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: npm
+
+      # Also downloads the Chromium that puppeteer drives, via its postinstall.
+      - run: npm ci
+
+      # The suite is mostly browser tests; the testing framework launches puppeteer headless with
+      # --no-sandbox, which is what lets it run as root on the runner.
+      - name: Run Unit Tests
+        run: npm test
