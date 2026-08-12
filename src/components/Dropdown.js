@@ -254,22 +254,24 @@ export default class Dropdown extends ShadowComponent {
 	}
 
 	/*
-		Like Node.contains(), but keeps walking past shadow-DOM boundaries
-		introduced by intermediate custom elements. Used to recognize a
-		dropdown as "nested" inside this one even when a control in between
-		(e.g. kc-vid-speed inside kc-vid-menu) renders its own shadow root.
+		Like Node.contains(), but walks the FLATTENED tree, so it keeps working
+		past shadow-DOM boundaries introduced by intermediate custom elements.
+		Used to recognize a dropdown as "nested" inside this one even when a
+		control in between (e.g. kc-vid-speed inside kc-vid-menu) renders its
+		own shadow root.
+
+		assignedSlot is the step that crosses those boundaries: a slotted node's
+		flat-tree parent is its slot, which lives in the shadow tree actually
+		rendering it, not its light-DOM parent. Asking instead whether some
+		ancestor hosts the shadow root `this` lives in would report anything
+		sharing that root as nested — two sibling dropdowns in one component
+		included, so neither could ever close the other.
 	*/
 	containsAcrossShadow(node) {
-		const thisRoot = this.getRootNode();
 		let current = node;
 		while(current) {
 			if(current === this) return true;
-			if(current instanceof ShadowRoot) {
-				current = current.host;
-				continue;
-			}
-			if(current.shadowRoot === thisRoot) return true;
-			current = current.parentNode;
+			current = current instanceof ShadowRoot ? current.host : current.assignedSlot ?? current.parentNode;
 		}
 		return false;
 	}

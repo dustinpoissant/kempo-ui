@@ -31,6 +31,32 @@ const cleanup = (container) => {
 	}
 };
 
+/*
+	Two hosts for the shadow-DOM cases containsAcrossShadow exists to handle. Defined once,
+	guarded, because a test file may be evaluated more than once per page.
+*/
+const defineHost = (name, markup) => {
+	if(customElements.get(name)) return;
+	customElements.define(name, class extends HTMLElement {
+		constructor() {
+			super();
+			this.attachShadow({ mode: 'open' }).innerHTML = markup;
+		}
+	});
+};
+
+// Two dropdowns side by side in ONE shadow root — neither contains the other.
+defineHost('test-dropdown-siblings', `
+	<k-dropdown id="a"><button slot="trigger">A</button><button data-value="a1">A1</button></k-dropdown>
+	<k-dropdown id="b"><button slot="trigger">B</button><button data-value="b1">B1</button></k-dropdown>
+`);
+
+// One dropdown in its own shadow root, to be slotted into an outer dropdown — the
+// kc-vid-speed-inside-kc-vid-menu shape, where the outer one DOES contain the inner.
+defineHost('test-dropdown-in-shadow', `
+	<k-dropdown><button slot="trigger">Inner</button><button data-value="i1">I1</button></k-dropdown>
+`);
+
 export default {
 	/*
 		Element Creation
@@ -839,6 +865,68 @@ export default {
 		cleanup(container);
 		if(!result) return fail('containsAcrossShadow should recognize a light-DOM nested k-dropdown as contained');
 		pass('containsAcrossShadow returns true for a light-DOM nested submenu');
+	},
+
+	'containsAcrossShadow should return false for two dropdowns sharing a shadow root': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<test-dropdown-siblings></test-dropdown-siblings>';
+		document.body.appendChild(container);
+		const a = container.querySelector('test-dropdown-siblings').shadowRoot.querySelector('#a');
+		const b = container.querySelector('test-dropdown-siblings').shadowRoot.querySelector('#b');
+		await a.updateComplete;
+		await b.updateComplete;
+		const aContainsB = a.containsAcrossShadow(b);
+		const bContainsA = b.containsAcrossShadow(a);
+		cleanup(container);
+		if(aContainsB || bContainsA) return fail(`Siblings in one shadow root should not contain each other (a->b ${aContainsB}, b->a ${bContainsA})`);
+		pass('containsAcrossShadow returns false for two dropdowns sharing a shadow root');
+	},
+
+	'containsAcrossShadow should return true for a dropdown slotted in from another shadow root': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-dropdown>
+				<button slot="trigger">Outer</button>
+				<test-dropdown-in-shadow></test-dropdown-in-shadow>
+			</k-dropdown>
+		`;
+		document.body.appendChild(container);
+		const outer = container.querySelector('k-dropdown');
+		const inner = container.querySelector('test-dropdown-in-shadow').shadowRoot.querySelector('k-dropdown');
+		await outer.updateComplete;
+		await inner.updateComplete;
+		const result = outer.containsAcrossShadow(inner);
+		cleanup(container);
+		if(!result) return fail('containsAcrossShadow should recognize a k-dropdown slotted in from another shadow root as contained');
+		pass('containsAcrossShadow returns true for a dropdown slotted in from another shadow root');
+	},
+
+	'opening a dropdown should close a sibling in the same shadow root': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<test-dropdown-siblings></test-dropdown-siblings>';
+		document.body.appendChild(container);
+		const a = container.querySelector('test-dropdown-siblings').shadowRoot.querySelector('#a');
+		const b = container.querySelector('test-dropdown-siblings').shadowRoot.querySelector('#b');
+		await a.updateComplete;
+		await b.updateComplete;
+
+		a.open();
+		await a.updateComplete;
+		if(!a.opened) {
+			cleanup(container);
+			return fail('Dropdown A should be open');
+		}
+
+		b.querySelector('[slot="trigger"]').click();
+		await b.updateComplete;
+		await a.updateComplete;
+
+		const aStillOpen = a.opened;
+		const bOpen = b.opened;
+		cleanup(container);
+		if(aStillOpen) return fail('Dropdown A should have closed when its sibling B was opened');
+		if(!bOpen) return fail('Dropdown B should be open after clicking its trigger');
+		pass('Opening a dropdown closes a sibling sharing its shadow root');
 	},
 
 	/*

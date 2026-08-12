@@ -15,6 +15,44 @@ const cleanup = (container) => {
 	}
 };
 
+/*
+	Two hosts for nesting a k-video two shadow roots deep — the
+	consumer-inside-a-consumer shape (e.g. it-viewer inside it-app) that
+	document.fullscreenElement doesn't resolve directly to. Defined once,
+	guarded, since a test file may be evaluated more than once per page.
+*/
+const defineHost = (name, markup) => {
+	if(customElements.get(name)) return;
+	customElements.define(name, class extends HTMLElement {
+		constructor(){
+			super();
+			this.attachShadow({ mode: 'open' }).innerHTML = markup;
+		}
+	});
+};
+defineHost('test-video-middle', '<k-video></k-video>');
+defineHost('test-video-outer', '<test-video-middle></test-video-middle>');
+
+const createNestedVideo = async () => {
+	const outer = document.createElement('test-video-outer');
+	document.body.appendChild(outer);
+	const middle = outer.shadowRoot.querySelector('test-video-middle');
+	const el = middle.shadowRoot.querySelector('k-video');
+	await el.updateComplete;
+	return { outer, middle, el };
+};
+
+// Stubs the three-level chain a real requestFullscreen() on `el` produces once the browser
+// propagates it up through both shadow roots: document.fullscreenElement resolves to the
+// OUTERMOST host, and each shadow root along the way reports the next one down via its own
+// .fullscreenElement, ending at `el` itself.
+const stubNestedFullscreen = (outer, middle, el) => {
+	Object.defineProperty(document, 'fullscreenElement', { value: outer, configurable: true });
+	Object.defineProperty(outer.shadowRoot, 'fullscreenElement', { value: middle, configurable: true });
+	Object.defineProperty(middle.shadowRoot, 'fullscreenElement', { value: el, configurable: true });
+};
+const clearStubbedFullscreen = () => { delete document.fullscreenElement; };
+
 export default {
 	/*
 		Element Creation
@@ -351,6 +389,72 @@ export default {
 		cleanup(container);
 		if(!fired) return fail('fullscreen-changed event should fire when fullscreen changes');
 		pass('fullscreen-changed fires on fullscreen change');
+	},
+
+	'handleFullscreenChange should recognize fullscreen when the host is directly document.fullscreenElement': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		Object.defineProperty(document, 'fullscreenElement', { value: el, configurable: true });
+		el.handleFullscreenChange();
+		const isFullscreen = el.fullscreen;
+		clearStubbedFullscreen();
+		cleanup(container);
+		if(isFullscreen !== true) return fail(`Expected fullscreen to be true when the host is document.fullscreenElement directly, got ${isFullscreen}`);
+		pass('fullscreen recognized when the host is document.fullscreenElement directly');
+	},
+
+	'handleFullscreenChange should recognize fullscreen when k-video is nested two shadow roots deep': async ({pass, fail}) => {
+		const { outer, middle, el } = await createNestedVideo();
+		stubNestedFullscreen(outer, middle, el);
+		el.handleFullscreenChange();
+		const isFullscreen = el.fullscreen;
+		clearStubbedFullscreen();
+		cleanup(outer);
+		if(isFullscreen !== true) return fail(`Expected fullscreen to be true once resolved through both shadow roots, got ${isFullscreen}`);
+		pass('fullscreen recognized through nested shadow roots by walking shadowRoot.fullscreenElement');
+	},
+
+	'handleFullscreenChange should not report fullscreen for an unrelated nested k-video': async ({pass, fail}) => {
+		const { outer, middle, el } = await createNestedVideo();
+		const { outer: otherOuter, middle: otherMiddle, el: otherEl } = await createNestedVideo();
+		// Fullscreen chain resolves to otherEl, not el — el should stay false.
+		stubNestedFullscreen(otherOuter, otherMiddle, otherEl);
+		el.handleFullscreenChange();
+		const isFullscreen = el.fullscreen;
+		clearStubbedFullscreen();
+		cleanup(outer);
+		cleanup(otherOuter);
+		if(isFullscreen !== false) return fail(`Expected fullscreen to stay false for an unrelated nested k-video, got ${isFullscreen}`);
+		pass('fullscreen stays false for a k-video that is not the resolved chain');
+	},
+
+	'exitFullscreen should call document.exitFullscreen when k-video is nested two shadow roots deep': async ({pass, fail}) => {
+		const { outer, middle, el } = await createNestedVideo();
+		stubNestedFullscreen(outer, middle, el);
+		let exitCalled = false;
+		const originalExit = document.exitFullscreen;
+		document.exitFullscreen = () => { exitCalled = true; return Promise.resolve(); };
+		el.exitFullscreen();
+		document.exitFullscreen = originalExit;
+		clearStubbedFullscreen();
+		cleanup(outer);
+		if(!exitCalled) return fail('exitFullscreen() should call document.exitFullscreen() once resolved through both shadow roots');
+		pass('exitFullscreen() calls document.exitFullscreen() through nested shadow roots');
+	},
+
+	'exitFullscreen should not call document.exitFullscreen for an unrelated nested k-video': async ({pass, fail}) => {
+		const { outer, middle, el } = await createNestedVideo();
+		const { outer: otherOuter, middle: otherMiddle, el: otherEl } = await createNestedVideo();
+		stubNestedFullscreen(otherOuter, otherMiddle, otherEl);
+		let exitCalled = false;
+		const originalExit = document.exitFullscreen;
+		document.exitFullscreen = () => { exitCalled = true; return Promise.resolve(); };
+		el.exitFullscreen();
+		document.exitFullscreen = originalExit;
+		clearStubbedFullscreen();
+		cleanup(outer);
+		cleanup(otherOuter);
+		if(exitCalled) return fail('exitFullscreen() should not call document.exitFullscreen() for a k-video that is not the resolved chain');
+		pass('exitFullscreen() is a no-op for a k-video that is not the resolved chain');
 	},
 
 	/*

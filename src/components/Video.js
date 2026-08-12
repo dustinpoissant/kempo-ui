@@ -9,6 +9,25 @@ import './Spinner.js';
 const pendingSeek = Symbol();
 const forwardedHandlers = Symbol();
 
+/*
+  document.fullscreenElement only ever reports the OUTERMOST participating shadow host when the
+  actual fullscreen element sits inside nested shadow trees — e.g. a k-video slotted deep inside
+  a consumer's own shadow-DOM component hierarchy (it-viewer inside it-app, say). Per the
+  Fullscreen API spec, each shadow-including ancestor root along the way gets its own
+  fullscreenElement set, and document.fullscreenElement resolves to the one closest to the
+  document; the actual element k-video called requestFullscreen() on is further down, reachable
+  only by walking shadowRoot.fullscreenElement one boundary at a time. Comparing
+  document.fullscreenElement directly against `this` (as exitFullscreen/handleFullscreenChange
+  used to) never matches once k-video is nested two or more shadow roots deep, which left
+  `fullscreen` stuck false — breaking both the exit-fullscreen control (toggleFullscreen kept
+  re-entering instead) and the kc-fullscreen icon/active state.
+*/
+const deepestFullscreenElement = () => {
+  let el = document.fullscreenElement;
+  while(el?.shadowRoot?.fullscreenElement) el = el.shadowRoot.fullscreenElement;
+  return el;
+};
+
 export default class Video extends ShadowComponent {
   static properties = {
     src: { type: String, reflect: true },
@@ -262,7 +281,7 @@ export default class Video extends ShadowComponent {
   }
 
   exitFullscreen() {
-    if(document.fullscreenElement === this){
+    if(deepestFullscreenElement() === this){
       const promise = document.exitFullscreen?.();
       promise?.catch?.(() => {});
     }
@@ -337,7 +356,7 @@ export default class Video extends ShadowComponent {
     Event Handlers
   */
   handleFullscreenChange = () => {
-    const isFullscreen = document.fullscreenElement === this;
+    const isFullscreen = deepestFullscreenElement() === this;
     if(this.fullscreen !== isFullscreen) this.fullscreen = isFullscreen;
   };
 
