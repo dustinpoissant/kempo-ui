@@ -1,4 +1,4 @@
-import '../../../src/components/controls/TcExportCSV.js';
+import '../../../src/components/controls/TcExportCsv.js';
 import '../../../src/components/controls/TcExportJson.js';
 import '../../../src/components/Table.js';
 
