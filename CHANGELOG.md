@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.52] - 2026-08-13
+### Fixed
+ - `Table`: `kc-tc-edit`'s row-edit pencil had no spacing before it — flush against the left edge of its cell, unlike `kc-tc-delete-record` sitting right next to it. `td.controls`/`td.controls-after` intentionally zero their own padding and rely entirely on each control's own `margin` for spacing (matching `ButtonControl`'s `margin: var(--spacer_q)`), but `kc-tc-edit`'s `:host` never set one
+
 ## [0.4.51] - 2026-08-13
 ### Fixed
  - `Table`: `kc-tc-edit`'s row-edit pencil (and its save/cancel pair) rendered with a solid filled background instead of a normal icon-button look, and at a fixed 2rem box with no padding — smaller than `kc-tc-delete-record` and every other `ButtonControl`-based row action sitting right next to it. Same root cause as the earlier toolbar fixes: a raw `<button>` without kempo-css's `no-btn` escape hatch loses to its global button rule on specificity. Added `no-btn` and matched `ButtonControl`'s box model (`min-width`/`min-height: 2rem` + `padding: var(--spacer_h)` instead of a flat `width`/`height: 2rem`), so it's now visually identical to `kc-tc-delete-record`

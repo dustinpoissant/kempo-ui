@@ -61,7 +61,7 @@ export default class TcEdit extends Control {
   static styles = [
     Control.styles,
     css`
-      :host { align-items: baseline; gap: 0.25rem; }
+      :host { align-items: baseline; gap: 0.25rem; margin: var(--spacer_q); }
       .edit-btn { background: transparent; border: 1px solid var(--c_border); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); border-radius: var(--radius); }
       .edit-btn:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
       .save { color: var(--c_success, green); }
