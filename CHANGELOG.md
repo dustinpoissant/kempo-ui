@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.44] - 2026-08-13
+### Fixed
+ - `HtmlEditor`: **images were silently discarded.** Lexical only builds nodes for types that are registered and ships none for images, so an `<img>` was dropped on the way in — whether it arrived through `insertImage()`, was pasted, or was already present in `value`. `insertImage()` had therefore never actually inserted anything. An image node is now registered alongside headings, lists, links and tables, so images survive insertion, paste, `value`, and the round trip back out through `value`. It is registered unconditionally rather than through the opt-in `nodes` attribute, because an editor that quietly deletes images is surprising in a way an editor without HTML-comment support is not
+
+### Added
+ - `HtmlEditor`: `kc-insert-image` control, the counterpart to `kc-md-image` for the WYSIWYG editor, added to the `normal` and `full` control sets. Typing a URL needs nothing from the host; a host that sets `window.kempo.openAssetPicker` also gets a **Browse…** button, reading the same hook `kc-md-image` does. The control knows nothing about where images come from, only how to ask, so a site, a CMS or an Electron app can each supply their own source
+ - `HtmlEditor`: `insertImage(url, { alt })` now accepts alt text. It is HTML-escaped rather than URL-encoded — `encodeURI` incidentally neutralises a quote in the `src`, but alt is human-readable text where percent-encoding would show through, so it needs real attribute escaping to stop a quote closing the attribute early
+
 ## [0.4.43] - 2026-08-13
 ### Added
  - `MarkdownEditor`: optional `window.kempo.openAssetPicker` hook. The built-in image control (`kc-md-image`) has only ever accepted a typed URL, which is no use on a site that stores its images somewhere the author would have to go look them up. Providing the hook — an `async ({ alt }) => ({ url, alt }) | null` — adds a **Browse…** button that hands off to whatever picker the host supplies, and inserts the result through the same path as manual entry. It is resolved when the control's dropdown opens rather than at page load, so it can be installed at any point with no load-order requirement, in the spirit of `window.kempo.overlayRoot`. Every dismissal path resolves `null` and inserts nothing; a hook that throws is logged and leaves the editor untouched. With no hook installed the control is byte-for-byte what it was

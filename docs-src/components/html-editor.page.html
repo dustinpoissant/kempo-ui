@@ -463,6 +463,33 @@
       Lexical build globally while one specific editor still points to a CDN via its <code>lexical-src</code> attribute.
     </p>
 
+    <h4><code>openAssetPicker<i>: function</i></code></h4>
+    <p>Optional. The <code>&lt;kc-insert-image&gt;</code> control lets an author type an image URL. Set this and it also
+      grows a <strong>Browse&hellip;</strong> button that hands off to whatever picker you supply &mdash; a media library,
+      an asset manager, a desktop app's own file store. With nothing set the control is unchanged, so this costs nothing
+      if you do not use it. <code>&lt;kc-md-image&gt;</code> in
+      <a href="./markdown-editor.html#assetPicker">MarkdownEditor</a> reads the same hook.</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">window</span>.kempo = <span class="hljs-keyword">window</span>.kempo || {};
+
+  <span class="hljs-comment">// Called with the alt text already typed into the control, if any.</span>
+  <span class="hljs-comment">// Resolve { url, alt } to insert, or null to insert nothing.</span>
+  <span class="hljs-keyword">window</span>.kempo.openAssetPicker = <span class="hljs-keyword">async</span> ({ alt }) =&gt; {
+    <span class="hljs-keyword">const</span> asset = <span class="hljs-keyword">await</span> myAssetBrowser.choose();
+    <span class="hljs-keyword">if</span>(!asset) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">return</span> { url: asset.url, alt: asset.altText || alt };
+  };
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <ul>
+      <li>Read when the control's dropdown opens, not at page load, so it can be installed at any point before the author
+        uses it &mdash; no load-order requirement.</li>
+      <li>Return <code>null</code>, <code>undefined</code>, or an object with no <code>url</code> for every dismissal path
+        and nothing is inserted.</li>
+      <li>If <code>alt</code> is omitted from the result, whatever the author typed is used instead.</li>
+      <li>The dropdown closes before the hook is called, so a dialog-based picker will not fight it for clicks.</li>
+      <li>If the hook throws, the error is logged and the editor is left untouched.</li>
+    </ul>
+
     <h3 id="methods"><a
         href="#methods"
         class="no-link"
@@ -637,8 +664,10 @@
     <h5><code>unlink()<i>: this</i></code></h5>
     <p>Removes hyperlink from the selected text.</p>
 
-    <h5><code>insertImage(url)<i>: this</i></code></h5>
-    <p>Inserts an image at the cursor position.</p>
+    <h5><code>insertImage(url, options?)<i>: this</i></code></h5>
+    <p>Inserts an image at the cursor position. <code>options.alt</code> sets the alt text, and is escaped, so a quote in it stays text rather than closing the attribute.</p>
+    <pre><code class="hljs javascript">editor.insertImage(<span class="hljs-string">'/media/photo.png'</span>, { alt: <span class="hljs-string">'A photo'</span> });</code></pre>
+    <p>The <code>&lt;kc-insert-image&gt;</code> control wraps this with a small form, and images survive being pasted in or loaded from <code>value</code> — the editor registers an image node for exactly that reason.</p>
 
     <h4>History</h4>
     <h5><code>undo()<i>: this</i></code></h5>

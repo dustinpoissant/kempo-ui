@@ -231,6 +231,67 @@ export default class HtmlEditor extends ShadowComponent {
 			static importJSON(json) { return lexical.$createTextNode(json.text); }
 			exportJSON() { return { ...super.exportJSON(), type: 'styled-text' }; }
 		};
+
+		/*
+			Lexical only builds nodes for types that are registered, and it ships none for images —
+			so before this existed an <img> was silently dropped on the way in, whether it came from
+			insertImage(), from pasted HTML, or from a `value` that already contained one. It is
+			registered unconditionally alongside headings, lists, links and tables rather than
+			through the opt-in `nodes` attribute, because an editor that quietly deletes images is
+			surprising in a way an editor without HTML-comment support is not.
+		*/
+		this.ImageNode = class extends lexical.DecoratorNode {
+			static getType() { return 'image'; }
+			static clone(node) { return new this(node.__src, node.__alt, node.__key); }
+			static importDOM() {
+				return {
+					img: () => ({
+						conversion: domNode => ({
+							node: new this(domNode.getAttribute('src') || '', domNode.getAttribute('alt') || '')
+						}),
+						priority: 1
+					})
+				};
+			}
+			static importJSON(json) { return new this(json.src || '', json.alt || ''); }
+
+			constructor(src = '', alt = '', key) {
+				super(key);
+				this.__src = src;
+				this.__alt = alt;
+			}
+
+			createDOM() {
+				const img = document.createElement('img');
+				img.setAttribute('src', this.__src);
+				img.setAttribute('alt', this.__alt);
+				// Keeps an oversized image from bursting out of the editor's own width
+				img.style.maxWidth = '100%';
+				return img;
+			}
+
+			updateDOM(prevNode, dom) {
+				if (prevNode.__src !== this.__src) dom.setAttribute('src', this.__src);
+				if (prevNode.__alt !== this.__alt) dom.setAttribute('alt', this.__alt);
+				return false;
+			}
+
+			exportDOM() {
+				const element = document.createElement('img');
+				element.setAttribute('src', this.__src);
+				element.setAttribute('alt', this.__alt);
+				return { element };
+			}
+
+			exportJSON() { return { ...super.exportJSON(), type: 'image', src: this.__src, alt: this.__alt }; }
+
+			getSrc() { return this.getLatest().__src; }
+			getAlt() { return this.getLatest().__alt; }
+
+			// Rendered entirely by createDOM, so there is nothing for a framework to decorate
+			decorate() { return null; }
+			isInline() { return false; }
+		};
 	}
 
 	async initLexical() {
@@ -255,7 +316,7 @@ export default class HtmlEditor extends ShadowComponent {
 				tableCell: 'k-editor-table-cell',
 				tableCellHeader: 'k-editor-table-cell-header'
 			},
-			nodes: [richText.HeadingNode, richText.QuoteNode, list.ListNode, list.ListItemNode, link.LinkNode, table.TableNode, table.TableCellNode, table.TableRowNode, code.CodeNode, code.CodeHighlightNode, this.StyledTextNode, ...this.customNodes],
+			nodes: [richText.HeadingNode, richText.QuoteNode, list.ListNode, list.ListItemNode, link.LinkNode, table.TableNode, table.TableCellNode, table.TableRowNode, code.CodeNode, code.CodeHighlightNode, this.StyledTextNode, this.ImageNode, ...this.customNodes],
 			onError: console.error,
 			editorState: null
 		};
@@ -1019,8 +1080,18 @@ export default class HtmlEditor extends ShadowComponent {
 		return this;
 	}
 
-	insertImage(url) {
-		return this.insertHTML(`<img src="${encodeURI(url)}" />`);
+	/*
+		`alt` is escaped rather than encoded: encodeURI happens to neutralise a quote in the src
+		(it becomes %22), but alt is human-readable text where percent-encoding would show through,
+		so it needs real attribute escaping to keep a quote from closing the attribute early.
+	*/
+	insertImage(url, { alt = '' } = {}) {
+		const escaped = String(alt)
+			.replace(/&/g, '&amp;')
+			.replace(/"/g, '&quot;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;');
+		return this.insertHTML(`<img src="${encodeURI(url)}" alt="${escaped}" />`);
 	}
 
 	/*
@@ -1378,6 +1449,7 @@ export default class HtmlEditor extends ShadowComponent {
 					<kc-align-right></kc-align-right>
 				</k-control-group>
 				<kc-create-link></kc-create-link>
+				<kc-insert-image></kc-insert-image>
 				<kc-format-code></kc-format-code>
 				<kc-mode></kc-mode>
 			`,
@@ -1436,6 +1508,7 @@ export default class HtmlEditor extends ShadowComponent {
 					<kc-text-background-color></kc-text-background-color>
 				</k-control-group>
 				<kc-clear-formatting></kc-clear-formatting>
+				<kc-insert-image></kc-insert-image>
 				<kc-insert-table></kc-insert-table>
 				<kc-editor-theme></kc-editor-theme>
 				<kc-mode></kc-mode>
