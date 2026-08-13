@@ -4,10 +4,26 @@ import '../Icon.js';
 import '../Dropdown.js';
 
 export default class MdImage extends Control {
+  static properties = {
+    ...Control.properties,
+    hasPicker: { type: Boolean, state: true }
+  };
+
   static requires = ['replaceSelection'];
   static hostMode = 'write';
 
+  constructor() {
+    super();
+    this.hasPicker = false;
+  }
+
   handleDropdownOpened = () => {
+    /*
+      window.kempo.openAssetPicker is resolved here rather than at first render so a host page can
+      install it at any point before the control is used — the same lazy contract as
+      window.kempo.overlayRoot, and it means no load-order requirement on whatever provides it.
+    */
+    this.hasPicker = typeof window.kempo?.openAssetPicker === 'function';
     requestAnimationFrame(() => {
       const url = this.shadowRoot.querySelector('.image-url');
       const alt = this.shadowRoot.querySelector('.image-alt');
@@ -15,6 +31,34 @@ export default class MdImage extends Control {
       const ta = this.host?.textarea;
       if(ta && alt) alt.value = ta.value.substring(ta.selectionStart, ta.selectionEnd) || '';
     });
+  };
+
+  /*
+    Hands off to a host-supplied picker — a media library, typically — and inserts whatever it
+    resolves with. `null`/`undefined` covers every dismissal path, so cancelling simply does
+    nothing. Insertion goes through the same call submit() makes, so there is one code path that
+    actually writes markdown.
+  */
+  browseLibrary = async () => {
+    const picker = window.kempo?.openAssetPicker;
+    if(typeof picker !== 'function') return;
+
+    const altInput = this.shadowRoot.querySelector('.image-alt');
+    const alt = altInput?.value.trim() || '';
+    // Closed first so the picker's own overlay is not fighting the dropdown's click-outside handler
+    this.shadowRoot.querySelector('k-dropdown')?.close();
+
+    let result;
+    try {
+      result = await picker({ alt });
+    } catch(e) {
+      // A picker that throws should not take the editor down with it
+      console.error('[kc-md-image] openAssetPicker failed:', e);
+      return;
+    }
+    if(!result?.url) return;
+
+    this.host?.replaceSelection?.(`![${result.alt ?? alt}](${result.url})`, { selectInserted: false });
   };
 
   handleDropdownClosed = () => {
@@ -47,6 +91,9 @@ export default class MdImage extends Control {
           <label>Alt text</label>
           <input class="image-alt" type="text" placeholder="Description for screen readers" />
           <div class="image-actions">
+            ${this.hasPicker ? html`
+              <button type="button" class="browse" @click=${this.browseLibrary}>Browse…</button>
+            ` : ''}
             <button type="button" @click=${() => this.shadowRoot.querySelector('k-dropdown').close()}>Cancel</button>
             <button type="button" class="primary" @click=${() => this.submit()}>Insert</button>
           </div>
@@ -65,6 +112,8 @@ export default class MdImage extends Control {
       .image-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.25rem; }
       .image-actions button { padding: 0.4rem 0.8rem; border: 1px solid var(--c_border); border-radius: var(--radius); cursor: pointer; font: inherit; }
       .image-actions button.primary { background: var(--c_primary); color: white; border-color: var(--c_primary); }
+      /* Pushed to the far left so it reads as an alternative to typing a URL, not a third confirm */
+      .image-actions button.browse { margin-right: auto; }
     `
   ];
 }

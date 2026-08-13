@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.43] - 2026-08-13
+### Added
+ - `MarkdownEditor`: optional `window.kempo.openAssetPicker` hook. The built-in image control (`kc-md-image`) has only ever accepted a typed URL, which is no use on a site that stores its images somewhere the author would have to go look them up. Providing the hook — an `async ({ alt }) => ({ url, alt }) | null` — adds a **Browse…** button that hands off to whatever picker the host supplies, and inserts the result through the same path as manual entry. It is resolved when the control's dropdown opens rather than at page load, so it can be installed at any point with no load-order requirement, in the spirit of `window.kempo.overlayRoot`. Every dismissal path resolves `null` and inserts nothing; a hook that throws is logged and leaves the editor untouched. With no hook installed the control is byte-for-byte what it was
+
 ## [0.4.42] - 2026-08-12
 ### Fixed
  - `Dropdown`: opening a `k-dropdown` now closes any other open one that shares its shadow root. `containsAcrossShadow()` — the "is that dropdown nested inside me?" check guarding every close path — reported a false positive for siblings: walking up from the other dropdown reached their common host, whose `.shadowRoot` is this one's root node, which it read as "contains". So a component rendering two or more `k-dropdown`s in its own shadow root (a toolbar or control bar with several menus) could stack them all open at once, and clicking one trigger never dismissed the others. Dropdowns in *different* components were unaffected, which is why this only showed up in that one shape

@@ -15,6 +15,7 @@
         <a href="#tagFiltering">Tag Filtering</a><br />
         <a href="#customControls">Custom Controls</a><br />
         <a href="#sizingExample">Sizing Example</a><br />
+        <a href="#assetPicker">Asset Picker</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -281,6 +282,29 @@
         </k-card>
       </div>
     </div>
+
+    <h3 id="assetPicker"><a href="#assetPicker" class="no-link">Asset Picker</a></h3>
+    <p>The built-in image control (<code>kc-md-image</code>) lets an author type an image URL. If you also provide <code>window.kempo.openAssetPicker</code>, it grows a <strong>Browse&hellip;</strong> button that hands off to whatever picker you supply &mdash; a media library, an asset browser, a file manager. Without the hook the control is exactly as it was, so this costs nothing if you do not use it.</p>
+    <p>The hook is an async function that resolves with the chosen asset, or <code>null</code> if the author cancelled:</p>
+    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">window</span>.kempo = <span class="hljs-keyword">window</span>.kempo || {};
+
+  <span class="hljs-comment">// Called with the alt text already typed into the control, if any.</span>
+  <span class="hljs-comment">// Resolve { url, alt } to insert, or null to insert nothing.</span>
+  <span class="hljs-keyword">window</span>.kempo.openAssetPicker = <span class="hljs-keyword">async</span> ({ alt }) =&gt; {
+    <span class="hljs-keyword">const</span> asset = <span class="hljs-keyword">await</span> myMediaLibrary.choose();
+    <span class="hljs-keyword">if</span>(!asset) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">return</span> { url: asset.url, alt: asset.altText || alt };
+  };
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>The result is inserted as <code>![alt](url)</code> through the same path as manual entry. A few details worth knowing:</p>
+    <ul>
+      <li>The hook is read when the control&rsquo;s dropdown opens, not at page load, so you can install it at any point before the author uses it &mdash; there is no load-order requirement.</li>
+      <li>Return <code>null</code>, <code>undefined</code>, or an object with no <code>url</code> for every dismissal path (cancel, overlay click, Escape) and nothing is inserted.</li>
+      <li>If <code>alt</code> is omitted from the result, whatever the author typed into the alt field is used instead.</li>
+      <li>The control closes its dropdown before calling the hook, so a dialog-based picker will not fight it for clicks.</li>
+      <li>If the hook throws, the error is logged and the editor is left untouched.</li>
+    </ul>
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
