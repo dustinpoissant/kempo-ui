@@ -305,6 +305,86 @@ export default {
 	},
 
 	/*
+		Image Node (importDOM/importJSON)
+
+		insertImage()'s path through createDOM is covered by InsertImage.browser-test.js, but nothing
+		exercised the other two ways an <img> reaches the editor: already present in an initial `value`
+		(importDOM, via $generateNodesFromDOM), and restored from a serialized editor state
+		(importJSON) — e.g. a draft saved as Lexical JSON rather than HTML. Both used to mean the image
+		was silently dropped, since Lexical only builds nodes for registered types.
+	*/
+	'a value attribute containing an img renders it via importDOM': async ({pass, fail}) => {
+		const { container, editor } = await createEditor({
+			value: '<p><img src="https://example.com/a.png" alt="A pic"></p>'
+		});
+		const img = editor.shadowRoot.querySelector('img');
+		const val = editor.getValue();
+		if(!img) {
+			cleanup(container);
+			return fail('no img was rendered from the initial value attribute');
+		}
+		if(img.getAttribute('src') !== 'https://example.com/a.png') {
+			cleanup(container);
+			return fail(`src was ${img.getAttribute('src')}`);
+		}
+		if(img.getAttribute('alt') !== 'A pic') {
+			cleanup(container);
+			return fail(`alt was ${img.getAttribute('alt')}`);
+		}
+		if(!val.includes('src="https://example.com/a.png"')) {
+			cleanup(container);
+			return fail(`exported value is missing the image: ${val}`);
+		}
+		cleanup(container);
+		pass('img imported from the initial value');
+	},
+
+	'an img with no src or alt still imports, defaulting to empty strings': async ({pass, fail}) => {
+		const { container, editor } = await createEditor({ value: '<p><img></p>' });
+		const img = editor.shadowRoot.querySelector('img');
+		if(!img) {
+			cleanup(container);
+			return fail('no img was rendered for a bare <img>');
+		}
+		const src = img.getAttribute('src');
+		const alt = img.getAttribute('alt');
+		cleanup(container);
+		if(src !== '') return fail(`expected src to default to '', got ${JSON.stringify(src)}`);
+		if(alt !== '') return fail(`expected alt to default to '', got ${JSON.stringify(alt)}`);
+		pass('missing attributes default to empty strings, not dropped');
+	},
+
+	'ImageNode.importJSON reconstructs a node from serialized state': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		let src, alt, isImageNode;
+		editor.lexicalEditor.update(() => {
+			const node = editor.ImageNode.importJSON({ src: '/media/uploads/x.png', alt: 'from json' });
+			src = node.getSrc();
+			alt = node.getAlt();
+			isImageNode = node instanceof editor.ImageNode;
+		}, { discrete: true });
+		cleanup(container);
+		if(!isImageNode) return fail('importJSON did not return an ImageNode instance');
+		if(src !== '/media/uploads/x.png') return fail(`src was ${src}`);
+		if(alt !== 'from json') return fail(`alt was ${alt}`);
+		pass('node reconstructed from JSON');
+	},
+
+	'ImageNode.importJSON defaults missing src/alt to empty strings': async ({pass, fail}) => {
+		const { container, editor } = await createEditor();
+		let src, alt;
+		editor.lexicalEditor.update(() => {
+			const node = editor.ImageNode.importJSON({});
+			src = node.getSrc();
+			alt = node.getAlt();
+		}, { discrete: true });
+		cleanup(container);
+		if(src !== '') return fail(`expected src to default to '', got ${JSON.stringify(src)}`);
+		if(alt !== '') return fail(`expected alt to default to '', got ${JSON.stringify(alt)}`);
+		pass('missing JSON fields default to empty strings');
+	},
+
+	/*
 		Events
 	*/
 	'should dispatch ready event': async ({pass, fail}) => {
