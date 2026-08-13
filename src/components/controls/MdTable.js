@@ -66,7 +66,7 @@ export default class MdTable extends Control {
     Control.styles,
     css`
       :host { border: 1px solid var(--c_border); border-radius: var(--radius); margin: var(--spacer_q); }
-      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 2.5rem; min-height: 2.5rem; background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
+      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
       .trigger:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
       .tbl-form { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem; }
       .tbl-form input { width: 2.5rem; padding: 0.35rem 0.4rem; border: 1px solid var(--c_border); border-radius: var(--radius); font: inherit; text-align: center; -moz-appearance: textfield; }

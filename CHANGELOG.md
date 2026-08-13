@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.50] - 2026-08-13
+### Fixed
+ - `HtmlEditor`/`MarkdownEditor`: `kc-text-color`, `kc-text-background-color`, `kc-insert-image`, `kc-md-image`, and `kc-md-table`'s toolbar buttons were a few pixels larger than every other toolbar button. Their `.trigger` used a flat `min-width`/`min-height: 2.5rem` with no padding, instead of `ButtonControl`'s actual recipe — `min-width`/`min-height: 2rem` plus `padding: var(--spacer_h)` — so the rendered box came out larger even though nothing else about them differs visually. These can't literally extend `ButtonControl` (they need a `<k-dropdown>` wrapping a separate trigger and content panel, where `ButtonControl`'s host element *is* the button), but there was no reason their size shouldn't match it exactly. Now it does
+
 ## [0.4.49] - 2026-08-13
 ### Fixed
  - `ShadowComponent`: a subclass whose `static styles` wraps a parent class's own `static styles` array without spreading it — e.g. `[ButtonControl.styles, css\`...\`]`, since `ButtonControl.styles` is itself `[Control.styles, css\`...\`]` — produced a style array nested one level deep. `createRenderRoot()` mapped over it without flattening first, so the inner array had no `.cssText` of its own and fell through to JS's default `Array.prototype` stringification, which joins elements with a bare `,`. A comma sitting between two closed `}` blocks is not valid anywhere a CSS rule is expected, so the browser silently dropped the entire next rule rather than misapplying one property — in practice, all of `ButtonControl`'s own styling (sizing, padding, hover/focus/active states) on any affected subclass. `createRenderRoot()` now flattens the styles array before mapping, so it no longer matters how many layers of "wrap the parent's styles" a subclass chain adds
