@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.48] - 2026-08-13
+### Fixed
+ - `HtmlEditor`/`MarkdownEditor`: the `kc-text-color`, `kc-text-background-color`, `kc-insert-image`, and `kc-md-image`/`kc-md-table` toolbar buttons rendered with a solid background instead of matching every other toolbar control's transparent one. Each renders its own `<button slot="trigger">` for `k-dropdown` rather than being the button itself the way `kc-bold`/`kc-insert-table`/etc. are, and kempo-css's global `button:not(.no-btn):not(.no-style)` rule outranks a plain `.trigger` class selector, so it was silently winning over the control's own transparent styling. Added the `no-btn` class kempo-css ships for exactly this, and gave `kc-insert-image`/`kc-md-image`/`kc-md-table` the same bordered box and hover tint their sibling controls already had
+
 ## [0.4.45] - 2026-08-13
 ### Added
  - `Video`: `--controls-bg` CSS custom property to override the control bar's default gradient background. The gradient (dark at the bottom edge, fading to transparent) can read poorly once whatever's playing is already dark near that edge; setting `--controls-bg` to a flat color gives a solid, evenly-legible overlay instead
