@@ -532,6 +532,7 @@
           <a href="#properties">Properties</a><br />
           <a href="#methods">Methods</a><br />
           <a href="#events">Events</a><br />
+          <a href="#cssVars">CSS Custom Properties</a><br />
           <a href="#controls">Built-in Controls</a><br />
         </div>
       </k-accordion-panel>
@@ -867,6 +868,23 @@
           <tr><td><code>enterpictureinpicture / leavepictureinpicture</code></td><td>&mdash;</td><td>Forwarded as-is from the underlying video element.</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
+    <h5><code>--controls-bg</code></h5>
+    <p>Background of the control bar (the region the default/unnamed slot renders into). Default is a gradient, <code>linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))</code>, fading from dark at the bottom edge to transparent — which can read poorly against content that's already dark near that edge. Set to a flat color for a solid overlay instead:</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px; --controls-bg: rgba(0, 0, 0, 0.6);&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-video src="../media/evo.mp4" poster="../media/evo-mp4.png" controls="normal" style="max-width: 480px; --controls-bg: rgba(0, 0, 0, 0.6);"></k-video>
+        </k-card>
+      </div>
     </div>
 
     <h3 id="controls"><a href="#controls" class="no-link">Built-in Controls</a></h3>

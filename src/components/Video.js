@@ -538,7 +538,9 @@ export default class Video extends ShadowComponent {
       flex-wrap: wrap;
       gap: 0;
       padding: 0.1rem 0.25rem;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+      /* --controls-bg lets a consumer swap the default gradient (which reads poorly against
+         content that's already dark near the bottom edge) for a flat, solid overlay instead. */
+      background: var(--controls-bg, linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)));
       color: #fff;
       line-height: normal;
       font-size: 0.8rem;

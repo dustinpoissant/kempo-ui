@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.45] - 2026-08-13
+### Added
+ - `Video`: `--controls-bg` CSS custom property to override the control bar's default gradient background. The gradient (dark at the bottom edge, fading to transparent) can read poorly once whatever's playing is already dark near that edge; setting `--controls-bg` to a flat color gives a solid, evenly-legible overlay instead
+
 ## [0.4.44] - 2026-08-13
 ### Fixed
  - `HtmlEditor`: **images were silently discarded.** Lexical only builds nodes for types that are registered and ships none for images, so an `<img>` was dropped on the way in — whether it arrived through `insertImage()`, was pasted, or was already present in `value`. `insertImage()` had therefore never actually inserted anything. An image node is now registered alongside headings, lists, links and tables, so images survive insertion, paste, `value`, and the round trip back out through `value`. It is registered unconditionally rather than through the opt-in `nodes` attribute, because an editor that quietly deletes images is surprising in a way an editor without HTML-comment support is not

@@ -966,6 +966,34 @@ export default {
 	},
 
 	/*
+		Controls Bar Background
+	*/
+	'#controls-bar should default to the gradient background': async ({pass, fail}) => {
+		const { container, el } = await createVideo();
+		const bar = el.shadowRoot.querySelector('#controls-bar');
+		const background = getComputedStyle(bar).backgroundImage;
+		cleanup(container);
+		if(!background.includes('gradient')) return fail(`Expected the default gradient background, got "${background}"`);
+		pass('#controls-bar defaults to the gradient background');
+	},
+
+	'--controls-bg custom property should override the default gradient with a solid background': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = `<k-video style="--controls-bg: rgba(0, 0, 0, 0.6);"></k-video>`;
+		document.body.appendChild(container);
+		const el = container.querySelector('k-video');
+		await el.updateComplete;
+		const bar = el.shadowRoot.querySelector('#controls-bar');
+		const cs = getComputedStyle(bar);
+		const background = cs.backgroundColor;
+		const backgroundImage = cs.backgroundImage;
+		cleanup(container);
+		if(backgroundImage !== 'none') return fail(`Expected no gradient once --controls-bg is set, got backgroundImage "${backgroundImage}"`);
+		if(background !== 'rgba(0, 0, 0, 0.6)') return fail(`Expected --controls-bg's solid color to apply, got "${background}"`);
+		pass('--controls-bg overrides the default gradient with a solid background');
+	},
+
+	/*
 		Auto-Hide Controls (idle)
 	*/
 	'pause should immediately clear the idle attribute': async ({pass, fail}) => {
