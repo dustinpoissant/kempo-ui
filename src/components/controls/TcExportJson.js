@@ -36,7 +36,7 @@ export default class TcExportJson extends ButtonControl {
   }
 
   static styles = [
-    ButtonControl.styles,
+    ...ButtonControl.styles,
     css`
       :host { gap: 0.25rem; padding: 0 var(--spacer_h, 0.5rem); }
     `

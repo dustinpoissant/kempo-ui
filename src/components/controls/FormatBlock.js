@@ -52,7 +52,7 @@ export default class FormatBlock extends ButtonControl {
   }
 
   static styles = [
-    ButtonControl.styles,
+    ...ButtonControl.styles,
     css`
       :host {
         gap: 0.5rem;

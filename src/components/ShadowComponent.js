@@ -37,7 +37,20 @@ export default class ShadowComponent extends LitElement {
         if (styles) {
             const styleEl = document.createElement('style');
             if (Array.isArray(styles)) {
-                styleEl.textContent = styles.map(s => s.cssText || s).join('\n');
+                /*
+                  A subclass whose own `static styles` wraps a parent's `static styles` — e.g.
+                  `[ButtonControl.styles, css\`...\`]` where ButtonControl.styles is itself
+                  `[Control.styles, css\`...\`]` — produces an array nested one level deep. Without
+                  flattening first, `.map(s => s.cssText || s)` leaves that inner array as a raw
+                  array (arrays have no `.cssText`), and `.join('\n')` then stringifies it via
+                  JS's default Array.prototype.toString, which joins its own elements with a bare
+                  `,` instead of a newline. A `,` sitting between two closed `}` blocks is not valid
+                  CSS anywhere a rule is expected, so the browser's parser treats it as the start of
+                  a broken selector list and silently drops the entire next rule — every property in
+                  it, not just one. `.flat(Infinity)` first means it doesn't matter how many layers
+                  of "wrap the parent's styles" a subclass chain adds.
+                */
+                styleEl.textContent = styles.flat(Infinity).map(s => s.cssText || s).join('\n');
             } else {
                 styleEl.textContent = styles.cssText || styles;
             }
