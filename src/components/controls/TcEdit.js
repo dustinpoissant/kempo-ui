@@ -51,10 +51,10 @@ export default class TcEdit extends Control {
 
   render() {
     return this.isEditing ? html`
-      <button class="edit-btn save" @click=${this.handleSave}><k-icon name="check"></k-icon></button>
-      <button class="edit-btn cancel" @click=${this.handleCancel}><k-icon name="close"></k-icon></button>
+      <button class="no-btn edit-btn save" @click=${this.handleSave}><k-icon name="check"></k-icon></button>
+      <button class="no-btn edit-btn cancel" @click=${this.handleCancel}><k-icon name="close"></k-icon></button>
     ` : html`
-      <button class="edit-btn" @click=${this.handleEdit}><k-icon name="edit"></k-icon></button>
+      <button class="no-btn edit-btn" @click=${this.handleEdit}><k-icon name="edit"></k-icon></button>
     `;
   }
 
@@ -62,8 +62,8 @@ export default class TcEdit extends Control {
     Control.styles,
     css`
       :host { align-items: baseline; gap: 0.25rem; }
-      .edit-btn { background: transparent; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: var(--radius); }
-      .edit-btn:hover { background: oklch(from var(--c_bg__inv) l c h / 0.1); }
+      .edit-btn { background: transparent; border: 1px solid var(--c_border); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); border-radius: var(--radius); }
+      .edit-btn:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
       .save { color: var(--c_success, green); }
       .cancel { color: var(--c_danger, red); }
     `

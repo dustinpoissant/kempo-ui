@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.51] - 2026-08-13
+### Fixed
+ - `Table`: `kc-tc-edit`'s row-edit pencil (and its save/cancel pair) rendered with a solid filled background instead of a normal icon-button look, and at a fixed 2rem box with no padding — smaller than `kc-tc-delete-record` and every other `ButtonControl`-based row action sitting right next to it. Same root cause as the earlier toolbar fixes: a raw `<button>` without kempo-css's `no-btn` escape hatch loses to its global button rule on specificity. Added `no-btn` and matched `ButtonControl`'s box model (`min-width`/`min-height: 2rem` + `padding: var(--spacer_h)` instead of a flat `width`/`height: 2rem`), so it's now visually identical to `kc-tc-delete-record`
+
 ## [0.4.50] - 2026-08-13
 ### Fixed
  - `HtmlEditor`/`MarkdownEditor`: `kc-text-color`, `kc-text-background-color`, `kc-insert-image`, `kc-md-image`, and `kc-md-table`'s toolbar buttons were a few pixels larger than every other toolbar button. Their `.trigger` used a flat `min-width`/`min-height: 2.5rem` with no padding, instead of `ButtonControl`'s actual recipe — `min-width`/`min-height: 2rem` plus `padding: var(--spacer_h)` — so the rendered box came out larger even though nothing else about them differs visually. These can't literally extend `ButtonControl` (they need a `<k-dropdown>` wrapping a separate trigger and content panel, where `ButtonControl`'s host element *is* the button), but there was no reason their size shouldn't match it exactly. Now it does
