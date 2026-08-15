@@ -150,8 +150,11 @@ export default class Dropdown extends ShadowComponent {
 			return;
 		}
 
-		// Click is inside the menu on an interactive element (including submenu items)
-		const isInteractive = path.find(el => el.matches?.('a, button'));
+		// Click is inside the menu on an interactive element (including submenu items). Matches
+		// [role="button"] too, not just the tag names — a menu item can be a real Control-based
+		// custom element (ButtonControl sets role="button" on itself in connectedCallback), which
+		// is exactly what ControlMenu (kc-menu) expects its slotted items to be.
+		const isInteractive = path.find(el => el.matches?.('a, button, [role="button"]'));
 		if(isInteractive && !isInteractive.closest('[slot="trigger"]') && this.closeOnSelect) this.close();
 	};
 
@@ -176,7 +179,7 @@ export default class Dropdown extends ShadowComponent {
 	};
 
 	handleMenuClick = e => {
-		const item = e.target.closest('a, button');
+		const item = e.target.closest('a, button, [role="button"]');
 		if(!item || item.hasAttribute('disabled')) return;
 		// Don't fire select for items inside child submenus
 		if(item.closest('k-dropdown') !== this) return;
@@ -218,7 +221,10 @@ export default class Dropdown extends ShadowComponent {
 				e.preventDefault();
 				submenu.open();
 				submenu.focusFirstItem();
-			} else if(focused && !focused.closest('[slot="trigger"]')) {
+			// A real Control-based item (e.g. ButtonControl) already has its own keydown handler for
+			// Enter/Space, which runs first (target phase, before this document-level listener) and
+			// calls preventDefault(). Synthesizing another .click() here would fire the action twice.
+			} else if(focused && !focused.closest('[slot="trigger"]') && !e.defaultPrevented) {
 				e.preventDefault();
 				focused.click();
 			}
@@ -330,7 +336,7 @@ export default class Dropdown extends ShadowComponent {
 			if(child.tagName === 'K-DROPDOWN') {
 				const trigger = child.querySelector('[slot="trigger"]');
 				if(trigger) items.push(trigger);
-			} else if(child.matches('a, button')) {
+			} else if(child.matches('a, button, [role="button"]')) {
 				items.push(child);
 			}
 			return items;

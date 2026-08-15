@@ -19,11 +19,16 @@ export default class Card extends ShadowComponent {
 		:host {
 			display: block;
 		}
+		/*
+			Padding and the trailing margin are themeable, matching --aside_padding on Aside. A card
+			used as a tile in a grid wants its media flush to the border and its own gap handling,
+			neither of which is reachable from outside a shadow root otherwise.
+		*/
 		#card {
 			border: 1px solid var(--c_border);
 			border-radius: var(--radius);
-			margin-bottom: var(--spacer);
-			padding: var(--spacer);
+			margin-bottom: var(--card_margin, var(--spacer));
+			padding: var(--card_padding, var(--spacer));
 			position: relative;
 			background-color: var(--c_bg);
 		}

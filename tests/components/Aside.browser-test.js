@@ -403,6 +403,17 @@ export default {
 		pass('ESC does not close when escClose is false');
 	},
 
+	'ESC on a pushed aside collapses instead of hiding it': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+		await aside.updateComplete;
+		const state = aside.state;
+		cleanup(aside);
+		// Same lockout as an unguarded toggle(): the rail has to stay on screen, it carries the toggle
+		if(state !== 'collapsed') return fail(`Expected "collapsed", got "${state}"`);
+		pass('Pushed aside collapses on ESC rather than stranding the user');
+	},
+
 	/*
 		Side Configuration
 	*/
@@ -1025,5 +1036,60 @@ export default {
 		}
 		cleanup(aside);
 		pass('AsideItem removes listener on disconnect');
+	},
+
+	/*
+		Offscreen lockout
+
+		k-aside-toggle lives inside the aside, so for a pushed aside "offscreen" hides the only
+		control that reopens it. With persistent-id set, that state used to be saved too, so a
+		reload restored the lockout and the only way out was clearing localStorage by hand.
+	*/
+	'toggle() on a pushed aside collapses instead of hiding it': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		aside.toggle();
+		await aside.updateComplete;
+		const state = aside.state;
+		cleanup(aside);
+		// The rail has to stay on screen — it carries the toggle
+		if(state !== 'collapsed') return fail(`Expected "collapsed", got "${state}"`);
+		pass('Pushed aside collapses rather than stranding the user');
+	},
+
+	'persistentId: should not save an offscreen state': async ({pass, fail}) => {
+		const id = `test-aside-no-offscreen-${Date.now()}`;
+		const key = `aside-persistent-id-${id}`;
+		localStorage.removeItem(key);
+		const aside = await createAside({ main: 'overlay', state: 'expanded' });
+		aside.persistentId = id;
+		await aside.updateComplete;
+		aside.hide();
+		await aside.updateComplete;
+		const saved = localStorage.getItem(key);
+		localStorage.removeItem(key);
+		cleanup(aside);
+		if(saved === 'offscreen') return fail('A dismissal must not be persisted — that is the lockout');
+		pass('Offscreen is not persisted');
+	},
+
+	'persistentId: should discard a stored offscreen state rather than restore it': async ({pass, fail}) => {
+		const id = `test-aside-heal-${Date.now()}`;
+		const key = `aside-persistent-id-${id}`;
+		// Exactly the state users got stuck in, as written by an older version
+		localStorage.setItem(key, 'offscreen');
+		const aside = document.createElement('k-aside');
+		aside.setAttribute('main', 'push');
+		aside.setAttribute('state', 'expanded');
+		aside.setAttribute('persistent-id', id);
+		document.body.appendChild(aside);
+		await aside.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+		const state = aside.state;
+		const stillStored = localStorage.getItem(key);
+		localStorage.removeItem(key);
+		cleanup(aside);
+		if(state === 'offscreen') return fail('Stuck: the bad stored state was restored');
+		if(stillStored === 'offscreen') return fail('The bad stored state should have been cleared');
+		pass('Recovers from a stored offscreen state');
 	}
 };

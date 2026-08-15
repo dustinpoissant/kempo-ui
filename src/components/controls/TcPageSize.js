@@ -1,5 +1,5 @@
 import Control from './Control.js';
-import { html } from '../../lit-all.min.js';
+import { html, css } from '../../lit-all.min.js';
 
 export default class TcPageSize extends Control {
   static hostEvents = ['pageChange', 'pageSizeChange'];
@@ -18,6 +18,11 @@ export default class TcPageSize extends Control {
       </select>
     `;
   }
+
+  static styles = [
+    Control.styles,
+    css`:host { margin: var(--spacer_q); }`
+  ];
 }
 
 customElements.define('kc-tc-page-size', TcPageSize);

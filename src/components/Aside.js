@@ -33,7 +33,17 @@ export default class Aside extends ShadowComponent {
 	}
 
 	handleKeyDown = (e) => {
-		if(this.escClose && e.key === 'Escape') this.hide();
+		if(!this.escClose || e.key !== 'Escape') return;
+
+		/*
+			Same asymmetry as toggle() below, and for the same reason: hide() sends a pushed aside
+			fully offscreen, taking <k-aside-toggle> — the only control that could reopen it — with
+			it. That is recoverable for an overlay (the backdrop and trigger live outside the aside),
+			but for a push-style nav it is a global keyboard shortcut that can strand the entire admin
+			sidebar with no way back. Escape on a pushed aside collapses it instead, mirroring toggle().
+		*/
+		if(this.main === 'overlay') this.hide();
+		else this.collapse();
 	}
 
 	/*
@@ -43,8 +53,19 @@ export default class Aside extends ShadowComponent {
 		super.updated(changedProperties);
 
 		if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
-			const saved = window.localStorage.getItem(`aside-persistent-id-${this.persistentId}`);
-			if(saved) this.state = saved;
+			const key = `aside-persistent-id-${this.persistentId}`;
+			const saved = window.localStorage.getItem(key);
+
+			/*
+				'offscreen' is deliberately never restored. It means "dismissed right now", not a
+				layout preference — and for a pushed aside it is a trap: the toggle that reopens it
+				lives inside the aside, so restoring offscreen leaves no way back, survives reloads,
+				and can only be undone from devtools.
+
+				Reading it here also heals anyone already stuck in that state from an earlier version.
+			*/
+			if(saved === 'offscreen') window.localStorage.removeItem(key);
+			else if(saved) this.state = saved;
 		}
 
 		if(changedProperties.has('state')) {
@@ -71,7 +92,10 @@ export default class Aside extends ShadowComponent {
 			this.inert = this.state === 'offscreen';
 
 			if(this.persistentId && window?.localStorage) {
-				window.localStorage.setItem(`aside-persistent-id-${this.persistentId}`, this.state);
+				const key = `aside-persistent-id-${this.persistentId}`;
+				// Storing a dismissal would restore it on the next load — see the note above.
+				if(this.state === 'offscreen') window.localStorage.removeItem(key);
+				else window.localStorage.setItem(key, this.state);
 			}
 		}
 	}
@@ -93,7 +117,21 @@ export default class Aside extends ShadowComponent {
 	hide = () => this.state = 'offscreen';
 
 	toggle = () => {
-		this.state = this.state === 'expanded' ? 'offscreen' : 'expanded';
+		if(this.state !== 'expanded'){
+			this.state = 'expanded';
+			return;
+		}
+
+		/*
+			An overlay is dismissed outright — it sits above the page, and the backdrop or Escape
+			is how it goes away, so there is always something left to reopen it.
+
+			A pushed aside collapses to its rail instead, because <k-aside-toggle> lives inside the
+			aside: sending it offscreen takes the only control that could reopen it along with it.
+			Collapsing keeps that control on screen, which is the whole difference between a
+			reversible action and a lockout that outlives the page.
+		*/
+		this.state = this.main === 'overlay' ? 'offscreen' : 'collapsed';
 	}
 
 	getTargetWidth(forState) {

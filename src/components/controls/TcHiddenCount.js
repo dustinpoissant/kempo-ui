@@ -1,5 +1,5 @@
 import Control from './Control.js';
-import { html } from '../../lit-all.min.js';
+import { html, css } from '../../lit-all.min.js';
 
 export default class TcHiddenCount extends Control {
   static hostEvents = ['recordHidden', 'recordShown'];
@@ -34,6 +34,11 @@ export default class TcHiddenCount extends Control {
   render() {
     return html`<div><span>${this.hiddenCount}</span> Hidden Records</div>`;
   }
+
+  static styles = [
+    Control.styles,
+    css`:host { margin: var(--spacer_q); }`
+  ];
 }
 
 customElements.define('kc-tc-hidden-count', TcHiddenCount);

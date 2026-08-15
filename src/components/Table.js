@@ -1172,13 +1172,20 @@ export default class Table extends ShadowComponent {
       display: flex;
       width: 100%;
     }
+    /* flex, not block: slotted controls need to be real flex items — e.g. a plain flex-spacer div
+       among them, to push a later control to the far edge — not just wrapping inline content inside
+       a block box. */
     #top slot {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       width: 100%;
       border-bottom: 1px solid var(--c_border);
     }
     #bottom slot {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       width: 100%;
       border-top: 1px solid var(--c_border);
     }

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CardGrid - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>window.litDisableBundleWarning = true;</script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center"
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      Kempo UI
+    </a>
+    <div
+      style="position:relative;margin:0 .25rem;align-self:center;"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+        style="width:11rem;"
+      />
+      <div
+        id="navSearchDropdown"
+        hidden
+        theme="light"
+        style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card grid tile layout gallery selection components"><a
+              href="../components/card-grid.html">CardGrid<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="rating star stars review score components"><a
+              href="../components/rating.html"
+            >Rating<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <div class="flex"></div>
+    <a
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+    ><k-icon name="license"></k-icon></a>
+    <a
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+    ><k-icon name="npm"></k-icon></a>
+    <a
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+    ><k-icon name="github-mark"></k-icon></a>
+    <k-theme-switcher
+      class="mr"
+      style="
+        --padding: 0.5rem;
+        --c_active: var(--tc_on_primary);
+        --tc_active: var(--c_primary);
+        --c_inactive__hover: rgba(255, 255, 255, 0.1);
+      "
+    ></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/card-grid.html">CardGrid</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/rating.html">Rating</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+    <h1 class="ta-center">CardGrid</h1>
+  
+  <k-main>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#selection">Selection and Table Controls</a><br />
+          <a href="#differences">Differences from Table</a><br />
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>&lt;k-card-grid></code> component renders data as a grid of <a href="./card.html"><code>&lt;k-card></code></a> tiles instead of table rows — for anything that reads better as a card than a cell: thumbnails, media, profiles. Its data model, pagination and selection all match <a href="./table.html"><code>&lt;k-table></code></a> on purpose, so a control built against Table's contract (<code>getSelectedRecords()</code>, <code>selectAllOnPage()</code>, <code>deselectAllOnPage()</code>, the <code>selectionChange</code> event) works against a CardGrid unmodified — including kempo-ui's own <a href="./controls.html"><code>kc-tc-*</code></a> controls.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>In HTML create a <code>&lt;k-card-grid></code>, and then in JavaScript call <code>setData</code> with your records and a <code>cardTemplate</code> function — one render function for the whole card, in place of Table's per-column <code>fields</code>.</p>
+
+    <k-card label="HTML">
+      <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-card-grid</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;basicUsageExample&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-card-grid</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-card-grid&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;basicUsageExample&#x27;</span>).<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">records</span>: [{<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Dustin&#x27;</span>,<br>      <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;Engineer&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kayla&#x27;</span>,<br>      <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;Designer&#x27;</span><br>    }, {<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Alexander&#x27;</span>,<br>      <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;Manager&#x27;</span><br>    }],<br>    <span class="hljs-attr">cardTemplate</span>: <span class="hljs-function"><span class="hljs-params">record</span> =&gt;</span> <span class="hljs-string">`&lt;strong&gt;<span class="hljs-subst">${record.name}</span>&lt;/strong&gt;&lt;br&gt;<span class="hljs-subst">${record.role}</span>`</span><br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    </k-card>
+    <k-card label="Results">
+      <k-card-grid id="basicUsageExample"></k-card-grid>
+      <script type="module">
+        await window.customElements.whenDefined('k-card-grid');
+        document.getElementById('basicUsageExample').setData({
+          records: [
+            { name: "Dustin", role: "Engineer" },
+            { name: "Kayla", role: "Designer" },
+            { name: "Alexander", role: "Manager" },
+          ],
+          cardTemplate: record => `<strong>${record.name}</strong><br>${record.role}`
+        });
+      </script>
+    </k-card>
+
+    <h3 id="selection"><a href="#selection" class="no-link">Selection and Table Controls</a></h3>
+    <p>Set <code>enable-selection</code> and every card gets a checkbox in its corner, plus a "select all" checkbox above the grid — the same mechanism <code>&lt;k-table></code> uses. Because CardGrid sets <code>controlled</code> on itself and implements <code>getSelectedRecords()</code>/<code>deselectAllOnPage()</code>/the <code>selectionChange</code> event identically to Table, any <code>kc-tc-*</code> control (or a custom control built the same way, extending <a href="./control.html"><code>Control</code></a>/<code>ButtonControl</code>) works in its <code>slot="top"</code> exactly as it would inside a <code>&lt;k-table></code>.</p>
+
+    <k-card label="HTML">
+      <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-card-grid</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;selectionExample&quot;</span> <span class="hljs-attr">enable-selection</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-delete-selected</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-delete-selected</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-card-grid</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-card-grid&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;selectionExample&#x27;</span>).<span class="hljs-title function_">setData</span>({<br>    <span class="hljs-attr">records</span>: [{<br>      <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Dustin&#x27;</span><br>    }, {<br>      <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>,<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kayla&#x27;</span><br>    }, {<br>      <span class="hljs-attr">id</span>: <span class="hljs-number">3</span>,<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Alexander&#x27;</span><br>    }],<br>    <span class="hljs-attr">cardTemplate</span>: <span class="hljs-function"><span class="hljs-params">record</span> =&gt;</span> record.<span class="hljs-property">name</span><br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    </k-card>
+    <k-card label="Results">
+      <k-card-grid id="selectionExample" enable-selection>
+        <kc-tc-delete-selected slot="top"></kc-tc-delete-selected>
+      </k-card-grid>
+      <script type="module">
+        await window.customElements.whenDefined('k-card-grid');
+        document.getElementById('selectionExample').setData({
+          records: [
+            { id: 1, name: "Dustin" },
+            { id: 2, name: "Kayla" },
+            { id: 3, name: "Alexander" },
+          ],
+          cardTemplate: record => record.name
+        });
+      </script>
+    </k-card>
+    <p><code>kc-tc-delete-selected</code>'s own <code>handleAction()</code> just calls <code>host.deleteSelected()</code> — it has no idea whether <code>host</code> is a Table or a CardGrid, and doesn't need to.</p>
+
+    <h3 id="differences"><a href="#differences" class="no-link">Differences from Table</a></h3>
+    <p>CardGrid is deliberately not a 1:1 port. Table's columns give it a natural place to hang sorting, filtering, per-cell search and inline editing — a card has no columns, just one opaque block of content per record, so none of that carries over:</p>
+    <ul>
+      <li>No <code>fields</code>, no per-column <code>calculator</code>/<code>formatter</code>/<code>editor</code> — one <code>cardTemplate(record, host)</code> renders the whole card instead.</li>
+      <li>No sorting (<code>sortBy</code>), filtering (<code>addFilter</code>/<code>removeFilter</code>), or built-in <code>search()</code>.</li>
+      <li>No inline editing (<code>editRecord</code>/<code>saveEditedRecord</code>).</li>
+      <li>No field visibility (<code>hideField</code>/<code>showField</code>) or CSV/JSON export, both of which assume tabular columns.</li>
+      <li>No fetch-on-scroll (<code>setupFetchRecords</code>).</li>
+    </ul>
+    <p>Everything else — pagination, record CRUD, record-level hide/show, selection, <code>requestDelete</code> confirmation — matches Table's method names, argument shapes and event names exactly.</p>
+
+    <br />
+    <hr class="my" />
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./component.html">Component</a></h6>
+    <h5>
+      <code>new CardGrid()</code><br />
+      <code>new CardGrid(<i>&lt;Array>object</i> options)</code>
+    </h5>
+
+    <h4>Parameters</h4>
+    <h5><code><i>object</i> options</code></h5>
+    <p>An object containing the initial configuration for the grid. The options object can contain the following properties:</p>
+    <ul>
+      <li><code>records</code>: An array of objects representing the records to be shown in the grid.</li>
+      <li><code>cardTemplate</code>: A function <code>(record, host) => TemplateResult</code> that renders the contents of each card.</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>records<i>: &lt;Array>object</i></code></h5>
+    <p>An array of objects containing the data that will be the records of the grid.</p>
+
+    <h5><code>cardTemplate<i>: function</i></code></h5>
+    <p>A function <code>(record, host) => TemplateResult</code> called once per record to render the contents of its card. <code>host</code> is the CardGrid instance itself, mirroring the <code>(record, table)</code> signature Table passes to a field's <code>calculator</code>.</p>
+
+    <h5><code>enable-selection<i>: boolean</i></code></h5>
+    <p>Shows a checkbox on every card and a "select all" checkbox above the grid.</p>
+
+    <h5><code>min-card-width<i>: string</i></code></h5>
+    <p>The minimum width of a card before the grid wraps to another column, passed straight into a <code>repeat(auto-fill, minmax(<i>min-card-width</i>, 1fr))</code> grid-template-columns. Defaults to <code>"11rem"</code>.</p>
+
+    <h5><code>pageSize<i>: number</i></code></h5>
+    <p>The number of records to display per page.</p>
+
+    <h5><code>pageSizeOptions<i>: &lt;Array>number</i></code></h5>
+    <p>An array of numbers representing the available page size options.</p>
+
+    <h5><code>request-delete<i>: boolean</i></code></h5>
+    <p>When set, <code>deleteRecord</code>/<code>deleteSelected</code> dispatch a <code>requestDelete</code> event and wait for <code>approve()</code> instead of deleting immediately.</p>
+
+    <h5><code>placeholder<i>: string</i></code></h5>
+    <p>Text shown when the grid has no records. Defaults to <code>"No Records"</code>.</p>
+
+    <h5><code>filtered-placeholder<i>: string</i></code></h5>
+    <p>Text shown when records exist but every one is currently hidden (via <code>hideRecord</code>). Defaults to <code>""</code> (nothing shown).</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+
+    <h5><code>setData(<i>object</i> options)<i>: undefined</i></code></h5>
+    <p>Sets the records and the card template and renders the grid. The options object can contain <code>records</code>, <code>cardTemplate</code>, <code>pageSize</code>, <code>pageSizeOptions</code>, <code>currentPage</code>, and <code>enableSelection</code>.</p>
+
+    <h5><code>setRecords(<i>Array</i> records, <i>function</i> cardTemplate)<i>: undefined</i></code></h5>
+    <p>Sets the records for the grid and re-renders. <code>cardTemplate</code> is optional — omit it to keep whatever's already set.</p>
+
+    <h5><code>addRecord(<i>object</i> record)<i>: undefined</i></code></h5>
+    <p>Adds a new record to the grid.</p>
+
+    <h5><code>updateRecord(<i>object</i> record, <i>object</i> newData)<i>: undefined</i></code></h5>
+    <p>Updates an existing record with new data.</p>
+
+    <h5><code>deleteRecord(<i>object</i> record)<i>: undefined</i></code></h5>
+    <p>Deletes a record from the grid, or — with <code>request-delete</code> set — dispatches <code>requestDelete</code> and waits for approval first.</p>
+
+    <h5><code>setPageSize(<i>number</i> pageSize)<i>: undefined</i></code></h5>
+    <p>Sets the number of records to display per page.</p>
+
+    <h5><code>setPage(<i>number</i> page)<i>: undefined</i></code></h5>
+    <p>Sets the current page to display.</p>
+
+    <h5><code>nextPage()<i>: undefined</i></code></h5>
+    <p>Moves to the next page.</p>
+
+    <h5><code>prevPage()<i>: undefined</i></code></h5>
+    <p>Moves to the previous page.</p>
+
+    <h5><code>firstPage()<i>: undefined</i></code></h5>
+    <p>Moves to the first page.</p>
+
+    <h5><code>lastPage()<i>: undefined</i></code></h5>
+    <p>Moves to the last page.</p>
+
+    <h5><code>getCurrentPage()<i>: number</i></code></h5>
+    <p>Returns the current page number.</p>
+
+    <h5><code>getTotalPages()<i>: number</i></code></h5>
+    <p>Returns the total number of pages.</p>
+
+    <h5><code>getSelectedRecords()<i>: Array</i></code></h5>
+    <p>Returns an array of the currently selected records.</p>
+
+    <h5><code>deleteSelected()<i>: undefined</i></code></h5>
+    <p>Deletes all currently selected records from the grid — or, with <code>request-delete</code> set, dispatches <code>requestDelete</code> for the selection.</p>
+
+    <h5><code>selectAllOnPage()<i>: undefined</i></code></h5>
+    <p>Selects all the records on the current page.</p>
+
+    <h5><code>deselectAllOnPage()<i>: undefined</i></code></h5>
+    <p>Deselects all the records on the current page.</p>
+
+    <h5><code>allOnPageSelected()<i>: boolean</i></code></h5>
+    <p>Returns <code>true</code> if all the records on the current page are selected.</p>
+
+    <h5><code>hideRecord(<i>object</i> record)<i>: undefined</i></code></h5>
+    <p>Hides a record from the grid.</p>
+
+    <h5><code>showRecord(<i>object</i> record)<i>: undefined</i></code></h5>
+    <p>Shows a hidden record.</p>
+
+    <h5><code>showAllRecords()<i>: undefined</i></code></h5>
+    <p>Shows every hidden record.</p>
+
+    <h5><code>getDisplayedRecords()<i>: Array</i></code></h5>
+    <p>Returns the records currently displayed (i.e. not hidden).</p>
+
+    <h5><code>getHiddenRecords()<i>: Array</i></code></h5>
+    <p>Returns the currently hidden records.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/CardGrid.js"></script>
+    <script type="module" src="../src/components/controls/TcDeleteSelected.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+  
+</body>
+</html>

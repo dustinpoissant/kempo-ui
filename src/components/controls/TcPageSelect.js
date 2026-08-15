@@ -27,6 +27,7 @@ export default class TcPageSelect extends Control {
   static styles = [
     Control.styles,
     css`
+      :host { margin: var(--spacer_q); }
       .page-select { display: flex; align-items: center; gap: 0.25rem; white-space: nowrap; }
       label { padding: 0; margin: 0; }
     `

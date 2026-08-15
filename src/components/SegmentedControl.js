@@ -6,13 +6,15 @@ class SegmentedControl extends ShadowComponent {
 
   static properties = {
     value: { type: String, reflect: true },
-    name: { type: String }
+    name: { type: String },
+    persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
   };
 
   constructor() {
     super();
     this.value = '';
     this.name = '';
+    this.persistentId = null;
     this.initialValue = '';
     if(typeof this.attachInternals === 'function') {
       try {
@@ -46,6 +48,12 @@ class SegmentedControl extends ShadowComponent {
 
   updated(changedProperties) {
     super.updated(changedProperties);
+
+    if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
+      const stored = window.localStorage.getItem(`segmented-control-persistent-id-${this.persistentId}`);
+      if(stored !== null) this.value = stored;
+    }
+
     if(changedProperties.has('value')) {
       if(this.internals && typeof this.internals.setFormValue === 'function') {
         try {
@@ -53,6 +61,9 @@ class SegmentedControl extends ShadowComponent {
         } catch (e) {
           // Form value setting not available
         }
+      }
+      if(this.persistentId && window?.localStorage) {
+        window.localStorage.setItem(`segmented-control-persistent-id-${this.persistentId}`, this.value);
       }
       this.dispatchEvent(new CustomEvent('change', {
         detail: { value: this.value },

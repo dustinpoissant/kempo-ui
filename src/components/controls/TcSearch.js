@@ -1,5 +1,5 @@
 import Control from './Control.js';
-import { html } from '../../lit-all.min.js';
+import { html, css } from '../../lit-all.min.js';
 import debounce from '../../utils/debounce.js';
 
 export default class TcSearch extends Control {
@@ -29,6 +29,11 @@ export default class TcSearch extends Control {
   render() {
     return html`<input type="search" placeholder="Search" .value=${this.searchTerm || ''} @input=${this.handleInput} />`;
   }
+
+  static styles = [
+    Control.styles,
+    css`:host { margin: var(--spacer_q); }`
+  ];
 }
 
 customElements.define('kc-tc-search', TcSearch);

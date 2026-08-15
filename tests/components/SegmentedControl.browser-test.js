@@ -3,8 +3,9 @@ import SegmentedControl from '../../src/components/SegmentedControl.js';
 const createSegmentedControl = async (options = {}) => {
 	const container = document.createElement('div');
 	const value = options.value ? `value="${options.value}"` : '';
+	const persistentId = options.persistentId ? `persistent-id="${options.persistentId}"` : '';
 	container.innerHTML = `
-		<k-segmented-control ${value}>
+		<k-segmented-control ${value} ${persistentId}>
 			<k-sc-option value="small">Small</k-sc-option>
 			<k-sc-option value="medium">Medium</k-sc-option>
 			<k-sc-option value="large">Large</k-sc-option>
@@ -218,6 +219,83 @@ export default {
 		}
 		cleanup(container);
 		pass('Buttons display correct text from options');
+	},
+
+	/*
+		Persistent ID
+	*/
+	'persistent-id: should save value to localStorage': async ({pass, fail}) => {
+		const id = 'test-save-' + Date.now();
+		const key = `segmented-control-persistent-id-${id}`;
+		window.localStorage.removeItem(key);
+
+		const { container, control } = await createSegmentedControl({ persistentId: id });
+		control.value = 'large';
+		await control.updateComplete;
+
+		const stored = window.localStorage.getItem(key);
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(stored !== 'large'){
+			return fail(`Expected localStorage to contain "large", got "${stored}"`);
+		}
+		pass('Value saved to localStorage');
+	},
+
+	'persistent-id: should restore value from localStorage': async ({pass, fail}) => {
+		const id = 'test-restore-' + Date.now();
+		const key = `segmented-control-persistent-id-${id}`;
+		window.localStorage.setItem(key, 'medium');
+
+		const { container, control } = await createSegmentedControl({ persistentId: id, value: 'small' });
+		await new Promise(r => setTimeout(r, 50));
+
+		window.localStorage.removeItem(key);
+		const restoredValue = control.value;
+		cleanup(container);
+
+		if(restoredValue !== 'medium'){
+			return fail(`Expected value to be restored to "medium", got "${restoredValue}"`);
+		}
+		pass('Value restored from localStorage, overriding the initial attribute');
+	},
+
+	'persistent-id: should dispatch change event when value is restored': async ({pass, fail}) => {
+		const id = 'test-restore-event-' + Date.now();
+		const key = `segmented-control-persistent-id-${id}`;
+		window.localStorage.setItem(key, 'large');
+
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-segmented-control persistent-id="${id}">
+				<k-sc-option value="small">Small</k-sc-option>
+				<k-sc-option value="medium">Medium</k-sc-option>
+				<k-sc-option value="large">Large</k-sc-option>
+			</k-segmented-control>
+		`;
+		const control = container.querySelector('k-segmented-control');
+		let eventDetail = null;
+		control.addEventListener('change', (event) => { eventDetail = event.detail; });
+		document.body.appendChild(container);
+		await control.updateComplete;
+		await new Promise(r => setTimeout(r, 50));
+
+		window.localStorage.removeItem(key);
+		cleanup(container);
+
+		if(!eventDetail || eventDetail.value !== 'large'){
+			return fail(`Expected a change event with value "large", got ${JSON.stringify(eventDetail)}`);
+		}
+		pass('Change event dispatched when value is restored');
+	},
+
+	'persistent-id: should not touch storage when no persistent-id is set': async ({pass, fail}) => {
+		const { container, control } = await createSegmentedControl();
+		control.value = 'medium';
+		await control.updateComplete;
+		cleanup(container);
+		pass('No persistent-id means no localStorage interaction, nothing to assert beyond not throwing');
 	}
 };
 
