@@ -12,7 +12,9 @@ export default class Aside extends ShadowComponent {
 		main: { type: String, reflect: true },
 		overlayClose: { type: Boolean, reflect: true, attribute: 'overlay-close', converter: boolTrueFalse },
 		escClose: { type: Boolean, reflect: true, attribute: 'esc-close', converter: boolTrueFalse },
-		persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
+		persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
+		groupMin: { type: Number, attribute: 'group-min' },
+		groupIcons: { type: Object, attribute: 'group-icons' }
 	};
 
 	constructor() {
@@ -23,7 +25,60 @@ export default class Aside extends ShadowComponent {
 		this.overlayClose = true;
 		this.escClose = true;
 		this.persistentId = null;
+		this.groupMin = 2;
+		this.groupIcons = {};
+		this.groupObserver = null;
 	}
+
+	/*
+		Item Groups
+
+		A <k-aside-item group="Commerce"> is a normal link until `group-min` (default 2) items share
+		the same group. Then they are wrapped in a <k-aside-menu> that this builds (marked
+		data-auto-group) at the place of the first one. If a group falls back below the minimum, for
+		example an extension that contributed an item is disabled, its menu is removed and the
+		remaining item is a normal link again. The result only depends on the items present, so
+		running it again changes nothing.
+
+		Only direct children of the aside, and items inside menus this built, are considered. A
+		<k-aside-menu> written by hand is never touched.
+
+		The menu's icon is, in order: group-icons (a JSON map of group name to icon on the aside),
+		the first group-icon attribute among its items, then "folder". A menu holding the active item
+		is opened.
+	*/
+	groupItems = () => {
+		const members = new Map();
+		for(const item of this.querySelectorAll(':scope > k-aside-item[group], :scope > k-aside-menu[data-auto-group] > k-aside-item[group]')) {
+			const name = item.getAttribute('group').trim();
+			if(!name) continue;
+			if(!members.has(name)) members.set(name, []);
+			members.get(name).push(item);
+		}
+		const menus = new Map([...this.querySelectorAll(':scope > k-aside-menu[data-auto-group]')].map(menu => [menu.dataset.autoGroup, menu]));
+		const dissolve = menu => {
+			while(menu.firstElementChild) menu.before(menu.firstElementChild);
+			menu.remove();
+		};
+
+		for(const [name, items] of members) {
+			let menu = menus.get(name);
+			if(items.length < this.groupMin) {
+				if(menu) dissolve(menu);
+				continue;
+			}
+			if(!menu) {
+				menu = document.createElement('k-aside-menu');
+				menu.dataset.autoGroup = name;
+				menu.label = name;
+				items[0].before(menu);
+			}
+			for(const item of items) if(item.parentElement === this) menu.append(item);
+			menu.icon = this.groupIcons?.[name] || items.map(item => item.getAttribute('group-icon')).find(Boolean) || 'folder';
+			if(items.some(item => item.hasAttribute('active'))) menu.open = true;
+		}
+		for(const [name, menu] of menus) if(!members.has(name)) dissolve(menu);
+	};
 
 	/*
 		Event Handlers
@@ -49,8 +104,17 @@ export default class Aside extends ShadowComponent {
 	/*
 		Lifecycle Callbacks
 	*/
+	connectedCallback() {
+		super.connectedCallback();
+		this.groupObserver = new MutationObserver(this.groupItems);
+		this.groupObserver.observe(this, { childList: true, subtree: true, attributes: true, attributeFilter: ['active', 'group', 'group-icon'] });
+		this.groupItems();
+	}
+
 	updated(changedProperties) {
 		super.updated(changedProperties);
+
+		if(changedProperties.has('groupMin') || changedProperties.has('groupIcons')) this.groupItems();
 
 		if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
 			const key = `aside-persistent-id-${this.persistentId}`;
@@ -102,6 +166,7 @@ export default class Aside extends ShadowComponent {
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
+		this.groupObserver?.disconnect();
 		document.removeEventListener('keydown', this.handleKeyDown);
 		document.body.classList.remove('no-scroll');
 		const detail = { aside: this, state: 'offscreen', main: this.main, width: 0 };
@@ -311,6 +376,8 @@ class AsideItem extends ShadowComponent {
 	static properties = {
 		icon: { type: String },
 		href: { type: String },
+		group: { type: String },
+		groupIcon: { type: String, attribute: 'group-icon' },
 		active: { type: Boolean, reflect: true },
 		collapsed: { type: Boolean, reflect: true },
 		'no-expand': { type: Boolean, attribute: 'no-expand' },
@@ -321,6 +388,8 @@ class AsideItem extends ShadowComponent {
 		super();
 		this.icon = '';
 		this.href = '#';
+		this.group = '';
+		this.groupIcon = '';
 		this.active = false;
 		this.collapsed = false;
 		this['no-expand'] = false;

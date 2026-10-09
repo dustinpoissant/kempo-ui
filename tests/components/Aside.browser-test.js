@@ -19,6 +19,20 @@ const cleanup = (...elements) => {
 	document.body.classList.remove('no-scroll');
 };
 
+
+const settle = () => new Promise(resolve => setTimeout(resolve, 40));
+
+/* An aside holding the items, once the grouping has had a moment to arrange them. */
+const createGroupAside = async (items, attributes = '') => {
+	const container = document.createElement('div');
+	container.innerHTML = `<k-aside main="push" state="expanded" ${attributes}>${items}</k-aside>`;
+	const aside = container.firstElementChild;
+	document.body.appendChild(aside);
+	await aside.updateComplete;
+	await settle();
+	return aside;
+};
+
 export default {
 	/*
 		Element Creation
@@ -1091,5 +1105,117 @@ export default {
 		if(state === 'offscreen') return fail('Stuck: the bad stored state was restored');
 		if(stillStored === 'offscreen') return fail('The bad stored state should have been cleared');
 		pass('Recovers from a stored offscreen state');
+	},
+
+	/*
+		Item Groups
+	*/
+	'should leave a lone grouped item as a normal item': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item group="Commerce" href="/a">A</k-aside-item><k-aside-item href="/b">B</k-aside-item>');
+		const menus = aside.querySelectorAll('k-aside-menu').length;
+		cleanup(aside);
+		if(menus !== 0) return fail('A group of one should not become a menu');
+		pass('A lone grouped item stays a normal item');
+	},
+
+	'should wrap items that share a group in a menu': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item href="/home">Home</k-aside-item><k-aside-item group="Commerce" href="/a">A</k-aside-item><k-aside-item href="/mid">Mid</k-aside-item><k-aside-item group="Commerce" href="/b">B</k-aside-item>');
+		const menu = aside.querySelector(':scope > k-aside-menu[data-auto-group="Commerce"]');
+		const inside = menu ? [...menu.querySelectorAll(':scope > k-aside-item')].map(item => item.textContent) : [];
+		const order = [...aside.children].map(child => child.tagName.toLowerCase());
+		cleanup(aside);
+		if(!menu) return fail('Two items in one group should be wrapped in a menu');
+		if(menu.label !== 'Commerce') return fail(`Menu label should be the group name, got ${menu.label}`);
+		if(inside.join() !== 'A,B') return fail(`Both items should be in the menu, got ${inside}`);
+		if(order.join() !== 'k-aside-item,k-aside-menu,k-aside-item') return fail(`The menu should take the place of the first item, got ${order}`);
+		pass('Items sharing a group are wrapped in a menu');
+	},
+
+	'should dissolve the menu when its group falls below the minimum': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item group="Commerce" href="/a">A</k-aside-item><k-aside-item group="Commerce" href="/b">B</k-aside-item>');
+		aside.querySelector('k-aside-item[href="/b"]').remove();
+		await settle();
+		const menus = aside.querySelectorAll('k-aside-menu').length;
+		const item = aside.querySelector(':scope > k-aside-item[href="/a"]');
+		cleanup(aside);
+		if(menus !== 0) return fail('The menu should be removed when only one item is left');
+		if(!item) return fail('The remaining item should be a normal item again');
+		pass('A group that falls to one item becomes a normal item again');
+	},
+
+	'should group an item added later': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item group="Commerce" href="/a">A</k-aside-item>');
+		const added = document.createElement('k-aside-item');
+		added.setAttribute('group', 'Commerce');
+		added.setAttribute('href', '/b');
+		added.textContent = 'B';
+		aside.append(added);
+		await settle();
+		const inside = aside.querySelectorAll(':scope > k-aside-menu[data-auto-group="Commerce"] > k-aside-item').length;
+		cleanup(aside);
+		if(inside !== 2) return fail(`Both items should be in the menu, got ${inside}`);
+		pass('An item added later joins the group');
+	},
+
+	'should keep different groups apart and leave ungrouped items alone': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item group="One" href="/1a">1a</k-aside-item><k-aside-item group="Two" href="/2a">2a</k-aside-item><k-aside-item group="One" href="/1b">1b</k-aside-item><k-aside-item group="Two" href="/2b">2b</k-aside-item><k-aside-item href="/x">X</k-aside-item>');
+		const one = aside.querySelectorAll('k-aside-menu[data-auto-group="One"] > k-aside-item').length;
+		const two = aside.querySelectorAll('k-aside-menu[data-auto-group="Two"] > k-aside-item').length;
+		const loose = aside.querySelectorAll(':scope > k-aside-item').length;
+		cleanup(aside);
+		if(one !== 2 || two !== 2) return fail(`Each group should hold its own two items, got ${one} and ${two}`);
+		if(loose !== 1) return fail('The ungrouped item should stay a normal item');
+		pass('Groups are independent');
+	},
+
+	'should not touch a menu written by hand': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-menu label="Mine"><k-aside-item group="Commerce" href="/a">A</k-aside-item></k-aside-menu><k-aside-item group="Commerce" href="/b">B</k-aside-item>');
+		const mine = aside.querySelectorAll('k-aside-menu[label="Mine"] > k-aside-item').length;
+		const auto = aside.querySelectorAll('k-aside-menu[data-auto-group]').length;
+		cleanup(aside);
+		if(mine !== 1) return fail('The hand written menu should keep its item');
+		if(auto !== 0) return fail('A lone item outside the hand written menu should not be grouped with one inside it');
+		pass('A hand written menu is left alone');
+	},
+
+	'should respect group-min': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item group="G" href="/a">A</k-aside-item><k-aside-item group="G" href="/b">B</k-aside-item>', 'group-min="3"');
+		const twoMenus = aside.querySelectorAll('k-aside-menu').length;
+		const third = document.createElement('k-aside-item');
+		third.setAttribute('group', 'G');
+		third.setAttribute('href', '/c');
+		aside.append(third);
+		await settle();
+		const threeMenus = aside.querySelectorAll('k-aside-menu').length;
+		cleanup(aside);
+		if(twoMenus !== 0) return fail('Two items should not be grouped when group-min is 3');
+		if(threeMenus !== 1) return fail('Three items should be grouped when group-min is 3');
+		pass('group-min sets how many items make a group');
+	},
+
+	'should choose the menu icon from group-icons, then group-icon, then folder': async ({pass, fail}) => {
+		const aside = await createGroupAside(
+			'<k-aside-item group="Mapped" href="/m1">m1</k-aside-item><k-aside-item group="Mapped" group-icon="edit" href="/m2">m2</k-aside-item>'
+			+ '<k-aside-item group="Own" href="/o1">o1</k-aside-item><k-aside-item group="Own" group-icon="menu" href="/o2">o2</k-aside-item>'
+			+ '<k-aside-item group="Plain" href="/p1">p1</k-aside-item><k-aside-item group="Plain" href="/p2">p2</k-aside-item>',
+			`group-icons='{"Mapped":"folder-open"}'`
+		);
+		const icon = name => aside.querySelector(`k-aside-menu[data-auto-group="${name}"]`)?.icon;
+		const result = [icon('Mapped'), icon('Own'), icon('Plain')];
+		cleanup(aside);
+		if(result.join() !== 'folder-open,menu,folder') return fail(`Expected folder-open,menu,folder, got ${result}`);
+		pass('Menu icons are chosen in order');
+	},
+
+	'should open a menu that holds the active item': async ({pass, fail}) => {
+		const aside = await createGroupAside('<k-aside-item group="G" href="/a">A</k-aside-item><k-aside-item group="G" href="/b">B</k-aside-item><k-aside-item group="H" href="/c">C</k-aside-item><k-aside-item group="H" href="/d">D</k-aside-item>');
+		aside.querySelector('k-aside-item[href="/b"]').setAttribute('active', '');
+		await settle();
+		const g = aside.querySelector('k-aside-menu[data-auto-group="G"]').open;
+		const h = aside.querySelector('k-aside-menu[data-auto-group="H"]').open;
+		cleanup(aside);
+		if(!g) return fail('The menu with the active item should be open');
+		if(h) return fail('A menu without the active item should stay closed');
+		pass('The menu with the active item opens');
 	}
 };

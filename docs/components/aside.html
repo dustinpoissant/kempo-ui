@@ -536,6 +536,7 @@
         <h6 class="mt">Sub-Components</h6>
         <a href="#subItems">Items &amp; Labels</a><br />
         <a href="#subMenu">Expandable Menus</a><br />
+        <a href="#subGroups">Grouping Items</a><br />
 
         <h6 class="mt">Events</h6>
         <a href="#events">State Change Event</a><br />
@@ -872,6 +873,27 @@
       </div>
     </div>
 
+    <h2 id="subGroups"><a href="#subGroups" class="no-link">Grouping Items</a></h2>
+    <p>Give a <code>k-aside-item</code> a <code>group</code> and the aside builds the menu for you. A group name used by <strong>one</strong> item leaves that item as a normal link. As soon as <strong>two or more</strong> items share a name they are wrapped in a <code>k-aside-menu</code>, placed where the first one was. If the group falls back to one item (for example an item is removed) the menu is taken away again. This is meant for navigation that several independent parts of an app contribute to, where nobody knows in advance how many items a group will have.</p>
+    <ul>
+      <li>Set <code>group-min</code> on the aside to change how many items make a group (default <code>2</code>).</li>
+      <li>The menu's icon is, in order: the aside's <code>group-icons</code> (a JSON map of group name to icon), the first <code>group-icon</code> attribute among its items, then <code>folder</code>.</li>
+      <li>A menu holding the <code>active</code> item opens by itself.</li>
+      <li>Only direct children of the aside are grouped, and menus you write by hand are never touched.</li>
+    </ul>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;expanded&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--aside_padding: 0;&quot;</span> <span class="hljs-attr">group-icons</span>=<span class="hljs-string">&#x27;{&quot;Commerce&quot;:&quot;folder-open&quot;}&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;m-0&quot;</span>&gt;</span>Kempo<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">group</span>=<span class="hljs-string">&quot;Commerce&quot;</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;edit&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Products<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">group</span>=<span class="hljs-string">&quot;Commerce&quot;</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;edit&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Inventory<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">group</span>=<span class="hljs-string">&quot;Content&quot;</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;edit&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Blog<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <iframe src="./aside-groups.html" style="width: 100%; height: 400px; border: 1px solid var(--c_border); border-radius: var(--radius);"></iframe>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="events"><a href="#events" class="no-link">State Change Event</a></h2>
     <p>The <code>aside_state_change</code> event fires on both the element and on <code>window</code> whenever the state changes. The event detail contains <code>{ aside, state, main }</code>.</p>
     <div class="row -mx">
@@ -928,6 +950,10 @@
     <p>Whether pressing the ESC key closes the aside. Defaults to <code>true</code>. Syncs to <code>esc-close</code> attribute.</p>
     <h5><code>persistentId<i>: string | null</i></code></h5>
     <p>When set, the aside's <code>state</code> is saved to <code>localStorage</code> under <code>aside-persistent-id-{id}</code> on every change, and restored when the element connects. Defaults to <code>null</code>. Syncs to <code>persistent-id</code> attribute.</p>
+    <h5><code>groupMin<i>: number</i></code></h5>
+    <p>How many <code>k-aside-item</code>s must share a <code>group</code> before they are wrapped in a menu. Defaults to <code>2</code>. Syncs to <code>group-min</code> attribute. See <a href="#subGroups">Grouping Items</a>.</p>
+    <h5><code>groupIcons<i>: object</i></code></h5>
+    <p>Maps a group name to the icon of the menu built for it, such as <code>{"Commerce":"folder-open"}</code>. Set it as JSON in the <code>group-icons</code> attribute. Defaults to <code>{}</code>.</p>
 
     <h3 id="eventRef"><a href="#eventRef" class="no-link">Events</a></h3>
     <h5><code>aside_state_change</code></h5>
@@ -963,6 +989,8 @@
       <tbody>
         <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name (renders <code>k-icon</code>). Shows a dot when collapsed if no icon set.</td></tr>
         <tr><td><code>href</code></td><td>string</td><td><code>"#"</code></td><td>Link URL.</td></tr>
+        <tr><td><code>group</code></td><td>string</td><td><code>""</code></td><td>Group name. When two or more items share it, the aside wraps them in a menu. See <a href="#subGroups">Grouping Items</a>.</td></tr>
+        <tr><td><code>group-icon</code></td><td>string</td><td><code>""</code></td><td>Icon for the group's menu, used if the aside's <code>group-icons</code> has none for it. The first one found wins.</td></tr>
         <tr><td><code>active</code></td><td>boolean</td><td><code>false</code></td><td>Highlights the item with the primary color.</td></tr>
         <tr><td><code>no-expand</code></td><td>boolean</td><td><code>false</code></td><td>Prevents clicking a collapsed item from expanding the aside.</td></tr>
         <tr><td><code>hide-when-collapsed</code></td><td>boolean</td><td><code>false</code></td><td>Hides the item entirely when collapsed.</td></tr>
