@@ -44,7 +44,7 @@ export default class Aside extends ShadowComponent {
 		<k-aside-menu> written by hand is never touched.
 
 		The menu's icon is, in order: group-icons (a JSON map of group name to icon on the aside),
-		the first group-icon attribute among its items, then "folder". A menu holding the active item
+		the first group-icon-src (an icon file) or group-icon attribute among its items, then "folder". A menu holding the active item
 		is opened.
 	*/
 	groupItems = () => {
@@ -74,7 +74,9 @@ export default class Aside extends ShadowComponent {
 				items[0].before(menu);
 			}
 			for(const item of items) if(item.parentElement === this) menu.append(item);
-			menu.icon = this.groupIcons?.[name] || items.map(item => item.getAttribute('group-icon')).find(Boolean) || 'folder';
+			const mapped = this.groupIcons?.[name];
+			menu.icon = mapped || items.map(item => item.getAttribute('group-icon')).find(Boolean) || 'folder';
+			menu.iconSrc = mapped ? '' : items.map(item => item.getAttribute('group-icon-src')).find(Boolean) || '';
 			if(items.some(item => item.hasAttribute('active'))) menu.open = true;
 		}
 		for(const [name, menu] of menus) if(!members.has(name)) dissolve(menu);
@@ -107,7 +109,7 @@ export default class Aside extends ShadowComponent {
 	connectedCallback() {
 		super.connectedCallback();
 		this.groupObserver = new MutationObserver(this.groupItems);
-		this.groupObserver.observe(this, { childList: true, subtree: true, attributes: true, attributeFilter: ['active', 'group', 'group-icon'] });
+		this.groupObserver.observe(this, { childList: true, subtree: true, attributes: true, attributeFilter: ['active', 'group', 'group-icon', 'group-icon-src'] });
 		this.groupItems();
 	}
 
@@ -378,6 +380,8 @@ class AsideItem extends ShadowComponent {
 		href: { type: String },
 		group: { type: String },
 		groupIcon: { type: String, attribute: 'group-icon' },
+		iconSrc: { type: String, attribute: 'icon-src' },
+		groupIconSrc: { type: String, attribute: 'group-icon-src' },
 		active: { type: Boolean, reflect: true },
 		collapsed: { type: Boolean, reflect: true },
 		'no-expand': { type: Boolean, attribute: 'no-expand' },
@@ -390,6 +394,8 @@ class AsideItem extends ShadowComponent {
 		this.href = '#';
 		this.group = '';
 		this.groupIcon = '';
+		this.iconSrc = '';
+		this.groupIconSrc = '';
 		this.active = false;
 		this.collapsed = false;
 		this['no-expand'] = false;
@@ -438,7 +444,7 @@ class AsideItem extends ShadowComponent {
 	render() {
 		return html`
 			<a href="${this.href}" class="item ${this.active ? 'active bg-primary' : ''}" @click=${this.handleClick}>
-				${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : this.collapsed ? html`<k-icon name="dot"></k-icon>` : nothing}
+				${this.iconSrc ? html`<k-icon src="${this.iconSrc}"></k-icon>` : this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : this.collapsed ? html`<k-icon name="dot"></k-icon>` : nothing}
 				${this.collapsed ? nothing : html`<span class="label"><slot></slot></span>`}
 			</a>
 		`;
@@ -572,6 +578,7 @@ class AsideLabel extends ShadowComponent {
 class AsideMenu extends ShadowComponent {
 	static properties = {
 		icon: { type: String },
+		iconSrc: { type: String, attribute: 'icon-src' },
 		label: { type: String },
 		open: { type: Boolean, reflect: true },
 		collapsed: { type: Boolean, reflect: true },
@@ -583,6 +590,7 @@ class AsideMenu extends ShadowComponent {
 	constructor() {
 		super();
 		this.icon = '';
+		this.iconSrc = '';
 		this.label = '';
 		this.open = false;
 		this.collapsed = false;
@@ -643,7 +651,7 @@ class AsideMenu extends ShadowComponent {
 			return html`
 				<k-dropdown open-direction=${openDirection} hover>
 					<button slot="trigger" class="no-btn collapsed-trigger" @click=${this.handleCollapsedClick}>
-						${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : html`<k-icon name="dot"></k-icon>`}
+						${this.iconSrc ? html`<k-icon src="${this.iconSrc}"></k-icon>` : this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : html`<k-icon name="dot"></k-icon>`}
 					</button>
 					<slot></slot>
 				</k-dropdown>
@@ -652,7 +660,7 @@ class AsideMenu extends ShadowComponent {
 		return html`
 			<div class="menu-container">
 				<button class="no-btn menu-header ${this.open ? 'open' : ''}" @click=${this.toggleMenu}>
-					${this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : nothing}
+					${this.iconSrc ? html`<k-icon src="${this.iconSrc}"></k-icon>` : this.icon ? html`<k-icon name="${this.icon}"></k-icon>` : nothing}
 					<span class="label">${this.label}</span>
 					<k-icon class="chevron" name="chevron" direction="${this.open ? 'down' : 'right'}"></k-icon>
 				</button>

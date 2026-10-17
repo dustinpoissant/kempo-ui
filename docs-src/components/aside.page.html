@@ -364,7 +364,7 @@
     <p>Give a <code>k-aside-item</code> a <code>group</code> and the aside builds the menu for you. A group name used by <strong>one</strong> item leaves that item as a normal link. As soon as <strong>two or more</strong> items share a name they are wrapped in a <code>k-aside-menu</code>, placed where the first one was. If the group falls back to one item (for example an item is removed) the menu is taken away again. This is meant for navigation that several independent parts of an app contribute to, where nobody knows in advance how many items a group will have.</p>
     <ul>
       <li>Set <code>group-min</code> on the aside to change how many items make a group (default <code>2</code>).</li>
-      <li>The menu's icon is, in order: the aside's <code>group-icons</code> (a JSON map of group name to icon), the first <code>group-icon</code> attribute among its items, then <code>folder</code>.</li>
+      <li>The menu's icon is, in order: the aside's <code>group-icons</code> (a JSON map of group name to icon), the first <code>group-icon-src</code> (an icon file) or <code>group-icon</code> attribute among its items, then <code>folder</code>.</li>
       <li>A menu holding the <code>active</code> item opens by itself.</li>
       <li>Only direct children of the aside are grouped, and menus you write by hand are never touched.</li>
     </ul>
@@ -475,9 +475,11 @@
       <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name (renders <code>k-icon</code>). Shows a dot when collapsed if no icon set.</td></tr>
+        <tr><td><code>icon-src</code></td><td>string</td><td><code>""</code></td><td>The path to an SVG file to use as the icon (renders <code>&lt;k-icon src&gt;</code>), for an icon that ships with an extension instead of one in the shared icon folders. Used instead of <code>icon</code> when both are set.</td></tr>
         <tr><td><code>href</code></td><td>string</td><td><code>"#"</code></td><td>Link URL.</td></tr>
         <tr><td><code>group</code></td><td>string</td><td><code>""</code></td><td>Group name. When two or more items share it, the aside wraps them in a menu. See <a href="#subGroups">Grouping Items</a>.</td></tr>
         <tr><td><code>group-icon</code></td><td>string</td><td><code>""</code></td><td>Icon for the group's menu, used if the aside's <code>group-icons</code> has none for it. The first one found wins.</td></tr>
+        <tr><td><code>group-icon-src</code></td><td>string</td><td><code>""</code></td><td>Like <code>group-icon</code>, but the path to an SVG file. Used before <code>group-icon</code>, and after the aside's <code>group-icons</code>.</td></tr>
         <tr><td><code>active</code></td><td>boolean</td><td><code>false</code></td><td>Highlights the item with the primary color.</td></tr>
         <tr><td><code>no-expand</code></td><td>boolean</td><td><code>false</code></td><td>Prevents clicking a collapsed item from expanding the aside.</td></tr>
         <tr><td><code>hide-when-collapsed</code></td><td>boolean</td><td><code>false</code></td><td>Hides the item entirely when collapsed.</td></tr>
@@ -496,6 +498,7 @@
       <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td>Icon name for the menu header.</td></tr>
+        <tr><td><code>icon-src</code></td><td>string</td><td><code>""</code></td><td>The path to an SVG file for the menu header, used instead of <code>icon</code> when both are set.</td></tr>
         <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td>Text label for the menu header.</td></tr>
         <tr><td><code>open</code></td><td>boolean</td><td><code>false</code></td><td>Whether the sub-menu is expanded.</td></tr>
         <tr><td><code>no-expand</code></td><td>boolean</td><td><code>false</code></td><td>Prevents clicking a collapsed menu from expanding the aside.</td></tr>

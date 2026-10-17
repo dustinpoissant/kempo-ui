@@ -1217,5 +1217,34 @@ export default {
 		if(!g) return fail('The menu with the active item should be open');
 		if(h) return fail('A menu without the active item should stay closed');
 		pass('The menu with the active item opens');
+	},
+
+	'should show an icon from a file with icon-src, on an item and on the menu built from group-icon-src': async ({pass, fail}) => {
+		const aside = await createGroupAside(
+			'<k-aside-item group="Ext" icon-src="/ext/icons/one.svg" group-icon-src="/ext/icons/group.svg" href="/e1">e1</k-aside-item><k-aside-item group="Ext" icon="edit" href="/e2">e2</k-aside-item>'
+			+ '<k-aside-item group="Mapped" group-icon-src="/ext/icons/ignored.svg" href="/m1">m1</k-aside-item><k-aside-item group="Mapped" href="/m2">m2</k-aside-item>'
+			+ '<k-aside-item group="Named" group-icon="menu" href="/n1">n1</k-aside-item><k-aside-item group="Named" href="/n2">n2</k-aside-item>',
+			`group-icons='{"Mapped":"folder-open"}'`
+		);
+		const header = group => aside.querySelector(`k-aside-menu[data-auto-group="${group}"]`).shadowRoot.querySelector('.menu-header k-icon');
+		const item = href => aside.querySelector(`k-aside-item[href="${href}"]`).shadowRoot.querySelector('.item k-icon');
+		const result = {
+			itemFile: item('/e1')?.getAttribute('src'),
+			itemFileName: item('/e1')?.getAttribute('name'),
+			itemNamed: item('/e2')?.getAttribute('name'),
+			itemNamedSrc: item('/e2')?.getAttribute('src'),
+			groupFile: header('Ext')?.getAttribute('src'),
+			mappedName: header('Mapped')?.getAttribute('name'),
+			mappedSrc: header('Mapped')?.getAttribute('src'),
+			named: header('Named')?.getAttribute('name'),
+			namedSrc: header('Named')?.getAttribute('src')
+		};
+		cleanup(aside);
+		if(result.itemFile !== '/ext/icons/one.svg' || result.itemFileName) return fail(`An item with icon-src should render a k-icon with that src and no name: ${JSON.stringify(result)}`);
+		if(result.itemNamed !== 'edit' || result.itemNamedSrc) return fail(`An item with only icon keeps a named icon: ${JSON.stringify(result)}`);
+		if(result.groupFile !== '/ext/icons/group.svg') return fail(`A menu should use the first group-icon-src: ${JSON.stringify(result)}`);
+		if(result.mappedName !== 'folder-open' || result.mappedSrc) return fail(`The aside's group-icons map still wins over group-icon-src: ${JSON.stringify(result)}`);
+		if(result.named !== 'menu' || result.namedSrc) return fail(`group-icon still works on its own: ${JSON.stringify(result)}`);
+		pass('icon-src and group-icon-src show an icon from a file, and names are unchanged');
 	}
 };

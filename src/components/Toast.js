@@ -53,7 +53,12 @@ export default class Toast extends ShadowComponent {
     :host {
       display: none;
       min-width: 16rem;
-      max-width: calc(100% - (2 * var(--spacer, 1rem)));
+      /*
+        Against the viewport, less the container's 32px padding on both sides. A percentage here
+        is of a container that is itself sized to its toasts, so it made every toast 32px narrower
+        than its own content and wrapped any message longer than min-width, and its action with it.
+      */
+      max-width: calc(100vw - 64px);
       background-color: var(--c_bg, #ffffff);
       border-radius: var(--radius, 0.375rem);
     }
@@ -141,6 +146,23 @@ export default class Toast extends ShadowComponent {
 
     :host(.bg-danger) {
       background-color: var(--c_danger, #fee2e2);
+      color: var(--tc_on_danger, #991b1b);
+    }
+
+    /*
+      The action on a themed toast is text on that toast's background, so it takes the same
+      "on" colour as the message. Primary blue on a green, orange or red toast cannot be read.
+      These win over the plain hover colour too, so it does not turn light blue on hover.
+    */
+    :host(.bg-success) #action {
+      color: var(--tc_on_success, #166534);
+    }
+
+    :host(.bg-warning) #action {
+      color: var(--tc_on_warning, #92400e);
+    }
+
+    :host(.bg-danger) #action {
       color: var(--tc_on_danger, #991b1b);
     }
   `;

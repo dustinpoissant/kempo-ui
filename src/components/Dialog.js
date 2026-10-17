@@ -229,6 +229,8 @@ export default class Dialog extends ShadowComponent {
 		}
 		#body {
 			flex: 1 1 auto;
+			min-height: 0;
+			overflow-y: auto;
 		}
 		#footer {
 			display: flex;

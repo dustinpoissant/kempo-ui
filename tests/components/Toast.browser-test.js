@@ -403,6 +403,70 @@ export default {
 		pass('Close button calls close');
 	},
 
+	'action text on a themed toast takes that theme\'s "on" colour, and nothing else changes': async ({pass, fail}) => {
+		const themes = { success: 'rgb(1, 2, 3)', warning: 'rgb(4, 5, 6)', danger: 'rgb(7, 8, 9)' };
+		const results = {};
+		for(const [theme, colour] of Object.entries(themes)){
+			const { container, toast } = await createToast({ message: 'Saved', action: 'View', opened: true });
+			toast.classList.add(`bg-${theme}`);
+			toast.style.setProperty(`--tc_on_${theme}`, colour);
+			await toast.updateComplete;
+			const { color, fontWeight, textDecorationLine } = getComputedStyle(toast.shadowRoot.getElementById('action'));
+			results[theme] = { color, fontWeight, textDecorationLine };
+			cleanup(container);
+		}
+		for(const [theme, colour] of Object.entries(themes)){
+			if(results[theme].color !== colour){
+				fail(`A ${theme} toast's action should be --tc_on_${theme} (${colour}), got ${results[theme].color}`);
+				return;
+			}
+			if(results[theme].fontWeight !== '400' || results[theme].textDecorationLine !== 'none'){
+				fail(`A ${theme} toast's action should only change colour, not become bold or underlined`);
+				return;
+			}
+		}
+		pass('Action text uses each theme\'s "on" colour and is otherwise unchanged');
+	},
+
+	'action text on a plain toast keeps the primary colour': async ({pass, fail}) => {
+		const { container, toast } = await createToast({ message: 'Saved', action: 'View', opened: true });
+		toast.style.setProperty('--tc_primary', 'rgb(10, 20, 30)');
+		await toast.updateComplete;
+		const { color } = getComputedStyle(toast.shadowRoot.getElementById('action'));
+		cleanup(container);
+		if(color !== 'rgb(10, 20, 30)'){
+			fail(`A plain toast's action should be --tc_primary, got ${color}`);
+			return;
+		}
+		pass('Plain toast action uses --tc_primary');
+	},
+
+	'a toast is as wide as its content, so a message that fits does not wrap': async ({pass, fail}) => {
+		document.querySelectorAll('k-toast-container').forEach(c => c.remove());
+		const toast = Toast.create('Added <strong>Starter credits</strong> to your cart', {
+			position: 'bottom center',
+			action: 'View cart',
+			timeout: 60000
+		});
+		await toast.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 400));
+
+		const message = toast.shadowRoot.getElementById('message');
+		const action = toast.shadowRoot.getElementById('action');
+		const wrapped = toast.getBoundingClientRect().width;
+		message.style.whiteSpace = 'nowrap';
+		action.style.whiteSpace = 'nowrap';
+		await new Promise(resolve => setTimeout(resolve, 50));
+		const single = toast.getBoundingClientRect().width;
+		cleanup(document.createElement('div'));
+
+		if(single > wrapped + 1){
+			fail(`The toast was ${wrapped}px wide but its content needs ${single}px on one line, so it wrapped for no reason`);
+			return;
+		}
+		pass('A toast is as wide as its content');
+	},
+
 	'action button should call actionCallback': async ({pass, fail}) => {
 		const { container, toast } = await createToast({ 
 			action: 'Undo',

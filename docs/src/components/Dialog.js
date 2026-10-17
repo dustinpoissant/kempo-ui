@@ -68,6 +68,8 @@ import e from"./ShadowComponent.js";import{html as t,css as o,render as s}from".
 		}
 		#body {
 			flex: 1 1 auto;
+			min-height: 0;
+			overflow-y: auto;
 		}
 		#footer {
 			display: flex;

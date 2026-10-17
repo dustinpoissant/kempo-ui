@@ -810,5 +810,19 @@ export default {
 			return;
 		}
 		pass('Dialog mounts into the configured overlayRoot');
+	},
+
+	'a dialog taller than the window scrolls its body and keeps its buttons on screen': async ({pass, fail}) => {
+		const { container, dialog } = await createDialog({ opened: true, confirmText: 'Save', cancelText: 'Cancel', content: '<div style="height: 4000px">Very tall</div>' });
+		await dialog.updateComplete;
+		const shadow = dialog.shadowRoot;
+		const box = shadow.querySelector('#dialog').getBoundingClientRect();
+		const body = shadow.querySelector('#body');
+		const confirm = shadow.querySelector('#confirm').getBoundingClientRect();
+		const result = { dialogBottom: box.bottom, windowHeight: window.innerHeight, scrolls: body.scrollHeight > body.clientHeight, overflowY: getComputedStyle(body).overflowY, confirmBottom: confirm.bottom };
+		cleanup(container);
+		if(result.dialogBottom > result.windowHeight || result.confirmBottom > result.windowHeight) return fail(`The dialog ran off the screen: ${JSON.stringify(result)}`);
+		if(!result.scrolls || result.overflowY !== 'auto') return fail(`The body should scroll: ${JSON.stringify(result)}`);
+		pass('A tall dialog scrolls inside itself and its buttons stay on screen');
 	}
 };
