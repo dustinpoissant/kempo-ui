@@ -383,7 +383,13 @@ export class TabContent extends ShadowComponent {
 			max-height: 100%;
 			flex: 1 1 auto;
 			overflow: auto;
-			padding-top: var(--spacer, 1rem);
+			/*
+				The focus ring is drawn outside a control, and this box scrolls, so it would be cut off at the sides and
+				bottom of anything as wide as the content. A little room inside, taken back with an equal negative margin,
+				keeps the ring whole without moving anything.
+			*/
+			padding: var(--spacer, 1rem) 0.25rem 0.25rem;
+			margin: 0 -0.25rem -0.25rem;
 		}
 
 		:host([active]) {
