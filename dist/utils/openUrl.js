@@ -1,0 +1,1 @@
+export default(n,o)=>{"_blank"===o?window.open(n,"_blank","noopener"):window.location.href=n};
