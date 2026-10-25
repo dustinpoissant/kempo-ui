@@ -1105,5 +1105,85 @@ export default {
 		}
 
 		pass('Separate persistent-id instances maintain separate states');
+	},
+
+	'tabfirstshown fires once for each tab, the first time it is shown': async ({pass, fail}) => {
+		const { container, tabs } = await createTabs();
+		const shown = [];
+		tabs.addEventListener('tabfirstshown', ({ detail }) => shown.push(detail.tab));
+		tabs.active = 'tab2';
+		await tabs.updateComplete;
+		tabs.active = 'tab1';
+		await tabs.updateComplete;
+		tabs.active = 'tab2';
+		await tabs.updateComplete;
+		cleanup(container);
+		if(shown.join() !== 'tab2') return fail(`expected only tab2 (tab1 was shown before the listener), got "${shown.join()}"`);
+		pass('a tab reports its first showing once, and returning to it reports nothing');
+	},
+
+	'hash-routing is off by default, so the address is left alone': async ({pass, fail}) => {
+		const { container, tabs } = await createTabs();
+		tabs.active = 'tab2';
+		await tabs.updateComplete;
+		const untouched = location.hash === '';
+		cleanup(container);
+		if(!untouched) return fail(`the hash changed to "${location.hash}" without hash-routing`);
+		pass('no hash without the attribute');
+	},
+
+	'hash-routing opens the tab named in the hash, and selecting a tab writes it': async ({pass, fail}) => {
+		history.replaceState(null, '', location.pathname + '#tab3');
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs hash-routing>
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab for="tab3" slot="tabs">Tab 3</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+				<k-tab-content name="tab3">Content 3</k-tab-content>
+			</k-tabs>`;
+		document.body.appendChild(container);
+		const tabs = container.querySelector('k-tabs');
+		await tabs.updateComplete;
+		await new Promise(resolve => setTimeout(resolve, 0));
+		const opened = tabs.active;
+		tabs.active = 'tab2';
+		await tabs.updateComplete;
+		const hashAfter = location.hash;
+		tabs.active = 'tab1';
+		await tabs.updateComplete;
+		const defaultHash = location.hash;
+		cleanup(container);
+		history.replaceState(null, '', location.pathname);
+		if(opened !== 'tab3') return fail(`the hash should open tab3, got "${opened}"`);
+		if(hashAfter !== '#tab2') return fail(`selecting tab2 should write #tab2, got "${hashAfter}"`);
+		if(defaultHash !== '') return fail(`the default tab should leave no hash, got "${defaultHash}"`);
+		pass('hash opens its tab; selecting writes it; the default clears it');
+	},
+
+	'back and forward move between tabs when hash-routing is on': async ({pass, fail}) => {
+		history.replaceState(null, '', location.pathname);
+		const container = document.createElement('div');
+		container.innerHTML = `
+			<k-tabs hash-routing>
+				<k-tab for="tab1" slot="tabs">Tab 1</k-tab>
+				<k-tab for="tab2" slot="tabs">Tab 2</k-tab>
+				<k-tab-content name="tab1">Content 1</k-tab-content>
+				<k-tab-content name="tab2">Content 2</k-tab-content>
+			</k-tabs>`;
+		document.body.appendChild(container);
+		const tabs = container.querySelector('k-tabs');
+		await tabs.updateComplete;
+		tabs.active = 'tab2';
+		await tabs.updateComplete;
+		history.back();
+		await new Promise(resolve => setTimeout(resolve, 100));
+		await tabs.updateComplete;
+		const afterBack = tabs.active;
+		cleanup(container);
+		if(afterBack !== 'tab1') return fail(`going back should return to tab1, got "${afterBack}"`);
+		pass('back returns to the previous tab');
 	}
 };

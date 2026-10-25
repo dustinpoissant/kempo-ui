@@ -9,14 +9,30 @@ export class Tabs extends ShadowComponent {
 	static properties = {
 		active: { type: String, reflect: true },
 		fixedHeight: { type: Boolean, reflect: true, attribute: 'fixed-height', converter: boolExists },
-		persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
+		persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
+		hashRouting: { type: Boolean, attribute: 'hash-routing', converter: boolExists }
 	};
+
+	#defaultActive = null;
+	#fromHistory = false;
+	#shownTabs = new Set();
 
 	constructor() {
 		super();
 		this.active = '';
 		this.fixedHeight = false;
 		this.persistentId = null;
+		this.hashRouting = false;
+	}
+
+	connectedCallback() {
+		super.connectedCallback();
+		window.addEventListener('popstate', this.#handlePopState);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		window.removeEventListener('popstate', this.#handlePopState);
 	}
 
 	/*
@@ -31,6 +47,13 @@ export class Tabs extends ShadowComponent {
 			if(firstContent) {
 				this.active = firstContent.name;
 			}
+		}
+
+		// The tab a visit without a hash opens on. Selecting it again leaves the address without a hash.
+		this.#defaultActive = this.active;
+		if(this.hashRouting) {
+			const fromHash = this.#tabFromHash();
+			if(fromHash) this.active = fromHash;
 		}
 
 		this.setupScrollListeners();
@@ -111,12 +134,51 @@ export class Tabs extends ShadowComponent {
 			bubbles: true
 		}));
 
+		// Once per tab, the first time it is shown, so a component can load its data only when it is needed
+		if(this.active && !this.#shownTabs.has(this.active)) {
+			this.#shownTabs.add(this.active);
+			this.dispatchEvent(new CustomEvent('tabfirstshown', {
+				detail: { tab: this.active },
+				bubbles: true
+			}));
+		}
+
+		if(this.hashRouting) this.#syncHash();
+
 		// Save state if persistentId is set
 		if(this.persistentId && window?.localStorage) {
 			const key = `tabs-persistent-id-${this.persistentId}`;
 			window.localStorage.setItem(key, this.active);
 		}
 	}
+
+	/*
+		Hash routing: with `hash-routing`, the open tab is the address's hash (#tab3), so refresh reopens it and the
+		browser's back and forward move between tabs. One per page, since they would share the hash.
+	*/
+	#tabFromHash() {
+		const name = decodeURIComponent(location.hash.slice(1));
+		if(!name) return null;
+		return this.querySelector(`:scope > k-tab[for="${CSS.escape(name)}"]`) ? name : null;
+	}
+
+	#syncHash() {
+		if(this.#fromHistory) {
+			this.#fromHistory = false;
+			return;
+		}
+		const hash = this.active === this.#defaultActive ? '' : `#${encodeURIComponent(this.active)}`;
+		if(location.hash === hash) return;
+		history.pushState(history.state, '', `${location.pathname}${location.search}${hash}`);
+	}
+
+	#handlePopState = () => {
+		if(!this.hashRouting) return;
+		const target = this.#tabFromHash() ?? this.#defaultActive;
+		if(!target || target === this.active) return;
+		this.#fromHistory = true;
+		this.active = target;
+	};
 
 	get contents() {
 		return [...this.querySelectorAll(':scope > k-tab-content')];
