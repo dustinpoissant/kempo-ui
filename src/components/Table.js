@@ -2,6 +2,7 @@ import { html, css, unsafeStatic, literal } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import { toTitleCase } from '../utils/string.js';
 import { boolExists } from '../utils/propConverters.js';
+import openUrl from '../utils/openUrl.js';
 
 const selected = Symbol('selected');
 const hidden = Symbol('hidden');
@@ -19,6 +20,8 @@ export default class Table extends ShadowComponent {
     caseSensitiveFilters: { type: Boolean, reflect: true, converter: boolExists, attribute: 'case-sensitive-filters' },
     requestEdit: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-edit' },
     requestDelete: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-delete' },
+    openOnClick: { type: Boolean, reflect: true, converter: boolExists, attribute: 'open-on-click' },
+    rowTarget: { type: String, reflect: true, attribute: 'row-target' },
     placeholder: { type: String, reflect: true },
     filteredPlaceholder: { type: String, reflect: true, attribute: 'filtered-placeholder' },
     fields: { type: Array },
@@ -70,6 +73,12 @@ export default class Table extends ShadowComponent {
     record[selected] = !!e.target.checked;
     this.requestUpdate();
     this.dispatchEvent(new CustomEvent('selectionChange', { bubbles: true }));
+  };
+
+  handleRecordClick = (record, e) => {
+    if(record[editing] || !record._url) return;
+    if(e.target.closest('.controls, input, select, textarea, button, a')) return;
+    openUrl(record._url, this.rowTarget);
   };
 
   /* Lifecycle Callbacks */
@@ -238,8 +247,13 @@ export default class Table extends ShadowComponent {
       recordCells.push(this.renderAfterControlsTemplate());
     }
 
+    const linked = this.openOnClick && record._url;
     return html`
-      <tr class="record ${record[editing] ? 'editing' : ''}" data-index=${record[index]}>
+      <tr
+        class="record ${record[editing] ? 'editing' : ''} ${linked ? 'linked' : ''}"
+        data-index=${record[index]}
+        @click=${this.openOnClick ? (e) => this.handleRecordClick(record, e) : null}
+      >
         ${recordCells}
       </tr>
     `;
@@ -1141,6 +1155,12 @@ export default class Table extends ShadowComponent {
       transform: translateX(-100%);
       animation: row-pending 1.2s ease-in-out infinite;
     }
+    tr.linked {
+      cursor: pointer;
+    }
+    tr.linked:hover td {
+      background: oklch(from var(--c_bg__inv) l c h / 0.05);
+    }
     @keyframes row-pending {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
@@ -1210,6 +1230,7 @@ export default class Table extends ShadowComponent {
     records.slice(0, recordLimit).forEach(record => {
       Object.keys(record).forEach(name => names.add(name));
     });
+    names.delete('_url');
     return [...names].map(name => ({ name, label: toTitleCase(name) }));
   }
 

@@ -1,0 +1,22 @@
+<page pageName="Table - Record Links" title="Record Links - Table - Kempo Docs">
+  <content>
+
+    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+    <p>A record can carry a <code>_url</code> property that points to a page for that record. It is not rendered as a column, so the table only shows the fields you actually display. The <code>_url</code> value is available to anything that reads the record, such as the <a href="./tableRowControls.html">Row Controls</a> <code>kc-tc-open</code> button.</p>
+
+    <h3>Open on Row Click</h3>
+    <p>Add <code>open-on-click</code> to the table and clicking a row with a <code>_url</code> opens it, in the current tab. Clicks on row controls and editable cells do not trigger it. Add <code>row-target="_blank"</code> alongside it to open the row in a new tab instead.</p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rowClickExample&quot;</span> <span class="hljs-attr">open-on-click</span> <span class="hljs-attr">row-target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;rowClickExample&#x27;</span>).<span class="hljs-title function_">setRecords</span>([{<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kempo UI&#x27;</span>,<br>    <span class="hljs-attr">_url</span>: <span class="hljs-string">&#x27;https://github.com/dustinpoissant/kempo-ui&#x27;</span><br>  }, {<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kempo CSS&#x27;</span>,<br>    <span class="hljs-attr">_url</span>: <span class="hljs-string">&#x27;https://github.com/dustinpoissant/kempo-css&#x27;</span><br>  }]);<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-table id="rowClickExample" open-on-click row-target="_blank"></k-table>
+    <script type="module">
+      await window.customElements.whenDefined('k-table');
+      document.getElementById('rowClickExample').setRecords([
+        { name: 'Kempo UI', _url: 'https://github.com/dustinpoissant/kempo-ui' },
+        { name: 'Kempo CSS', _url: 'https://github.com/dustinpoissant/kempo-css' }
+      ]);
+    </script>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
+  </content>
+</page>

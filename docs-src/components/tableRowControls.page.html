@@ -53,10 +53,26 @@
       await window.customElements.whenDefined('k-table');
       document.getElementById('rowControlsExample').setRecords(contacts);
     </script>
+
+    <h3>Open Record URL</h3>
+    <p>A record can carry a <code>_url</code> property. It is not rendered as a column, so it is only available to controls. <code>kc-tc-open</code> reads it and navigates to it, in the current tab by default, or in a new tab with <code>target="_blank"</code>. The default icon is <k-icon name="visibility"></k-icon> for the current tab and <k-icon name="open_in_browser"></k-icon> for a new tab. Slot your own <code>k-icon</code> into the control to replace it.</p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;openControlExample&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-open</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;before&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-open</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-open</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;after&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-open</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">customElements</span>.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-table&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;openControlExample&#x27;</span>).<span class="hljs-title function_">setRecords</span>([{<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kempo UI&#x27;</span>,<br>    <span class="hljs-attr">_url</span>: <span class="hljs-string">&#x27;https://github.com/dustinpoissant/kempo-ui&#x27;</span><br>  }, {<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Kempo CSS&#x27;</span>,<br>    <span class="hljs-attr">_url</span>: <span class="hljs-string">&#x27;https://github.com/dustinpoissant/kempo-css&#x27;</span><br>  }]);<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <k-table id="openControlExample">
+      <kc-tc-open slot="before"></kc-tc-open>
+      <kc-tc-open slot="after" target="_blank"></kc-tc-open>
+    </k-table>
+    <script type="module">
+      await window.customElements.whenDefined('k-table');
+      document.getElementById('openControlExample').setRecords([
+        { name: 'Kempo UI', _url: 'https://github.com/dustinpoissant/kempo-ui' },
+        { name: 'Kempo CSS', _url: 'https://github.com/dustinpoissant/kempo-css' }
+      ]);
+    </script>
   </content>
   <content location="scripts">
     <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/TcExportJson.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/TcDeleteRecord.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcOpen.js"></script>
   </content>
 </page>

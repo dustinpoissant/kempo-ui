@@ -5,8 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.7.0] - 2026-10-25
 ### Added
 
+- **`Table` record links:** a record can carry a `_url` property. It is never rendered as a column (auto-extracted fields skip it), so it only reaches controls and the row click below.
+- **`kc-tc-open` row control:** a `slot="before"` or `slot="after"` control that navigates to the record's `_url`, in the current tab, or in a new tab with `target="_blank"`. Its default icon is `visibility` (current tab) or `open_in_browser` (new tab); slot a `k-icon` into it to replace the icon.
+- **`Table` `open-on-click`:** clicking a row that has a `_url` opens it in the current tab. Clicks on row controls, checkboxes and inputs, and rows being edited, do not trigger it. `row-target="_blank"` opens the row in a new tab instead, the same way `target` works on a link. Rows with a `_url` show a pointer cursor when this is set.
+- **Icons:** `visibility` and `open_in_browser` (Material Symbols).
 - **`k-tabs` fires `tabfirstshown`**: once for each tab, the first time it is shown, with `detail.tab`. A component inside a tab listens for it on the `k-tabs` and loads its data then, instead of when the page opens.
 - **`k-tabs` hash routing:** `hash-routing` makes the open tab the address hash (`#tab3`). Refreshing reopens that tab, and back and forward move between tabs. Selecting the first tab clears the hash. Off by default; one per page, since tabs would share the hash.
 - **Tab content no longer clips the focus ring:** `k-tab-content` scrolls, so the ring around a control as wide as the content was cut off at the sides and bottom. It now has a quarter rem of room inside, taken back with an equal negative margin, so nothing moves.
