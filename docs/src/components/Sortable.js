@@ -11,7 +11,8 @@ import{LitElement as t,html as e,css as r}from"../lit-all.min.js";import s from"
 			</div>
 		`}static styles=r`
 		:host {
-			display: block;
+			display: flex;
+			align-items: center;
 			border: 1px solid var(--c_border);
 			user-select: none;
 			position: relative;
@@ -25,7 +26,8 @@ import{LitElement as t,html as e,css as r}from"../lit-all.min.js";import s from"
 			padding: var(--spacer);
 		}
 		#content {
-			display: inline-block;
+			flex: 1;
+			min-width: 0;
 		}
 		:host(.target-before)::before,
 		:host(.target-after)::after {
