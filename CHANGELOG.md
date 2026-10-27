@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [0.7.1] - 2026-10-26
+## [0.7.2] - 2026-10-27
 ### Fixed
 
 - **`k-sortable-item` fills its row:** its content takes the full width of the item and the row is centred vertically, so a control in the row lines up with the text beside it.
