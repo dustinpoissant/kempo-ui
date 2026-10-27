@@ -318,29 +318,12 @@ export default {
 		pass('Handle has pointer cursor');
 	},
 
-	'should have inline-block display on handle': async ({pass, fail}) => {
+	'should have block display on handle, as a flex item': async ({pass, fail}) => {
 		const { container, item } = await createSortableItem();
 
 		const handle = item.shadowRoot.querySelector('#handle');
 		const computedStyle = window.getComputedStyle(handle);
 
-		if(computedStyle.display !== 'inline-block'){
-			cleanup(container);
-			fail(`Expected display "inline-block", got "${computedStyle.display}"`);
-			return;
-		}
-
-		cleanup(container);
-		pass('Handle has inline-block display');
-	},
-
-	/*
-		Item Display Tests
-	*/
-	'should have block display on item': async ({pass, fail}) => {
-		const { container, item } = await createSortableItem();
-
-		const computedStyle = window.getComputedStyle(item);
 		if(computedStyle.display !== 'block'){
 			cleanup(container);
 			fail(`Expected display "block", got "${computedStyle.display}"`);
@@ -348,7 +331,24 @@ export default {
 		}
 
 		cleanup(container);
-		pass('Item has block display');
+		pass('Handle has block display as a flex item');
+	},
+
+	/*
+		Item Display Tests
+	*/
+	'should have flex display on item': async ({pass, fail}) => {
+		const { container, item } = await createSortableItem();
+
+		const computedStyle = window.getComputedStyle(item);
+		if(computedStyle.display !== 'flex'){
+			cleanup(container);
+			fail(`Expected display "flex", got "${computedStyle.display}"`);
+			return;
+		}
+
+		cleanup(container);
+		pass('Item has flex display');
 	},
 
 	'should have user-select none on item': async ({pass, fail}) => {
