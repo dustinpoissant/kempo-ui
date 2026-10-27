@@ -157,7 +157,8 @@ export class SortableItem extends LitElement {
 
 	static styles = css`
 		:host {
-			display: block;
+			display: flex;
+			align-items: center;
 			border: 1px solid var(--c_border);
 			user-select: none;
 			position: relative;
@@ -171,7 +172,8 @@ export class SortableItem extends LitElement {
 			padding: var(--spacer);
 		}
 		#content {
-			display: inline-block;
+			flex: 1;
+			min-width: 0;
 		}
 		:host(.target-before)::before,
 		:host(.target-after)::after {
