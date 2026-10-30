@@ -195,6 +195,33 @@ export default {
 		pass('nodePreprocessors is initialized as array');
 	},
 
+	'a node entry that is a URL is loaded from that address, and a plain name from the htmlEditorNodes folder': async ({pass, fail}) => {
+		const url = new URL('../../src/components/htmlEditorNodes/HtmlComment.js', import.meta.url).pathname;
+		const { container, editor } = await createEditor({ nodes: url });
+		const fromUrl = editor.customNodes.map(node => node.getType());
+		cleanup(container);
+		if(fromUrl.join() !== 'html-comment') return fail(`the node from a URL was not loaded: ${fromUrl}`);
+		const named = await createEditor({ nodes: 'HtmlComment' });
+		const fromName = named.editor.customNodes.map(node => node.getType());
+		cleanup(named.container);
+		if(fromName.join() !== 'html-comment') return fail(`the node by name was not loaded: ${fromName}`);
+		pass('Both a URL and a plain name load the node');
+	},
+
+	'a control in toolbar-top-extra shows the top toolbar even when controls is none': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-html-editor><button slot="toolbar-top-extra">Extra</button></k-html-editor>';
+		document.body.appendChild(container);
+		const editor = container.querySelector('k-html-editor');
+		await new Promise(r => editor.addEventListener('ready', r, { once: true }));
+		await wait(50);
+		const slot = editor.shadowRoot.querySelector('slot[name="toolbar-top-extra"]');
+		const placed = slot?.assignedElements().map(element => element.textContent);
+		cleanup(container);
+		if(placed?.join() !== 'Extra') return fail(`the control was not placed in the toolbar: ${placed}`);
+		pass('The extra control is drawn in the top toolbar');
+	},
+
 	/*
 		Public Methods - Mode Control
 	*/

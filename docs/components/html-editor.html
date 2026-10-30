@@ -682,6 +682,10 @@
       the <code>controls</code> value. Providing your own child element for any of these slots replaces just that
       section while leaving the others intact.
     </p>
+    <p>To add a control without replacing any of the built-in ones, give it <code>slot="toolbar-top-extra"</code>. It is
+      drawn in the top toolbar right after the <code>toolbar-top-left</code> section, whichever <code>controls</code>
+      level is set.
+    </p>
 
     <h4>controls="full"</h4>
     <p>Every available control: text formatting, inline code, text-style dropdown (p, h1–h3, blockquote, code block),
@@ -916,8 +920,10 @@
       matching slot name for any section replaces just that section's defaults.</p>
 
     <h5><code>nodes<i>: String</i></code></h5>
-    <p>Comma-separated list of custom Lexical node module filenames (without <code>.js</code>) to load from the
-      <code>htmlEditorNodes/</code> directory. Custom nodes can define two static hooks:
+    <p>Comma-separated list of custom Lexical node modules to load. A plain name (without <code>.js</code>) loads that
+      file from the <code>htmlEditorNodes/</code> directory. An entry that starts with <code>/</code>, <code>.</code>
+      or <code>http</code> is loaded as a URL, including its <code>.js</code>, so a node can live in your own package
+      (<code>nodes="HtmlComment,/my-ext/MyNode.js"</code>). Custom nodes can define two static hooks:
     </p>
     <ul>
       <li><code>isVisualCompatible(domNode)</code> — returns <code>true</code> if the node handles a DOM construct that

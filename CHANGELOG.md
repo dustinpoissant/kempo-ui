@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+
+- **`HtmlEditor` `nodes` takes URLs:** an entry that starts with `/`, `.` or `http` is loaded from that address (with its `.js`), so a custom node can ship in another package instead of having to sit in kempo-ui's `htmlEditorNodes/` folder. A plain name still loads from that folder.
+- **`HtmlEditor` `toolbar-top-extra` slot:** a control with `slot="toolbar-top-extra"` is added to the top toolbar after the built-in controls, at any `controls` level, without replacing a section the way the other toolbar slots do.
 
 ## [0.7.2] - 2026-10-27
 ### Fixed

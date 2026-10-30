@@ -96,7 +96,7 @@ export default class HtmlEditor extends ShadowComponent {
 		const set = this.constructor.controlSets[this.controls] ?? null;
 		this.hasTopToolbar =
 			!!(set?.topLeft || set?.topRight) ||
-			['toolbar-top', 'toolbar-top-left', 'toolbar-top-right'].some(s => slots.has(s));
+			['toolbar-top', 'toolbar-top-left', 'toolbar-top-right', 'toolbar-top-extra'].some(s => slots.has(s));
 		this.hasBottomToolbar =
 			!!(set?.bottomLeft || set?.bottomRight) ||
 			['toolbar-bottom', 'toolbar-bottom-left', 'toolbar-bottom-right'].some(s => slots.has(s));
@@ -191,7 +191,7 @@ export default class HtmlEditor extends ShadowComponent {
 		if (!this.nodes?.trim()) return [];
 		const base = new URL('./htmlEditorNodes/', import.meta.url).href;
 		const modules = await Promise.all(
-			this.nodes.split(',').map(n => n.trim()).filter(Boolean).map(n => import(`${base}${n}.js`))
+			this.nodes.split(',').map(n => n.trim()).filter(Boolean).map(n => import(/^(\/|\.|https?:)/.test(n) ? new URL(n, document.baseURI).href : `${base}${n}.js`))
 		);
 		return modules.map(m => m.default?.lexicalNode).filter(Boolean);
 	}
@@ -1219,6 +1219,7 @@ export default class HtmlEditor extends ShadowComponent {
 				<div class="toolbar-top bb">
 					<div class="toolbar-start">
 									<slot name="toolbar-top-left">${set.topLeft ?? ''}</slot>
+									<slot name="toolbar-top-extra"></slot>
 					</div>
 					<div class="toolbar-end">
 									<slot name="toolbar-top-right">${set.topRight ?? ''}</slot>
@@ -1261,8 +1262,8 @@ export default class HtmlEditor extends ShadowComponent {
 		:host([fullscreen]) {
 			position: fixed;
 			inset: 0;
-			width: auto;
-			height: auto;
+			width: 100%;
+			height: 100%;
 			z-index: 10000;
 		}
 		:host([disabled]) {
