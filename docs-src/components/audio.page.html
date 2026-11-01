@@ -1,0 +1,108 @@
+<page pageName="Audio" title="Audio - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#presets">Preconfigured Controls</a><br />
+          <a href="#manualControls">Manual Controls</a><br />
+          <a href="#resumePosition">Resume Playback Position</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
+          <a href="#cssVars">CSS Custom Properties</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p>An <code>&lt;audio&gt;</code> wrapper with <strong>no native controls</strong>, the sound-only sibling of <a href="{{pathToRoot}}components/video.html">Video</a>. It uses the same slotted <code>kc-vid-*</code> controls (play and pause, seek, time, volume, speed, loop, skip), so a toolbar is built the same way, with the <code>controls</code> attribute or by slotting controls in.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>With no <code>controls</code> and nothing slotted in, <code>k-audio</code> draws nothing: drive it from your own buttons with <code>play()</code> and <code>pause()</code>. Add <code>controls="normal"</code> for a toolbar.</p>
+    <k-card label="HTML">
+      <pre><code class="html">&lt;k-audio src="/media/podcast.mp3" controls="normal"&gt;&lt;/k-audio&gt;</code></pre>
+    </k-card>
+    <k-card label="Output" class="mt">
+      <k-audio src="{{pathToRoot}}media/evo.mp4" controls="normal"></k-audio>
+    </k-card>
+
+    <h3 id="presets"><a href="#presets" class="no-link">Preconfigured Controls</a></h3>
+    <p><code>controls</code> takes <code>minimal</code> (play and pause, time, seek, duration), <code>normal</code> (those, plus volume, speed and loop) or <code>full</code> (normal, plus skip back and forward). <code>none</code> or no value draws no toolbar.</p>
+    <k-card label="Minimal">
+      <k-audio src="{{pathToRoot}}media/evo.mp4" controls="minimal"></k-audio>
+    </k-card>
+    <k-card label="Full" class="mt">
+      <k-audio src="{{pathToRoot}}media/evo.mp4" controls="full"></k-audio>
+    </k-card>
+
+    <h3 id="manualControls"><a href="#manualControls" class="no-link">Manual Controls</a></h3>
+    <p>Slot any controls inside the element, and they replace the preset.</p>
+    <k-card label="HTML">
+      <pre><code class="html">&lt;k-audio src="/media/podcast.mp3"&gt;
+  &lt;kc-vid-play-pause&gt;&lt;/kc-vid-play-pause&gt;
+  &lt;kc-vid-seek&gt;&lt;/kc-vid-seek&gt;
+  &lt;kc-vid-volume&gt;&lt;/kc-vid-volume&gt;
+&lt;/k-audio&gt;</code></pre>
+    </k-card>
+    <k-card label="Output" class="mt">
+      <k-audio src="{{pathToRoot}}media/evo.mp4">
+        <kc-vid-play-pause></kc-vid-play-pause>
+        <kc-vid-seek></kc-vid-seek>
+        <kc-vid-volume></kc-vid-volume>
+      </k-audio>
+    </k-card>
+
+    <h3 id="resumePosition"><a href="#resumePosition" class="no-link">Resume Playback Position</a></h3>
+    <p>Give the element a <code>persistent-id</code> and its position is kept in the browser session, so a reload carries on from where it was. The position is forgotten when the sound ends.</p>
+    <k-card label="HTML">
+      <pre><code class="html">&lt;k-audio src="/media/podcast.mp3" controls="normal" persistent-id="episode-1"&gt;&lt;/k-audio&gt;</code></pre>
+    </k-card>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <table>
+      <thead><tr><th>Property</th><th>Attribute</th><th>Default</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><code>src</code></td><td><code>src</code></td><td>''</td><td>The sound's address.</td></tr>
+        <tr><td><code>preload</code></td><td><code>preload</code></td><td>metadata</td><td>none, metadata or auto.</td></tr>
+        <tr><td><code>autoplay</code>, <code>loop</code>, <code>muted</code></td><td>same</td><td>false</td><td>As on <code>&lt;audio&gt;</code>.</td></tr>
+        <tr><td><code>crossorigin</code></td><td><code>crossorigin</code></td><td>''</td><td>For a file from another site.</td></tr>
+        <tr><td><code>volume</code></td><td></td><td>1</td><td>0 to 1.</td></tr>
+        <tr><td><code>playbackRate</code></td><td><code>playback-rate</code></td><td>1</td><td>0.25 to 4.</td></tr>
+        <tr><td><code>controls</code></td><td><code>controls</code></td><td>''</td><td>none, minimal, normal or full.</td></tr>
+        <tr><td><code>persistentId</code></td><td><code>persistent-id</code></td><td>null</td><td>Keeps the position in the session.</td></tr>
+        <tr><td><code>idleDelayMs</code></td><td><code>idle-delay-ms</code></td><td>2500</td><td>How long after the last movement the element gets the <code>idle</code> attribute.</td></tr>
+        <tr><td><code>skipDuration</code></td><td><code>skip-duration</code></td><td>10</td><td>Seconds the skip controls jump.</td></tr>
+      </tbody>
+    </table>
+    <p>Read only: <code>currentTime</code> (also settable), <code>duration</code>, <code>paused</code>, <code>playing</code>, <code>ended</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <p>Each returns the element, so calls chain.</p>
+    <table>
+      <thead><tr><th>Method</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><code>play()</code>, <code>pause()</code>, <code>togglePlayPause()</code></td><td>Start, stop or switch.</td></tr>
+        <tr><td><code>seek(time)</code>, <code>skip(seconds)</code></td><td>Go to a time, or move by an amount (negative goes back).</td></tr>
+        <tr><td><code>setVolume(volume)</code>, <code>mute()</code>, <code>unmute()</code>, <code>toggleMute()</code></td><td>Volume and muting.</td></tr>
+        <tr><td><code>setPlaybackRate(rate)</code>, <code>toggleLoop()</code></td><td>Speed and looping.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <p>These bubble from the element: <code>play</code>, <code>pause</code>, <code>timeupdate</code>, <code>loadedmetadata</code>, <code>durationchange</code>, <code>canplay</code>, <code>waiting</code>, <code>seeking</code>, <code>seeked</code>, <code>ended</code>, <code>volumechange</code>, <code>ratechange</code> and <code>error</code>, plus <code>loop-changed</code> with <code>{ loop }</code>.</p>
+
+    <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
+    <table>
+      <thead><tr><th>Property</th><th>Default</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><code>--controls-bg</code></td><td>#000</td><td>The toolbar's background.</td></tr>
+      </tbody>
+    </table>
+  </content>
+</page>

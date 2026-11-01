@@ -5,8 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+
+- **`HtmlEditor` toolbar presses keep the focus in the text:** pressing a toolbar control (or an item in its menus) no longer moves the focus out of the editor. Before, with `layout="floating"` the toolbar hid itself as the focus left, taking an open menu with it, so choosing a Text Style such as Heading 1 did nothing. The selection the control acts on also stays. Fields in the toolbar (inputs, selects) still take the focus.
+- **`HtmlEditor` toolbar text colour:** the toolbars now set their own text colour (`--tc`), so an editor inside a coloured container (a hero with white text, say) no longer gets white buttons on a light toolbar.
+
 ### Added
 
+- **`<k-audio>`:** a sound player with no native controls, the sound-only sibling of `<k-video>`. It uses the same slotted `kc-vid-*` controls, with `controls="minimal"`, `"normal"` or `"full"` for a ready-made toolbar; `persistent-id` resumes the position within the session; methods return the element so calls chain. See the [Audio docs](https://dustinpoissant.github.io/kempo-ui/components/audio.html).
+- **`HtmlEditor` `stylesheet` property:** CSS text added to the editor's shadow root after its own styles, for restyling one editor (a transparent background over a picture, for example) without changing the component.
+- **`HtmlEditor` `layout="floating"`:** the toolbars are hidden until the editor has focus, then float above the content (below it when there is no room above) instead of taking space all the time. It works at any `controls` level and is ignored in fullscreen.
 - **`HtmlEditor` `nodes` takes URLs:** an entry that starts with `/`, `.` or `http` is loaded from that address (with its `.js`), so a custom node can ship in another package instead of having to sit in kempo-ui's `htmlEditorNodes/` folder. A plain name still loads from that folder.
 - **`HtmlEditor` `toolbar-top-extra` slot:** a control with `slot="toolbar-top-extra"` is added to the top toolbar after the built-in controls, at any `controls` level, without replacing a section the way the other toolbar slots do.
 

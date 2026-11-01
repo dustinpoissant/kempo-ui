@@ -240,6 +240,36 @@
       <code>toolbar-bottom-left</code>, <code>toolbar-bottom-right</code>.
     </p>
 
+    <h3 id="floatingLayout"><a
+        href="#floatingLayout"
+        class="no-link"
+      >Floating Toolbar</a></h3>
+    <p>Set <code>layout="floating"</code> to hide the toolbar until the editor has focus. It then appears as a bar above
+      the content, positioned over the page rather than taking space, and goes away again when focus leaves. When there
+      is no room above the editor (it is at the top of the page or of a scrolling area) the bar appears below it
+      instead. It applies to the top toolbar and the bottom toolbar, at any <code>controls</code> level, and is ignored
+      in fullscreen.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">layout</span>=<span class="hljs-string">&quot;floating&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="pt3">
+            <k-html-editor
+              controls="normal"
+              layout="floating"
+              class="b r"
+              style="height: 10rem;"
+              value="<p>Click here: the toolbar floats above this text while it has focus.</p>"
+            ></k-html-editor>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="height"><a
         href="#height"
         class="no-link"
@@ -394,6 +424,11 @@
       considered compatible by defining a static <code>isVisualCompatible(domNode)</code> method.
     </p>
 
+    <h5><code>layout<i>: String</i></code></h5>
+    <p>How the toolbars are laid out. Empty (default) draws them above and below the editor. <code>'floating'</code>
+      hides them until the editor has focus, then floats them above (or below, with no room above) the content. See
+      <a href="#floatingLayout">Floating Toolbar</a>.</p>
+
     <h5><code>controls<i>: String</i></code></h5>
     <p>Activates a built-in toolbar. Accepted values:</p>
     <ul>
@@ -431,6 +466,9 @@
       <code>window.kempo.monacoUrl</code> config and the built-in CDN default. See <a href="#globalConfig">Global
         Configuration</a> for the full resolution order.
     </p>
+
+    <h5><code>stylesheet<i>: String</i></code></h5>
+    <p>CSS text added to the editor's shadow root after its own styles, so a page can restyle the editor without changing the component. For example, <code>.stylesheet=${':host { background: transparent; }'}</code> lets the page show through when the editor sits on a picture. Setting it again replaces the previous text.</p>
 
     <h5><code>disabled<i>: Boolean</i></code></h5>
     <p>When <code>true</code>, the editor is non-interactive (Lexical's <code>setEditable(false)</code> in visual mode, Monaco's <code>readOnly</code> in code mode), the toolbar is muted, the host fades to <code>opacity: 0.6</code>, and the field is excluded from form submission. Syncs to <code>disabled</code> attribute.</p>

@@ -25,8 +25,11 @@ export default class HtmlEditor extends ShadowComponent {
 		selection: { type: Object, state: true },
 		mode: { type: String, reflect: true },
 		controls: { type: String, reflect: true },
+		layout: { type: String, reflect: true },
+		floatBelow: { type: Boolean, reflect: true, attribute: 'float-below' },
 		lexicalSrc: { type: String, attribute: 'lexical-src' },
 		monacoSrc: { type: String, attribute: 'monaco-src' },
+		stylesheet: { type: String },
 		nodes: { type: String },
 		hasTopToolbar: { type: Boolean, state: true },
 		hasBottomToolbar: { type: Boolean, state: true },
@@ -45,8 +48,11 @@ export default class HtmlEditor extends ShadowComponent {
 		this.cursor = null;
 		this.mode = 'visual';
 		this.controls = '';
+		this.layout = '';
+		this.floatBelow = false;
 		this.lexicalSrc = '';
 		this.monacoSrc = '';
+		this.stylesheet = '';
 		this.nodes = '';
 		this.hasTopToolbar = false;
 		this.hasBottomToolbar = false;
@@ -79,10 +85,22 @@ export default class HtmlEditor extends ShadowComponent {
 		this.slotObserver = new MutationObserver(() => this.updateToolbarVisibility());
 		this.slotObserver.observe(this, { childList: true, subtree: true });
 		this.updateToolbarVisibility();
+		this.addEventListener('focusin', this.handleFocusIn);
 	}
+
+	/*
+		A floating toolbar sits above the editor. With no room above it (the editor is at the top of the page or of its
+		scroll area) it goes below instead.
+	*/
+	handleFocusIn = () => {
+		if(this.layout !== 'floating') return;
+		const bar = this.shadowRoot?.querySelector('.toolbar-top');
+		if(bar) this.floatBelow = this.getBoundingClientRect().top < bar.offsetHeight + 8;
+	};
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
+		this.removeEventListener('focusin', this.handleFocusIn);
 		this.slotObserver?.disconnect();
 		this.cleanupFns?.forEach(fn => fn?.());
 		this.monacoEditor?.dispose();
@@ -104,6 +122,13 @@ export default class HtmlEditor extends ShadowComponent {
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
+		if (changedProperties.has('stylesheet')) {
+			if (!this.customStyleElement) {
+				this.customStyleElement = document.createElement('style');
+				this.shadowRoot.appendChild(this.customStyleElement);
+			}
+			this.customStyleElement.textContent = this.stylesheet;
+		}
 		if (changedProperties.has('controls')) {
 			this.updateToolbarVisibility();
 			if (this.controls && this.controls !== 'none') this.loadControls();
@@ -1210,13 +1235,22 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	/*
+		Pressing a toolbar control must not take the focus from the text: the selection the control acts on stays, and a
+		floating toolbar (which only shows while the editor has focus) does not hide itself under the press.
+	*/
+	handleToolbarMouseDown = event => {
+		if(event.composedPath().some(element => ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName))) return;
+		event.preventDefault();
+	};
+
+	/*
 		Rendering
 	*/
 	render() {
 		const set = this.constructor.controlSets[this.controls] ?? {};
 		return html`
 			${this.hasTopToolbar ? html`
-				<div class="toolbar-top bb">
+				<div class="toolbar-top bb" @mousedown=${this.handleToolbarMouseDown}>
 					<div class="toolbar-start">
 									<slot name="toolbar-top-left">${set.topLeft ?? ''}</slot>
 									<slot name="toolbar-top-extra"></slot>
@@ -1238,7 +1272,7 @@ export default class HtmlEditor extends ShadowComponent {
 				></div>
 			</div>
 			${this.hasBottomToolbar ? html`
-				<div class="toolbar-bottom bt">
+				<div class="toolbar-bottom bt" @mousedown=${this.handleToolbarMouseDown}>
 					<div class="toolbar-start">
 									<slot name="toolbar-bottom-left">${set.bottomLeft ?? ''}</slot>
 					</div>
@@ -1291,8 +1325,48 @@ export default class HtmlEditor extends ShadowComponent {
 			display: flex;
 			align-items: center;
 			background: var(--bg-secondary);
+			color: var(--tc);
 			min-height: 40px;
 			width: 100%;
+		}
+		/* layout="floating": no toolbar until the editor has focus, then it floats above the content (below it when there is no room). */
+		:host([layout="floating"]) {
+			position: relative;
+		}
+		:host([layout="floating"]:not([fullscreen])) .toolbar-top,
+		:host([layout="floating"]:not([fullscreen])) .toolbar-bottom {
+			position: absolute;
+			left: 0;
+			right: 0;
+			z-index: 20;
+			width: auto;
+			background-color: var(--c_bg);
+			visibility: hidden;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity var(--animation_ms, 150ms);
+			border: 1px solid var(--border-color, var(--c_border, rgba(128,128,128,0.4)));
+			border-radius: var(--radius, 0.25rem);
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+		}
+		:host([layout="floating"]:not([fullscreen])) .toolbar-top {
+			bottom: 100%;
+			margin-bottom: 0.25rem;
+		}
+		:host([layout="floating"][float-below]:not([fullscreen])) .toolbar-top {
+			bottom: auto;
+			top: 100%;
+			margin: 0.25rem 0 0;
+		}
+		:host([layout="floating"]:not([fullscreen])) .toolbar-bottom {
+			top: 100%;
+			margin-top: 0.25rem;
+		}
+		:host([layout="floating"]:not([fullscreen]):focus-within) .toolbar-top,
+		:host([layout="floating"]:not([fullscreen]):focus-within) .toolbar-bottom {
+			visibility: visible;
+			opacity: 1;
+			pointer-events: auto;
 		}
 		.toolbar-start {
 			display: flex;
