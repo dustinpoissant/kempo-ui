@@ -112,9 +112,12 @@ export default {
 		const { container, chat } = await createChat({ input: 'text' });
 		const textarea = chat.shadowRoot.querySelector('textarea.input');
 		const height = textarea.getBoundingClientRect().height;
-		const line = parseFloat(getComputedStyle(textarea).lineHeight);
+		const style = getComputedStyle(textarea);
+		const line = parseFloat(style.lineHeight);
+		const chrome = ['paddingTop', 'paddingBottom', 'borderTopWidth', 'borderBottomWidth'].reduce((sum, prop) => sum + parseFloat(style[prop]), 0);
+		const expected = 2 * line + chrome;
 		cleanup(container);
-		return height >= 2 * line && height < 3 * line + 20 ? pass(`${height}px`) : fail(`${height}px is not two lines of ${line}px`);
+		return Math.abs(height - expected) <= 1 ? pass(`${height}px`) : fail(`${height}px is not two lines of ${line}px plus ${chrome}px padding and border (${expected}px)`);
 	},
 
 	'the controls slots of a textarea input are hidden until something is slotted': async ({pass, fail}) => {
