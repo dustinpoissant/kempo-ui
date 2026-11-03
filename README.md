@@ -143,6 +143,10 @@ Tell kempo-ui where to look for icons in your page config. It checks directories
 | `left` | 180° |
 | `up` | 270° |
 
+### Responsive layouts
+
+`<k-aside>` changes layout by width: `main="push"` with `mobile-main="overlay"` pushes the content above 768px and overlays it at or below. `<k-aside-btn for="id">` is a floating button that opens the aside it is linked to. Show or hide content by breakpoint with the kempo-css classes, such as `class="d-n m-d-b"` (mobile only) or `class="d-d-n"` (hidden on desktop). See the [Aside](https://dustinpoissant.github.io/kempo-ui/components/aside.html) and [Aside Button](https://dustinpoissant.github.io/kempo-ui/components/aside-btn.html) docs.
+
 ---
 
 ## Documentation

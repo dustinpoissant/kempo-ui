@@ -13,6 +13,7 @@
         <a href="#pushBasic">Basic Push</a><br />
         <a href="#pushCollapsed">Collapsed State</a><br />
         <a href="#pushRight">Right Side Push</a><br />
+        <a href="#mobileMain">Push on Desktop, Overlay on Mobile</a><br />
 
         <h6 class="mt">Customization</h6>
         <a href="#customWidth">Custom Width</a><br />
@@ -213,6 +214,17 @@
         </k-card>
       </div>
     </div>
+
+    <h3 id="mobileMain"><a href="#mobileMain" class="no-link">Push on Desktop, Overlay on Mobile</a></h3>
+    <p>Set <code>mobile-main</code> to the <code>main</code> to use at or below a <code>768px</code> viewport width. Here the aside pushes the content on desktop and overlays it on mobile. The layout in use is reflected in the <code>layout</code> attribute. The <code>state</code> is not changed by the breakpoint: below it a <code>collapsed</code> aside shows its rail over the content, and an <code>offscreen</code> one is hidden, so choose which your buttons set. The breakpoint is measured against the width of the iframe below, not the window: drag its handle to narrow it.</p>
+    <k-card label="HTML" class="mb">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">mobile-main</span>=<span class="hljs-string">&quot;overlay&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;expanded&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Sidebar<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Tasks<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+    <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <iframe src="./aside-mobile-main-frame.html" title="Aside with mobile-main" style="display:block;width:100%;height:420px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+          </k-resize>
+        </k-card>
 
     <h2>Customization</h2>
 
@@ -431,6 +443,12 @@
     <p>Which side of the viewport to anchor to. <code>"left"</code> (default) or <code>"right"</code>. Syncs to <code>side</code> attribute.</p>
     <h5><code>main<i>: string</i></code></h5>
     <p>How the aside interacts with page content. <code>"overlay"</code> (default) renders a backdrop and focus trap without affecting layout. <code>"push"</code> dispatches events so <code>&lt;k-main&gt;</code> adjusts its margins. Syncs to <code>main</code> attribute.</p>
+    <h5><code>pushFromOffscreen<i>: string | null</i></code></h5>
+    <p>What the aside becomes when its layout changes to <code>push</code> (for example, crossing above the breakpoint) while it is <code>offscreen</code>. Set it to <code>"collapsed"</code> so a rail stays visible to reopen it. Defaults to <code>null</code>, which leaves it <code>offscreen</code>. Syncs to <code>push-from-offscreen</code> attribute.</p>
+    <h5><code>overlayFromCollapsed<i>: string | null</i></code></h5>
+    <p>The reverse of <code>pushFromOffscreen</code>: what the aside becomes when its layout changes to <code>overlay</code> (for example, dropping below the breakpoint) while it is <code>collapsed</code>. Set it to <code>"offscreen"</code> so a rail does not stay over the content on mobile. Defaults to <code>null</code>, which keeps the rail. Syncs to <code>overlay-from-collapsed</code> attribute.</p>
+    <h5><code>mobileMain<i>: string | null</i></code></h5>
+    <p>The <code>main</code> to use at or below a <code>768px</code> viewport width. For example <code>main="push"</code> with <code>mobile-main="overlay"</code> pushes the content on desktop and overlays it on mobile. Defaults to <code>null</code>, which keeps <code>main</code> at every width. The current value is in the read-only <code>layout</code> attribute. Syncs to <code>mobile-main</code> attribute. See <a href="#mobileMain">Push on Desktop, Overlay on Mobile</a>.</p>
     <h5><code>overlayClose<i>: boolean</i></code></h5>
     <p>Whether clicking the overlay backdrop closes the aside. Defaults to <code>true</code>. Syncs to <code>overlay-close</code> attribute.</p>
     <h5><code>escClose<i>: boolean</i></code></h5>
@@ -520,5 +538,6 @@
     <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/NavSpacer.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Resize.js"></script>
   </content>
 </page>

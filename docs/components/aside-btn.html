@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Aside Button - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+      no-collapse
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      <span class="nav-brand-text">Kempo UI</span>
+    </a>
+    <div
+      class="nav-search"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+      />
+      <div
+        id="navSearchDropdown"
+        class="nav-search-dropdown"
+        hidden
+        theme="light"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside button fab floating menu sidebar toggle components"><a
+              href="../components/aside-btn.html">Aside Button<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="audio player play pause seek volume speed loop sound music podcast components"><a
+              href="../components/audio.html">Audio<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card grid tile layout gallery selection components"><a
+              href="../components/card-grid.html">CardGrid<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="image crop cropper upload photo avatar profile canvas resize components"><a
+              href="../components/image-crop.html"
+            >Image Crop<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="rating star stars review score components"><a
+              href="../components/rating.html"
+            >Rating<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record links url open click advanced example"><a
+              href="../components/tableRecordLinks.html"
+            >Table &mdash; Record Links<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/aside-btn.html">Aside Button</a>
+        <a href="../components/audio.html">Audio</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/card-grid.html">CardGrid</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/image-crop.html">Image Crop</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/rating.html">Rating</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/promptApi.html">promptApi</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+    <h1 class="ta-center">Aside Button</h1>
+  
+  <k-main>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m">
+        <h6>Examples</h6>
+        <a href="#hideUnder">Hidden Under an Open Aside</a><br />
+        <a href="#pushBeside">Pushed Beside an Open Aside</a><br />
+        <a href="#corners">Corners</a><br />
+        <a href="#customIcon">Custom Icon</a><br />
+        <a href="#customStyle">Custom Styling</a><br />
+        <a href="#responsive">Desktop and Mobile</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#slots">Slots</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A small floating button (FAB) that opens and closes an <code>&lt;k-aside&gt;</code>. It sits in a corner of the screen, shows a menu icon by default, and is linked to its aside with the <code>for</code> attribute. It extends <code>Button</code>, so it has the default button look and can be restyled with classes.</p>
+
+        <h3 id="hideUnder"><a href="#hideUnder" class="no-link">Hidden Under an Open Aside</a></h3>
+    <p>By default the button is hidden while its aside is open, because the aside covers the corner. Clicking it opens the aside, and the aside&rsquo;s own toggle or backdrop closes it again.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;menu&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;offscreen&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-hide.html" title="Hidden under an open aside" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="pushBeside"><a href="#pushBeside" class="no-link">Pushed Beside an Open Aside</a></h3>
+    <p>Add <code>push</code> to keep the button visible. When the aside opens, the button moves to sit beside it at the aside&rsquo;s width. It only moves for a corner on the same side as the aside.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;push-menu&quot;</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;offscreen&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;push-menu&quot;</span> <span class="hljs-attr">push</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-push.html" title="Pushed beside an open aside" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="corners"><a href="#corners" class="no-link">Corners</a></h3>
+    <p><code>position</code> sets the corner, as <code>"top left"</code> (default), <code>"top right"</code>, <code>"bottom left"</code> or <code>"bottom right"</code>.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-corner.html" title="Corners" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="customIcon"><a href="#customIcon" class="no-link">Custom Icon</a></h3>
+    <p>The menu icon is the default slot content. Put any icon in the button to replace it.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;settings&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-icon.html" title="Custom icon" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="customStyle"><a href="#customStyle" class="no-link">Custom Styling</a></h3>
+    <p>The button uses the default button styling. Add classes to the element to change it, the same way as any other button, for example a background color from a class or a <code>--btn_bg</code> variable.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><br>  <span class="hljs-selector-class">.fab-brand</span> {<br>    <span class="hljs-attr">--btn_bg</span>: <span class="hljs-built_in">var</span>(--c_primary);<br>    <span class="hljs-attr">--btn_bg__hover</span>: <span class="hljs-built_in">var</span>(--c_primary__hover);<br>    <span class="hljs-attr">--btn_tc</span>: <span class="hljs-built_in">var</span>(--tc_on_primary);<br>  }<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;fab-brand&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-class.html" title="Custom styling" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+    <h3 id="responsive"><a href="#responsive" class="no-link">Desktop and Mobile</a></h3>
+    <p>The aside collapses to its rail on desktop, with the arrow in its header. On mobile it overlays the content, the header shows an X that closes it, and the button is shown only then, using the kempo-css <code>d-n m-d-b</code> classes, to reopen it, and a spacer at the top of the content keeps the button from covering it. The iframe below is resizable, so drag its handle to narrow it and switch between the two.</p>
+    <k-card label="HTML">
+      <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;responsive-aside&quot;</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">mobile-main</span>=<span class="hljs-string">&quot;overlay&quot;</span> <span class="hljs-attr">push-from-offscreen</span>=<span class="hljs-string">&quot;collapsed&quot;</span> <span class="hljs-attr">overlay-from-collapsed</span>=<span class="hljs-string">&quot;offscreen&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;expanded&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--aside_padding: 0;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;m-0&quot;</span>&gt;</span>Kempo Admin<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">active</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height:4rem&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-n m-d-b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>On desktop the aside pushes this content and collapses to its rail. On mobile it overlays the content, the X closes it, and the button reopens it.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;responsive-aside&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-n m-d-b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+    </k-card>
+    <k-card label="Output">
+      <k-resize dimension="width" style="width:100%;">
+        <iframe src="aside-btn-demo-responsive.html" title="Aside Button on desktop and mobile" style="display:block;width:100%;height:420px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+      </k-resize>
+    </k-card>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>Import <code>AsideBtn.js</code>. The <code>for</code> attribute must match the <code>id</code> of an <code>&lt;k-aside&gt;</code>. The aside may come before or after the button in the document.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>for<i>: string</i></code></h5>
+    <p>The <code>id</code> of the aside this button opens and closes. Syncs to the <code>for</code> attribute.</p>
+    <h5><code>position<i>: string</i></code></h5>
+    <p>The corner the button sits in: <code>"top left"</code> (default), <code>"top right"</code>, <code>"bottom left"</code> or <code>"bottom right"</code>. Syncs to the <code>position</code> attribute.</p>
+    <h5><code>push<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the button stays visible and moves beside the aside while it is open. When <code>false</code> (default), it is hidden while the aside is open. Syncs to the <code>push</code> attribute.</p>
+    <h5><code>label<i>: string</i></code></h5>
+    <p>The accessible name, set as <code>aria-label</code>. Defaults to <code>"Menu"</code>.</p>
+    <h5><code>aside-open</code></h5>
+    <p>Reflected while the aside is open (any state other than <code>offscreen</code>). Use it in CSS to style the button while its aside is open.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>default</code></h5>
+    <p>Replaces the default menu icon. Leave it empty to show the <code>menu</code> icon.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <p>Clicking the button, or pressing Enter or Space on it, opens its aside when it is closed (<code>expand()</code>) and hides it when it is open (<code>hide()</code>). A pushed aside is hidden completely, not collapsed to its rail. The button inherits the keyboard behavior and <code>disabled</code> from <code>Button</code>.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Resize.js"></script>
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/AsideBtn.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+  
+</body>
+</html>

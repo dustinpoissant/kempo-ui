@@ -1,6 +1,12 @@
 import ShadowComponent from './ShadowComponent.js';
 import { html, css } from '../lit-all.min.js';
 
+/*
+	An aside takes up room when it is pushed, or when it is a collapsed rail over the content, which
+	is how a collapsed overlay (mobile-main) looks. An expanded overlay covers the content instead.
+*/
+const pushesContent = (state, main) => state !== 'offscreen' && (main === 'push' || state === 'collapsed');
+
 export default class Main extends ShadowComponent {
 	constructor() {
 		super();
@@ -14,8 +20,8 @@ export default class Main extends ShadowComponent {
 		super.connectedCallback();
 		window.addEventListener('aside_state_change', this.handleAsideChange);
 
-		document.querySelectorAll('k-aside[main="push"]').forEach(aside => {
-			if(aside.state !== 'offscreen' && typeof aside.getTargetWidth === 'function') {
+		document.querySelectorAll('k-aside').forEach(aside => {
+			if(pushesContent(aside.state, aside.currentMain) && typeof aside.getTargetWidth === 'function') {
 				const width = aside.getTargetWidth(aside.state);
 				if(width > 0) {
 					this.widthMap.set(aside, { side: aside.side || 'left', width });
@@ -36,10 +42,10 @@ export default class Main extends ShadowComponent {
 	*/
 	handleAsideChange = (event) => {
 		const { aside, state, main, width } = event.detail;
-		if(main === 'overlay' || state === 'offscreen') {
-			this.widthMap.delete(aside);
-		} else {
+		if(pushesContent(state, main)) {
 			this.widthMap.set(aside, { side: aside.side || 'left', width });
+		} else {
+			this.widthMap.delete(aside);
 		}
 		this.recalculate();
 	}

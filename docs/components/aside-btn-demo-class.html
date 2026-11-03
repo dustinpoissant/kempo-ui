@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Aside Button Demo - Custom styling</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+    <style>
+      .fab-brand {
+        --btn_bg: var(--c_primary);
+        --btn_bg__hover: var(--c_primary__hover);
+        --btn_tc: var(--tc_on_primary);
+      }
+    </style>
+    <k-aside id="demo-class" state="offscreen">
+      <nav>
+        <h3>Menu</h3>
+        <a href="#">Dashboard</a>
+      </nav>
+    </k-aside>
+    <k-aside-btn for="demo-class" class="fab-brand"></k-aside-btn>
+  
+  
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/AsideBtn.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+  
+</body>
+</html>

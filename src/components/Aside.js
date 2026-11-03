@@ -10,6 +10,10 @@ export default class Aside extends ShadowComponent {
 		state: { type: String, reflect: true },
 		side: { type: String, reflect: true },
 		main: { type: String, reflect: true },
+		mobileMain: { type: String, attribute: 'mobile-main' },
+		pushFromOffscreen: { type: String, attribute: 'push-from-offscreen' },
+		overlayFromCollapsed: { type: String, attribute: 'overlay-from-collapsed' },
+		layout: { type: String, reflect: true },
 		overlayClose: { type: Boolean, reflect: true, attribute: 'overlay-close', converter: boolTrueFalse },
 		escClose: { type: Boolean, reflect: true, attribute: 'esc-close', converter: boolTrueFalse },
 		persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
@@ -22,6 +26,10 @@ export default class Aside extends ShadowComponent {
 		this.state = 'offscreen';
 		this.side = 'left';
 		this.main = 'overlay';
+		this.mobileMain = null;
+		this.pushFromOffscreen = null;
+		this.overlayFromCollapsed = null;
+		this.desktopQuery = window.matchMedia('(min-width: 769px)');
 		this.overlayClose = true;
 		this.escClose = true;
 		this.persistentId = null;
@@ -99,9 +107,11 @@ export default class Aside extends ShadowComponent {
 			but for a push-style nav it is a global keyboard shortcut that can strand the entire admin
 			sidebar with no way back. Escape on a pushed aside collapses it instead, mirroring toggle().
 		*/
-		if(this.main === 'overlay') this.hide();
+		if(this.currentMain === 'overlay') this.hide();
 		else this.collapse();
 	}
+
+	handleViewportChange = () => this.requestUpdate();
 
 	/*
 		Lifecycle Callbacks
@@ -111,12 +121,34 @@ export default class Aside extends ShadowComponent {
 		this.groupObserver = new MutationObserver(this.groupItems);
 		this.groupObserver.observe(this, { childList: true, subtree: true, attributes: true, attributeFilter: ['active', 'group', 'group-icon', 'group-icon-src'] });
 		this.groupItems();
+		this.desktopQuery.addEventListener('change', this.handleViewportChange);
+	}
+
+	willUpdate() {
+		this.layout = this.currentMain;
 	}
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
 
 		if(changedProperties.has('groupMin') || changedProperties.has('groupIcons')) this.groupItems();
+
+		/*
+			Opt-in. An aside hidden on mobile (offscreen) that gets wider than the breakpoint has no
+			toggle visible, so it stays unreachable. With push-from-offscreen it takes that state
+			instead, typically "collapsed", so the arrow on its rail can reopen it.
+		*/
+		if(changedProperties.has('layout') && changedProperties.get('layout') !== undefined && this.layout === 'push' && this.state === 'offscreen' && this.pushFromOffscreen) {
+			this.state = this.pushFromOffscreen;
+		}
+
+		/*
+			The reverse, opt-in: a collapsed rail that becomes an overlay (narrower than the breakpoint)
+			takes this state instead, typically "offscreen", so a rail does not stay over the content.
+		*/
+		if(changedProperties.has('layout') && changedProperties.get('layout') !== undefined && this.layout === 'overlay' && this.state === 'collapsed' && this.overlayFromCollapsed) {
+			this.state = this.overlayFromCollapsed;
+		}
 
 		if(changedProperties.has('persistentId') && this.persistentId && window?.localStorage) {
 			const key = `aside-persistent-id-${this.persistentId}`;
@@ -134,25 +166,25 @@ export default class Aside extends ShadowComponent {
 			else if(saved) this.state = saved;
 		}
 
-		if(changedProperties.has('state')) {
-			const prev = changedProperties.get('state');
-
-			if(this.state !== 'offscreen' && (prev === 'offscreen' || prev === undefined)) {
+		if(changedProperties.has('state') || changedProperties.has('layout')) {
+			if(this.state !== 'offscreen') {
 				document.addEventListener('keydown', this.handleKeyDown);
-			} else if(this.state === 'offscreen' && prev !== undefined && prev !== 'offscreen') {
+			} else {
 				document.removeEventListener('keydown', this.handleKeyDown);
 			}
 
-			if(this.main === 'overlay') {
+			if(this.layout === 'overlay') {
 				if(this.state === 'expanded') {
 					document.body.classList.add('no-scroll');
 				} else {
 					document.body.classList.remove('no-scroll');
 				}
+			} else {
+				document.body.classList.remove('no-scroll');
 			}
 
 			const targetWidth = this.state === 'offscreen' ? 0 : this.getTargetWidth(this.state);
-			const detail = { aside: this, state: this.state, main: this.main, width: targetWidth };
+			const detail = { aside: this, state: this.state, main: this.layout, width: targetWidth };
 			this.dispatchEvent(new CustomEvent('aside_state_change', { detail }));
 			window.dispatchEvent(new CustomEvent('aside_state_change', { detail }));
 			this.inert = this.state === 'offscreen';
@@ -169,9 +201,10 @@ export default class Aside extends ShadowComponent {
 	disconnectedCallback() {
 		super.disconnectedCallback();
 		this.groupObserver?.disconnect();
+		this.desktopQuery.removeEventListener('change', this.handleViewportChange);
 		document.removeEventListener('keydown', this.handleKeyDown);
 		document.body.classList.remove('no-scroll');
-		const detail = { aside: this, state: 'offscreen', main: this.main, width: 0 };
+		const detail = { aside: this, state: 'offscreen', main: this.layout, width: 0 };
 		this.dispatchEvent(new CustomEvent('aside_state_change', { detail }));
 		window.dispatchEvent(new CustomEvent('aside_state_change', { detail }));
 	}
@@ -182,6 +215,10 @@ export default class Aside extends ShadowComponent {
 	expand = () => this.state = 'expanded';
 	collapse = () => this.state = 'collapsed';
 	hide = () => this.state = 'offscreen';
+
+	get currentMain() {
+		return this.mobileMain && !this.desktopQuery.matches ? this.mobileMain : this.main;
+	}
 
 	toggle = () => {
 		if(this.state !== 'expanded'){
@@ -198,7 +235,7 @@ export default class Aside extends ShadowComponent {
 			Collapsing keeps that control on screen, which is the whole difference between a
 			reversible action and a lockout that outlives the page.
 		*/
-		this.state = this.main === 'overlay' ? 'offscreen' : 'collapsed';
+		this.state = this.currentMain === 'overlay' ? 'offscreen' : 'collapsed';
 	}
 
 	getTargetWidth(forState) {
@@ -214,7 +251,7 @@ export default class Aside extends ShadowComponent {
 	*/
 	render() {
 		const aside = html`<aside><slot></slot></aside>`;
-		if(this.main === 'overlay') {
+		if(this.currentMain === 'overlay') {
 			return html`
 				<k-focus-capture>
 					<div id="container">
@@ -243,31 +280,35 @@ export default class Aside extends ShadowComponent {
 			height: 100vh;
 			pointer-events: none;
 		}
-		:host([main="push"]) {
+		:host([layout="push"]) {
 			left: 0;
 			z-index: 30;
 			transition: width var(--animation_ms, 256ms);
 		}
-		:host([main="push"][side="right"]) {
+		:host([layout="push"][side="right"]) {
 			left: auto;
 			right: 0;
 		}
-		:host([main="push"][state="collapsed"]) {
+		:host([layout="push"][state="collapsed"]) {
 			width: var(--collapsed-width);
 			pointer-events: auto;
 		}
-		:host([main="push"][state="expanded"]) {
+		:host([layout="push"][state="expanded"]) {
 			width: var(--width);
 			pointer-events: auto;
 		}
-		:host([main="overlay"]) {
+		:host([layout="overlay"]) {
 			left: 0;
 			width: 100vw;
 			max-width: 100%;
 			z-index: 60;
 			overflow: hidden;
 		}
-		:host([main="overlay"][state="expanded"]) {
+		:host([layout="overlay"][state="collapsed"]) {
+			width: var(--collapsed-width);
+			pointer-events: auto;
+		}
+		:host([layout="overlay"][state="expanded"]) {
 			pointer-events: auto;
 		}
 		k-focus-capture {
@@ -336,34 +377,44 @@ export default class Aside extends ShadowComponent {
 			border-right: none;
 			border-left: 1px solid var(--border);
 		}
-		:host([main="push"]) aside {
+		:host([layout="push"]) aside {
 			position: absolute;
 			width: var(--width);
 			transform: translateX(-100%);
 		}
-		:host([main="push"][side="right"]) aside {
+		:host([layout="push"][side="right"]) aside {
 			transform: translateX(100%);
 		}
-		:host([main="push"][state="collapsed"]) aside {
+		:host([layout="push"][state="collapsed"]) aside {
 			width: var(--collapsed-width);
 			transform: none;
 		}
-		:host([main="push"][state="expanded"]) aside {
+		:host([layout="push"][state="expanded"]) aside {
 			transform: none;
 		}
-		:host([main="overlay"]) aside {
+		:host([layout="overlay"]) aside {
 			width: var(--width);
 			max-width: calc(100vw - 6rem);
 			border: none;
 			transform: translateX(-100%);
 		}
-		:host([main="overlay"][state="expanded"]) aside {
+		:host([layout="overlay"][state="collapsed"]) aside {
+			width: var(--collapsed-width);
+			transform: none;
+			border: none;
+			border-right: 1px solid var(--border);
+		}
+		:host([layout="overlay"][state="collapsed"][side="right"]) aside {
+			border-right: none;
+			border-left: 1px solid var(--border);
+		}
+		:host([layout="overlay"][state="expanded"]) aside {
 			transform: none;
 		}
-		:host([main="overlay"][side="right"]) aside {
+		:host([layout="overlay"][side="right"]) aside {
 			transform: translateX(100%);
 		}
-		:host([main="overlay"][side="right"][state="expanded"]) aside {
+		:host([layout="overlay"][side="right"][state="expanded"]) aside {
 			transform: none;
 		}
 	`;
@@ -769,13 +820,15 @@ class AsideSpacer extends ShadowComponent {
 class AsideToggle extends ShadowComponent {
 	static properties = {
 		collapsed: { type: Boolean, reflect: true },
-		direction: { type: String }
+		direction: { type: String },
+		overlay: { type: Boolean }
 	};
 
 	constructor() {
 		super();
 		this.collapsed = false;
 		this.direction = 'left';
+		this.overlay = false;
 	}
 
 	/*
@@ -786,6 +839,7 @@ class AsideToggle extends ShadowComponent {
 		this.aside = this.closest('k-aside');
 		if(this.aside) {
 			this.collapsed = this.aside.state === 'collapsed';
+			this.overlay = this.aside.currentMain === 'overlay';
 			this.updateDirection();
 			this.aside.addEventListener('aside_state_change', this.handleStateChange);
 		}
@@ -802,15 +856,21 @@ class AsideToggle extends ShadowComponent {
 		Event Handlers
 	*/
 	handleStateChange = (e) => {
-		const { state } = e.detail;
+		const { state, main } = e.detail;
 		if(state === 'collapsed') this.collapsed = true;
 		else if(state === 'expanded') this.collapsed = false;
+		this.overlay = main === 'overlay';
 		this.updateDirection();
 	};
 
+	/*
+		An overlay has no rail to collapse to, so its toggle is an X that closes it. A pushed aside
+		keeps the arrow, which collapses it to the rail.
+	*/
 	handleClick = () => {
 		if(!this.aside) return;
-		this.aside.state = this.aside.state === 'collapsed' ? 'expanded' : 'collapsed';
+		if(this.overlay) this.aside.hide();
+		else this.aside.state = this.aside.state === 'collapsed' ? 'expanded' : 'collapsed';
 	};
 
 	/*
@@ -829,7 +889,7 @@ class AsideToggle extends ShadowComponent {
 			<div id="header">
 				<slot></slot>
 				<button id="toggle" @click=${this.handleClick}>
-					<k-icon name="arrow-line" direction=${this.direction}></k-icon>
+					${this.overlay ? html`<k-icon name="close"></k-icon>` : html`<k-icon name="arrow-line" direction=${this.direction}></k-icon>`}
 				</button>
 			</div>
 		`;

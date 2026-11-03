@@ -1,4 +1,4 @@
-import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"../lit-all.min.js";import{boolTrueFalse as a}from"../utils/propConverters.js";import"./Dropdown.js";import"./FocusCapture.js";import"./Icon.js";export default class o extends e{static properties={state:{type:String,reflect:!0},side:{type:String,reflect:!0},main:{type:String,reflect:!0},overlayClose:{type:Boolean,reflect:!0,attribute:"overlay-close",converter:a},escClose:{type:Boolean,reflect:!0,attribute:"esc-close",converter:a},persistentId:{type:String,reflect:!0,attribute:"persistent-id"},groupMin:{type:Number,attribute:"group-min"},groupIcons:{type:Object,attribute:"group-icons"}};constructor(){super(),this.state="offscreen",this.side="left",this.main="overlay",this.overlayClose=!0,this.escClose=!0,this.persistentId=null,this.groupMin=2,this.groupIcons={},this.groupObserver=null}groupItems=()=>{const e=new Map;for(const t of this.querySelectorAll(":scope > k-aside-item[group], :scope > k-aside-menu[data-auto-group] > k-aside-item[group]")){const s=t.getAttribute("group").trim();s&&(e.has(s)||e.set(s,[]),e.get(s).push(t))}const t=new Map([...this.querySelectorAll(":scope > k-aside-menu[data-auto-group]")].map(e=>[e.dataset.autoGroup,e])),s=e=>{for(;e.firstElementChild;)e.before(e.firstElementChild);e.remove()};for(const[i,a]of e){let e=t.get(i);if(a.length<this.groupMin){e&&s(e);continue}e||(e=document.createElement("k-aside-menu"),e.dataset.autoGroup=i,e.label=i,a[0].before(e));for(const t of a)t.parentElement===this&&e.append(t);const o=this.groupIcons?.[i];e.icon=o||a.map(e=>e.getAttribute("group-icon")).find(Boolean)||"folder",e.iconSrc=o?"":a.map(e=>e.getAttribute("group-icon-src")).find(Boolean)||"",a.some(e=>e.hasAttribute("active"))&&(e.open=!0)}for(const[i,a]of t)e.has(i)||s(a)};overlayClick=()=>{this.overlayClose&&this.hide()};handleKeyDown=e=>{this.escClose&&"Escape"===e.key&&("overlay"===this.main?this.hide():this.collapse())};connectedCallback(){super.connectedCallback(),this.groupObserver=new MutationObserver(this.groupItems),this.groupObserver.observe(this,{childList:!0,subtree:!0,attributes:!0,attributeFilter:["active","group","group-icon","group-icon-src"]}),this.groupItems()}updated(e){if(super.updated(e),(e.has("groupMin")||e.has("groupIcons"))&&this.groupItems(),e.has("persistentId")&&this.persistentId&&window?.localStorage){const e=`aside-persistent-id-${this.persistentId}`,t=window.localStorage.getItem(e);"offscreen"===t?window.localStorage.removeItem(e):t&&(this.state=t)}if(e.has("state")){const t=e.get("state");"offscreen"===this.state||"offscreen"!==t&&void 0!==t?"offscreen"===this.state&&void 0!==t&&"offscreen"!==t&&document.removeEventListener("keydown",this.handleKeyDown):document.addEventListener("keydown",this.handleKeyDown),"overlay"===this.main&&("expanded"===this.state?document.body.classList.add("no-scroll"):document.body.classList.remove("no-scroll"));const s="offscreen"===this.state?0:this.getTargetWidth(this.state),i={aside:this,state:this.state,main:this.main,width:s};if(this.dispatchEvent(new CustomEvent("aside_state_change",{detail:i})),window.dispatchEvent(new CustomEvent("aside_state_change",{detail:i})),this.inert="offscreen"===this.state,this.persistentId&&window?.localStorage){const e=`aside-persistent-id-${this.persistentId}`;"offscreen"===this.state?window.localStorage.removeItem(e):window.localStorage.setItem(e,this.state)}}}disconnectedCallback(){super.disconnectedCallback(),this.groupObserver?.disconnect(),document.removeEventListener("keydown",this.handleKeyDown),document.body.classList.remove("no-scroll");const e={aside:this,state:"offscreen",main:this.main,width:0};this.dispatchEvent(new CustomEvent("aside_state_change",{detail:e})),window.dispatchEvent(new CustomEvent("aside_state_change",{detail:e}))}expand=()=>this.state="expanded";collapse=()=>this.state="collapsed";hide=()=>this.state="offscreen";toggle=()=>{"expanded"===this.state?this.state="overlay"===this.main?"offscreen":"collapsed":this.state="expanded"};getTargetWidth(e){const t=parseFloat(getComputedStyle(document.documentElement).fontSize),s="collapsed"===e?"--collapsed-width":"--width",i=getComputedStyle(this).getPropertyValue(s).trim();return(i?parseFloat(i):"collapsed"===e?3.5:20)*t}render(){const e=t`<aside><slot></slot></aside>`;return"overlay"===this.main?t`
+import e from"./ShadowComponent.js";import{html as t,css as s,nothing as a}from"../lit-all.min.js";import{boolTrueFalse as i}from"../utils/propConverters.js";import"./Dropdown.js";import"./FocusCapture.js";import"./Icon.js";export default class o extends e{static properties={state:{type:String,reflect:!0},side:{type:String,reflect:!0},main:{type:String,reflect:!0},mobileMain:{type:String,attribute:"mobile-main"},pushFromOffscreen:{type:String,attribute:"push-from-offscreen"},overlayFromCollapsed:{type:String,attribute:"overlay-from-collapsed"},layout:{type:String,reflect:!0},overlayClose:{type:Boolean,reflect:!0,attribute:"overlay-close",converter:i},escClose:{type:Boolean,reflect:!0,attribute:"esc-close",converter:i},persistentId:{type:String,reflect:!0,attribute:"persistent-id"},groupMin:{type:Number,attribute:"group-min"},groupIcons:{type:Object,attribute:"group-icons"}};constructor(){super(),this.state="offscreen",this.side="left",this.main="overlay",this.mobileMain=null,this.pushFromOffscreen=null,this.overlayFromCollapsed=null,this.desktopQuery=window.matchMedia("(min-width: 769px)"),this.overlayClose=!0,this.escClose=!0,this.persistentId=null,this.groupMin=2,this.groupIcons={},this.groupObserver=null}groupItems=()=>{const e=new Map;for(const t of this.querySelectorAll(":scope > k-aside-item[group], :scope > k-aside-menu[data-auto-group] > k-aside-item[group]")){const s=t.getAttribute("group").trim();s&&(e.has(s)||e.set(s,[]),e.get(s).push(t))}const t=new Map([...this.querySelectorAll(":scope > k-aside-menu[data-auto-group]")].map(e=>[e.dataset.autoGroup,e])),s=e=>{for(;e.firstElementChild;)e.before(e.firstElementChild);e.remove()};for(const[a,i]of e){let e=t.get(a);if(i.length<this.groupMin){e&&s(e);continue}e||(e=document.createElement("k-aside-menu"),e.dataset.autoGroup=a,e.label=a,i[0].before(e));for(const t of i)t.parentElement===this&&e.append(t);const o=this.groupIcons?.[a];e.icon=o||i.map(e=>e.getAttribute("group-icon")).find(Boolean)||"folder",e.iconSrc=o?"":i.map(e=>e.getAttribute("group-icon-src")).find(Boolean)||"",i.some(e=>e.hasAttribute("active"))&&(e.open=!0)}for(const[a,i]of t)e.has(a)||s(i)};overlayClick=()=>{this.overlayClose&&this.hide()};handleKeyDown=e=>{this.escClose&&"Escape"===e.key&&("overlay"===this.currentMain?this.hide():this.collapse())};handleViewportChange=()=>this.requestUpdate();connectedCallback(){super.connectedCallback(),this.groupObserver=new MutationObserver(this.groupItems),this.groupObserver.observe(this,{childList:!0,subtree:!0,attributes:!0,attributeFilter:["active","group","group-icon","group-icon-src"]}),this.groupItems(),this.desktopQuery.addEventListener("change",this.handleViewportChange)}willUpdate(){this.layout=this.currentMain}updated(e){if(super.updated(e),(e.has("groupMin")||e.has("groupIcons"))&&this.groupItems(),e.has("layout")&&void 0!==e.get("layout")&&"push"===this.layout&&"offscreen"===this.state&&this.pushFromOffscreen&&(this.state=this.pushFromOffscreen),e.has("layout")&&void 0!==e.get("layout")&&"overlay"===this.layout&&"collapsed"===this.state&&this.overlayFromCollapsed&&(this.state=this.overlayFromCollapsed),e.has("persistentId")&&this.persistentId&&window?.localStorage){const e=`aside-persistent-id-${this.persistentId}`,t=window.localStorage.getItem(e);"offscreen"===t?window.localStorage.removeItem(e):t&&(this.state=t)}if(e.has("state")||e.has("layout")){"offscreen"!==this.state?document.addEventListener("keydown",this.handleKeyDown):document.removeEventListener("keydown",this.handleKeyDown),"overlay"===this.layout&&"expanded"===this.state?document.body.classList.add("no-scroll"):document.body.classList.remove("no-scroll");const e="offscreen"===this.state?0:this.getTargetWidth(this.state),t={aside:this,state:this.state,main:this.layout,width:e};if(this.dispatchEvent(new CustomEvent("aside_state_change",{detail:t})),window.dispatchEvent(new CustomEvent("aside_state_change",{detail:t})),this.inert="offscreen"===this.state,this.persistentId&&window?.localStorage){const e=`aside-persistent-id-${this.persistentId}`;"offscreen"===this.state?window.localStorage.removeItem(e):window.localStorage.setItem(e,this.state)}}}disconnectedCallback(){super.disconnectedCallback(),this.groupObserver?.disconnect(),this.desktopQuery.removeEventListener("change",this.handleViewportChange),document.removeEventListener("keydown",this.handleKeyDown),document.body.classList.remove("no-scroll");const e={aside:this,state:"offscreen",main:this.layout,width:0};this.dispatchEvent(new CustomEvent("aside_state_change",{detail:e})),window.dispatchEvent(new CustomEvent("aside_state_change",{detail:e}))}expand=()=>this.state="expanded";collapse=()=>this.state="collapsed";hide=()=>this.state="offscreen";get currentMain(){return this.mobileMain&&!this.desktopQuery.matches?this.mobileMain:this.main}toggle=()=>{"expanded"===this.state?this.state="overlay"===this.currentMain?"offscreen":"collapsed":this.state="expanded"};getTargetWidth(e){const t=parseFloat(getComputedStyle(document.documentElement).fontSize),s="collapsed"===e?"--collapsed-width":"--width",a=getComputedStyle(this).getPropertyValue(s).trim();return(a?parseFloat(a):"collapsed"===e?3.5:20)*t}render(){const e=t`<aside><slot></slot></aside>`;return"overlay"===this.currentMain?t`
 				<k-focus-capture>
 					<div id="container">
 						<button id="overlay-btn" @click=${this.overlayClick}>
@@ -18,31 +18,35 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"
 			height: 100vh;
 			pointer-events: none;
 		}
-		:host([main="push"]) {
+		:host([layout="push"]) {
 			left: 0;
 			z-index: 30;
 			transition: width var(--animation_ms, 256ms);
 		}
-		:host([main="push"][side="right"]) {
+		:host([layout="push"][side="right"]) {
 			left: auto;
 			right: 0;
 		}
-		:host([main="push"][state="collapsed"]) {
+		:host([layout="push"][state="collapsed"]) {
 			width: var(--collapsed-width);
 			pointer-events: auto;
 		}
-		:host([main="push"][state="expanded"]) {
+		:host([layout="push"][state="expanded"]) {
 			width: var(--width);
 			pointer-events: auto;
 		}
-		:host([main="overlay"]) {
+		:host([layout="overlay"]) {
 			left: 0;
 			width: 100vw;
 			max-width: 100%;
 			z-index: 60;
 			overflow: hidden;
 		}
-		:host([main="overlay"][state="expanded"]) {
+		:host([layout="overlay"][state="collapsed"]) {
+			width: var(--collapsed-width);
+			pointer-events: auto;
+		}
+		:host([layout="overlay"][state="expanded"]) {
 			pointer-events: auto;
 		}
 		k-focus-capture {
@@ -111,40 +115,50 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"
 			border-right: none;
 			border-left: 1px solid var(--border);
 		}
-		:host([main="push"]) aside {
+		:host([layout="push"]) aside {
 			position: absolute;
 			width: var(--width);
 			transform: translateX(-100%);
 		}
-		:host([main="push"][side="right"]) aside {
+		:host([layout="push"][side="right"]) aside {
 			transform: translateX(100%);
 		}
-		:host([main="push"][state="collapsed"]) aside {
+		:host([layout="push"][state="collapsed"]) aside {
 			width: var(--collapsed-width);
 			transform: none;
 		}
-		:host([main="push"][state="expanded"]) aside {
+		:host([layout="push"][state="expanded"]) aside {
 			transform: none;
 		}
-		:host([main="overlay"]) aside {
+		:host([layout="overlay"]) aside {
 			width: var(--width);
 			max-width: calc(100vw - 6rem);
 			border: none;
 			transform: translateX(-100%);
 		}
-		:host([main="overlay"][state="expanded"]) aside {
+		:host([layout="overlay"][state="collapsed"]) aside {
+			width: var(--collapsed-width);
+			transform: none;
+			border: none;
+			border-right: 1px solid var(--border);
+		}
+		:host([layout="overlay"][state="collapsed"][side="right"]) aside {
+			border-right: none;
+			border-left: 1px solid var(--border);
+		}
+		:host([layout="overlay"][state="expanded"]) aside {
 			transform: none;
 		}
-		:host([main="overlay"][side="right"]) aside {
+		:host([layout="overlay"][side="right"]) aside {
 			transform: translateX(100%);
 		}
-		:host([main="overlay"][side="right"][state="expanded"]) aside {
+		:host([layout="overlay"][side="right"][state="expanded"]) aside {
 			transform: none;
 		}
 	`}customElements.define("k-aside",o);class n extends e{static properties={icon:{type:String},href:{type:String},group:{type:String},groupIcon:{type:String,attribute:"group-icon"},iconSrc:{type:String,attribute:"icon-src"},groupIconSrc:{type:String,attribute:"group-icon-src"},active:{type:Boolean,reflect:!0},collapsed:{type:Boolean,reflect:!0},"no-expand":{type:Boolean,attribute:"no-expand"},"hide-when-collapsed":{type:Boolean,attribute:"hide-when-collapsed"}};constructor(){super(),this.icon="",this.href="#",this.group="",this.groupIcon="",this.iconSrc="",this.groupIconSrc="",this.active=!1,this.collapsed=!1,this["no-expand"]=!1,this["hide-when-collapsed"]=!1}connectedCallback(){super.connectedCallback(),this.aside=this.closest("k-aside"),this.inMenu=!!this.closest("k-aside-menu"),this.aside&&!this.inMenu&&(this.collapsed="collapsed"===this.aside.state,this.aside.addEventListener("aside_state_change",this.handleStateChange))}disconnectedCallback(){super.disconnectedCallback(),this.aside&&this.aside.removeEventListener("aside_state_change",this.handleStateChange)}handleStateChange=e=>{const{state:t}=e.detail;"collapsed"===t?this.collapsed=!0:"expanded"===t&&(this.collapsed=!1)};handleClick=e=>{this.collapsed&&!this["no-expand"]&&this.aside&&(e.preventDefault(),this.aside.expand())};render(){return t`
 			<a href="${this.href}" class="item ${this.active?"active bg-primary":""}" @click=${this.handleClick}>
-				${this.iconSrc?t`<k-icon src="${this.iconSrc}"></k-icon>`:this.icon?t`<k-icon name="${this.icon}"></k-icon>`:this.collapsed?t`<k-icon name="dot"></k-icon>`:i}
-				${this.collapsed?i:t`<span class="label"><slot></slot></span>`}
+				${this.iconSrc?t`<k-icon src="${this.iconSrc}"></k-icon>`:this.icon?t`<k-icon name="${this.icon}"></k-icon>`:this.collapsed?t`<k-icon name="dot"></k-icon>`:a}
+				${this.collapsed?a:t`<span class="label"><slot></slot></span>`}
 			</a>
 		`}static styles=s`
 		:host {
@@ -208,7 +222,7 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"
 		:host([collapsed]) hr {
 			margin: var(--spacer_h) 0;
 		}
-	`}class d extends e{static properties={icon:{type:String},iconSrc:{type:String,attribute:"icon-src"},label:{type:String},open:{type:Boolean,reflect:!0},collapsed:{type:Boolean,reflect:!0},side:{type:String},"no-expand":{type:Boolean,attribute:"no-expand"},"hide-when-collapsed":{type:Boolean,attribute:"hide-when-collapsed"}};constructor(){super(),this.icon="",this.iconSrc="",this.label="",this.open=!1,this.collapsed=!1,this.side="left",this["no-expand"]=!1,this["hide-when-collapsed"]=!1}connectedCallback(){super.connectedCallback(),this.aside=this.closest("k-aside"),this.aside&&(this.collapsed="collapsed"===this.aside.state,this.side=this.aside.side||"left",this.aside.addEventListener("aside_state_change",this.handleStateChange))}disconnectedCallback(){super.disconnectedCallback(),this.aside&&this.aside.removeEventListener("aside_state_change",this.handleStateChange)}handleStateChange=e=>{const{state:t}=e.detail;"collapsed"===t?(this.collapsed=!0,this.open=!1):"expanded"===t&&(this.collapsed=!1),this.side=this.aside?.side||"left"};toggleMenu=()=>{this.collapsed||(this.open=!this.open)};handleCollapsedClick=()=>{this.open=!0,this.aside?.expand()};render(){if(this.collapsed){const e="right"===this.side?"left down":"right down";return t`
+	`}class l extends e{static properties={icon:{type:String},iconSrc:{type:String,attribute:"icon-src"},label:{type:String},open:{type:Boolean,reflect:!0},collapsed:{type:Boolean,reflect:!0},side:{type:String},"no-expand":{type:Boolean,attribute:"no-expand"},"hide-when-collapsed":{type:Boolean,attribute:"hide-when-collapsed"}};constructor(){super(),this.icon="",this.iconSrc="",this.label="",this.open=!1,this.collapsed=!1,this.side="left",this["no-expand"]=!1,this["hide-when-collapsed"]=!1}connectedCallback(){super.connectedCallback(),this.aside=this.closest("k-aside"),this.aside&&(this.collapsed="collapsed"===this.aside.state,this.side=this.aside.side||"left",this.aside.addEventListener("aside_state_change",this.handleStateChange))}disconnectedCallback(){super.disconnectedCallback(),this.aside&&this.aside.removeEventListener("aside_state_change",this.handleStateChange)}handleStateChange=e=>{const{state:t}=e.detail;"collapsed"===t?(this.collapsed=!0,this.open=!1):"expanded"===t&&(this.collapsed=!1),this.side=this.aside?.side||"left"};toggleMenu=()=>{this.collapsed||(this.open=!this.open)};handleCollapsedClick=()=>{this.open=!0,this.aside?.expand()};render(){if(this.collapsed){const e="right"===this.side?"left down":"right down";return t`
 				<k-dropdown open-direction=${e} hover>
 					<button slot="trigger" class="no-btn collapsed-trigger" @click=${this.handleCollapsedClick}>
 						${this.iconSrc?t`<k-icon src="${this.iconSrc}"></k-icon>`:this.icon?t`<k-icon name="${this.icon}"></k-icon>`:t`<k-icon name="dot"></k-icon>`}
@@ -218,7 +232,7 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"
 			`}return t`
 			<div class="menu-container">
 				<button class="no-btn menu-header ${this.open?"open":""}" @click=${this.toggleMenu}>
-					${this.iconSrc?t`<k-icon src="${this.iconSrc}"></k-icon>`:this.icon?t`<k-icon name="${this.icon}"></k-icon>`:i}
+					${this.iconSrc?t`<k-icon src="${this.iconSrc}"></k-icon>`:this.icon?t`<k-icon name="${this.icon}"></k-icon>`:a}
 					<span class="label">${this.label}</span>
 					<k-icon class="chevron" name="chevron" direction="${this.open?"down":"right"}"></k-icon>
 				</button>
@@ -296,16 +310,16 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"
 		::slotted(*) {
 			margin: 0.25rem 0;
 		}
-	`}class l extends e{render(){return t`<div></div>`}static styles=s`
+	`}class d extends e{render(){return t`<div></div>`}static styles=s`
 		:host {
 			display: block;
 			flex: 1;
 		}
-	`}class c extends e{static properties={collapsed:{type:Boolean,reflect:!0},direction:{type:String}};constructor(){super(),this.collapsed=!1,this.direction="left"}connectedCallback(){super.connectedCallback(),this.aside=this.closest("k-aside"),this.aside&&(this.collapsed="collapsed"===this.aside.state,this.updateDirection(),this.aside.addEventListener("aside_state_change",this.handleStateChange))}disconnectedCallback(){super.disconnectedCallback(),this.aside&&this.aside.removeEventListener("aside_state_change",this.handleStateChange)}handleStateChange=e=>{const{state:t}=e.detail;"collapsed"===t?this.collapsed=!0:"expanded"===t&&(this.collapsed=!1),this.updateDirection()};handleClick=()=>{this.aside&&(this.aside.state="collapsed"===this.aside.state?"expanded":"collapsed")};updateDirection=()=>{const e="right"===this.aside?.side;this.direction=this.collapsed!==e?"right":"left"};render(){return t`
+	`}class c extends e{static properties={collapsed:{type:Boolean,reflect:!0},direction:{type:String},overlay:{type:Boolean}};constructor(){super(),this.collapsed=!1,this.direction="left",this.overlay=!1}connectedCallback(){super.connectedCallback(),this.aside=this.closest("k-aside"),this.aside&&(this.collapsed="collapsed"===this.aside.state,this.overlay="overlay"===this.aside.currentMain,this.updateDirection(),this.aside.addEventListener("aside_state_change",this.handleStateChange))}disconnectedCallback(){super.disconnectedCallback(),this.aside&&this.aside.removeEventListener("aside_state_change",this.handleStateChange)}handleStateChange=e=>{const{state:t,main:s}=e.detail;"collapsed"===t?this.collapsed=!0:"expanded"===t&&(this.collapsed=!1),this.overlay="overlay"===s,this.updateDirection()};handleClick=()=>{this.aside&&(this.overlay?this.aside.hide():this.aside.state="collapsed"===this.aside.state?"expanded":"collapsed")};updateDirection=()=>{const e="right"===this.aside?.side;this.direction=this.collapsed!==e?"right":"left"};render(){return t`
 			<div id="header">
 				<slot></slot>
 				<button id="toggle" @click=${this.handleClick}>
-					<k-icon name="arrow-line" direction=${this.direction}></k-icon>
+					${this.overlay?t`<k-icon name="close"></k-icon>`:t`<k-icon name="arrow-line" direction=${this.direction}></k-icon>`}
 				</button>
 			</div>
 		`}static styles=s`
@@ -347,4 +361,4 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"
 		#toggle:hover {
 			background: var(--c_bg_hover);
 		}
-	`}customElements.define("k-aside-item",n),customElements.define("k-aside-label",r),customElements.define("k-aside-menu",d),customElements.define("k-aside-spacer",l),customElements.define("k-aside-toggle",c);
+	`}customElements.define("k-aside-item",n),customElements.define("k-aside-label",r),customElements.define("k-aside-menu",l),customElements.define("k-aside-spacer",d),customElements.define("k-aside-toggle",c);

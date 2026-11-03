@@ -1,0 +1,19 @@
+<page template="bare" title="Aside Button Demo - Pushed beside an open aside">
+  <content>
+    <k-aside id="demo-push" main="push" state="offscreen">
+      <nav>
+        <h3>Menu</h3>
+        <a href="#">Dashboard</a>
+        <a href="#">Settings</a>
+      </nav>
+    </k-aside>
+    <k-main>
+      <k-aside-btn for="demo-push" push></k-aside-btn>
+    </k-main>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/AsideBtn.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Main.js"></script>
+  </content>
+</page>

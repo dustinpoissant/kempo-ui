@@ -1,0 +1,17 @@
+<page template="bare" title="Aside Button Demo - Hidden under an open aside">
+  <content>
+    <k-aside id="demo-overlay" state="offscreen">
+      <nav>
+        <h3>Menu</h3>
+        <a href="#">Dashboard</a>
+        <a href="#">Settings</a>
+      </nav>
+    </k-aside>
+    <k-aside-btn for="demo-overlay"></k-aside-btn>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/AsideBtn.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Main.js"></script>
+  </content>
+</page>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Aside Button Demo - Desktop and mobile</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+    <k-aside id="responsive-aside" main="push" mobile-main="overlay" push-from-offscreen="collapsed" overlay-from-collapsed="offscreen" state="expanded" style="--aside_padding: 0;">
+      <k-aside-toggle>
+        <h5 class="m-0">Kempo Admin</h5>
+      </k-aside-toggle>
+      <k-aside-item icon="cards" href="#" active>Dashboard</k-aside-item>
+      <k-aside-item icon="settings" href="#">Settings</k-aside-item>
+    </k-aside>
+    <k-main>
+      <div style="height:4rem" class="d-n m-d-b"></div>
+      <h2>Dashboard</h2>
+      <p>On desktop the aside pushes this content and collapses to its rail. On mobile it overlays the content, the X closes it, and the button reopens it.</p>
+    </k-main>
+    <k-aside-btn for="responsive-aside" class="d-n m-d-b"></k-aside-btn>
+  
+  
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/AsideBtn.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+  
+</body>
+</html>

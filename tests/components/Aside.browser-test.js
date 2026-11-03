@@ -1246,5 +1246,29 @@ export default {
 		if(result.mappedName !== 'folder-open' || result.mappedSrc) return fail(`The aside's group-icons map still wins over group-icon-src: ${JSON.stringify(result)}`);
 		if(result.named !== 'menu' || result.namedSrc) return fail(`group-icon still works on its own: ${JSON.stringify(result)}`);
 		pass('icon-src and group-icon-src show an icon from a file, and names are unchanged');
+	},
+
+	'should use mobile-main on narrow screens only': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		aside.mobileMain = 'overlay';
+		await aside.updateComplete;
+		const desktop = window.matchMedia('(min-width: 769px)').matches;
+		const expected = desktop ? 'push' : 'overlay';
+		if(aside.currentMain !== expected || aside.layout !== expected) {
+			cleanup(aside);
+			return fail(`Expected ${expected} at this width, got ${aside.currentMain}`);
+		}
+		cleanup(aside);
+		pass('mobile-main applies at or below 768px, main above it');
+	},
+
+	'should keep main when mobile-main is not set': async ({pass, fail}) => {
+		const aside = await createAside({ main: 'push', state: 'expanded' });
+		if(aside.currentMain !== 'push' || aside.layout !== 'push') {
+			cleanup(aside);
+			return fail(`Without mobile-main the layout should be main, got ${aside.layout}`);
+		}
+		cleanup(aside);
+		pass('Without mobile-main the layout is main at every width');
 	}
 };

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Aside Mobile Main Frame</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+    <k-aside id="frame-aside" main="push" mobile-main="overlay" state="expanded" style="--aside_padding: 0;">
+      <k-aside-toggle>
+        <h5 class="m-0">Kempo</h5>
+      </k-aside-toggle>
+      <k-aside-item icon="cards" href="#" active>Dashboard</k-aside-item>
+      <k-aside-item icon="check" href="#">Tasks</k-aside-item>
+      <k-aside-item icon="label" href="#">Email</k-aside-item>
+      <k-aside-spacer></k-aside-spacer>
+      <k-aside-item icon="settings" href="#">Settings</k-aside-item>
+    </k-aside>
+    <k-main>
+      <button id="frame-open" class="primary">Open Sidebar</button>
+      <button id="frame-collapse">Collapse</button>
+      <button id="frame-hide">Hide</button>
+      <h2>Main Content</h2>
+      <p>Wider than 768px this aside pushes the content. Narrower, it overlays the content.</p>
+    </k-main>
+  
+  
+    <script>
+    const frameAside = document.getElementById('frame-aside');
+    document.getElementById('frame-open').addEventListener('click', () => frameAside.expand());
+    document.getElementById('frame-collapse').addEventListener('click', () => frameAside.collapse());
+    document.getElementById('frame-hide').addEventListener('click', () => frameAside.hide());
+    </script>
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+  
+</body>
+</html>

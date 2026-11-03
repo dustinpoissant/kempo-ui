@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Aside Button Demo - Pushed beside an open aside</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+    <k-aside id="demo-push" main="push" state="offscreen">
+      <nav>
+        <h3>Menu</h3>
+        <a href="#">Dashboard</a>
+        <a href="#">Settings</a>
+      </nav>
+    </k-aside>
+    <k-main>
+      <k-aside-btn for="demo-push" push></k-aside-btn>
+    </k-main>
+  
+  
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/AsideBtn.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+  
+</body>
+</html>

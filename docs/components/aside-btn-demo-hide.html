@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Aside Button Demo - Hidden under an open aside</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+    <k-aside id="demo-overlay" state="offscreen">
+      <nav>
+        <h3>Menu</h3>
+        <a href="#">Dashboard</a>
+        <a href="#">Settings</a>
+      </nav>
+    </k-aside>
+    <k-aside-btn for="demo-overlay"></k-aside-btn>
+  
+  
+    <script type="module" src="../src/components/Aside.js"></script>
+    <script type="module" src="../src/components/AsideBtn.js"></script>
+    <script type="module" src="../src/components/Main.js"></script>
+  
+</body>
+</html>

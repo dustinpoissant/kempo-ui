@@ -1,0 +1,23 @@
+<page template="bare" title="Aside Button Demo - Custom styling">
+  <content>
+    <style>
+      .fab-brand {
+        --btn_bg: var(--c_primary);
+        --btn_bg__hover: var(--c_primary__hover);
+        --btn_tc: var(--tc_on_primary);
+      }
+    </style>
+    <k-aside id="demo-class" state="offscreen">
+      <nav>
+        <h3>Menu</h3>
+        <a href="#">Dashboard</a>
+      </nav>
+    </k-aside>
+    <k-aside-btn for="demo-class" class="fab-brand"></k-aside-btn>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/AsideBtn.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Main.js"></script>
+  </content>
+</page>

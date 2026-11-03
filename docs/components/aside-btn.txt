@@ -1,0 +1,15 @@
+Aside Button (<k-aside-btn>)
+Import: import 'kempo-ui/src/components/AsideBtn.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/aside-btn.html
+
+Small floating button (FAB) that opens and closes a <k-aside>. Extends Button, so it has the default button look; restyle it with classes.
+
+Details:
+- `for="id"` the id of the aside it controls (may come before or after the button in the document)
+- `position="top left|top right|bottom left|bottom right"` (default `top left`)
+- `push` boolean: stays visible and moves beside the aside while it is open; default hides under an open aside
+- `label` text for aria-label (default `Menu`)
+- default slot replaces the default `menu` icon; empty slot shows the menu icon
+- dimmed to 70% opacity until hovered or focused; set `opacity` in a class to change that
+- reflected attribute `aside-open` while the aside is not offscreen
+- click or Enter/Space calls `aside.expand()` when closed and `aside.hide()` when open

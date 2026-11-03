@@ -9,6 +9,7 @@ tabs: switch between several views in the same space
 tree: expandable/collapsible tree of nodes (files, categories)
 dropdown: menu of actions that opens from a button
 aside: sidebar or drawer that slides in (push or overlay)
+aside-btn: small floating button in a corner that opens and closes an aside (hidden under it, or pushed beside it)
 nav: top navigation bar that collapses into a "more" menu
 nav-spacer: keeps page content from hiding under a fixed nav
 control-bar: row of controls that moves into a "more" menu when there is no room

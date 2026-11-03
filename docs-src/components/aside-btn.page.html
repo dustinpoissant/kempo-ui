@@ -1,0 +1,122 @@
+<page pageName="Aside Button" title="Aside Button - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m">
+        <h6>Examples</h6>
+        <a href="#hideUnder">Hidden Under an Open Aside</a><br />
+        <a href="#pushBeside">Pushed Beside an Open Aside</a><br />
+        <a href="#corners">Corners</a><br />
+        <a href="#customIcon">Custom Icon</a><br />
+        <a href="#customStyle">Custom Styling</a><br />
+        <a href="#responsive">Desktop and Mobile</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#slots">Slots</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A small floating button (FAB) that opens and closes an <code>&lt;k-aside&gt;</code>. It sits in a corner of the screen, shows a menu icon by default, and is linked to its aside with the <code>for</code> attribute. It extends <code>Button</code>, so it has the default button look and can be restyled with classes.</p>
+
+        <h3 id="hideUnder"><a href="#hideUnder" class="no-link">Hidden Under an Open Aside</a></h3>
+    <p>By default the button is hidden while its aside is open, because the aside covers the corner. Clicking it opens the aside, and the aside&rsquo;s own toggle or backdrop closes it again.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;menu&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;offscreen&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-hide.html" title="Hidden under an open aside" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="pushBeside"><a href="#pushBeside" class="no-link">Pushed Beside an Open Aside</a></h3>
+    <p>Add <code>push</code> to keep the button visible. When the aside opens, the button moves to sit beside it at the aside&rsquo;s width. It only moves for a corner on the same side as the aside.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;push-menu&quot;</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;offscreen&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;push-menu&quot;</span> <span class="hljs-attr">push</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-push.html" title="Pushed beside an open aside" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="corners"><a href="#corners" class="no-link">Corners</a></h3>
+    <p><code>position</code> sets the corner, as <code>"top left"</code> (default), <code>"top right"</code>, <code>"bottom left"</code> or <code>"bottom right"</code>.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-corner.html" title="Corners" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="customIcon"><a href="#customIcon" class="no-link">Custom Icon</a></h3>
+    <p>The menu icon is the default slot content. Put any icon in the button to replace it.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;settings&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-icon.html" title="Custom icon" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+
+        <h3 id="customStyle"><a href="#customStyle" class="no-link">Custom Styling</a></h3>
+    <p>The button uses the default button styling. Add classes to the element to change it, the same way as any other button, for example a background color from a class or a <code>--btn_bg</code> variable.</p>
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><br>  <span class="hljs-selector-class">.fab-brand</span> {<br>    <span class="hljs-attr">--btn_bg</span>: <span class="hljs-built_in">var</span>(--c_primary);<br>    <span class="hljs-attr">--btn_bg__hover</span>: <span class="hljs-built_in">var</span>(--c_primary__hover);<br>    <span class="hljs-attr">--btn_tc</span>: <span class="hljs-built_in">var</span>(--tc_on_primary);<br>  }<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menu&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;fab-brand&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+        </k-card>
+
+        <k-card label="Output">
+          <iframe src="aside-btn-demo-class.html" title="Custom styling" style="display:block;width:100%;height:280px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+        </k-card>
+
+    <h3 id="responsive"><a href="#responsive" class="no-link">Desktop and Mobile</a></h3>
+    <p>The aside collapses to its rail on desktop, with the arrow in its header. On mobile it overlays the content, the header shows an X that closes it, and the button is shown only then, using the kempo-css <code>d-n m-d-b</code> classes, to reopen it, and a spacer at the top of the content keeps the button from covering it. The iframe below is resizable, so drag its handle to narrow it and switch between the two.</p>
+    <k-card label="HTML">
+      <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-aside</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;responsive-aside&quot;</span> <span class="hljs-attr">main</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">mobile-main</span>=<span class="hljs-string">&quot;overlay&quot;</span> <span class="hljs-attr">push-from-offscreen</span>=<span class="hljs-string">&quot;collapsed&quot;</span> <span class="hljs-attr">overlay-from-collapsed</span>=<span class="hljs-string">&quot;offscreen&quot;</span> <span class="hljs-attr">state</span>=<span class="hljs-string">&quot;expanded&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--aside_padding: 0;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;m-0&quot;</span>&gt;</span>Kempo Admin<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">active</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-aside-item</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-main</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height:4rem&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-n m-d-b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>On desktop the aside pushes this content and collapses to its rail. On mobile it overlays the content, the X closes it, and the button reopens it.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-main</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-aside-btn</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;responsive-aside&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-n m-d-b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-aside-btn</span>&gt;</span></code></pre>
+    </k-card>
+    <k-card label="Output">
+      <k-resize dimension="width" style="width:100%;">
+        <iframe src="aside-btn-demo-responsive.html" title="Aside Button on desktop and mobile" style="display:block;width:100%;height:420px;border:1px solid var(--c_border);border-radius:var(--radius);"></iframe>
+      </k-resize>
+    </k-card>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>Import <code>AsideBtn.js</code>. The <code>for</code> attribute must match the <code>id</code> of an <code>&lt;k-aside&gt;</code>. The aside may come before or after the button in the document.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>for<i>: string</i></code></h5>
+    <p>The <code>id</code> of the aside this button opens and closes. Syncs to the <code>for</code> attribute.</p>
+    <h5><code>position<i>: string</i></code></h5>
+    <p>The corner the button sits in: <code>"top left"</code> (default), <code>"top right"</code>, <code>"bottom left"</code> or <code>"bottom right"</code>. Syncs to the <code>position</code> attribute.</p>
+    <h5><code>push<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the button stays visible and moves beside the aside while it is open. When <code>false</code> (default), it is hidden while the aside is open. Syncs to the <code>push</code> attribute.</p>
+    <h5><code>label<i>: string</i></code></h5>
+    <p>The accessible name, set as <code>aria-label</code>. Defaults to <code>"Menu"</code>.</p>
+    <h5><code>aside-open</code></h5>
+    <p>Reflected while the aside is open (any state other than <code>offscreen</code>). Use it in CSS to style the button while its aside is open.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <h5><code>default</code></h5>
+    <p>Replaces the default menu icon. Leave it empty to show the <code>menu</code> icon.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <p>Clicking the button, or pressing Enter or Space on it, opens its aside when it is closed (<code>expand()</code>) and hides it when it is open (<code>hide()</code>). A pushed aside is hidden completely, not collapsed to its rail. The button inherits the keyboard behavior and <code>disabled</code> from <code>Button</code>.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Resize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Aside.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/AsideBtn.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Main.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>
