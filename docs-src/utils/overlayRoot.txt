@@ -1,0 +1,4 @@
+overlayRoot (utility)
+Import: import overlayRoot from 'kempo-ui/src/utils/overlayRoot.js';
+
+`getOverlayRoot()` → the element fixed-position overlay content should mount into: `document.querySelector(window.kempo.overlayRoot)` if configured and matching, else `document.body`. Used internally by Toast, Dialog, and PhotoViewer

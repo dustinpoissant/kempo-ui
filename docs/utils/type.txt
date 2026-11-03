@@ -1,0 +1,5 @@
+type (utility)
+Import: import { typeOf, isType } from 'kempo-ui/src/utils/type.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/type.html
+
+Type-checking helpers

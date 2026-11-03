@@ -61,6 +61,16 @@ export default class ControlGroup extends ShadowComponent {
 		::slotted(*:last-child) {
 			border-right: 0;
 		}
+		:host([in-menu]) {
+			display: flex;
+			flex-direction: column;
+			align-self: stretch;
+			box-sizing: border-box;
+			margin: var(--spacer_q, 0.25rem);
+		}
+		:host([in-menu]) ::slotted(*) {
+			border: 0 !important;
+		}
 	`;
 
 	/*

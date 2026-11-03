@@ -1,0 +1,8 @@
+Main (<k-main>)
+Import: import 'kempo-ui/src/components/Main.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/main.html
+
+Layout main
+
+Details:
+- automatically adjusts margins when a `k-aside[main="push"]` opens

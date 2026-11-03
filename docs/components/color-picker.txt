@@ -1,0 +1,8 @@
+Color Picker (<k-color-picker>)
+Import: import 'kempo-ui/src/components/ColorPicker.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/color-picker.html
+
+Full color picker (hex, rgb, hsl, hsv, alpha)
+
+Details:
+- `value` property

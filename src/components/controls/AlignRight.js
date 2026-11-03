@@ -13,7 +13,7 @@ export default class AlignRight extends ButtonControl {
 
   handleAction() { this.host?.alignRight?.(); }
 
-  render() { return html`<slot><k-icon name="format_align_right"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_align_right"></k-icon></slot><slot name="menu-text">Align Right</slot>`; }
 }
 
 customElements.define('kc-align-right', AlignRight);

@@ -1,0 +1,8 @@
+Import (<k-import>)
+Import: import 'kempo-ui/src/components/Import.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/import.html
+
+Includes external HTML fragments
+
+Details:
+- `src` attribute

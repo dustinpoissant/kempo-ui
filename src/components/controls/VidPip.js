@@ -18,7 +18,7 @@ export default class VidPip extends ButtonControl {
 
   handleAction() { this.host?.togglePictureInPicture?.(); }
 
-  render() { return html`<slot><k-icon name="pip"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="pip"></k-icon></slot><slot name="menu-text">Picture in Picture</slot>`; }
 }
 
 customElements.define('kc-vid-pip', VidPip);

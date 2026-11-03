@@ -294,4 +294,23 @@ export default {
 		cleanup(container);
 		pass();
 	},
+	/*
+		Layout
+	*/
+	'should shrink back inside a flex column when its container gets narrower': async ({pass, fail}) => {
+		const wait = ms => new Promise(r => setTimeout(r, ms));
+		const container = document.createElement('div');
+		container.style.cssText = 'display:flex;width:1000px';
+		container.innerHTML = '<div style="flex:1 1 0"><k-code-editor language="javascript" style="height:200px"></k-code-editor></div>';
+		document.body.appendChild(container);
+		const editor = container.querySelector('k-code-editor');
+		await new Promise(r => editor.addEventListener('ready', r, { once: true }));
+		await wait(300);
+		container.style.width = '400px';
+		await wait(500);
+		const width = editor.getBoundingClientRect().width;
+		cleanup(container);
+		if(width > 400) return fail(`The editor stayed ${width}px wide in a 400px container`);
+		pass();
+	},
 };

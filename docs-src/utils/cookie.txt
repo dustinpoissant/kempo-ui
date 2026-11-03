@@ -1,0 +1,5 @@
+cookie (utility)
+Import: import { saveCookie, getCookie, deleteCookie } from 'kempo-ui/src/utils/cookie.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/cookie.html
+
+Get/set/delete browser cookies

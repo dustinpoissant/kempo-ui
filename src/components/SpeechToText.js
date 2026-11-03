@@ -1,4 +1,4 @@
-import { html, css } from '../lit-all.min.js';
+import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import './Icon.js';
 
@@ -10,7 +10,8 @@ export default class SpeechToText extends ShadowComponent {
     minConfidence: { type: Number, reflect: true, attribute: 'min-confidence' },
     timeout: { type: Number, reflect: true },
     disabled: { type: Boolean, reflect: true },
-    listening: { type: Boolean, reflect: true }
+    listening: { type: Boolean, reflect: true },
+    showLabel: { type: Boolean, reflect: true, attribute: 'show-label' }
   };
 
   #recognition = null;
@@ -31,6 +32,7 @@ export default class SpeechToText extends ShadowComponent {
     this.timeout = 0;
     this.disabled = false;
     this.listening = false;
+    this.showLabel = false;
   }
 
   connectedCallback() {
@@ -191,6 +193,7 @@ export default class SpeechToText extends ShadowComponent {
         title=${label}
       >
         <k-icon name=${this.listening ? 'stop' : 'mic'}></k-icon>
+        ${this.showLabel ? html`<span class="label">${label}</span>` : nothing}
       </button>
     `;
   }
@@ -220,12 +223,32 @@ export default class SpeechToText extends ShadowComponent {
       border: 1px solid var(--c_border);
       border-radius: 50%;
       background: var(--btn_bg);
-      color: var(--tc);
+      color: inherit;
+      /* kempo-css colours .btn:hover from these variables with a selector that beats ours, and the
+         light-dark() it uses for text resolves light inside a button (black text on dark themes). */
+      --btn_tc: currentColor;
+      --btn_bg__hover: var(--c_bg__alt);
+      --btn_box_shadow__hover: none;
       cursor: pointer;
       transition: background var(--animation_ms), color var(--animation_ms), border-color var(--animation_ms);
     }
-    .btn:hover:not(:disabled) {
-      background: var(--c_bg__alt);
+    :host([show-label]) {
+      display: block;
+    }
+    :host([show-label]) .btn {
+      display: flex;
+      justify-content: flex-start;
+      gap: var(--spacer_h);
+      width: 100%;
+      height: auto;
+      min-height: 2rem;
+      padding: var(--spacer_h) var(--spacer);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      text-align: left;
+      white-space: nowrap;
+      --btn_bg__hover: oklch(from var(--c_bg__inv) l c h / 0.15);
     }
     .btn:focus-visible {
       outline: none;
@@ -238,6 +261,9 @@ export default class SpeechToText extends ShadowComponent {
       color: var(--btn_tc__listening);
       border-color: transparent;
       animation: pulse 1.4s infinite;
+    }
+    :host([show-label][listening]) .btn {
+      animation: none;
     }
     .btn:disabled {
       cursor: not-allowed;

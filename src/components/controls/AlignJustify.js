@@ -13,7 +13,7 @@ export default class AlignJustify extends ButtonControl {
 
   handleAction() { this.host?.alignJustify?.(); }
 
-  render() { return html`<slot><k-icon name="format_align_justify"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_align_justify"></k-icon></slot><slot name="menu-text">Justify</slot>`; }
 }
 
 customElements.define('kc-align-justify', AlignJustify);

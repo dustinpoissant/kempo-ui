@@ -31,4 +31,4 @@ import t from"./ButtonControl.js";import{html as e,render as l}from"../../lit-al
           `}
         </form>
       </div>
-    `,o);const s=i.create(o,{width:"600px",title:"Filters"})};render(){return e`<slot><k-icon name="filter"></k-icon></slot>`}}customElements.define("kc-tc-filters",o);
+    `,o);const s=i.create(o,{width:"600px",title:"Filters"})};render(){return e`<slot><k-icon name="filter"></k-icon></slot><slot name="menu-text">Filters</slot>`}}customElements.define("kc-tc-filters",o);

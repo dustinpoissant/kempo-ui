@@ -1,0 +1,10 @@
+Toggle (<k-toggle>)
+Import: import 'kempo-ui/src/components/Toggle.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/toggle.html
+
+On/off toggle
+
+Details:
+- `value` (Boolean, reflects)
+- methods: `on()`, `off()`, `toggle()`
+- fires `change`, `on`, `off`

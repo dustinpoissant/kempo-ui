@@ -1,0 +1,8 @@
+HybridComponent (base class)
+Import: import HybridComponent from 'kempo-ui/src/components/HybridComponent.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/hybrid-component.html
+
+Base class that renders into both the shadow DOM and the light DOM, built on ShadowComponent. kempo-css is in the shadow DOM, and the light DOM can be styled by the page's CSS.
+
+- Override render() for the shadow DOM content (the default is <slot name="lightRoot"></slot>).
+- Override renderLightDom() for the light DOM content, rendered into this.lightRoot after every update.

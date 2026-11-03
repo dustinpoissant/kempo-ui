@@ -1,0 +1,10 @@
+Tags (<k-tags> <k-tag>)
+Import: import 'kempo-ui/src/components/Tags.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/tags.html
+
+Tag input
+
+Details:
+- add/remove tags
+- inline autocomplete via `getSuggestions`
+- fires `change`

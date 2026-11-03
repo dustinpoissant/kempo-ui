@@ -1,0 +1,115 @@
+<page pageName="Table - Preconfigured Controls" title="Preconfigured Controls - Table - Kempo Docs">
+  <content location="head">
+    <script>
+    window.contacts = [
+      { name: 'Olivia Smith', email: 'olivia.smith@mailserver.com', birthday: '1984-03-12', gender: 'f' },
+      { name: 'Liam Johnson', email: 'liam.johnson@mailserver.com', birthday: '1991-07-02', gender: 'm' },
+      { name: 'Emma Brown', email: 'emma.brown@mailserver.com', birthday: '1978-11-23', gender: 'f' },
+      { name: 'Noah Davis', email: 'noah.davis@mailserver.com', birthday: '2001-01-30', gender: 'm' },
+      { name: 'Ava Wilson', email: 'ava.wilson@mailserver.com', birthday: '1995-09-18', gender: 'f' },
+      { name: 'Lucas Miller', email: 'lucas.miller@mailserver.com', birthday: '1988-05-05', gender: 'm' },
+      { name: 'Mia Garcia', email: 'mia.garcia@mailserver.com', birthday: '1999-12-14', gender: 'f' },
+      { name: 'Ethan Moore', email: 'ethan.moore@mailserver.com', birthday: '1973-08-27', gender: 'm' }
+    ];
+    </script>
+  </content>
+  <content>
+
+    <a href="./table.html"><h5>Back to Table Component Documentation</h5></a>
+
+    <p>Set the <code>controls</code> attribute to give a table a toolbar without slotting each control yourself. The toolbars are <a href="./control-bar.html"><code>&lt;k-control-bar&gt;</code></a>s, so on a narrow screen the controls collapse into a &ldquo;more&rdquo; menu instead of wrapping. The control modules are imported for you.</p>
+    <p>Anything you slot into the table&rsquo;s <code>top</code> slot (or without a slot, for the bottom) replaces the preconfigured bar in that position, and <code>controls="none"</code> (the default) shows nothing. Apart from the hide button in <code>full</code>, row controls (edit, delete, open) are not part of any set; add them with the <code>before</code> and <code>after</code> slots.</p>
+
+    <div class="table-wrapper mb">
+      <table>
+        <thead>
+          <tr><th>Value</th><th>Top bar</th><th>Bottom bar</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="white-space:nowrap"><code>none</code></td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><td style="white-space:nowrap"><code>minimal</code></td><td>Search on the left; filters and fields (show / hide / order) on the right</td><td>&mdash;</td></tr>
+          <tr><td style="white-space:nowrap"><code>normal</code></td><td>Search, filters, fields, and Export CSV on the right</td><td>Previous and next page on the left, page size on the right</td></tr>
+          <tr><td style="white-space:nowrap"><code>full</code></td><td>Search, filters, fields; Export CSV and JSON in the center; hidden count and show all on the right; a hide button on every row</td><td>First, previous, next and last on the left; page select in the center; page size on the right</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The controls that matter most keep their place longest as the table narrows: the search has <code>priority="2"</code> and the page size and page select <code>priority="1"</code>. The presets are meant for tables that show data: they have no selection, import, edit or delete controls, since those need handlers of your own (add them yourself with <code>enable-selection</code>, <code>kc-tc-delete-selected</code> and the row controls). <code>full</code> does add a <code>kc-tc-hide</code> button to every row, as hiding a record needs no code. Slot your own <code>after</code> controls to replace it. The page controls only do something with <code>enable-pages</code>.</p>
+
+    <h3 id="minimalExampleSection"><a href="#minimalExampleSection" class="no-link">Minimal</a></h3>
+    <p>Find records and choose which fields are shown.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-table id="minimalExample" controls="minimal"></k-table>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="normalExampleSection"><a href="#normalExampleSection" class="no-link">Normal</a></h3>
+    <p>The everyday toolbar: the minimal bar, an export, and paging.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">enable-pages</span> <span class="hljs-attr">page-size</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">page-size-options</span>=<span class="hljs-string">&quot;[5,10,25]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-table id="normalExample" controls="normal" enable-pages page-size="5" page-size-options="[5,10,25]"></k-table>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fullExampleSection"><a href="#fullExampleSection" class="no-link">Full</a></h3>
+    <p>Everything for browsing data: search, filters, fields, exports, hidden records and full paging.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span> <span class="hljs-attr">enable-pages</span> <span class="hljs-attr">page-size</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">page-size-options</span>=<span class="hljs-string">&quot;[5,10,25]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-table id="fullExample" controls="full" enable-pages page-size="5" page-size-options="[5,10,25]"></k-table>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="replaceExample"><a href="#replaceExample" class="no-link">Replacing a Bar</a></h3>
+    <p>Slot your own controls in <code>top</code> to replace the preconfigured top bar while keeping the preconfigured bottom bar.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">enable-pages</span> <span class="hljs-attr">page-size</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">page-size-options</span>=<span class="hljs-string">&quot;[5,10,25]&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-search</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-search</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-json</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-json</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-table id="replaceTable" controls="normal" enable-pages page-size="5" page-size-options="[5,10,25]">
+            <k-control-bar slot="top">
+              <kc-tc-search></kc-tc-search>
+              <kc-tc-export-json slot="right"></kc-tc-export-json>
+            </k-control-bar>
+          </k-table>
+        </k-card>
+      </div>
+    </div>
+
+    <script type="module">
+      await window.customElements.whenDefined('k-table');
+      ['minimalExample', 'normalExample', 'fullExample', 'replaceTable'].forEach(id => document.getElementById(id).setRecords(contacts));
+    </script>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ControlBar.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcSearch.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcExportJson.js"></script>
+  </content>
+</page>

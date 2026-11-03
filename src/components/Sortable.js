@@ -59,6 +59,11 @@ export class SortableItem extends LitElement {
 	/*
 		Lifecycle Callbacks
 	*/
+	connectedCallback(){
+		super.connectedCallback();
+		if(this.shadowRoot?.getElementById('handle')) this.setupDrag();
+	}
+
 	firstUpdated(){
 		this.setupDrag();
 	}

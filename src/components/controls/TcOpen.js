@@ -31,7 +31,7 @@ export default class TcOpen extends ButtonControl {
 
   render() {
     const icon = this.target === '_blank' ? 'open_in_browser' : 'visibility';
-    return html`<slot><k-icon name="${icon}"></k-icon></slot>`;
+    return html`<slot><k-icon name="${icon}"></k-icon></slot><slot name="menu-text">${this.target === '_blank' ? 'Open in New Tab' : 'Open'}</slot>`;
   }
 }
 

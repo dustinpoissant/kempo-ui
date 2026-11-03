@@ -22,7 +22,7 @@ export default class PgFirst extends ButtonControl {
     if(host) host.page = 1;
   }
 
-  render() { return html`<slot><k-icon name="chevron-line" direction="left"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron-line" direction="left"></k-icon></slot><slot name="menu-text">First Page</slot>`; }
 }
 
 customElements.define('kc-pg-first', PgFirst);

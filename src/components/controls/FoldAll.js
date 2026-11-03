@@ -28,7 +28,7 @@ export default class FoldAll extends ButtonControl {
   }
 
   render() {
-    return html`<slot><k-icon name="${this.folded ? 'unfold_more' : 'unfold_less'}"></k-icon></slot>`;
+    return html`<slot><k-icon name="${this.folded ? 'unfold_more' : 'unfold_less'}"></k-icon></slot><slot name="menu-text">${this.folded ? 'Unfold All' : 'Fold All'}</slot>`;
   }
 }
 

@@ -9,7 +9,7 @@ const openDropdowns = new Set();
 // submenuParent getter), so only one submenu is open under a given menu
 // at a time — keyed this way instead of a light-DOM :scope query so it
 // also works when the submenu's k-dropdown lives inside another custom
-// element's own shadow root (e.g. kc-vid-speed inside kc-vid-menu).
+// element's own shadow root (e.g. kc-media-speed inside kc-vid-menu).
 const openSubmenuByParent = new Map();
 
 // Menus render as top-layer popovers, which flattens anchor-name
@@ -263,7 +263,7 @@ export default class Dropdown extends ShadowComponent {
 		Like Node.contains(), but walks the FLATTENED tree, so it keeps working
 		past shadow-DOM boundaries introduced by intermediate custom elements.
 		Used to recognize a dropdown as "nested" inside this one even when a
-		control in between (e.g. kc-vid-speed inside kc-vid-menu) renders its
+		control in between (e.g. kc-media-speed inside kc-vid-menu) renders its
 		own shadow root.
 
 		assignedSlot is the step that crosses those boundaries: a slotted node's
@@ -285,7 +285,7 @@ export default class Dropdown extends ShadowComponent {
 	/*
 		Like this.parentElement, but for submenus: keeps walking past
 		shadow-DOM boundaries introduced by an intermediate custom element
-		(e.g. kc-vid-speed renders its own k-dropdown inside its own shadow
+		(e.g. kc-media-speed renders its own k-dropdown inside its own shadow
 		root; its submenuParent is the outer k-dropdown it's slotted into,
 		not null). Falls back to plain parentElement for vanilla light-DOM
 		nesting, which is also a k-dropdown found this same way.

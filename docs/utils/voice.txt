@@ -1,0 +1,8 @@
+voice (utility)
+Import: import { getVoice, setVoice, subscribeToVoice, getAvailableVoices, waitForVoices, subscribeToAvailableVoices } from 'kempo-ui/src/utils/voice.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/voice.html
+
+Persisted speech-synthesis voice preference (mirrors `theme`)
+
+Details:
+- used by `<k-voice-selector>` and consumed by `<k-text-to-speech>` when no explicit `voice` attr is set

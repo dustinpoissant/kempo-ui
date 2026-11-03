@@ -19,7 +19,7 @@ export default class PgPrev extends ButtonControl {
 
   handleAction() { this.host?.previousPage(); }
 
-  render() { return html`<slot><k-icon name="chevron" direction="left"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron" direction="left"></k-icon></slot><slot name="menu-text">Previous Page</slot>`; }
 }
 
 customElements.define('kc-pg-prev', PgPrev);

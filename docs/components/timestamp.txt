@@ -1,0 +1,9 @@
+Timestamp (<k-timestamp>)
+Import: import 'kempo-ui/src/components/Timestamp.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/timestamp.html
+
+Displays a formatted timestamp
+
+Details:
+- accepts EPOCH milliseconds, ISO 8601, RFC 2822, and other JavaScript-parseable date formats
+- `value`/`format`/`locale` attributes

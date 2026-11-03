@@ -1,0 +1,12 @@
+Toast (<k-toast> <k-toast-container>)
+Import: import Toast from 'kempo-ui/src/components/Toast.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/toast.html
+
+Short notifications that appear in a corner of the screen and go away by themselves. Use it for feedback such as "Saved".
+
+Example (in JavaScript):
+Toast.create('Saved!', { position: 'top right', timeout: 3000 });
+
+- Toast.create(message, options), plus Toast.success, Toast.warning and Toast.error with the same arguments.
+- Options: position ("auto" by default; or "top left", "top center", "top right", "bottom left", "bottom center", "bottom right"), timeout in ms (default 5000), action (text of an action button) with actionCallback, close (shows a close button), icon, closeCallback.
+- message can contain HTML.

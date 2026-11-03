@@ -1,0 +1,5 @@
+debounce (utility)
+Import: import debounce from 'kempo-ui/src/utils/debounce.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/debounce.html
+
+`debounce(fn, ms)` — delay fn until calls stop

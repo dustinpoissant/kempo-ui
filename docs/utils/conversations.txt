@@ -1,0 +1,10 @@
+conversations (utility)
+Import: import { saveConversation, getConversation, listConversations, deleteConversation, clearConversations, renameConversation, titleOf, formatConversation } from 'kempo-ui/src/utils/conversations.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/conversations.html
+
+Saves whole conversations (message lists) in IndexedDB, in optional groups: `saveConversation({ id?, group?, title?, titleCustom?, debug?, messages })` (`debug` = lines of text recording what happened with the model; `formatConversation(record, {page, browser})` makes a text export of messages + that record; `renameConversation(id, title)`) → record with `id`/`createdAt`/`updatedAt`
+
+Details:
+- `listConversations(group?)` newest first, without messages
+- rejects when IndexedDB is unavailable
+- used by `<k-chat persistent-id>`

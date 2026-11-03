@@ -50,7 +50,7 @@ export default class TcFieldSortHide extends ButtonControl {
     });
   }
 
-  render() { return html`<slot><k-icon name="table-visibility"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="table-visibility"></k-icon></slot><slot name="menu-text">Show / Hide / Order Fields</slot>`; }
 }
 
 customElements.define('kc-tc-field-sort-hide', TcFieldSortHide);

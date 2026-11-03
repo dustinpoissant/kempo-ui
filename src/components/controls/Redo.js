@@ -12,7 +12,7 @@ export default class Redo extends ButtonControl {
 
   handleAction() { this.host?.redo?.(); }
 
-  render() { return html`<slot><k-icon name="redo"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="redo"></k-icon></slot><slot name="menu-text">Redo</slot>`; }
 }
 
 customElements.define('kc-redo', Redo);

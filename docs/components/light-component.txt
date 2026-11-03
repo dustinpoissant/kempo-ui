@@ -1,0 +1,8 @@
+LightComponent (base class)
+Import: import LightComponent from 'kempo-ui/src/components/LightComponent.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/light-component.html
+
+Base class for a component with no shadow root, built on Lit. It renders to the light DOM and does not inject kempo-css: the styles come from the page.
+
+- Override renderLightDom() to return a Lit html template.
+- Has the same childrenUpdated() hook as ShadowComponent.

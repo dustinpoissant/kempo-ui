@@ -21,7 +21,7 @@ export default class CodeBlock extends ButtonControl {
     host?.formatBlock?.(inCode ? 'p' : 'pre');
   }
 
-  render() { return html`<slot><k-icon name="code_blocks"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="code_blocks"></k-icon></slot><slot name="menu-text">Code Block</slot>`; }
 }
 
 customElements.define('kc-code-block', CodeBlock);

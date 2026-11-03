@@ -5,18 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Fixed
-
-- **`HtmlEditor` toolbar presses keep the focus in the text:** pressing a toolbar control (or an item in its menus) no longer moves the focus out of the editor. Before, with `layout="floating"` the toolbar hid itself as the focus left, taking an open menu with it, so choosing a Text Style such as Heading 1 did nothing. The selection the control acts on also stays. Fields in the toolbar (inputs, selects) still take the focus.
-- **`HtmlEditor` toolbar text colour:** the toolbars now set their own text colour (`--tc`), so an editor inside a coloured container (a hero with white text, say) no longer gets white buttons on a light toolbar.
-
 ### Added
 
-- **`<k-audio>`:** a sound player with no native controls, the sound-only sibling of `<k-video>`. It uses the same slotted `kc-vid-*` controls, with `controls="minimal"`, `"normal"` or `"full"` for a ready-made toolbar; `persistent-id` resumes the position within the session; methods return the element so calls chain. See the [Audio docs](https://dustinpoissant.github.io/kempo-ui/components/audio.html).
-- **`HtmlEditor` `stylesheet` property:** CSS text added to the editor's shadow root after its own styles, for restyling one editor (a transparent background over a picture, for example) without changing the component.
-- **`HtmlEditor` `layout="floating"`:** the toolbars are hidden until the editor has focus, then float above the content (below it when there is no room above) instead of taking space all the time. It works at any `controls` level and is ignored in fullscreen.
-- **`HtmlEditor` `nodes` takes URLs:** an entry that starts with `/`, `.` or `http` is loaded from that address (with its `.js`), so a custom node can ship in another package instead of having to sit in kempo-ui's `htmlEditorNodes/` folder. A plain name still loads from that folder.
-- **`HtmlEditor` `toolbar-top-extra` slot:** a control with `slot="toolbar-top-extra"` is added to the top toolbar after the built-in controls, at any `controls` level, without replacing a section the way the other toolbar slots do.
+- **`<k-chat-bubble>`:** a round floating chat button that opens a chat popup, for customer service or any LLM you connect.
+- **`<k-audio>`:** a sound player with a playlist, built from the same `kc-media-*` controls as `<k-video>`.
+- **`<k-control-bar>`:** a single-row toolbar that moves controls into a "more" menu when there is no room.
+- **`kc-nav-link`:** a link control for navigation bars.
+- **`conversations` util:** saves chat conversations in IndexedDB.
+- **`promptApi` util:** talks to the browser's built-in language model. VERY EXPERIMENTAL: in testing it could not answer a single question correctly, so do not rely on it.
+- **`<k-markdown-editor no-resize>`:** removes the drag handle, so the editor keeps the height of `--height`.
+- **`<k-table controls="minimal|normal|full">`:** preconfigured toolbars.
+
+### Changed
+
+- **BREAKING: this release needs a major version bump (1.0.0).**
+- **BREAKING: `<k-chat>` defaults to a plain box, not the editor.** The editor with tabs and a toolbar is `input="markdown-editor"`. The default has no drag handle; `markdown-resize` adds one under the editor and `resize` adds one under the whole chat. `<k-chat>` also gains `input`, `persistent-id`, `prompt-api`, `empty-message` and slots for your own controls.
+- **BREAKING: the media controls are renamed.** The shared controls `kc-vid-*` are now `kc-media-*` (for example `kc-vid-play-pause` is `kc-media-play-pause`), and they work with `<k-audio>` too. The video-only controls `kc-vid-menu`, `kc-vid-pip` and `kc-vid-play-big` keep their names. `kc-media-loop` is now `kc-media-repeat` (it repeats the current track), and `kc-audio-loop` loops a playlist.
+- **Package contents:** the npm package now contains only `src`, `dist`, `bin`, `icons`, `llms.txt`, the README, the licence and this changelog (it was about 107 MB and 1,400 files, including the docs source, tests and screenshots). The `main` entry, which pointed at a missing `index.js`, is removed: import components by file, as the README shows.
+- **`<k-video>`:** the `top` slot is an overlay on the picture, not a bar above it. It reads the title, artist, album and year from the file.
+- **`<k-nav>`** is now a `<k-control-bar>`: it has `center` and `right` slots, and its items move into a "more" menu when they no longer fit.
+- **Preset toolbars** (`controls="minimal|normal|full"` on the editors, `<k-video>`, `<k-audio>`, `<k-pagination>` and `<k-table>`) are control bars that collapse into a "more" menu on narrow screens.
+- **Controls are 40px tall** (`--control_height`). Icon-only controls show their label when they are in a menu.
+- **`kc-pg-goto-page`** is a number input, not a combobox.
+- **`<k-html-editor>`** gains `layout="floating"`, a `stylesheet` property, `nodes` that load from a URL, and a `toolbar-top-extra` slot.
+
+### Fixed
+
+- **`<k-code-editor>`** no longer keeps its widest width, so it shrinks with its container and does not force a horizontal scrollbar.
+- **`<k-sortable-item>`** drag handles work again after an item is moved in the DOM.
+- **`<k-tabs fixed-height>`** no longer shows a sideways scrollbar.
+- **`<k-html-editor>`** toolbar presses keep the focus in the text, and the toolbar text colour follows `--tc`.
+- **Code in `<k-chat>` messages** has its own background, so it stands out from the message bubble.
+- **No flash of the wrong theme on load:** the theme util docs show a one-line script that sets the `theme` attribute before the first paint.
 
 ## [0.7.2] - 2026-10-27
 ### Fixed

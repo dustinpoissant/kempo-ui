@@ -1,0 +1,102 @@
+Kempo UI is a library of web components (custom elements, built with Lit) and small JavaScript utilities. They are not React, Bootstrap or any other well-known library, so nothing you may know about components with the same name applies. This list only says what each one is for. Each has a small plain-text doc with its attributes, methods, events and an example: components/<name>.txt, utils/<name>.txt (the word before the colon is the name).
+
+COMPONENTS
+
+Show and hide content, navigation:
+accordion: collapsible sections, click a header to show/hide its panel (FAQ, settings groups)
+show-more: show only the first part of long content, with a "Show More" button
+tabs: switch between several views in the same space
+tree: expandable/collapsible tree of nodes (files, categories)
+dropdown: menu of actions that opens from a button
+aside: sidebar or drawer that slides in (push or overlay)
+nav: top navigation bar that collapses into a "more" menu
+nav-spacer: keeps page content from hiding under a fixed nav
+control-bar: row of controls that moves into a "more" menu when there is no room
+control-group: groups toolbar controls visually
+pagination: previous/next and page numbers
+filter-list: list that filters as the user types
+
+Layout and containers:
+card: bordered box with an optional title
+card-grid: grid of cards, like a table but with tiles
+main: page content area that makes room for an open sidebar
+split: two resizable panes
+resize: pane the user can resize by dragging
+content-slider: swipeable carousel
+sortable: drag items to reorder a list
+import: include an external HTML file into the page
+context: holds shared state that child elements can read and change
+
+Overlays and feedback:
+dialog: modal window (messages, confirmations, forms), also Dialog.confirm and Dialog.alert
+toast: short notification in a corner that goes away by itself
+spinner: loading indicator
+progress: progress bar
+focus-capture: keeps keyboard focus inside an element
+photo-viewer: lightbox / gallery for images
+
+Form inputs:
+toggle: on/off switch
+slider: pick a number or a range by dragging
+rating: star rating
+calendar: pick a date or a date range
+time: pick a time of day
+color-picker: pick a color
+combobox: dropdown input with search and suggestions
+tags: input for a list of tags
+segmented-control: row of buttons where one is selected
+image-crop: upload an image and crop it
+speech-to-text: microphone button that types what you say
+voice-selector: choose the voice used for text-to-speech
+theme-select: dropdown to choose the light, dark or auto theme
+theme-switcher: buttons or switch for the theme
+
+Editors and text:
+markdown-editor: markdown input with write and preview tabs and a toolbar
+html-editor: rich text (WYSIWYG) editor
+code-editor: code editor with syntax highlighting (Monaco)
+markdown: shows markdown text as formatted HTML
+timestamp: shows a date and time in a readable form
+icon: shows an SVG icon by name
+text-to-speech: button that reads text aloud
+
+Media:
+audio: sound player with playlist and controls
+video: video player with controls
+
+Data:
+table: data table with sorting, filtering, search, pagination, selection and editing
+
+Chat and AI:
+chat: chat window with a message box, for people or the browser's built-in AI
+chat-bubble: round floating chat button that opens a chat popup
+
+Base classes for building your own component:
+shadow-component: normal component with shadow DOM and the Kempo styles
+light-component: component with no shadow DOM
+hybrid-component: both shadow DOM and light DOM
+button: base class for button-like elements
+
+UTILITIES
+theme: get, set and watch the light/dark/auto theme
+voice: remember the chosen speech voice
+cookie: save, read and delete cookies
+conversations: save whole chat conversations in the browser (IndexedDB)
+promptApi: talk to the browser's built-in AI model, with a system prompt from a file and tools
+sanitizeHtml: make untrusted HTML safe to show
+renderMarkdown: turn markdown into HTML
+debounce: run a function only after calls stop
+wait: pause for some time or some animation frames
+drag: mouse and touch dragging on an element
+context: small shared state with subscribe
+object: helpers for objects
+string: helpers for strings (camel, dash and title case, escaping HTML)
+toTitleCase: turn firstName or first_name into First Name
+type: check the type of a value
+number: keep a number within limits, find the closest number
+formatTimestamp: format a date or timestamp as text
+formatCode: tidy up a string of code
+propConverters: Lit property converters for boolean attributes
+closestAcrossShadow: closest() that also looks outside shadow DOM
+overlayRoot: where fixed overlays (dialogs, toasts) are placed
+elevation: the z-index (stacking) levels used by the components

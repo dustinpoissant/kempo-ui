@@ -1,0 +1,22 @@
+Dialog (<k-dialog>)
+Import: import 'kempo-ui/src/components/Dialog.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/dialog.html
+
+Modal dialog with focus trapping. Use it for messages, confirmations and small forms that need the user's attention before they carry on.
+
+Example:
+<k-dialog id="d" confirm-text="Save" cancel-text="Cancel">
+  <h5 slot="title">Save changes?</h5>
+  <p>Your changes will be saved.</p>
+</k-dialog>
+Then: document.getElementById('d').open()  (and .close()).
+
+Attributes:
+- opened (Boolean): whether it is open. close-btn (Boolean, default on): the X button. overlay-close (Boolean, default on): clicking outside closes it. disable-keyboard-close (Boolean): Escape does not close it.
+- confirm-text, cancel-text: the button labels (a button only shows when it has text). confirm-classes, cancel-classes: classes for the buttons.
+- Properties to set in code: confirmAction(), cancelAction(), closeCallback().
+- Slots: default (content) and title.
+Static helpers that build and open a dialog for you:
+- Dialog.confirm(text, callback(true|false), options): Yes/No.
+- Dialog.alert(text, callback, options), Dialog.error(...), Dialog.success(...): one Ok button.
+- Dialog.create(contents, options): anything, where contents is text, HTML, an element or a Lit template.

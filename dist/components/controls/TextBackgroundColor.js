@@ -1,22 +1,23 @@
-import r from"./Control.js";import{html as e,css as o}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class t extends r{static requires=["setTextBackgroundColor"];static hostMode="visual";static properties={...r.properties,colors:{type:String},disableRemove:{type:Boolean,attribute:"disable-remove"},disablePicker:{type:Boolean,attribute:"disable-picker"}};constructor(){super(),this.colors="#ffff00,#00ffff,#ff66ff,#99ff99,#ffcc99,#ff9999,#cccccc,#ffffff,#ffffcc,#ccffff,#ffccff,#ccffcc",this.disableRemove=!1,this.disablePicker=!1}get opened(){return this.shadowRoot?.querySelector("k-dropdown")?.opened??!1}set opened(r){const e=this.shadowRoot?.querySelector("k-dropdown");e&&(e.opened=r)}handleRemove=()=>{this.host?.removeTextBackgroundColor?.(),this.shadowRoot.querySelector("k-dropdown")?.close()};handleSwatch=r=>{const e=r.target.style.backgroundColor;if(!e)return;const o=e.match(/\d+/g),t=o?"#"+o.map(r=>parseInt(r).toString(16).padStart(2,"0")).join(""):e;this.host?.setTextBackgroundColor?.(t),this.shadowRoot.querySelector("k-dropdown")?.close()};handlePicker=r=>{this.host?.setTextBackgroundColor?.(r.target.value),this.shadowRoot.querySelector("k-dropdown")?.close()};render(){const r=this.colors.split(",").map(r=>r.trim()).filter(Boolean);return e`
+import o from"./Control.js";import{html as r,css as e}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class t extends o{static requires=["setTextBackgroundColor"];static hostMode="visual";static properties={...o.properties,colors:{type:String},disableRemove:{type:Boolean,attribute:"disable-remove"},disablePicker:{type:Boolean,attribute:"disable-picker"}};constructor(){super(),this.colors="#ffff00,#00ffff,#ff66ff,#99ff99,#ffcc99,#ff9999,#cccccc,#ffffff,#ffffcc,#ccffff,#ffccff,#ccffcc",this.disableRemove=!1,this.disablePicker=!1}get opened(){return this.shadowRoot?.querySelector("k-dropdown")?.opened??!1}set opened(o){const r=this.shadowRoot?.querySelector("k-dropdown");r&&(r.opened=o)}handleRemove=()=>{this.host?.removeTextBackgroundColor?.(),this.shadowRoot.querySelector("k-dropdown")?.close()};handleSwatch=o=>{const r=o.target.style.backgroundColor;if(!r)return;const e=r.match(/\d+/g),t=e?"#"+e.map(o=>parseInt(o).toString(16).padStart(2,"0")).join(""):r;this.host?.setTextBackgroundColor?.(t),this.shadowRoot.querySelector("k-dropdown")?.close()};handlePicker=o=>{this.host?.setTextBackgroundColor?.(o.target.value),this.shadowRoot.querySelector("k-dropdown")?.close()};render(){const o=this.colors.split(",").map(o=>o.trim()).filter(Boolean);return r`
       <k-dropdown>
         <button slot="trigger" class="no-btn trigger" title="Highlight Color">
-          <k-icon name="format_color_fill"></k-icon>
+          <k-icon name="format_color_fill"></k-icon><slot name="menu-text">Highlight Color</slot>
         </button>
         <div class="content">
-          ${this.disableRemove?"":e`<button class="remove" @click=${this.handleRemove}>Remove Color</button>`}
+          ${this.disableRemove?"":r`<button class="remove" @click=${this.handleRemove}>Remove Color</button>`}
           <div class="swatches">
-            ${r.map(r=>e`<button class="swatch" style="background-color:${r}" @click=${this.handleSwatch}></button>`)}
+            ${o.map(o=>r`<button class="swatch" style="background-color:${o}" @click=${this.handleSwatch}></button>`)}
           </div>
-          ${this.disablePicker?"":e`
+          ${this.disablePicker?"":r`
             <div class="picker"><label>Custom:</label><input type="color" @input=${this.handlePicker} /></div>
           `}
         </div>
       </k-dropdown>
-    `}static styles=[r.styles,o`
+    `}static styles=[o.styles,e`
       :host { border: 1px solid var(--c_border); border-radius: var(--radius); margin: var(--spacer_q); }
-      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
+      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--control_height, 40px) - 2px); min-height: calc(var(--control_height, 40px) - 2px); height: calc(var(--control_height, 40px) - 2px); padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
       .trigger:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
+      :host([in-menu]) { padding: 0; }
       .content { padding: 8px; min-width: 200px; }
       .remove { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid var(--c_border); background: transparent; cursor: pointer; border-radius: var(--radius); }
       .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }

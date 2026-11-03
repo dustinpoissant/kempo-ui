@@ -50,7 +50,7 @@ export default class TextBackgroundColor extends Control {
     return html`
       <k-dropdown>
         <button slot="trigger" class="no-btn trigger" title="Highlight Color">
-          <k-icon name="format_color_fill"></k-icon>
+          <k-icon name="format_color_fill"></k-icon><slot name="menu-text">Highlight Color</slot>
         </button>
         <div class="content">
           ${this.disableRemove ? '' : html`<button class="remove" @click=${this.handleRemove}>Remove Color</button>`}
@@ -69,8 +69,9 @@ export default class TextBackgroundColor extends Control {
     Control.styles,
     css`
       :host { border: 1px solid var(--c_border); border-radius: var(--radius); margin: var(--spacer_q); }
-      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
+      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--control_height, 40px) - 2px); min-height: calc(var(--control_height, 40px) - 2px); height: calc(var(--control_height, 40px) - 2px); padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
       .trigger:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
+      :host([in-menu]) { padding: 0; }
       .content { padding: 8px; min-width: 200px; }
       .remove { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid var(--c_border); background: transparent; cursor: pointer; border-radius: var(--radius); }
       .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }

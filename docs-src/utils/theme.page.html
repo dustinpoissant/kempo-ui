@@ -11,6 +11,7 @@
           <a href="#basicUsage">Basic Usage</a><br />
           <a href="#api">API Methods</a><br />
           <a href="#examples">Examples</a><br />
+          <a href="#noFlash">Avoiding a Flash on Load</a><br />
         </div>
       </k-accordion-panel>
     </k-accordion>
@@ -105,6 +106,13 @@ theme.subscribe(<span class="hljs-function">(<span class="hljs-params">t</span>)
         </k-card>
       </div>
     </div>
+
+    <h3 id="noFlash"><a href="#noFlash" class="no-link">Avoiding a Flash on Load</a></h3>
+    <p>The <code>theme</code> attribute is set by the utility, and modules are deferred, so the page paints before it runs. A dark page shows a flash of white on every load. To avoid it, set the attribute from a plain (blocking) script in the <code>&lt;head&gt;</code>. If your site has an <code>init.js</code> (a classic script, not a module) that you load in the <code>&lt;head&gt;</code>, add this line to it:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">try</span> {<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;theme&#x27;</span>, <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&#x27;theme&#x27;</span>) || <span class="hljs-string">&#x27;auto&#x27;</span>);<br>} <span class="hljs-keyword">catch</span> (e) {}</code></pre>
+    <p>Then load it without <code>type="module"</code>, <code>defer</code> or <code>async</code>, and add the <code>color-scheme</code> meta so the browser's default background follows the system before your styles arrive:</p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;color-scheme&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;light dark&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/init.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p>The utility needs no changes. It reads the <code>theme</code> attribute first, so it adopts the value the script set.</p>
 
     <h3>Automatic Features</h3>
     <h4>localStorage Persistence</h4>

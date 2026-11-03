@@ -1,0 +1,12 @@
+Calendar (<k-calendar>)
+Import: import 'kempo-ui/src/components/Calendar.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/calendar.html
+
+Inline month-grid date picker widget
+
+Details:
+- `mode="single"` (default) or `mode="range"`
+- `value` is ISO `YYYY-MM-DD` (single) or comma-separated pair (range)
+- `min`/`max` bounds
+- form-associated
+- fires `change`

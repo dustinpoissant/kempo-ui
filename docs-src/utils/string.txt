@@ -1,0 +1,5 @@
+string (utility)
+Import: import { camelToDash, dashToCamel, isCamelCase, getCase, escapeHTML, unescapeHTML, trim, compoundKey, toTitleCase } from 'kempo-ui/src/utils/string.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/string.html
+
+String utilities

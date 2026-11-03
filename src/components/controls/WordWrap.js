@@ -30,7 +30,7 @@ export default class WordWrap extends ButtonControl {
 
   handleAction() { this.host?.toggleWordWrap?.(); }
 
-  render() { return html`<slot><k-icon name="wrap_text"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="wrap_text"></k-icon></slot><slot name="menu-text">Toggle Word Wrap</slot>`; }
 }
 
 customElements.define('kc-word-wrap', WordWrap);

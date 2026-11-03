@@ -1,0 +1,9 @@
+Icon (<k-icon>)
+Import: import 'kempo-ui/src/components/Icon.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/icon.html
+
+SVG icon
+
+Details:
+- `name` (looked up in `pathsToIcons`) or `src` (direct URL)
+- `rotation`, `direction`, `animation` attributes

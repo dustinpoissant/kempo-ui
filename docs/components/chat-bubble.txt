@@ -1,0 +1,20 @@
+Chat Bubble (<k-chat-bubble>)
+Import: import 'kempo-ui/src/components/ChatBubble.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/chat-bubble.html
+
+NOTE: its prompt-api option (and promptTools, debug) use the browser's built-in AI, which is VERY EXPERIMENTAL and not useful yet: in testing it could not answer a single question correctly. The rest works with a person, a server or a cloud model.
+
+Round floating chat button (FAB, `--c_primary`) fixed to a corner (`position="bottom right"` default, `bottom left`, `top left`, `top right`)
+
+Details:
+- click opens a popup `<k-chat>` above (below at the top) and the icon becomes a down chevron, click again (or Escape) minimizes
+- works for a person or the AI: it slots `controls-top` (the header bar, before the built-in list and + icons; buttons/links are styled for you), `controls-side` (small slot above Send, e.g. a `tel:` call button) and `controls-bottom` (row at the very bottom), the last two passed to the chat
+- the collapse chevron points up when at the top
+- forwards `empty-message`, `input` (default `markdown`: a clean textarea; `markdown-editor` adds a compact toolbar), `prompt-api`, `prompt-tools` (property `promptTools`), `persistent-id`, `placeholder`, `show-status`, `enter-newline`, `disabled` to the inner chat, which is `bubble.chat` (`await bubble.updateComplete` first)
+- with `persistent-id` the open/closed state is kept for the tab (sessionStorage) so an open chat survives page navigation, and the first open lists saved conversations (continue / delete after a `Dialog.confirm` / new)
+- an incoming message or finished AI reply while minimized sets `unread` (icon `mark_chat_unread`, wiggle + pulse between primary and danger; cleared on open; set it yourself for server pushes)
+- `heading` (optional; the header bar is hidden without a heading, `controls-top` content or `persistent-id`)
+- `allow-fullscreen` adds a full screen icon to the header (the popup then fills the window one `--spacer` from the edges, clear of the round button; `fullscreen` reflects it, Escape leaves it first, kept with `persistent-id`), method `toggleFullscreen()`, event `fullscreen-change`
+- methods `show()`, `hide()`, `toggle()`, `showConversations()`
+- fires `open`, `close` and re-fires the chat's `send`, `response`, `error`, `tool-call`, `message-add`, `conversation-change`, `conversation-save`
+- (More on the full docs page.)

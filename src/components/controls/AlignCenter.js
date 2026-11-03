@@ -13,7 +13,7 @@ export default class AlignCenter extends ButtonControl {
 
   handleAction() { this.host?.alignCenter?.(); }
 
-  render() { return html`<slot><k-icon name="format_align_center"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_align_center"></k-icon></slot><slot name="menu-text">Align Center</slot>`; }
 }
 
 customElements.define('kc-align-center', AlignCenter);

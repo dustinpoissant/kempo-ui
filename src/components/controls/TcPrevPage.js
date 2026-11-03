@@ -18,7 +18,7 @@ export default class TcPrevPage extends ButtonControl {
 
   handleAction() { this.host?.prevPage(); }
 
-  render() { return html`<slot><k-icon name="chevron" direction="left"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron" direction="left"></k-icon></slot><slot name="menu-text">Previous Page</slot>`; }
 }
 
 customElements.define('kc-tc-prev-page', TcPrevPage);

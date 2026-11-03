@@ -515,11 +515,11 @@ export default {
 		const { container, el } = await createVideo('controls="minimal"');
 		await el.updateComplete;
 		const sr = el.shadowRoot;
-		const hasPlayPause = !!sr.querySelector('kc-vid-play-pause');
-		const hasSeek = !!sr.querySelector('kc-vid-seek');
-		const hasTime = !!sr.querySelector('kc-vid-time');
-		const hasDuration = !!sr.querySelector('kc-vid-duration');
-		const hasVolume = !!sr.querySelector('kc-vid-volume');
+		const hasPlayPause = !!sr.querySelector('kc-media-play-pause');
+		const hasSeek = !!sr.querySelector('kc-media-seek');
+		const hasTime = !!sr.querySelector('kc-media-time');
+		const hasDuration = !!sr.querySelector('kc-media-duration');
+		const hasVolume = !!sr.querySelector('kc-media-volume');
 		cleanup(container);
 		if(!hasPlayPause || !hasSeek || !hasTime || !hasDuration) return fail('minimal set missing required controls');
 		if(hasVolume) return fail('minimal set should not include volume control');
@@ -530,12 +530,12 @@ export default {
 		const { container, el } = await createVideo('controls="full"');
 		await el.updateComplete;
 		const sr = el.shadowRoot;
-		const hasSkipBack = !!sr.querySelector('kc-vid-skip-back');
-		const hasSkipForward = !!sr.querySelector('kc-vid-skip-forward');
-		const hasDownload = !!sr.querySelector('kc-vid-download');
-		const hasVolume = !!sr.querySelector('kc-vid-volume');
-		const hasSpeed = !!sr.querySelector('kc-vid-speed');
-		const hasLoop = !!sr.querySelector('kc-vid-loop');
+		const hasSkipBack = !!sr.querySelector('kc-media-skip-back');
+		const hasSkipForward = !!sr.querySelector('kc-media-skip-forward');
+		const hasDownload = !!sr.querySelector('kc-media-download');
+		const hasVolume = !!sr.querySelector('kc-media-volume');
+		const hasSpeed = !!sr.querySelector('kc-media-speed');
+		const hasLoop = !!sr.querySelector('kc-media-repeat');
 		cleanup(container);
 		if(!hasSkipBack || !hasSkipForward || !hasDownload || !hasVolume || !hasSpeed || !hasLoop){
 			return fail('full set missing required controls');
@@ -546,7 +546,7 @@ export default {
 	'none controls should render no built-in controls': async ({pass, fail}) => {
 		const { container, el } = await createVideo('controls="none"');
 		await el.updateComplete;
-		const hasAny = !!el.shadowRoot.querySelector('[class^="kc-"], kc-vid-play-pause');
+		const hasAny = !!el.shadowRoot.querySelector('[class^="kc-"], kc-media-play-pause');
 		cleanup(container);
 		if(hasAny) return fail('none set should not render any built-in controls');
 		pass('none control set renders nothing');

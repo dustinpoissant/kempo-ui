@@ -404,27 +404,28 @@ export default class CodeEditor extends ShadowComponent {
 	static controlSets = {
 		full: {
 			topLeft: html`
-				<k-control-group>
-					<kc-undo></kc-undo>
-					<kc-redo></kc-redo>
-				</k-control-group>
-				<k-control-group>
-					<kc-format-code></kc-format-code>
-					<kc-copy-code></kc-copy-code>
-					<kc-find-replace></kc-find-replace>
-				</k-control-group>
-				<k-control-group>
-					<kc-word-wrap></kc-word-wrap>
-					<kc-minimap></kc-minimap>
-					<kc-fold-all></kc-fold-all>
-				</k-control-group>
-				<kc-font-size></kc-font-size>
+				<k-control-bar>
+					<k-control-group priority="3">
+						<kc-undo></kc-undo>
+						<kc-redo></kc-redo>
+					</k-control-group>
+					<k-control-group priority="2">
+						<kc-format-code></kc-format-code>
+						<kc-copy-code></kc-copy-code>
+						<kc-find-replace></kc-find-replace>
+					</k-control-group>
+					<k-control-group priority="1">
+						<kc-word-wrap></kc-word-wrap>
+						<kc-minimap></kc-minimap>
+						<kc-fold-all></kc-fold-all>
+					</k-control-group>
+					<kc-font-size></kc-font-size>
+					<kc-language slot="right" priority="2"></kc-language>
+					<kc-editor-theme slot="right"></kc-editor-theme>
+					<kc-fullscreen slot="right"></kc-fullscreen>
+				</k-control-bar>
 			`,
-			topRight: html`
-				<kc-language></kc-language>
-				<kc-editor-theme></kc-editor-theme>
-				<kc-fullscreen></kc-fullscreen>
-			`,
+			topRight: null,
 			bottomLeft: null,
 			bottomRight: null,
 		},
@@ -435,6 +436,7 @@ export default class CodeEditor extends ShadowComponent {
 			display: flex;
 			flex-direction: column;
 			gap: 0;
+			min-width: 0;
 			height: 400px;
 			background: var(--c_bg);
 		}
@@ -457,6 +459,10 @@ export default class CodeEditor extends ShadowComponent {
 			flex-wrap: wrap;
 			align-items: center;
 		}
+		:host([has-control-bar]) .toolbar-start {
+			flex: 1 1 0;
+			min-width: 0;
+		}
 		.toolbar-end {
 			display: flex;
 			flex-wrap: wrap-reverse;
@@ -470,9 +476,12 @@ export default class CodeEditor extends ShadowComponent {
 			min-height: 0;
 			overflow: hidden;
 		}
+		/* Absolute so Monaco's pixel width, set by its own layout, does not count towards the editor's minimum
+		   width. In the flow it holds the editor at its widest width, and a flex parent (a column of a row, say)
+		   cannot shrink back when the window gets narrower, which gives the whole page a horizontal scroll bar. */
 		.monaco-editor-container {
-			width: 100%;
-			height: 100%;
+			position: absolute;
+			inset: 0;
 			box-sizing: border-box;
 			overflow: auto;
 			border: 1px solid var(--border-color);

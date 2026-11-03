@@ -1,0 +1,8 @@
+closestAcrossShadow (utility)
+Import: import { closestAcrossShadow } from 'kempo-ui/src/utils/closestAcrossShadow.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/closestAcrossShadow.html
+
+closestAcrossShadow(element, selector): like Element.closest(), but it does not stop at shadow-DOM boundaries. When the current tree has no match it continues from the host of the enclosing shadow root and keeps walking up to the document.
+
+- Returns the nearest matching ancestor (or the element itself), or null.
+- Useful for a component inside another component's shadow root that needs a shared ancestor, such as a <k-context>, which native closest() cannot reach.

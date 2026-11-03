@@ -24,7 +24,7 @@ export default class TcDeleteRecord extends ButtonControl {
     if(rec) this.host?.deleteRecord(rec);
   }
 
-  render() { return html`<slot><k-icon name="delete"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="delete"></k-icon></slot><slot name="menu-text">Delete Record</slot>`; }
 }
 
 customElements.define('kc-tc-delete-record', TcDeleteRecord);

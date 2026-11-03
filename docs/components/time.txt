@@ -1,0 +1,12 @@
+Time (<k-time>)
+Import: import 'kempo-ui/src/components/Time.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/time.html
+
+Wraps native `<input type="time">` with segmented hour/minute/AM-PM editing
+
+Details:
+- `value` is 24-hour `HH:MM`
+- `increment` attr sets minute step (arrow-key granularity)
+- `military` attr forces 24-hour display via `lang="en-GB"`
+- form-associated
+- fires `change`

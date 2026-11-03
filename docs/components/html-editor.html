@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>HtmlEditor - Components - Kempo Docs - A Web Components Solution</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
@@ -10,7 +11,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
-  <script>window.litDisableBundleWarning = true;</script>
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
   
 </head>
 <body>
@@ -22,23 +26,25 @@
     <button
       id="toggleNavSideMenu"
       class="link"
+      no-collapse
     >
       <k-icon name="menu"></k-icon>
     </button>
     <a
       href="../"
       class="d-if ph"
-      style="align-items: center"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
     >
       <img
         src="../media/icon32.png"
         alt="Kempo UI Icon"
         class="pr"
       />
-      Kempo UI
+      <span class="nav-brand-text">Kempo UI</span>
     </a>
     <div
-      style="position:relative;margin:0 .25rem;align-self:center;"
+      class="nav-search"
       theme="light"
     >
       <input
@@ -46,13 +52,12 @@
         type="search"
         placeholder="Search docs..."
         autocomplete="off"
-        style="width:11rem;"
       />
       <div
         id="navSearchDropdown"
+        class="nav-search-dropdown"
         hidden
         theme="light"
-        style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);"
       >
         <k-filter-list
           id="navSearchList"
@@ -74,6 +79,9 @@
           <k-filter-item filter-keywords="chat message conversation messaging components"><a
               href="../components/chat.html"
             >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
               href="../components/code-editor.html"
             >Code Editor<br><small>Component</small></a></k-filter-item>
@@ -89,6 +97,8 @@
           <k-filter-item filter-keywords="context state global components"><a
               href="../components/context.html"
             >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="dialog modal popup components"><a
               href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="dropdown select components"><a
@@ -154,6 +164,9 @@
               href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="table data grid components"><a
               href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
           <k-filter-item filter-keywords="table controls advanced example"><a
               href="../components/tableControls.html"
             >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
@@ -245,6 +258,9 @@
             >Button<br><small>Base Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
               href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="cookie utils utility"><a
               href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="context utils utility"><a
@@ -260,6 +276,9 @@
             >formatTimestamp<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="object utils utility"><a
               href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
               href="../utils/propConverters.html"
             >propConverters<br><small>Utility</small></a></k-filter-item>
@@ -279,28 +298,25 @@
         </k-filter-list>
       </div>
     </div>
-    <div class="flex"></div>
-    <a
+    <kc-nav-link
+      slot="right"
       href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
       target="_blank"
-    ><k-icon name="license"></k-icon></a>
-    <a
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
       href="https://www.npmjs.com/package/kempo-ui"
       target="_blank"
-    ><k-icon name="npm"></k-icon></a>
-    <a
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
       href="https://github.com/dustinpoissant/kempo-ui"
       target="_blank"
-    ><k-icon name="github-mark"></k-icon></a>
-    <k-theme-switcher
-      class="mr"
-      style="
-        --padding: 0.5rem;
-        --c_active: var(--tc_on_primary);
-        --tc_active: var(--c_primary);
-        --c_inactive__hover: rgba(255, 255, 255, 0.1);
-      "
-    ></k-theme-switcher>
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
   </k-nav>
   <div style="width: 100%; height: 4rem;"></div>
   <k-aside
@@ -329,11 +345,13 @@
         <a href="../components/card.html">Card</a>
         <a href="../components/card-grid.html">CardGrid</a>
         <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
         <a href="../components/code-editor.html">Code Editor</a>
         <a href="../components/combobox.html">Combobox</a>
         <a href="../components/color-picker.html">ColorPicker</a>
         <a href="../components/content-slider.html">Content Slider</a>
         <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
         <a href="../components/dialog.html">Dialog</a>
         <a href="../components/dropdown.html">Dropdown</a>
         <a href="../components/filter-list.html">Filter List</a>
@@ -383,6 +401,7 @@
       <h5 class="mb0">Utils</h5>
       <div class="pl mb">
         <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
         <a href="../utils/cookie.html">cookie</a>
         <a href="../utils/context.html">context</a>
         <a href="../utils/debounce.html">debounce</a>
@@ -390,6 +409,7 @@
         <a href="../utils/elevation.html">elevation</a>
         <a href="../utils/formatTimestamp.html">formatTimestamp</a>
         <a href="../utils/object.html">object</a>
+        <a href="../utils/promptApi.html">promptApi</a>
         <a href="../utils/propConverters.html">propConverters</a>
         <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
         <a href="../utils/string.html">string</a>
@@ -413,6 +433,71 @@
       background: rgba(128, 128, 128, .15);
     }
 
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
     #navSearchList a small {
       display: block;
       color: var(--tc_muted);
@@ -420,6 +505,10 @@
   </style>
   <script
     src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
     type="module"
   ></script>
   <script
@@ -555,9 +644,9 @@
         href="#fullExample"
         class="no-link"
       >Complete Editor Example</a></h3>
-    <p>A fully-featured editor with all controls. Copy and paste this example to get started quickly:</p>
+    <p>A fully-featured editor with all controls. Copy and paste this example to get started quickly. The toolbar is a <a href="./control-bar.html"><code>&lt;k-control-bar&gt;</code></a>, so on a narrow screen its controls move into a &ldquo;more&rdquo; menu instead of wrapping onto a second row. <code>priority</code> keeps the controls people use most in the bar longest, a <code>&lt;k-control-group&gt;</code> moves as one unit, and <code>slot="right"</code> pins a control to the right side:</p>
     <k-card label="HTML">
-      <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;content&#x27;</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Text formatting --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-underline</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-strikethrough</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-inline-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-inline-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-menu</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;icon&#x27;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#x27;...&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;label&#x27;</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;p&#x27;</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h1&#x27;</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h2&#x27;</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&#x27;h3&#x27;</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-code-block</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-code-block</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-menu</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Lists, alignment, colors, link, table --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bullet-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-number-list</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-left</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-center</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-right</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-justify</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-text-color</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-text-background-color</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-clear-formatting</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-clear-formatting</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-left&#x27;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-create-link</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-insert-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-insert-image</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-insert-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Mode toggle + format code --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-mode</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-code</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-top-right&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- Bottom toolbar stats --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-word-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&#x27;toolbar-bottom-left&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-character-count</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+      <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- One control bar holds the toolbar. It never wraps: controls move into a &quot;more&quot; menu as the editor narrows --&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top-left&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- A priority keeps a control in the bar longer. A group moves into the menu as one unit --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-underline</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-strikethrough</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-inline-code</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-inline-code</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Menus always stay in the bar --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-menu</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;format_paragraph&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;label&quot;</span>&gt;</span>Text Style<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;p&quot;</span>&gt;</span>Paragraph<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h1&quot;</span>&gt;</span>Heading 1<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>Heading 2<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-block</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Heading 3<span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-block</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-code-block</span>&gt;</span>Code Block<span class="hljs-tag">&lt;/<span class="hljs-name">kc-code-block</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">kc-menu</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bullet-list</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-number-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-left</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-center</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-right</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-justify</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-text-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-text-color</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-text-background-color</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-text-background-color</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-clear-formatting</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-clear-formatting</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-create-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-create-link</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-insert-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-insert-image</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-insert-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-insert-table</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- slot=&quot;right&quot; pins these to the right side of the bar --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-code</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-code</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-mode</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-word-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-bottom-left&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-word-count</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-character-count</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-bottom-left&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-character-count</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
     </k-card>
     <k-card label="Output">
       <k-html-editor
@@ -565,48 +654,51 @@
         value="<h3>Welcome to the HTML Editor</h3><p>This editor includes all formatting controls. Try selecting text and using the toolbar:</p><ul><li><b>Bold</b>, <i>italic</i>, <u>underline</u>, and <s>strikethrough</s></li><li>Text <span style='color: #e60000;'>colors</span> and <span style='background-color: #ffffcc;'>backgrounds</span></li><li>Lists, alignment, and <a href='#'>links</a></li><li>Format as <code>inline code</code> or code blocks</li></ul><p>Use the mode toggle to switch between visual and code editing.</p>"
         style="height: 600px"
       >
-        <k-control-group slot="toolbar-top-left">
-          <kc-bold></kc-bold>
-          <kc-italic></kc-italic>
-          <kc-underline></kc-underline>
-          <kc-strikethrough></kc-strikethrough>
-        </k-control-group>
-        <kc-inline-code slot="toolbar-top-left"></kc-inline-code>
-        <kc-menu slot="toolbar-top-left">
-          <k-icon
-            slot="icon"
-            name="format_paragraph"
-          ></k-icon>
-          <span slot="label">Text Style</span>
-          <kc-format-block tag="p">Paragraph</kc-format-block>
-          <kc-format-block tag="h1">Heading 1</kc-format-block>
-          <kc-format-block tag="h2">Heading 2</kc-format-block>
-          <kc-format-block tag="h3">Heading 3</kc-format-block>
-          <kc-code-block>Code Block</kc-code-block>
-        </kc-menu>
-        <k-control-group slot="toolbar-top-left">
-          <kc-bullet-list></kc-bullet-list>
-          <kc-number-list></kc-number-list>
-        </k-control-group>
-        <k-control-group slot="toolbar-top-left">
-          <kc-align-left></kc-align-left>
-          <kc-align-center></kc-align-center>
-          <kc-align-right></kc-align-right>
-          <kc-align-justify></kc-align-justify>
-        </k-control-group>
-        <k-control-group slot="toolbar-top-left">
-          <kc-text-color></kc-text-color>
-          <kc-text-background-color></kc-text-background-color>
-        </k-control-group>
-        <kc-clear-formatting slot="toolbar-top-left"></kc-clear-formatting>
-        <k-control-group slot="toolbar-top-left">
-          <kc-create-link></kc-create-link>
-          <kc-insert-image></kc-insert-image>
-          <kc-insert-table></kc-insert-table>
-        </k-control-group>
-        <kc-format-code slot="toolbar-top-right"></kc-format-code>
-        <kc-mode slot="toolbar-top-right"></kc-mode>
-        <kc-fullscreen slot="toolbar-top-right"></kc-fullscreen>
+        <!-- One control bar holds the toolbar. It never wraps: controls move into a "more" menu as the editor narrows -->
+        <k-control-bar slot="toolbar-top-left">
+          <!-- A priority keeps a control in the bar longer. A group moves into the menu as one unit -->
+          <k-control-group priority="3">
+            <kc-bold></kc-bold>
+            <kc-italic></kc-italic>
+            <kc-underline></kc-underline>
+            <kc-strikethrough></kc-strikethrough>
+          </k-control-group>
+          <kc-inline-code priority="1"></kc-inline-code>
+          <!-- Menus always stay in the bar -->
+          <kc-menu>
+            <k-icon slot="icon" name="format_paragraph"></k-icon>
+            <span slot="label">Text Style</span>
+            <kc-format-block tag="p">Paragraph</kc-format-block>
+            <kc-format-block tag="h1">Heading 1</kc-format-block>
+            <kc-format-block tag="h2">Heading 2</kc-format-block>
+            <kc-format-block tag="h3">Heading 3</kc-format-block>
+            <kc-code-block>Code Block</kc-code-block>
+          </kc-menu>
+          <k-control-group priority="2">
+            <kc-bullet-list></kc-bullet-list>
+            <kc-number-list></kc-number-list>
+          </k-control-group>
+          <k-control-group priority="1">
+            <kc-align-left></kc-align-left>
+            <kc-align-center></kc-align-center>
+            <kc-align-right></kc-align-right>
+            <kc-align-justify></kc-align-justify>
+          </k-control-group>
+          <k-control-group priority="1">
+            <kc-text-color></kc-text-color>
+            <kc-text-background-color></kc-text-background-color>
+          </k-control-group>
+          <kc-clear-formatting></kc-clear-formatting>
+          <k-control-group priority="2">
+            <kc-create-link></kc-create-link>
+            <kc-insert-image></kc-insert-image>
+            <kc-insert-table></kc-insert-table>
+          </k-control-group>
+          <!-- slot="right" pins these to the right side of the bar -->
+          <kc-format-code slot="right"></kc-format-code>
+          <kc-mode slot="right" priority="1"></kc-mode>
+          <kc-fullscreen slot="right"></kc-fullscreen>
+        </k-control-bar>
         <kc-word-count slot="toolbar-bottom-left"></kc-word-count>
         <kc-character-count slot="toolbar-bottom-left"></kc-character-count>
       </k-html-editor>
@@ -1365,6 +1457,10 @@
     <script
       type="module"
       src="../src/components/ControlGroup.js"
+    ></script>
+    <script
+      type="module"
+      src="../src/components/ControlBar.js"
     ></script>
     <script
       type="module"

@@ -7,6 +7,7 @@
  - All utility function module files should be in the `src/utils/` directory.
  - All documnentation should be in the `docs/` directory. This directory is used by GitHub as the "GitHub Pages", so all links need to be relative, and there will be a build script which copies all code to the `docs/` directory.
  - Documentation source files (templates, fragments, page files) are in the `docs-src/` directory. These use the kempo-server v3 templating system and are pre-rendered to `docs/` during build.
+ - Each component and utility has a small plain-text doc (`docs-src/components/<name>.txt`, `docs-src/utils/<name>.txt`) next to its docs page, and `docs-src/overview.txt` lists what each is for. The build copies them to `docs/` so an LLM can read just the one it needs. **Keep them up to date** when a component or utility changes.
  - `llms.txt` in the root is the consumer-facing LLM reference for this library. **Keep it up to date**: when adding a new component or utility, add a row to the relevant table in `llms.txt`.
  
 ## Dependencies
@@ -95,6 +96,27 @@ Do not prefix identifiers with underscores.
   - Never use leading underscores (`_`) for variable, property, method, or function names.
   - Use clear, descriptive names without prefixes.
   - When true privacy is needed inside classes, prefer native JavaScript private fields (e.g., `#myField`) instead of simulated privacy via underscores.
+
+## Controls (`kc-*`)
+
+Applies to every control in `src/components/controls/` and to any new one: toolbar buttons, inputs, selects, popup triggers, the video/audio controls, and so on.
+
+### Height: 40px, unless told otherwise
+ - Every control is **40px tall** by default. This comes from the `--control_height` custom property (`var(--control_height, 40px)`), already applied by the `Control` base class, so a control that extends `Control` or `ButtonControl` gets it for free.
+ - Do not hard-code a different height (`2rem`, `1.5rem`, `24px`, ...) on a control, and do not add a smaller `min-height`. Size any inner part from the same variable so the visible element fills the control: an input or select stretches (the base already does this), and a trigger button inside a bordered host is `calc(var(--control_height, 40px) - 2px)`.
+ - Only deviate when the user explicitly says so for that control (for example a list such as `kc-audio-playlist`, or the big play overlay `kc-vid-play-big`). When you do, set `height: auto` on its `:host` and say why in the reply.
+ - The `--control_height` variable is also how consumers resize every control at once, so never replace it with a fixed value.
+ - Verify a new control on the docs page: its host, and any input, select or button inside it, should measure 40px.
+ - Rows inside a menu (`in-menu`) are the exception to the 40px rule; the base class handles their height.
+
+### Preconfigured control sets
+ - The `controls="minimal|normal|full"` sets of `k-html-editor`, `k-code-editor`, `k-markdown-editor`, `k-audio`, `k-video`, `k-pagination` and `k-table` put their controls in a `<k-control-bar>` (left in the default slot, `slot="center"`, `slot="right"`), so they collapse into the "more" menu on narrow screens. Follow the existing pattern: the set is the fallback content of the widget's toolbar slot, and `Control.load` imports the control modules.
+ - Rank the controls with `priority="n"` (0 by default; higher stays in the bar longer): what people use constantly gets 2-3 (bold/italic, undo/redo, lists, links, prev/next page), occasional ones 1, rarely used ones 0. A play button gets a very high priority (10). Never-hide controls get `no-collapse`, such as a media seek bar. Menus (`kc-menu`) and groups never need either: menus never move, a `k-control-group` moves as one unit.
+ - A widget whose toolbar region shrinks to fit its content needs `:host([has-control-bar]) .region { flex: 1 1 0; min-width: 0 }` so the bar can fill it; the bar sets `has-control-bar` on its widget.
+
+### Menu text
+ - A control with only an icon must also fill the `menu-text` slot with its label, after the default slot: `<slot><k-icon name="..."></k-icon></slot><slot name="menu-text">Label</slot>`. It is hidden except while the control is in a menu (`in-menu` attribute, set by `kc-menu` and `k-control-bar`). Use the same text as the control's `title`, and make it follow the control's state when the icon does (play/pause, mute/unmute).
+ - Controls whose trigger is a popup (a `.trigger` button) put the `menu-text` slot inside that button, after the icon.
 
 ## Template and File Structure Rules
 

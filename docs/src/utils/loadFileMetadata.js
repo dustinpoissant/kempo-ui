@@ -1,0 +1,1 @@
+import a from"./readMediaTags.js";const t={title:"trackTitle",artist:"artist",album:"album",year:"year"};export default async e=>{const r=e.src,i=r&&!1!==e.readMetadata?await a(r):{};if(r!==e.src)return;const s=e.fileMetadata||{},c={};Object.entries(t).forEach(([a,t])=>{e[t]&&e[t]===s[t]&&(e[t]=""),!e[t]&&i[a]&&(e[t]=i[a],c[t]=i[a])}),e.fileMetadata=c};

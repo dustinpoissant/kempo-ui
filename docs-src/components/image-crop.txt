@@ -1,0 +1,16 @@
+Image Crop (<k-image-crop>)
+Import: import 'kempo-ui/src/components/ImageCrop.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/image-crop.html
+
+Upload Image button / drop zone plus canvas-based image cropper
+
+Details:
+- draggable crop box with 8 resize handles + arrow-key nudging (Shift resizes, Ctrl ×10)
+- free-form by default, `aspect-ratio` (`1`, `16/9`, `4:3`) locks the ratio
+- `max-width`/`max-height` cap the output size (scaled down only, ratio kept)
+- `src`, `type` (`image/png`/`jpeg`/`webp`), `quality`, `label`, `placeholder`, `disabled`, `required`
+- form-associated via `name` (submits the cropped image as a `File`, like `<input type="file">`; `required` validity; resets with the form)
+- API: `loadImage(fileBlobOrUrl)`, `clear()`, `toBlob()`, `toFile(name?)`, `toDataURL()`, `getCroppedCanvas()`, `crop` (`{x,y,width,height}` in source pixels, settable), `outputSize`, `hasImage`
+- fires `change` (`{crop,width,height}`), `load`, `error`
+- cross-origin `src` needs CORS
+- CSS `--crop_color`, `--crop_handle_size`, `--crop_max_height`

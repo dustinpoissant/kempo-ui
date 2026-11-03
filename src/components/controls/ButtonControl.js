@@ -7,10 +7,15 @@ import { css, html } from '../../lit-all.min.js';
   with the click behavior. Disabled state (from Control.updateHostSupport
   or external) blocks click propagation.
 
+  Two slots: the default slot is the left side, usually an icon (add text
+  to it if it should always show); `menu-text` is the right side and is only
+  shown while the control is in a menu (the `in-menu` attribute, set by
+  kc-menu and k-control-bar), as the text of its row.
+
   Subclasses typically:
     static requires = ['methodName']
     handleAction() { this.host?.methodName?.(); }
-    render() { return html`<k-icon name="..."></k-icon>`; }
+    render() { return html`<slot><k-icon name="..."></k-icon></slot><slot name="menu-text">Label</slot>`; }
 */
 export default class ButtonControl extends Control {
   /*
@@ -79,8 +84,8 @@ export default class ButtonControl extends Control {
       :host {
         align-items: center;
         justify-content: center;
-        min-width: 2rem;
-        min-height: 2rem;
+        min-width: var(--control_height, 40px);
+        min-height: 0;
         background: transparent;
         border: 1px solid var(--c_border);
         border-radius: var(--radius);
@@ -106,6 +111,11 @@ export default class ButtonControl extends Control {
       }
       :host([active]) {
         background: oklch(from var(--c_primary) l c h / 0.18);
+      }
+      :host([in-menu]) {
+        justify-content: flex-start;
+        text-align: left;
+        white-space: nowrap;
       }
     `
   ];

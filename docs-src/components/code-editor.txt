@@ -1,0 +1,11 @@
+Code Editor (<k-code-editor>)
+Import: import 'kempo-ui/src/components/CodeEditor.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/code-editor.html
+
+Monaco-powered code editor
+
+Details:
+- `value`, `language`, `controls`, `disabled`/`required` attributes
+- form-associated (full validity + reset/restore/disabled callbacks)
+- theme-aware
+- toolbar button controls use the unified `kc-*` prefix and extend `ButtonControl` from `controls/Button.js`

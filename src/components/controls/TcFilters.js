@@ -80,7 +80,7 @@ export default class TcFilters extends ButtonControl {
     const dialog = Dialog.create(dialogContent, { width: '600px', title: 'Filters' });
   };
 
-  render() { return html`<slot><k-icon name="filter"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="filter"></k-icon></slot><slot name="menu-text">Filters</slot>`; }
 }
 
 customElements.define('kc-tc-filters', TcFilters);

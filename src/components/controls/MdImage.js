@@ -84,7 +84,7 @@ export default class MdImage extends Control {
   render() {
     return html`
       <k-dropdown @opened=${this.handleDropdownOpened} @closed=${this.handleDropdownClosed}>
-        <button slot="trigger" type="button" class="no-btn trigger" title="Image"><k-icon name="image"></k-icon></button>
+        <button slot="trigger" type="button" class="no-btn trigger" title="Image"><k-icon name="image"></k-icon><slot name="menu-text">Image</slot></button>
         <div class="image-form" @keydown=${this.handleFormKeydown}>
           <label>Image URL</label>
           <input class="image-url" type="url" required placeholder="https://example.com/image.png" />
@@ -106,8 +106,9 @@ export default class MdImage extends Control {
     Control.styles,
     css`
       :host { border: 1px solid var(--c_border); border-radius: var(--radius); margin: var(--spacer_q); }
-      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
+      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--control_height, 40px) - 2px); min-height: calc(var(--control_height, 40px) - 2px); height: calc(var(--control_height, 40px) - 2px); padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
       .trigger:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
+      :host([in-menu]) { padding: 0; }
       .image-form { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem; min-width: 16rem; }
       .image-form label { font-weight: bold; font-size: 0.875rem; }
       .image-form input { padding: 0.5rem; border: 1px solid var(--c_border); border-radius: var(--radius); font: inherit; }

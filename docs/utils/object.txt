@@ -1,0 +1,5 @@
+object (utility)
+Import: import { toJson, flattenObject, flattenedObjects, objectSummary, clone, equalObjs, prune, getAllKeys, getDifferencesKeys, diff, mapObject } from 'kempo-ui/src/utils/object.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/object.html
+
+Object utilities

@@ -1,13 +1,13 @@
-import e from"./Control.js";import{html as r,css as t}from"../../lit-all.min.js";import"../Icon.js";import"../Dropdown.js";export default class o extends e{static properties={...e.properties,hasPicker:{type:Boolean,state:!0}};static requires=["insertImage"];constructor(){super(),this.hasPicker=!1}handleDropdownOpened=()=>{this.hasPicker="function"==typeof window.kempo?.openAssetPicker,requestAnimationFrame(()=>this.shadowRoot.querySelector(".image-url")?.focus())};handleDropdownClosed=()=>{const e=this.shadowRoot.querySelector(".image-url"),r=this.shadowRoot.querySelector(".image-alt");e&&(e.value=""),r&&(r.value="")};handleFormKeydown=e=>{"Enter"===e.key?(e.preventDefault(),this.submit()):"Escape"===e.key&&this.shadowRoot.querySelector("k-dropdown")?.close()};submit(){const e=this.shadowRoot.querySelector(".image-url").value.trim(),r=this.shadowRoot.querySelector(".image-alt").value.trim();e?(this.host?.insertImage?.(e,{alt:r}),this.shadowRoot.querySelector("k-dropdown")?.close()):this.shadowRoot.querySelector(".image-url").focus()}browseLibrary=async()=>{const e=window.kempo?.openAssetPicker;if("function"!=typeof e)return;const r=this.shadowRoot.querySelector(".image-alt")?.value.trim()||"";let t;this.shadowRoot.querySelector("k-dropdown")?.close();try{t=await e({alt:r})}catch(e){return void console.error("[kc-insert-image] openAssetPicker failed:",e)}t?.url&&this.host?.insertImage?.(t.url,{alt:t.alt??r})};render(){return r`
+import e from"./Control.js";import{html as t,css as r}from"../../lit-all.min.js";import"../Icon.js";import"../Dropdown.js";export default class o extends e{static properties={...e.properties,hasPicker:{type:Boolean,state:!0}};static requires=["insertImage"];constructor(){super(),this.hasPicker=!1}handleDropdownOpened=()=>{this.hasPicker="function"==typeof window.kempo?.openAssetPicker,requestAnimationFrame(()=>this.shadowRoot.querySelector(".image-url")?.focus())};handleDropdownClosed=()=>{const e=this.shadowRoot.querySelector(".image-url"),t=this.shadowRoot.querySelector(".image-alt");e&&(e.value=""),t&&(t.value="")};handleFormKeydown=e=>{"Enter"===e.key?(e.preventDefault(),this.submit()):"Escape"===e.key&&this.shadowRoot.querySelector("k-dropdown")?.close()};submit(){const e=this.shadowRoot.querySelector(".image-url").value.trim(),t=this.shadowRoot.querySelector(".image-alt").value.trim();e?(this.host?.insertImage?.(e,{alt:t}),this.shadowRoot.querySelector("k-dropdown")?.close()):this.shadowRoot.querySelector(".image-url").focus()}browseLibrary=async()=>{const e=window.kempo?.openAssetPicker;if("function"!=typeof e)return;const t=this.shadowRoot.querySelector(".image-alt")?.value.trim()||"";let r;this.shadowRoot.querySelector("k-dropdown")?.close();try{r=await e({alt:t})}catch(e){return void console.error("[kc-insert-image] openAssetPicker failed:",e)}r?.url&&this.host?.insertImage?.(r.url,{alt:r.alt??t})};render(){return t`
       <k-dropdown @opened=${this.handleDropdownOpened} @closed=${this.handleDropdownClosed}>
-        <button slot="trigger" type="button" class="no-btn trigger" title="Image"><k-icon name="image"></k-icon></button>
+        <button slot="trigger" type="button" class="no-btn trigger" title="Image"><k-icon name="image"></k-icon><slot name="menu-text">Image</slot></button>
         <div class="image-form" @keydown=${this.handleFormKeydown}>
           <label>Image URL</label>
           <input class="image-url" type="url" required placeholder="https://example.com/image.png" />
           <label>Alt text</label>
           <input class="image-alt" type="text" placeholder="Description for screen readers" />
           <div class="image-actions">
-            ${this.hasPicker?r`
+            ${this.hasPicker?t`
               <button type="button" class="browse" @click=${this.browseLibrary}>Browse…</button>
             `:""}
             <button type="button" @click=${()=>this.shadowRoot.querySelector("k-dropdown").close()}>Cancel</button>
@@ -15,10 +15,11 @@ import e from"./Control.js";import{html as r,css as t}from"../../lit-all.min.js"
           </div>
         </div>
       </k-dropdown>
-    `}static styles=[e.styles,t`
+    `}static styles=[e.styles,r`
       :host { border: 1px solid var(--c_border); border-radius: var(--radius); margin: var(--spacer_q); }
-      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
+      .trigger { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--control_height, 40px) - 2px); min-height: calc(var(--control_height, 40px) - 2px); height: calc(var(--control_height, 40px) - 2px); padding: var(--spacer_h); background: transparent; border: none; border-radius: var(--radius); cursor: pointer; }
       .trigger:hover { background: oklch(from var(--c_bg__inv) l c h / 0.15); }
+      :host([in-menu]) { padding: 0; }
       .image-form { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem; min-width: 16rem; }
       .image-form label { font-weight: bold; font-size: 0.875rem; }
       .image-form input { padding: 0.5rem; border: 1px solid var(--c_border); border-radius: var(--radius); font: inherit; }

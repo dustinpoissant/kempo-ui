@@ -1,0 +1,22 @@
+Show More (<k-show-more>)
+Import: import 'kempo-ui/src/components/ShowMore.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/show-more.html
+
+Shows only the first part of long content, with a "Show More" button that expands it (and "Show Less" to collapse again). Use it to keep long text short on the page.
+
+Example:
+<k-show-more>
+  <p>Long content...</p>
+</k-show-more>
+
+With your own button text:
+<k-show-more>
+  <p>Long content...</p>
+  <span slot="more">Reveal Details</span>
+  <span slot="less">Hide Details</span>
+</k-show-more>
+
+Attributes:
+- opened (Boolean): starts expanded, and reflects the state.
+- Slots: the default slot is the content; "more" and "less" replace the button text.
+- CSS variable --closed_height sets how tall the content is while collapsed.

@@ -1,0 +1,16 @@
+Table (<k-table>)
+Import: import 'kempo-ui/src/components/Table.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/table.html
+
+Data table with sorting, filtering, pagination, row selection, server sync
+
+Details:
+- `controls` (`none` default, `minimal`, `normal`, `full`) renders preconfigured `k-control-bar` toolbars (top and bottom) and imports the `kc-tc-*` controls they use — `minimal` is search on the left and filters/fields on the right of the top bar, `normal` adds Export CSV and a bottom bar with previous/next on the left and page size on the right, `full` adds Export JSON, hidden count and show all, a hide button (`kc-tc-hide`) on every row, and a bottom bar with first/previous/next/last on the left, page select in the center and page size on the right
+- the preset bars are the fallback content of the `top` and default slots, like the other widgets' presets
+- children slotted in `top` (or the default slot, for the bottom) replace the matching bar, selection, import, edit and delete controls are never part of a set, and slotted `after` children replace the row hide button ([table-preconfigured](https://dustinpoissant.github.io/kempo-ui/components/tablePreconfigured.html))
+- `placeholder` (default "No Records") shown when empty
+- `filtered-placeholder` shown when all records are filtered/hidden
+- records may carry a `_url` property, which is excluded from auto-extracted fields (never rendered) and is only read by row controls such as `kc-tc-open` and by the `open-on-click` attribute (clicking a row, outside controls and editing cells, navigates to `_url`; `row-target="_blank"` opens it in a new tab instead)
+
+Related controls:
+- <kc-tc-open> (controls/TcOpen.js): Table row control (`slot="before"` or `slot="after"`) that navigates to the record's `_url` in the current tab, or a new tab with `target="_blank"`; default icon `visibility` (current tab) or `open_in_browser` (new tab), overridable by slotting a `k-icon` child

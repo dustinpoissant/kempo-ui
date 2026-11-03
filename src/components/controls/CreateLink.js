@@ -57,7 +57,7 @@ export default class CreateLink extends ButtonControl {
     });
   }
 
-  render() { return html`<slot><k-icon name="link"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="link"></k-icon></slot><slot name="menu-text">Insert Link</slot>`; }
 }
 
 customElements.define('kc-create-link', CreateLink);

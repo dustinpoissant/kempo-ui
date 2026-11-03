@@ -22,7 +22,7 @@ export default class PgLast extends ButtonControl {
     if(host) host.page = host.totalPages;
   }
 
-  render() { return html`<slot><k-icon name="chevron-line"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron-line"></k-icon></slot><slot name="menu-text">Last Page</slot>`; }
 }
 
 customElements.define('kc-pg-last', PgLast);

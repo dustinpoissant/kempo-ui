@@ -526,5 +526,23 @@ export default {
     }
     cleanup(container);
     pass('Last interim preserved across empty result events');
+  },
+
+  /*
+    Label
+  */
+  'should show its label only with show-label': async ({pass, fail}) => {
+    const { container, el } = await createSpeechToText();
+    const without = !!el.shadowRoot.querySelector('.label');
+    el.setAttribute('show-label', '');
+    await el.updateComplete;
+    const label = el.shadowRoot.querySelector('.label');
+    const text = label?.textContent.trim();
+    const full = el.shadowRoot.querySelector('.btn').getBoundingClientRect().width >= el.getBoundingClientRect().width - 1;
+    cleanup(container);
+    if(without) return fail('No label should render without show-label');
+    if(!text) return fail('show-label should render the label text');
+    if(!full) return fail('The button should fill the row with show-label');
+    pass('show-label renders the label as a full-width row');
   }
 };

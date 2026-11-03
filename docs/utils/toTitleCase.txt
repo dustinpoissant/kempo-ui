@@ -1,0 +1,5 @@
+toTitleCase (utility)
+Import: import { toTitleCase } from 'kempo-ui/src/utils/string.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/toTitleCase.html
+
+toTitleCase(str): converts camelCase, snake_case, kebab-case or plain text to Title Case with spaces. 'firstName' becomes 'First Name'. It is part of the string utilities (string.js).

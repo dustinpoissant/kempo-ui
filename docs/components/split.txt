@@ -1,0 +1,5 @@
+Split (<k-split>)
+Import: import 'kempo-ui/src/components/Split.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/split.html
+
+Resizable split panes

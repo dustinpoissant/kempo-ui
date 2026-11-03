@@ -351,6 +351,9 @@
     <h5><code>scriptsEnabled<i>: Boolean</i></code></h5>
     <p>When this attribute is present, <code>&lt;script&gt;</code> tags survive sanitization (provided they also pass the allow/deny check). When absent (the default), <code>&lt;script&gt;</code> &mdash; including its content &mdash; is always stripped to prevent XSS, regardless of any other configuration. Other dangerous tags (<code>&lt;iframe&gt;</code>, <code>&lt;style&gt;</code>, etc.) are always stripped. Only enable this for trusted input. Syncs to <code>scripts-enabled</code> attribute.</p>
 
+    <h5><code>noResize<i>: Boolean</i></code></h5>
+    <p>Removes the drag handle under the editor, so it keeps the height set by <code>--height</code>. Syncs to <code>no-resize</code> attribute.</p>
+
     <h5><code>controls<i>: String</i></code></h5>
     <p>Activates a built-in toolbar. Accepted values:</p>
     <ul>

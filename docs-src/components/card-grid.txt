@@ -1,0 +1,9 @@
+Card Grid (<k-card-grid>)
+Import: import 'kempo-ui/src/components/CardGrid.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/card-grid.html
+
+Generic version of `<k-table>` for grids of `<k-card>` tiles instead of rows — matches Table's selection/pagination/CRUD API (`getSelectedRecords`, `selectAllOnPage`, `deselectAllOnPage`, `selectionChange`, etc.) and sets `controlled` on itself, so `kc-tc-*` controls work in its `slot="top"` unmodified
+
+Details:
+- no columns, so no sorting/filtering/search/inline-editing
+- `cardTemplate(record, host)` renders each tile

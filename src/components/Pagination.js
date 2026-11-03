@@ -166,6 +166,10 @@ export default class Pagination extends ShadowComponent {
       gap: var(--spacer_q, 0.25rem);
       flex-wrap: wrap;
     }
+    :host([has-control-bar]) .left {
+      flex: 1 1 0;
+      min-width: 0;
+    }
     .right {
       display: flex;
       align-items: center;
@@ -180,21 +184,26 @@ export default class Pagination extends ShadowComponent {
 		none: { left: null, right: null },
 		simple: {
 			left: html`
-        <kc-pg-prev></kc-pg-prev>
-        <kc-pg-page-info></kc-pg-page-info>
-        <kc-pg-next></kc-pg-next>
+        <k-control-bar>
+          <kc-pg-prev priority="3"></kc-pg-prev>
+          <kc-pg-page-info priority="2"></kc-pg-page-info>
+          <kc-pg-next priority="3"></kc-pg-next>
+        </k-control-bar>
       `,
 			right: null
 		},
 		full: {
 			left: html`
-        <kc-pg-first></kc-pg-first>
-        <kc-pg-prev></kc-pg-prev>
-        <kc-pg-goto-page></kc-pg-goto-page>
-        <kc-pg-next></kc-pg-next>
-        <kc-pg-last></kc-pg-last>
+        <k-control-bar>
+          <kc-pg-first></kc-pg-first>
+          <kc-pg-prev priority="3"></kc-pg-prev>
+          <kc-pg-goto-page priority="2"></kc-pg-goto-page>
+          <kc-pg-next priority="3"></kc-pg-next>
+          <kc-pg-last></kc-pg-last>
+          <kc-pg-items-per-page slot="right" priority="1"></kc-pg-items-per-page>
+        </k-control-bar>
       `,
-			right: html`<kc-pg-items-per-page></kc-pg-items-per-page>`
+			right: null
 		}
 	};
 }

@@ -6,6 +6,7 @@
         <div class="m">
           <h6>Examples</h6>
           <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#defaultTab">Default Open Tab</a><br />
           <a href="#tabSpacers">Tab Spacers</a><br />
           <a href="#scrollingTabs">Scrolling Tabs</a><br />
           <a href="#fixedHeight">Fixed Height</a><br />
@@ -43,6 +44,19 @@
         </k-card>
       </div>
     </div>
+
+    <h3 id="defaultTab"><a href="#defaultTab" class="no-link">Default Open Tab</a></h3>
+<p>The first tab is open unless you say otherwise. To open a different tab first, put the <code>active</code> attribute on the <code>&lt;k-tabs&gt;</code> element (not on a <code>&lt;k-tab&gt;</code>) and give it the name of the tab, which is the <code>for</code> value of that <code>&lt;k-tab&gt;</code>. The example below opens the third tab:</p>
+<pre><code class="hljs xml">&lt;k-tabs active="three"&gt;
+  &lt;k-tab for="one"&gt;One&lt;/k-tab&gt;
+  &lt;k-tab for="two"&gt;Two&lt;/k-tab&gt;
+  &lt;k-tab for="three"&gt;Three&lt;/k-tab&gt;
+  &lt;k-tab-content name="one"&gt;Content one&lt;/k-tab-content&gt;
+  &lt;k-tab-content name="two"&gt;Content two&lt;/k-tab-content&gt;
+  &lt;k-tab-content name="three"&gt;Content three&lt;/k-tab-content&gt;
+&lt;/k-tabs&gt;</code></pre>
+<p>Use the tab names (<code>for</code> and <code>name</code>), not numbers or positions. Setting <code>active</code> on a <code>&lt;k-tab&gt;</code> or <code>&lt;k-tab-content&gt;</code> has no effect: the component sets those itself. If <code>persistent-id</code> is also set, a tab the user picked earlier in the browser takes precedence over <code>active</code> on later visits.</p>
+
 
     <h3 id="tabSpacers"><a href="#tabSpacers" class="no-link">Tab Spacers</a></h3>
     <p>Use the <code>k-tab-spacer</code> component to create flexible spacing between tabs. This is useful for creating layouts where some tabs are grouped on the left and others on the right.</p>

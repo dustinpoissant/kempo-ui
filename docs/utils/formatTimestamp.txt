@@ -1,0 +1,5 @@
+formatTimestamp (utility)
+Import: import formatTimestamp from 'kempo-ui/src/utils/formatTimestamp.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/formatTimestamp.html
+
+Format a Date/timestamp as a human-readable string

@@ -7,7 +7,7 @@ A modern, lightweight web component library built with Lit, providing accessible
 - **Web Components**: Standards-based, framework-agnostic components
 - **Accessible**: Built with accessibility best practices
 - **Customizable**: Easy theming and styling
-- **Lightweight**: Minimal bundle size with minimal dependecnies/
+- **Lightweight**: Minimal bundle size with minimal dependencies
 
 ## Getting Started
 
@@ -43,7 +43,7 @@ Import and use components in your HTML:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My App</title>
-  <script type="module" src="node_modules/kempo-ui/index.js"></script>
+  <script type="module" src="node_modules/kempo-ui/src/components/Tabs.js"></script>
 </head>
 <body>
   <k-tabs>
@@ -178,12 +178,7 @@ npm run build
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
-
-- Setting up your development environment
-- Code style and conventions
-- Testing guidelines
-- Pull request process
+We welcome contributions. Read [AGENTS.md](AGENTS.md) first: it covers the project structure, code style, the rules for controls, and the testing and documentation workflow.
 
 ## License
 

@@ -18,7 +18,7 @@ export default class TcFirstPage extends ButtonControl {
 
   handleAction() { this.host?.firstPage(); }
 
-  render() { return html`<slot><k-icon name="chevron-line" direction="left"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron-line" direction="left"></k-icon></slot><slot name="menu-text">First Page</slot>`; }
 }
 
 customElements.define('kc-tc-first-page', TcFirstPage);

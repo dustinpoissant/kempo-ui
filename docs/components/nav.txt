@@ -1,0 +1,13 @@
+Nav (<k-nav>)
+Import: import 'kempo-ui/src/components/Nav.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/nav.html
+
+Navigation bar (a `k-control-bar`: default slot is the left, plus `center` and `right`)
+
+Details:
+- `fixed` pins it to the top
+- never wraps: its children (links, buttons, `<kc-nav-link>`, a search box, a theme switcher) move into a "more" menu when they no longer fit (`no-collapse`, `priority`, `soft-min-width` and `collapse-order` work as in `k-control-bar`)
+- only `.flex` spacers, menus, dropdowns and `no-collapse` children stay
+
+Related controls:
+- <kc-nav-link> (controls/NavLink.js): Link control for navigation bars (`k-nav`, `k-control-bar`): `href`, `target` (`_blank` adds `rel="noopener"`); default slot holds the icon, `menu-text` slot (falls back to `title`) is its label, shown only while in the "more" menu; 40px tall, needs no controlled host

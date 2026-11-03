@@ -9,6 +9,7 @@ import t from"./Control.js";import{html as e,css as n}from"../../lit-all.min.js"
         left: 50%;
         transform: translate(-50%, -50%);
         display: inline-flex;
+        height: auto;
       }
       button.no-btn {
         display: flex;

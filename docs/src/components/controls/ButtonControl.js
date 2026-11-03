@@ -1,9 +1,9 @@
-import e from"./Control.js";import{css as t,html as i}from"../../lit-all.min.js";export default class s extends e{connectedCallback(){super.connectedCallback(),this.hasAttribute("role")||this.setAttribute("role","button"),this.hasAttribute("tabindex")||(this.tabIndex=this.disabled?-1:0),this.setAttribute("aria-disabled",String(!!this.disabled)),this.addEventListener("click",this.handleClick),this.addEventListener("keydown",this.handleKeyDown)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick),this.removeEventListener("keydown",this.handleKeyDown)}updated(e){super.updated(e),e.has("disabled")&&(this.tabIndex=this.disabled?-1:0,this.setAttribute("aria-disabled",String(this.disabled)))}handleAction(){}handleClick=e=>{this.disabled?e.stopImmediatePropagation():this.handleAction()};handleKeyDown=e=>{this.disabled||"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),this.click())};render(){return i`<slot></slot>`}static styles=[e.styles,t`
+import t from"./Control.js";import{css as e,html as i}from"../../lit-all.min.js";export default class s extends t{connectedCallback(){super.connectedCallback(),this.hasAttribute("role")||this.setAttribute("role","button"),this.hasAttribute("tabindex")||(this.tabIndex=this.disabled?-1:0),this.setAttribute("aria-disabled",String(!!this.disabled)),this.addEventListener("click",this.handleClick),this.addEventListener("keydown",this.handleKeyDown)}disconnectedCallback(){super.disconnectedCallback(),this.removeEventListener("click",this.handleClick),this.removeEventListener("keydown",this.handleKeyDown)}updated(t){super.updated(t),t.has("disabled")&&(this.tabIndex=this.disabled?-1:0,this.setAttribute("aria-disabled",String(this.disabled)))}handleAction(){}handleClick=t=>{this.disabled?t.stopImmediatePropagation():this.handleAction()};handleKeyDown=t=>{this.disabled||"Enter"!==t.key&&" "!==t.key||(t.preventDefault(),this.click())};render(){return i`<slot></slot>`}static styles=[t.styles,e`
       :host {
         align-items: center;
         justify-content: center;
-        min-width: 2rem;
-        min-height: 2rem;
+        min-width: var(--control_height, 40px);
+        min-height: 0;
         background: transparent;
         border: 1px solid var(--c_border);
         border-radius: var(--radius);
@@ -29,5 +29,10 @@ import e from"./Control.js";import{css as t,html as i}from"../../lit-all.min.js"
       }
       :host([active]) {
         background: oklch(from var(--c_primary) l c h / 0.18);
+      }
+      :host([in-menu]) {
+        justify-content: flex-start;
+        text-align: left;
+        white-space: nowrap;
       }
     `]}customElements.define("kc-button",s);

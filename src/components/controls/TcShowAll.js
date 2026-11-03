@@ -12,7 +12,7 @@ export default class TcShowAll extends ButtonControl {
 
   handleAction() { this.host?.showAllRecords(); }
 
-  render() { return html`<slot><k-icon name="show"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="show"></k-icon></slot><slot name="menu-text">Show All Records</slot>`; }
 }
 
 customElements.define('kc-tc-show-all', TcShowAll);

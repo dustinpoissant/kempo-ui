@@ -24,7 +24,7 @@ export default class Mode extends ButtonControl {
 
   handleAction() { this.host?.toggleMode?.(); }
 
-  render() { return html`<slot><k-icon name="code"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="code"></k-icon></slot><slot name="menu-text">Toggle Code View</slot>`; }
 }
 
 customElements.define('kc-mode', Mode);

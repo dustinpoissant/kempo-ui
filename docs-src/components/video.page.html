@@ -46,31 +46,33 @@
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 480px;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png"></k-video>
         </k-card>
       </div>
     </div>
 
     <h3 id="manualControls"><a href="#manualControls" class="no-link">Manual Controls</a></h3>
-    <p>Slot any combination of built-in controls directly inside <code>&lt;k-video&gt;</code>, into one of three regions: unnamed (default) slot content renders in a control bar overlaid at the <strong>bottom</strong> of the player, <code>slot="top"</code> renders above the video, and <code>slot="center"</code> renders centered over the video — the last is where <code>&lt;kc-vid-play-big&gt;</code> normally goes.</p>
+    <p>Slot built-in controls directly inside <code>&lt;k-video&gt;</code>, into one of three regions: unnamed (default) slot content renders in a bar overlaid at the <strong>bottom</strong> of the player, <code>slot="top"</code> renders overlaid along the top of the video with the same fading gradient as the bottom bar, and <code>slot="center"</code> renders centered over the video &mdash; the last is where <code>&lt;kc-vid-play-big&gt;</code> normally goes. Wrap the bottom controls in a <a href="./control-bar.html"><code>&lt;k-control-bar&gt;</code></a> so they collapse into a &ldquo;more&rdquo; menu on narrow players instead of wrapping: give a control <code>slot="center"</code> or <code>slot="right"</code> to place it, <code>priority</code> to keep it in the bar longer, and <code>no-collapse</code> to never move it.</p>
 
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-time</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-time</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-time</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">no-collapse</span> <span class="hljs-attr">soft-min-width</span>=<span class="hljs-string">&quot;8rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-duration</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-duration</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-volume</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-volume</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-repeat</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-repeat</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 480px;">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png">
             <kc-vid-play-big slot="center"></kc-vid-play-big>
-            <kc-vid-play-pause></kc-vid-play-pause>
-            <kc-vid-time></kc-vid-time>
-            <kc-vid-seek></kc-vid-seek>
-            <kc-vid-duration></kc-vid-duration>
-            <kc-vid-volume></kc-vid-volume>
-            <kc-vid-loop></kc-vid-loop>
-            <kc-fullscreen></kc-fullscreen>
+            <k-control-bar>
+              <kc-media-play-pause priority="10"></kc-media-play-pause>
+              <kc-media-time slot="center"></kc-media-time>
+              <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+              <kc-media-duration slot="center"></kc-media-duration>
+              <kc-media-volume slot="right"></kc-media-volume>
+              <kc-media-repeat slot="right"></kc-media-repeat>
+              <kc-fullscreen slot="right"></kc-fullscreen>
+            </k-control-bar>
           </k-video>
         </k-card>
       </div>
@@ -82,12 +84,12 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="minimal" style="max-width: 480px;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="minimal"></k-video>
         </k-card>
       </div>
     </div>
@@ -98,12 +100,12 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="max-width: 480px;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal"></k-video>
         </k-card>
       </div>
     </div>
@@ -114,12 +116,12 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="full" style="max-width: 480px;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="full"></k-video>
         </k-card>
       </div>
     </div>
@@ -130,21 +132,21 @@
     <div class="row -mx">
       <div class="col m-span-12 t-span-6 d-span-6 px">
         <k-card label="Menu with Multiple Controls">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-menu</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-speed</span>&gt;</span>Speed<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-speed</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-loop</span>&gt;</span>Loop<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-loop</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-pip</span>&gt;</span>Picture-in-Picture<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-pip</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-download</span>&gt;</span>Download<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-download</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-menu</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-volume</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-volume</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-menu</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;settings&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-speed</span>&gt;</span>Speed<span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-speed</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-repeat</span>&gt;</span>Loop<span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-repeat</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-pip</span>&gt;</span>Picture-in-Picture<span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-pip</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-download</span>&gt;</span>Download<span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-download</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-menu</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 t-span-6 d-span-6 px">
         <k-card label="Live Example">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 100%; height: auto;">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png">
             <kc-vid-play-big slot="center"></kc-vid-play-big>
-            <kc-vid-play-pause></kc-vid-play-pause>
-            <kc-vid-seek></kc-vid-seek>
-            <kc-vid-volume></kc-vid-volume>
+            <kc-media-play-pause></kc-media-play-pause>
+            <kc-media-seek></kc-media-seek>
+            <kc-media-volume></kc-media-volume>
             <kc-vid-menu icon="settings">
-              <kc-vid-speed>Speed</kc-vid-speed>
-              <kc-vid-loop>Loop</kc-vid-loop>
+              <kc-media-speed>Speed</kc-media-speed>
+              <kc-media-repeat>Loop</kc-media-repeat>
               <kc-vid-pip>Picture-in-Picture</kc-vid-pip>
-              <kc-vid-download>Download</kc-vid-download>
+              <kc-media-download>Download</kc-media-download>
             </kc-vid-menu>
             <kc-fullscreen></kc-fullscreen>
           </k-video>
@@ -153,21 +155,21 @@
     </div>
 
     <h3 id="timeCombo"><a href="#timeCombo" class="no-link">Combining Time and Duration</a></h3>
-    <p>Slot <code>&lt;kc-vid-time&gt;</code> and <code>&lt;kc-vid-duration&gt;</code> next to each other (with a literal <code>/</code> between them) for a familiar &ldquo;1:00 / 2:25&rdquo; readout.</p>
+    <p>Slot <code>&lt;kc-media-time&gt;</code> and <code>&lt;kc-media-duration&gt;</code> next to each other (with a literal <code>/</code> between them) for a familiar &ldquo;1:00 / 2:25&rdquo; readout.</p>
 
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;time-combo&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-time</span>&gt;</span> / <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;time-combo&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-time</span>&gt;</span> / <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-duration</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-duration</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 480px;">
-            <kc-vid-play-pause></kc-vid-play-pause>
-            <kc-vid-seek></kc-vid-seek>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png">
+            <kc-media-play-pause></kc-media-play-pause>
+            <kc-media-seek></kc-media-seek>
             <span style="color: #fff; padding: 0 0.25rem; white-space: nowrap;">
-              <kc-vid-time></kc-vid-time> / <kc-vid-duration></kc-vid-duration>
+              <kc-media-time></kc-media-time> / <kc-media-duration></kc-media-duration>
             </span>
             <kc-fullscreen></kc-fullscreen>
           </k-video>
@@ -181,12 +183,12 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" style="max-width: 480px;">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png">
             <kc-vid-play-big slot="center"></kc-vid-play-big>
           </k-video>
         </k-card>
@@ -204,7 +206,7 @@
       </div>
       <div class="col m-span-12 t-span-6 d-span-6 px">
         <k-card label="Live Example">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" skip-duration="5" skip-flash-ms="300" style="max-width: 100%; height: auto;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" skip-duration="5" skip-flash-ms="300"></k-video>
         </k-card>
       </div>
     </div>
@@ -220,7 +222,7 @@
       </div>
       <div class="col m-span-12 t-span-6 d-span-6 px">
         <k-card label="Live Example">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" idle-delay-ms="5000" style="max-width: 100%; height: auto;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" idle-delay-ms="5000"></k-video>
         </k-card>
       </div>
     </div>
@@ -260,19 +262,102 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;docs-demo&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;docs-demo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" persistent-id="docs-demo" style="max-width: 480px;"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" persistent-id="docs-demo"></k-video>
         </k-card>
       </div>
     </div>
 
     <h3 id="keyboardShortcut"><a href="#keyboardShortcut" class="no-link">Page-Level Keyboard Shortcuts</a></h3>
-    <p>A common pattern: a global handler that maps keys to player methods. With a native <code>&lt;video controls&gt;</code>, dragging the native seek bar focuses it, and further key presses toggle <em>that control</em> instead of bubbling up to your page handler. <code>k-video</code> has no native controls to capture focus — its bundled <code>kc-vid-seek</code> is built on <code>k-slider</code>, which doesn't handle these keys, so they bubble up to <code>document</code> as expected. The <code>e.target === document.body</code> guard keeps this from firing while focus is on some other element (a text input, etc.).</p>
+    <p>A common pattern: a global handler that maps keys to player methods. With a native <code>&lt;video controls&gt;</code>, dragging the native seek bar focuses it, and further key presses toggle <em>that control</em> instead of bubbling up to your page handler. <code>k-video</code> has no native controls to capture focus — its bundled <code>kc-media-seek</code> is built on <code>k-slider</code>, which doesn't handle these keys, so they bubble up to <code>document</code> as expected. The <code>e.target === document.body</code> guard keeps this from firing while focus is on some other element (a text input, etc.).</p>
     <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;player&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-comment">// Page-level shortcuts — work even after the user drags the seek bar,</span><br>  <span class="hljs-comment">// because k-video has no native &lt;input type=&quot;range&quot;&gt; to steal focus.</span><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;keydown&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span> !== <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>) <span class="hljs-keyword">return</span>;<br>    <span class="hljs-keyword">const</span> player = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;player&#x27;</span>);<br>    <span class="hljs-keyword">switch</span> (e.<span class="hljs-property">code</span>) {<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Space&#x27;</span>:<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyK&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">togglePlayPause</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowLeft&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">skip</span>(-<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowRight&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">skip</span>(<span class="hljs-number">5</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowUp&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">setVolume</span>(player.<span class="hljs-property">volume</span> + <span class="hljs-number">0.1</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ArrowDown&#x27;</span>:<br>        e.<span class="hljs-title function_">preventDefault</span>();<br>        player.<span class="hljs-title function_">setVolume</span>(player.<span class="hljs-property">volume</span> - <span class="hljs-number">0.1</span>);<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyM&#x27;</span>:<br>        player.<span class="hljs-title function_">toggleMute</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;KeyF&#x27;</span>:<br>        player.<span class="hljs-title function_">toggleFullscreen</span>();<br>        <span class="hljs-keyword">break</span>;<br>    }<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+    <h3 id="trackInfo"><a href="#trackInfo" class="no-link">Track Information</a></h3>
+    <p><code>kc-media-metadata</code> shows the video's <code>artist</code>, <code>track-title</code>, <code>album</code> and <code>year</code> as a line separated by dots. It scrolls only when the text is too long to fit. Set <code>scroll-mode="always"</code> to scroll it all the time. Slot it into the toolbar like any other control, or into <code>slot="top"</code> to show it along the top of the video.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;/media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Evo&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" track-title="Evo">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fileMetadata"><a href="#fileMetadata" class="no-link">Metadata From the File</a></h3>
+    <p>The video reads the title, artist, album and year stored in the file itself (MP4 and M4V tags, or ID3 tags on an audio file) and <code>kc-media-metadata</code> shows them, so a tagged file needs no attributes. Only the start of the file and its tag atom are requested, not the whole video, and the server needs to support range requests. Set <code>track-title</code>, <code>artist</code>, <code>album</code> or <code>year</code> yourself to replace or add to what the file says; the file only fills the fields you left empty. A file with no tags shows nothing. Add <code>read-metadata="false"</code> to skip reading the file.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo-tagged.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo-tagged.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="scrolling"><a href="#scrolling" class="no-link">Scrolling</a></h3>
+    <p><code>kc-media-metadata</code> scrolls only when its text is wider than the control. That is the default, <code>scroll-mode="auto"</code>. Set <code>scroll-mode="always"</code> to scroll it all the time, like a marquee. Users who prefer reduced motion never see it scroll.</p>
+    <p>The first video below has a long album name, so its text doesn't fit and scrolls on its own. The second has a short title and scrolls because of <code>scroll-mode="always"</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;/media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Evo&quot;</span> <span class="hljs-attr">album</span>=<span class="hljs-string">&quot;Kempo UI demo video, recorded for the documentation of the video component and every one of its built-in controls&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" track-title="Evo" album="Kempo UI demo video, recorded for the documentation of the video component and every one of its built-in controls">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;/media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Evo&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">scroll-mode</span>=<span class="hljs-string">&quot;always&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" track-title="Evo">
+            <kc-media-metadata slot="top" scroll-mode="always"></kc-media-metadata>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="mediaLink"><a href="#mediaLink" class="no-link">Media Link</a></h3>
+    <p><code>kc-media-link</code> shows the full URL of the media as a link that opens it in a new tab. It follows <code>src</code>, so it updates when the source changes.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;/media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-link</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-link</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal">
+            <kc-media-link slot="top"></kc-media-link>
+          </k-video>
+        </k-card>
+      </div>
+    </div>
 
     <hr class="mt" />
 
@@ -299,6 +384,7 @@
           <tr><td><code>playsinline</code></td><td>Boolean</td><td><code>true</code></td><td>Plays inline on mobile browsers instead of forcing fullscreen.</td></tr>
           <tr><td><code>crossorigin</code></td><td>String</td><td><code>''</code></td><td>Native <code>crossorigin</code> passthrough ('anonymous' / 'use-credentials').</td></tr>
           <tr><td><code>downloadName</code> / <code>download-name</code></td><td>String</td><td><code>''</code></td><td>Suggested filename used by <code>download()</code>.</td></tr>
+          <tr><td><code>exclusive</code></td><td><code>exclusive</code></td><td>false</td><td>When this element starts playing, every other playing <code>k-audio</code>, <code>k-video</code>, <code>audio</code> and <code>video</code> on the page is paused.</td></tr>
           <tr><td><code>volume</code></td><td>Number</td><td><code>1</code></td><td>Playback volume from 0 to 1. Prefer <code>setVolume()</code>, which also handles unmuting.</td></tr>
           <tr><td><code>playbackRate</code> / <code>playback-rate</code></td><td>Number</td><td><code>1</code></td><td>Playback speed multiplier.</td></tr>
           <tr><td><code>fullscreen</code></td><td>Boolean</td><td><code>false</code></td><td>True while the player is the fullscreen element. Read-only in practice — use the fullscreen methods to change it.</td></tr>
@@ -324,7 +410,7 @@
         <tbody>
           <tr><td><code>play()</code></td><td>Starts (or resumes) playback. Chainable; swallows the rejected promise some browsers return when playback is blocked.</td></tr>
           <tr><td><code>pause()</code></td><td>Pauses playback. Chainable.</td></tr>
-          <tr><td><code>togglePlayPause()</code></td><td>Plays if paused/ended, otherwise pauses. This is what <code>&lt;kc-vid-play-pause&gt;</code> calls.</td></tr>
+          <tr><td><code>togglePlayPause()</code></td><td>Plays if paused/ended, otherwise pauses. This is what <code>&lt;kc-media-play-pause&gt;</code> calls.</td></tr>
           <tr><td><code>seek(time)</code></td><td>Jumps to <code>time</code> seconds, clamped to <code>[0, duration]</code>.</td></tr>
           <tr><td><code>skip(seconds)</code></td><td>Seeks relative to the current position (negative to rewind).</td></tr>
           <tr><td><code>setVolume(volume)</code></td><td>Sets volume, clamped to <code>[0, 1]</code>. Automatically unmutes when raised above 0.</td></tr>
@@ -371,12 +457,12 @@
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 480px; --controls-bg: rgba(0, 0, 0, 0.6);&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--controls-bg: rgba(0, 0, 0, 0.6);&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col m-span-12 px">
         <k-card label="Output">
-          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="max-width: 480px; --controls-bg: rgba(0, 0, 0, 0.6);"></k-video>
+          <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png" controls="normal" style="--controls-bg: rgba(0, 0, 0, 0.6);"></k-video>
         </k-card>
       </div>
     </div>
@@ -388,41 +474,45 @@
       <table>
         <thead><tr><th>Tag</th><th>Import</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>&lt;kc-vid-play-pause&gt;</code></td><td><code>controls/VidPlayPause.js</code></td><td>Toggles playback. Shows a play or pause icon based on <code>host.paused</code>.</td></tr>
+          <tr><td><code>&lt;kc-media-play-pause&gt;</code></td><td><code>controls/MediaPlayPause.js</code></td><td>Toggles playback. Shows a play or pause icon based on <code>host.paused</code>.</td></tr>
           <tr><td><code>&lt;kc-vid-play-big&gt;</code></td><td><code>controls/VidPlayBig.js</code></td><td>Large centered play/replay button, only rendered while paused. Belongs in <code>slot="center"</code>.</td></tr>
-          <tr><td><code>&lt;kc-vid-seek&gt;</code></td><td><code>controls/VidSeek.js</code></td><td>Scrub bar built on <code>k-slider</code>. Grows to fill available space in the toolbar.</td></tr>
-          <tr><td><code>&lt;kc-vid-time&gt;</code></td><td><code>controls/VidTime.js</code></td><td>Current playback position, formatted as <code>m:ss</code> (or <code>h:mm:ss</code>).</td></tr>
-          <tr><td><code>&lt;kc-vid-duration&gt;</code></td><td><code>controls/VidDuration.js</code></td><td>Total duration, same formatting as <code>kc-vid-time</code>. Slot them next to each other for a <code>"1:00 / 2:25"</code> readout.</td></tr>
-          <tr><td><code>&lt;kc-vid-mute&gt;</code></td><td><code>controls/VidMute.js</code></td><td>A plain mute/unmute toggle button with no popup.</td></tr>
-          <tr><td><code>&lt;kc-vid-volume&gt;</code></td><td><code>controls/VidVolume.js</code></td><td>Mute button that reveals a popup vertical volume slider on hover, like a native player.</td></tr>
-          <tr><td><code>&lt;kc-vid-speed&gt;</code></td><td><code>controls/VidSpeed.js</code></td><td>A playback-rate select (0.25x&ndash;2x).</td></tr>
-          <tr><td><code>&lt;kc-vid-loop&gt;</code></td><td><code>controls/VidLoop.js</code></td><td>Toggles <code>loop</code>. Reflects an <code>active</code> attribute while looping is enabled.</td></tr>
-          <tr><td><code>&lt;kc-vid-download&gt;</code></td><td><code>controls/VidDownload.js</code></td><td>Downloads the current <code>src</code>.</td></tr>
-          <tr><td><code>&lt;kc-vid-skip-back&gt; / &lt;kc-vid-skip-forward&gt;</code></td><td><code>controls/VidSkipBack.js / VidSkipForward.js</code></td><td>Jump 10 seconds backward/forward.</td></tr>
+          <tr><td><code>&lt;kc-media-seek&gt;</code></td><td><code>controls/MediaSeek.js</code></td><td>Scrub bar built on <code>k-slider</code>. Grows to fill available space in the toolbar.</td></tr>
+          <tr><td><code>&lt;kc-media-time&gt;</code></td><td><code>controls/MediaTime.js</code></td><td>Current playback position, formatted as <code>m:ss</code> (or <code>h:mm:ss</code>).</td></tr>
+          <tr><td><code>&lt;kc-media-duration&gt;</code></td><td><code>controls/MediaDuration.js</code></td><td>Total duration, same formatting as <code>kc-media-time</code>. Slot them next to each other for a <code>"1:00 / 2:25"</code> readout.</td></tr>
+          <tr><td><code>&lt;kc-media-mute&gt;</code></td><td><code>controls/MediaMute.js</code></td><td>A plain mute/unmute toggle button with no popup.</td></tr>
+          <tr><td><code>&lt;kc-media-volume&gt;</code></td><td><code>controls/MediaVolume.js</code></td><td>Mute button that reveals a popup vertical volume slider on hover, like a native player.</td></tr>
+          <tr><td><code>&lt;kc-media-speed&gt;</code></td><td><code>controls/MediaSpeed.js</code></td><td>A playback-rate select (0.25x&ndash;2x).</td></tr>
+          <tr><td><code>&lt;kc-media-repeat&gt;</code></td><td><code>controls/MediaRepeat.js</code></td><td>Toggles <code>loop</code>. Reflects an <code>active</code> attribute while looping is enabled.</td></tr>
+          <tr><td><code>&lt;kc-media-download&gt;</code></td><td><code>controls/MediaDownload.js</code></td><td>Downloads the current <code>src</code>.</td></tr>
+          <tr><td><code>&lt;kc-media-skip-back&gt; / &lt;kc-media-skip-forward&gt;</code></td><td><code>controls/MediaSkipBack.js / MediaSkipForward.js</code></td><td>Jump 10 seconds backward/forward.</td></tr>
           <tr><td><code>&lt;kc-vid-pip&gt;</code></td><td><code>controls/VidPip.js</code></td><td>Toggles Picture-in-Picture. Reflects an <code>active</code> attribute while in Picture-in-Picture.</td></tr>
           <tr><td><code>&lt;kc-vid-menu&gt;</code></td><td><code>controls/VidMenu.js</code></td><td>Menu button that opens a dropdown containing slotted child controls. Customize the icon with the <code>icon</code> attribute (default: <code>more_vert</code>). Useful for grouping less-common controls to save toolbar space.</td></tr>
           <tr><td><code>&lt;kc-fullscreen&gt;</code></td><td><code>controls/controls/Fullscreen.js</code></td><td>The same generic fullscreen control used by other kempo components &mdash; works with <code>k-video</code> without modification.</td></tr>
+          <tr><td><code>&lt;kc-media-metadata&gt;</code></td><td><code>controls/MediaMetadata.js</code></td><td>Line of the <code>artist</code>, <code>track-title</code>, <code>album</code> and <code>year</code> attributes, separated by dots. Shows nothing when none are set.</td></tr>
         </tbody>
       </table>
     </div>
 
     <script type="module" src="{{pathToRoot}}src/components/Video.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ControlBar.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/Control.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidPlayPause.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaPlayPause.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidPlayBig.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidSeek.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidTime.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidDuration.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidMute.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidVolume.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidSpeed.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidLoop.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidDownload.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidSkipBack.js"></script>
-    <script type="module" src="{{pathToRoot}}src/components/controls/VidSkipForward.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSeek.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaTime.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaDuration.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaMute.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaVolume.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSpeed.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaRepeat.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaDownload.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSkipBack.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSkipForward.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidMenu.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/Fullscreen.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/controls/VidPip.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaMetadata.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaLink.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
   </content>

@@ -1,15 +1,20 @@
-import t from"./Control.js";import{html as e,css as o}from"../../lit-all.min.js";import"../Combobox.js";export default class s extends t{static hostEvents=["page-change"];handleInput=t=>{const e=this.host;if(e&&t.target.value){const o=parseInt(t.target.value,10);!isNaN(o)&&o>0&&(e.page=o)}};handleBlur=t=>{const e=this.host;e&&(t.target.value=String(e.page))};render(){const t=this.host,o=t?.page??1,s=t?.totalPages??1;return e`
-      <k-combobox
-        .value=${String(o)}
-        @input=${this.handleInput}
-        @blur=${this.handleBlur}
-        placeholder="page"
-        no-results-message="Invalid Page"
-      >
-        ${Array.from({length:s},(t,o)=>e`
-          <k-option value=${o+1}>${o+1}</k-option>
-        `)}
-      </k-combobox>
-    `}static styles=[t.styles,o`
-      k-combobox { width: 5rem; }
+import e from"./Control.js";import{html as t,css as a}from"../../lit-all.min.js";export default class s extends e{static hostEvents=["page-change"];handleChange=e=>{const t=this.host;if(!t)return;const a=parseInt(e.target.value,10);isNaN(a)||(t.page=Math.min(Math.max(a,1),t.totalPages)),e.target.value=String(t.page)};render(){const e=this.host;return t`
+      <div class="field">
+        <input
+          type="number"
+          min="1"
+          max=${e?.totalPages??1}
+          .value=${String(e?.page??1)}
+          title="Go to page"
+          aria-label="Go to page"
+          @change=${this.handleChange}
+        />
+      </div>
+      <slot name="menu-text">Go to page</slot>
+    `}static styles=[e.styles,a`
+      .field { display: flex; flex: 0 0 auto; width: 5rem; align-self: stretch; }
+      input { padding: 0 var(--spacer_h, 0.5rem); }
+      :host([in-menu]) { gap: var(--spacer_h, 0.5rem); }
+      :host([in-menu]) .field { width: 4.5rem; align-self: center; }
+      :host([in-menu]) slot[name="menu-text"] { white-space: nowrap; }
     `]}customElements.define("kc-pg-goto-page",s);

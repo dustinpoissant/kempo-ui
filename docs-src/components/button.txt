@@ -1,0 +1,11 @@
+Button (base class)
+Import: import Button from 'kempo-ui/src/components/Button.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/button.html
+
+Base class for custom elements that behave like buttons. The element itself is the button, no inner <button> needed. It is not registered to a tag: extend it and call customElements.define().
+
+- disabled (Boolean attribute/property): blocks clicks, sets aria-disabled and removes it from the tab order.
+- role="button" and tabindex are set automatically.
+- Keyboard accessible: Enter and Space click it.
+- Button.styles gives it the kempo-css button look. Extend with: static styles = [Button.styles, css`...`]
+- handleClick and handleKeyDown are arrow class fields you can override.

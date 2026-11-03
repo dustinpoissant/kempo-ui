@@ -18,7 +18,7 @@ export default class TcLastPage extends ButtonControl {
 
   handleAction() { this.host?.lastPage(); }
 
-  render() { return html`<slot><k-icon name="chevron-line"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron-line"></k-icon></slot><slot name="menu-text">Last Page</slot>`; }
 }
 
 customElements.define('kc-tc-last-page', TcLastPage);

@@ -646,5 +646,22 @@ export default {
 		cleanup(container1);
 		cleanup(container2);
 		pass('Multiple sortables work independently');
+	},
+
+	/*
+		Reconnecting Items
+	*/
+	'should set up drag again after an item is moved in the DOM': async ({pass, fail}) => {
+		const { container, sortable } = await createSortable({ itemCount: 3 });
+		const items = Array.from(sortable.children);
+		sortable.appendChild(items[0]);
+		await new Promise(r => setTimeout(r, 50));
+		await items[0].updateComplete;
+		if(typeof items[0].cleanupDrag !== 'function'){
+			cleanup(container);
+			return fail('a moved item should have its drag handle set up again');
+		}
+		cleanup(container);
+		pass('Moved items keep a working drag handle');
 	}
 };

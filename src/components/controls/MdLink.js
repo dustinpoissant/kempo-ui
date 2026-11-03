@@ -54,7 +54,7 @@ export default class MdLink extends ButtonControl {
     ta.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
-  render() { return html`<slot><k-icon name="link"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="link"></k-icon></slot><slot name="menu-text">Link</slot>`; }
 }
 
 customElements.define('kc-md-link', MdLink);

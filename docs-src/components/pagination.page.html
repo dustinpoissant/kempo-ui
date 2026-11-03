@@ -135,7 +135,7 @@
     </div>
 
     <h3 id="gotoPageExample"><a href="#gotoPageExample" class="no-link">Goto Page</a></h3>
-    <p>Use <code>&lt;kc-pg-goto-page&gt;</code> and <code>&lt;kc-pg-count&gt;</code> together for an interactive &ldquo;Page X of Y&rdquo; control where X is a dropdown the user can select directly.</p>
+    <p>Use <code>&lt;kc-pg-goto-page&gt;</code> and <code>&lt;kc-pg-count&gt;</code> together for an interactive &ldquo;Page X of Y&rdquo; control where X is a number input the user can type into (or step with the arrows) and press Enter or leave the field to go to that page. The number is kept between 1 and the last page.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
@@ -348,7 +348,7 @@
           <tr>
             <td><code>&lt;kc-pg-goto-page&gt;</code></td>
             <td><code>controls/PgGotoPage.js</code></td>
-            <td>A dropdown listing every page number. Selecting a value navigates directly to that page.</td>
+            <td>A number input for jumping straight to a page. Entering a number (then Enter or leaving the field) navigates to it, kept between 1 and the last page. It is labelled &ldquo;Go to page&rdquo; for assistive technology, and shows that label as text next to the input when it is in a <code>k-control-bar</code> menu; replace it with a <code>menu-text</code> slot.</td>
           </tr>
           <tr>
             <td><code>&lt;kc-pg-count&gt;</code></td>

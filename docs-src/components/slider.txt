@@ -1,0 +1,10 @@
+Slider (<k-slider>)
+Import: import 'kempo-ui/src/components/Slider.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/slider.html
+
+Slider with min, max, discrete step snap points, vertical orientation, and dual-handle range mode via comma-separated `value` (e.g. `"20,80"`)
+
+Details:
+- `format` attribute for value formatting (e.g. `"$0.00"`) applied to change events, form submission, and optional drag `tooltip`
+- form-associated
+- fires `change`

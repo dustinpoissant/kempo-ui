@@ -1,0 +1,14 @@
+HTML Editor (<k-html-editor>)
+Import: import 'kempo-ui/src/components/HtmlEditor.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/html-editor.html
+
+WYSIWYG rich text editor
+
+Details:
+- `value` property
+- `controls` attribute (`full`/`normal`/`minimal`/`none`) for built-in toolbars
+- `layout="floating"` hides the toolbars until the editor has focus and floats them above the content (below when there is no room)
+- `disabled`/`readonly`/`required` (Lexical's `setEditable()` + Monaco's `readOnly`)
+- form-associated
+- `nodes` loads custom Lexical nodes (a plain name from `htmlEditorNodes/`, or a URL starting with `/`, `.` or `http` including `.js`)
+- `slot="toolbar-top-extra"` adds a control to the top toolbar without replacing the built-in ones

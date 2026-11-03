@@ -1,0 +1,8 @@
+elevation (stacking order)
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/elevation.html
+
+Kempo UI uses the kempo-css elevation system: z-index = level x 10, with levels 0 to 10. Most components need no z-index; fixed-position components have a level.
+
+- 0 (z 0) behind the page. 2 (z 20) the page default. 3 (z 30) fixed panels under a navbar (push drawers, dropdowns). 5 (z 50) a fixed navbar (yours). 6 (z 60) overlay drawers. 8 (z 80) modals and lightboxes. 9 (z 90) toasts. 10 (z 100) reserved.
+- 1, 4, 7 are buffer levels kept free for your own elements.
+- kempo-css classes: elevation-N sets z-index N x 10, shadow adds a matching depth shadow, bg-elevation tints the background to the level.

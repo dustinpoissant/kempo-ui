@@ -13,7 +13,7 @@ export default class CopyCode extends ButtonControl {
 
   handleAction() { this.host?.copyToClipboard?.(); }
 
-  render() { return html`<slot><k-icon name="content_copy"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="content_copy"></k-icon></slot><slot name="menu-text">Copy Code</slot>`; }
 }
 
 customElements.define('kc-copy-code', CopyCode);

@@ -10,7 +10,7 @@ export default class TcDeleteSelected extends ButtonControl {
 
   handleAction() { this.host?.deleteSelected(); }
 
-  render() { return html`<slot><k-icon name="delete_sweep"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="delete_sweep"></k-icon></slot><slot name="menu-text">Delete Selected</slot>`; }
 }
 
 customElements.define('kc-tc-delete-selected', TcDeleteSelected);

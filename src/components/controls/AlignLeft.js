@@ -13,7 +13,7 @@ export default class AlignLeft extends ButtonControl {
 
   handleAction() { this.host?.alignLeft?.(); }
 
-  render() { return html`<slot><k-icon name="format_align_left"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_align_left"></k-icon></slot><slot name="menu-text">Align Left</slot>`; }
 }
 
 customElements.define('kc-align-left', AlignLeft);

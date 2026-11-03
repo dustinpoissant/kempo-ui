@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Nav - Kempo UI</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
@@ -10,7 +11,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
-  <script>window.litDisableBundleWarning = true;</script>
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
   
 </head>
 <body>
@@ -22,23 +26,25 @@
     <button
       id="toggleNavSideMenu"
       class="link"
+      no-collapse
     >
       <k-icon name="menu"></k-icon>
     </button>
     <a
       href="../"
       class="d-if ph"
-      style="align-items: center"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
     >
       <img
         src="../media/icon32.png"
         alt="Kempo UI Icon"
         class="pr"
       />
-      Kempo UI
+      <span class="nav-brand-text">Kempo UI</span>
     </a>
     <div
-      style="position:relative;margin:0 .25rem;align-self:center;"
+      class="nav-search"
       theme="light"
     >
       <input
@@ -46,13 +52,12 @@
         type="search"
         placeholder="Search docs..."
         autocomplete="off"
-        style="width:11rem;"
       />
       <div
         id="navSearchDropdown"
+        class="nav-search-dropdown"
         hidden
         theme="light"
-        style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);"
       >
         <k-filter-list
           id="navSearchList"
@@ -74,6 +79,9 @@
           <k-filter-item filter-keywords="chat message conversation messaging components"><a
               href="../components/chat.html"
             >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
               href="../components/code-editor.html"
             >Code Editor<br><small>Component</small></a></k-filter-item>
@@ -89,6 +97,8 @@
           <k-filter-item filter-keywords="context state global components"><a
               href="../components/context.html"
             >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="dialog modal popup components"><a
               href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="dropdown select components"><a
@@ -154,6 +164,9 @@
               href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="table data grid components"><a
               href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
           <k-filter-item filter-keywords="table controls advanced example"><a
               href="../components/tableControls.html"
             >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
@@ -245,6 +258,9 @@
             >Button<br><small>Base Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
               href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="cookie utils utility"><a
               href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="context utils utility"><a
@@ -260,6 +276,9 @@
             >formatTimestamp<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="object utils utility"><a
               href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
               href="../utils/propConverters.html"
             >propConverters<br><small>Utility</small></a></k-filter-item>
@@ -279,28 +298,25 @@
         </k-filter-list>
       </div>
     </div>
-    <div class="flex"></div>
-    <a
+    <kc-nav-link
+      slot="right"
       href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
       target="_blank"
-    ><k-icon name="license"></k-icon></a>
-    <a
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
       href="https://www.npmjs.com/package/kempo-ui"
       target="_blank"
-    ><k-icon name="npm"></k-icon></a>
-    <a
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
       href="https://github.com/dustinpoissant/kempo-ui"
       target="_blank"
-    ><k-icon name="github-mark"></k-icon></a>
-    <k-theme-switcher
-      class="mr"
-      style="
-        --padding: 0.5rem;
-        --c_active: var(--tc_on_primary);
-        --tc_active: var(--c_primary);
-        --c_inactive__hover: rgba(255, 255, 255, 0.1);
-      "
-    ></k-theme-switcher>
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
   </k-nav>
   <div style="width: 100%; height: 4rem;"></div>
   <k-aside
@@ -329,11 +345,13 @@
         <a href="../components/card.html">Card</a>
         <a href="../components/card-grid.html">CardGrid</a>
         <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
         <a href="../components/code-editor.html">Code Editor</a>
         <a href="../components/combobox.html">Combobox</a>
         <a href="../components/color-picker.html">ColorPicker</a>
         <a href="../components/content-slider.html">Content Slider</a>
         <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
         <a href="../components/dialog.html">Dialog</a>
         <a href="../components/dropdown.html">Dropdown</a>
         <a href="../components/filter-list.html">Filter List</a>
@@ -383,6 +401,7 @@
       <h5 class="mb0">Utils</h5>
       <div class="pl mb">
         <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
         <a href="../utils/cookie.html">cookie</a>
         <a href="../utils/context.html">context</a>
         <a href="../utils/debounce.html">debounce</a>
@@ -390,6 +409,7 @@
         <a href="../utils/elevation.html">elevation</a>
         <a href="../utils/formatTimestamp.html">formatTimestamp</a>
         <a href="../utils/object.html">object</a>
+        <a href="../utils/promptApi.html">promptApi</a>
         <a href="../utils/propConverters.html">propConverters</a>
         <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
         <a href="../utils/string.html">string</a>
@@ -413,6 +433,71 @@
       background: rgba(128, 128, 128, .15);
     }
 
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
     #navSearchList a small {
       display: block;
       color: var(--tc_muted);
@@ -420,6 +505,10 @@
   </style>
   <script
     src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
     type="module"
   ></script>
   <script
@@ -527,6 +616,7 @@
           <a href="#fixedNav">Fixed Navbar</a><br />
           <a href="#inlineNav">Inline Navbar</a><br />
           <h6>Reference</h6>
+          <a href="#collapsing">Collapsing</a><br />
           <a href="#attributes">Attributes &amp; Properties</a><br />
           <a href="#slots">Slots</a><br />
         </div>
@@ -550,25 +640,59 @@
     </p>
     <k-card class="mb">
       <k-nav fixed class="bg-primary" style="position:relative;z-index:auto;">
-        <button class="link"><k-icon name="menu"></k-icon></button>
-        <a href="#fixedNav" class="d-if ph" style="align-items:center;">My App</a>
-        <div class="flex"></div>
-        <a href="#fixedNav" class="ph">Account</a>
+        <button class="link" no-collapse><k-icon name="menu"></k-icon></button>
+        <a href="#fixedNav" class="d-if ph" style="align-items:center;" no-collapse>My App</a>
+        <a href="#fixedNav" slot="right" class="ph">Account</a>
       </k-nav>
     </k-card>
-    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">fixed</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;flex: 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/account&quot;</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 4rem;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">fixed</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">no-collapse</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">no-collapse</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/account&quot;</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
 
     <h2 id="inlineNav"><a href="#inlineNav" class="no-link">Inline Navbar</a></h2>
     <p>Without <code>fixed</code>, the nav sits in normal document flow.</p>
     <k-card class="mb">
       <k-nav class="bg-primary">
-        <button class="link"><k-icon name="menu"></k-icon></button>
-        <a href="#inlineNav" class="d-if ph" style="align-items:center;">My App</a>
-        <div class="flex"></div>
-        <a href="#inlineNav" class="ph">Account</a>
+        <button class="link" no-collapse><k-icon name="menu"></k-icon></button>
+        <a href="#inlineNav" class="d-if ph" style="align-items:center;" no-collapse>My App</a>
+        <a href="#inlineNav" slot="right" class="ph">Account</a>
       </k-nav>
     </k-card>
-    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;flex: 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/account&quot;</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">no-collapse</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">no-collapse</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/account&quot;</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
+
+    <h2 id="collapsing"><a href="#collapsing" class="no-link">Collapsing</a></h2>
+    <p>
+      A nav never wraps. When its links and buttons no longer fit they move, one at a time, into a vertical-ellipsis
+      &ldquo;more&rdquo; menu, and move back as the nav grows. It is a
+      <a href="../components/control-bar.html"><code>&lt;k-control-bar&gt;</code></a>, so the same
+      attributes work on its children: <code>no-collapse</code> keeps a link or button in the bar,
+      <code>priority</code> moves it later, <code>soft-min-width</code> keeps a control from being squeezed, and
+      <code>slot="center"</code> or <code>slot="right"</code> place it. The default slot is the left side and
+      <code>right</code> is pinned to the right, so no spacer element is needed (an old <code>&lt;div class=&quot;flex&quot;&gt;</code> spacer still works). Every child can move (links, buttons, a search box, a theme switcher) except spacers (<code>.flex</code>), menus, dropdowns and anything with <code>no-collapse</code>.
+    </p>
+    <p>
+      <code>&lt;kc-nav-link&gt;</code> is a link control for icon-only links. Put the icon in the default slot; its
+      label is the <code>menu-text</code> slot (or the <code>title</code> when there is none), and it only shows while
+      the link is in the menu. Drag the right edge of the example to see it.
+    </p>
+    <k-card class="mb">
+      <k-resize dimension="width" style="width:100%;">
+          <k-nav class="bg-primary" style="position:relative;">
+            <a href="#" class="d-if ph" no-collapse>My App</a>
+            <a href="#">Products</a>
+            <a href="#">Pricing</a>
+            <a href="#">Docs</a>
+            <kc-nav-link slot="right" href="https://github.com/dustinpoissant/kempo-ui" target="_blank" title="GitHub">
+              <k-icon name="github-mark"></k-icon>
+            </kc-nav-link>
+            <kc-nav-link slot="right" href="https://www.npmjs.com/package/kempo-ui" target="_blank" title="npm">
+              <k-icon name="npm"></k-icon>
+              <span slot="menu-text">View on npm</span>
+            </kc-nav-link>
+          </k-nav>
+      </k-resize>
+    </k-card>
+    <k-card label="HTML" class="mb">
+      <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-primary&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;d-if ph&quot;</span> <span class="hljs-attr">no-collapse</span>&gt;</span>My App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Products<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Pricing<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Docs<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-nav-link</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://github.com/dustinpoissant/kempo-ui&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;GitHub&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;github-mark&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-nav-link</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-nav-link</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://www.npmjs.com/package/kempo-ui&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;npm&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;npm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;menu-text&quot;</span>&gt;</span>View on npm<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">kc-nav-link</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
+    </k-card>
 
     <h2 id="attributes"><a href="#attributes" class="no-link">Attributes &amp; Properties</a></h2>
     <div class="table-wrapper mb">
@@ -591,6 +715,12 @@
             <a href="../utils/elevation.html">elevation</a> level 5 (<code>z-index: 50</code>).
           </td>
         </tr>
+        <tr>
+          <td><code>collapse-order</code></td>
+          <td>String</td>
+          <td><code>"right center left"</code></td>
+          <td>Which slot is emptied into the &ldquo;more&rdquo; menu first, always starting with its last item (<code>left</code> is the default slot).</td>
+        </tr>
       </tbody>
     </table>
     </div>
@@ -607,7 +737,15 @@
       <tbody>
         <tr>
           <td><em>default</em></td>
-          <td>All nav content — buttons, links, dropdowns, etc.</td>
+          <td>All nav content — buttons, links, dropdowns, etc. This is the left side.</td>
+        </tr>
+        <tr>
+          <td><code>center</code></td>
+          <td>Links and buttons centered between the left and right sides.</td>
+        </tr>
+        <tr>
+          <td><code>right</code></td>
+          <td>Links and buttons on the right side. These move into the menu first.</td>
         </tr>
       </tbody>
     </table>
@@ -621,6 +759,8 @@
     <script src="../src/components/Accordion.js" type="module"></script>
     <script src="../src/components/Card.js" type="module"></script>
     <script src="../src/components/Icon.js" type="module"></script>
+    <script src="../src/components/controls/NavLink.js" type="module"></script>
+    <script src="../src/components/Resize.js" type="module"></script>
   
 </body>
 </html>

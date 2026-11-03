@@ -1,0 +1,1 @@
+export default e=>{for(const o of document.querySelectorAll("k-audio, k-video, audio, video"))o===e||o.paused||o.pause()};

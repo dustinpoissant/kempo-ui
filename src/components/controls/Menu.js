@@ -25,9 +25,15 @@ export default class ControlMenu extends Control {
   /*
     Event Handlers
   */
+  /* A menu only holds other things, so it never needs a host to work, e.g. the "more" menu of a bar of plain links. */
+  updateHostSupport() {}
+
   handleToggle = () => { this.opened = !this.opened; };
   handleOpened = () => { this.opened = true; };
   handleClosed = () => { this.opened = false; };
+  handleItems = e => e.target.assignedElements().forEach(el => {
+    if(el instanceof Control) el.setAttribute('in-menu', '');
+  });
 
   /*
     Rendering
@@ -43,7 +49,7 @@ export default class ControlMenu extends Control {
           <slot name="icon"><k-icon name="arrow_drop_down"></k-icon></slot>
           <slot name="label"></slot>
         </button>
-        <slot></slot>
+        <slot @slotchange=${this.handleItems}></slot>
       </k-dropdown>
     `;
   }
@@ -69,8 +75,8 @@ export default class ControlMenu extends Control {
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        min-width: 2.5rem;
-        min-height: 2.5rem;
+        min-width: calc(var(--control_height, 40px) - 2px);
+        min-height: calc(var(--control_height, 40px) - 2px);
         padding: 0 0.75rem;
         background: transparent;
         border: none;
@@ -81,8 +87,13 @@ export default class ControlMenu extends Control {
 
       /* Slotted menu items: remove individual borders/radii so the menu
          reads as a single unified surface. */
-      ::slotted(:not([slot="icon"]):not([slot="label"])) {
+      ::slotted(:not([slot="icon"]):not([slot="label"]):not([in-menu])) {
         display: block !important;
+      }
+      ::slotted([in-menu]) {
+        display: flex !important;
+      }
+      ::slotted(:not([slot="icon"]):not([slot="label"])) {
         margin: 0 !important;
         border: none !important;
         border-radius: 0 !important;

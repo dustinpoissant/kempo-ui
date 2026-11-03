@@ -1,0 +1,11 @@
+Rating (<k-rating>)
+Import: import 'kempo-ui/src/components/Rating.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/rating.html
+
+Row of 5 stars
+
+Details:
+- outlined by default, filled up to `value` (Number 0-5, reflects)
+- click a star to set, hover previews without changing value
+- form-associated via `name`
+- fires `change`

@@ -1,0 +1,7 @@
+renderMarkdown (utility)
+Import: import renderMarkdown from 'kempo-ui/src/utils/renderMarkdown.js';
+
+renderMarkdown(md, options?): turns markdown into an HTML string with the vendored marked parser (CommonMark + GFM: tables, task lists, autolinks, fenced code).
+
+- Options: breaks (default false; true turns single newlines into <br>, like chat apps), gfm (default true).
+- The output can contain raw inline HTML, so always run it through sanitizeHtml before putting it in the DOM.

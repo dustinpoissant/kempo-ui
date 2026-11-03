@@ -45,7 +45,46 @@ const cleanup = (container) => {
 	}
 };
 
+const mount = async html => {
+	const container = document.createElement('div');
+	container.innerHTML = html;
+	document.body.appendChild(container);
+	const tabs = container.querySelector('k-tabs');
+	await tabs.updateComplete;
+	await new Promise(resolve => setTimeout(resolve, 300));
+	return { container, tabs, open: [...tabs.querySelectorAll('k-tab-content')].filter(content => content.active).map(content => content.name) };
+};
+
+const docMarkup = attributes => `<k-tabs ${attributes}>
+	<k-tab for="one">One</k-tab>
+	<k-tab for="two">Two</k-tab>
+	<k-tab-content name="one">Content one</k-tab-content>
+	<k-tab-content name="two">Content two</k-tab-content>
+</k-tabs>`;
+
 export default {
+	/*
+		What docs-src/components/tabs.txt says (the docs assistant answers from it) is true of the component
+	*/
+	'tabs.txt: the first tab is open when k-tabs has no active attribute': async ({pass, fail}) => {
+		const { container, open } = await mount(docMarkup(''));
+		container.remove();
+		return open.join() === 'one' ? pass('First tab open') : fail(open.join());
+	},
+
+	'tabs.txt: the active attribute of k-tabs is the name of the open tab': async ({pass, fail}) => {
+		const { container, tabs, open } = await mount(docMarkup('active="two"'));
+		const tabOpen = [...tabs.querySelectorAll('k-tab')].filter(tab => tab.active).map(tab => tab.for);
+		container.remove();
+		return open.join() === 'two' && tabOpen.join() === 'two' ? pass('That tab is open') : fail(`${open} / ${tabOpen}`);
+	},
+
+	'tabs.txt: active written on a k-tab has no effect': async ({pass, fail}) => {
+		const { container, open } = await mount('<k-tabs><k-tab for="one">One</k-tab><k-tab for="two" active>Two</k-tab><k-tab-content name="one">1</k-tab-content><k-tab-content name="two">2</k-tab-content></k-tabs>');
+		container.remove();
+		return open.join() === 'one' ? pass('Still the first tab') : fail(open.join());
+	},
+
 	/*
 		Tabs Component Tests
 	*/

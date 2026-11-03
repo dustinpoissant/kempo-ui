@@ -1,0 +1,5 @@
+Resize (<k-resize>)
+Import: import 'kempo-ui/src/components/Resize.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/resize.html
+
+Resizable pane with drag handle

@@ -1,0 +1,9 @@
+Aside (<k-aside> <k-aside-item> <k-aside-label> <k-aside-menu> <k-aside-spacer> <k-aside-toggle>)
+Import: import 'kempo-ui/src/components/Aside.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/aside.html
+
+Sidebar/drawer
+
+Details:
+- `main="push"` or `main="overlay"`, `side="left|right"`
+- `<k-aside-item group="Name">` auto-wraps items sharing a group (2+, `group-min`) in a menu, icon from `group-icons` JSON / `group-icon` / folder

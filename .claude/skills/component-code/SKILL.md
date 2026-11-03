@@ -175,5 +175,7 @@ This is a soft rule, sometimes there are components that will always be used tog
 
 Another example that looks similar but is not the same is components with controls. `CodeEditor`, `HtmlEditor`, `MarkdownEditor`, and `Table` all have "controls" for them, but they are **not** defined in the same file because while the contorl can not be used without the base component, the base component **can** be used without any of the controls. We are not going to send more bytes to the browser than it needs. With HTTP2 making additional requests has very low costs, we are better off doing many smaller requests for only the code needed, than shipping code that may never be used. And a build / bundler may make this mute anyways, so this is better for code maintainability.
 
+**Controls follow the rules in the "Controls (`kc-*`)" section of `AGENTS.md`:** every control is 40px tall by default (`--control_height`) unless the user says otherwise, and icon-only controls get a `menu-text` slot.
+
 ### Follow common code styles
 Follow the rules of the ["code-style" skill](../code-style/SKILL.md) when coding components.

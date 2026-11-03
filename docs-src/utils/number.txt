@@ -1,0 +1,5 @@
+number (utility)
+Import: import { bound, closest } from 'kempo-ui/src/utils/number.js';
+
+- bound(n, min, max): n kept within min and max.
+- closest(n, arr): the number in arr nearest to n (the larger one on a tie); n itself if arr is empty.

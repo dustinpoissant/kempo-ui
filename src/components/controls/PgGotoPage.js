@@ -1,46 +1,43 @@
 import Control from './Control.js';
 import { html, css } from '../../lit-all.min.js';
-import '../Combobox.js';
 
 export default class PgGotoPage extends Control {
   static hostEvents = ['page-change'];
 
-  handleInput = (e) => {
+  handleChange = (e) => {
     const host = this.host;
-    if(host && e.target.value){
-      const page = parseInt(e.target.value, 10);
-      if(!isNaN(page) && page > 0) host.page = page;
-    }
-  };
-
-  handleBlur = (e) => {
-    const host = this.host;
-    if(host) e.target.value = String(host.page);
+    if(!host) return;
+    const page = parseInt(e.target.value, 10);
+    if(!isNaN(page)) host.page = Math.min(Math.max(page, 1), host.totalPages);
+    e.target.value = String(host.page);
   };
 
   render() {
     const host = this.host;
-    const current = host?.page ?? 1;
-    const total = host?.totalPages ?? 1;
     return html`
-      <k-combobox
-        .value=${String(current)}
-        @input=${this.handleInput}
-        @blur=${this.handleBlur}
-        placeholder="page"
-        no-results-message="Invalid Page"
-      >
-        ${Array.from({ length: total }, (_, i) => html`
-          <k-option value=${i + 1}>${i + 1}</k-option>
-        `)}
-      </k-combobox>
+      <div class="field">
+        <input
+          type="number"
+          min="1"
+          max=${host?.totalPages ?? 1}
+          .value=${String(host?.page ?? 1)}
+          title="Go to page"
+          aria-label="Go to page"
+          @change=${this.handleChange}
+        />
+      </div>
+      <slot name="menu-text">Go to page</slot>
     `;
   }
 
   static styles = [
     Control.styles,
     css`
-      k-combobox { width: 5rem; }
+      .field { display: flex; flex: 0 0 auto; width: 5rem; align-self: stretch; }
+      input { padding: 0 var(--spacer_h, 0.5rem); }
+      :host([in-menu]) { gap: var(--spacer_h, 0.5rem); }
+      :host([in-menu]) .field { width: 4.5rem; align-self: center; }
+      :host([in-menu]) slot[name="menu-text"] { white-space: nowrap; }
     `
   ];
 }

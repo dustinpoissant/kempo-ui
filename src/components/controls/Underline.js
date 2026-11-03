@@ -13,7 +13,7 @@ export default class Underline extends ButtonControl {
 
   handleAction() { this.host?.underline?.(); }
 
-  render() { return html`<slot><k-icon name="format_underlined"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_underlined"></k-icon></slot><slot name="menu-text">Underline</slot>`; }
 }
 
 customElements.define('kc-underline', Underline);

@@ -1,0 +1,9 @@
+ShadowComponent (base class)
+Import: import ShadowComponent from 'kempo-ui/src/components/ShadowComponent.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/shadow-component.html
+
+Base class for a standard shadow-DOM component, built on Lit. kempo-css is injected into the shadow root automatically, next to the component's static styles. Use it when the component should be fully encapsulated.
+
+- Override render() to return a Lit html template.
+- Override childrenUpdated(): called when the light-DOM children change (MutationObserver).
+- createRenderRoot() returns an inner div, but this.shadowRoot is still the real shadow root.

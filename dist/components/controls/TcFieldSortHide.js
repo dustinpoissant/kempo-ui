@@ -18,4 +18,4 @@ import e from"./ButtonControl.js";import{html as t,render as i}from"../../lit-al
           `)}
         </k-sortable>
       </div>
-    `,o),l.create(o,{title:"Show / Hide / Order Fields",width:"400px",cancelText:"Close"})}render(){return t`<slot><k-icon name="table-visibility"></k-icon></slot>`}}customElements.define("kc-tc-field-sort-hide",o);
+    `,o),l.create(o,{title:"Show / Hide / Order Fields",width:"400px",cancelText:"Close"})}render(){return t`<slot><k-icon name="table-visibility"></k-icon></slot><slot name="menu-text">Show / Hide / Order Fields</slot>`}}customElements.define("kc-tc-field-sort-hide",o);

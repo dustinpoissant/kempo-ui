@@ -1,0 +1,5 @@
+Content Slider (<k-content-slider>)
+Import: import 'kempo-ui/src/components/ContentSlider.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/content-slider.html
+
+Swipeable carousel

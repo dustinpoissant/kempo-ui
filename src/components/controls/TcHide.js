@@ -24,7 +24,7 @@ export default class TcHide extends ButtonControl {
     if(rec) this.host?.hideRecord(rec);
   }
 
-  render() { return html`<slot><k-icon name="hide"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="hide"></k-icon></slot><slot name="menu-text">Hide Record</slot>`; }
 }
 
 customElements.define('kc-tc-hide', TcHide);

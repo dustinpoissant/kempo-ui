@@ -1,0 +1,8 @@
+Spinner (<k-spinner>)
+Import: import 'kempo-ui/src/components/Spinner.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/spinner.html
+
+Loading indicator
+
+Details:
+- `size` (xs/sm/md/lg/xl), `variant` (spinner/dots/bar)

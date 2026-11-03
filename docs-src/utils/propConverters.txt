@@ -1,0 +1,5 @@
+propConverters (utility)
+Import: import { boolExists, boolTrueFalse } from 'kempo-ui/src/utils/propConverters.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/propConverters.html
+
+Lit property converters for boolean attributes

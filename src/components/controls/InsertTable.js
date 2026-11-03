@@ -61,7 +61,7 @@ export default class InsertTable extends ButtonControl {
     });
   }
 
-  render() { return html`<slot><k-icon name="table"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="table"></k-icon></slot><slot name="menu-text">Insert Table</slot>`; }
 }
 
 customElements.define('kc-insert-table', InsertTable);

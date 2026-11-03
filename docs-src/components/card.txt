@@ -1,0 +1,10 @@
+Card (<k-card>)
+Import: import 'kempo-ui/src/components/Card.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/card.html
+
+A bordered container for grouping content.
+
+Attributes:
+- label (String, optional): any text. When set it is shown as a small title on the top border of the card, like the legend of a fieldset. Without it the card has no title.
+
+Put any content inside it (text, other components). It has no other attributes, methods or events.

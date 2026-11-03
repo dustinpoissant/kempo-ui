@@ -19,7 +19,7 @@ export default class PgNext extends ButtonControl {
 
   handleAction() { this.host?.nextPage(); }
 
-  render() { return html`<slot><k-icon name="chevron"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="chevron"></k-icon></slot><slot name="menu-text">Next Page</slot>`; }
 }
 
 customElements.define('kc-pg-next', PgNext);

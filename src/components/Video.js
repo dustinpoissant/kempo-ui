@@ -2,6 +2,9 @@ import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import { bound } from '../utils/number.js';
 import debounce from '../utils/debounce.js';
+import pauseOthers from '../utils/pauseOthers.js';
+import loadFileMetadata from '../utils/loadFileMetadata.js';
+import { boolTrueFalse } from '../utils/propConverters.js';
 import Control from './controls/Control.js';
 import './Icon.js';
 import './Spinner.js';
@@ -39,6 +42,7 @@ export default class Video extends ShadowComponent {
     playsinline: { type: Boolean, reflect: true },
     crossorigin: { type: String, reflect: true },
     downloadName: { type: String, reflect: true, attribute: 'download-name' },
+    exclusive: { type: Boolean, reflect: true },
     volume: { type: Number },
     playbackRate: { type: Number, attribute: 'playback-rate' },
     fullscreen: { type: Boolean, reflect: true },
@@ -47,7 +51,12 @@ export default class Video extends ShadowComponent {
     persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
     idleDelayMs: { type: Number, reflect: true, attribute: 'idle-delay-ms' },
     skipFlashMs: { type: Number, reflect: true, attribute: 'skip-flash-ms' },
-    skipDuration: { type: Number, reflect: true, attribute: 'skip-duration' }
+    skipDuration: { type: Number, reflect: true, attribute: 'skip-duration' },
+    artist: { type: String },
+    trackTitle: { type: String, attribute: 'track-title' },
+    album: { type: String },
+    year: { type: String },
+    readMetadata: { type: Boolean, converter: boolTrueFalse, attribute: 'read-metadata' }
   };
 
   static forwardedEvents = [
@@ -71,6 +80,7 @@ export default class Video extends ShadowComponent {
     this.playsinline = true;
     this.crossorigin = '';
     this.downloadName = '';
+    this.exclusive = false;
     this.volume = 1;
     this.playbackRate = 1;
     this.fullscreen = false;
@@ -80,6 +90,11 @@ export default class Video extends ShadowComponent {
     this.idleDelayMs = 2500;
     this.skipFlashMs = 600;
     this.skipDuration = 10;
+    this.artist = '';
+    this.trackTitle = '';
+    this.album = '';
+    this.year = '';
+    this.readMetadata = true;
     this[pendingSeek] = null;
     this.buffering = false;
     this.skipFlash = null;
@@ -131,6 +146,9 @@ export default class Video extends ShadowComponent {
 
   updated(changedProperties) {
     super.updated(changedProperties);
+    if(['artist', 'trackTitle', 'album', 'year'].some(key => changedProperties.has(key))) this.dispatchEvent(new CustomEvent('metadata-changed', { bubbles: true }));
+    if(changedProperties.has('src')) this.dispatchEvent(new CustomEvent('src-changed', { bubbles: true }));
+    if(changedProperties.has('src') || changedProperties.has('readMetadata')) loadFileMetadata(this);
     if(changedProperties.has('fullscreen')){
       this.dispatchEvent(new CustomEvent('fullscreen-changed', {
         detail: { fullscreen: this.fullscreen },
@@ -402,6 +420,7 @@ export default class Video extends ShadowComponent {
         this.toggleAttribute('paused', video.paused);
         this.toggleAttribute('ended', video.ended);
       }
+      if(type === 'play' && this.exclusive) pauseOthers(this);
       if(type === 'play' || type === 'playing') this.wakeControls();
       if(type === 'pause'){
         clearTimeout(this.idleTimer);
@@ -432,7 +451,9 @@ export default class Video extends ShadowComponent {
     const set = this.constructor.controlSets[this.controls] ?? this.constructor.controlSets[''];
     return html`
       <div id="frame">
-        <slot name="top"></slot>
+        <div id="top-bar">
+          <slot name="top"></slot>
+        </div>
         <div
           id="video-wrapper"
           @click=${this.handleVideoClick}
@@ -524,9 +545,30 @@ export default class Video extends ShadowComponent {
     :host([idle]) {
       cursor: none;
     }
-    :host([idle]) #controls-bar {
+    :host([idle]) #controls-bar,
+    :host([idle]) #top-bar {
       opacity: 0;
       pointer-events: none;
+    }
+    #top-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      padding: 0.1rem 0.25rem;
+      background: var(--top-bg, linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)));
+      color: #fff;
+      line-height: normal;
+      font-size: 0.8rem;
+      transition: opacity 0.25s;
+      --c_border: transparent;
+      --spacer: 0.5rem;
+    }
+    #top-bar:not(:has(::slotted(*))) {
+      display: none;
     }
     #controls-bar {
       position: absolute;
@@ -551,11 +593,11 @@ export default class Video extends ShadowComponent {
     #controls-bar:not(:has(::slotted(*))) {
       display: none;
     }
-    #controls-bar ::slotted(kc-vid-play-pause),
-    #controls-bar ::slotted(kc-vid-skip-back),
-    #controls-bar ::slotted(kc-vid-skip-forward),
-    #controls-bar ::slotted(kc-vid-loop),
-    #controls-bar ::slotted(kc-vid-download),
+    #controls-bar ::slotted(kc-media-play-pause),
+    #controls-bar ::slotted(kc-media-skip-back),
+    #controls-bar ::slotted(kc-media-skip-forward),
+    #controls-bar ::slotted(kc-media-repeat),
+    #controls-bar ::slotted(kc-media-download),
     #controls-bar ::slotted(kc-vid-pip),
     #controls-bar ::slotted(kc-fullscreen) {
       min-width: 1.5rem !important;
@@ -607,41 +649,47 @@ export default class Video extends ShadowComponent {
     minimal: {
       center: html`<kc-vid-play-big></kc-vid-play-big>`,
       bottom: html`
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-time></kc-vid-time>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-duration></kc-vid-duration>
-        <kc-fullscreen></kc-fullscreen>
+        <k-control-bar>
+          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+          <kc-fullscreen slot="right"></kc-fullscreen>
+        </k-control-bar>
       `
     },
     normal: {
       center: html`<kc-vid-play-big></kc-vid-play-big>`,
       bottom: html`
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-time></kc-vid-time>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-duration></kc-vid-duration>
-        <kc-vid-volume></kc-vid-volume>
-        <kc-vid-speed></kc-vid-speed>
-        <kc-vid-loop></kc-vid-loop>
-        <kc-fullscreen></kc-fullscreen>
+        <k-control-bar>
+          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+          <kc-media-volume slot="right"></kc-media-volume>
+          <kc-media-speed slot="right"></kc-media-speed>
+          <kc-media-repeat slot="right"></kc-media-repeat>
+          <kc-fullscreen slot="right"></kc-fullscreen>
+        </k-control-bar>
       `
     },
     full: {
       center: html`<kc-vid-play-big></kc-vid-play-big>`,
       bottom: html`
-        <kc-vid-skip-back></kc-vid-skip-back>
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-skip-forward></kc-vid-skip-forward>
-        <kc-vid-time></kc-vid-time>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-duration></kc-vid-duration>
-        <kc-vid-volume></kc-vid-volume>
-        <kc-vid-speed></kc-vid-speed>
-        <kc-vid-loop></kc-vid-loop>
-        <kc-vid-pip></kc-vid-pip>
-        <kc-vid-download></kc-vid-download>
-        <kc-fullscreen></kc-fullscreen>
+        <k-control-bar>
+          <kc-media-skip-back></kc-media-skip-back>
+          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-skip-forward></kc-media-skip-forward>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+          <kc-media-volume slot="right"></kc-media-volume>
+          <kc-media-speed slot="right"></kc-media-speed>
+          <kc-media-repeat slot="right"></kc-media-repeat>
+          <kc-vid-pip slot="right"></kc-vid-pip>
+          <kc-media-download slot="right"></kc-media-download>
+          <kc-fullscreen slot="right"></kc-fullscreen>
+        </k-control-bar>
       `
     }
   };

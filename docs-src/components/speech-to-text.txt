@@ -1,0 +1,10 @@
+Speech to Text (<k-speech-to-text>)
+Import: import 'kempo-ui/src/components/SpeechToText.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/speech-to-text.html
+
+Microphone button wrapping the Web Speech API
+
+Details:
+- click to start, click again or pause to stop
+- `language`, `continuous`, `interim`, `min-confidence` (0-1 noise filter), `timeout` (max recording seconds), `show-label` (shows "Start listening" / "Stop listening" beside the icon as a full-width row, for menus; `kc-md-speech-to-text` sets it while in a control-bar menu) attrs
+- fires `start`, `result` (with `{text, isFinal}`), `end` (with `{text}`), `error`

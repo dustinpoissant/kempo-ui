@@ -9,6 +9,10 @@
           <a href="#presets">Preconfigured Controls</a><br />
           <a href="#manualControls">Manual Controls</a><br />
           <a href="#resumePosition">Resume Playback Position</a><br />
+          <a href="#slots">Top and Bottom Slots</a><br />
+          <a href="#scrolling">Scrolling</a><br />
+          <a href="#download">Download</a><br />
+          <a href="#playlists">Playlists</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#properties">Properties</a><br />
@@ -23,44 +27,253 @@
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
     <p>With no <code>controls</code> and nothing slotted in, <code>k-audio</code> draws nothing: drive it from your own buttons with <code>play()</code> and <code>pause()</code>. Add <code>controls="normal"</code> for a toolbar.</p>
-    <k-card label="HTML">
-      <pre><code class="html">&lt;k-audio src="/media/podcast.mp3" controls="normal"&gt;&lt;/k-audio&gt;</code></pre>
-    </k-card>
-    <k-card label="Output" class="mt">
-      <k-audio src="{{pathToRoot}}media/evo.mp4" controls="normal"></k-audio>
-    </k-card>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-lofi-hip-hop.mp3" controls="normal"></k-audio>
+        </k-card>
+      </div>
+    </div>
 
     <h3 id="presets"><a href="#presets" class="no-link">Preconfigured Controls</a></h3>
-    <p><code>controls</code> takes <code>minimal</code> (play and pause, time, seek, duration), <code>normal</code> (those, plus volume, speed and loop) or <code>full</code> (normal, plus skip back and forward). <code>none</code> or no value draws no toolbar.</p>
-    <k-card label="Minimal">
-      <k-audio src="{{pathToRoot}}media/evo.mp4" controls="minimal"></k-audio>
-    </k-card>
-    <k-card label="Full" class="mt">
-      <k-audio src="{{pathToRoot}}media/evo.mp4" controls="full"></k-audio>
-    </k-card>
+    <p><code>controls</code> takes <code>minimal</code> (play and pause, time, seek, duration), <code>normal</code> (those, plus volume and repeat) or <code>full</code> (normal, plus speed, skip back and forward, and download). <code>none</code> or no value draws no toolbar.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Minimal HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Minimal">
+          <k-audio src="{{pathToRoot}}media/vibedepot-sweet.mp3" controls="minimal"></k-audio>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Normal HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-fashion.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Normal">
+          <k-audio src="{{pathToRoot}}media/vibedepot-fashion.mp3" controls="normal"></k-audio>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Full HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/ketsa-black-screen.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Full">
+          <k-audio src="{{pathToRoot}}media/ketsa-black-screen.mp3" controls="full"></k-audio>
+        </k-card>
+      </div>
+    </div>
 
     <h3 id="manualControls"><a href="#manualControls" class="no-link">Manual Controls</a></h3>
-    <p>Slot any controls inside the element, and they replace the preset.</p>
-    <k-card label="HTML">
-      <pre><code class="html">&lt;k-audio src="/media/podcast.mp3"&gt;
-  &lt;kc-vid-play-pause&gt;&lt;/kc-vid-play-pause&gt;
-  &lt;kc-vid-seek&gt;&lt;/kc-vid-seek&gt;
-  &lt;kc-vid-volume&gt;&lt;/kc-vid-volume&gt;
-&lt;/k-audio&gt;</code></pre>
-    </k-card>
-    <k-card label="Output" class="mt">
-      <k-audio src="{{pathToRoot}}media/evo.mp4">
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-volume></kc-vid-volume>
-      </k-audio>
-    </k-card>
+    <p>Slot any controls inside the element, and they replace the preset. Wrap them in a <a href="./control-bar.html"><code>&lt;k-control-bar&gt;</code></a> so they stay on one row and collapse into a &ldquo;more&rdquo; menu when the player is narrow, instead of wrapping. Put a control in the <code>center</code> or <code>right</code> slot to place it, give it a <code>priority</code> to keep it in the bar longer, and add <code>no-collapse</code> so it never moves into the menu (the seek bar here just gets shorter).</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/vibedepot-lofi-hip-hop.mp3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-time</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-time</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">no-collapse</span> <span class="hljs-attr">soft-min-width</span>=<span class="hljs-string">&quot;8rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-duration</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-duration</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-volume</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-volume</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-speed</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-speed</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-lofi-hip-hop.mp3">
+            <k-control-bar>
+              <kc-media-play-pause priority="10"></kc-media-play-pause>
+              <kc-media-time slot="center" priority="1"></kc-media-time>
+              <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+              <kc-media-duration slot="center" priority="1"></kc-media-duration>
+              <kc-media-volume slot="right"></kc-media-volume>
+              <kc-media-speed slot="right"></kc-media-speed>
+            </k-control-bar>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
 
     <h3 id="resumePosition"><a href="#resumePosition" class="no-link">Resume Playback Position</a></h3>
     <p>Give the element a <code>persistent-id</code> and its position is kept in the browser session, so a reload carries on from where it was. The position is forgotten when the sound ends.</p>
-    <k-card label="HTML">
-      <pre><code class="html">&lt;k-audio src="/media/podcast.mp3" controls="normal" persistent-id="episode-1"&gt;&lt;/k-audio&gt;</code></pre>
-    </k-card>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;sweet&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-sweet.mp3" controls="normal" persistent-id="sweet"></k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Top and Bottom Slots</a></h3>
+    <p>The toolbar has three slots. The default slot holds the controls, the <code>top</code> slot sits above them and the <code>bottom</code> slot sits below. Slot anything into <code>top</code> or <code>bottom</code> with <code>slot="top"</code> or <code>slot="bottom"</code>. A <code>controls</code> preset still draws its controls when only the <code>top</code> or <code>bottom</code> slot is used.</p>
+    <p><code>kc-media-metadata</code> shows the track's artist, title, album and year as a line separated by dots. It scrolls only when the text is too long to fit. Set <code>scroll-mode="always"</code> to scroll it all the time. Set those on the element with <code>artist</code>, <code>track-title</code>, <code>album</code> and <code>year</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/ketsa-black-screen.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;Ketsa&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Black Screen&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/ketsa-black-screen.mp3" controls="normal" artist="Ketsa" track-title="Black Screen">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;lofi hip-hop&quot;</span> <span class="hljs-attr">album</span>=<span class="hljs-string">&quot;Lofi&quot;</span> <span class="hljs-attr">year</span>=<span class="hljs-string">&quot;2026&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-lofi-hip-hop.mp3" controls="minimal" artist="VibeDepot" track-title="lofi hip-hop" album="Lofi" year="2026">
+            <kc-media-metadata slot="bottom"></kc-media-metadata>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fileMetadata"><a href="#fileMetadata" class="no-link">Metadata From the File</a></h3>
+    <p>The element reads the title, artist, album and year stored in the audio file (ID3 tags, or MP4 tags on an M4A) and <code>kc-media-metadata</code> shows them, so a tagged file needs no attributes. Only the start and end of the file are requested, and the server needs to support range requests. Set <code>track-title</code>, <code>artist</code>, <code>album</code> or <code>year</code> on the element (or on a <code>kc-audio-track</code>) to replace or add to what the file says; the file only fills the fields left empty. A file with no tags shows nothing. Add <code>read-metadata="false"</code> to skip reading the file.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/vibedepot-tagged.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-tagged.mp3" controls="normal">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Replacing One Field">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/vibedepot-tagged.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;Remixed by me&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-tagged.mp3" controls="normal" artist="Remixed by me">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="scrolling"><a href="#scrolling" class="no-link">Scrolling</a></h3>
+    <p><code>kc-media-metadata</code> scrolls only when its text is wider than the control. That is the default, <code>scroll-mode="auto"</code>. Set <code>scroll-mode="always"</code> to scroll it all the time, like a marquee. Users who prefer reduced motion never see it scroll.</p>
+    <p>The first player below is narrowed so its text doesn't fit, and scrolls on its own. The second has a short title and scrolls because of <code>scroll-mode="always"</code>.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;lofi hip-hop&quot;</span> <span class="hljs-attr">album</span>=<span class="hljs-string">&quot;Lofi&quot;</span> <span class="hljs-attr">year</span>=<span class="hljs-string">&quot;2026&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;max-width: 12rem;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-lofi-hip-hop.mp3" controls="minimal" artist="VibeDepot" track-title="lofi hip-hop" album="Lofi" year="2026" style="max-width: 12rem;">
+            <kc-media-metadata slot="top"></kc-media-metadata>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;sweet&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-metadata</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">scroll-mode</span>=<span class="hljs-string">&quot;always&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-metadata</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-sweet.mp3" controls="minimal" artist="VibeDepot" track-title="sweet">
+            <kc-media-metadata slot="top" scroll-mode="always"></kc-media-metadata>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="mediaLink"><a href="#mediaLink" class="no-link">Media Link</a></h3>
+    <p><code>kc-media-link</code> shows the full URL of the media as a link that opens it in a new tab. It follows <code>src</code>, so it updates when the source changes.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-link</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-link</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/vibedepot-sweet.mp3" controls="minimal">
+            <kc-media-link slot="bottom"></kc-media-link>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="download"><a href="#download" class="no-link">Download</a></h3>
+    <p>Add <code>kc-media-download</code> to the toolbar to let listeners save the file, or call <code>download()</code> yourself. Set <code>download-name</code> to choose the saved file's name.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/ketsa-black-screen.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;minimal&quot;</span> <span class="hljs-attr">download-name</span>=<span class="hljs-string">&quot;Black Screen - Ketsa.mp3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-download</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-download</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="{{pathToRoot}}media/ketsa-black-screen.mp3" controls="minimal" download-name="Black Screen - Ketsa.mp3">
+            <kc-media-download slot="bottom"></kc-media-download>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="playlists"><a href="#playlists" class="no-link">Playlists</a></h3>
+    <p>List tracks as <code>kc-audio-track</code> children of <code>k-audio</code>. The first track is loaded when the page opens, and the player moves to the next track when one ends. <code>kc-audio-previous</code> and <code>kc-audio-next</code> move through the list, and <code>kc-audio-playlist</code> lists every track so a listener can pick one. Drag a row in <code>kc-audio-playlist</code> to reorder the playlist. Track details come from the same attributes as the element itself: <code>artist</code>, <code>track-title</code>, <code>album</code>, <code>year</code> and <code>download-name</code>.</p>
+    <p>By default the player stops at the end of the playlist. Set <code>playlist-loop</code>, or press <code>kc-audio-loop</code>, to go back to the first track after the last one, and to the last track when Previous is pressed on the first.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">playlist-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-playlist</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-playlist</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-previous</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-previous</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-shuffle</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-shuffle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;lofi hip-hop&quot;</span> <span class="hljs-attr">album</span>=<span class="hljs-string">&quot;Lofi&quot;</span> <span class="hljs-attr">year</span>=<span class="hljs-string">&quot;2026&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;sweet&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-fashion.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;fashion&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/ketsa-black-screen.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;Ketsa&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Black Screen&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio playlist-loop>
+            <kc-audio-playlist slot="top"></kc-audio-playlist>
+            <kc-audio-previous></kc-audio-previous>
+            <kc-media-play-pause></kc-media-play-pause>
+            <kc-audio-next></kc-audio-next>
+            <kc-media-seek></kc-media-seek>
+            <kc-audio-loop></kc-audio-loop>
+            <kc-audio-shuffle></kc-audio-shuffle>
+            <kc-audio-track src="{{pathToRoot}}media/vibedepot-lofi-hip-hop.mp3" artist="VibeDepot" track-title="lofi hip-hop" album="Lofi" year="2026"></kc-audio-track>
+            <kc-audio-track src="{{pathToRoot}}media/vibedepot-sweet.mp3" artist="VibeDepot" track-title="sweet"></kc-audio-track>
+            <kc-audio-track src="{{pathToRoot}}media/vibedepot-fashion.mp3" artist="VibeDepot" track-title="fashion"></kc-audio-track>
+            <kc-audio-track src="{{pathToRoot}}media/ketsa-black-screen.mp3" artist="Ketsa" track-title="Black Screen"></kc-audio-track>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
@@ -78,6 +291,13 @@
         <tr><td><code>persistentId</code></td><td><code>persistent-id</code></td><td>null</td><td>Keeps the position in the session.</td></tr>
         <tr><td><code>idleDelayMs</code></td><td><code>idle-delay-ms</code></td><td>2500</td><td>How long after the last movement the element gets the <code>idle</code> attribute.</td></tr>
         <tr><td><code>skipDuration</code></td><td><code>skip-duration</code></td><td>10</td><td>Seconds the skip controls jump.</td></tr>
+        <tr><td><code>artist</code></td><td><code>artist</code></td><td>''</td><td>Shown by <code>kc-media-metadata</code>.</td></tr>
+        <tr><td><code>trackTitle</code></td><td><code>track-title</code></td><td>''</td><td>Shown by <code>kc-media-metadata</code>.</td></tr>
+        <tr><td><code>album</code></td><td><code>album</code></td><td>''</td><td>Shown by <code>kc-media-metadata</code>.</td></tr>
+        <tr><td><code>year</code></td><td><code>year</code></td><td>''</td><td>Shown by <code>kc-media-metadata</code>.</td></tr>
+        <tr><td><code>playlistLoop</code> / <code>playlist-loop</code></td><td><code>false</code></td><td>Go back to the first track after the last one, and the reverse for Previous.</td></tr>
+        <tr><td><code>downloadName</code> / <code>download-name</code></td><td><code>''</code></td><td>Suggested filename used by <code>download()</code>.</td></tr>
+        <tr><td><code>exclusive</code></td><td><code>exclusive</code></td><td>false</td><td>When this element starts playing, every other playing <code>k-audio</code>, <code>k-video</code>, <code>audio</code> and <code>video</code> on the page is paused.</td></tr>
       </tbody>
     </table>
     <p>Read only: <code>currentTime</code> (also settable), <code>duration</code>, <code>paused</code>, <code>playing</code>, <code>ended</code>.</p>
@@ -91,18 +311,57 @@
         <tr><td><code>seek(time)</code>, <code>skip(seconds)</code></td><td>Go to a time, or move by an amount (negative goes back).</td></tr>
         <tr><td><code>setVolume(volume)</code>, <code>mute()</code>, <code>unmute()</code>, <code>toggleMute()</code></td><td>Volume and muting.</td></tr>
         <tr><td><code>setPlaybackRate(rate)</code>, <code>toggleLoop()</code></td><td>Speed and looping.</td></tr>
+        <tr><td><code>playTrack(index)</code>, <code>selectTrack(index)</code></td><td>Load track <code>index</code> from the <code>kc-audio-track</code> children, and play it (<code>playTrack</code> only).</td></tr>
+        <tr><td><code>toggleShuffle()</code></td><td>Shuffles the tracks, animating the rows into their new places, and remembers the order. Toggled off, it restores that order. Moving a track by hand clears the saved order and turns shuffle off. The current track stays selected.</td></tr>
+        <tr><td><code>reorderTracks(order)</code></td><td>Reorders the <code>kc-audio-track</code> children to the given list of current indexes, and keeps the current track selected. Dragging in <code>kc-audio-playlist</code> calls this.</td></tr>
+        <tr><td><code>previousTrack()</code>, <code>nextTrack()</code>, <code>togglePlaylistLoop()</code></td><td>Move through the playlist, or switch looping the whole playlist on and off.</td></tr>
+        <tr><td><code>download()</code></td><td>Downloads <code>src</code> using a temporary anchor, named via <code>downloadName</code> when set.</td></tr>
       </tbody>
     </table>
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
-    <p>These bubble from the element: <code>play</code>, <code>pause</code>, <code>timeupdate</code>, <code>loadedmetadata</code>, <code>durationchange</code>, <code>canplay</code>, <code>waiting</code>, <code>seeking</code>, <code>seeked</code>, <code>ended</code>, <code>volumechange</code>, <code>ratechange</code> and <code>error</code>, plus <code>loop-changed</code> with <code>{ loop }</code>.</p>
+    <p>These bubble from the element: <code>play</code>, <code>pause</code>, <code>timeupdate</code>, <code>loadedmetadata</code>, <code>durationchange</code>, <code>canplay</code>, <code>waiting</code>, <code>seeking</code>, <code>seeked</code>, <code>ended</code>, <code>volumechange</code>, <code>ratechange</code> and <code>error</code>, plus <code>loop-changed</code> with <code>{ loop }</code>, <code>metadata-changed</code> when the artist, title, album or year changes, <code>src-changed</code> when <code>src</code> changes, <code>track-changed</code> when a playlist track is selected, <code>playlist-changed</code> when the playlist's tracks change, and <code>playlist-loop-changed</code> when looping the playlist is switched on or off, <code>playlist-shuffling</code> just before a shuffle or restore, and <code>shuffle-changed</code> when shuffle is switched on or off.</p>
 
     <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
     <table>
       <thead><tr><th>Property</th><th>Default</th><th></th></tr></thead>
       <tbody>
-        <tr><td><code>--controls-bg</code></td><td>#000</td><td>The toolbar's background.</td></tr>
+        <tr><td><code>--controls-bg</code></td><td>#000</td><td>The player's background, behind the toolbar and any top or bottom slot content.</td></tr>
       </tbody>
     </table>
+
+    <hr />
+    <p class="ta-center tc-muted">
+      Music from <a href="https://freemusicarchive.org/" target="_blank">Free Music Archive</a>:<br />
+      lofi hip-hop by VibeDepot<br />
+      sweet by VibeDepot<br />
+      Black Screen by Ketsa<br />
+      fashion by VibeDepot
+    </p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Audio.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ControlBar.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Control.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaPlayPause.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSeek.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaTime.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaDuration.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaVolume.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSpeed.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaRepeat.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSkipBack.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSkipForward.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaMetadata.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaLink.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaDownload.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AudioTrack.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AudioPrevious.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AudioNext.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AudioLoop.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AudioPlaylist.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AudioShuffle.js"></script>
   </content>
 </page>

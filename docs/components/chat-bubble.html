@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Chat Bubble - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+    <style>
+      .bubble-demo {
+        position: relative;
+        height: 42rem;
+        overflow: hidden;
+        border: 1px dashed var(--c_border);
+        border-radius: var(--radius);
+        /* A transformed parent is the containing block of fixed children, so the bubble sits in this box instead of in the corner of the page. */
+        transform: translateZ(0);
+      }
+    </style>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+      no-collapse
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      <span class="nav-brand-text">Kempo UI</span>
+    </a>
+    <div
+      class="nav-search"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+      />
+      <div
+        id="navSearchDropdown"
+        class="nav-search-dropdown"
+        hidden
+        theme="light"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="audio player play pause seek volume speed loop sound music podcast components"><a
+              href="../components/audio.html">Audio<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card grid tile layout gallery selection components"><a
+              href="../components/card-grid.html">CardGrid<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="image crop cropper upload photo avatar profile canvas resize components"><a
+              href="../components/image-crop.html"
+            >Image Crop<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="rating star stars review score components"><a
+              href="../components/rating.html"
+            >Rating<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record links url open click advanced example"><a
+              href="../components/tableRecordLinks.html"
+            >Table &mdash; Record Links<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/audio.html">Audio</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/card-grid.html">CardGrid</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/image-crop.html">Image Crop</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/rating.html">Rating</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/promptApi.html">promptApi</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+    <h1 class="ta-center">Chat Bubble</h1>
+  
+  <k-main>
+    
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#unread">Unread Messages</a><br />
+        <a href="#position">Position</a><br />
+        <a href="#fullscreen">Full Screen</a><br />
+        <a href="#controls">Custom Controls</a><br />
+        <a href="#conversations">Saved Conversations</a><br />
+        <a href="#llm">Connecting an LLM</a><br />
+        <a href="#assistant">Built-in AI (very experimental)</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#slots">Slots</a><br />
+        <a href="#methods">Methods</a><br />
+        <a href="#cssVariables">CSS Variables</a><br />
+        <a href="#events">Events</a><br />
+        <a href="#accessibility">Accessibility</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A round chat button that floats in a corner of the page (a floating action button). Clicking it opens a <a href="./chat.html"><code>&lt;k-chat&gt;</code></a> in a popup above it (or below it, when the button is at the top), and the button's icon turns into a chevron pointing away from the screen edge (down at the bottom, up at the top) to show that clicking it again minimizes the chat. When a message arrives while the chat is minimized the button wiggles and pulses between the primary color and red, with an "unread message" icon, until the chat is opened.</p>
+    <p>It is not tied to a language model. The chat inside is a normal <code>&lt;k-chat&gt;</code> (reachable as <code>bubble.chat</code>), so it can be a person at your company answering customers, a bot, an LLM you connect (see <a href="#llm">Connecting an LLM</a>), or the browser's built-in model with the <code>prompt-api</code> attribute (<strong>very experimental and not useful yet</strong>, see <a href="#assistant">the warning</a>). With <code>persistent-id</code>, conversations are saved, and opening the bubble offers to continue a saved one, start a new one, or delete an old one.</p>
+    <p>On this page every bubble sits in a dashed box so it does not leave the example. In your page it floats in the corner of the window.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The component fires the same <code>send</code> event as <a href="./chat.html#events"><code>&lt;k-chat&gt;</code></a>. Send what the user wrote to your server, and show the answers with <code>bubble.chat.addMessage()</code>. Try minimizing the chat after sending a message: the answer arrives 1.5 seconds later and the button asks for attention.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;supportBubble&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Support&quot;</span> <span class="hljs-attr">empty-message</span>=<span class="hljs-string">&quot;Ask us anything. A real person will answer.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat-bubble&#x27;</span>);<br>  <span class="hljs-keyword">const</span> bubble = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;supportBubble&#x27;</span>);<br>  bubble.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;send&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-comment">// Send e.detail.markdown to your server, then show the rep&#x27;s answer:</span><br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>      bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">addMessage</span>({<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;incoming&#x27;</span>,<br>        <span class="hljs-attr">sender</span>: <span class="hljs-string">&#x27;Sam&#x27;</span>,<br>        <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;Thanks! A team member will be right with you.&#x27;</span><br>      });<br>    }, <span class="hljs-number">1500</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble id="supportBubble" heading="Support" empty-message="Ask us anything. A real person will answer."></k-chat-bubble>
+          </div>
+          <script type="module">
+            await customElements.whenDefined('k-chat-bubble');
+            const bubble = document.getElementById('supportBubble');
+            bubble.addEventListener('send', (e) => {
+              setTimeout(() => {
+                bubble.chat.addMessage({
+                  type: 'incoming',
+                  sender: 'Sam',
+                  html: 'Thanks! A team member will be right with you.'
+                });
+              }, 1500);
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="unread"><a href="#unread" class="no-link">Unread Messages</a></h3>
+    <p>When an incoming message is added (or the model finishes a reply) while the chat is minimized, the <code>unread</code> attribute is set. The button then shows the "unread message" icon, wiggles, and pulses between the primary and the danger color. Opening the chat clears it. You can also set <code>unread</code> yourself, for example when your server tells you there is a new message. Users who prefer reduced motion get the color pulse without the wiggle.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;receive&quot;</span>&gt;</span>Receive a message<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;unreadBubble&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Support&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat-bubble&#x27;</span>);<br>  <span class="hljs-keyword">const</span> bubble = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;unreadBubble&#x27;</span>);<br>  <span class="hljs-keyword">await</span> bubble.<span class="hljs-property">updateComplete</span>;<br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">receive</span> = (<span class="hljs-params"></span>) =&gt; bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">addMessage</span>({<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;incoming&#x27;</span>,<br>    <span class="hljs-attr">sender</span>: <span class="hljs-string">&#x27;Sam&#x27;</span>,<br>    <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;Hi! Anything we can help with?&#x27;</span><br>  });<br>  <span class="hljs-comment">// A message that arrives while the chat is minimized sets `unread`.</span><br>  <span class="hljs-title function_">receive</span>();<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;receive&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {<br>    bubble.<span class="hljs-title function_">hide</span>();<br>    <span class="hljs-title function_">receive</span>();<br>  });<br>  <span class="hljs-comment">// Or set it yourself, e.g. when your server says there is a new message:</span><br>  <span class="hljs-comment">// bubble.unread = true;</span><br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <button id="receive" class="mb">Receive a message</button>
+          <div class="bubble-demo">
+            <k-chat-bubble id="unreadBubble" heading="Support"></k-chat-bubble>
+          </div>
+          <script type="module">
+            await customElements.whenDefined('k-chat-bubble');
+            const bubble = document.getElementById('unreadBubble');
+            await bubble.updateComplete;
+            const receive = () => bubble.chat.addMessage({
+              type: 'incoming',
+              sender: 'Sam',
+              html: 'Hi! Anything we can help with?'
+            });
+            receive();
+            document.getElementById('receive').addEventListener('click', () => {
+              bubble.hide();
+              receive();
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="position"><a href="#position" class="no-link">Position</a></h3>
+    <p>The <code>position</code> attribute picks the corner: <code>bottom right</code> (the default), <code>bottom left</code>, <code>top left</code> or <code>top right</code>. At the top the popup opens below the button, and it lines up with the edge of the window the button is on. This one has no <code>heading</code>, so it has no header bar either.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top left&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble position="top left"></k-chat-bubble>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="fullscreen"><a href="#fullscreen" class="no-link">Full Screen</a></h3>
+    <p>Add <code>allow-fullscreen</code> and a full screen icon appears at the top right of the popup (it makes the header bar show, even without a heading). Clicking it makes the popup as wide and tall as the window allows, with one <code>--spacer</code> of space around it, except for the corner of the round button, which stays free so the user can still minimize the chat. Click the icon again, or press <kbd>Escape</kbd>, to go back. With <code>persistent-id</code> the full screen state is kept when the page changes, like the open state. Open the chat below and try it; here it fills the dashed box, in your page it fills the window.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Support&quot;</span> <span class="hljs-attr">allow-fullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble heading="Support" allow-fullscreen></k-chat-bubble>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="controls"><a href="#controls" class="no-link">Custom Controls</a></h3>
+    <p>Three slots take your own controls. <code>controls-top</code> is the header bar, next to the list and plus icons of the conversations. <code>controls-side</code> is a small slot above the Send button, and <code>controls-bottom</code> is a row at the very bottom. A slot takes no room until something is in it. Here the header gets an email button, the slot above Send gets a call button (a <code>tel:</code> link, so it phones support on a phone), and two quick replies go at the bottom. Give the buttons and links the <code>no-btn</code> class (and <code>no-link</code> for a link) so the page's own button and link styles step aside and they match the built-in icons. <code>bubble.chat.send(text)</code> sends a ready-made message.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;controlsBubble&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Support&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;docs-controls-bubble&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;no-btn&quot;</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Email me this chat&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Email me this chat&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mail&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-side&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;no-btn no-link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;tel:+18005550123&quot;</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Call support&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Call support&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-icon</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;call&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-bottom&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;reply&quot;</span>&gt;</span>Order status<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-bottom&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;reply&quot;</span>&gt;</span>Talk to a person<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat-bubble&#x27;</span>);<br>  <span class="hljs-keyword">const</span> bubble = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;controlsBubble&#x27;</span>);<br>  <span class="hljs-keyword">await</span> bubble.<span class="hljs-property">updateComplete</span>;<br>  bubble.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;.reply&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">button</span>) =&gt;</span> {<br>    <span class="hljs-comment">// send(text) sends that text, as if the user had typed it</span><br>    button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">send</span>(button.<span class="hljs-property">textContent</span>));<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble id="controlsBubble" heading="Support" persistent-id="docs-controls-bubble">
+              <button slot="controls-top" class="no-btn" title="Email me this chat" aria-label="Email me this chat">
+                <k-icon name="mail"></k-icon>
+              </button>
+              <a slot="controls-side" class="no-btn no-link" href="tel:+18005550123" title="Call support" aria-label="Call support">
+                <k-icon name="call"></k-icon>
+              </a>
+              <button slot="controls-bottom" class="reply">Order status</button>
+              <button slot="controls-bottom" class="reply">Talk to a person</button>
+            </k-chat-bubble>
+          </div>
+          <script type="module">
+            await customElements.whenDefined('k-chat-bubble');
+            const bubble = document.getElementById('controlsBubble');
+            await bubble.updateComplete;
+            bubble.querySelectorAll('.reply').forEach((button) => {
+              button.addEventListener('click', () => bubble.chat.send(button.textContent));
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="conversations"><a href="#conversations" class="no-link">Saved Conversations</a></h3>
+    <p>Add <code>persistent-id</code> and the conversations are saved in the browser, as with <a href="./chat.html#saving"><code>&lt;k-chat persistent-id&gt;</code></a>. The first time the bubble is opened after a page load, and there are saved conversations, it lists them: click one to continue it, or start a new one. Each has three buttons: the pencil renames it (type a name and press Enter, Escape cancels), the arrow downloads it as a text file (the messages and, with <code>debug</code>, a record of what was sent to the model, its raw replies and the tool calls, handy when something goes wrong), and the bin deletes it (a confirmation dialog asks first). The list icon in the header brings the list back at any time, and the plus icon starts a new conversation. Send a message, reload the page, and open the bubble. Leave the bubble open and go to another page of these docs: it is still open, in the chat.</p>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Support&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;support-bubble&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble heading="Support" persistent-id="docs-support-bubble"></k-chat-bubble>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="llm"><a href="#llm" class="no-link">Connecting an LLM</a></h3>
+    <p>The bubble does not care who answers: a customer service rep, your own server, or a cloud model called through a server. This is only the UI library, so what you write is the glue between the <code>send</code> event and your server, and these docs run on GitHub Pages and have no server. So the example below calls <code>fetch('/api/chat')</code> exactly as a real page would, and a small mock <code>fetch</code> (second card) answers with random markdown lorem ipsum after a random delay (and fails one time in eight). Delete the mock and point the URL at your server, and the page works for real.</p>
+    <p>Try it: send a message, minimize the chat while it types, and see the button ask for attention. The steps are the same for any backend:</p>
+    <ol>
+      <li><strong>On <code>send</code>,</strong> show a placeholder from the other side with <code>addMessage()</code>. Mark it <code>transient</code> so it is not saved with the conversation.</li>
+      <li><strong>Ask your server</strong> with <code>e.detail.markdown</code>, the text the user wrote (and <code>bubble.chat.conversationId</code> if the server keeps the conversation).</li>
+      <li><strong>Show the answer</strong> by updating the placeholder with <code>updateMessage()</code>: <code>html</code> to show (through <a href="../utils/renderMarkdown.html">renderMarkdown</a> if the answer is markdown), <code>markdown</code> for what the conversation is saved with, and <code>transient: false</code> so it is saved. The message is sanitized for you.</li>
+      <li><strong>Update the status</strong> of the user's message (<code>e.detail.id</code>) with <code>updateMessage(id, { status })</code>: <code>read</code> when answered, <code>failed</code> when not (with <code>show-status</code> the user sees it).</li>
+      <li><strong>Ask for attention</strong> with <code>bubble.unread = true</code> when the chat is minimized. A message added with <code>addMessage()</code> does it by itself, but finishing a placeholder is not a new message.</li>
+    </ol>
+    <p>A real rep works the same way, without the placeholder: the answer comes in (from a websocket or by polling) and you call <code>bubble.chat.addMessage({ type: 'incoming', sender: 'Sam', html })</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="Your page">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cloudBubble&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Support&quot;</span> <span class="hljs-attr">show-status</span>=<span class="hljs-string">&quot;icons&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;cloud-demo&quot;</span> <span class="hljs-attr">empty-message</span>=<span class="hljs-string">&quot;Ask anything. A server answers.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> renderMarkdown <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/utils/renderMarkdown.js&#x27;</span>;<br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat-bubble&#x27;</span>);<br>  <span class="hljs-keyword">const</span> bubble = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;cloudBubble&#x27;</span>);<br>  <span class="hljs-keyword">await</span> bubble.<span class="hljs-property">updateComplete</span>;<br>  bubble.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;send&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {<br>    <span class="hljs-comment">// A placeholder while the server works. `transient` keeps it out of the saved conversation.</span><br>    <span class="hljs-keyword">const</span> replyId = bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">addMessage</span>({<br>      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;incoming&#x27;</span>,<br>      <span class="hljs-attr">sender</span>: <span class="hljs-string">&#x27;Support&#x27;</span>,<br>      <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;&lt;em&gt;Typing...&lt;/em&gt;&#x27;</span>,<br>      <span class="hljs-attr">transient</span>: <span class="hljs-literal">true</span><br>    });<br>    <span class="hljs-keyword">try</span> {<br>      <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/chat&#x27;</span>, {<br>        <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,<br>        <span class="hljs-attr">headers</span>: {<br>          <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span><br>        },<br>        <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({<br>          <span class="hljs-attr">conversation</span>: bubble.<span class="hljs-property">chat</span>.<span class="hljs-property">conversationId</span>,<br>          <span class="hljs-attr">message</span>: e.<span class="hljs-property">detail</span>.<span class="hljs-property">markdown</span><br>        })<br>      });<br>      <span class="hljs-keyword">if</span> (!response.<span class="hljs-property">ok</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`The server answered <span class="hljs-subst">${response.status}</span>`</span>);<br>      <span class="hljs-keyword">const</span> {<br>        reply<br>      } = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();<br>      bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">updateMessage</span>(replyId, {<br>        <span class="hljs-attr">html</span>: <span class="hljs-title function_">renderMarkdown</span>(reply, {<br>          <span class="hljs-attr">breaks</span>: <span class="hljs-literal">true</span><br>        }),<br>        <span class="hljs-attr">markdown</span>: reply,<br>        <span class="hljs-attr">transient</span>: <span class="hljs-literal">false</span><br>      });<br>      bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">updateMessage</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">id</span>, {<br>        <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;read&#x27;</span><br>      });<br>      <span class="hljs-comment">// Finishing a placeholder does not count as a new message, so ask for attention yourself</span><br>      <span class="hljs-keyword">if</span> (!bubble.<span class="hljs-property">open</span>) bubble.<span class="hljs-property">unread</span> = <span class="hljs-literal">true</span>;<br>    } <span class="hljs-keyword">catch</span> (error) {<br>      bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">updateMessage</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">id</span>, {<br>        <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;failed&#x27;</span><br>      });<br>      bubble.<span class="hljs-property">chat</span>.<span class="hljs-title function_">updateMessage</span>(replyId, {<br>        <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;&lt;em&gt;Sorry, no answer. Please try again.&lt;/em&gt;&#x27;</span><br>      });<br>    }<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+        <k-card label="The mock server (only for these docs)" class="mt">
+          <pre><code class="hljs javascript"><span class="hljs-comment">// Only for these docs, which run on GitHub Pages and have no server:</span><br><span class="hljs-comment">// answers the calls to /api/chat with random markdown after a random delay.</span><br><span class="hljs-keyword">const</span> replies = [<span class="hljs-string">&#x27;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&#x27;</span>, <span class="hljs-string">&#x27;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in **reprehenderit** in voluptate velit esse.&#x27;</span>, <span class="hljs-string">&#x27;Excepteur sint occaecat cupidatat non proident:\n\n- sunt in culpa qui officia\n- deserunt mollit anim\n- id est laborum&#x27;</span>, <span class="hljs-string">&#x27;Sed ut perspiciatis unde omnis iste natus error sit voluptatem. Some `inline code`, and a block:\n\n```js\nconsole.log(&quot;lorem ipsum&quot;);\n```&#x27;</span>, <span class="hljs-string">&#x27;Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.&#x27;</span>];<br><span class="hljs-keyword">const</span> realFetch = <span class="hljs-variable language_">window</span>.<span class="hljs-property">fetch</span>;<br><span class="hljs-variable language_">window</span>.<span class="hljs-property">fetch</span> = <span class="hljs-title function_">async</span> (url, options) =&gt; {<br>  <span class="hljs-keyword">if</span> (url !== <span class="hljs-string">&#x27;/api/chat&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-title function_">realFetch</span>(url, options);<br>  <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> <span class="hljs-built_in">setTimeout</span>(resolve, <span class="hljs-number">800</span> + <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">2200</span>));<br>  <span class="hljs-comment">// One request in eight fails, to show the error handling</span><br>  <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() &lt; <span class="hljs-number">0.125</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Response</span>(<span class="hljs-string">&#x27;&#x27;</span>, {<br>    <span class="hljs-attr">status</span>: <span class="hljs-number">500</span><br>  });<br>  <span class="hljs-keyword">const</span> reply = replies[<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * replies.<span class="hljs-property">length</span>)];<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Response</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({<br>    reply<br>  }), {<br>    <span class="hljs-attr">headers</span>: {<br>      <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span><br>    }<br>  });<br>};</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble
+              id="cloudBubble"
+              heading="Support"
+              show-status="icons"
+              persistent-id="cloud-demo"
+              empty-message="Ask anything. A server answers."
+            ></k-chat-bubble>
+          </div>
+          <script type="module">
+            import renderMarkdown from '../src/utils/renderMarkdown.js';
+
+            // The mock server of the second card
+            const replies = [
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+              'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in **reprehenderit** in voluptate velit esse.',
+              'Excepteur sint occaecat cupidatat non proident:\n\n- sunt in culpa qui officia\n- deserunt mollit anim\n- id est laborum',
+              'Sed ut perspiciatis unde omnis iste natus error sit voluptatem. Some `inline code`, and a block:\n\n```js\nconsole.log("lorem ipsum");\n```',
+              'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.'
+            ];
+            const realFetch = window.fetch;
+            window.fetch = async (url, options) => {
+              if(url !== '/api/chat') return realFetch(url, options);
+              await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 2200));
+              if(Math.random() < 0.125) return new Response('', { status: 500 });
+              const reply = replies[Math.floor(Math.random() * replies.length)];
+              return new Response(JSON.stringify({ reply }), { headers: { 'Content-Type': 'application/json' } });
+            };
+
+            // The page's own code, as in the first card
+            await customElements.whenDefined('k-chat-bubble');
+            const bubble = document.getElementById('cloudBubble');
+            await bubble.updateComplete;
+
+            bubble.addEventListener('send', async (e) => {
+              const replyId = bubble.chat.addMessage({
+                type: 'incoming',
+                sender: 'Support',
+                html: '<em>Typing...</em>',
+                transient: true
+              });
+              try {
+                const response = await fetch('/api/chat', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ conversation: bubble.chat.conversationId, message: e.detail.markdown })
+                });
+                if(!response.ok) throw new Error(`The server answered ${response.status}`);
+                const { reply } = await response.json();
+                bubble.chat.updateMessage(replyId, {
+                  html: renderMarkdown(reply, { breaks: true }),
+                  markdown: reply,
+                  transient: false
+                });
+                bubble.chat.updateMessage(e.detail.id, { status: 'read' });
+                if(!bubble.open) bubble.unread = true;
+              } catch(error){
+                bubble.chat.updateMessage(e.detail.id, { status: 'failed' });
+                bubble.chat.updateMessage(replyId, { html: '<em>Sorry, no answer. Please try again.</em>' });
+              }
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="assistant"><a href="#assistant" class="no-link">Built-in AI (Very Experimental)</a></h3>
+    <div class="bg-danger r p mb" role="alert">
+      <p class="m0 mb" style="font-size: 1.5rem"><strong>VERY EXPERIMENTAL: DO NOT RELY ON THIS</strong></p>
+      <p class="m0 mb"><strong>Everything here that uses the browser's built-in AI (the Prompt API) is an experiment, and it is not useful yet.</strong> The model that ships with Chrome is tiny. In the author's testing it could not answer a single question correctly: it ignored its instructions, skipped tool calls, made up attributes and wrote wrong code. The code around it works (it sends messages, runs tools and shows replies), but do not expect correct answers, and do not put it in front of your users.</p>
+      <p class="m0">It needs a recent desktop Chrome with the on-device model available, and the first message downloads the model. This does not affect the rest of the chat: a chat you connect to a person, a server or a cloud model works as usual.</p>
+    </div>
+    <p>With <code>prompt-api</code> the chat inside is answered by the browser's built-in language model, exactly as in <a href="./chat.html#promptApi">the Chat docs</a>: the value is the file (or files) holding the system prompt, and <code>promptTools</code> gives the model functions to call. Try asking it to switch to dark mode.</p>
+    <div class="bg-danger r p mb" role="alert">
+      <strong>Very experimental, and not useful yet:</strong> in the author's testing the browser's built-in AI could not answer a single question correctly. See the warning at the top of this section.
+    </div>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat-bubble</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;assistantBubble&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Assistant&quot;</span> <span class="hljs-attr">prompt-api</span>=<span class="hljs-string">&quot;/media/kempo-helper.md /overview.txt&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;assistant-bubble&quot;</span> <span class="hljs-attr">show-status</span>=<span class="hljs-string">&quot;icons&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat-bubble</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> {<br>    setTheme<br>  } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/utils/theme.js&#x27;</span>;<br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat-bubble&#x27;</span>);<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;assistantBubble&#x27;</span>).<span class="hljs-property">promptTools</span> = [{<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;setTheme&#x27;</span>,<br>    <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;Changes the color theme of this page&#x27;</span>,<br>    <span class="hljs-attr">inputSchema</span>: {<br>      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;object&#x27;</span>,<br>      <span class="hljs-attr">properties</span>: {<br>        <span class="hljs-attr">theme</span>: {<br>          <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;string&#x27;</span>,<br>          <span class="hljs-attr">enum</span>: [<span class="hljs-string">&#x27;light&#x27;</span>, <span class="hljs-string">&#x27;dark&#x27;</span>, <span class="hljs-string">&#x27;auto&#x27;</span>]<br>        }<br>      },<br>      <span class="hljs-attr">required</span>: [<span class="hljs-string">&#x27;theme&#x27;</span>]<br>    },<br>    <span class="hljs-attr">execute</span>: <span class="hljs-function">(<span class="hljs-params">{<br>      theme<br>    }</span>) =&gt;</span> {<br>      <span class="hljs-title function_">setTheme</span>(theme);<br>      <span class="hljs-keyword">return</span> <span class="hljs-string">`The theme is now <span class="hljs-subst">${theme}</span>.`</span>;<br>    }<br>  }];<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="bubble-demo">
+            <k-chat-bubble
+              id="assistantBubble"
+              heading="Assistant"
+              prompt-api="../media/kempo-helper.md ../overview.txt"
+              persistent-id="docs-assistant-demo"
+              show-status="icons"
+            ></k-chat-bubble>
+          </div>
+          <script type="module">
+            import { setTheme } from '../src/utils/theme.js';
+            await customElements.whenDefined('k-chat-bubble');
+            document.getElementById('assistantBubble').promptTools = [{
+              name: 'setTheme',
+              description: 'Changes the color theme of this page',
+              inputSchema: {
+                type: 'object',
+                properties: { theme: { type: 'string', enum: ['light', 'dark', 'auto'] } },
+                required: ['theme']
+              },
+              execute: ({ theme }) => {
+                setTheme(theme);
+                return `The theme is now ${theme}.`;
+              }
+            }];
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new ChatBubble()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./chat.html">Chat</a> (the popup)</li>
+      <li><a href="./icon.html">Icon</a> (the <code>chat_bubble</code>, <code>mark_chat_unread</code>, <code>chevron</code>, <code>format_list_bulleted</code>, <code>add</code> and <code>delete</code> icons)</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>position<i>: String</i></code></h5>
+    <p><code>"bottom right"</code> (default), <code>"bottom left"</code>, <code>"top left"</code> or <code>"top right"</code>. Syncs to <code>position</code> attribute.</p>
+
+    <h5><code>open<i>: Boolean</i></code></h5>
+    <p>Whether the chat popup is open. With <code>persistent-id</code> it is also remembered for the browser tab (in <code>sessionStorage</code>), so an open chat is still open, in the chat, when the user moves to another page, and starts closed in a new tab or visit. Syncs to <code>open</code> attribute.</p>
+
+    <h5><code>allowFullscreen<i>: Boolean</i></code></h5>
+    <p>Puts a full screen icon in the popup's header (the header bar shows because of it). Syncs to <code>allow-fullscreen</code> attribute.</p>
+
+    <h5><code>fullscreen<i>: Boolean</i></code></h5>
+    <p>Whether the popup fills the window (one <code>--spacer</code> from the edges, clear of the round button). Only works with <code>allow-fullscreen</code>. Syncs to <code>fullscreen</code> attribute.</p>
+
+    <h5><code>unread<i>: Boolean</i></code></h5>
+    <p>Whether there is a message the user has not seen. While it is <code>true</code> and the chat is minimized the button wiggles and pulses. It is set when a message arrives while minimized, and cleared when the chat opens. Syncs to <code>unread</code> attribute.</p>
+
+    <h5><code>debug<i>: String</i></code></h5>
+    <p>Records everything that happens with the model (the system prompt, what is sent, its raw replies, the tool calls and their results) with each conversation, see <a href="./chat.html#properties">the chat's <code>debug</code></a>. The record goes into the file made by the export button of the conversation list. <code>debug="console"</code> also prints it to the console. Syncs to <code>debug</code> attribute.</p>
+
+    <h5><code>emptyMessage<i>: String</i></code></h5>
+    <p>Text shown in the middle of the messages while there are none, such as <em>Get help from the AI Assistant</em>. Syncs to <code>empty-message</code> attribute. Passed to <a href="./chat.html#properties">the chat</a>. Not to be confused with <code>placeholder</code>, which is the text inside the message box.</p>
+
+    <h5><code>input<i>: String</i></code></h5>
+    <p>What the user types in, as for <a href="./chat.html#inputs"><code>&lt;k-chat&gt;</code></a>. Default <code>"markdown"</code>: a clean, growing message box whose text is markdown, with no tabs, toolbar or resize handle, which suits the small popup. Use <code>"markdown-editor"</code> (it then gets a compact toolbar), <code>"html-editor"</code> or <code>"text"</code> for the others.</p>
+
+    <h5><code>heading<i>: String</i></code></h5>
+    <p>The title in the popup's header, and in the button's label for screen readers. Optional: with no heading, no <code>controls-top</code> content and no <code>persistent-id</code> (whose list and plus icons live in the header) the header bar is left out and the chat fills the popup.</p>
+
+    <h5><code>promptApi<i>: String</i></code>, <code>promptTools<i>: Array</i></code>, <code>persistentId<i>: String</i></code>, <code>placeholder<i>: String</i></code>, <code>showStatus<i>: String</i></code>, <code>enterNewline<i>: Boolean</i></code>, <code>disabled<i>: Boolean</i></code></h5>
+    <p>Passed to the <code>&lt;k-chat&gt;</code> in the popup, where they work as described in <a href="./chat.html#properties">its docs</a> (attributes <code>prompt-api</code>, <code>persistent-id</code>, <code>show-status</code> and <code>enter-newline</code>). <code>promptTools</code> is a property only. For anything else, use <code>bubble.chat</code>.</p>
+
+    <h5><code>chat<i>: Chat</i></code> (read-only)</h5>
+    <p>The <code>&lt;k-chat&gt;</code> inside the popup. Use it to add messages (<code>bubble.chat.addMessage()</code>), read the conversation and call its other methods. It exists from the first render on (so <code>await bubble.updateComplete</code> before using it right after the page loads), also while the popup is minimized.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <p>A slot takes no room until something is in it.</p>
+    <ul>
+      <li><code>controls-top</code> &mdash; the header bar, between the title and the built-in list and plus icons (which only show with <code>persistent-id</code>). Buttons and links with the <code>no-btn</code> class (<code>no-link</code> too, for a link) are styled to match them.</li>
+      <li><code>controls-side</code> &mdash; a small slot beside the message box, above the Send button, for something like a call button. Passed to <a href="./chat.html#slots">the chat's <code>controls-side</code></a>.</li>
+      <li><code>controls-bottom</code> &mdash; a row at the very bottom, below the message box. Passed to the chat's <code>controls-bottom</code>.</li>
+    </ul>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>downloadConversation(id)<i>: Promise&lt;boolean&gt;</i></code></h5>
+    <p>Saves a conversation as a text file, what the export button of the conversation list does.</p>
+
+    <h5><code>toggleFullscreen()<i>: void</i></code></h5>
+    <p>Enters or leaves full screen, when <code>allow-fullscreen</code> is set.</p>
+
+    <h5><code>show()</code>, <code>hide()</code>, <code>toggle()<i>: void</i></code></h5>
+    <p>Open, minimize, or toggle the popup.</p>
+
+    <h5><code>showConversations()<i>: Promise&lt;void&gt;</i></code></h5>
+    <p>Shows the list of saved conversations in the popup (what the list icon in the header does). Needs <code>persistent-id</code>.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <div class="table-wrapper mb">
+      <table class="b">
+        <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--chat_bubble_size</code></td><td><code>3.5rem</code></td><td>Diameter of the round button</td></tr>
+          <tr><td><code>--chat_bubble_offset</code></td><td><code>1.5rem</code></td><td>Distance from the edges of the window</td></tr>
+          <tr><td><code>--chat_bubble_width</code></td><td><code>24rem</code></td><td>Width of the popup (never wider than the window)</td></tr>
+          <tr><td><code>--chat_bubble_height</code></td><td><code>34rem</code></td><td>Height of the popup (never taller than the space on the screen)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The button uses <code>--c_primary</code>, and <code>--c_danger</code> while it asks for attention. The bubble is fixed to the window with a <code>z-index</code> of <code>70</code>, above the page and below dialogs and toasts.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>fullscreen-change</code></h5>
+    <p>Fires when the popup enters or leaves full screen. <code>detail</code> contains <code>{ fullscreen }</code>.</p>
+
+    <h5><code>open</code>, <code>close</code></h5>
+    <p>Fire when the popup opens or is minimized.</p>
+
+    <h5><code>send</code>, <code>response</code>, <code>error</code>, <code>tool-call</code>, <code>message-add</code>, <code>conversation-change</code>, <code>conversation-save</code></h5>
+    <p>The events of the <code>&lt;k-chat&gt;</code> inside, passed on with the same <code>detail</code>, so you can listen on the bubble. See <a href="./chat.html#events">the Chat events</a>.</p>
+
+    <h3 id="accessibility"><a href="#accessibility" class="no-link">Accessibility</a></h3>
+    <p>The button is a real button with an <code>aria-label</code> (<em>Open Support</em>, <em>Minimize Support</em> with a <code>heading</code> of <code>Support</code>, <em>Open chat</em> without one, and a note when there is an unread message) and <code>aria-expanded</code>. The popup is a <code>dialog</code>, the focus moves to the message box when it opens, and <kbd>Escape</kbd> leaves full screen, and then minimizes it and puts the focus back on the button.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/ChatBubble.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+  
+</body>
+</html>

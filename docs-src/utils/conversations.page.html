@@ -1,0 +1,61 @@
+<page pageName="conversations Utility" title="conversations Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>conversations Utility</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m">
+          <h6>Usage</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3>Description</h3>
+    <p>The <code>conversations</code> utility saves whole conversations (a list of messages) in the browser's IndexedDB, so they survive a reload, and keeps as many as you like. <code>localStorage</code> is too small and too slow for that: it only stores short strings, about 5 MB for the whole site. IndexedDB stores the messages as they are, dates included, and holds far more. <a href="../components/chat.html#saving"><code>&lt;k-chat persistent-id&gt;</code></a> uses it, and it works for any list of messages.</p>
+    <p>Conversations can be sorted into <strong>groups</strong> (a plain string, such as the name of a chat) so each chat on a site only sees its own. The data lives in one IndexedDB database named <code>kempo-conversations</code>, in this browser only. It is not encrypted, so do not save secrets on a shared computer. Every function rejects if IndexedDB is not available (a private window in some browsers), so wrap calls in <code>try</code> / <code>catch</code> if that matters.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  saveConversation,<br>  listConversations,<br>  getConversation,<br>  deleteConversation<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./utils/conversations.js&#x27;</span>;<br><span class="hljs-keyword">const</span> {<br>  id<br>} = <span class="hljs-keyword">await</span> <span class="hljs-title function_">saveConversation</span>({<br>  <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;support&#x27;</span>,<br>  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Refund question&#x27;</span>,<br>  <span class="hljs-attr">messages</span>: [{<br>    <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;1&#x27;</span>,<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;outgoing&#x27;</span>,<br>    <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;&lt;p&gt;Hi&lt;/p&gt;&#x27;</span><br>  }]<br>});<br><span class="hljs-comment">// Newest first, without the messages</span><br><span class="hljs-keyword">const</span> list = <span class="hljs-keyword">await</span> <span class="hljs-title function_">listConversations</span>(<span class="hljs-string">&#x27;support&#x27;</span>);<br><span class="hljs-keyword">const</span> {<br>  messages<br>} = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getConversation</span>(list[<span class="hljs-number">0</span>].<span class="hljs-property">id</span>);<br><span class="hljs-keyword">await</span> <span class="hljs-title function_">deleteConversation</span>(id);</code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API Methods</a></h3>
+
+    <h4><code>saveConversation({ id, group, title, titleCustom, debug, messages })</code></h4>
+    <p>Saves a conversation, replacing the saved one with the same <code>id</code>. Everything is optional: with no <code>id</code> a new one is made up. <code>messages</code> can be any list of objects the browser can store (strings, numbers, dates, nested objects and arrays, but not functions).</p>
+    <p><code>titleCustom</code> marks a title somebody chose (so it is not replaced by an automatic one). <code>debug</code> is a list of lines of text, a record of what happened with the model, kept with the conversation so it can be exported.</p>
+    <h5>Returns: <code>Promise&lt;{ id, group, title, titleCustom, debug, messages, createdAt, updatedAt }&gt;</code></h5>
+
+    <h4><code>getConversation(id)</code></h4>
+    <h5>Returns: <code>Promise&lt;object | undefined&gt;</code></h5>
+    <p>The saved record, or <code>undefined</code> if there is none with that id.</p>
+
+    <h4><code>renameConversation(id, title)</code></h4>
+    <p>Gives a saved conversation a title of your choice. An empty title goes back to the automatic one. The conversation keeps its place in the list (its <code>updatedAt</code> does not change).</p>
+    <h5>Returns: <code>Promise&lt;boolean&gt;</code> (<code>false</code> if there is no such conversation)</h5>
+
+    <h4><code>titleOf(messages)</code></h4>
+    <p>The title a conversation gets by itself: the first 60 characters of the first message that has <code>markdown</code>.</p>
+    <h5>Returns: <code>string</code></h5>
+
+    <h4><code>formatConversation(record, { page, browser }?)</code></h4>
+    <p>A conversation record as one text, to save to a file or paste somewhere: its details (title, id, dates, the page and the browser you pass in), the messages, and the debug record (what was sent to the model, its raw replies, the tool calls). The export button of <code>&lt;k-chat-bubble&gt;</code> uses it.</p>
+    <h5>Returns: <code>string</code></h5>
+
+    <h4><code>listConversations(group?)</code></h4>
+    <p>Lists the saved conversations, of one group or of all of them if you pass no group. The messages and the debug record are left out so the list stays small, use <code>getConversation()</code> to open one.</p>
+    <h5>Returns: <code>Promise&lt;Array&lt;{ id, group, title, titleCustom, createdAt, updatedAt }&gt;&gt;</code> newest first</h5>
+
+    <h4><code>deleteConversation(id)</code></h4>
+    <h5>Returns: <code>Promise&lt;void&gt;</code></h5>
+
+    <h4><code>clearConversations(group?)</code></h4>
+    <p>Deletes every conversation of the group, or every conversation if you pass no group.</p>
+    <h5>Returns: <code>Promise&lt;void&gt;</code></h5>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

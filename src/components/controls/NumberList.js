@@ -13,7 +13,7 @@ export default class NumberList extends ButtonControl {
 
   handleAction() { this.host?.numberList?.(); }
 
-  render() { return html`<slot><k-icon name="format_list_numbered"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_list_numbered"></k-icon></slot><slot name="menu-text">Numbered List</slot>`; }
 }
 
 customElements.define('kc-number-list', NumberList);

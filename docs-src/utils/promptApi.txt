@@ -1,0 +1,14 @@
+promptApi (utility)
+Import: import { isSupported, getAvailability, loadSystemPrompt, createSession } from 'kempo-ui/src/utils/promptApi.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/promptApi.html
+
+VERY EXPERIMENTAL, NOT USEFUL YET: the browser's built-in AI is tiny and, in testing, could not answer a single question correctly. Do not rely on it or show it to users.
+
+Wraps the browser's built-in language model (Chrome Prompt API, `LanguageModel`)
+
+Details:
+- `createSession({ path, systemPrompt, language, temperature, topK, tools, onDownloadProgress, onLog, signal })` (`onLog(text)` gets every step as plain text) loads the system prompt from the file at `path` (or an array of files, joined in order; keep them short, the model only reads a few thousand tokens) and `tools` (`[{ name, description, inputSchema, execute(args) }]`): they are described in the system prompt and the model asks for one with a `TOOL_CALL {json}` line, which the session hides, runs, and answers with `TOOL_RESULT` (text protocol, not the browser's native tool calling, which Chrome's model ignored)
+- `history: [{role, content}]` starts a session from earlier turns, dropping the oldest if they do not fit and returns `{ prompt(text), promptStreaming(text) (async generator of text deltas), destroy(), inputUsage, inputQuota, systemPrompt }`
+- used by `<k-chat prompt-api>`
+- tools can return data to the model (keep it short, the context is a few thousand tokens): give the model a short overview and a tool that fetches the small plain-text doc of one thing (components/<name>.txt, utils/<name>.txt and overview.txt are published for that), see utils/promptApi.html#lookup
+- for letting the model edit an app (e.g. a page builder) use small tools plus a `getPageOutline`-style tool rather than sending the whole JSON tree, see utils/promptApi.html#editing

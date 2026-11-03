@@ -13,7 +13,7 @@ export default class FontSizeDecrease extends ButtonControl {
 
   handleAction() { this.host?.decreaseFontSize?.(); }
 
-  render() { return html`<slot><k-icon name="text_decrease"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="text_decrease"></k-icon></slot><slot name="menu-text">Decrease Font Size</slot>`; }
 }
 
 customElements.define('kc-font-size-decrease', FontSizeDecrease);

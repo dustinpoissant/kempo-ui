@@ -3,6 +3,7 @@ import ShadowComponent from './ShadowComponent.js';
 import { toTitleCase } from '../utils/string.js';
 import { boolExists } from '../utils/propConverters.js';
 import openUrl from '../utils/openUrl.js';
+import Control from './controls/Control.js';
 
 const selected = Symbol('selected');
 const hidden = Symbol('hidden');
@@ -22,6 +23,7 @@ export default class Table extends ShadowComponent {
     requestDelete: { type: Boolean, reflect: true, converter: boolExists, attribute: 'request-delete' },
     openOnClick: { type: Boolean, reflect: true, converter: boolExists, attribute: 'open-on-click' },
     rowTarget: { type: String, reflect: true, attribute: 'row-target' },
+    controls: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     filteredPlaceholder: { type: String, reflect: true, attribute: 'filtered-placeholder' },
     fields: { type: Array },
@@ -47,6 +49,7 @@ export default class Table extends ShadowComponent {
     if(this.fetchPending === undefined) this.fetchPending = false;
     if(this.requestEdit === undefined) this.requestEdit = false;
     if(this.requestDelete === undefined) this.requestDelete = false;
+    if(this.controls === undefined) this.controls = '';
     if(this.placeholder === undefined) this.placeholder = 'No Records';
     if(this.filteredPlaceholder === undefined) this.filteredPlaceholder = '';
   }
@@ -86,6 +89,10 @@ export default class Table extends ShadowComponent {
   connectedCallback() {
     super.connectedCallback();
     if(!this.hasAttribute('controlled')) this.setAttribute('controlled', '');
+  }
+
+  willUpdate(changed) {
+    if(changed.has('controls')) Control.load(Object.values(this.preset).map(value => typeof value === 'function' ? value(this) : { strings: [value.map(tagName => `<${tagName}>`).join('')] }));
   }
 
   firstUpdated() {
@@ -317,7 +324,9 @@ export default class Table extends ShadowComponent {
 
   renderAfterControlsTemplate() {
     const controls = [];
-    this.querySelectorAll('[slot="after"]').forEach(control => {
+    const slotted = this.querySelectorAll('[slot="after"]');
+    if(!slotted.length) this.preset.after?.forEach(tagName => controls.push(document.createElement(tagName)));
+    slotted.forEach(control => {
       const tagName = control.tagName.toLowerCase();
       const newControl = document.createElement(tagName);
       Array.from(control.attributes).forEach(attr => {
@@ -342,15 +351,19 @@ export default class Table extends ShadowComponent {
   }
 
   hasAfterControls() {
-    return !!this.querySelector('[slot="after"]');
+    return !!this.querySelector('[slot="after"]') || !!this.preset.after?.length;
+  }
+
+  get preset() {
+    return this.constructor.controlSets[this.controls] ?? {};
   }
 
   hasTopControls() {
-    return !!this.querySelector('[slot="top"]');
+    return !!this.querySelector('[slot="top"]') || !!this.preset.top;
   }
 
   hasBottomControls() {
-    return !!this.querySelector(':scope > :not([slot])');
+    return !!this.querySelector(':scope > :not([slot])') || !!this.preset.bottom;
   }
 
   /*
@@ -985,7 +998,7 @@ export default class Table extends ShadowComponent {
     const afterEls = Array.from(this.querySelectorAll('[slot="after"]'));
     const newSizes = {
       beforeControls: beforeEls.reduce((total, el) => total + (el.maxWidth || 40), 0),
-      afterControls: afterEls.reduce((total, el) => total + (el.maxWidth || 40), 0)
+      afterControls: afterEls.reduce((total, el) => total + (el.maxWidth || 40), 0) + (afterEls.length ? 0 : (this.preset.after?.length ?? 0) * 40)
     };
     const hasUndefinedMaxWidth = [...beforeEls, ...afterEls].some(el => el.maxWidth === undefined);
     if(JSON.stringify(this.columnSizes) !== JSON.stringify(newSizes)) {
@@ -1040,11 +1053,11 @@ export default class Table extends ShadowComponent {
     if(!this.records || !this.fields) {
       return html`
         <div id="wrapper">
-          <div id="top"><slot name="top"></slot></div>
+          <div id="top"><slot name="top">${this.preset.top?.(this)}</slot></div>
           <div id="table-container">
             <table><thead><tr></tr></thead><tbody></tbody></table>
           </div>
-          <div id="bottom"><slot></slot></div>
+          <div id="bottom"><slot>${this.preset.bottom?.(this)}</slot></div>
         </div>
         <div style="display: none">
           <slot name="before"></slot>
@@ -1059,7 +1072,7 @@ export default class Table extends ShadowComponent {
 
     return html`
       <div id="wrapper">
-        <div id="top"><slot name="top"></slot></div>
+        <div id="top"><slot name="top">${this.preset.top?.(this)}</slot></div>
         <div id="table-container">
           <table>
             <colgroup>
@@ -1075,7 +1088,7 @@ export default class Table extends ShadowComponent {
             </tbody>
           </table>
         </div>
-        <div id="bottom"><slot></slot></div>
+        <div id="bottom"><slot>${this.preset.bottom?.(this)}</slot></div>
       </div>
       <div style="display: none">
         <slot name="before"></slot>
@@ -1281,6 +1294,63 @@ export default class Table extends ShadowComponent {
       $i.disabled = true;
       $i.value = value;
       return $i;
+    }
+  };
+  /*
+    Preconfigured Controls (`controls` attribute). Slotted `top` / default children replace the matching bar, slotted `after` children replace `after` (row control tags).
+  */
+  static controlSets = {
+    '': {},
+    none: {},
+    minimal: {
+      top: () => html`
+        <k-control-bar>
+          <kc-tc-search priority="2"></kc-tc-search>
+          <kc-tc-filters slot="right"></kc-tc-filters>
+          <kc-tc-field-sort-hide slot="right"></kc-tc-field-sort-hide>
+        </k-control-bar>
+      `
+    },
+    normal: {
+      top: () => html`
+        <k-control-bar>
+          <kc-tc-search priority="2"></kc-tc-search>
+          <kc-tc-filters></kc-tc-filters>
+          <kc-tc-field-sort-hide></kc-tc-field-sort-hide>
+          <kc-tc-export-csv slot="right"></kc-tc-export-csv>
+        </k-control-bar>
+      `,
+      bottom: () => html`
+        <k-control-bar>
+          <kc-tc-prev-page></kc-tc-prev-page>
+          <kc-tc-next-page></kc-tc-next-page>
+          <kc-tc-page-size slot="right" priority="1"></kc-tc-page-size>
+        </k-control-bar>
+      `
+    },
+    full: {
+      top: () => html`
+        <k-control-bar>
+          <kc-tc-search priority="2"></kc-tc-search>
+          <kc-tc-filters></kc-tc-filters>
+          <kc-tc-field-sort-hide></kc-tc-field-sort-hide>
+          <kc-tc-export-csv slot="center"></kc-tc-export-csv>
+          <kc-tc-export-json slot="center"></kc-tc-export-json>
+          <kc-tc-hidden-count slot="right"></kc-tc-hidden-count>
+          <kc-tc-show-all slot="right"></kc-tc-show-all>
+        </k-control-bar>
+      `,
+      after: ['kc-tc-hide'],
+      bottom: () => html`
+        <k-control-bar>
+          <kc-tc-first-page></kc-tc-first-page>
+          <kc-tc-prev-page></kc-tc-prev-page>
+          <kc-tc-next-page></kc-tc-next-page>
+          <kc-tc-last-page></kc-tc-last-page>
+          <kc-tc-page-select slot="center" priority="1"></kc-tc-page-select>
+          <kc-tc-page-size slot="right" priority="1"></kc-tc-page-size>
+        </k-control-bar>
+      `
     }
   };
 }

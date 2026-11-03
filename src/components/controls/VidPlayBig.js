@@ -36,6 +36,7 @@ export default class VidPlayBig extends Control {
         left: 50%;
         transform: translate(-50%, -50%);
         display: inline-flex;
+        height: auto;
       }
       button.no-btn {
         display: flex;

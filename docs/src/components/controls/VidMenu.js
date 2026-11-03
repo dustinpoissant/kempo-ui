@@ -1,4 +1,4 @@
-import t from"./Control.js";import{html as e,css as n}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class r extends t{static properties={icon:{type:String}};constructor(){super(),this.icon="more_vert"}handleSlotChange=t=>{t.target.assignedElements().forEach(t=>{const e=t.getAttribute("data-icon")||this.getControlIcon(t),n=t.textContent?.trim()||"";if(e||n){if(t.innerHTML="",e){const n=document.createElement("k-icon");n.setAttribute("name",e),n.style.flexShrink="0",t.appendChild(n)}if(n){const e=document.createElement("span");e.textContent=n,e.style.flex="1",t.appendChild(e)}t.addEventListener("click",t=>{t.stopPropagation()})}})};getControlIcon(t){const e=t.host;switch(t.tagName.toLowerCase()){case"kc-vid-speed":return"speed";case"kc-vid-loop":return"repeat";case"kc-vid-pip":return"pip";case"kc-vid-download":return"download";case"kc-vid-mute":case"kc-vid-volume":return e?.muted?"volume_off":"volume_up";case"kc-vid-play-pause":return!1===e?.paused?"pause":"play";case"kc-fullscreen":return e?.fullscreen?"fullscreen_exit":"fullscreen";default:return null}}render(){return e`
+import t from"./Control.js";import{html as e,css as r}from"../../lit-all.min.js";import"../Dropdown.js";import"../Icon.js";export default class n extends t{static properties={icon:{type:String}};constructor(){super(),this.icon="more_vert"}handleSlotChange=t=>{t.target.assignedElements().forEach(t=>{const e=t.getAttribute("data-icon")||this.getControlIcon(t),r=t.textContent?.trim()||"";if(e||r){if(t.innerHTML="",e){const r=document.createElement("k-icon");r.setAttribute("name",e),r.style.flexShrink="0",t.appendChild(r)}if(r){const e=document.createElement("span");e.textContent=r,e.style.flex="1",t.appendChild(e)}t.addEventListener("click",t=>{t.stopPropagation()})}})};getControlIcon(t){const e=t.host;switch(t.tagName.toLowerCase()){case"kc-media-speed":return"speed";case"kc-media-repeat":return"repeat";case"kc-vid-pip":return"pip";case"kc-media-download":return"download";case"kc-media-mute":case"kc-media-volume":return e?.muted?"volume_off":"volume_up";case"kc-media-play-pause":return!1===e?.paused?"pause":"play";case"kc-fullscreen":return e?.fullscreen?"fullscreen_exit":"fullscreen";default:return null}}render(){return e`
       <k-dropdown open-direction="up center">
         <button slot="trigger" type="button" class="no-btn" title="Menu">
           <k-icon name="${this.icon}"></k-icon>
@@ -7,7 +7,7 @@ import t from"./Control.js";import{html as e,css as n}from"../../lit-all.min.js"
           <slot @slotchange=${this.handleSlotChange}></slot>
         </div>
       </k-dropdown>
-    `}static styles=[t.styles,n`
+    `}static styles=[t.styles,r`
       :host {
         display: inline-flex;
         margin: var(--spacer_q);
@@ -21,8 +21,9 @@ import t from"./Control.js";import{html as e,css as n}from"../../lit-all.min.js"
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 1.5rem;
-        min-height: 1.5rem;
+        min-width: var(--control_height, 40px);
+        height: var(--control_height, 40px);
+        box-sizing: border-box;
         padding: 0.25rem;
         background: transparent;
         border: 1px solid var(--c_border);
@@ -61,7 +62,7 @@ import t from"./Control.js";import{html as e,css as n}from"../../lit-all.min.js"
         /* No color rule here on purpose: ::slotted() styles beat a
            control's own :host() styles for the same property regardless
            of specificity, so setting color here would permanently clobber
-           e.g. kc-vid-loop's :host([active]) color. Each control's own
+           e.g. kc-media-repeat's :host([active]) color. Each control's own
            ButtonControl base (color: inherit, no !important) already
            inherits white from #controls-bar naturally. */
       }
@@ -70,4 +71,4 @@ import t from"./Control.js";import{html as e,css as n}from"../../lit-all.min.js"
         background: var(--c_bg__alt) !important;
         outline: none !important;
       }
-    `]}customElements.define("kc-vid-menu",r);
+    `]}customElements.define("kc-vid-menu",n);

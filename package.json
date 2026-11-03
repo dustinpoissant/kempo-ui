@@ -3,7 +3,16 @@
   "version": "0.8.0",
   "type": "module",
   "description": "A Lit based web-component library",
-  "main": "index.js",
+  "files": [
+    "src",
+    "dist",
+    "bin",
+    "icons",
+    "llms.txt",
+    "README.md",
+    "LICENSE.md",
+    "CHANGELOG.md"
+  ],
   "bin": {
     "kempo-icon": "./bin/icon.js",
     "kempo-geticon": "./bin/get_icon.js",

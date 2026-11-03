@@ -20,7 +20,8 @@ import { css } from '../../lit-all.min.js';
 export default class Control extends ShadowComponent {
   static properties = {
     hidden: { type: Boolean, reflect: true },
-    disabled: { type: Boolean, reflect: true }
+    disabled: { type: Boolean, reflect: true },
+    inMenu: { type: Boolean, reflect: true, attribute: 'in-menu' }
   };
 
   static requires = [];
@@ -30,6 +31,7 @@ export default class Control extends ShadowComponent {
     super();
     this.hidden = false;
     this.disabled = false;
+    this.inMenu = false;
   }
 
   /*
@@ -117,11 +119,12 @@ export default class Control extends ShadowComponent {
     Static Helpers
   */
   static load = (() => {
-    const TAG_RE = /<(kc-[a-z][a-z0-9-]*|k-control-group)\b/g;
+    const TAG_RE = /<(kc-[a-z][a-z0-9-]*|k-control-group|k-control-bar)\b/g;
     const loaded = new Set();
 
     const tagToPath = (tag) => {
       if(tag === 'k-control-group') return '../ControlGroup.js';
+      if(tag === 'k-control-bar') return '../ControlBar.js';
       const pascal = tag.slice('kc-'.length).split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('');
       return `./${pascal}.js`;
     };
@@ -162,6 +165,14 @@ export default class Control extends ShadowComponent {
   static styles = css`
     :host {
       display: inline-flex;
+      align-items: center;
+      box-sizing: border-box;
+      height: var(--control_height, 40px);
+    }
+    input, select {
+      align-self: stretch;
+      box-sizing: border-box;
+      margin: 0;
     }
     :host([hidden]) {
       display: none !important;
@@ -169,6 +180,46 @@ export default class Control extends ShadowComponent {
     :host([disabled]) {
       opacity: 0.5;
       pointer-events: none;
+    }
+    :host([in-menu]) {
+      display: flex;
+      align-items: center;
+      gap: var(--spacer_h);
+      width: 100%;
+      height: auto;
+      min-height: 2rem;
+      margin: 0;
+      padding: var(--spacer_h) var(--spacer);
+      box-sizing: border-box;
+      border-color: transparent;
+      border-radius: 0;
+    }
+    slot[name="menu-text"] {
+      display: none;
+    }
+    :host([in-menu]) slot[name="menu-text"] {
+      display: block;
+      flex: 1;
+    }
+    :host([in-menu]) k-dropdown {
+      display: block;
+      width: 100%;
+    }
+    :host([in-menu]) k-dropdown::part(trigger) {
+      display: flex;
+      width: 100%;
+    }
+    :host([in-menu]) .trigger {
+      display: flex;
+      justify-content: flex-start;
+      gap: var(--spacer_h);
+      width: 100%;
+      height: auto;
+      min-height: 2rem;
+      padding: var(--spacer_h) var(--spacer);
+      border-radius: 0;
+      text-align: left;
+      white-space: nowrap;
     }
   `;
 }

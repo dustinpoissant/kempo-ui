@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Chat - Components - Kempo Docs - A Web Components Solution</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
@@ -10,7 +11,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
-  <script>window.litDisableBundleWarning = true;</script>
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
   
 </head>
 <body>
@@ -22,23 +26,25 @@
     <button
       id="toggleNavSideMenu"
       class="link"
+      no-collapse
     >
       <k-icon name="menu"></k-icon>
     </button>
     <a
       href="../"
       class="d-if ph"
-      style="align-items: center"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
     >
       <img
         src="../media/icon32.png"
         alt="Kempo UI Icon"
         class="pr"
       />
-      Kempo UI
+      <span class="nav-brand-text">Kempo UI</span>
     </a>
     <div
-      style="position:relative;margin:0 .25rem;align-self:center;"
+      class="nav-search"
       theme="light"
     >
       <input
@@ -46,13 +52,12 @@
         type="search"
         placeholder="Search docs..."
         autocomplete="off"
-        style="width:11rem;"
       />
       <div
         id="navSearchDropdown"
+        class="nav-search-dropdown"
         hidden
         theme="light"
-        style="position:absolute;top:calc(100% + 4px);left:0;width:min(480px,90vw);max-height:70vh;background:var(--c_bg);border:1px solid var(--c_border);border-radius:var(--radius);overflow:auto;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);"
       >
         <k-filter-list
           id="navSearchList"
@@ -74,6 +79,9 @@
           <k-filter-item filter-keywords="chat message conversation messaging components"><a
               href="../components/chat.html"
             >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
               href="../components/code-editor.html"
             >Code Editor<br><small>Component</small></a></k-filter-item>
@@ -89,6 +97,8 @@
           <k-filter-item filter-keywords="context state global components"><a
               href="../components/context.html"
             >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="dialog modal popup components"><a
               href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="dropdown select components"><a
@@ -154,6 +164,9 @@
               href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="table data grid components"><a
               href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
           <k-filter-item filter-keywords="table controls advanced example"><a
               href="../components/tableControls.html"
             >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
@@ -245,6 +258,9 @@
             >Button<br><small>Base Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
               href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="cookie utils utility"><a
               href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="context utils utility"><a
@@ -260,6 +276,9 @@
             >formatTimestamp<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="object utils utility"><a
               href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
               href="../utils/propConverters.html"
             >propConverters<br><small>Utility</small></a></k-filter-item>
@@ -279,28 +298,25 @@
         </k-filter-list>
       </div>
     </div>
-    <div class="flex"></div>
-    <a
+    <kc-nav-link
+      slot="right"
       href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
       target="_blank"
-    ><k-icon name="license"></k-icon></a>
-    <a
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
       href="https://www.npmjs.com/package/kempo-ui"
       target="_blank"
-    ><k-icon name="npm"></k-icon></a>
-    <a
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
       href="https://github.com/dustinpoissant/kempo-ui"
       target="_blank"
-    ><k-icon name="github-mark"></k-icon></a>
-    <k-theme-switcher
-      class="mr"
-      style="
-        --padding: 0.5rem;
-        --c_active: var(--tc_on_primary);
-        --tc_active: var(--c_primary);
-        --c_inactive__hover: rgba(255, 255, 255, 0.1);
-      "
-    ></k-theme-switcher>
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
   </k-nav>
   <div style="width: 100%; height: 4rem;"></div>
   <k-aside
@@ -329,11 +345,13 @@
         <a href="../components/card.html">Card</a>
         <a href="../components/card-grid.html">CardGrid</a>
         <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
         <a href="../components/code-editor.html">Code Editor</a>
         <a href="../components/combobox.html">Combobox</a>
         <a href="../components/color-picker.html">ColorPicker</a>
         <a href="../components/content-slider.html">Content Slider</a>
         <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
         <a href="../components/dialog.html">Dialog</a>
         <a href="../components/dropdown.html">Dropdown</a>
         <a href="../components/filter-list.html">Filter List</a>
@@ -383,6 +401,7 @@
       <h5 class="mb0">Utils</h5>
       <div class="pl mb">
         <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
         <a href="../utils/cookie.html">cookie</a>
         <a href="../utils/context.html">context</a>
         <a href="../utils/debounce.html">debounce</a>
@@ -390,6 +409,7 @@
         <a href="../utils/elevation.html">elevation</a>
         <a href="../utils/formatTimestamp.html">formatTimestamp</a>
         <a href="../utils/object.html">object</a>
+        <a href="../utils/promptApi.html">promptApi</a>
         <a href="../utils/propConverters.html">propConverters</a>
         <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
         <a href="../utils/string.html">string</a>
@@ -413,6 +433,71 @@
       background: rgba(128, 128, 128, .15);
     }
 
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
     #navSearchList a small {
       display: block;
       color: var(--tc_muted);
@@ -420,6 +505,10 @@
   </style>
   <script
     src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
     type="module"
   ></script>
   <script
@@ -528,6 +617,9 @@
         <a href="#enterBehavior">Enter Behavior</a><br />
         <a href="#showStatus">Message Status</a><br />
         <a href="#disabled">Disabled</a><br />
+        <a href="#inputs">Input Types</a><br />
+        <a href="#promptApi">Prompt API (very experimental)</a><br />
+        <a href="#saving">Saving Conversations</a><br />
 
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -535,6 +627,7 @@
         <a href="#requirements">Requirements</a><br />
         <a href="#properties">Properties</a><br />
         <a href="#methods">Methods</a><br />
+        <a href="#slots">Slots</a><br />
         <a href="#cssVariables">CSS Variables</a><br />
         <a href="#events">Events</a><br />
         <a href="#security">Security Notes</a><br />
@@ -667,6 +760,184 @@
       </div>
     </div>
 
+    <h3 id="inputs"><a href="#inputs" class="no-link">Input Types</a></h3>
+    <p>The <code>input</code> attribute chooses what the user types in. The editors are only loaded when they are chosen, so a chat with a plain box does not download them.</p>
+    <div class="table-wrapper mb">
+      <table class="b">
+        <thead><tr><th><code>input</code></th><th>The user types in</th><th>Sent as</th></tr></thead>
+        <tbody>
+          <tr><td><code>markdown-editor</code></td><td>A <a href="./markdown-editor.html"><code>&lt;k-markdown-editor&gt;</code></a> with Write and Preview tabs and a formatting toolbar</td><td>Markdown, shown as rich text</td></tr>
+          <tr><td><code>html-editor</code></td><td>An <a href="./html-editor.html"><code>&lt;k-html-editor&gt;</code></a> with a rich text toolbar</td><td>HTML</td></tr>
+          <tr><td><code>markdown</code> (default)</td><td>A plain box that grows with the text. What is typed is markdown, shown as rich text once sent</td><td>Markdown, shown as rich text</td></tr>
+          <tr><td><code>text</code></td><td>A plain box that grows with the text</td><td>Plain text, exactly as typed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>In every case the message is sanitized, and the <code>send</code> event has the same <code>detail</code>. With <code>html-editor</code>, <code>markdown</code> holds the text without the formatting.</p>
+
+    <h4>Markdown Editor</h4>
+    <p>The default input (above) is a plain box, so it needs no attribute. For a box with <strong>Write</strong> and <strong>Preview</strong> tabs and a formatting toolbar, use <code>input="markdown-editor"</code>. Its text is markdown, and it is shown as rich text in the chat once sent. Type <code>**hi**</code> and preview it before you send.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">input</span>=<span class="hljs-string">&quot;markdown-editor&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Write a message&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--window_min_height: 8rem; --window_max_height: 14rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-chat input="markdown-editor" placeholder="Write a message" style="--window_min_height: 8rem; --window_max_height: 14rem"></k-chat>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Plain Text</h4>
+    <p>Nothing is interpreted: <code>**hi**</code> shows up as typed, and HTML is escaped.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">input</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Plain text only&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-chat input="text" placeholder="Plain text only" style="--window_min_height: 8rem; --window_max_height: 14rem"></k-chat>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>Resizing</h4>
+    <p>There is no drag handle by default: the message box grows with its text and the message window keeps the rest of the space. Two attributes add a handle. <code>markdown-resize</code> adds the handle under the <code>"markdown-editor"</code> input, so the input can be made taller (the message window gets shorter). <code>resize</code> adds a handle under the whole chat, so the chat itself grows and the input stays the same size. The demos show both.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">input</span>=<span class="hljs-string">&quot;markdown-editor&quot;</span> <span class="hljs-attr">markdown-resize</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--window_min_height: 8rem; --window_max_height: 14rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-chat input="markdown-editor" markdown-resize style="--window_min_height: 8rem; --window_max_height: 14rem"></k-chat>
+        </k-card>
+      </div>
+    </div>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">resize</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--chat_height: 18rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-chat resize style="--chat_height: 18rem"></k-chat>
+        </k-card>
+      </div>
+    </div>
+
+    <h4>HTML Editor</h4>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">input</span>=<span class="hljs-string">&quot;html-editor&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-chat input="html-editor" style="--window_min_height: 8rem; --window_max_height: 14rem"></k-chat>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="promptApi"><a href="#promptApi" class="no-link">Prompt API (Very Experimental)</a></h3>
+    <div class="bg-danger r p mb" role="alert">
+      <p class="m0 mb" style="font-size: 1.5rem"><strong>VERY EXPERIMENTAL: DO NOT RELY ON THIS</strong></p>
+      <p class="m0 mb"><strong>Everything here that uses the browser's built-in AI (the Prompt API) is an experiment, and it is not useful yet.</strong> The model that ships with Chrome is tiny. In the author's testing it could not answer a single question correctly: it ignored its instructions, skipped tool calls, made up attributes and wrote wrong code. The code around it works (it sends messages, runs tools and shows replies), but do not expect correct answers, and do not put it in front of your users.</p>
+      <p class="m0">It needs a recent desktop Chrome with the on-device model available, and the first message downloads the model. This does not affect the rest of the chat: a chat you connect to a person, a server or a cloud model works as usual.</p>
+    </div>
+    <p>Add <code>prompt-api</code> and the chat becomes an interface to the browser's built-in language model (Chrome's <a href="https://developer.chrome.com/docs/ai/prompt-api" target="_blank">Prompt API</a>) through the <a href="../utils/promptApi.html"><code>promptApi</code></a> utility. Every message the user sends is answered by the model, and the reply streams into the chat as it is written. The conversation is the model's memory: it sees every earlier message until you call <code>clear()</code>.</p>
+    <p>The attribute's value is the URL of a text or markdown file holding the <strong>system prompt</strong>, which tells the model what its job is. Give it several URLs separated by spaces and the files are read in order and joined, so you can keep the model's job in one file and its knowledge (a product list, your docs) in others. Without a value (<code>prompt-api</code> alone) the model has no system prompt. The files are loaded, and the model session created, when the first message is sent; if the model still has to be downloaded the reply shows the progress.</p>
+    <div class="callout warning b r p mb">
+      <strong>Keep the files short.</strong> The browser's model can only read a few thousand tokens at once (about 6,000 in the Chrome versions reported so far; check <code>session.inputQuota</code> for yours), and that has to hold the system prompt <em>and</em> the conversation. Files that are too big make the chat show an error. The docs chat reads <a href="../overview.txt"><code>overview.txt</code></a>, a short hand-written list of what each component and utility is for, because all the documentation together is far too big. The details of one component are fetched only when needed, see <a href="../utils/promptApi.html#lookup">Looking Things Up</a>.
+    </div>
+    <h4>Tools</h4>
+    <p>Set the <code>promptTools</code> property to a list of functions the model may call, and it can act on the page, not just talk. Each tool has a <code>name</code>, a <code>description</code> the model reads to decide when to use it, an <code>inputSchema</code> (JSON Schema) for its arguments, and an <code>execute</code> function that does the work and returns a string telling the model what happened. In the example, ask the chat to switch to dark mode. The <code>tool-call</code> event fires each time the model uses a tool.</p>
+    <p>The tools are described to the model in its system prompt, and it asks for one by writing a <code>TOOL_CALL</code> line that the chat hides, runs your <code>execute</code> function, and gives the result back to the model so it can answer. This works with any model, because it does not need the browser's own tool calling (which Chrome's model did not use). The model is small, though, so it can still miss a call, or answer without making one: say in your system prompt when each tool should be used. To let the model edit something bigger than a setting, such as a page builder, see <a href="../utils/promptApi.html#editing">Editing a Document with Tools</a>.</p>
+    <p>Pair it with <code>show-status</code> and the user's message goes from <em>Sending</em> to <em>Delivered</em> (the model started) to <em>Read</em> (the reply is complete), or <em>Not Delivered</em> if it failed. In a browser without the Prompt API the chat says so.</p>
+    <div class="bg-danger r p mb" role="alert">
+      <strong>Very experimental, and not useful yet:</strong> in the author's testing the browser's built-in AI could not answer a single question correctly. See the warning at the top of this section.
+    </div>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;aiChat&quot;</span> <span class="hljs-attr">prompt-api</span>=<span class="hljs-string">&quot;/media/kempo-helper.md /overview.txt&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> {<br>    setTheme<br>  } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/src/utils/theme.js&#x27;</span>;<br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat&#x27;</span>);<br>  <span class="hljs-keyword">const</span> chat = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;aiChat&#x27;</span>);<br>  chat.<span class="hljs-property">promptTools</span> = [{<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;setTheme&#x27;</span>,<br>    <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;Changes the color theme of this page&#x27;</span>,<br>    <span class="hljs-attr">inputSchema</span>: {<br>      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;object&#x27;</span>,<br>      <span class="hljs-attr">properties</span>: {<br>        <span class="hljs-attr">theme</span>: {<br>          <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;string&#x27;</span>,<br>          <span class="hljs-attr">enum</span>: [<span class="hljs-string">&#x27;light&#x27;</span>, <span class="hljs-string">&#x27;dark&#x27;</span>, <span class="hljs-string">&#x27;auto&#x27;</span>]<br>        }<br>      },<br>      <span class="hljs-attr">required</span>: [<span class="hljs-string">&#x27;theme&#x27;</span>]<br>    },<br>    <span class="hljs-attr">execute</span>: <span class="hljs-function">(<span class="hljs-params">{<br>      theme<br>    }</span>) =&gt;</span> {<br>      <span class="hljs-title function_">setTheme</span>(theme);<br>      <span class="hljs-keyword">return</span> <span class="hljs-string">`The theme is now <span class="hljs-subst">${theme}</span>.`</span>;<br>    }<br>  }];<br>  chat.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;tool-call&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;The model called&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">name</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">arguments</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+        <k-card label="kempo-helper.md" class="mt">
+          <pre><code>You are the helper for Kempo UI, a library of web components built with Lit.<br><br>- Answer in one to three short sentences.<br>- Use markdown for lists and inline code, never headings.<br>- Answer questions about components only from the component list below. If a component is not in the list, say it does not exist.<br>- If a question is not about web development, say you can only help with web development.<br>- If you do not know something, say so instead of guessing.<br>- When the user asks to change the page theme (light, dark or auto), call the setTheme tool, then tell them it is done.</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-chat id="aiChat" prompt-api="../media/kempo-helper.md ../overview.txt" show-status="icons"></k-chat>
+          <script type="module">
+            import { setTheme } from '../src/utils/theme.js';
+            await customElements.whenDefined('k-chat');
+            document.getElementById('aiChat').promptTools = [{
+              name: 'setTheme',
+              description: 'Changes the color theme of this page',
+              inputSchema: {
+                type: 'object',
+                properties: { theme: { type: 'string', enum: ['light', 'dark', 'auto'] } },
+                required: ['theme']
+              },
+              execute: ({ theme }) => {
+                setTheme(theme);
+                return `The theme is now ${theme}.`;
+              }
+            }];
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="saving"><a href="#saving" class="no-link">Saving Conversations</a></h3>
+    <p>Add <code>persistent-id</code> and the chat saves its messages in the browser (IndexedDB, which holds whole conversations where <code>localStorage</code> cannot) and brings them back after a reload. The value names a <strong>group</strong> of conversations: the most recent one in the group opens when the page loads, and several can be kept side by side. Use different values for different chats on the same site.</p>
+    <p>With <code>prompt-api</code>, the model remembers too: the first time you send a message after a reload, the saved turns are given to the model as the conversation so far. If a long conversation does not fit in the model's memory, the oldest turns are left out.</p>
+    <p>The chat keeps one conversation open at a time. <code>newConversation()</code> starts an empty one (the old one stays saved, and the model starts again without remembering it; the empty one stays the open one when the user goes to another page, until they send a message or open another conversation), <code>loadConversation(id)</code> opens a saved one, and <code>listConversations()</code> lists the group's conversations so you can build a picker, as below. Try it: send a message, reload the page, and it is still there.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-chat</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;savedChat&quot;</span> <span class="hljs-attr">prompt-api</span>=<span class="hljs-string">&quot;/media/kempo-helper.md /overview.txt&quot;</span> <span class="hljs-attr">persistent-id</span>=<span class="hljs-string">&quot;docs-helper&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-chat</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pastChats&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Past conversations&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;newChat&quot;</span>&gt;</span>New conversation<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">await</span> customElements.<span class="hljs-title function_">whenDefined</span>(<span class="hljs-string">&#x27;k-chat&#x27;</span>);<br>  <span class="hljs-keyword">const</span> chat = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;savedChat&#x27;</span>);<br>  <span class="hljs-keyword">const</span> picker = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;pastChats&#x27;</span>);<br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">refresh</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {<br>    picker.<span class="hljs-title function_">setOptions</span>((<span class="hljs-keyword">await</span> chat.<span class="hljs-title function_">listConversations</span>()).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">c</span> =&gt;</span> ({<br>      <span class="hljs-attr">label</span>: c.<span class="hljs-property">title</span> || <span class="hljs-string">&#x27;Empty conversation&#x27;</span>,<br>      <span class="hljs-attr">value</span>: c.<span class="hljs-property">id</span><br>    })));<br>  };<br>  chat.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;conversation-change&#x27;</span>, refresh);<br>  chat.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;conversation-save&#x27;</span>, refresh);<br>  picker.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;select&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> chat.<span class="hljs-title function_">loadConversation</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;newChat&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> chat.<span class="hljs-title function_">newConversation</span>());<br>  <span class="hljs-title function_">refresh</span>();<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="d-f mb">
+            <k-combobox id="pastChats" placeholder="Past conversations" class="mr"></k-combobox>
+            <button id="newChat">New conversation</button>
+          </div>
+          <k-chat id="savedChat" prompt-api="../media/kempo-helper.md ../overview.txt" persistent-id="docs-helper"></k-chat>
+          <script type="module">
+            await customElements.whenDefined('k-chat');
+            const chat = document.getElementById('savedChat');
+            const picker = document.getElementById('pastChats');
+            const refresh = async () => {
+              picker.setOptions((await chat.listConversations()).map(c => ({
+                label: c.title || 'Empty conversation',
+                value: c.id
+              })));
+            };
+            chat.addEventListener('conversation-change', refresh);
+            chat.addEventListener('conversation-save', refresh);
+            picker.addEventListener('select', e => chat.loadConversation(e.detail.value));
+            document.getElementById('newChat').addEventListener('click', () => chat.newConversation());
+            refresh();
+          </script>
+        </k-card>
+      </div>
+    </div>
+    <p>It works without <code>prompt-api</code> too: any chat with a <code>persistent-id</code> saves the messages you add with <code>addMessage()</code> and the user's own. Add a welcome message only when <code>chat.messages.length</code> is <code>0</code> after the saved conversation has loaded (the <code>conversation-change</code> event), or it will be added again on every reload. Messages marked <code>transient: true</code> are never saved.</p>
+    <div class="callout warning b r p mb">
+      <strong>Saved in this browser only.</strong> The conversations are stored unencrypted, in the browser's storage for this site, and anyone using this browser profile can read them. Do not use <code>persistent-id</code> for conversations that hold secrets on a shared computer.
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -676,16 +947,33 @@
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
       <li><a href="./shadow-component.html">ShadowComponent</a></li>
-      <li><a href="./markdown-editor.html">MarkdownEditor</a> (used internally for the input)</li>
+      <li><a href="./markdown-editor.html">MarkdownEditor</a> (the default input), <a href="./html-editor.html">HtmlEditor</a> (<code>input="html-editor"</code>); each is only loaded when chosen</li>
       <li><a href="../utils/sanitizeHtml.html">sanitizeHtml</a> utility</li>
+      <li><a href="../utils/promptApi.html">promptApi</a> utility (only used with <code>prompt-api</code>)</li>
+      <li><a href="../utils/conversations.html">conversations</a> utility (only used with <code>persistent-id</code>)</li>
     </ul>
 
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>input<i>: String</i></code></h5>
+    <p>What the user types in: <code>"markdown-editor"</code> (default), <code>"html-editor"</code>, <code>"markdown"</code> or <code>"text"</code>. See <a href="#inputs">Input Types</a>. Any other value is treated as the default. Syncs to <code>input</code> attribute.</p>
+
+    <h5><code>markdownResize<i>: Boolean</i></code></h5>
+    <p>Adds the drag handle under the <code>"markdown-editor"</code> input, so the user can make it taller. Off by default (no handle). Syncs to <code>markdown-resize</code> attribute.</p>
+
+    <h5><code>resize<i>: Boolean</i></code></h5>
+    <p>Adds a drag handle under the whole chat: the message window grows or shrinks and the input keeps its size. Use <code>--chat_height</code> for the starting height. Off by default. Syncs to <code>resize</code> attribute.</p>
+
     <h5><code>enterNewline<i>: Boolean</i></code></h5>
     <p>Inverts the default Enter-key behavior. Default is <code>false</code> (Slack-style: Enter sends, Shift+Enter inserts a newline). When <code>true</code>: Enter inserts a newline and Shift+Enter sends. Syncs to <code>enter-newline</code> attribute.</p>
 
     <h5><code>showStatus<i>: String</i></code></h5>
     <p>Enables and configures the per-message status indicator. Possible values: <code>null</code>/empty (off, default), <code>"text"</code> (small grey labels &mdash; the default mode when the attribute is set without a value), or <code>"icons"</code> (spinner/check/double-check/error glyphs). The indicator only appears on the most recent outgoing message, except for <code>sending</code> and <code>failed</code> which always show. Outgoing messages submitted via the input start as <code>sending</code> &mdash; advance them via <code>updateMessage(id, { status })</code> as the backend confirms. Syncs to <code>show-status</code> attribute.</p>
+
+    <h5><code>debug<i>: String</i></code></h5>
+    <p><strong>Very experimental, see the warning above.</strong> With <code>prompt-api</code>, records every step of the conversation with the model, kept with the saved conversation so it can be exported: the system prompt (and the tools described in it), your message, each message sent to the model, its raw reply (so you see a <code>TOOL_CALL</code>, or that there was none), each tool call with its arguments and result, the context used (<code>inputUsage/inputQuota</code>), the answer shown, and errors. Default off. <code>debug="console"</code> also prints each step to the browser console. Syncs to <code>debug</code> attribute. See <code>exportConversation()</code> and <code>debugLog</code>.</p>
+
+    <h5><code>emptyMessage<i>: String</i></code></h5>
+    <p>Text shown in the middle of the message area while there are no messages, such as a hint of what the chat is for. It goes away with the first message. Default <code>""</code> (nothing). Syncs to <code>empty-message</code> attribute. Not to be confused with <code>placeholder</code>, which is the text inside the input.</p>
 
     <h5><code>placeholder<i>: String</i></code></h5>
     <p>Placeholder text for the input. Default <code>"Type a message..."</code>. Syncs to <code>placeholder</code> attribute.</p>
@@ -693,12 +981,27 @@
     <h5><code>disabled<i>: Boolean</i></code></h5>
     <p>When <code>true</code>, the input and Send button are disabled. Syncs to <code>disabled</code> attribute.</p>
 
+    <h5><code>promptApi<i>: String</i></code></h5>
+    <p><strong>Very experimental and not useful yet, see the warning above.</strong> Turns the chat into an interface to the browser's built-in language model. Default <code>null</code> (off). Set it to the URL of the file holding the system prompt, several URLs separated by spaces (read in order and joined), or an empty string for no system prompt. Changing it ends the current model session, so the next message starts a fresh conversation. Syncs to <code>prompt-api</code> attribute.</p>
+
+    <h5><code>persistentId<i>: String</i></code></h5>
+    <p>Saves the conversation in IndexedDB and restores the most recent one of the group after a reload. The value is the name of the group, so it should be unique for each chat on the site. Default <code>null</code> (nothing is saved). Syncs to <code>persistent-id</code> attribute. See <a href="../utils/conversations.html"><code>conversations</code></a>.</p>
+
+    <h5><code>conversationId<i>: String</i></code> (read-only)</h5>
+    <p>The id of the conversation that is open, or <code>null</code> before anything was saved.</p>
+
+    <h5><code>promptTools<i>: Array</i></code></h5>
+    <p><strong>Very experimental, see the warning above.</strong> Functions the model can call when <code>prompt-api</code> is set. Default <code>[]</code>. Each entry is <code>{ name, description, inputSchema, execute(args) }</code>, where <code>inputSchema</code> is a JSON Schema for the arguments and <code>execute</code> returns (or resolves with) a string for the model. JavaScript only, there is no attribute. Changing it ends the current model session.</p>
+
+    <h5><code>debugLog<i>: String</i></code> (read-only)</h5>
+    <p>Everything recorded by <code>debug</code> for the open conversation, as one text.</p>
+
     <h5><code>messages<i>: Array</i></code> (read-only state)</h5>
-    <p>The current array of messages. Each entry is <code>{ id, type, html, status, sender, timestamp }</code>. Don't mutate directly &mdash; use the public methods.</p>
+    <p>The current array of messages. Each entry is <code>{ id, type, html, status, sender, markdown, transient, timestamp }</code>. Don't mutate directly &mdash; use the public methods.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>addMessage(msg)<i>: string</i></code></h5>
-    <p>Append a message and return its <code>id</code>. <code>msg</code> object accepts <code>{ id, type, html, status, sender, timestamp }</code>; missing fields are filled in (auto-generated id, type defaults to <code>"incoming"</code>, etc.). HTML is sanitized.</p>
+    <p>Append a message and return its <code>id</code>. <code>msg</code> object accepts <code>{ id, type, html, status, sender, markdown, transient, timestamp }</code>. <code>markdown</code> is the source text, which is what the model is given for earlier turns; <code>transient: true</code> keeps the message out of the saved conversation; missing fields are filled in (auto-generated id, type defaults to <code>"incoming"</code>, etc.). HTML is sanitized.</p>
 
     <h5><code>updateMessage(id, updates)<i>: boolean</i></code></h5>
     <p>Update an existing message's <code>html</code>, <code>status</code>, <code>sender</code>, or <code>timestamp</code>. Returns <code>true</code> if a message with that id was found.</p>
@@ -707,10 +1010,44 @@
     <p>Remove a message. Returns <code>true</code> if found.</p>
 
     <h5><code>clear()<i>: void</i></code></h5>
-    <p>Remove every message.</p>
+    <p>Remove every message and delete the saved conversation. With <code>prompt-api</code> it also ends the model session, so the model forgets the conversation. To keep the saved conversation, use <code>newConversation()</code>.</p>
 
-    <h5><code>send()<i>: string | null</i></code></h5>
-    <p>Programmatically submit whatever is currently in the input. Returns the new outgoing message's <code>id</code>, or <code>null</code> if the input was empty.</p>
+    <h5><code>newConversation()<i>: void</i></code></h5>
+    <p>Starts an empty conversation (and a fresh model session). The one that was open stays saved.</p>
+
+    <h5><code>loadConversation(id)<i>: Promise&lt;boolean&gt;</i></code></h5>
+    <p>Opens a saved conversation. Resolves with <code>false</code> if there is no conversation with that id.</p>
+
+    <h5><code>listConversations()<i>: Promise&lt;Array&gt;</i></code></h5>
+    <p>The saved conversations of this chat's <code>persistent-id</code> group, newest first, as <code>{ id, title, createdAt, updatedAt }</code>. The title is the start of the first message.</p>
+
+    <h5><code>renameConversation(id, title)<i>: Promise&lt;boolean&gt;</i></code></h5>
+    <p>Gives a saved conversation a title of your choice (an empty title goes back to the automatic one, the start of the first message). It keeps its place in the list and keeps the title as the conversation goes on. Resolves with <code>false</code> if there is no conversation with that id.</p>
+
+    <h5><code>exportConversation(id?)<i>: Promise&lt;string | null&gt;</i></code></h5>
+    <p>A conversation (the open one by default, as it is right now) as one text to save to a file: its details, the messages, and the record kept by <code>debug</code> (what was sent to the model, its raw replies, the tool calls). Resolves with <code>null</code> if there is no such conversation.</p>
+
+    <h5><code>deleteConversation(id)<i>: Promise&lt;void&gt;</i></code></h5>
+    <p>Deletes a saved conversation. If it is the open one, a new empty conversation is started.</p>
+
+    <h5><code>focus()<i>: void</i></code></h5>
+    <p>Puts the cursor in the input, whichever input type it is.</p>
+
+    <h5><code>send(text?)<i>: string | null</i></code></h5>
+    <p>Programmatically submit whatever is currently in the input, or <code>text</code> if you pass it (the input is then left alone, which suits buttons with a ready-made message). Returns the new outgoing message's <code>id</code>, or <code>null</code> if there was nothing to send.</p>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <p>Put your own controls (buttons, a label, a menu) in these slots. A slot takes no room until something is in it.</p>
+    <div class="table-wrapper mb">
+      <table class="b">
+        <thead><tr><th>Slot</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td><code>controls-top</code></td><td>A row above the input. With <code>input="markdown-editor"</code> it is the editor's toolbar (the formatting controls are the default content)</td></tr>
+          <tr><td><code>controls-side</code></td><td>Beside the input, stacked above the Send button, for something like a call button. Only for <code>input="markdown"</code> and <code>"text"</code>. Buttons and links with the <code>no-btn</code> class (<code>no-link</code> too, for a link) are styled as small icon buttons</td></tr>
+          <tr><td><code>controls-bottom</code></td><td>A row below the input. With <code>input="markdown-editor"</code> and <code>"html-editor"</code> it is next to the Send button</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
     <table class="b">
@@ -720,19 +1057,40 @@
         <tr><td><code>--window_max_height</code></td><td><code>32rem</code></td><td>Maximum height of the message window before it scrolls internally</td></tr>
         <tr><td><code>--chat_padding</code></td><td><code>0.5rem</code></td><td>Padding inside both the message window and the input row</td></tr>
         <tr><td><code>--chat_gap</code></td><td><code>0.5rem</code></td><td>Gap between messages and gap between the editor and the Send button</td></tr>
+        <tr><td><code>--input_max_height</code></td><td><code>10rem</code></td><td>How tall the <code>markdown</code> and <code>text</code> inputs grow before they scroll</td></tr>
         <tr><td><code>--height</code></td><td><code>13rem</code></td><td>Initial height of the embedded markdown editor; the user can drag the resize handle below it to grow or shrink past this</td></tr>
         <tr><td><code>--message_max_width</code></td><td><code>75%</code></td><td>Max width of a single message bubble</td></tr>
         <tr><td><code>--message_radius</code></td><td><code>1rem</code></td><td>Border radius of message bubbles</td></tr>
         <tr><td><code>--bubble_padding</code></td><td><code>0.5rem 0.75rem</code></td><td>Padding inside bubbles</td></tr>
         <tr><td><code>--bubble_bg__incoming</code></td><td><code>var(--c_bg__alt)</code></td><td>Background color of incoming bubbles</td></tr>
         <tr><td><code>--bubble_bg__outgoing</code></td><td><code>var(--c_primary)</code></td><td>Background color of outgoing bubbles</td></tr>
+        <tr><td><code>--code_bg</code></td><td><code>color-mix(in srgb, var(--tc) 12%, transparent)</code></td><td>Background of inline code and code blocks in incoming messages (a tint of the text color, with a border, so it stands out from the bubble)</td></tr>
+        <tr><td><code>--code_bg__outgoing</code></td><td><code>rgba(0, 0, 0, 0.25)</code></td><td>Background of code in outgoing messages</td></tr>
         <tr><td><code>--bubble_tc__outgoing</code></td><td><code>white</code></td><td>Text color of outgoing bubbles</td></tr>
       </tbody>
     </table>
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
     <h5><code>send</code></h5>
-    <p>Fires when the user submits. <code>detail</code> contains <code>{ id, html, markdown }</code> &mdash; <code>html</code> is the rendered+sanitized output (the same string used in the bubble) and <code>markdown</code> is the raw source the user typed. The outgoing message is already in the conversation by the time the event fires &mdash; if you need to roll it back (e.g. on a network failure), call <code>updateMessage(id, { status: 'failed' })</code> or <code>removeMessage(id)</code>.</p>
+    <p>Fires when the user submits. <code>detail</code> contains <code>{ id, html, markdown }</code> &mdash; <code>html</code> is the rendered+sanitized output (the same string used in the bubble) and <code>markdown</code> is the raw source the user typed (with <code>input="html-editor"</code>, the text without the formatting). The outgoing message is already in the conversation by the time the event fires &mdash; if you need to roll it back (e.g. on a network failure), call <code>updateMessage(id, { status: 'failed' })</code> or <code>removeMessage(id)</code>.</p>
+
+    <h5><code>response</code></h5>
+    <p>Only with <code>prompt-api</code>. Fires when the model has finished a reply. <code>detail</code> contains <code>{ id, html, markdown }</code> of the incoming message.</p>
+
+    <h5><code>conversation-change</code></h5>
+    <p>Fires when a different conversation is open: a saved one was restored after a reload, or <code>loadConversation()</code>, <code>newConversation()</code> or <code>clear()</code> was called. <code>detail</code> contains <code>{ id }</code> (<code>null</code> for an empty conversation).</p>
+
+    <h5><code>conversation-save</code></h5>
+    <p>Only with <code>persistent-id</code>. Fires after the conversation was saved, which happens shortly after its messages change. <code>detail</code> contains <code>{ id }</code>. Refresh a list of conversations when it fires, as the example above does.</p>
+
+    <h5><code>message-add</code></h5>
+    <p>Fires whenever a message is added, by the user, by <code>addMessage()</code> or by the model. <code>detail</code> contains <code>{ message }</code> (<code>message.transient</code> is <code>true</code> for notices and for a reply that is still being written).</p>
+
+    <h5><code>tool-call</code></h5>
+    <p>Only with <code>prompt-api</code>. Fires after the model called one of the <code>promptTools</code> and it finished. <code>detail</code> contains <code>{ name, arguments, result }</code>.</p>
+
+    <h5><code>error</code></h5>
+    <p>Only with <code>prompt-api</code>. Fires when the system prompt file cannot be loaded, the model is unavailable, or a reply fails. <code>detail</code> contains <code>{ error }</code>. The outgoing message is set to <code>failed</code> and the error is shown in the chat.</p>
 
     <h3 id="security"><a href="#security" class="no-link">Security Notes</a></h3>
     <div class="callout warning b r p mb">
@@ -745,6 +1103,7 @@
   <div style="height:33vh"></div>
   <script type="module" src="../src/components/Main.js"></script>
   
+    <script type="module" src="../src/components/Combobox.js"></script>
     <script type="module" src="../src/components/Chat.js"></script>
     <script type="module" src="../src/components/Accordion.js"></script>
     <script type="module" src="../src/components/Card.js"></script>

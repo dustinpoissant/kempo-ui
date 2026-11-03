@@ -1,0 +1,5 @@
+Theme Switcher (<k-theme-switcher>)
+Import: import 'kempo-ui/src/components/ThemeSwitcher.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/theme-switcher.html
+
+Theme switcher with segmented and toggle display modes

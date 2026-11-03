@@ -1,0 +1,5 @@
+Sortable (<k-sortable> <k-sortable-item>)
+Import: import 'kempo-ui/src/components/Sortable.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/sortable.html
+
+Drag-to-reorder list

@@ -208,6 +208,9 @@
     <h5><code>listening<i>: Boolean</i></code></h5>
     <p>Read-only-ish state that reflects whether recognition is active. The button shows a pulsing red state while listening. Syncs to <code>listening</code> attribute.</p>
 
+    <h5><code>showLabel<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the button shows its label (&ldquo;Start listening&rdquo; or &ldquo;Stop listening&rdquo;) next to the icon, as a full-width row. Use it when the component sits in a menu, where an icon alone does not say what it is. <code>&lt;kc-md-speech-to-text&gt;</code> sets it for you while it is in a control-bar menu. Syncs to <code>show-label</code> attribute.</p>
+
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>start()<i>: void</i></code></h5>
     <p>Begin listening. No-op if already listening, disabled, or unsupported.</p>

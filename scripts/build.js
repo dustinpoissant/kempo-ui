@@ -100,4 +100,22 @@ import { renderDir } from 'kempo-server/templating';
 const count = await renderDir('./docs-src', './docs');
 console.log(`Rendered ${count} pages`);
 
+/*
+  Small plain-text docs (one for each component and utility, and overview.txt) sit next to the
+  pages in docs-src for LLMs to read, so copy them to docs/ as they are.
+*/
+console.log('Copying docs-src/**/*.txt to docs/');
+const copyTexts = async dir => {
+  for(const entry of await fs.readdir(dir, { withFileTypes: true })){
+    const from = path.join(dir, entry.name);
+    if(entry.isDirectory()) await copyTexts(from);
+    else if(entry.name.endsWith('.txt')){
+      const to = path.join('./docs', path.relative('./docs-src', from));
+      await ensureDir(path.dirname(to));
+      await fs.copyFile(from, to);
+    }
+  }
+};
+await copyTexts('./docs-src');
+
 console.log('Build Complete');

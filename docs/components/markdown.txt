@@ -1,0 +1,12 @@
+Markdown (<k-markdown>)
+Import: import 'kempo-ui/src/components/Markdown.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/markdown.html
+
+Renders child markdown text as sanitized HTML in place
+
+Details:
+- `value` attribute (overrides children)
+- `breaks` (single newline → `<br>`)
+- `allowed-tags`/`disallowed-tags`/`scripts-enabled` for sanitization
+- light DOM render
+- `renderedHtml` getter

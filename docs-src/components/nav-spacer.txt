@@ -1,0 +1,8 @@
+Nav Spacer (<k-nav-spacer>)
+Import: import 'kempo-ui/src/components/NavSpacer.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/nav-spacer.html
+
+Auto-sizing spacer that offsets page content below a fixed `k-nav` bar
+
+Details:
+- default bottom margin of `var(--spacer)` can be overridden with kempo-css margin utilities

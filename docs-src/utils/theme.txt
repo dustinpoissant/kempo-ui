@@ -1,0 +1,9 @@
+theme (utility)
+Import: import { setTheme, getTheme, subscribeToTheme, initTheme, getCalculatedTheme } from 'kempo-ui/src/utils/theme.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/theme.html
+
+Manage light/dark/auto theme
+
+Details:
+- persists to localStorage
+- to avoid a flash of the wrong theme on load, put `try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}` in a blocking (non-module) script in `<head>`, such as your `init.js`, plus `<meta name="color-scheme" content="light dark">`

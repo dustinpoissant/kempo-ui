@@ -13,7 +13,7 @@ export default class FontSizeIncrease extends ButtonControl {
 
   handleAction() { this.host?.increaseFontSize?.(); }
 
-  render() { return html`<slot><k-icon name="text_increase"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="text_increase"></k-icon></slot><slot name="menu-text">Increase Font Size</slot>`; }
 }
 
 customElements.define('kc-font-size-increase', FontSizeIncrease);

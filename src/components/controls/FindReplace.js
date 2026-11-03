@@ -13,7 +13,7 @@ export default class FindReplace extends ButtonControl {
 
   handleAction() { this.host?.openFind?.(); }
 
-  render() { return html`<slot><k-icon name="search"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="search"></k-icon></slot><slot name="menu-text">Find & Replace</slot>`; }
 }
 
 customElements.define('kc-find-replace', FindReplace);

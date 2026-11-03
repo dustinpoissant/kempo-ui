@@ -1,0 +1,8 @@
+Filter List (<k-filter-list> <k-filter-item>)
+Import: import 'kempo-ui/src/components/FilterList.js'; import 'kempo-ui/src/components/FilterItem.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/filter-list.html
+
+Filter/search list
+
+Details:
+- items have `filter` attribute with keywords

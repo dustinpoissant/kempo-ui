@@ -13,7 +13,7 @@ export default class Quote extends ButtonControl {
 
   handleAction() { this.host?.quote?.(); }
 
-  render() { return html`<slot><k-icon name="format_quote"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_quote"></k-icon></slot><slot name="menu-text">Quote</slot>`; }
 }
 
 customElements.define('kc-quote', Quote);

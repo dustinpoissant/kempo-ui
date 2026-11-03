@@ -1,0 +1,5 @@
+Focus Capture (<k-focus-capture>)
+Import: import 'kempo-ui/src/components/FocusCapture.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/focus-capture.html
+
+Traps keyboard focus within children

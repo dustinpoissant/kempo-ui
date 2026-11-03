@@ -1,0 +1,5 @@
+Photo Viewer (<k-photo-viewer>)
+Import: import 'kempo-ui/src/components/PhotoViewer.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/photo-viewer.html
+
+Lightbox/gallery viewer

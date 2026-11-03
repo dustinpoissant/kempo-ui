@@ -1,0 +1,28 @@
+Tabs (<k-tabs> <k-tab> <k-tab-content> <k-tab-spacer>)
+Import: import 'kempo-ui/src/components/Tabs.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/tabs.html
+
+Tabbed interface: only one content area shows at a time, chosen by clicking its tab. Use it to switch between related views in the same space.
+
+Example:
+<k-tabs>
+  <k-tab for="one">One</k-tab>
+  <k-tab for="two">Two</k-tab>
+  <k-tab-content name="one">Content one</k-tab-content>
+  <k-tab-content name="two">Content two</k-tab-content>
+</k-tabs>
+Every k-tab needs a k-tab-content whose name is the same as the tab's for.
+
+Attributes of k-tabs:
+- active (String): the name of the open tab, the for value of its k-tab. Default: the first tab. It changes when the user picks another tab.
+- persistent-id (String): remembers the open tab in the browser, so a reload opens the same tab.
+- hash-routing (Boolean, written without a value): the open tab is the address hash (#two), so a refresh reopens it and back/forward move between tabs. One per page.
+- fixed-height (Boolean, written without a value): all contents get the height of the tallest.
+Attributes of k-tab:
+- for (String): the name of the k-tab-content it shows.
+- active (Boolean): set by k-tabs on the open tab, it has no effect when written in the markup.
+Attributes of k-tab-content:
+- name (String): the name its tab points to.
+- active (Boolean): set by k-tabs on the open content, it has no effect when written in the markup.
+k-tab-spacer: put between k-tab elements to push the tabs after it to the right.
+Event on k-tabs: tab, detail has the name of the tab that opened.

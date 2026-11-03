@@ -12,7 +12,7 @@ export default class Undo extends ButtonControl {
 
   handleAction() { this.host?.undo?.(); }
 
-  render() { return html`<slot><k-icon name="undo"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="undo"></k-icon></slot><slot name="menu-text">Undo</slot>`; }
 }
 
 customElements.define('kc-undo', Undo);

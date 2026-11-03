@@ -1,0 +1,4 @@
+formatCode (utility)
+Import: import formatCode from 'kempo-ui/src/utils/formatCode.js';
+
+Beautify/format a code string

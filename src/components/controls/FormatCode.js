@@ -13,7 +13,7 @@ export default class FormatCode extends ButtonControl {
 
   handleAction() { this.host?.formatCode?.(); }
 
-  render() { return html`<slot><k-icon name="frame_source"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="frame_source"></k-icon></slot><slot name="menu-text">Format Code</slot>`; }
 }
 
 customElements.define('kc-format-code', FormatCode);

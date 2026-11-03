@@ -13,7 +13,7 @@ export default class Strikethrough extends ButtonControl {
 
   handleAction() { this.host?.strikethrough?.(); }
 
-  render() { return html`<slot><k-icon name="strikethrough_s"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="strikethrough_s"></k-icon></slot><slot name="menu-text">Strikethrough</slot>`; }
 }
 
 customElements.define('kc-strikethrough', Strikethrough);

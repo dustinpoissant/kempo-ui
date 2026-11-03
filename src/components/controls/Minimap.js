@@ -30,7 +30,7 @@ export default class Minimap extends ButtonControl {
 
   handleAction() { this.host?.toggleMinimap?.(); }
 
-  render() { return html`<slot><k-icon name="map"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="map"></k-icon></slot><slot name="menu-text">Toggle Minimap</slot>`; }
 }
 
 customElements.define('kc-minimap', Minimap);

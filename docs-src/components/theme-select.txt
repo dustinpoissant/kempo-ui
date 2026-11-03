@@ -1,0 +1,5 @@
+Theme Select (<k-theme-select>)
+Import: import 'kempo-ui/src/components/ThemeSelect.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/theme-select.html
+
+Dropdown to pick a theme

@@ -13,7 +13,7 @@ export default class Bold extends ButtonControl {
 
   handleAction() { this.host?.bold?.(); }
 
-  render() { return html`<slot><k-icon name="format_bold"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_bold"></k-icon></slot><slot name="menu-text">Bold</slot>`; }
 }
 
 customElements.define('kc-bold', Bold);

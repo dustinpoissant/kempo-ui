@@ -13,7 +13,7 @@ export default class InlineCode extends ButtonControl {
 
   handleAction() { this.host?.inlineCode?.(); }
 
-  render() { return html`<slot><k-icon name="code_blocks"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="code_blocks"></k-icon></slot><slot name="menu-text">Inline Code</slot>`; }
 }
 
 customElements.define('kc-inline-code', InlineCode);

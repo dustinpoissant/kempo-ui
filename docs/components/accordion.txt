@@ -1,0 +1,19 @@
+Accordion (<k-accordion> <k-accordion-header> <k-accordion-panel>)
+Import: import 'kempo-ui/src/components/Accordion.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/accordion.html
+
+Collapsible panels: click a header to show or hide its panel. Use it to show/hide content in sections (FAQs, settings groups, a table of contents).
+
+Example:
+<k-accordion>
+  <k-accordion-header for-panel="one">First</k-accordion-header>
+  <k-accordion-panel name="one">Content of the first panel</k-accordion-panel>
+  <k-accordion-header for-panel="two">Second</k-accordion-header>
+  <k-accordion-panel name="two">Content of the second panel</k-accordion-panel>
+</k-accordion>
+
+Attributes:
+- k-accordion: multiple (Boolean) lets several panels be open at once, otherwise opening one closes the others. persistent-id remembers which panels are open (saved in the browser).
+- k-accordion-header: for-panel = the name of the panel it opens.
+- k-accordion-panel: name = the name its header points to. active (Boolean) makes it start open.
+Methods on k-accordion: openPanel(name), closePanel(name).

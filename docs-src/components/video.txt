@@ -1,0 +1,18 @@
+Video (<k-video>)
+Import: import 'kempo-ui/src/components/Video.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/video.html
+
+Video player with no native controls, the picture sibling of <k-audio>. Its controls are slotted kc-media-* controls, or a ready-made toolbar with the controls attribute.
+
+Attributes:
+- src (URL), poster (URL), preload, crossorigin: as on <video>.
+- autoplay, loop, muted, playsinline (Boolean).
+- volume (Number 0-1), playback-rate (Number).
+- controls: "minimal", "normal" or "full" adds a ready-made toolbar (a k-control-bar that collapses into a "more" menu on narrow screens).
+- persistent-id: remembers the position so playback resumes there next time.
+- exclusive (Boolean): pauses other k-video and k-audio elements when this one plays.
+- download-name: file name used by the download control.
+- fullscreen, picture-in-picture (Boolean, reflect the state).
+- idle-delay-ms: how long until the controls hide while playing. skip-duration: seconds the skip buttons move. skip-flash-ms: how long the skip animation shows.
+- artist, track-title, album: read from the tags in the file (MP4/M4V) when left empty.
+Controls (kc-media-*) are shared with k-audio: play/pause, time, seek, duration, volume, mute, speed, loop, skip back/forward, download. Slots for placing controls are described on the docs page.

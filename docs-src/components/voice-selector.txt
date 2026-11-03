@@ -1,0 +1,10 @@
+Voice Selector (<k-voice-selector>)
+Import: import 'kempo-ui/src/components/VoiceSelector.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/voice-selector.html
+
+`<select>` populated with `speechSynthesis.getVoices()`
+
+Details:
+- persists choice via the `voice` utility so any `<k-text-to-speech>` without an explicit `voice` attr uses the saved preference
+- `language` (BCP-47 prefix) attr filters the list
+- fires `change`

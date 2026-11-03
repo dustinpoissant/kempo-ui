@@ -29,6 +29,7 @@ export default class MdSpeechToText extends Control {
       <k-speech-to-text
         language=${this.language}
         ?continuous=${this.continuous}
+        ?show-label=${this.inMenu}
         @end=${this.handleEnd}
       ></k-speech-to-text>
     `;
@@ -38,6 +39,8 @@ export default class MdSpeechToText extends Control {
     Control.styles,
     css`
       :host { margin: var(--spacer_q); }
+      :host([in-menu]) { padding: 0; }
+      :host([in-menu]) k-speech-to-text { flex: 1; }
       k-speech-to-text { --btn_size: 2rem; }
     `
   ];

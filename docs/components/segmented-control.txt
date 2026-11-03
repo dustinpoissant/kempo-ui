@@ -1,0 +1,10 @@
+Segmented Control (<k-segmented-control>)
+Import: import 'kempo-ui/src/components/SegmentedControl.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/segmented-control.html
+
+Button group with one selectable option
+
+Details:
+- accepts custom sub-components as options
+- `value` property reflects the selected option's value
+- fires `change` event

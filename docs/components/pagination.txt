@@ -1,0 +1,15 @@
+Pagination (<k-pagination>)
+Import: import 'kempo-ui/src/components/Pagination.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/pagination.html
+
+Pagination interface
+
+Details:
+- tracks current page
+- `total-items`, `items-per-page`, and `page` attributes
+- computed `totalPages` getter
+- `nextPage()`, `previousPage()` methods
+- fires `page-change` with `{ currentPage, totalPages, itemsPerPage, totalItems }` on any page change (user-initiated or from configuration updates)
+- controls slotted in or via `controls="simple"` (prev/info/next) or `controls="full"` (first/prev/goto-page/next/last/items-per-page)
+- individual control tags: `kc-pg-first`, `kc-pg-prev`, `kc-pg-page-info`, `kc-pg-goto-page`, `kc-pg-count`, `kc-pg-next`, `kc-pg-last`, `kc-pg-items-per-page` (label text is slotted — override with children)
+- extend `Control` from `controls/Control.js` for custom controls

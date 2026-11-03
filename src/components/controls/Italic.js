@@ -13,7 +13,7 @@ export default class Italic extends ButtonControl {
 
   handleAction() { this.host?.italic?.(); }
 
-  render() { return html`<slot><k-icon name="format_italic"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_italic"></k-icon></slot><slot name="menu-text">Italic</slot>`; }
 }
 
 customElements.define('kc-italic', Italic);

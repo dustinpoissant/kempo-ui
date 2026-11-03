@@ -1,0 +1,8 @@
+Combobox (<k-combobox>)
+Import: import 'kempo-ui/src/components/Combobox.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/combobox.html
+
+Searchable dropdown with debounced `search` event, dynamic `setOptions()`, `searching` indicator, keyboard nav
+
+Details:
+- options are strings or `{label, value}` objects

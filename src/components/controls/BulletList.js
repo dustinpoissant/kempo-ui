@@ -13,7 +13,7 @@ export default class BulletList extends ButtonControl {
 
   handleAction() { this.host?.bulletList?.(); }
 
-  render() { return html`<slot><k-icon name="format_list_bulleted"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_list_bulleted"></k-icon></slot><slot name="menu-text">Bulleted List</slot>`; }
 }
 
 customElements.define('kc-bullet-list', BulletList);

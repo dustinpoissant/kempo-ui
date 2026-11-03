@@ -2,6 +2,9 @@ import { html, css, nothing } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 import { bound } from '../utils/number.js';
 import debounce from '../utils/debounce.js';
+import pauseOthers from '../utils/pauseOthers.js';
+import loadFileMetadata from '../utils/loadFileMetadata.js';
+import { boolTrueFalse } from '../utils/propConverters.js';
 import Control from './controls/Control.js';
 import './Icon.js';
 import './Spinner.js';
@@ -9,6 +12,8 @@ import './Spinner.js';
 const pendingSeek = Symbol();
 
 export default class Audio extends ShadowComponent {
+  #originalTracks = null;
+
   static properties = {
     src: { type: String, reflect: true },
     preload: { type: String, reflect: true },
@@ -21,7 +26,17 @@ export default class Audio extends ShadowComponent {
     controls: { type: String, reflect: true },
     persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
     idleDelayMs: { type: Number, reflect: true, attribute: 'idle-delay-ms' },
-    skipDuration: { type: Number, reflect: true, attribute: 'skip-duration' }
+    skipDuration: { type: Number, reflect: true, attribute: 'skip-duration' },
+    artist: { type: String },
+    trackTitle: { type: String, attribute: 'track-title' },
+    album: { type: String },
+    year: { type: String },
+    readMetadata: { type: Boolean, converter: boolTrueFalse, attribute: 'read-metadata' },
+    downloadName: { type: String, reflect: true, attribute: 'download-name' },
+    playlistLoop: { type: Boolean, reflect: true, attribute: 'playlist-loop' },
+    trackIndex: { type: Number, attribute: false },
+    shuffled: { type: Boolean, reflect: true },
+    exclusive: { type: Boolean, reflect: true }
   };
 
   static forwardedEvents = [
@@ -44,6 +59,17 @@ export default class Audio extends ShadowComponent {
     this.persistentId = null;
     this.idleDelayMs = 2500;
     this.skipDuration = 10;
+    this.artist = '';
+    this.trackTitle = '';
+    this.album = '';
+    this.year = '';
+    this.readMetadata = true;
+    this.defaultSlotted = false;
+    this.downloadName = '';
+    this.playlistLoop = false;
+    this.trackIndex = -1;
+    this.shuffled = false;
+    this.exclusive = false;
     this[pendingSeek] = null;
     this.buffering = false;
     this.persistTimeDebounced = debounce(() => this.persistTimeNow(), 1000);
@@ -155,6 +181,115 @@ export default class Audio extends ShadowComponent {
     return this;
   }
 
+  download() {
+    if(!this.src) return this;
+    const a = document.createElement('a');
+    a.href = this.src;
+    a.download = this.downloadName || '';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return this;
+  }
+
+  get tracks() {
+    return [...this.children].filter(child => child.localName === 'kc-audio-track');
+  }
+
+  get hasSlottedContent() {
+    return [...this.children].some(child => child.localName !== 'kc-audio-track');
+  }
+
+  selectTrack(index) {
+    const track = this.tracks[index];
+    if(!track) return this;
+    this.trackIndex = index;
+    this.src = track.src;
+    this.artist = track.artist;
+    this.trackTitle = track.trackTitle;
+    this.album = track.album;
+    this.year = track.year;
+    this.downloadName = track.downloadName;
+    this.dispatchEvent(new CustomEvent('track-changed', { detail: { index }, bubbles: true }));
+    return this;
+  }
+
+  playTrack(index) {
+    this.selectTrack(index);
+    this.updateComplete.then(() => this.play());
+    return this;
+  }
+
+  previousTrack() {
+    const count = this.tracks.length;
+    if(!count) return this;
+    if(this.trackIndex > 0) return this.playTrack(this.trackIndex - 1);
+    if(this.playlistLoop) return this.playTrack(count - 1);
+    return this;
+  }
+
+  nextTrack() {
+    const count = this.tracks.length;
+    if(!count) return this;
+    if(this.trackIndex < count - 1) return this.playTrack(this.trackIndex + 1);
+    if(this.playlistLoop) return this.playTrack(0);
+    return this;
+  }
+
+  togglePlaylistLoop() {
+    this.playlistLoop = !this.playlistLoop;
+    return this;
+  }
+
+  reorderTracks(order) {
+    this.applyOrder(order);
+    this.#originalTracks = null;
+    this.shuffled = false;
+    return this;
+  }
+
+  applyOrder(order) {
+    const tracks = this.tracks;
+    const current = tracks[this.trackIndex];
+    order.forEach(index => this.appendChild(tracks[index]));
+    this.trackIndex = this.tracks.indexOf(current);
+    this.dispatchEvent(new CustomEvent('playlist-changed', { bubbles: true }));
+    return this;
+  }
+
+  toggleShuffle() {
+    return this.shuffled ? this.restoreOrder() : this.randomizeOrder();
+  }
+
+  randomizeOrder() {
+    const tracks = this.tracks;
+    const order = tracks.map((track, index) => index);
+    for(let i = order.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    this.#originalTracks = [...tracks];
+    this.dispatchEvent(new CustomEvent('playlist-shuffling', { bubbles: true }));
+    this.applyOrder(order);
+    this.shuffled = true;
+    return this;
+  }
+
+  restoreOrder() {
+    const tracks = this.tracks;
+    const original = this.#originalTracks ?? tracks;
+    const order = original.map(track => tracks.indexOf(track)).filter(index => index !== -1);
+    tracks.forEach((track, index) => {
+      if(!order.includes(index)) order.push(index);
+    });
+    this.dispatchEvent(new CustomEvent('playlist-shuffling', { bubbles: true }));
+    this.applyOrder(order);
+    this.#originalTracks = null;
+    this.shuffled = false;
+    return this;
+  }
+
   wakeControls() {
     this.removeAttribute('idle');
     clearTimeout(this.idleTimer);
@@ -179,6 +314,11 @@ export default class Audio extends ShadowComponent {
 
   updated(changed) {
     super.updated(changed);
+    if(['artist', 'trackTitle', 'album', 'year'].some(key => changed.has(key))) this.dispatchEvent(new CustomEvent('metadata-changed', { bubbles: true }));
+    if(changed.has('src')) this.dispatchEvent(new CustomEvent('src-changed', { bubbles: true }));
+    if(changed.has('src') || changed.has('readMetadata')) loadFileMetadata(this);
+    if(changed.has('playlistLoop')) this.dispatchEvent(new CustomEvent('playlist-loop-changed', { bubbles: true }));
+    if(changed.has('shuffled')) this.dispatchEvent(new CustomEvent('shuffle-changed', { bubbles: true }));
     if(changed.has('controls') && this.controls && this.controls !== 'none') this.loadControls();
     const audio = this.audioEl;
     if(!audio) return;
@@ -232,14 +372,28 @@ export default class Audio extends ShadowComponent {
           @pointermove=${this.handlePointerMove}
         ></audio>
         ${this.buffering ? html`<div id="buffering"><k-spinner size="lg"></k-spinner></div>` : nothing}
-        <div id="controls-bar" ?hidden=${!set.bottom && !this.children.length}>
-          <slot>${set.bottom ?? nothing}</slot>
+        <div id="controls-bar" ?hidden=${!set.bottom && !this.hasSlottedContent}>
+          <slot name="top"></slot>
+          <div id="controls-row">
+            <slot @slotchange=${this.handleSlotChange}></slot>
+            ${this.defaultSlotted ? nothing : set.bottom ?? nothing}
+          </div>
+          <slot name="bottom"></slot>
         </div>
       </div>
     `;
   }
 
+  handleSlotChange = (event) => {
+    this.defaultSlotted = event.target.assignedElements().some(el => el.localName !== 'kc-audio-track');
+    if(this.trackIndex < 0 && this.tracks.length) this.selectTrack(0);
+    this.dispatchEvent(new CustomEvent('playlist-changed', { bubbles: true }));
+    this.requestUpdate();
+  };
+
   handlePlay = () => {
+    if(this.exclusive) pauseOthers(this);
+    this.removeAttribute('ended');
     this.wakeControls();
     this.dispatchEvent(new CustomEvent('play', { bubbles: true }));
   };
@@ -261,14 +415,18 @@ export default class Audio extends ShadowComponent {
   };
 
   handleCanPlay = () => {
+    clearTimeout(this.bufferingTimer);
     this.buffering = false;
     this.requestUpdate();
     this.dispatchEvent(new CustomEvent('canplay', { bubbles: true }));
   };
 
   handleWaiting = () => {
-    this.buffering = true;
-    this.requestUpdate();
+    clearTimeout(this.bufferingTimer);
+    this.bufferingTimer = setTimeout(() => {
+      this.buffering = true;
+      this.requestUpdate();
+    }, 300);
     this.dispatchEvent(new CustomEvent('waiting', { bubbles: true }));
   };
 
@@ -284,6 +442,7 @@ export default class Audio extends ShadowComponent {
     this.clearPersistedTime();
     this.toggleAttribute('ended', true);
     this.dispatchEvent(new CustomEvent('ended', { bubbles: true }));
+    this.nextTrack();
   };
 
   handleDurationChange = () => {
@@ -313,7 +472,7 @@ export default class Audio extends ShadowComponent {
     :host {
       display: block;
       width: 100%;
-      background: transparent;
+      background: var(--controls-bg, #000);
       border-radius: var(--radius);
       overflow: visible;
     }
@@ -328,11 +487,10 @@ export default class Audio extends ShadowComponent {
     }
     #controls-bar {
       display: flex;
-      align-items: center;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0;
       padding: 0.1rem 0.25rem;
-      background: var(--controls-bg, #000);
+      background: transparent;
       border-radius: var(--radius, 0.25rem);
       color: #fff;
       line-height: normal;
@@ -346,19 +504,27 @@ export default class Audio extends ShadowComponent {
     #controls-bar[hidden] {
       display: none;
     }
-    #controls-bar ::slotted(kc-vid-play-pause),
-    #controls-bar ::slotted(kc-vid-skip-back),
-    #controls-bar ::slotted(kc-vid-skip-forward),
-    #controls-bar ::slotted(kc-vid-loop) {
+    #controls-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    #controls-row ::slotted(kc-media-play-pause),
+    #controls-row ::slotted(kc-media-skip-back),
+    #controls-row ::slotted(kc-media-skip-forward),
+    #controls-row ::slotted(kc-media-repeat) {
       min-width: 1.5rem !important;
       min-height: 1.5rem !important;
     }
     #buffering {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
-      color: #666;
+      pointer-events: none;
+      color: #fff;
       line-height: normal;
     }
   `;
@@ -368,34 +534,40 @@ export default class Audio extends ShadowComponent {
     none: { bottom: null },
     minimal: {
       bottom: html`
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-time></kc-vid-time>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-duration></kc-vid-duration>
+        <k-control-bar>
+          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+        </k-control-bar>
       `
     },
     normal: {
       bottom: html`
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-time></kc-vid-time>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-duration></kc-vid-duration>
-        <kc-vid-volume></kc-vid-volume>
-        <kc-vid-speed></kc-vid-speed>
-        <kc-vid-loop></kc-vid-loop>
+        <k-control-bar>
+          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+          <kc-media-volume slot="right"></kc-media-volume>
+          <kc-media-repeat slot="right"></kc-media-repeat>
+        </k-control-bar>
       `
     },
     full: {
       bottom: html`
-        <kc-vid-skip-back></kc-vid-skip-back>
-        <kc-vid-play-pause></kc-vid-play-pause>
-        <kc-vid-skip-forward></kc-vid-skip-forward>
-        <kc-vid-time></kc-vid-time>
-        <kc-vid-seek></kc-vid-seek>
-        <kc-vid-duration></kc-vid-duration>
-        <kc-vid-volume></kc-vid-volume>
-        <kc-vid-speed></kc-vid-speed>
-        <kc-vid-loop></kc-vid-loop>
+        <k-control-bar>
+          <kc-media-skip-back></kc-media-skip-back>
+          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-skip-forward></kc-media-skip-forward>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+          <kc-media-volume slot="right"></kc-media-volume>
+          <kc-media-speed slot="right"></kc-media-speed>
+          <kc-media-repeat slot="right"></kc-media-repeat>
+          <kc-media-download slot="right"></kc-media-download>
+        </k-control-bar>
       `
     }
   };

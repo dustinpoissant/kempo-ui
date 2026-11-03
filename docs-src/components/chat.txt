@@ -1,0 +1,22 @@
+Chat (<k-chat>)
+Import: import 'kempo-ui/src/components/Chat.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/chat.html
+
+NOTE: its prompt-api, promptTools and debug features use the browser's built-in AI, which is VERY EXPERIMENTAL and not useful yet: in testing it could not answer a single question correctly. The rest works with a person, a server or a cloud model.
+
+Chat-room widget
+
+Details:
+- `empty-message` text centered in the message area while there are no messages (not `placeholder`, which is the input's placeholder)
+- input (String) picks what the user types in: markdown (default, a plain box that grows with the text; the text is markdown and shows as rich text once sent), markdown-editor (a markdown editor with Write and Preview tabs and a toolbar; markdown-resize adds its drag handle), html-editor (a rich text editor), or text (a plain box, sent as typed).
+- markdown-resize (Boolean): adds the drag handle under the markdown-editor input. resize (Boolean): adds a drag handle under the whole chat, so the message window grows (--chat_height sets the start).
+- the editors are lazy-loaded only when chosen, `await chat.updateComplete` waits for them
+- `focus()` focuses the input
+- slots `controls-top` (row above the input; the toolbar in `markdown-editor`), `controls-side` (beside the input, above Send; `markdown`/`text` only) and `controls-bottom` (row below the input; beside Send in the editors), each takes no room while empty
+- `send(text?)` sends that text instead of the input
+- with `html-editor` the `send` `markdown` is the plain text
+- markdown input via embedded `<k-markdown-editor>` (rendered through `marked` with `breaks:true` so single newlines become `<br>`, then run through `sanitizeHtml` so any inline HTML is filtered against the allow-list)
+- default Enter sends / Shift+Enter newline (Slack-style), add `enter-newline` to invert
+- `show-status` (or `show-status="text"` / `show-status="icons"`) renders iMessage-style `sending`/`delivered`/`read`/`failed` only on the most recent outgoing message (sending/failed always show)
+- methods `addMessage(msg)`, `updateMessage(id, updates)`, `removeMessage(id)`, `clear()`, `send()`
+- (More on the full docs page.)

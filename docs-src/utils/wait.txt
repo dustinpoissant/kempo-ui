@@ -1,0 +1,8 @@
+wait (utility)
+Import: import { wait, waitFrames } from 'kempo-ui/src/utils/wait.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/wait.html
+
+`wait(ms)` → Promise
+
+Details:
+- `waitFrames(n)` → Promise after n animation frames

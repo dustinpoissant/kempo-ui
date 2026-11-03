@@ -1,0 +1,8 @@
+drag (utility)
+Import: import drag from 'kempo-ui/src/utils/drag.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/drag.html
+
+`drag(options)` — attach mouse/touch drag listeners to an element
+
+Details:
+- options: `element`, `callback`, `startCallback`, `moveCallback`, `endCallback`, `preventScroll`

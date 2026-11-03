@@ -1,0 +1,9 @@
+sanitizeHtml (utility)
+Import: import { sanitizeHtml, DEFAULT_TAGS, DEFAULT_ATTRS_GLOBAL, DEFAULT_ATTRS_PER_TAG } from 'kempo-ui/src/utils/sanitizeHtml.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/sanitizeHtml.html
+
+Whitelist HTML sanitizer
+
+Details:
+- strips `<script>`, `<style>`, `<iframe>`, event-handler attrs, unsafe URL schemes
+- defaults sized for rich-text input. **Frontend defense only — server must also sanitize.**

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>{{title}}</title>
   <link rel="icon" type="image/png" sizes="48x48" href="{{pathToRoot}}media/icon48.png">
   <link rel="manifest" href="{{pathToRoot}}manifest.json" />
@@ -10,7 +11,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
   <link rel="stylesheet" href="{{pathToRoot}}kempo-hljs.css" />
   <link rel="stylesheet" href="{{pathToRoot}}styles.css" />
-  <script>window.litDisableBundleWarning = true;</script>
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
   <location name="head" />
 </head>
 <body>

@@ -1,0 +1,17 @@
+Dropdown (<k-dropdown>)
+Import: import 'kempo-ui/src/components/Dropdown.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/dropdown.html
+
+Action menu that opens from a trigger button, with keyboard navigation. Use it for a list of actions or choices.
+
+Example:
+<k-dropdown>
+  <button slot="trigger">Actions</button>
+  <button data-value="edit">Edit</button>
+  <button data-value="delete">Delete</button>
+</k-dropdown>
+
+- The element with slot="trigger" opens it; every other child (a <button> or <a>) is a menu item.
+- Event select: detail is { value, item }, where value is the item's data-value (or its text).
+- Events opened and closed.
+- Attributes: opened (Boolean), open-direction (default "down left"), close-on-select (default true), close-on-click-outside (default true), submenu (Boolean, a dropdown inside a dropdown opens as a flyout), hover (Boolean, opens on hover).

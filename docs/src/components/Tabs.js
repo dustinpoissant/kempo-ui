@@ -78,6 +78,15 @@ import{html as t,css as e}from"../lit-all.min.js";import s from"./ShadowComponen
 			min-height: 1.35rem;
 			overflow: auto;
 		}
+
+		/* #contents scrolls here and would clip the focus ring room anyway, so the side room (padding plus
+		   negative margin) would only make it overflow by that much and show a horizontal scrollbar. */
+		:host([fixed-height]) ::slotted(k-tab-content) {
+			margin-left: 0;
+			margin-right: 0;
+			padding-left: 0;
+			padding-right: 0;
+		}
 	`;render(){return t`
 			<div id="wrapper">
 				<div id="tabs-container">

@@ -1,0 +1,8 @@
+Tree (<k-tree> <k-tree-node>)
+Import: import 'kempo-ui/src/components/Tree.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/tree.html
+
+Expandable tree
+
+Details:
+- nodes have `label`, `icon`, `href`, `expanded`

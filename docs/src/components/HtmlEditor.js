@@ -119,6 +119,10 @@ import{html as t,css as e}from"../lit-all.min.js";import i from"./ShadowComponen
 			flex-wrap: wrap;
 			align-items: center;
 		}
+		:host([has-control-bar]) .toolbar-start {
+			flex: 1 1 0;
+			min-width: 0;
+		}
 		.toolbar-end {
 			display: flex;
 			flex-wrap: wrap-reverse;
@@ -218,103 +222,107 @@ import{html as t,css as e}from"../lit-all.min.js";import i from"./ShadowComponen
 			border: 1px solid var(--border-color);
 		}
 	`;static controlSets={minimal:{topLeft:t`
-				<k-control-group>
-					<kc-bold></kc-bold>
-					<kc-italic></kc-italic>
-					<kc-underline></kc-underline>
-				</k-control-group>
-				<k-control-group>
-					<kc-bullet-list></kc-bullet-list>
-					<kc-number-list></kc-number-list>
-				</k-control-group>
+				<k-control-bar>
+					<k-control-group priority="3">
+						<kc-bold></kc-bold>
+						<kc-italic></kc-italic>
+						<kc-underline></kc-underline>
+					</k-control-group>
+					<k-control-group priority="2">
+						<kc-bullet-list></kc-bullet-list>
+						<kc-number-list></kc-number-list>
+					</k-control-group>
+				</k-control-bar>
 			`,topRight:null,bottomLeft:null,bottomRight:null},normal:{topLeft:t`
-				<k-control-group>
-					<kc-bold></kc-bold>
-					<kc-italic></kc-italic>
-					<kc-underline></kc-underline>
-					<kc-strikethrough></kc-strikethrough>
-				</k-control-group>
-				<kc-inline-code></kc-inline-code>
-				<kc-menu>
-					<k-icon slot="icon" name="format_paragraph"></k-icon>
-					<span slot="label">Text Style</span>
-					<kc-format-block tag="p">Paragraph</kc-format-block>
-					<kc-format-block tag="h1">Heading 1</kc-format-block>
-					<kc-format-block tag="h2">Heading 2</kc-format-block>
-					<kc-format-block tag="h3">Heading 3</kc-format-block>
-					<kc-format-block tag="blockquote">Blockquote</kc-format-block>
-					<kc-code-block></kc-code-block>
-				</kc-menu>
-				<k-control-group>
-					<kc-bullet-list></kc-bullet-list>
-					<kc-number-list></kc-number-list>
-				</k-control-group>
-			`,topRight:t`
-				<k-control-group>
-					<kc-align-left></kc-align-left>
-					<kc-align-center></kc-align-center>
-					<kc-align-right></kc-align-right>
-				</k-control-group>
-				<kc-create-link></kc-create-link>
-				<kc-insert-image></kc-insert-image>
-				<kc-format-code></kc-format-code>
-				<kc-mode></kc-mode>
-			`,bottomLeft:t`<kc-word-count></kc-word-count>`,bottomRight:null},full:{topLeft:t`
-				<k-control-group>
-					<kc-bold></kc-bold>
-					<kc-italic></kc-italic>
-					<kc-underline></kc-underline>
-					<kc-strikethrough></kc-strikethrough>
-				</k-control-group>
-				<kc-inline-code></kc-inline-code>
-				<kc-menu>
-					<k-icon slot="icon" name="format_paragraph"></k-icon>
-					<span slot="label">Text Style</span>
-					<kc-format-block tag="p">Paragraph</kc-format-block>
-					<kc-format-block tag="h1">Heading 1</kc-format-block>
-					<kc-format-block tag="h2">Heading 2</kc-format-block>
-					<kc-format-block tag="h3">Heading 3</kc-format-block>
-					<kc-format-block tag="blockquote">Blockquote</kc-format-block>
-					<kc-code-block></kc-code-block>
-				</kc-menu>
-				<k-control-group>
-					<kc-bullet-list></kc-bullet-list>
-					<kc-number-list></kc-number-list>
-				</k-control-group>
-				<k-control-group>
-					<kc-undo></kc-undo>
-					<kc-redo></kc-redo>
-				</k-control-group>
-				<k-control-group>
-					<kc-format-code></kc-format-code>
-					<kc-copy-code></kc-copy-code>
-					<kc-find-replace></kc-find-replace>
-				</k-control-group>
-				<k-control-group>
-					<kc-word-wrap></kc-word-wrap>
-					<kc-minimap></kc-minimap>
-					<kc-fold-all></kc-fold-all>
-				</k-control-group>
-				<kc-font-size></kc-font-size>
-			`,topRight:t`
-				<k-control-group>
-					<kc-align-left></kc-align-left>
-					<kc-align-center></kc-align-center>
-					<kc-align-right></kc-align-right>
-					<kc-align-justify></kc-align-justify>
-				</k-control-group>
-				<kc-create-link></kc-create-link>
-				<k-control-group>
-					<kc-text-color></kc-text-color>
-					<kc-text-background-color></kc-text-background-color>
-				</k-control-group>
-				<kc-clear-formatting></kc-clear-formatting>
-				<kc-insert-image></kc-insert-image>
-				<kc-insert-table></kc-insert-table>
-				<kc-editor-theme></kc-editor-theme>
-				<kc-mode></kc-mode>
-				<kc-fullscreen></kc-fullscreen>
-			`,bottomLeft:t`
+				<k-control-bar>
+					<k-control-group priority="3">
+						<kc-bold></kc-bold>
+						<kc-italic></kc-italic>
+						<kc-underline></kc-underline>
+						<kc-strikethrough></kc-strikethrough>
+					</k-control-group>
+					<kc-inline-code priority="1"></kc-inline-code>
+					<kc-menu>
+						<k-icon slot="icon" name="format_paragraph"></k-icon>
+						<span slot="label">Text Style</span>
+						<kc-format-block tag="p">Paragraph</kc-format-block>
+						<kc-format-block tag="h1">Heading 1</kc-format-block>
+						<kc-format-block tag="h2">Heading 2</kc-format-block>
+						<kc-format-block tag="h3">Heading 3</kc-format-block>
+						<kc-format-block tag="blockquote">Blockquote</kc-format-block>
+						<kc-code-block></kc-code-block>
+					</kc-menu>
+					<k-control-group priority="2">
+						<kc-bullet-list></kc-bullet-list>
+						<kc-number-list></kc-number-list>
+					</k-control-group>
+					<k-control-group slot="right" priority="1">
+						<kc-align-left></kc-align-left>
+						<kc-align-center></kc-align-center>
+						<kc-align-right></kc-align-right>
+					</k-control-group>
+					<kc-create-link slot="right" priority="2"></kc-create-link>
+					<kc-insert-image slot="right" priority="1"></kc-insert-image>
+					<kc-format-code slot="right"></kc-format-code>
+					<kc-mode slot="right" priority="1"></kc-mode>
+				</k-control-bar>
+			`,topRight:null,bottomLeft:t`<kc-word-count></kc-word-count>`,bottomRight:null},full:{topLeft:t`
+				<k-control-bar>
+					<k-control-group priority="3">
+						<kc-bold></kc-bold>
+						<kc-italic></kc-italic>
+						<kc-underline></kc-underline>
+						<kc-strikethrough></kc-strikethrough>
+					</k-control-group>
+					<kc-inline-code priority="1"></kc-inline-code>
+					<kc-menu>
+						<k-icon slot="icon" name="format_paragraph"></k-icon>
+						<span slot="label">Text Style</span>
+						<kc-format-block tag="p">Paragraph</kc-format-block>
+						<kc-format-block tag="h1">Heading 1</kc-format-block>
+						<kc-format-block tag="h2">Heading 2</kc-format-block>
+						<kc-format-block tag="h3">Heading 3</kc-format-block>
+						<kc-format-block tag="blockquote">Blockquote</kc-format-block>
+						<kc-code-block></kc-code-block>
+					</kc-menu>
+					<k-control-group priority="2">
+						<kc-bullet-list></kc-bullet-list>
+						<kc-number-list></kc-number-list>
+					</k-control-group>
+					<k-control-group priority="2">
+						<kc-undo></kc-undo>
+						<kc-redo></kc-redo>
+					</k-control-group>
+					<k-control-group priority="1">
+						<kc-format-code></kc-format-code>
+						<kc-copy-code></kc-copy-code>
+						<kc-find-replace></kc-find-replace>
+					</k-control-group>
+					<k-control-group priority="0">
+						<kc-word-wrap></kc-word-wrap>
+						<kc-minimap></kc-minimap>
+						<kc-fold-all></kc-fold-all>
+					</k-control-group>
+					<kc-font-size></kc-font-size>
+					<k-control-group slot="right" priority="1">
+						<kc-align-left></kc-align-left>
+						<kc-align-center></kc-align-center>
+						<kc-align-right></kc-align-right>
+						<kc-align-justify></kc-align-justify>
+					</k-control-group>
+					<kc-create-link slot="right" priority="2"></kc-create-link>
+					<k-control-group slot="right" priority="1">
+						<kc-text-color></kc-text-color>
+						<kc-text-background-color></kc-text-background-color>
+					</k-control-group>
+					<kc-clear-formatting slot="right"></kc-clear-formatting>
+					<kc-insert-image slot="right" priority="1"></kc-insert-image>
+					<kc-insert-table slot="right" priority="1"></kc-insert-table>
+					<kc-editor-theme slot="right"></kc-editor-theme>
+					<kc-mode slot="right" priority="1"></kc-mode>
+					<kc-fullscreen slot="right"></kc-fullscreen>
+				</k-control-bar>
+			`,topRight:null,bottomLeft:t`
 				<kc-word-count></kc-word-count>
 				<kc-character-count></kc-character-count>
 			`,bottomRight:null},"":{topLeft:null,topRight:null,bottomLeft:null,bottomRight:null}}}customElements.define("k-html-editor",c);

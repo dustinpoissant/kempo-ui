@@ -1,0 +1,18 @@
+Audio (<k-audio>)
+Import: import 'kempo-ui/src/components/Audio.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/audio.html
+
+Sound player with no native controls, the sound-only sibling of `<k-video>`
+
+Details:
+- `src`, `preload`, `autoplay`/`loop`/`muted`, `volume`, `playback-rate`, `crossorigin`, `persistent-id` (resumes the position in the session), `skip-duration`, `download-name`, `artist`/`track-title`/`album`/`year` (shown by `kc-media-metadata`), `playlist-loop` (loop the whole playlist; off by default, so playback stops at the end), `exclusive` (pauses every other playing media on the page when this one plays)
+- `controls` (`minimal`/`normal`/`full`/`none`) or slotted controls
+- (More on the full docs page.)
+
+Related controls:
+- <kc-audio-track> (controls/AudioTrack.js): One playlist entry, a child of `<k-audio>`; `src`, `artist`, `track-title`, `album`, `year`, `download-name` attributes. Hidden; not rendered.
+- <kc-audio-playlist> (controls/AudioPlaylist.js): Drag-to-reorder list of the `<k-audio>` tracks (uses `k-sortable`), current track highlighted, clicking a track plays it. Usually `slot="top"`.
+- <kc-audio-previous> <kc-audio-next> (controls/AudioPrevious.js, controls/AudioNext.js): Buttons that move to the previous or next track of an `<k-audio>` playlist.
+- <kc-audio-loop> (controls/AudioLoop.js): Button that loops the whole playlist (`active` while on).
+- <kc-audio-shuffle> (controls/AudioShuffle.js): Toggle that shuffles the playlist and restores the saved order when turned off (`active` while on). Moving a track by hand turns it off.
+- <kc-media-play-pause> <kc-media-time> <kc-media-seek> <kc-media-duration> <kc-media-volume> <kc-media-mute> <kc-media-speed> <kc-media-repeat> <kc-media-skip-back> <kc-media-skip-forward> <kc-media-download> <kc-media-metadata> <kc-media-link> (controls/Media*.js): Controls that work with both `<k-audio>` and `<k-video>`. `kc-media-repeat` repeats the current track (`loop`). `kc-media-metadata` shows artist, title, album and year as a line that scrolls when it does not fit (`scroll-mode="auto"`, or `"always"`), and stops while paused. `kc-media-link` shows the media URL.

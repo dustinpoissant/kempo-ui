@@ -1,0 +1,550 @@
+<page pageName="Control Bar" title="Control Bar - Components - Kempo Docs - A Web Components Solution">
+  <content location="head">
+    <script>
+    window.contacts = [
+      { name: 'Olivia Smith', email: 'olivia.smith@mailserver.com', birthday: '1984-03-12', gender: 'f' },
+      { name: 'Liam Johnson', email: 'liam.johnson@mailserver.com', birthday: '1991-07-02', gender: 'm' },
+      { name: 'Emma Brown', email: 'emma.brown@mailserver.com', birthday: '1978-11-23', gender: 'f' },
+      { name: 'Noah Davis', email: 'noah.davis@mailserver.com', birthday: '2001-01-30', gender: 'm' },
+      { name: 'Ava Wilson', email: 'ava.wilson@mailserver.com', birthday: '1995-09-18', gender: 'f' }
+    ];
+    </script>
+  </content>
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+      <div class="m pl">
+        <h6>Examples</h6>
+        <a href="#basicUsage">Basic Usage</a><br />
+        <a href="#collapseOrder">Collapse Order</a><br />
+        <a href="#noCollapse">Controls That Stay</a><br />
+        <a href="#priority">Priority</a><br />
+        <a href="#groups">Control Groups</a><br />
+        <a href="#linksButtons">Links and Buttons</a><br />
+        <a href="#hosts">With Each Host</a><br />
+
+        <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+        <a href="#constructor">Constructor</a><br />
+        <a href="#requirements">Requirements</a><br />
+        <a href="#properties">Properties</a><br />
+        <a href="#attributes">Attributes</a><br />
+        <a href="#slots">Slots</a><br />
+      </div>
+    </k-accordion-panel>
+    </k-accordion>
+
+    <p>A single-row toolbar for controls. It has three slots &mdash; the default slot on the left, <code>center</code> and <code>right</code> &mdash; spaced with flexbox. It never wraps to a second row: when the controls no longer fit, they are moved one at a time into a vertical-ellipsis &ldquo;more&rdquo; menu, and they move back as the bar grows. The &ldquo;more&rdquo; menu is a <code>kc-menu</code>. The controls keep working from it, since they are only moved to a different slot.</p>
+    <p>The examples are table toolbars. Drag the right edge of each example to resize it. The controls keep acting on the table from the menu, since they are only moved to a different slot.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Put any controls in the slots (here, table controls in the table&rsquo;s <code>top</code> slot). By default the controls in the <code>right</code> slot are moved into the menu first, starting with the last one, then the <code>center</code> slot, then the default slot.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-search</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-search</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-field-sort-hide</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-field-sort-hide</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-csv</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-csv</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-json</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-json</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-page-size</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-page-size</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-table id="table1">
+              <k-control-bar slot="top">
+              <kc-tc-search></kc-tc-search>
+              <kc-tc-field-sort-hide></kc-tc-field-sort-hide>
+              <kc-tc-export-csv slot="center"></kc-tc-export-csv>
+              <kc-tc-export-json slot="right"></kc-tc-export-json>
+              <kc-tc-page-size slot="right"></kc-tc-page-size>
+              </k-control-bar>
+            </k-table>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="collapseOrder"><a href="#collapseOrder" class="no-link">Collapse Order</a></h3>
+    <p>Use <code>collapse-order</code> to choose which slots are emptied first. It is a space-separated list of <code>right</code>, <code>center</code> and <code>left</code> (or <code>default</code>). Within a slot the last control is always moved first. Here the left side goes first.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">collapse-order</span>=<span class="hljs-string">&quot;left center right&quot;</span>&gt;</span> ... <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-table id="table2">
+              <k-control-bar slot="top" collapse-order="left center right">
+              <kc-tc-search></kc-tc-search>
+              <kc-tc-field-sort-hide></kc-tc-field-sort-hide>
+              <kc-tc-export-csv slot="center"></kc-tc-export-csv>
+              <kc-tc-export-json slot="right"></kc-tc-export-json>
+              <kc-tc-page-size slot="right"></kc-tc-page-size>
+              </k-control-bar>
+            </k-table>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="noCollapse"><a href="#noCollapse" class="no-link">Controls That Stay</a></h3>
+    <p>Menus (<code>kc-menu</code>, <code>kc-vid-menu</code>, <code>k-dropdown</code>) and <code>kc-spacer</code> are never moved into the &ldquo;more&rdquo; menu. Add the <code>no-collapse</code> attribute to keep any other control in the bar, like the search here.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-search</span> <span class="hljs-attr">no-collapse</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-search</span>&gt;</span> ... <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-table id="table3">
+              <k-control-bar slot="top">
+              <kc-tc-search no-collapse></kc-tc-search>
+              <kc-tc-field-sort-hide></kc-tc-field-sort-hide>
+              <kc-tc-export-csv></kc-tc-export-csv>
+              <kc-tc-export-json slot="right"></kc-tc-export-json>
+              <kc-tc-page-size slot="right"></kc-tc-page-size>
+              </k-control-bar>
+            </k-table>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="priority"><a href="#priority" class="no-link">Priority</a></h3>
+    <p>Give a control a <code>priority</code> to keep it in the bar longer. The bar moves controls with the lowest priority into the &ldquo;more&rdquo; menu first (default <code>0</code>, a bare <code>priority</code> means <code>1</code>), following <code>collapse-order</code> within each priority. As the bar keeps shrinking, even the high-priority controls are moved. Unlike <code>no-collapse</code>, they are not kept forever. Here the search stays the longest, then the page size.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-search</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-search</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-field-sort-hide</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-field-sort-hide</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-csv</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-csv</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-json</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-json</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-page-size</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-page-size</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+<k-table id="table5">
+  <k-control-bar slot="top">
+    <kc-tc-search priority="2"></kc-tc-search>
+    <kc-tc-field-sort-hide></kc-tc-field-sort-hide>
+    <kc-tc-export-csv slot="center"></kc-tc-export-csv>
+    <kc-tc-export-json slot="right"></kc-tc-export-json>
+    <kc-tc-page-size slot="right" priority="1"></kc-tc-page-size>
+  </k-control-bar>
+</k-table>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="groups"><a href="#groups" class="no-link">Control Groups</a></h3>
+    <p>Wrap controls in a <code>&lt;k-control-group&gt;</code> to move them into the &ldquo;more&rdquo; menu all at once. The group counts as a single control, so it is moved whole and kept together.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-search</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-search</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-csv</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-csv</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-json</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-json</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-page-size</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-page-size</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+<k-table id="table4">
+  <k-control-bar slot="top">
+    <kc-tc-search></kc-tc-search>
+    <k-control-group slot="right">
+      <kc-tc-export-csv></kc-tc-export-csv>
+      <kc-tc-export-json></kc-tc-export-json>
+    </k-control-group>
+    <kc-tc-page-size slot="right"></kc-tc-page-size>
+  </k-control-bar>
+</k-table>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="linksButtons"><a href="#linksButtons" class="no-link">Links and Buttons</a></h3>
+    <p>The bar is not only for <code>kc-*</code> controls. Plain links and buttons, such as a navbar, collapse into the &ldquo;more&rdquo; menu the same way, with no controlled component needed. In the menu they become full-width rows. <code>priority</code>, <code>no-collapse</code>, <code>soft-min-width</code> and the slots all work on them too. Controls that are not <code>kc-*</code> elements have no <code>menu-text</code> or <code>in-menu</code> styling, so they keep whatever markup you gave them.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn&quot;</span>&gt;</span>Products<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn&quot;</span>&gt;</span>Pricing<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn&quot;</span>&gt;</span>Docs<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn&quot;</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>Log in<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn primary&quot;</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>Sign up<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-control-bar>
+              <a href="#" class="btn">Home</a>
+              <a href="#" class="btn">Products</a>
+              <a href="#" class="btn">Pricing</a>
+              <a href="#" class="btn">Docs</a>
+              <a href="#" class="btn" slot="right">Log in</a>
+              <button class="btn primary" slot="right">Sign up</button>
+            </k-control-bar>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="hosts"><a href="#hosts" class="no-link">With Each Host</a></h2>
+    <p>The same bar works in every component that takes controls. Table is shown above; here are the rest.</p>
+    <h3 id="htmlEditor"><a href="#htmlEditor" class="no-link">HTML Editor</a></h3>
+    <p>Slot the bar into <code>toolbar-top-left</code>. Wrap related controls in a <code>&lt;k-control-group&gt;</code> and the whole group moves into the menu together, ranked by one <code>priority</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-html-editor</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&lt;h3&gt;Resize me&lt;/h3&gt;&lt;p&gt;Drag the right edge of this example. A &lt;b&gt;group&lt;/b&gt; of controls moves into the &lt;b&gt;more&lt;/b&gt; menu as one unit, and comes back when there is room.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The text style group stays longest&lt;/li&gt;&lt;li&gt;Alignment and the mode toggle go first&lt;/li&gt;&lt;/ul&gt;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top-left&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-undo</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-undo</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-redo</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-redo</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-underline</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-underline</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-strikethrough</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bullet-list</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-number-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-left</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-left</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-center</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-right</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-right</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-align-justify</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-align-justify</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-mode</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-mode</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-html-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-html-editor value="<h3>Resize me</h3><p>Drag the right edge of this example. A <b>group</b> of controls moves into the <b>more</b> menu as one unit, and comes back when there is room.</p><ul><li>The text style group stays longest</li><li>Alignment and the mode toggle go first</li></ul>">
+              <k-control-bar slot="toolbar-top-left">
+                <k-control-group priority="2">
+                  <kc-undo></kc-undo>
+                  <kc-redo></kc-redo>
+                </k-control-group>
+                <k-control-group priority="3">
+                  <kc-bold></kc-bold>
+                  <kc-italic></kc-italic>
+                  <kc-underline></kc-underline>
+                  <kc-strikethrough></kc-strikethrough>
+                </k-control-group>
+                <k-control-group priority="1">
+                  <kc-bullet-list></kc-bullet-list>
+                  <kc-number-list></kc-number-list>
+                </k-control-group>
+                <k-control-group slot="center">
+                  <kc-align-left></kc-align-left>
+                  <kc-align-center></kc-align-center>
+                  <kc-align-right></kc-align-right>
+                  <kc-align-justify></kc-align-justify>
+                </k-control-group>
+                <kc-mode slot="right"></kc-mode>
+                <kc-fullscreen slot="right"></kc-fullscreen>
+              </k-control-bar>
+            </k-html-editor>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <h3 id="markdownEditor"><a href="#markdownEditor" class="no-link">Markdown Editor</a></h3>
+    <p>Slot the bar into <code>controls-top</code>. Wrap related controls in a <code>&lt;k-control-group&gt;</code> and the whole group moves into the menu together, ranked by one <code>priority</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-markdown-editor</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;# Resize me<span class="hljs-symbol">&amp;#10;</span><span class="hljs-symbol">&amp;#10;</span>Drag the right edge of this example. A **group** of controls moves into the **more** menu as one unit, and comes back when there is room.<span class="hljs-symbol">&amp;#10;</span><span class="hljs-symbol">&amp;#10;</span>- Bold and italic stay longest<span class="hljs-symbol">&amp;#10;</span>- Links, images and tables go first&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;controls-top&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bold</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bold</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-italic</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-italic</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-strikethrough</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-strikethrough</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-inline-code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-inline-code</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-quote</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-quote</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-link</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-image</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-md-table</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-md-table</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-bullet-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-bullet-list</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-number-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-number-list</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-markdown-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-markdown-editor value="# Resize me&#10;&#10;Drag the right edge of this example. A **group** of controls moves into the **more** menu as one unit, and comes back when there is room.&#10;&#10;- Bold and italic stay longest&#10;- Links, images and tables go first">
+              <k-control-bar slot="controls-top">
+                <k-control-group priority="3">
+                  <kc-bold></kc-bold>
+                  <kc-italic></kc-italic>
+                  <kc-strikethrough></kc-strikethrough>
+                </k-control-group>
+                <k-control-group priority="1">
+                  <kc-inline-code></kc-inline-code>
+                  <kc-quote></kc-quote>
+                </k-control-group>
+                <k-control-group slot="center">
+                  <kc-md-link></kc-md-link>
+                  <kc-md-image></kc-md-image>
+                  <kc-md-table></kc-md-table>
+                </k-control-group>
+                <k-control-group slot="right" priority="2">
+                  <kc-bullet-list></kc-bullet-list>
+                  <kc-number-list></kc-number-list>
+                </k-control-group>
+              </k-control-bar>
+            </k-markdown-editor>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <h3 id="codeEditor"><a href="#codeEditor" class="no-link">Code Editor</a></h3>
+    <p>Slot the bar into <code>toolbar-top-left</code>. Wrap related controls in a <code>&lt;k-control-group&gt;</code> and the whole group moves into the menu together, ranked by one <code>priority</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-code-editor</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;html&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&lt;main&gt;<span class="hljs-symbol">&amp;#10;</span>  &lt;h1&gt;Resize me&lt;/h1&gt;<span class="hljs-symbol">&amp;#10;</span>  &lt;p&gt;Drag the right edge of this example. A group of controls moves into the more menu as one unit, and comes back when there is room.&lt;/p&gt;<span class="hljs-symbol">&amp;#10;</span>&lt;/main&gt;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;toolbar-top-left&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-format-code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-format-code</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-copy-code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-copy-code</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-fold-all</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fold-all</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-word-wrap</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-word-wrap</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-editor-theme</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-editor-theme</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-code-editor</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-code-editor language="html" value="<main>&#10;  <h1>Resize me</h1>&#10;  <p>Drag the right edge of this example. A group of controls moves into the more menu as one unit, and comes back when there is room.</p>&#10;</main>">
+              <k-control-bar slot="toolbar-top-left">
+                <k-control-group priority="2">
+                  <kc-format-code></kc-format-code>
+                  <kc-copy-code></kc-copy-code>
+                </k-control-group>
+                <k-control-group>
+                  <kc-fold-all></kc-fold-all>
+                  <kc-word-wrap></kc-word-wrap>
+                </k-control-group>
+                <kc-editor-theme slot="right"></kc-editor-theme>
+                <kc-fullscreen slot="right"></kc-fullscreen>
+              </k-control-bar>
+            </k-code-editor>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <h3 id="audio"><a href="#audio" class="no-link">Audio</a></h3>
+    <p>The bar goes in the default slot (or <code>top</code> / <code>bottom</code>). The seek bar has <code>no-collapse</code>, so it never moves into the menu and just gets shorter, and play/pause has a high <code>priority</code> so it is the last of the others to go.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/vibedepot-lofi-hip-hop.mp3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-skip-back</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-skip-back</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-skip-forward</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-skip-forward</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-time</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-time</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">no-collapse</span> <span class="hljs-attr">soft-min-width</span>=<span class="hljs-string">&quot;8rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-duration</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-duration</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-volume</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-volume</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-speed</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-speed</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-download</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-download</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-audio src="{{pathToRoot}}media/vibedepot-lofi-hip-hop.mp3">
+              <k-control-bar>
+                <kc-media-skip-back></kc-media-skip-back>
+                <kc-media-play-pause priority="10"></kc-media-play-pause>
+                <kc-media-skip-forward></kc-media-skip-forward>
+                <kc-media-time slot="center" priority="1"></kc-media-time>
+                <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+                <kc-media-duration slot="center" priority="1"></kc-media-duration>
+                <kc-media-volume slot="right"></kc-media-volume>
+                <kc-media-speed slot="right"></kc-media-speed>
+                <kc-media-download slot="right"></kc-media-download>
+              </k-control-bar>
+            </k-audio>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <h3 id="video"><a href="#video" class="no-link">Video</a></h3>
+    <p>The bar goes in the default slot, which is the bar over the bottom of the video. The seek bar has <code>no-collapse</code>, so it never moves into the menu and just gets shorter, and play/pause has a high <code>priority</code> so it is the last of the others to go.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo-mp4.png&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-play-big</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-play-big</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-skip-back</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-skip-back</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-skip-forward</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-skip-forward</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-time</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-time</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">no-collapse</span> <span class="hljs-attr">soft-min-width</span>=<span class="hljs-string">&quot;8rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-duration</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">priority</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-duration</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-volume</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-volume</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-speed</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-speed</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-vid-pip</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-vid-pip</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-fullscreen</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-fullscreen</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-video</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-video src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo-mp4.png">
+              <kc-vid-play-big slot="center"></kc-vid-play-big>
+              <k-control-bar>
+                <kc-media-skip-back></kc-media-skip-back>
+                <kc-media-play-pause priority="10"></kc-media-play-pause>
+                <kc-media-skip-forward></kc-media-skip-forward>
+                <kc-media-time slot="center" priority="1"></kc-media-time>
+                <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+                <kc-media-duration slot="center" priority="1"></kc-media-duration>
+                <kc-media-volume slot="right"></kc-media-volume>
+                <kc-media-speed slot="right"></kc-media-speed>
+                <kc-vid-pip slot="right"></kc-vid-pip>
+                <kc-fullscreen slot="right"></kc-fullscreen>
+              </k-control-bar>
+            </k-video>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+    <h3 id="pagination"><a href="#pagination" class="no-link">Pagination</a></h3>
+    <p>The bar goes in the default slot.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-pagination</span> <span class="hljs-attr">total-items</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-first</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-first</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-prev</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-prev</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-page-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-page-info</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-next</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-last</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-last</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-goto-page</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-goto-page</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-pg-items-per-page</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-pg-items-per-page</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-pagination</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+            <k-pagination total-items="100">
+              <k-control-bar>
+                <kc-pg-first></kc-pg-first>
+                <kc-pg-prev></kc-pg-prev>
+                <kc-pg-page-info></kc-pg-page-info>
+                <kc-pg-next></kc-pg-next>
+                <kc-pg-last></kc-pg-last>
+                <kc-pg-goto-page slot="right"></kc-pg-goto-page>
+                <kc-pg-items-per-page slot="right"></kc-pg-items-per-page>
+              </k-control-bar>
+            </k-pagination>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <hr class="mt" />
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">new</span> <span class="hljs-title class_">ControlBar</span>();</code></pre>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <p>Import the component, plus any controls you slot into it. The bar does not need a host: controls find their own host (<code>closest('[controlled]')</code>) wherever they are slotted.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <div class="table-wrapper mb">
+      <table>
+        <thead>
+          <tr>
+            <th>Property / Attribute</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>collapseOrder</code> / <code>collapse-order</code></td>
+            <td>String</td>
+            <td><code>'right center left'</code></td>
+            <td>The order the slots are emptied into the &ldquo;more&rdquo; menu. <code>left</code> and <code>default</code> both mean the default slot.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes on Controls and Hosts</a></h3>
+    <div class="table-wrapper mb">
+      <table>
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>On</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>no-collapse</code></td>
+            <td>A control in the bar</td>
+            <td>Keeps the control in the bar; it is never moved into the &ldquo;more&rdquo; menu.</td>
+          </tr>
+          <tr>
+            <td><code>soft-min-width</code></td>
+            <td>A control in the bar</td>
+            <td>A width (<code>8rem</code>, <code>120px</code>, or a bare number of pixels). While the bar decides what to move into the &ldquo;more&rdquo; menu, the control is kept at least this wide, so the other controls move into the menu earlier. When nothing is left to move, the control is let go and shrinks below it instead of overflowing the bar. The seek bar in the Audio and Video presets uses <code>8rem</code>. Do not set an inline <code>min-width</code> on the control, as the bar sets and clears it.</td>
+          </tr>
+          <tr>
+            <td><code>priority</code></td>
+            <td>A control in the bar</td>
+            <td>A number, default <code>0</code> (a bare attribute means <code>1</code>). Controls with a higher priority are moved into the &ldquo;more&rdquo; menu later than lower ones, but are still moved when the bar gets small enough.</td>
+          </tr>
+          <tr>
+            <td><code>in-menu</code></td>
+            <td>A control</td>
+            <td>Set by the bar while a control is in the &ldquo;more&rdquo; menu (and by <code>kc-menu</code> on its controls). The control then shows its <code>menu-text</code> slot, the label next to its icon, on its own row. Do not set it yourself.</td>
+          </tr>
+          <tr>
+            <td><code>has-control-bar</code></td>
+            <td>The controlled host</td>
+            <td>Set by the bar on the closest <code>[controlled]</code> element. HtmlEditor, CodeEditor, MarkdownEditor and Pagination use it to let the toolbar region fill the width, which the bar needs to know when to collapse. Do not set it yourself.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
+    <div class="table-wrapper mb">
+      <table>
+        <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>(default)</td>
+            <td>Controls on the left.</td>
+          </tr>
+          <tr>
+            <td><code>center</code></td>
+            <td>Controls in the middle.</td>
+          </tr>
+          <tr>
+            <td><code>right</code></td>
+            <td>Controls on the right. The &ldquo;more&rdquo; menu is placed after them.</td>
+          </tr>
+          <tr>
+            <td><code>overflow</code></td>
+            <td>Set by the bar on the controls that are in the &ldquo;more&rdquo; menu. Do not set it yourself.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script type="module" src="{{pathToRoot}}src/components/Resize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ControlGroup.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/ControlBar.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Table.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcSearch.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcFieldSortHide.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcExportCsv.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcExportJson.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/TcPageSize.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/HtmlEditor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/MarkdownEditor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/CodeEditor.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Audio.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Video.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Pagination.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Undo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Redo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Bold.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Italic.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Underline.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Strikethrough.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/BulletList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/NumberList.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AlignLeft.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AlignCenter.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AlignRight.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/AlignJustify.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Mode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Fullscreen.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/InlineCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/Quote.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MdLink.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MdImage.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MdTable.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FormatCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/CopyCode.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/FoldAll.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/WordWrap.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/EditorTheme.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaPlayPause.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSkipBack.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSkipForward.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaTime.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/VidPlayBig.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaDuration.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSeek.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaVolume.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaSpeed.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/MediaDownload.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/VidPip.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgFirst.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgPrev.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgPageInfo.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgNext.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgLast.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgGotoPage.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/controls/PgItemsPerPage.js"></script>
+    <script type="module">
+      await window.customElements.whenDefined('k-table');
+      ['table1', 'table2', 'table3', 'table4', 'table5'].forEach(id => document.getElementById(id).setRecords(contacts));
+    </script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

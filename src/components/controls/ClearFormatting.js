@@ -13,7 +13,7 @@ export default class ClearFormatting extends ButtonControl {
 
   handleAction() { this.host?.removeFormat?.(); }
 
-  render() { return html`<slot><k-icon name="format_clear"></k-icon></slot>`; }
+  render() { return html`<slot><k-icon name="format_clear"></k-icon></slot><slot name="menu-text">Clear Formatting</slot>`; }
 }
 
 customElements.define('kc-clear-formatting', ClearFormatting);

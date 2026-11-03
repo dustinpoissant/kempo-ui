@@ -1,0 +1,5 @@
+context (utility)
+Import: import context from 'kempo-ui/src/utils/context.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/context.html
+
+`createContext(key, initialValue)` → `{ get, set, subscribe }` pub/sub state

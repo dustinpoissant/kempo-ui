@@ -29,7 +29,8 @@ export default class MarkdownEditor extends ShadowComponent {
     allowedTags: { type: String, reflect: true, attribute: 'allowed-tags' },
     disallowedTags: { type: String, reflect: true, attribute: 'disallowed-tags' },
     scriptsEnabled: { type: Boolean, reflect: true, attribute: 'scripts-enabled' },
-    controls: { type: String, reflect: true }
+    controls: { type: String, reflect: true },
+    noResize: { type: Boolean, reflect: true, attribute: 'no-resize' }
   };
 
   /*
@@ -49,6 +50,7 @@ export default class MarkdownEditor extends ShadowComponent {
     this.disallowedTags = '';
     this.scriptsEnabled = false;
     this.controls = '';
+    this.noResize = false;
     this[defaultValue] = '';
     this[debouncedChange] = debounce(() => this.handleChange(), 300);
   }
@@ -412,10 +414,7 @@ export default class MarkdownEditor extends ShadowComponent {
   /*
     Rendering
   */
-  render() {
-    const set = this.constructor.controlSets[this.controls] ?? this.constructor.controlSets[''];
-    return html`
-      <k-resize dimension="height" ?disabled=${this.disabled}>
+  #renderFrame = set => html`
         <div class="frame">
           <k-tabs fixed-height active=${this.mode} @tab=${this.handleTabChange}>
             <k-tab slot="tabs" for="write">Write</k-tab>
@@ -449,8 +448,14 @@ export default class MarkdownEditor extends ShadowComponent {
             <slot name="controls-bottom">${set.bottom ?? nothing}</slot>
           </div>
         </div>
-      </k-resize>
-    `;
+  `;
+
+  render() {
+    const set = this.constructor.controlSets[this.controls] ?? this.constructor.controlSets[''];
+    // With no-resize there is no drag handle at all (a disabled handle still shows, faded),
+    // so the frame simply has the height of --height.
+    if(this.noResize) return html`<div class="no-handle">${this.#renderFrame(set)}</div>`;
+    return html`<k-resize dimension="height" ?disabled=${this.disabled}>${this.#renderFrame(set)}</k-resize>`;
   }
 
   static styles = css`
@@ -478,7 +483,14 @@ export default class MarkdownEditor extends ShadowComponent {
       align-items: center;
       flex-wrap: wrap;
     }
-    k-resize {
+    :host([has-control-bar]) .controls-top {
+      display: flex;
+      flex: 100 1 0;
+      min-width: 0;
+      justify-content: flex-end;
+    }
+    k-resize,
+    .no-handle {
       width: 100%;
       height: var(--height, 14rem);
       min-height: var(--min-height);
@@ -546,62 +558,68 @@ export default class MarkdownEditor extends ShadowComponent {
     none: { top: null, bottom: null },
     minimal: {
       top: html`
-        <kc-menu>
-          <k-icon slot="icon" name="text_fields"></k-icon>
-          <kc-format-block tag="h1"></kc-format-block>
-          <kc-format-block tag="h3"></kc-format-block>
-          <kc-format-block tag="h5"></kc-format-block>
-        </kc-menu>
-        <kc-bold></kc-bold>
-        <kc-italic></kc-italic>
-        <kc-bullet-list></kc-bullet-list>
-        <kc-number-list></kc-number-list>
+        <k-control-bar>
+          <kc-menu>
+            <k-icon slot="icon" name="text_fields"></k-icon>
+            <kc-format-block tag="h1"></kc-format-block>
+            <kc-format-block tag="h3"></kc-format-block>
+            <kc-format-block tag="h5"></kc-format-block>
+          </kc-menu>
+          <kc-bold priority="3"></kc-bold>
+          <kc-italic priority="3"></kc-italic>
+          <kc-bullet-list slot="right" priority="2"></kc-bullet-list>
+          <kc-number-list slot="right" priority="2"></kc-number-list>
+        </k-control-bar>
       `,
       bottom: null
     },
     normal: {
       top: html`
-        <kc-menu>
-          <k-icon slot="icon" name="text_fields"></k-icon>
-          <kc-format-block tag="h1"></kc-format-block>
-          <kc-format-block tag="h2"></kc-format-block>
-          <kc-format-block tag="h3"></kc-format-block>
-          <kc-format-block tag="h4"></kc-format-block>
-          <kc-format-block tag="h5"></kc-format-block>
-          <kc-format-block tag="h6"></kc-format-block>
-        </kc-menu>
-        <kc-bold></kc-bold>
-        <kc-italic></kc-italic>
-        <kc-quote></kc-quote>
-        <kc-inline-code></kc-inline-code>
-        <kc-md-link></kc-md-link>
-        <kc-bullet-list></kc-bullet-list>
-        <kc-number-list></kc-number-list>
+        <k-control-bar>
+          <kc-menu>
+            <k-icon slot="icon" name="text_fields"></k-icon>
+            <kc-format-block tag="h1"></kc-format-block>
+            <kc-format-block tag="h2"></kc-format-block>
+            <kc-format-block tag="h3"></kc-format-block>
+            <kc-format-block tag="h4"></kc-format-block>
+            <kc-format-block tag="h5"></kc-format-block>
+            <kc-format-block tag="h6"></kc-format-block>
+          </kc-menu>
+          <kc-bold priority="3"></kc-bold>
+          <kc-italic priority="3"></kc-italic>
+          <kc-quote priority="1"></kc-quote>
+          <kc-inline-code priority="1"></kc-inline-code>
+          <kc-md-link priority="2"></kc-md-link>
+          <kc-bullet-list slot="right" priority="2"></kc-bullet-list>
+          <kc-number-list slot="right" priority="2"></kc-number-list>
+        </k-control-bar>
       `,
       bottom: null
     },
     full: {
       top: html`
-        <kc-menu>
-          <k-icon slot="icon" name="text_fields"></k-icon>
-          <kc-format-block tag="h1"></kc-format-block>
-          <kc-format-block tag="h2"></kc-format-block>
-          <kc-format-block tag="h3"></kc-format-block>
-          <kc-format-block tag="h4"></kc-format-block>
-          <kc-format-block tag="h5"></kc-format-block>
-          <kc-format-block tag="h6"></kc-format-block>
-        </kc-menu>
-        <kc-bold></kc-bold>
-        <kc-italic></kc-italic>
-        <kc-strikethrough></kc-strikethrough>
-        <kc-quote></kc-quote>
-        <kc-inline-code></kc-inline-code>
-        <kc-md-link></kc-md-link>
-        <kc-md-image></kc-md-image>
-        <kc-md-table></kc-md-table>
-        <kc-bullet-list></kc-bullet-list>
-        <kc-number-list></kc-number-list>
-        <kc-md-speech-to-text></kc-md-speech-to-text>
+        <k-control-bar>
+          <kc-menu>
+            <k-icon slot="icon" name="text_fields"></k-icon>
+            <kc-format-block tag="h1"></kc-format-block>
+            <kc-format-block tag="h2"></kc-format-block>
+            <kc-format-block tag="h3"></kc-format-block>
+            <kc-format-block tag="h4"></kc-format-block>
+            <kc-format-block tag="h5"></kc-format-block>
+            <kc-format-block tag="h6"></kc-format-block>
+          </kc-menu>
+          <kc-bold priority="3"></kc-bold>
+          <kc-italic priority="3"></kc-italic>
+          <kc-strikethrough></kc-strikethrough>
+          <kc-quote priority="1"></kc-quote>
+          <kc-inline-code priority="1"></kc-inline-code>
+          <kc-md-link priority="2"></kc-md-link>
+          <kc-md-image priority="1"></kc-md-image>
+          <kc-md-table></kc-md-table>
+          <kc-bullet-list slot="right" priority="2"></kc-bullet-list>
+          <kc-number-list slot="right" priority="2"></kc-number-list>
+          <kc-md-speech-to-text slot="right"></kc-md-speech-to-text>
+        </k-control-bar>
       `,
       bottom: null
     }

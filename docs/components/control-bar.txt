@@ -1,0 +1,17 @@
+Control Bar (<k-control-bar>)
+Import: import 'kempo-ui/src/components/ControlBar.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/control-bar.html
+
+Single-row responsive toolbar with `default` (left), `center` and `right` slots spaced with flexbox
+
+Details:
+- never wraps — when the controls no longer fit, they are moved (by switching their `slot` to `overflow`) into a vertical-ellipsis "more" menu one at a time and moved back as the bar grows
+- `collapse-order` (default `"right center left"`, `left` = `default`) sets which slot is emptied first, always starting from its last control
+- the "more" menu is a `kc-menu`
+- menus (`kc-menu`, `kc-vid-menu`, `k-dropdown`), `kc-spacer` and anything with `no-collapse` are never moved
+- a `k-control-group` moves as one unit
+- `priority` on a control (number, default 0, bare = 1) moves it into the menu later than lower-priority ones (unlike `no-collapse`, high priorities still move once the bar is small enough)
+- plain `<a>` and `<button>` children (a navbar, say) collapse too, shown as full-width rows in the menu, and the "more" menu works without a controlled host
+- `soft-min-width` on a control (`8rem`, `120px`, or bare px) keeps it at least that wide while others are moved into the menu, then lets it shrink below that when nothing is left to move (the Audio/Video seek bar uses `8rem`)
+- sets `has-control-bar` on the closest `[controlled]` host so HtmlEditor, CodeEditor, MarkdownEditor and Pagination let the toolbar fill the width
+- slot it in Table `top`, HtmlEditor/CodeEditor `toolbar-top-left`, MarkdownEditor `controls-top`, Audio/Video/Pagination default slot

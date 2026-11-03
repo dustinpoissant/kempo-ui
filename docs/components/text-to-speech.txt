@@ -1,0 +1,11 @@
+Text to Speech (<k-text-to-speech>)
+Import: import 'kempo-ui/src/components/TextToSpeech.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/text-to-speech.html
+
+Button that wraps `window.speechSynthesis`
+
+Details:
+- speaks `text` attr or slotted content
+- `voice`, `language`, `rate`, `pitch`, `volume` attrs
+- methods `speak(text?)` / `stop()` / `toggle()`
+- fires `start`, `end`, `error`

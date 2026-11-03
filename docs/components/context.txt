@@ -1,0 +1,9 @@
+Context (<k-context>)
+Import: import 'kempo-ui/src/components/Context.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/context.html
+
+Non-rendering state container
+
+Details:
+- `set(key,value)`, `get(key)`, `delete(key)`, `clear()`, `getData()`
+- fires `context:create`, `context:set`, `context:delete`
