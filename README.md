@@ -189,3 +189,4 @@ We welcome contributions. Read [AGENTS.md](AGENTS.md) first: it covers the proje
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Generic License](https://creativecommons.org/licenses/by-nc-sa/2.0/) - see the [LICENSE.md](LICENSE.md) file for details.
 
 Built using [Lit](https://lit.dev/)
+
