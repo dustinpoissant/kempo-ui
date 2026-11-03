@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - **`<k-aside-btn>`:** a small floating button in a corner that opens and closes an `<k-aside>` (`for="id"`). It is hidden under an open aside by default, or `push` keeps it beside the aside. The menu icon is the default slot content and can be replaced; it extends `Button`, so classes restyle it. It is dimmed to 70% opacity until hovered or focused. Show or hide it by breakpoint with the kempo-css classes (`class="d-n m-d-b"`, mobile only).
 - **`<k-aside mobile-main>`:** the aside uses `main` above 768px wide and `mobile-main` at or below it, e.g. `main="push" mobile-main="overlay"`. A collapsed overlay shows its rail over the content. `push-from-offscreen="collapsed"` and `overlay-from-collapsed="offscreen"` (both optional) set the state when the layout changes, so a hidden aside can be reopened on desktop and a rail does not stay over the content on mobile.
+
+### Changed
+
+- **`<k-aside>` breakpoint is 768px.** `mobile-main` applies at or below 768px and `main` above it, which matches kempo-css's mobile range (the `m-` classes).
+- **`<k-aside>` overlay toggle is an X.** In the overlay layout the header toggle shows an X that hides the aside. A pushed aside keeps the arrow, which collapses it to its rail.
+- **`<k-aside>` collapsed overlay shows its rail.** A collapsed aside with an overlay layout stays visible as a rail over the content, and `<k-main>` reserves room for it.
+
+## [1.0.0] - 2026-11-02
+### Added
+
 - **`<k-chat-bubble>`:** a round floating chat button that opens a chat popup, for customer service or any LLM you connect.
 - **`<k-audio>`:** a sound player with a playlist, built from the same `kc-media-*` controls as `<k-video>`.
 - **`<k-control-bar>`:** a single-row toolbar that moves controls into a "more" menu when there is no room.
@@ -20,9 +30,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **`<k-aside>` breakpoint is 768px.** `mobile-main` applies at or below 768px and `main` above it, which matches kempo-css's mobile range (the `m-` classes).
-- **`<k-aside>` overlay toggle is an X.** In the overlay layout the header toggle shows an X that hides the aside. A pushed aside keeps the arrow, which collapses it to its rail.
-- **`<k-aside>` collapsed overlay shows its rail.** A collapsed aside with an overlay layout stays visible as a rail over the content, and `<k-main>` reserves room for it.
 - **BREAKING: this release needs a major version bump (1.0.0).**
 - **BREAKING: `<k-chat>` defaults to a plain box, not the editor.** The editor with tabs and a toolbar is `input="markdown-editor"`. The default has no drag handle; `markdown-resize` adds one under the editor and `resize` adds one under the whole chat. `<k-chat>` also gains `input`, `persistent-id`, `prompt-api`, `empty-message` and slots for your own controls.
 - **BREAKING: the media controls are renamed.** The shared controls `kc-vid-*` are now `kc-media-*` (for example `kc-vid-play-pause` is `kc-media-play-pause`), and they work with `<k-audio>` too. The video-only controls `kc-vid-menu`, `kc-vid-pip` and `kc-vid-play-big` keep their names. `kc-media-loop` is now `kc-media-repeat` (it repeats the current track), and `kc-audio-loop` loops a playlist.
@@ -191,7 +198,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Removed
 - Readonly mode removed from CodeEditor documentation (code-level support remains for backwards compatibility)
-
 
 ## [0.4.19] - 2026-05-06
 ### Added
