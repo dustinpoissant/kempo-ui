@@ -14,10 +14,10 @@
     "CHANGELOG.md"
   ],
   "bin": {
-    "kempo-icon": "./bin/icon.js",
-    "kempo-geticon": "./bin/get_icon.js",
-    "kempo-listicons": "./bin/list_icons.js",
-    "kempo-highlightcode": "./bin/highlight_code.js"
+    "kempo-icon": "bin/icon.js",
+    "kempo-geticon": "bin/get_icon.js",
+    "kempo-listicons": "bin/list_icons.js",
+    "kempo-highlightcode": "bin/highlight_code.js"
   },
   "scripts": {
     "build": "node scripts/build.js",
