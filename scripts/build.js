@@ -12,6 +12,20 @@ console.log('Loading utils');
 // Clear dist directory first
 await emptyDir('./dist');
 
+/*
+  The docs use the kempo-css installed as a dev dependency: its stylesheet is copied into docs/, and docs/init.js points
+  pathToStylesheet at that copy. Without kempo-css installed, init.js leaves the CDN default in place.
+*/
+const kempoCss = './node_modules/kempo-css/dist/kempo.min.css';
+const hasKempoCss = await fs.access(kempoCss).then(() => true, () => false);
+if(hasKempoCss){
+  await fs.copyFile(kempoCss, './docs/kempo.min.css');
+  await fs.writeFile('./docs/init.js', `window.kempo = { ...window.kempo, pathToStylesheet: new URL('kempo.min.css', document.currentScript.src).href };\n`, 'utf-8');
+} else {
+  console.log('kempo-css is not installed, so the docs use the CDN stylesheet');
+  await fs.writeFile('./docs/init.js', `window.kempo = { ...window.kempo, pathToStylesheet: 'https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css' };\n`, 'utf-8');
+}
+
 const allJSFiles = [];
 async function buildAllJSFiles(dir, baseSrcDir) {
   const files = await fs.readdir(dir);

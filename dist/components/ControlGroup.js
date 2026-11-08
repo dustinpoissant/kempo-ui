@@ -5,6 +5,9 @@ import t from"./ShadowComponent.js";import{html as e,css as i}from"../lit-all.mi
 		:host([hidden]) {
 			display: none !important;
 		}
+		:host([collapsed]) {
+			display: none !important;
+		}
 		::slotted(*) {
 			border: 0;
 			border-right: 1px solid var(--c_border);

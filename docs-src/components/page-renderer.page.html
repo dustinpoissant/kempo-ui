@@ -1,0 +1,49 @@
+<page pageName="Page Renderer" title="Page Renderer - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <p>Renders the page that <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> emits as a page. The element writes the page's HTML into itself, loads the modules its widgets need, and runs its scripts. It is plain HTML and not Lit, so the same markup can be written on a server.</p>
+    <p>The example below renders the page saved by the Page Builder demo. The <a href="{{pathToRoot}}components/page-renderer-example.html">example page</a> does the same on its own.</p>
+
+    <div class="mb">
+      <k-page-renderer id="demo"></k-page-renderer>
+    </div>
+
+    <h2 id="using">Using it</h2>
+    <p>Set <code>value</code> to a page. The element renders it, and fires <code>render</code> when the widgets are in place.</p>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-page-renderer</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;page&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-page-renderer</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;/kempo-ui/src/components/PageRenderer.js&#x27;</span>;<br>  <span class="hljs-keyword">const</span> page = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&#x27;my-page&#x27;</span>) || <span class="hljs-string">&#x27;null&#x27;</span>);<br>  <span class="hljs-keyword">if</span> (page) <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;page&#x27;</span>).<span class="hljs-property">value</span> = page;<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <table>
+      <thead><tr><th>Name</th><th>Does</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>The page, as the builder emits it. Setting a new page replaces the old one.</td></tr>
+        <tr><td><code>render</code> event</td><td>Fired once the page is in the element. <code>detail.value</code> is the page.</td></tr>
+        <tr><td><code>PageRenderer.toHTML(value)</code></td><td>The page's HTML as a string, for a page that is rendered without a browser.</td></tr>
+      </tbody>
+    </table>
+    <p>The element renders the widgets registered in <code>PageBuilder.widgets</code>, so a widget added with <code>PageBuilder.addWidget</code> (or with <code>addWidget</code> from <code>utils/pageWidgets.js</code>) renders here too.</p>
+
+    <h2 id="server">Rendering on a server</h2>
+    <p>Import the utilities rather than the element. The element defines custom elements when it loads, and a server cannot do that. Both utilities have no DOM and no Lit.</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  renderPage<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/utils/renderPage.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> html = <span class="hljs-title function_">renderPage</span>(pageJson.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>, <span class="hljs-title function_">registryOf</span>(widgets));</code></pre>
+    <p>Pass a <code>sanitize</code> function. kempo-ui's <code>sanitizeHtml</code> needs a browser DOM, so it cannot run on a server, and without a sanitizer the HTML of text widgets and table cells is written exactly as it was saved. Markdown text is escaped, and the HTML widget is written as it is on purpose, so neither goes through <code>sanitize</code>: only let people you trust edit an HTML widget.</p>
+    <pre><code class="hljs javascript">const html = renderPage(pageJson.slots.default, registryOf(widgets), {
+  sanitize: html => mySanitizer(html)
+});</code></pre>
+    <p><code>collectModules(nodes, registry)</code> returns the modules the widgets need. Their URLs are made from <code>import.meta.url</code>, so on a server they are <code>file:</code> URLs. Map them to the URLs your site serves the files from before you put them in a page.</p>
+    <pre><code class="hljs javascript">const scripts = collectModules(pageJson.slots.default, registryOf(widgets))
+  .map(url => url.replace(/^.*\/src\//, '/kempo-ui/src/'));</code></pre>
+
+    <h2 id="notes">Notes</h2>
+    <ul>
+      <li>The modules a page needs are loaded before its HTML is written, so the widgets upgrade as soon as they are shown.</li>
+      <li>Scripts in the page run. The element re-creates them, since a script written with <code>innerHTML</code> does not run.</li>
+    </ul>
+
+    <script type="module">
+      import '{{pathToRoot}}src/components/PageRenderer.js';
+
+      try {
+        const page = JSON.parse(localStorage.getItem('kempo-ui:page') || 'null');
+        if(page) document.getElementById('demo').value = page;
+      } catch {}
+    </script>
+  </content>
+</page>

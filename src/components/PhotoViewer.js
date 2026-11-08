@@ -1,5 +1,5 @@
 import ShadowComponent from './ShadowComponent.js';
-import { html, css, render } from '../lit-all.min.js';
+import { html, css, render, nothing } from '../lit-all.min.js';
 import { boolExists } from '../utils/propConverters.js';
 import getOverlayRoot from '../utils/overlayRoot.js';
 import './Icon.js';
@@ -9,18 +9,22 @@ export default class PhotoViewer extends ShadowComponent {
 	static properties = {
 		src: { type: String, reflect: true },
 		alt: { type: String, reflect: true },
+		ratio: { type: String, reflect: true },
 		fullscreen: { type: Boolean, reflect: true, converter: boolExists },
 		keyboardControls: { type: Boolean, reflect: true, attribute: 'keyboard-controls', converter: boolExists },
-		global: { type: Boolean, reflect: true, converter: boolExists }
+		global: { type: Boolean, reflect: true, converter: boolExists },
+		noFullscreen: { type: Boolean, reflect: true, attribute: 'no-fullscreen', converter: boolExists }
 	};
 
 	constructor() {
 		super();
 		this.src = '';
 		this.alt = '';
+		this.ratio = '';
 		this.fullscreen = false;
 		this.keyboardControls = true;
 		this.global = false;
+		this.noFullscreen = false;
 	}
 
 	/*
@@ -135,7 +139,7 @@ export default class PhotoViewer extends ShadowComponent {
 		Public Methods
 	*/
 	open() {
-		this.fullscreen = true;
+		if(!this.noFullscreen) this.fullscreen = true;
 	}
 
 	close() {
@@ -143,7 +147,8 @@ export default class PhotoViewer extends ShadowComponent {
 	}
 
 	toggle() {
-		this.fullscreen = !this.fullscreen;
+		if(this.fullscreen) this.close();
+		else this.open();
 	}
 
 	/*
@@ -291,6 +296,14 @@ export default class PhotoViewer extends ShadowComponent {
 			outline: none;
 			border-radius: var(--img_radius, 0);
 		}
+		:host([ratio]) #img {
+			width: 100%;
+			object-fit: contain;
+			background: #000;
+		}
+		:host([no-fullscreen]) #img {
+			cursor: default;
+		}
 		#img:focus {
 			box-shadow: var(--focus_shadow);
 		}
@@ -381,9 +394,10 @@ export default class PhotoViewer extends ShadowComponent {
 		return html`
 			<div id="wrapper">
 				<img 
-					id="img" 
-					src="${this.src}" 
-					alt="${this.alt}" 
+					id="img"
+					src="${this.src}"
+					alt="${this.alt}"
+					style=${this.ratio ? `aspect-ratio: ${this.ratio}` : nothing}
 					tabindex="0"
 					@click=${this.handleImageClick}
 					@keydown=${this.handleImageKeydown}

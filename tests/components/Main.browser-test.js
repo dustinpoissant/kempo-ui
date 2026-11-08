@@ -234,5 +234,26 @@ export default {
 		}
 		cleanup(main);
 		pass('Renders default slot');
+	},
+
+	/*
+		Main - Full Width
+	*/
+	'should drop the width limit and side padding with full-width': async ({pass, fail}) => {
+		const main = await createMain();
+		main.style.setProperty('--spacer', '1rem');
+		const inner = main.shadowRoot.querySelector('main');
+		const read = () => {
+			const style = getComputedStyle(inner);
+			return { maxWidth: style.maxWidth, left: style.paddingLeft, right: style.paddingRight };
+		};
+		const before = read();
+		main.setAttribute('full-width', '');
+		await main.updateComplete;
+		const after = read();
+		cleanup(main);
+		if(before.maxWidth === 'none' || before.left === '0px') return fail(`The content should be limited without full-width, got ${JSON.stringify(before)}`);
+		if(after.maxWidth !== 'none' || after.left !== '0px' || after.right !== '0px') return fail(`full-width should remove the limit and side padding, got ${JSON.stringify(after)}`);
+		pass('full-width removes the width limit and side padding');
 	}
 };

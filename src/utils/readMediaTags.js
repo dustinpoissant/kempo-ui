@@ -56,6 +56,7 @@ const readId3Text = (bytes) => {
 const id3Fields = {
   TIT2: 'title', TT2: 'title',
   TPE1: 'artist', TP1: 'artist',
+  TPE2: 'albumArtist', TP2: 'albumArtist',
   TALB: 'album', TAL: 'album',
   TYER: 'year', TYE: 'year', TDRC: 'year'
 };
@@ -100,7 +101,7 @@ const readId3v1 = (bytes) => {
 */
 const uint32 = (bytes, offset) => ((bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]) >>> 0;
 
-const mp4Fields = { '©nam': 'title', '©ART': 'artist', '©alb': 'album', '©day': 'year' };
+const mp4Fields = { '©nam': 'title', '©ART': 'artist', 'aART': 'albumArtist', '©alb': 'album', '©day': 'year' };
 
 const mp4Containers = ['moov', 'udta', 'meta', 'ilst'];
 
@@ -157,14 +158,19 @@ const readMp4 = async (src, head) => {
 
 /*
   Resolves the title, artist, album and year stored in the file itself (ID3v2, ID3v1 or MP4 tags).
+  The album artist is the artist when the file has one, as it is the artist of the release rather than of a featured track.
   Fields that are not present are left out, and a file with no readable tags resolves to {}.
 */
+const preferAlbumArtist = ({ albumArtist, ...tags }) => (albumArtist ? { ...tags, artist: albumArtist } : tags);
+
 export default async (src) => {
   try{
     const head = await readRange(src, 0, HEAD_BYTES);
-    if(ascii(head, 0, 3) === 'ID3') return readId3v2(head);
-    if(ascii(head, 4, 4) === 'ftyp') return await readMp4(src, head);
-    return readId3v1(await readRange(src, -128));
+    let tags;
+    if(ascii(head, 0, 3) === 'ID3') tags = readId3v2(head);
+    else if(ascii(head, 4, 4) === 'ftyp') tags = await readMp4(src, head);
+    else tags = readId3v1(await readRange(src, -128));
+    return preferAlbumArtist(tags);
   } catch(e){
     return {};
   }

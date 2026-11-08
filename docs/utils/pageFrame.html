@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Page Frame Utility - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <script src="../init.js"></script>
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+      no-collapse
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      <span class="nav-brand-text">Kempo UI</span>
+    </a>
+    <div
+      class="nav-search"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+      />
+      <div
+        id="navSearchDropdown"
+        class="nav-search-dropdown"
+        hidden
+        theme="light"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside button fab floating menu sidebar toggle components"><a
+              href="../components/aside-btn.html">Aside Button<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="audio player play pause seek volume speed loop sound music podcast components"><a
+              href="../components/audio.html">Audio<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card grid tile layout gallery selection components"><a
+              href="../components/card-grid.html">CardGrid<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="image crop cropper upload photo avatar profile canvas resize components"><a
+              href="../components/image-crop.html"
+            >Image Crop<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon selector iconselector picker choose dialog filter components"><a
+              href="../components/icon-selector.html">Icon Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="media gallery mediagallery product images video photos thumbnails carousel slider lightbox ecommerce etsy components"><a
+              href="../components/media-gallery.html"
+            >Media Gallery<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder editor widgets json controlled components"><a
+              href="../components/page-builder.html">Page Builder<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder image picker media library pictures"><a
+              href="../components/page-builder/image.html">Page Builder Image Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder video picker media library"><a
+              href="../components/page-builder/video.html">Page Builder Video Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder audio picker media library sound"><a
+              href="../components/page-builder/audio.html">Page Builder Audio Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder icon picker icons search"><a
+              href="../components/page-builder/icon.html">Page Builder Icon Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page renderer render json server components"><a
+              href="../components/page-renderer.html">Page Renderer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="rating star stars review score components"><a
+              href="../components/rating.html"
+            >Rating<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record links url open click advanced example"><a
+              href="../components/tableRecordLinks.html"
+            >Table &mdash; Record Links<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="imagesize image size natural width height measure utils utility"><a
+              href="../utils/imageSize.html">imageSize<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pageframe page frame iframe preview page builder utils utility"><a
+              href="../utils/pageFrame.html">pageFrame<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagehistory page history undo redo page builder utils utility"><a
+              href="../utils/pageHistory.html">pageHistory<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagelabels page labels title icon hint page builder utils utility"><a
+              href="../utils/pageLabels.html">pageLabels<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagetree page tree widgets nodes slots add move remove page builder utils utility"><a
+              href="../utils/pageTree.html">pageTree<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidgets page widgets registry addwidget definitions page builder utils utility"><a
+              href="../utils/pageWidgets.html">pageWidgets<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidth page width css variable breakout utils utility"><a
+              href="../utils/pageWidth.html">pageWidth<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="renderpage render page html server prerender ssr page builder utils utility"><a
+              href="../utils/renderPage.html">renderPage<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="styles style classes margin padding background page builder utils utility"><a
+              href="../utils/styles.html">styles<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/aside-btn.html">Aside Button</a>
+        <a href="../components/audio.html">Audio</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/card-grid.html">CardGrid</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/icon-selector.html">Icon Selector</a>
+        <a href="../components/image-crop.html">Image Crop</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/media-gallery.html">Media Gallery</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/page-builder.html">Page Builder</a>
+        <a href="../components/page-builder/image.html">Page Builder: Image Picker</a>
+        <a href="../components/page-builder/video.html">Page Builder: Video Picker</a>
+        <a href="../components/page-builder/audio.html">Page Builder: Audio Picker</a>
+        <a href="../components/page-builder/icon.html">Page Builder: Icon Picker</a>
+        <a href="../components/page-renderer.html">Page Renderer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/rating.html">Rating</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/imageSize.html">imageSize</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/pageFrame.html">pageFrame</a>
+        <a href="../utils/pageHistory.html">pageHistory</a>
+        <a href="../utils/pageLabels.html">pageLabels</a>
+        <a href="../utils/pageTree.html">pageTree</a>
+        <a href="../utils/pageWidgets.html">pageWidgets</a>
+        <a href="../utils/pageWidth.html">pageWidth</a>
+        <a href="../utils/promptApi.html">promptApi</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/renderPage.html">renderPage</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/styles.html">styles</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+  <k-main >
+    
+    <h1>Page Frame</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#constructor">Constructor</a><br />
+          <a href="#handlers">Handlers</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#behaviour">What It Does</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>The page as the <a href="../components/page-builder.html">Page Builder</a> shows it: an <code>iframe</code> holding the site's own stylesheets, with the page rendered into it in editor mode (every widget's element carries <code>data-pb-id</code>). This class owns that iframe. The builder gives it the tree and the ids to mark as selected, and it reports what the person did through the handlers.</p>
+    <p>The builder uses it. It is documented here so a site that extends the builder knows what the frame does, and it is not meant to be used on its own. It needs a browser.</p>
+    <p>The iframe is on the same origin, so the builder reads and writes its document directly. The widgets' modules are loaded by the iframe's own window (a script tag inside it), so their elements are defined there and upgrade.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">PageFrame</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageFrame.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> frame = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PageFrame</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>), {<br>  <span class="hljs-attr">onSelect</span>: <span class="hljs-function">(<span class="hljs-params">id, {<br>    additive<br>  }</span>) =&gt;</span> frame.<span class="hljs-title function_">setSelection</span>([id]),<br>  <span class="hljs-attr">onBlank</span>: <span class="hljs-function">() =&gt;</span> frame.<span class="hljs-title function_">setSelection</span>([]),<br>  <span class="hljs-attr">onChange</span>: <span class="hljs-function">(<span class="hljs-params">id, changes</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(id, changes),<br>  <span class="hljs-attr">onDrop</span>: <span class="hljs-function">(<span class="hljs-params">id, place</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(id, place),<br>  <span class="hljs-attr">canDrop</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">restricted</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">false</span>,<br>  <span class="hljs-attr">onKeyDown</span>: <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">key</span>),<br>  <span class="hljs-attr">locate</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">null</span>,<br>  <span class="hljs-attr">nameOf</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;a widget&#x27;</span><br>});<br><span class="hljs-keyword">await</span> frame.<span class="hljs-property">ready</span>;<br><span class="hljs-keyword">await</span> frame.<span class="hljs-title function_">render</span>(page.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>, <span class="hljs-title function_">registryOf</span>(widgets), []);</code></pre>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h4><code>new PageFrame(iframe, handlers)</code></h4>
+    <h5><code>iframe<i>: HTMLIFrameElement</i></code></h5>
+    <p>The iframe to draw the page in. The constructor gives it a document with the stylesheets of the page it is on, the editor's marks, and an empty root.</p>
+    <h5><code>handlers<i>: Object</i></code></h5>
+    <p>See <a href="#handlers">Handlers</a>.</p>
+
+    <h3 id="handlers"><a href="#handlers" class="no-link">Handlers</a></h3>
+    <ul>
+      <li><code>onSelect(id, { additive })</code> &mdash; a widget was clicked. <code>additive</code> is <code>true</code> with Ctrl, Cmd or Shift held.</li>
+      <li><code>onBlank()</code> &mdash; the page itself was clicked.</li>
+      <li><code>onChange(id, changes)</code> &mdash; a widget's editor changed its settings (a <code>pb-change</code> event from the widget, or text edited on the page when it loses focus).</li>
+      <li><code>onDrop(id, place)</code> &mdash; a widget was dropped. <code>place</code> is <code>{ parentId, slot, index }</code>.</li>
+      <li><code>canDrop(id, parentId, slot)</code> &mdash; whether the dragged widget may go in that list.</li>
+      <li><code>restricted(id)</code> &mdash; whether the widget is moved from its parent's settings, not on the page (a section).</li>
+      <li><code>onKeyDown(event)</code> &mdash; a key was pressed inside the page.</li>
+      <li><code>locate(id)</code> &mdash; where a widget is: <code>{ parentId, slot, index }</code>, or <code>null</code>.</li>
+      <li><code>nameOf(id)</code> &mdash; what a widget is called in a drop label.</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>ready<i>: Promise</i></code></h5>
+    <p>Resolves once the iframe's document has loaded and the frame is listening to it. <code>render</code> waits for it too.</p>
+    <h5><code>document<i>: Document</i></code></h5>
+    <p>The iframe's document.</p>
+    <h5><code>window<i>: Window</i></code></h5>
+    <p>The iframe's window.</p>
+    <h5><code>root<i>: HTMLElement</i></code></h5>
+    <p>The element the page is drawn in (<code>#pb-root</code>).</p>
+    <h5><code>selection<i>: Array&lt;string&gt;</i></code></h5>
+    <p>The ids last given to <code>setSelection</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+
+    <h4><code>render(nodes, registry, selection)</code></h4>
+    <h5>Returns: <code>Promise</code></h5>
+    <p>Draws the nodes (the page's list of widgets) with the registry they use, and marks the selection. It loads the modules the widgets need into the frame (once each) before it draws, writes the page with <code>renderPage</code> in editor mode, with <code>sanitizeHtml</code> as <code>sanitize</code>, and keeps the page where it was scrolled to. See <a href="#behaviour">What It Does</a> for what it keeps from the page it replaces.</p>
+
+    <h4><code>setSelection(ids)</code></h4>
+    <p>Marks the widgets with these ids as selected: they get the class <code>pb-selected</code>, and the class is taken off the others. Each element gets a <code>pb-selected</code> event with <code>detail.selected</code> (<code>true</code> only when one widget is selected). A focused element that is not inside a selected widget is blurred, and the drag handle moves to the first selected widget.</p>
+
+    <h4><code>showDropTarget(id, zone)</code></h4>
+    <p>Shows where a widget being dragged somewhere else (in the tree) would go: the widget with that id gets the class <code>pb-drop-before</code>, <code>pb-drop-after</code> or <code>pb-drop-inside</code> to match <code>zone</code> (<code>'before'</code>, <code>'after'</code> or <code>'inside'</code>). Any earlier target is cleared. Pass no <code>id</code> to clear them.</p>
+
+    <h4><code>blurFocus()</code></h4>
+    <p>Blurs the focused element in the frame, even when it is inside a shadow root.</p>
+
+    <h4><code>scrollTo(id)</code></h4>
+    <p>Scrolls the frame's page, up or down only, to bring the widget with that id into view. It does not scroll the page around the frame, which would push the left of the page out of view.</p>
+
+    <h4><code>focusAfterRender(id, path)</code></h4>
+    <p>Once the page has been drawn again, puts the caret at the end of the part of widget <code>id</code> marked <code>data-pb-edit="path"</code>.</p>
+
+    <h4><code>placeHandle()</code></h4>
+    <p>Puts the drag handle above the first selected widget. It is hidden when nothing is selected, or the widget is <code>restricted</code>. The frame calls it itself when the selection changes and the page or the frame scrolls or resizes.</p>
+
+    <h3 id="behaviour"><a href="#behaviour" class="no-link">What It Does</a></h3>
+
+    <h4>Clicking</h4>
+    <ul>
+      <li>The first click selects the outermost widget under it. A click inside the selected widget selects the next one down towards what was clicked, so each click goes one level deeper. With Ctrl, Cmd or Shift it is the widget beside the selected ones (the same parent). Sections are not selected on their own: the widget they are part of is.</li>
+      <li>An accordion's heading, a tab and a content slider's arrow select the widget they belong to, and still work: that click is not cancelled.</li>
+      <li>A click on the page itself is cancelled and calls <code>onBlank</code>, so the browser does not put a caret in the nearest text.</li>
+      <li>A link or a form in the page cannot take the builder somewhere else: its click is cancelled.</li>
+    </ul>
+
+    <h4>Editing on the Page</h4>
+    <ul>
+      <li>An editable part of a widget (<code>contenteditable</code>, with <code>data-pb-edit</code> naming what it edits, or the widget's own element for a text widget) sends its HTML to <code>onChange</code> when it loses focus, sanitized with <code>sanitizeHtml</code>: <code>{ html }</code> for a text widget's own element, and <code>{ [path]: html }</code> for a part named by <code>data-pb-edit</code>. An emptied <code>data-pb-edit</code> part sends <code>''</code>, not the <code>&lt;br&gt;</code> the browser leaves behind.</li>
+      <li>Keys pressed in the page go to <code>onKeyDown</code>. Escape cancels a drag.</li>
+    </ul>
+
+    <h4>Keeping the Page's State Between Draws</h4>
+    <p>Every change draws the page again. So that this does not close what the person opened, the frame remembers and restores:</p>
+    <ul>
+      <li>The open sections of each accordion.</li>
+      <li>The active tab of each tabs widget.</li>
+      <li>The slide being shown in each content slider.</li>
+    </ul>
+    <p>They are found by the widget's id, so a renamed tab stays open. If the setting for what starts open (a section's open by default, the default tab, the start slide) is what changed, the new default is shown instead.</p>
+
+    <h4>Empty Places</h4>
+    <p>A container with nothing in it says it is empty, with the widget's name. A closed accordion section and a tab that is not active are not shown when empty.</p>
+
+    <h4>Dragging</h4>
+    <p>The handle above the selected widget is dragged with the pointer. While it is, every place the widget may go (<code>canDrop</code>) is shown as an outlined box: a zone between the widgets of each list (the page and every container), and each empty container. The box under the pointer fills in, the page scrolls when the pointer is near its top or bottom edge, and letting go on a box calls <code>onDrop</code>. Letting go anywhere else cancels.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/Accordion.js"></script>
+  
+</body>
+</html>

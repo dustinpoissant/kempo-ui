@@ -1,0 +1,44 @@
+<page pageName="Page Builder Icon" title="Page Builder: Icon - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <div class="container">
+      <p class="tc-muted"><a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> &rsaquo; Pickers</p>
+      <h1>Icon picker</h1>
+      <p>Icons are chosen with one picker, kept at <code>PageBuilderFields.pickers.icon</code>. By default it is the <a href="{{pathToRoot}}components/icon-selector.html">Icon Selector</a>, which shows the site's icons and the brand icons for social links. A site that has its own icon source (an icon library, or an icon search that fetches icons from an API) replaces it, and every icon field in the builder uses that instead.</p>
+
+      <h2 id="uses">Where it is used</h2>
+      <table>
+        <thead><tr><th>Widget</th><th>Setting</th></tr></thead>
+        <tbody>
+          <tr><td>Icon</td><td>Icon. The Icon widget also has a Source (the address of any SVG file, used instead of the picked icon), a Direction or Rotation, and an Animation (spin, blink or pulse), as the <a href="{{pathToRoot}}components/icon.html">Icon</a> component does.</td></tr>
+          <tr><td>Button</td><td>Icon, shown in front of the text</td></tr>
+          <tr><td>File</td><td>Icon, shown in front of the link text (a download icon by default)</td></tr>
+          <tr><td>Accordion section</td><td>Icon, shown in front of the heading</td></tr>
+          <tr><td>Tab</td><td>Icon, shown in front of the tab name</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="contract">The picker</h2>
+      <p>A picker is a function that takes one object and returns a Lit template (the <code>html</code> tag from <code>lit-all.min.js</code>):</p>
+      <ul>
+        <li><code>id</code>: give the element this id. The field's label points at it.</li>
+        <li><code>value</code>: the current icon. It is a kempo icon name, such as <code>save</code>. A custom SVG is <code>src:</code> followed by its path, such as <code>src:/my-site/icons/logo.svg</code>. An empty string means no icon.</li>
+        <li><code>change(value)</code>: sets the icon, with the same kind of value. A choice saves on its own, so there is no need for <code>coalesce</code>.</li>
+      </ul>
+      <p>Set the picker before the builder is opened.</p>
+
+      <h2 id="add">Adding icons to the default picker</h2>
+      <p>The default picker keeps the site's icons from the icons folder. <code>IconSelector.add(name, src)</code> adds one more: with a <code>src</code>, it is a custom SVG, and without one, it is a name that the icons folder already has.</p>
+
+      <h2 id="replace">Replacing it</h2>
+      <p>This picker is a site's own element, <code>my-icon-search</code>, which searches an icon API and fires <code>change</code> with the icon it picked.</p>
+      <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">IconSelector</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/components/IconSelector.js&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">PageBuilderFields</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/components/pagebuilder/PageBuilderFields.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  html<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/lit-all.min.js&#x27;</span>;<br><span class="hljs-title class_">IconSelector</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;logo&#x27;</span>, <span class="hljs-string">&#x27;/my-site/icons/logo.svg&#x27;</span>);<br><span class="hljs-title class_">PageBuilderFields</span>.<span class="hljs-property">pickers</span>.<span class="hljs-property">icon</span> = <span class="hljs-function">(<span class="hljs-params">{<br>  id,<br>  value,<br>  change<br>}</span>) =&gt;</span> html`<span class="language-xml"><br>  <span class="hljs-tag">&lt;<span class="hljs-name">my-icon-search</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${id}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span> <span class="hljs-attr">.value</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${value}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span> @<span class="hljs-attr">change</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${event =&gt; change(event.detail.value)}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-icon-search</span>&gt;</span>`</span>;</code></pre>
+
+      <h2 id="others">The other pickers</h2>
+      <ul>
+        <li><a href="{{pathToRoot}}components/page-builder/image.html">Image picker</a> for pictures.</li>
+        <li><a href="{{pathToRoot}}components/page-builder/video.html">Video picker</a> for the Video widget's address.</li>
+        <li><a href="{{pathToRoot}}components/page-builder/audio.html">Audio picker</a> for the Audio widget's address.</li>
+      </ul>
+    </div>
+  </content>
+</page>

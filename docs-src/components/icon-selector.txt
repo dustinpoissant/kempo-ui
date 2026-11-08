@@ -1,0 +1,22 @@
+Icon Selector (<k-icon-selector>)
+Import: import 'kempo-ui/src/components/IconSelector.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/icon-selector.html
+
+Form input that picks an icon. It looks like an input with the icon and its name, and opens a dialog of icons when clicked.
+
+Example:
+<k-icon-selector name="menuIcon" value="menu"></k-icon-selector>
+
+Details:
+- value (String): the icon's name without the extension, e.g. "star". For a custom icon it is "src:" followed by the path to the SVG. Reflects.
+- name (String): the form field name. Form-associated: the name submits, and a form reset restores the first value.
+- icons (String): comma-separated list of icon names to choose from, spaces are trimmed. Default: every name in IconSelector.icons.
+- dialog-title (String): heading of the dialog, default "Choose an Icon".
+- The dialog has a filter box, a grid of icons (click one to select it), and the buttons "Cancel" and "Choose Icon". Only "Choose Icon" changes the value.
+- Fires `change` with detail { value } when "Choose Icon" changes the value.
+- Static IconSelector.icons: the default list of icon names (every icon in the standard icons directory).
+- Static IconSelector.add(name, src): adds an icon every Icon Selector can choose, in addition to its list. src is optional: give the path to an SVG outside the standard icons directory. The value is then "src:" followed by that path.
+- auto-choose (Boolean): clicking an icon in the dialog chooses it straight away and closes the dialog. The "Choose Icon" button is removed; "Cancel" stays.
+- placeholder (String, default "Choose an Icon"): the text shown in the field when no icon is selected.
+- icon-only (Boolean): shows only the icon, not its name, and the field is inline-block. The name is kept as the button's label and tooltip.
+- allow-clear (Boolean): the dialog's Cancel button becomes "Clear", which empties the value and fires change.

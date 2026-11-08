@@ -1,0 +1,16 @@
+pageWidgets (utility)
+Import: import { widgets, addWidget, registryOf } from 'kempo-ui/src/utils/pageWidgets.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/pageWidgets.html
+
+The widgets a page can use: the list PageBuilder.widgets is, and PageBuilder.addWidget adds to. PageRenderer and the server read the same list, so a page that only renders needs to register the same widgets. No DOM, so it can be imported on a server.
+
+Details:
+- widgets: the array of widget definitions, starting with the widgets kempo ships
+- addWidget(config): checks the config and adds it at the end, or replaces the widget with the same name. Returns the stored definition. Throws an Error with the reason when a rule is broken: name (lowercase letters, digits and hyphens, starting with a letter), title, tag (same form as name), an editor needs editorTag, a settings module needs settingsTag
+- the stored definition has defaults for what was not given: category 'content', icon 'help', description '', keywords [], slots [], children {}; page is always an array and each attribute without a type is 'string'
+- registryOf(list = widgets): a Map of definitions by name, the registry renderPage, pageTree and the builder use
+- definition fields: name (the type stored in the page), title, category (content, media, layout, interactive or any name) and categoryTitle (the heading of a new category), icon or iconSrc, iconRotation (degrees clockwise; a right facing icon with 90 points down), description and keywords (shown in the Add list and searched), tag, page (module URL(s) the page needs), editor and editorTag, settings and settingsTag, attributes (the settings; a select with beside: 'name' is drawn on the line of that number setting), slots ([{ name, label }]), children ({ slotName: ['type', ...] } a new one starts with), section (a part of another widget, added from its parent's settings), inline (inline-block, not a block), hideStyles (parts of the Styles tab it hides: box, background, textColour, align, id, classes), keydown(event, { node, path, html }) for keys in an editable part, display (the display class instead of d-b or d-ib; '' for none), content ({ name, mode: 'html' | 'text' | 'raw' }), classes(attrs) and style(attrs), prepare(node) (async, data from outside the page), render(node, ctx, info, definition) (the whole HTML; see renderPage)
+
+Example:
+import { addWidget } from 'kempo-ui/src/utils/pageWidgets.js';
+addWidget({ name: 'quote', title: 'Quote', category: 'content', tag: 'blockquote', content: { name: 'text', mode: 'text' }, attributes: [{ name: 'text', type: 'string', virtual: true, label: 'Quote' }] });

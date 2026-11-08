@@ -1,0 +1,48 @@
+<page pageName="Page Labels" title="Page Labels Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Page Labels</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>How the <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> names a widget: its icon, its title in the tree and the settings, a short hint of what it says or points to, and the label of a section (a column by its place, a tab or accordion section by its heading). The builder uses it. It imports Lit and <code>Icon.js</code>, so it needs a browser.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  titleOf,<br>  hintOf,<br>  sectionLabelOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageLabels.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> registry = <span class="hljs-title function_">registryOf</span>(widgets);<br><span class="hljs-keyword">const</span> node = {<br>  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;a&#x27;</span>,<br>  <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;button&#x27;</span>,<br>  <span class="hljs-attr">attrs</span>: {<br>    <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Buy now&#x27;</span><br>  },<br>  <span class="hljs-attr">slots</span>: {}<br>};<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${titleOf(registry, node)}</span>: <span class="hljs-subst">${hintOf(node)}</span>`</span>);</code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API</a></h3>
+
+    <h4><code>widgetIcon(definition)</code></h4>
+    <h5><code>definition<i>: Object</i></code></h5>
+    <p>A widget definition.</p>
+    <h5>Returns: <code>TemplateResult</code></h5>
+    <p>A Lit template for the widget's icon: a <code>&lt;k-icon&gt;</code> from its <code>iconSrc</code> (the path of an icon file), or else from its <code>icon</code> name (<code>help</code> when it has none, or when <code>definition</code> is missing). A definition's <code>iconRotation</code> is passed to the icon as its <code>rotation</code>, in degrees.</p>
+
+    <h4><code>titleOf(registry, node)</code></h4>
+    <h5>Returns: <code>string</code></h5>
+    <p>The title of the node's widget, or the node's <code>type</code> when it is not registered.</p>
+
+    <h4><code>hintOf(node)</code></h4>
+    <h5>Returns: <code>string</code></h5>
+    <p>A short hint of what a widget says or points to, at most 40 characters. For a text widget it is the text, with its tags and extra spaces removed. For any other widget it is the first of its <code>label</code>, <code>title</code>, <code>name</code>, <code>condition</code>, <code>src</code> and <code>href</code> settings that has a value. <code>''</code> when there is none.</p>
+
+    <h4><code>sectionLabelOf(node, index)</code></h4>
+    <h5><code>index<i>: number</i></code></h5>
+    <p>The section's place in its parent, from <code>0</code>.</p>
+    <h5>Returns: <code>string</code></h5>
+    <p>The label of a section: <code>Column 1</code> for a column, <code>Slide 1</code> for a slide, <code>Tab spacer</code> for a tab spacer, and for any other section its <code>label</code> or <code>title</code> setting, or <code>Section 1</code> when it has neither. The number is <code>index + 1</code>.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

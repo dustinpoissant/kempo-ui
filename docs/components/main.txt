@@ -6,3 +6,6 @@ Layout main
 
 Details:
 - automatically adjusts margins when a `k-aside[main="push"]` opens
+- the content is a centered column no wider than `--container_width` (default `90rem`), with the spacer as padding
+- the content is clipped at the sides (`overflow-x: clip`, which does not make a scroll container), as a safety so a Page Builder Fullscreen breakout, which is as wide as the page, cannot give the page a horizontal scrollbar
+- `full-width` removes that width limit and the side padding, so the content fills the width and the aside still adjusts the margins; put the content that should stay in a centered column in a `.container` (kempo-css) inside it

@@ -1,0 +1,1 @@
+const e=document.documentElement;new ResizeObserver(()=>e.style.setProperty("--page-width",`${e.clientWidth}px`)).observe(e),e.style.setProperty("--page-width",`${e.clientWidth}px`);

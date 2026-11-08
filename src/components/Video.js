@@ -650,7 +650,7 @@ export default class Video extends ShadowComponent {
       center: html`<kc-vid-play-big></kc-vid-play-big>`,
       bottom: html`
         <k-control-bar>
-          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
           <kc-media-time slot="center" priority="1"></kc-media-time>
           <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
           <kc-media-duration slot="center" priority="1"></kc-media-duration>
@@ -662,7 +662,7 @@ export default class Video extends ShadowComponent {
       center: html`<kc-vid-play-big></kc-vid-play-big>`,
       bottom: html`
         <k-control-bar>
-          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
           <kc-media-time slot="center" priority="1"></kc-media-time>
           <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
           <kc-media-duration slot="center" priority="1"></kc-media-duration>
@@ -677,9 +677,9 @@ export default class Video extends ShadowComponent {
       center: html`<kc-vid-play-big></kc-vid-play-big>`,
       bottom: html`
         <k-control-bar>
-          <kc-media-skip-back></kc-media-skip-back>
-          <kc-media-play-pause priority="10"></kc-media-play-pause>
-          <kc-media-skip-forward></kc-media-skip-forward>
+          <kc-media-skip-back priority="4"></kc-media-skip-back>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
+          <kc-media-skip-forward priority="5"></kc-media-skip-forward>
           <kc-media-time slot="center" priority="1"></kc-media-time>
           <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
           <kc-media-duration slot="center" priority="1"></kc-media-duration>

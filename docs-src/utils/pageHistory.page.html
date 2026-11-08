@@ -1,0 +1,66 @@
+<page pageName="Page History" title="Page History Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Page History</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#constructor">Constructor</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>Undo and redo for the <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a>: two stacks of earlier and later pages, going at most <code>limit</code> steps back. Each step is a copy of the page as it was before a change. The history is kept in memory only, so a reload clears it.</p>
+    <p>The builder uses it. It does not look at what a step holds, so it works for anything you can copy.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">PageHistory</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageHistory.js&#x27;</span>;<br><span class="hljs-keyword">const</span> history = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PageHistory</span>();<br><span class="hljs-keyword">let</span> page = {<br>  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;One&#x27;</span><br>};<br>history.<span class="hljs-title function_">push</span>(<span class="hljs-title function_">structuredClone</span>(page));<br>page = {<br>  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Two&#x27;</span><br>};<br>page = history.<span class="hljs-title function_">undo</span>(<span class="hljs-title function_">structuredClone</span>(page));<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(page.<span class="hljs-property">title</span>);<br>page = history.<span class="hljs-title function_">redo</span>(<span class="hljs-title function_">structuredClone</span>(page));<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(page.<span class="hljs-property">title</span>);</code></pre>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h4><code>new PageHistory(limit = 50)</code></h4>
+    <h5><code>limit<i>: number</i></code> (optional)</h5>
+    <p>The most steps kept. When there are more, the oldest is dropped. Defaults to <code>50</code>.</p>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>limit<i>: number</i></code></h5>
+    <p>The most steps kept.</p>
+    <h5><code>past<i>: Array</i></code></h5>
+    <p>The earlier pages, the most recent last.</p>
+    <h5><code>future<i>: Array</i></code></h5>
+    <p>The pages that were undone, the next one to redo last.</p>
+    <h5><code>canUndo<i>: boolean</i></code></h5>
+    <p><code>true</code> when there is a step to go back to.</p>
+    <h5><code>canRedo<i>: boolean</i></code></h5>
+    <p><code>true</code> when there is a step to go forward to.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+
+    <h4><code>push(snapshot)</code></h4>
+    <p>Records the page as it was before a change. Any steps to redo are gone once the page changes, and the oldest step is dropped when there are more than <code>limit</code>.</p>
+
+    <h4><code>undo(current)</code></h4>
+    <h5><code>current<i>: any</i></code></h5>
+    <p>The page as it is now. It is kept, so that <code>redo</code> can come back to it.</p>
+    <h5>Returns: <code>any | null</code></h5>
+    <p>The page to go back to, or <code>null</code> when there is none.</p>
+
+    <h4><code>redo(current)</code></h4>
+    <h5><code>current<i>: any</i></code></h5>
+    <p>The page as it is now. It is kept, so that <code>undo</code> can come back to it.</p>
+    <h5>Returns: <code>any | null</code></h5>
+    <p>The page to go forward to, or <code>null</code> when there is none.</p>
+
+    <h4><code>clear()</code></h4>
+    <p>Forgets every step, past and future.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

@@ -1,0 +1,26 @@
+pageFrame (utility)
+Import: import PageFrame from 'kempo-ui/src/utils/pageFrame.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/pageFrame.html
+
+The page as the Page Builder shows it: an iframe with the site's own stylesheets, the page rendered into it in editor mode (every widget's element has data-pb-id). The builder uses it and it is not meant to be used on its own; it needs a browser. The iframe is on the same origin, and the widget modules are loaded by the iframe's own window so their elements are defined there.
+
+Details:
+- new PageFrame(iframe, handlers): gives the iframe a document with the page's stylesheets, the editor's marks and an empty root
+- handlers: onSelect(id, { additive }) a widget was clicked; onBlank() the page was clicked; onChange(id, changes) a widget's editor (pb-change event) or text edited on the page changed its settings; onDrop(id, { parentId, slot, index }); canDrop(id, parentId, slot); restricted(id) a section, moved from its parent's settings; onKeyDown(event); locate(id) -> { parentId, slot, index } or null; nameOf(id) the name in a drop label
+- properties: ready (Promise, resolves when the frame is listening), document, window, root (#pb-root), selection (the ids last given to setSelection)
+- render(nodes, registry, selection): async; loads the modules the widgets need into the frame, writes the page with renderPage in editor mode and sanitizeHtml, marks the selection, keeps the scroll position
+- setSelection(ids): adds the class pb-selected to those widgets (and fires a pb-selected event with detail.selected), removes it from the others, blurs focus outside the selection, moves the drag handle
+- showDropTarget(id, zone): the widget gets the class pb-drop-before, pb-drop-after or pb-drop-inside (zone is 'before', 'after' or 'inside'); earlier targets are cleared, no id clears them
+- blurFocus(): blurs the focused element, even inside a shadow root. scrollTo(id): scrolls the frame's page up or down to the widget. focusAfterRender(id, path): after the next render, puts the caret at the end of the data-pb-edit="path" part of that widget. placeHandle(): puts the drag handle above the first selected widget (hidden when none or restricted)
+- clicking: the first click selects the outermost widget, a click inside the selected one goes one level deeper, Ctrl/Cmd/Shift selects the widget beside the selected ones; sections are not selected on their own; an accordion heading, a tab or a content slider arrow selects its widget and still works; a click on the blank page is cancelled and calls onBlank; links and forms in the page are cancelled
+- editing: an editable part sends its sanitized HTML to onChange when it loses focus ({ html } for a text widget, { [path]: html } for a data-pb-edit part); keys go to onKeyDown, Escape cancels a drag
+- every draw keeps the open accordion sections, the active tab and the shown slide (found by widget id), unless the setting for what starts open is what changed
+- empty containers say they are empty; a closed accordion section and an inactive tab are not shown when empty
+- dragging the handle shows an outlined box for every place the widget may go, scrolls near the top and bottom edges, and onDrop is called when it is let go on a box
+
+Example:
+import PageFrame from 'kempo-ui/src/utils/pageFrame.js';
+import { widgets, registryOf } from 'kempo-ui/src/utils/pageWidgets.js';
+const frame = new PageFrame(document.querySelector('iframe'), { onSelect: id => frame.setSelection([id]), onBlank: () => frame.setSelection([]), onChange: () => {}, onDrop: () => {}, canDrop: () => true, restricted: () => false, onKeyDown: () => {}, locate: () => null, nameOf: () => 'a widget' });
+await frame.ready;
+await frame.render(page.slots.default, registryOf(widgets), []);

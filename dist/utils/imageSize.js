@@ -1,0 +1,1 @@
+export default e=>new Promise(t=>{const n=new Image;n.onload=()=>t({width:n.naturalWidth,height:n.naturalHeight}),n.onerror=()=>t(null),n.src=e});

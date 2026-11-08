@@ -7,4 +7,5 @@ Groups toolbar controls visually
 Details:
 - strips child borders/radius/margin and adds right-side separators via `::slotted(*)`
 - auto-hides when all children are hidden
+- `split`: inside a `k-control-bar`, the group's controls collapse into the "more" menu one at a time (each by its own `priority`, or the group's, `no-collapse` stays) instead of the whole group moving as one unit; the bar sets `collapsed` (hidden) on a split group with nothing left in it
 - used internally by CodeEditor, HtmlEditor, and other toolbar-based components

@@ -1,0 +1,109 @@
+<page pageName="Styles" title="Styles Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Styles</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#shape">The Styles Object</a><br />
+          <a href="#constants">Constants</a><br />
+          <a href="#functions">Functions</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>The styles a <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> widget has beyond its own settings, kept on the widget as <code>styles</code>. Almost all of them are kempo-css classes the person chooses: the space around the widget (margin) and inside it (padding), a background, a text colour, the text alignment, which corners are rounded, and which sides have a border. The background's opacity is the one style value, because kempo-css has no class for it. A widget also has an id and extra classes.</p>
+    <p>The page and the builder write them the same way, on the widget's first element. It has no DOM, so a server can use it too.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  decorate<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/styles.js&#x27;</span>;<br><span class="hljs-keyword">const</span> html = <span class="hljs-title function_">decorate</span>(<span class="hljs-string">&#x27;&lt;div&gt;Hello&lt;/div&gt;&#x27;</span>, {<br>  <span class="hljs-attr">margin</span>: {<br>    <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;f&#x27;</span><br>  },<br>  <span class="hljs-attr">align</span>: <span class="hljs-string">&#x27;center&#x27;</span><br>}, <span class="hljs-string">&#x27;d-b&#x27;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(html);</code></pre>
+
+    <h3 id="shape"><a href="#shape" class="no-link">The Styles Object</a></h3>
+    <pre><code class="hljs javascript">{<br>  <span class="hljs-attr">margin</span>: {<br>    <span class="hljs-attr">top</span>: <span class="hljs-string">&#x27;f&#x27;</span>,<br>    <span class="hljs-attr">right</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>    <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;f&#x27;</span>,<br>    <span class="hljs-attr">left</span>: <span class="hljs-string">&#x27;&#x27;</span><br>  },<br>  <span class="hljs-attr">padding</span>: {<br>    <span class="hljs-attr">top</span>: <span class="hljs-string">&#x27;h&#x27;</span>,<br>    <span class="hljs-attr">right</span>: <span class="hljs-string">&#x27;h&#x27;</span>,<br>    <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;h&#x27;</span>,<br>    <span class="hljs-attr">left</span>: <span class="hljs-string">&#x27;h&#x27;</span><br>  },<br>  <span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;primary&#x27;</span>,<br>  <span class="hljs-attr">alpha</span>: <span class="hljs-number">80</span>,<br>  <span class="hljs-attr">textColour</span>: <span class="hljs-string">&#x27;inv&#x27;</span>,<br>  <span class="hljs-attr">align</span>: <span class="hljs-string">&#x27;center&#x27;</span>,<br>  <span class="hljs-attr">corners</span>: [<span class="hljs-string">&#x27;tl&#x27;</span>, <span class="hljs-string">&#x27;tr&#x27;</span>],<br>  <span class="hljs-attr">sides</span>: [<span class="hljs-string">&#x27;top&#x27;</span>],<br>  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;hero&#x27;</span>,<br>  <span class="hljs-attr">classes</span>: <span class="hljs-string">&#x27;extra another&#x27;</span><br>}</code></pre>
+    <ul>
+      <li><code>margin</code>, <code>padding</code> &mdash; a size for each side: <code>''</code> none, <code>'q'</code> a quarter space, <code>'h'</code> half a space, <code>'f'</code> a whole space.</li>
+      <li><code>background</code> &mdash; one of <code>BACKGROUNDS</code>. <code>alpha</code> is its opacity: a percentage, rounded and held between 0 and 100, and 100 when it is missing.</li>
+      <li><code>textColour</code> &mdash; one of <code>TEXT_COLOURS</code>.</li>
+      <li><code>align</code> &mdash; one of <code>ALIGNS</code>.</li>
+      <li><code>corners</code> &mdash; the rounded corners, from <code>CORNERS</code>. <code>sides</code> &mdash; the sides with a border, from <code>SIDES</code>.</li>
+      <li><code>id</code> &mdash; the element's id. <code>classes</code> &mdash; extra class names, separated by spaces.</li>
+    </ul>
+
+    <h3 id="constants"><a href="#constants" class="no-link">Constants</a></h3>
+    <h5><code>STYLE_PARTS</code></h5>
+    <p>The parts of the Styles tab a widget can hide with <code>hideStyles</code>, and the styles each one holds: <code>box</code> (<code>margin</code>, <code>padding</code>, <code>corners</code>, <code>sides</code>), <code>background</code> (<code>background</code>, <code>alpha</code>), <code>textColour</code>, <code>align</code>, <code>id</code> and <code>classes</code>.</p>
+    <h5><code>SIDES</code></h5>
+    <p><code>['top', 'right', 'bottom', 'left']</code></p>
+    <h5><code>SIZES</code></h5>
+    <p><code>['', 'q', 'h', 'f']</code></p>
+    <h5><code>BACKGROUNDS</code></h5>
+    <p><code>['default', 'alt', 'inv', 'primary', 'secondary', 'success', 'warning', 'danger']</code></p>
+    <h5><code>TEXT_COLOURS</code></h5>
+    <p><code>['default', 'muted', 'inv', 'primary', 'secondary', 'success', 'warning', 'danger']</code></p>
+    <h5><code>ALIGNS</code></h5>
+    <p><code>['left', 'center', 'right']</code></p>
+    <h5><code>CORNERS</code></h5>
+    <p><code>['tl', 'tr', 'bl', 'br']</code></p>
+
+    <h3 id="functions"><a href="#functions" class="no-link">Functions</a></h3>
+
+    <h4><code>styleClasses(styles)</code></h4>
+    <h5>Returns: <code>Array&lt;string&gt;</code></h5>
+    <p>The kempo-css classes a widget's styles give it, using the shortest names. A margin or padding on all four sides the same is one class (<code>m</code>, <code>mh</code>, <code>mq</code>), top and bottom the same is <code>my</code>, left and right the same is <code>mx</code>, and anything else is a class per side (<code>mt</code>, <code>mbq</code>). A whole space has no suffix, and padding uses <code>p</code> in place of <code>m</code>. A background is <code>bg-*</code>, a text colour <code>tc-*</code>, an alignment <code>ta-*</code>. All four corners is <code>r</code> and all four sides is <code>b</code>; otherwise there is a class for each one chosen (<code>rtl</code>, <code>rtr</code>, <code>rbl</code>, <code>rbr</code>, <code>bt</code>, <code>br</code>, <code>bb</code>, <code>bl</code>). Extra <code>classes</code> are added when they are plain names (letters, digits, <code>_</code> and <code>-</code>). A background that is see-through has no class: see <code>styleCss</code>.</p>
+
+    <h4><code>styleCss(styles)</code></h4>
+    <h5>Returns: <code>string</code></h5>
+    <p>The one inline style a widget's styles give it: a background's opacity, when it has a background and less than all of it. It sets the background colour from the kempo-css variable with that opacity, and sets the text colour readable on it, unless a text colour is chosen. <code>''</code> otherwise.</p>
+
+    <h4><code>styleId(styles)</code></h4>
+    <h5>Returns: <code>string</code></h5>
+    <p>The id the styles give the widget, when it is a valid one (it starts with a letter and has only letters, digits, <code>_</code> and <code>-</code>), otherwise <code>''</code>.</p>
+
+    <h4><code>cleanSides(value)</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p>A value with a size for every side. A side that is missing, or is not one of <code>SIZES</code>, is <code>''</code>.</p>
+
+    <h4><code>shownStyles(styles, hidden = [])</code></h4>
+    <h5><code>hidden<i>: Array&lt;string&gt;</i></code> (optional)</h5>
+    <p>Names from <code>STYLE_PARTS</code>, the parts a widget hides.</p>
+    <h5>Returns: <code>Object</code></h5>
+    <p>The styles without the ones in the hidden parts.</p>
+
+    <h4><code>supportsStyles(definition)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether a widget takes styles. The pieces of a widget (sections, columns, tabs) do not: their parent lays them out.</p>
+
+    <h4><code>decorate(html, styles, display = '')</code></h4>
+    <h5><code>html<i>: string</i></code></h5>
+    <p>A piece of HTML. Only its first element is changed.</p>
+    <h5><code>styles<i>: Object</i></code></h5>
+    <p>The widget's styles.</p>
+    <h5><code>display<i>: string</i></code> (optional)</h5>
+    <p>The widget's display class (<code>d-b</code> or <code>d-ib</code>).</p>
+    <h5>Returns: <code>string</code></h5>
+    <p>The HTML with the display class and the styles' classes added to the first element's <code>class</code> (a class it already has is not repeated), the styles' inline style added to its <code>style</code>, and the styles' id added as its <code>id</code> unless it already has one.</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Classes From Styles</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">styleClasses</span>({<br>  <span class="hljs-attr">margin</span>: {<br>    <span class="hljs-attr">top</span>: <span class="hljs-string">&#x27;f&#x27;</span>,<br>    <span class="hljs-attr">right</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>    <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;f&#x27;</span>,<br>    <span class="hljs-attr">left</span>: <span class="hljs-string">&#x27;&#x27;</span><br>  },<br>  <span class="hljs-attr">padding</span>: {<br>    <span class="hljs-attr">top</span>: <span class="hljs-string">&#x27;h&#x27;</span>,<br>    <span class="hljs-attr">right</span>: <span class="hljs-string">&#x27;h&#x27;</span>,<br>    <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;h&#x27;</span>,<br>    <span class="hljs-attr">left</span>: <span class="hljs-string">&#x27;h&#x27;</span><br>  },<br>  <span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;primary&#x27;</span>,<br>  <span class="hljs-attr">textColour</span>: <span class="hljs-string">&#x27;inv&#x27;</span>,<br>  <span class="hljs-attr">align</span>: <span class="hljs-string">&#x27;center&#x27;</span>,<br>  <span class="hljs-attr">corners</span>: [<span class="hljs-string">&#x27;tl&#x27;</span>, <span class="hljs-string">&#x27;tr&#x27;</span>, <span class="hljs-string">&#x27;bl&#x27;</span>, <span class="hljs-string">&#x27;br&#x27;</span>],<br>  <span class="hljs-attr">sides</span>: [<span class="hljs-string">&#x27;top&#x27;</span>],<br>  <span class="hljs-attr">classes</span>: <span class="hljs-string">&#x27;extra&#x27;</span><br>});<br><span class="hljs-comment">// [&#x27;my&#x27;, &#x27;ph&#x27;, &#x27;bg-primary&#x27;, &#x27;tc-inv&#x27;, &#x27;ta-center&#x27;, &#x27;r&#x27;, &#x27;bt&#x27;, &#x27;extra&#x27;]</span></code></pre>
+
+    <h4>A See-through Background</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">styleCss</span>({<br>  <span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;alt&#x27;</span>,<br>  <span class="hljs-attr">alpha</span>: <span class="hljs-number">50</span><br>});<br><span class="hljs-comment">// &#x27;background-color: oklch(from var(--c_bg__alt) l c h / 0.5); color: var(--tc)&#x27;</span><br><span class="hljs-title function_">styleCss</span>({<br>  <span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;alt&#x27;</span>,<br>  <span class="hljs-attr">alpha</span>: <span class="hljs-number">100</span><br>});<br><span class="hljs-comment">// &#x27;&#x27;</span></code></pre>
+
+    <h4>Decorate an Element</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">decorate</span>(<span class="hljs-string">&#x27;&lt;div class=&quot;x&quot;&gt;Hi&lt;/div&gt;&#x27;</span>, {<br>  <span class="hljs-attr">margin</span>: {<br>    <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;f&#x27;</span><br>  },<br>  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;box&#x27;</span><br>}, <span class="hljs-string">&#x27;d-b&#x27;</span>);<br><span class="hljs-comment">// &#x27;&lt;div class=&quot;x d-b mb&quot; id=&quot;box&quot;&gt;Hi&lt;/div&gt;&#x27;</span></code></pre>
+
+    <h4>Hide Parts a Widget Has Its Own Setting For</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">shownStyles</span>({<br>  <span class="hljs-attr">margin</span>: {},<br>  <span class="hljs-attr">background</span>: <span class="hljs-string">&#x27;alt&#x27;</span>,<br>  <span class="hljs-attr">alpha</span>: <span class="hljs-number">50</span>,<br>  <span class="hljs-attr">align</span>: <span class="hljs-string">&#x27;left&#x27;</span><br>}, [<span class="hljs-string">&#x27;box&#x27;</span>, <span class="hljs-string">&#x27;background&#x27;</span>]);<br><span class="hljs-comment">// { align: &#x27;left&#x27; }</span></code></pre>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

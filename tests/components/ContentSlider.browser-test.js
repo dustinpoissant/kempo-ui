@@ -9,6 +9,7 @@ const createContentSlider = async (options = {}) => {
 			${options.globalControls ? 'global-controls="true"' : ''}
 			${options.keyboardControls === false ? 'keyboard-controls="false"' : ''}
 			${options.index !== undefined ? `index="${options.index}"` : ''}
+			${options.minHeight ? `min-height="${options.minHeight}"` : ''}
 		>
 			<div id="slide1">Slide 1</div>
 			<div id="slide2">Slide 2</div>
@@ -491,5 +492,158 @@ export default {
 
 		cleanup(container);
 		pass('Index attribute reflects property');
+	},
+
+	/*
+		Disabled Button Tests
+	*/
+	'should disable the previous button on the first slide and the next button on the last slide when not looping': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider();
+		const prev = slider.shadowRoot.querySelector('#prev');
+		const next = slider.shadowRoot.querySelector('#next');
+		const states = [];
+		for(const index of [0, 1, 2]){
+			slider.goto(index);
+			await slider.updateComplete;
+			states.push(`${prev.disabled ? 'x' : 'o'}${next.disabled ? 'x' : 'o'}`);
+		}
+		cleanup(container);
+		if(states.join() !== 'xo,oo,ox') return fail(`Expected the previous button disabled on the first slide and the next on the last, got ${states.join()}`);
+		pass('The buttons are disabled at the ends');
+	},
+
+	'should keep both buttons enabled when looping, and when there is a slide on both sides': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider({ loop: true });
+		const prev = slider.shadowRoot.querySelector('#prev');
+		const next = slider.shadowRoot.querySelector('#next');
+		const states = [];
+		for(const index of [0, 2]){
+			slider.goto(index);
+			await slider.updateComplete;
+			states.push(`${prev.disabled}${next.disabled}`);
+		}
+		slider.loop = false;
+		slider.goto(1);
+		await slider.updateComplete;
+		states.push(`${prev.disabled}${next.disabled}`);
+		cleanup(container);
+		if(states.join() !== 'falsefalse,falsefalse,falsefalse') return fail(`Looping, and the middle slide, keep both enabled, got ${states.join()}`);
+		pass('The buttons are enabled when they can go somewhere');
+	},
+
+	'should enable a button again when looping is turned on at an end': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider();
+		const prev = slider.shadowRoot.querySelector('#prev');
+		await slider.updateComplete;
+		const before = prev.disabled;
+		slider.loop = true;
+		await slider.updateComplete;
+		const after = prev.disabled;
+		cleanup(container);
+		if(!before || after) return fail(`The previous button should be disabled on the first slide until looping is on, got ${before} then ${after}`);
+		pass('Looping enables the buttons');
+	},
+
+	'should not move, or send previous, next or change events, when there is no slide in that direction and it does not loop': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider();
+		const events = [];
+		for(const name of ['previous', 'next', 'change', 'keyleft', 'keyright']) slider.addEventListener(name, () => events.push(name));
+		slider.previous();
+		await slider.updateComplete;
+		slider.goto(2);
+		await slider.updateComplete;
+		events.length = 0;
+		slider.next();
+		await slider.updateComplete;
+		const atEnd = slider.index;
+		const sent = [...events];
+		slider.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }));
+		await slider.updateComplete;
+		cleanup(container);
+		if(atEnd !== 2) return fail(`next() on the last slide should stay on it, got ${atEnd}`);
+		if(sent.length) return fail(`next() on the last slide should send no events, got ${sent.join()}`);
+		if(slider.index !== 2) return fail('The right arrow key on the last slide should stay on it');
+		pass('Going nowhere does nothing');
+	},
+
+	'should still wrap around at the ends when looping': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider({ loop: true });
+		slider.previous();
+		await slider.updateComplete;
+		const wrapped = slider.index;
+		slider.next();
+		await slider.updateComplete;
+		cleanup(container);
+		if(wrapped !== 2 || slider.index !== 0) return fail(`Looping should wrap to the last slide then the first, got ${wrapped} then ${slider.index}`);
+		pass('Looping wraps around');
+	},
+
+	'should go to a slide with the buttons that are not disabled': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider();
+		slider.shadowRoot.querySelector('#next').click();
+		await slider.updateComplete;
+		slider.shadowRoot.querySelector('#prev').click();
+		await slider.updateComplete;
+		const back = slider.index;
+		slider.shadowRoot.querySelector('#prev').click();
+		await slider.updateComplete;
+		cleanup(container);
+		if(back !== 0 || slider.index !== 0) return fail(`Next then previous returns to the first slide, and previous again stays, got ${back} then ${slider.index}`);
+		pass('The buttons move between the slides');
+	},
+
+	/*
+		Minimum Height Tests
+	*/
+	'should have no minimum height by default': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider();
+		const content = slider.shadowRoot.querySelector('#content');
+		const style = content.style.minHeight;
+		cleanup(container);
+		if(slider.minHeight !== '' || style) return fail(`Expected no minimum height, got "${slider.minHeight}" and "${style}"`);
+		pass('There is no minimum height by default');
+	},
+
+	'should apply min-height to the content area as a CSS minimum height': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider({ minHeight: '10rem' });
+		const content = slider.shadowRoot.querySelector('#content');
+		const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+		const height = content.getBoundingClientRect().height;
+		const style = getComputedStyle(content).minHeight;
+		cleanup(container);
+		if(slider.minHeight !== '10rem') return fail(`The attribute should set the property, got "${slider.minHeight}"`);
+		if(style !== `${10 * rem}px`) return fail(`The content area should have a minimum height of 10rem, got ${style}`);
+		if(height < 10 * rem - 1) return fail(`The slider should be at least 10rem tall, got ${height}px`);
+		pass('The minimum height is applied');
+	},
+
+	'should change and clear the minimum height when the property changes': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider({ minHeight: '120px' });
+		const content = slider.shadowRoot.querySelector('#content');
+		const first = content.getBoundingClientRect().height;
+		slider.minHeight = '200px';
+		await slider.updateComplete;
+		const second = content.getBoundingClientRect().height;
+		slider.minHeight = '';
+		await slider.updateComplete;
+		const cleared = content.style.minHeight;
+		const third = content.getBoundingClientRect().height;
+		cleanup(container);
+		if(first < 120 || second < 200) return fail(`The slider should be at least as tall as its minimum, got ${first} then ${second}`);
+		if(cleared || third >= 200) return fail(`An empty minimum height should leave no minimum, got "${cleared}" and ${third}px`);
+		pass('The minimum height follows the property');
+	},
+
+	'should keep the minimum height when the slide changes, and when a slide is shorter': async ({pass, fail}) => {
+		const { container, slider } = await createContentSlider({ minHeight: '150px' });
+		const heights = [];
+		for(const index of [0, 1, 2]){
+			slider.goto(index);
+			await slider.updateComplete;
+			heights.push(Math.round(slider.getBoundingClientRect().height));
+		}
+		cleanup(container);
+		if(heights.some(height => height < 150)) return fail(`Every slide should leave the slider at least 150px tall, got ${heights.join()}`);
+		pass('The slider keeps its minimum height on every slide');
 	}
 };

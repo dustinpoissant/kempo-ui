@@ -10,6 +10,7 @@
           <a href="#globalControls">Global Controls</a><br />
           <a href="#controls">Controls</a><br />
           <a href="#loop">Loop</a><br />
+          <a href="#minHeight">Minimum Height</a><br />
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
           <a href="#requirements">Requirements</a><br />
@@ -24,7 +25,7 @@
     <h3>Description</h3>
     <p>The ContentSlider component provides a way to display multiple content slides with navigation controls. Users can
       navigate through slides using previous/next buttons, keyboard arrows, or programmatically. It extends the <a
-        href="./component.html">ShadowComponent</a> class and supports looping, keyboard controls, and customizable
+        href="./shadow-component.html">ShadowComponent</a> class and supports looping, keyboard controls, and customizable
       navigation.</p>
 
     <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
@@ -116,7 +117,8 @@
 
     <h3 id="controls"><a href="#controls" class="no-link">Controls</a></h3>
     <p>By default the <code>controls</code> attribute is set to <code>"true"</code>, this shows the previous and next
-      buttons. To hide them set <code>controls="false"</code>.</p>
+      buttons. To hide them set <code>controls="false"</code>. Without <code>loop</code>, the previous button is disabled on
+      the first slide and the next button on the last slide.</p>
     <div class="row -mx">
       <div class="col d-span-6 t-span-6 m-spane-12 p">
         <k-card label="HTML">
@@ -172,6 +174,29 @@
       </div>
     </div>
 
+    <h3 id="minHeight"><a href="#minHeight" class="no-link">Minimum Height</a></h3>
+    <p>Use the <code>min-height</code> attribute to keep the slider at least this tall, so slides of different heights do
+      not change its size. Any CSS length works, such as <code>"10rem"</code>.</p>
+    <div class="row -mx">
+      <div class="col d-span-6 t-span-6 m-spane-12 p">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-content-slider</span><br />  <span class="hljs-attr">class</span>=<span class="hljs-string">"bg-alt"</span><br />  <span class="hljs-attr">min-height</span>=<span class="hljs-string">"10rem"</span><br />&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Short slide<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Slide 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-content-slider</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 t-span-6 m-spane-12 p">
+        <k-card label="Results">
+          <k-content-slider class="bg-alt" min-height="10rem">
+            <div>
+              <p>Short slide</p>
+            </div>
+            <div>
+              <p>Slide 2</p>
+            </div>
+          </k-content-slider>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef" class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -206,6 +231,10 @@
     <h5><code>loop<i>: boolean</i></code></h5>
     <p>Gets or sets whether the slider loops continuously (after the last slide, go to the first; before the first
       slide, go to the last). Syncs to <code>loop</code> attribute. Default value is <code>false</code>.</p>
+
+    <h5><code>minHeight<i>: string</i></code></h5>
+    <p>Gets or sets the minimum height of the slider, as any CSS length. Syncs to <code>min-height</code> attribute. Default
+      value is <code>""</code> (no minimum).</p>
 
     <h5><code>content<i>: Array&lt;HTMLElement&gt;</i></code></h5>
     <p>Array of child elements that serve as slides. Automatically updated when the component is connected.</p>

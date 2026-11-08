@@ -194,23 +194,23 @@ export default class Audio extends ShadowComponent {
   }
 
   get tracks() {
-    return [...this.children].filter(child => child.localName === 'kc-audio-track');
+    return [...this.children].filter(child => child.localName === 'k-audio-track');
   }
 
   get hasSlottedContent() {
-    return [...this.children].some(child => child.localName !== 'kc-audio-track');
+    return [...this.children].some(child => child.localName !== 'k-audio-track' && child.slot !== 'visualizer');
   }
 
   selectTrack(index) {
     const track = this.tracks[index];
     if(!track) return this;
     this.trackIndex = index;
-    this.src = track.src;
-    this.artist = track.artist;
-    this.trackTitle = track.trackTitle;
-    this.album = track.album;
-    this.year = track.year;
-    this.downloadName = track.downloadName;
+    this.src = track.getAttribute('src') ?? '';
+    this.artist = track.getAttribute('artist') ?? '';
+    this.trackTitle = track.getAttribute('track-title') ?? '';
+    this.album = track.getAttribute('album') ?? '';
+    this.year = track.getAttribute('year') ?? '';
+    this.downloadName = track.getAttribute('download-name') ?? '';
     this.dispatchEvent(new CustomEvent('track-changed', { detail: { index }, bubbles: true }));
     return this;
   }
@@ -371,9 +371,10 @@ export default class Audio extends ShadowComponent {
           @error=${this.handleError}
           @pointermove=${this.handlePointerMove}
         ></audio>
+        <slot name="visualizer"></slot>
         ${this.buffering ? html`<div id="buffering"><k-spinner size="lg"></k-spinner></div>` : nothing}
         <div id="controls-bar" ?hidden=${!set.bottom && !this.hasSlottedContent}>
-          <slot name="top"></slot>
+          <slot name="top">${set.top ?? nothing}</slot>
           <div id="controls-row">
             <slot @slotchange=${this.handleSlotChange}></slot>
             ${this.defaultSlotted ? nothing : set.bottom ?? nothing}
@@ -385,7 +386,7 @@ export default class Audio extends ShadowComponent {
   }
 
   handleSlotChange = (event) => {
-    this.defaultSlotted = event.target.assignedElements().some(el => el.localName !== 'kc-audio-track');
+    this.defaultSlotted = event.target.assignedElements().some(el => el.localName !== 'k-audio-track');
     if(this.trackIndex < 0 && this.tracks.length) this.selectTrack(0);
     this.dispatchEvent(new CustomEvent('playlist-changed', { bubbles: true }));
     this.requestUpdate();
@@ -479,8 +480,13 @@ export default class Audio extends ShadowComponent {
     #frame {
       position: relative;
       width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
+    }
+    ::slotted([slot="visualizer"]) {
+      flex: 1 1 auto;
+      min-height: 0;
     }
     audio {
       display: none;
@@ -535,7 +541,7 @@ export default class Audio extends ShadowComponent {
     minimal: {
       bottom: html`
         <k-control-bar>
-          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
           <kc-media-time slot="center" priority="1"></kc-media-time>
           <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
           <kc-media-duration slot="center" priority="1"></kc-media-duration>
@@ -545,7 +551,7 @@ export default class Audio extends ShadowComponent {
     normal: {
       bottom: html`
         <k-control-bar>
-          <kc-media-play-pause priority="10"></kc-media-play-pause>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
           <kc-media-time slot="center" priority="1"></kc-media-time>
           <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
           <kc-media-duration slot="center" priority="1"></kc-media-duration>
@@ -557,9 +563,9 @@ export default class Audio extends ShadowComponent {
     full: {
       bottom: html`
         <k-control-bar>
-          <kc-media-skip-back></kc-media-skip-back>
-          <kc-media-play-pause priority="10"></kc-media-play-pause>
-          <kc-media-skip-forward></kc-media-skip-forward>
+          <kc-media-skip-back priority="4"></kc-media-skip-back>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
+          <kc-media-skip-forward priority="5"></kc-media-skip-forward>
           <kc-media-time slot="center" priority="1"></kc-media-time>
           <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
           <kc-media-duration slot="center" priority="1"></kc-media-duration>
@@ -567,6 +573,22 @@ export default class Audio extends ShadowComponent {
           <kc-media-speed slot="right"></kc-media-speed>
           <kc-media-repeat slot="right"></kc-media-repeat>
           <kc-media-download slot="right"></kc-media-download>
+        </k-control-bar>
+      `
+    },
+    playlist: {
+      top: html`<kc-audio-playlist></kc-audio-playlist>`,
+      bottom: html`
+        <k-control-bar>
+          <kc-audio-previous priority="4"></kc-audio-previous>
+          <kc-media-play-pause priority="10" no-collapse></kc-media-play-pause>
+          <kc-audio-next priority="5"></kc-audio-next>
+          <kc-media-time slot="center" priority="1"></kc-media-time>
+          <kc-media-seek slot="center" no-collapse soft-min-width="8rem"></kc-media-seek>
+          <kc-media-duration slot="center" priority="1"></kc-media-duration>
+          <kc-media-volume slot="right"></kc-media-volume>
+          <kc-audio-loop slot="right"></kc-audio-loop>
+          <kc-audio-shuffle slot="right"></kc-audio-shuffle>
         </k-control-bar>
       `
     }

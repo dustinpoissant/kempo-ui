@@ -7,7 +7,7 @@ WYSIWYG rich text editor
 Details:
 - `value` property
 - `controls` attribute (`full`/`normal`/`minimal`/`none`) for built-in toolbars
-- `layout="floating"` hides the toolbars until the editor has focus and floats them above the content (below when there is no room)
+- `layout="floating"` hides the toolbars until the editor has focus and floats them above the content (below when there is no room); the read-only `floatingRoom` is `{ above, below }`, the pixels of room the top and bottom toolbars need (0 for a toolbar it does not have, or when not floating), so a page can leave that much space around the editor and keep the toolbars from being cut off at the top or bottom of the page
 - `disabled`/`readonly`/`required` (Lexical's `setEditable()` + Monaco's `readOnly`)
 - form-associated
 - `nodes` loads custom Lexical nodes (a plain name from `htmlEditorNodes/`, or a URL starting with `/`, `.` or `http` including `.js`)

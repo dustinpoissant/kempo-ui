@@ -1,0 +1,35 @@
+pageTree (utility)
+Import: import * as tree from 'kempo-ui/src/utils/pageTree.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/pageTree.html
+
+The functions that work on a page's tree of widgets, shared by the Page Builder and a server. They take a list of nodes (the page's slots.default, or any slot) and a registry (registryOf(widgets) from pageWidgets.js, a Map of definitions by name). No DOM (it uses the global crypto and structuredClone). Functions that change the tree change the list in place; those that can fail return the reason (a string) or { error } and leave the tree as it was.
+
+Details:
+- a node is { id, type, attrs, slots: { [slotName]: [nodes] } }; a page is { attrs, slots: { default: [nodes] } }
+- MAX_DEPTH (100): the deepest nesting place() allows
+- newId(): 12 random hex characters. createNode(type, attrs = {}, slots = {}): { id, type, attrs, slots } with a new id and no defaults
+- defaultNode(registry, type): a new widget at its defaults (settings whose default is not '' or false) with the children its definition's `children` lists. attributeDefault(attribute): a copy of the default, false for a boolean, '' otherwise
+- valueAt(attrs, path): reads 'rows.1.0' as attrs.rows[1][0], undefined if missing. setValueAt(attrs, path, value): sets it and returns true; the place must already exist, else false and nothing changes
+- walk(nodes, fn): fn(node, { parent, slot, list, index, depth }) for every node, parents first; depth is 1 at the top, slot is '' at the top; return false to skip a node's children
+- findNode(nodes, id): { node, parent, slot, list, index, depth } or null. findSlot(nodes, parentId, slot): the list a slot holds (nodes itself with no parentId), made if missing, null if the parent is not found
+- countNodes(nodes), maxDepth(nodes) (top-level is 1)
+- firstSlotOf(registry, node): the first slot's name or null. canContain(registry, parentNode, slotName, childType): the type is registered and the parent has the slot (parentNode null at the top)
+- isInside(nodes, ancestorId, id): id is the ancestor or inside it. sharePlace(nodes, ids): all found and in one list. neighbour(nodes, id): the id to select after removing it (next sibling, else previous, else parent, else null)
+- sectionOpen(node, parent): an accordion section starts open when its open setting says so; until any section has an open setting, the first is open
+- place(nodes, registry, node, parentId, slot, index): true or the reason it was refused (the place is gone, the widget cannot go there, deeper than MAX_DEPTH)
+- addWidget(nodes, registry, type, { targetId, inside, slot }): a new widget at its defaults; returns { id } or { error }. No target (or one that is not found): the end of nodes. With inside: the end of the target's slot (first by default), an error if it has none. Otherwise after the target; into an empty target that has a slot (not for a section); if the list will not take it, after the target's parent, and so on up
+- insertNodes(nodes, registry, list, options): adds existing nodes one after the other, returns { ids } or { error } (the ones placed are removed again on an error)
+- removeNode(nodes, id): the removed node or null. removeWidgets(nodes, ids): removes each, returns true
+- moveWidget(nodes, registry, id, parentId, slot, index): true or the reason (gone, a section, inside itself, place refused). moveBy(nodes, registry, ids, step): moves nodes that share a list by step (-1 up, 1 down); 'Nothing is selected', a section, 'Already first', 'Already last'. moveOut(nodes, registry, id): after its parent. moveIn(nodes, registry, id): into the closest widget before it that has a slot
+- cloneNode(node, freshIds = false), cloneNodes(nodes, freshIds = false): deep copies. freshCopies(nodes): copies with new ids. duplicateWidgets(nodes, ids): copies after the last of them, returns { ids } of the copies or { error }
+- a section (definition.section) is never moved on the page: its parent's settings add, order and remove it
+
+Example:
+import { addWidget, findNode } from 'kempo-ui/src/utils/pageTree.js';
+import { widgets, registryOf } from 'kempo-ui/src/utils/pageWidgets.js';
+const registry = registryOf(widgets);
+const nodes = [];
+const columns = addWidget(nodes, registry, 'columns');
+const first = findNode(nodes, columns.id).node.slots.default[0];
+const text = addWidget(nodes, registry, 'text', { targetId: first.id, inside: true });
+findNode(nodes, text.id).depth; // 3

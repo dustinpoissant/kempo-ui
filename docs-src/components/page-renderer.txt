@@ -1,0 +1,22 @@
+Page Renderer (<k-page-renderer>)
+Import: import 'kempo-ui/src/components/PageRenderer.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/page-renderer.html
+
+Renders the page JSON that PageBuilder emits as a page. Plain HTML, not Lit: the element writes the widgets' HTML into itself, loads the modules they need first, and runs their scripts.
+
+Details:
+- value (property): the page { attrs, slots: { default: [nodes] } }. Setting it renders the page; setting a new page replaces the old one
+- fires render with detail { value } once the widgets are in the element
+- static PageRenderer.toHTML(value): the page's HTML as a string, without a browser (text is NOT sanitized there; sanitize on the server)
+- renders the widgets registered in PageBuilder.widgets (the same list PageBuilder.addWidget changes)
+- scripts written by a script widget are re-created so they run (innerHTML does not run scripts)
+- rendering on a server: do not import this element (it defines custom elements); import renderPage from utils/renderPage.js and widgets from utils/pageWidgets.js instead, and pass `sanitize` in the options because sanitizeHtml needs a browser DOM (without one the HTML of text widgets and table cells is written as saved; markdown is escaped and the html widget is raw by design, so neither uses sanitize)
+- on a server collectModules(nodes, registry) gives file: URLs (they come from import.meta.url), so map them to the URLs your site serves the files from
+
+Example:
+<k-page-renderer id="page"></k-page-renderer>
+<script type="module">
+  import 'kempo-ui/src/components/PageRenderer.js';
+  const page = JSON.parse(localStorage.getItem('my-page') || 'null');
+  if(page) document.getElementById('page').value = page;
+</script>

@@ -8,7 +8,8 @@
   <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
   <link rel="manifest" href="../manifest.json" />
   <link rel="stylesheet" href="../kempo-vars.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <script src="../init.js"></script>
   <link rel="stylesheet" href="../kempo-hljs.css" />
   <link rel="stylesheet" href="../styles.css" />
   <script>
@@ -125,8 +126,13 @@
             >Markdown Editor<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="icon components"><a
               href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon selector iconselector picker choose dialog filter components"><a
+              href="../components/icon-selector.html">Icon Selector<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="import components"><a
               href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="media gallery mediagallery product images video photos thumbnails carousel slider lightbox ecommerce etsy components"><a
+              href="../components/media-gallery.html"
+            >Media Gallery<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="nav navbar navigation components"><a
               href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
@@ -135,6 +141,18 @@
           <k-filter-item filter-keywords="photo viewer photoviewer components"><a
               href="../components/photo-viewer.html"
             >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder editor widgets json controlled components"><a
+              href="../components/page-builder.html">Page Builder<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder image picker media library pictures"><a
+              href="../components/page-builder/image.html">Page Builder Image Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder video picker media library"><a
+              href="../components/page-builder/video.html">Page Builder Video Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder audio picker media library sound"><a
+              href="../components/page-builder/audio.html">Page Builder Audio Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder icon picker icons search"><a
+              href="../components/page-builder/icon.html">Page Builder Icon Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page renderer render json server components"><a
+              href="../components/page-renderer.html">Page Renderer<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="pagination pager page components"><a
               href="../components/pagination.html"
             >Pagination<br><small>Component</small></a></k-filter-item>
@@ -276,19 +294,37 @@
           <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
               href="../utils/formatTimestamp.html"
             >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="imagesize image size natural width height measure utils utility"><a
+              href="../utils/imageSize.html">imageSize<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="object utils utility"><a
               href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pageframe page frame iframe preview page builder utils utility"><a
+              href="../utils/pageFrame.html">pageFrame<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagehistory page history undo redo page builder utils utility"><a
+              href="../utils/pageHistory.html">pageHistory<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagelabels page labels title icon hint page builder utils utility"><a
+              href="../utils/pageLabels.html">pageLabels<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagetree page tree widgets nodes slots add move remove page builder utils utility"><a
+              href="../utils/pageTree.html">pageTree<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidgets page widgets registry addwidget definitions page builder utils utility"><a
+              href="../utils/pageWidgets.html">pageWidgets<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidth page width css variable breakout utils utility"><a
+              href="../utils/pageWidth.html">pageWidth<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
               href="../utils/promptApi.html"
             >promptApi<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
               href="../utils/propConverters.html"
             >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="renderpage render page html server prerender ssr page builder utils utility"><a
+              href="../utils/renderPage.html">renderPage<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
               href="../utils/sanitizeHtml.html"
             >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="string utils utility"><a
               href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="styles style classes margin padding background page builder utils utility"><a
+              href="../utils/styles.html">styles<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="theme utils utility"><a
               href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
           <k-filter-item filter-keywords="type utils utility"><a
@@ -363,11 +399,19 @@
         <a href="../components/markdown.html">Markdown</a>
         <a href="../components/markdown-editor.html">Markdown Editor</a>
         <a href="../components/icon.html">Icon</a>
+        <a href="../components/icon-selector.html">Icon Selector</a>
         <a href="../components/image-crop.html">Image Crop</a>
         <a href="../components/import.html">Import</a>
+        <a href="../components/media-gallery.html">Media Gallery</a>
         <a href="../components/nav.html">Nav</a>
         <a href="../components/nav-spacer.html">Nav Spacer</a>
         <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/page-builder.html">Page Builder</a>
+        <a href="../components/page-builder/image.html">Page Builder: Image Picker</a>
+        <a href="../components/page-builder/video.html">Page Builder: Video Picker</a>
+        <a href="../components/page-builder/audio.html">Page Builder: Audio Picker</a>
+        <a href="../components/page-builder/icon.html">Page Builder: Icon Picker</a>
+        <a href="../components/page-renderer.html">Page Renderer</a>
         <a href="../components/pagination.html">Pagination</a>
         <a href="../components/progress.html">Progress</a>
         <a href="../components/rating.html">Rating</a>
@@ -411,11 +455,20 @@
         <a href="../utils/drag.html">drag</a>
         <a href="../utils/elevation.html">elevation</a>
         <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/imageSize.html">imageSize</a>
         <a href="../utils/object.html">object</a>
+        <a href="../utils/pageFrame.html">pageFrame</a>
+        <a href="../utils/pageHistory.html">pageHistory</a>
+        <a href="../utils/pageLabels.html">pageLabels</a>
+        <a href="../utils/pageTree.html">pageTree</a>
+        <a href="../utils/pageWidgets.html">pageWidgets</a>
+        <a href="../utils/pageWidth.html">pageWidth</a>
         <a href="../utils/promptApi.html">promptApi</a>
         <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/renderPage.html">renderPage</a>
         <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
         <a href="../utils/string.html">string</a>
+        <a href="../utils/styles.html">styles</a>
         <a href="../utils/theme.html">theme</a>
         <a href="../utils/type.html">type</a>
         <a href="../utils/voice.html">voice</a>
@@ -609,7 +662,7 @@
   
     <h1 class="ta-center">Audio</h1>
   
-  <k-main>
+  <k-main >
     
     <k-accordion persistent-id="toc" class="b r mb">
       <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
@@ -624,6 +677,7 @@
           <a href="#scrolling">Scrolling</a><br />
           <a href="#download">Download</a><br />
           <a href="#playlists">Playlists</a><br />
+          <a href="#visualizer">Visualizer</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#properties">Properties</a><br />
@@ -652,7 +706,7 @@
     </div>
 
     <h3 id="presets"><a href="#presets" class="no-link">Preconfigured Controls</a></h3>
-    <p><code>controls</code> takes <code>minimal</code> (play and pause, time, seek, duration), <code>normal</code> (those, plus volume and repeat) or <code>full</code> (normal, plus speed, skip back and forward, and download). <code>none</code> or no value draws no toolbar.</p>
+    <p><code>controls</code> takes <code>minimal</code> (play and pause, time, seek, duration), <code>normal</code> (those, plus volume and repeat) or <code>full</code> (normal, plus speed, skip back and forward, and download). <code>playlist</code> is for a list of tracks: the track list sits above the bar, and previous and next replace skip back and forward, with loop and shuffle. <code>none</code> or no value draws no toolbar.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Minimal HTML">
@@ -730,7 +784,7 @@
     </div>
 
     <h3 id="slots"><a href="#slots" class="no-link">Top and Bottom Slots</a></h3>
-    <p>The toolbar has three slots. The default slot holds the controls, the <code>top</code> slot sits above them and the <code>bottom</code> slot sits below. Slot anything into <code>top</code> or <code>bottom</code> with <code>slot="top"</code> or <code>slot="bottom"</code>. A <code>controls</code> preset still draws its controls when only the <code>top</code> or <code>bottom</code> slot is used.</p>
+    <p>The toolbar has three slots. The default slot holds the controls, the <code>top</code> slot sits above them and the <code>bottom</code> slot sits below. A fourth slot, <code>visualizer</code>, sits above the whole toolbar, see <a href="#visualizer">Visualizer</a>. Slot anything into <code>top</code> or <code>bottom</code> with <code>slot="top"</code> or <code>slot="bottom"</code>. A <code>controls</code> preset still draws its controls when only the <code>top</code> or <code>bottom</code> slot is used.</p>
     <p><code>kc-media-metadata</code> shows the track's artist, title, album and year as a line separated by dots. It scrolls only when the text is too long to fit. Set <code>scroll-mode="always"</code> to scroll it all the time. Set those on the element with <code>artist</code>, <code>track-title</code>, <code>album</code> and <code>year</code>.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
@@ -762,7 +816,7 @@
     </div>
 
     <h3 id="fileMetadata"><a href="#fileMetadata" class="no-link">Metadata From the File</a></h3>
-    <p>The element reads the title, artist, album and year stored in the audio file (ID3 tags, or MP4 tags on an M4A) and <code>kc-media-metadata</code> shows them, so a tagged file needs no attributes. Only the start and end of the file are requested, and the server needs to support range requests. Set <code>track-title</code>, <code>artist</code>, <code>album</code> or <code>year</code> on the element (or on a <code>kc-audio-track</code>) to replace or add to what the file says; the file only fills the fields left empty. A file with no tags shows nothing. Add <code>read-metadata="false"</code> to skip reading the file.</p>
+    <p>The element reads the title, artist, album and year stored in the audio file (ID3 tags, or MP4 tags on an M4A) and <code>kc-media-metadata</code> shows them, so a tagged file needs no attributes. Only the start and end of the file are requested, and the server needs to support range requests. Set <code>track-title</code>, <code>artist</code>, <code>album</code> or <code>year</code> on the element (or on a <code>k-audio-track</code>) to replace or add to what the file says; the file only fills the fields left empty. A file with no tags shows nothing. Add <code>read-metadata="false"</code> to skip reading the file.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
@@ -859,32 +913,64 @@
     </div>
 
     <h3 id="playlists"><a href="#playlists" class="no-link">Playlists</a></h3>
-    <p>List tracks as <code>kc-audio-track</code> children of <code>k-audio</code>. The first track is loaded when the page opens, and the player moves to the next track when one ends. <code>kc-audio-previous</code> and <code>kc-audio-next</code> move through the list, and <code>kc-audio-playlist</code> lists every track so a listener can pick one. Drag a row in <code>kc-audio-playlist</code> to reorder the playlist. Track details come from the same attributes as the element itself: <code>artist</code>, <code>track-title</code>, <code>album</code>, <code>year</code> and <code>download-name</code>.</p>
+    <p>List tracks as <code>k-audio-track</code> children of <code>k-audio</code>. The first track is loaded when the page opens, and the player moves to the next track when one ends. <code>kc-audio-previous</code> and <code>kc-audio-next</code> move through the list, and <code>kc-audio-playlist</code> lists every track so a listener can pick one. Drag a row in <code>kc-audio-playlist</code> to reorder the playlist. Track details come from the same attributes as the element itself: <code>artist</code>, <code>track-title</code>, <code>album</code>, <code>year</code> and <code>download-name</code>.</p>
     <p>By default the player stops at the end of the playlist. Set <code>playlist-loop</code>, or press <code>kc-audio-loop</code>, to go back to the first track after the last one, and to the last track when Previous is pressed on the first.</p>
+    <p>Set <code>controls="playlist"</code> for the list of tracks, and the controls below it: previous and next, play and pause, seek, loop and shuffle.</p>
     <div class="row -mx mb">
       <div class="col d-span-6 m-span-12 px">
         <k-card label="HTML">
-          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">playlist-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-playlist</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-playlist</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-previous</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-previous</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-play-pause</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-play-pause</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-next</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-next</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-media-seek</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-media-seek</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-shuffle</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-shuffle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;lofi hip-hop&quot;</span> <span class="hljs-attr">album</span>=<span class="hljs-string">&quot;Lofi&quot;</span> <span class="hljs-attr">year</span>=<span class="hljs-string">&quot;2026&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;sweet&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-fashion.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;fashion&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/ketsa-black-screen.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;Ketsa&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Black Screen&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-track</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;playlist&quot;</span> <span class="hljs-attr">playlist-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;lofi hip-hop&quot;</span> <span class="hljs-attr">album</span>=<span class="hljs-string">&quot;Lofi&quot;</span> <span class="hljs-attr">year</span>=<span class="hljs-string">&quot;2026&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;sweet&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-fashion.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;fashion&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/ketsa-black-screen.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;Ketsa&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;Black Screen&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio-track</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
         </k-card>
       </div>
       <div class="col d-span-6 m-span-12 px">
         <k-card label="Output">
-          <k-audio playlist-loop>
-            <kc-audio-playlist slot="top"></kc-audio-playlist>
-            <kc-audio-previous></kc-audio-previous>
-            <kc-media-play-pause></kc-media-play-pause>
-            <kc-audio-next></kc-audio-next>
-            <kc-media-seek></kc-media-seek>
-            <kc-audio-loop></kc-audio-loop>
-            <kc-audio-shuffle></kc-audio-shuffle>
-            <kc-audio-track src="../media/vibedepot-lofi-hip-hop.mp3" artist="VibeDepot" track-title="lofi hip-hop" album="Lofi" year="2026"></kc-audio-track>
-            <kc-audio-track src="../media/vibedepot-sweet.mp3" artist="VibeDepot" track-title="sweet"></kc-audio-track>
-            <kc-audio-track src="../media/vibedepot-fashion.mp3" artist="VibeDepot" track-title="fashion"></kc-audio-track>
-            <kc-audio-track src="../media/ketsa-black-screen.mp3" artist="Ketsa" track-title="Black Screen"></kc-audio-track>
+          <k-audio controls="playlist" playlist-loop>
+            <k-audio-track src="../media/vibedepot-lofi-hip-hop.mp3" artist="VibeDepot" track-title="lofi hip-hop" album="Lofi" year="2026"></k-audio-track>
+            <k-audio-track src="../media/vibedepot-sweet.mp3" artist="VibeDepot" track-title="sweet"></k-audio-track>
+            <k-audio-track src="../media/vibedepot-fashion.mp3" artist="VibeDepot" track-title="fashion"></k-audio-track>
+            <k-audio-track src="../media/ketsa-black-screen.mp3" artist="Ketsa" track-title="Black Screen"></k-audio-track>
           </k-audio>
         </k-card>
       </div>
     </div>
+
+    <h3 id="visualizer"><a href="#visualizer" class="no-link">Visualizer</a></h3>
+    <p><code>kc-audio-visualizer</code> draws the sound that is playing on a canvas. Put it in the <code>visualizer</code> slot, which sits above the toolbar, so it can be used together with a playlist (or anything else) in the <code>top</code> slot. It grows to fill any extra height the player is given. Set its height with <code>--visualizer_height</code> (<code>8rem</code> by default) and its colors with <code>--visualizer_color</code> and <code>--visualizer_color_2</code>. The first is the middle third of the width (the primary color by default) and the second is the outer edges (the secondary color by default), with a gradient between them across each outer third. In <code>bars</code> the low sounds are on the left and the high ones on the right. Set both to the same color for a solid one.</p>
+    <p><code>type</code> is <code>bars</code> (default) for a frequency spectrum, with <code>bars</code> setting how many (<code>48</code> by default), or <code>wave</code> for a waveform. While the audio is paused or has ended it shows a flat resting state, and it does not animate for people who prefer reduced motion.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-visualizer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;visualizer&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-visualizer</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio src="../media/vibedepot-sweet.mp3" controls="normal">
+            <kc-audio-visualizer slot="visualizer"></kc-audio-visualizer>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-audio</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;playlist&quot;</span> <span class="hljs-attr">playlist-loop</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">kc-audio-visualizer</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;visualizer&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;wave&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;--visualizer_height: 6rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-audio-visualizer</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-lofi-hip-hop.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;lofi hip-hop&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio-track</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-audio-track</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/media/vibedepot-sweet.mp3&quot;</span> <span class="hljs-attr">artist</span>=<span class="hljs-string">&quot;VibeDepot&quot;</span> <span class="hljs-attr">track-title</span>=<span class="hljs-string">&quot;sweet&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio-track</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-audio</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-audio controls="playlist" playlist-loop>
+            <kc-audio-visualizer slot="visualizer" type="wave" style="--visualizer_height: 6rem"></kc-audio-visualizer>
+            <k-audio-track src="../media/vibedepot-lofi-hip-hop.mp3" artist="VibeDepot" track-title="lofi hip-hop"></k-audio-track>
+            <k-audio-track src="../media/vibedepot-sweet.mp3" artist="VibeDepot" track-title="sweet"></k-audio-track>
+          </k-audio>
+        </k-card>
+      </div>
+    </div>
+
+    <h5>The file has to be readable</h5>
+    <p>The visualizer reads the sound through the Web Audio API, and from then on the sound goes through it. A file from another origin that is not served with CORS headers cannot be read, and routing it anyway would silence the player. So the visualizer only does so for files from the same origin, <code>blob:</code> and <code>data:</code> URLs, or when the player has <code>crossorigin</code> set (the server then has to send CORS headers, or the file will not play at all). Otherwise the player plays as normal, the visualizer stays in its resting state, and it gets an <code>unavailable</code> attribute. A player that was routed with one file keeps that for its next files, so give a playlist of mixed origins <code>crossorigin</code>.</p>
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
@@ -922,9 +1008,9 @@
         <tr><td><code>seek(time)</code>, <code>skip(seconds)</code></td><td>Go to a time, or move by an amount (negative goes back).</td></tr>
         <tr><td><code>setVolume(volume)</code>, <code>mute()</code>, <code>unmute()</code>, <code>toggleMute()</code></td><td>Volume and muting.</td></tr>
         <tr><td><code>setPlaybackRate(rate)</code>, <code>toggleLoop()</code></td><td>Speed and looping.</td></tr>
-        <tr><td><code>playTrack(index)</code>, <code>selectTrack(index)</code></td><td>Load track <code>index</code> from the <code>kc-audio-track</code> children, and play it (<code>playTrack</code> only).</td></tr>
+        <tr><td><code>playTrack(index)</code>, <code>selectTrack(index)</code></td><td>Load track <code>index</code> from the <code>k-audio-track</code> children, and play it (<code>playTrack</code> only).</td></tr>
         <tr><td><code>toggleShuffle()</code></td><td>Shuffles the tracks, animating the rows into their new places, and remembers the order. Toggled off, it restores that order. Moving a track by hand clears the saved order and turns shuffle off. The current track stays selected.</td></tr>
-        <tr><td><code>reorderTracks(order)</code></td><td>Reorders the <code>kc-audio-track</code> children to the given list of current indexes, and keeps the current track selected. Dragging in <code>kc-audio-playlist</code> calls this.</td></tr>
+        <tr><td><code>reorderTracks(order)</code></td><td>Reorders the <code>k-audio-track</code> children to the given list of current indexes, and keeps the current track selected. Dragging in <code>kc-audio-playlist</code> calls this.</td></tr>
         <tr><td><code>previousTrack()</code>, <code>nextTrack()</code>, <code>togglePlaylistLoop()</code></td><td>Move through the playlist, or switch looping the whole playlist on and off.</td></tr>
         <tr><td><code>download()</code></td><td>Downloads <code>src</code> using a temporary anchor, named via <code>downloadName</code> when set.</td></tr>
       </tbody>
@@ -938,6 +1024,9 @@
       <thead><tr><th>Property</th><th>Default</th><th></th></tr></thead>
       <tbody>
         <tr><td><code>--controls-bg</code></td><td>#000</td><td>The player's background, behind the toolbar and any top or bottom slot content.</td></tr>
+        <tr><td><code>--visualizer_height</code></td><td>8rem</td><td>The height of <code>kc-audio-visualizer</code>. It also grows to fill extra height the player is given.</td></tr>
+        <tr><td><code>--visualizer_color</code></td><td>the primary color</td><td>The color of the middle third of <code>kc-audio-visualizer</code>.</td></tr>
+        <tr><td><code>--visualizer_color_2</code></td><td>the secondary color</td><td>The color of its outer edges, with a gradient between the two.</td></tr>
       </tbody>
     </table>
 
@@ -971,11 +1060,12 @@
     <script type="module" src="../src/components/controls/MediaMetadata.js"></script>
     <script type="module" src="../src/components/controls/MediaLink.js"></script>
     <script type="module" src="../src/components/controls/MediaDownload.js"></script>
-    <script type="module" src="../src/components/controls/AudioTrack.js"></script>
+    <script type="module" src="../src/components/AudioTrack.js"></script>
     <script type="module" src="../src/components/controls/AudioPrevious.js"></script>
     <script type="module" src="../src/components/controls/AudioNext.js"></script>
     <script type="module" src="../src/components/controls/AudioLoop.js"></script>
     <script type="module" src="../src/components/controls/AudioPlaylist.js"></script>
+    <script type="module" src="../src/components/controls/AudioVisualizer.js"></script>
     <script type="module" src="../src/components/controls/AudioShuffle.js"></script>
   
 </body>

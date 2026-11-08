@@ -1,0 +1,32 @@
+<page template="bare" title="Page Renderer Example">
+  <content location="head">
+    <meta name="robots" content="noindex">
+  </content>
+  <content>
+    <main class="p">
+      <p class="tc-muted mb" id="status">Loading the page saved by the Page Builder demo.</p>
+      <k-page-renderer id="page"></k-page-renderer>
+    </main>
+
+    <script type="module">
+      import '{{pathToRoot}}src/components/PageRenderer.js';
+
+      const key = 'kempo-ui:page';
+      const status = document.getElementById('status');
+      const renderer = document.getElementById('page');
+
+      let saved = null;
+      try {
+        saved = JSON.parse(localStorage.getItem(key) || 'null');
+      } catch {}
+
+      if(saved){
+        document.title = saved.attrs?.title || document.title;
+        renderer.value = saved;
+        status.remove();
+      } else {
+        status.textContent = 'There is no saved page yet. Build one on the Page Builder page, then come back here.';
+      }
+    </script>
+  </content>
+</page>

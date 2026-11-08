@@ -43,6 +43,7 @@ rating: star rating
 calendar: pick a date or a date range
 time: pick a time of day
 color-picker: pick a color
+icon-selector: pick an icon from a searchable grid, submits its name
 combobox: dropdown input with search and suggestions
 tags: input for a list of tags
 segmented-control: row of buttons where one is selected
@@ -62,8 +63,9 @@ icon: shows an SVG icon by name
 text-to-speech: button that reads text aloud
 
 Media:
-audio: sound player with playlist and controls
+audio: sound player with playlist, controls and a visualizer
 video: video player with controls
+media-gallery: product-style gallery of images, videos, audio and registered custom types with thumbnails, arrows and a fullscreen viewer
 
 Data:
 table: data table with sorting, filtering, search, pagination, selection and editing
@@ -71,6 +73,10 @@ table: data table with sorting, filtering, search, pagination, selection and edi
 Chat and AI:
 chat: chat window with a message box, for people or the browser's built-in AI
 chat-bubble: round floating chat button that opens a chat popup
+
+Pages:
+page-builder: editor for building a page from widgets, kept as JSON and controlled by its value
+page-renderer: renders that page JSON as a page in the browser, or as HTML on a server
 
 Base classes for building your own component:
 shadow-component: normal component with shadow DOM and the Kempo styles
@@ -101,3 +107,6 @@ propConverters: Lit property converters for boolean attributes
 closestAcrossShadow: closest() that also looks outside shadow DOM
 overlayRoot: where fixed overlays (dialogs, toasts) are placed
 elevation: the z-index (stacking) levels used by the components
+renderPage: turns page JSON into HTML, with no DOM, for a server or the browser
+pageWidth: sets --page-width (the page width without its scrollbar) for full-width page widgets
+pageWidgets: the widgets a page can use, and addWidget to add more

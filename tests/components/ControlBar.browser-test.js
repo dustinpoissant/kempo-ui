@@ -58,6 +58,34 @@ const naturalWidth = el => [...el.children].reduce((sum, c) => sum + c.offsetWid
 
 const movedIds = el => [...el.children].filter(c => c.getAttribute('slot') === 'overflow').map(c => c.id);
 
+/* A split group of three table controls at the end of the bar's right slot. */
+const addSplitGroup = (el, { group: groupAttrs = '', first = '', second = '', third = '' } = {}) => {
+  const group = document.createElement('k-control-group');
+  group.id = 'group';
+  group.slot = 'right';
+  group.setAttribute('split', '');
+  group.innerHTML = `<kc-tc-export-csv id="s1" ${first}></kc-tc-export-csv><kc-tc-export-json id="s2" ${second}></kc-tc-export-json><kc-tc-page-size id="s3" ${third}></kc-tc-page-size>`;
+  groupAttrs.split(' ').filter(Boolean).forEach(attr => {
+    const [name, value] = attr.split('=');
+    group.setAttribute(name, value ?? '');
+  });
+  el.appendChild(group);
+  return group;
+};
+
+/* A split menu with two table controls and an icon, at the end of the bar's right slot. */
+const addSplitMenu = el => {
+  const menu = document.createElement('kc-menu');
+  menu.id = 'menu';
+  menu.slot = 'right';
+  menu.setAttribute('split', '');
+  menu.innerHTML = '<k-icon slot="icon" name="more_vert"></k-icon><kc-tc-export-csv id="m1"></kc-tc-export-csv><kc-tc-export-json id="m2"></kc-tc-export-json>';
+  el.appendChild(menu);
+  return menu;
+};
+
+const menuOrder = el => [...el.shadowRoot.querySelector('slot[name="overflow"]').assignedElements()].map(c => c.id);
+
 export default {
   /*
     Element Creation
@@ -208,6 +236,130 @@ export default {
     if(!moved.includes('group')) return fail(`The group should move, moved: ${moved}`);
     if(!inGroup) return fail('The group should keep its controls together');
     pass('Control group moves as one unit');
+  },
+
+  /*
+    Split Groups
+  */
+  'should move the controls of a split group one at a time, last first': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    const group = addSplitGroup(el);
+    await wait();
+    await resizeTo(container, naturalWidth(el) - 5);
+    const moved = movedIds(el);
+    const stillInGroup = ['s1', 's2'].every(id => group.querySelector(`#${id}`)?.parentElement === group);
+    cleanup(container);
+    if(!moved.includes('s3')) return fail(`The last control of the group should move first, moved: ${moved}`);
+    if(moved.includes('group')) return fail('The group itself should stay while it has controls');
+    if(moved.includes('s1') || moved.includes('s2')) return fail(`Only what is needed should move, moved: ${moved}`);
+    if(!stillInGroup) return fail('The controls that did not move should stay in the group');
+    pass('Split groups collapse one control at a time');
+  },
+
+  'should keep a no-collapse control of a split group in the bar': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    const group = addSplitGroup(el, { second: 'no-collapse' });
+    await wait();
+    await resizeTo(container, 260);
+    const moved = movedIds(el);
+    const stays = group.querySelector('#s2')?.parentElement === group && !moved.includes('s2');
+    const groupShown = !group.hasAttribute('collapsed');
+    cleanup(container);
+    if(!stays) return fail(`The no-collapse control should stay in its group, moved: ${moved}`);
+    if(!moved.includes('s1') || !moved.includes('s3')) return fail(`The other controls should move, moved: ${moved}`);
+    if(!groupShown) return fail('A group that still has a control should not be collapsed');
+    pass('no-collapse works inside a split group');
+  },
+
+  'should hide a split group once all of its controls moved': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    const group = addSplitGroup(el);
+    await wait();
+    await resizeTo(container, 200);
+    const moved = movedIds(el);
+    const allMoved = ['s1', 's2', 's3'].every(id => moved.includes(id));
+    const hidden = group.hasAttribute('collapsed') && getComputedStyle(group).display === 'none';
+    cleanup(container);
+    if(!allMoved) return fail(`All of the controls should have moved, moved: ${moved}`);
+    if(!hidden) return fail('The empty group should be hidden');
+    pass('An emptied split group is hidden');
+  },
+
+  'should put the controls of a split group back in their places when there is room': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    const group = addSplitGroup(el);
+    await wait();
+    await resizeTo(container, 200);
+    await resizeTo(container, 1400);
+    const order = [...group.children].map(c => c.id);
+    const slots = ['s1', 's2', 's3'].map(id => group.querySelector(`#${id}`)?.getAttribute('slot'));
+    const inMenu = ['s1', 's2', 's3'].some(id => group.querySelector(`#${id}`)?.hasAttribute('in-menu'));
+    const shown = !group.hasAttribute('collapsed');
+    cleanup(container);
+    if(order.join() !== 's1,s2,s3') return fail(`The controls should be back in order, got: ${order}`);
+    if(slots.some(slot => slot !== null)) return fail(`The controls should have no slot again, got: ${slots}`);
+    if(inMenu) return fail('The controls should not be marked as in the menu');
+    if(!shown) return fail('The group should be shown again');
+    pass('Split group controls return in order');
+  },
+
+  'should list the controls that left a split group in the order they had in it': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    addSplitGroup(el, { first: 'priority="5"', second: 'priority="1"' });
+    await wait();
+    await resizeTo(container, 100);
+    const order = menuOrder(el).filter(id => ['s1', 's2', 's3'].includes(id));
+    cleanup(container);
+    if(order.join() !== 's1,s2,s3') return fail(`The menu should list them as s1, s2, s3 even though they moved as s3, s2, s1, got: ${order}`);
+    pass('The menu keeps the group order');
+  },
+
+  'should give the controls of a split group the priority of the group': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    addSplitGroup(el, { group: 'priority=3' });
+    await wait();
+    await resizeTo(container, naturalWidth(el) - 5);
+    const moved = movedIds(el);
+    cleanup(container);
+    if(!moved.includes('size')) return fail(`A control with no priority should move first, moved: ${moved}`);
+    if(['s1', 's2', 's3'].some(id => moved.includes(id))) return fail(`The group's controls have the group's priority and should wait, moved: ${moved}`);
+    pass('A split group controls inherit its priority');
+  },
+
+  'should list the items of a split menu in the more menu, and hide the menu once it is empty': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    const menu = addSplitMenu(el);
+    await wait();
+    await resizeTo(container, 120);
+    const moved = movedIds(el);
+    const order = menuOrder(el).filter(id => ['m1', 'm2'].includes(id));
+    const hidden = menu.hasAttribute('collapsed') && getComputedStyle(menu).display === 'none';
+    const iconStays = menu.querySelector('k-icon[slot="icon"]')?.parentElement === menu;
+    const menuItself = moved.includes('menu');
+    cleanup(container);
+    if(!moved.includes('m1') || !moved.includes('m2')) return fail(`The items of the menu should move, moved: ${moved}`);
+    if(menuItself) return fail('The menu should not move as a whole');
+    if(order.join() !== 'm1,m2') return fail(`The more menu should list the items as m1, m2, got: ${order}`);
+    if(!hidden) return fail('The empty menu should be hidden');
+    if(!iconStays) return fail('The menu icon is not an item and should stay in the menu');
+    pass('A split menu collapses into the more menu');
+  },
+
+  'should put the items of a split menu back when there is room': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    const menu = addSplitMenu(el);
+    await wait();
+    await resizeTo(container, 120);
+    await resizeTo(container, 1400);
+    const items = [...menu.children].filter(c => !c.hasAttribute('slot')).map(c => c.id);
+    const shown = !menu.hasAttribute('collapsed') && getComputedStyle(menu).display !== 'none';
+    await wait();
+    const inMenu = ['m1', 'm2'].every(id => menu.querySelector(`#${id}`)?.hasAttribute('in-menu'));
+    cleanup(container);
+    if(items.join() !== 'm1,m2') return fail(`The items should be back in the menu in order, got: ${items}`);
+    if(!shown) return fail('The menu should be shown again');
+    if(!inMenu) return fail('The items should be rows of the menu again');
+    pass('A split menu gets its items back');
   },
 
   'should stay on a single row': async ({pass, fail}) => {
@@ -403,6 +555,28 @@ export default {
     if(panelBorder === 'rgba(0, 0, 0, 0)') return fail('The menu panel border should be visible');
     if(triggerBorder !== 'rgba(0, 0, 0, 0)') return fail(`The trigger should stay borderless like the video controls, got ${triggerBorder}`);
     pass('Panel has a border and the trigger matches the host');
+  },
+
+  'should collapse the elements a slot shows with the group that holds the slot': async ({pass, fail}) => {
+    const container = document.createElement('div');
+    container.style.width = '60px';
+    const host = document.createElement('div');
+    host.attachShadow({ mode: 'open' }).innerHTML = '<k-control-bar><k-control-group id="grp"><slot name="extra"></slot></k-control-group><button id="other" class="btn">A longer label that takes room</button></k-control-bar>';
+    const extra = document.createElement('button');
+    extra.id = 'extra';
+    extra.slot = 'extra';
+    extra.textContent = 'Extra';
+    host.appendChild(extra);
+    container.appendChild(host);
+    document.body.appendChild(container);
+    await wait(300);
+    const narrowMoved = extra.hasAttribute('in-menu');
+    await resizeTo(container, 800);
+    const wideMoved = extra.hasAttribute('in-menu');
+    cleanup(container);
+    if(!narrowMoved) return fail('A narrow bar should move the slot\'s elements into the more menu with their group');
+    if(wideMoved) return fail('A wide bar should keep the slot\'s elements in the bar');
+    pass('Elements a slot shows collapse with the group that holds the slot');
   },
 
   'should remove the host marker when the bar is removed': async ({pass, fail}) => {

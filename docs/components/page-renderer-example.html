@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Page Renderer Example</title>
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <script src="../init.js"></script>
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+    <meta name="robots" content="noindex">
+  
+</head>
+<body>
+  
+    <main class="p">
+      <p class="tc-muted mb" id="status">Loading the page saved by the Page Builder demo.</p>
+      <k-page-renderer id="page"></k-page-renderer>
+    </main>
+
+    <script type="module">
+      import '../src/components/PageRenderer.js';
+
+      const key = 'kempo-ui:page';
+      const status = document.getElementById('status');
+      const renderer = document.getElementById('page');
+
+      let saved = null;
+      try {
+        saved = JSON.parse(localStorage.getItem(key) || 'null');
+      } catch {}
+
+      if(saved){
+        document.title = saved.attrs?.title || document.title;
+        renderer.value = saved;
+        status.remove();
+      } else {
+        status.textContent = 'There is no saved page yet. Build one on the Page Builder page, then come back here.';
+      }
+    </script>
+  
+  
+</body>
+</html>

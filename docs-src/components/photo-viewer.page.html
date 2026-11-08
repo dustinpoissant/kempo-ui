@@ -206,7 +206,7 @@
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
-    <h6>Extends <a href="./ShadowComponent.html">ShadowComponent</a></h6>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
     <h5>
       <code>new PhotoViewer()</code>
     </h5>
@@ -225,7 +225,7 @@
 
     <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
     <ul>
-      <li><a href="./ShadowComponent.html">ShadowComponent</a></li>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
       <li><a href="./icon.html">Icon</a></li>
     </ul>
 
@@ -234,10 +234,14 @@
     <p>The URL of the image to display. Syncs with the <code>src</code> attribute.</p>
     <h5><code>alt<i>: string</i></code></h5>
     <p>Alternative text for the image. Syncs with the <code>alt</code> attribute.</p>
+    <h5><code>ratio<i>: string</i></code></h5>
+    <p>The shape of the image box, as a CSS aspect ratio such as <code>4/3</code>. The picture is centred inside it, with black bars where it does not fill the box, so pictures of different shapes come out the same size. Leave it empty for the picture's own shape (default). Syncs with the <code>ratio</code> attribute.</p>
     <h5><code>fullscreen<i>: boolean</i></code></h5>
     <p>Whether the photo viewer is currently in fullscreen mode. Syncs with the <code>fullscreen</code> attribute.</p>
     <h5><code>keyboardControls<i>: boolean</i></code></h5>
     <p>Whether keyboard controls are enabled (default: true). When enabled: Enter opens fullscreen, ESC closes, arrow keys navigate. Syncs with the <code>keyboard-controls</code> attribute.</p>
+    <h5><code>noFullscreen<i>: boolean</i></code></h5>
+    <p>Turns the fullscreen view off: clicking the photo does nothing and <code>open()</code> and <code>toggle()</code> have no effect. The page builder draws its photos this way, so clicking one only selects it. Syncs with the <code>no-fullscreen</code> attribute.</p>
     <h5><code>global<i>: boolean</i></code></h5>
     <p>Whether navigation should include all PhotoViewers on the page (true) or just siblings (false, default). Syncs with the <code>global</code> attribute.</p>
 

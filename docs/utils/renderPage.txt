@@ -1,0 +1,21 @@
+renderPage (utility)
+Import: import { renderPage, createRenderer, collectModules, attributeString, escapeText, escapeAttribute } from 'kempo-ui/src/utils/renderPage.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/renderPage.html
+
+Turns a page's widget nodes into HTML. It has no DOM and no Lit, so it runs on a server (server-side rendering) and draws the builder's preview in the browser.
+
+Details:
+- renderPage(nodes, registry, { editor, sanitize }) returns the HTML string. nodes is a list of widget nodes (a page's slots.default), registry is a Map from widget name to definition (registryOf(widgets) from pageWidgets.js)
+- editor: true gives the builder's version: each element gets data-pb-id and data-pb-title, containers get data-pb-slot="default" (where widgets can be dropped), and widgets with an editorTag use that tag
+- sanitize(html): applied to content in mode 'html' (a text widget) and to every table cell. The default does nothing, so pass a sanitizer on the server (sanitizeHtml needs a browser DOM). Markdown text is escaped and the html widget is written raw by design, so neither uses it
+- collectModules gives absolute URLs made from import.meta.url, so in Node they are file: URLs; a server maps them to the URLs it serves the files from
+- an attribute at its default is left out; virtual settings are never written; array and object values are written as JSON
+- a widget definition may give: tag, editorTag, classes(attrs), style(attrs), content { name, mode }, render(node, ctx, info, definition)
+- render returns the whole HTML of the widget; ctx.standard(node, info, { tag, classes, style, content, skip, extra }) gives the default element; ctx.children(node, slot) gives the HTML of a slot; ctx.mark(node, definition, extra) gives the editor marks; ctx.attributes(definition, node, skip) gives the attributes; ctx.escapeText and ctx.escapeAttribute escape
+- collectModules(nodes, registry, { editor }) returns the module URLs the widgets need, each once
+- Module-level: escapeText(value), escapeAttribute(value), attributeString(definition, node, skip), createRenderer(registry, options)
+
+Example:
+import { renderPage } from 'kempo-ui/src/utils/renderPage.js';
+import { widgets, registryOf } from 'kempo-ui/src/utils/pageWidgets.js';
+const html = renderPage(page.slots.default, registryOf(widgets));

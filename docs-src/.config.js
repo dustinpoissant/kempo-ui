@@ -5,7 +5,8 @@ export default {
     "media/**": "../docs/media/**",
     "kempo-hljs.css": "../docs/kempo-hljs.css",
     "kempo-vars.css": "../docs/kempo-vars.css",
-    "kempo.min.css": "../docs/kempo.min.css",
+    "kempo.min.css": "../node_modules/kempo-css/dist/kempo.min.css",
+    "init.js": "../docs/init.js",
     "styles.css": "../docs/styles.css",
     "manifest.json": "../docs/manifest.json"
   },

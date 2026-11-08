@@ -52,6 +52,9 @@ export default class ControlGroup extends ShadowComponent {
 		:host([hidden]) {
 			display: none !important;
 		}
+		:host([collapsed]) {
+			display: none !important;
+		}
 		::slotted(*) {
 			border: 0;
 			border-right: 1px solid var(--c_border);

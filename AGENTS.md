@@ -13,6 +13,9 @@
 ## Dependencies
 
  - [Kempo-CSS](https://raw.githubusercontent.com/dustinpoissant/kempo-css/refs/heads/main/llms.txt) - Injected into the shadow root of all components extending ShadowCompoentn or Hybrid Component. Do not assume bootstrap styles, some may be similar, but these are not compatible with bootstrap, read the docs.
+   - It is a **dev dependency**, so a site that installs only kempo-ui does not get it: `ShadowComponent` falls back to the jsdelivr CDN (`kempo-css@2`) unless `window.kempo.pathToStylesheet` is set.
+   - The docs use the installed copy: `npm run build` copies `node_modules/kempo-css/dist/kempo.min.css` to `docs/kempo.min.css` and writes `docs/init.js`, which sets `pathToStylesheet` to it (both docs templates load `init.js`). The dev server (`docs-src/.config.js`) routes `kempo.min.css` to `node_modules/kempo-css/dist/kempo.min.css` and `init.js` to `docs/init.js`. Do not pass `--config` to `npm run dev`: it is resolved from the root and the server finds `docs-src/.config.js` on its own.
+   - After updating it, run `npm run build` so `docs/kempo.min.css` matches.
  - [Kempo-TestingFramework](https://raw.githubusercontent.com/dustinpoissant/kempo-testing-framework/refs/heads/main/llm.txt) - Used to create and run tests inside the `tests` directory. Do not assume you know the syntax, read the docs.
  - [Kempo-Server](https://raw.githubusercontent.com/dustinpoissant/kempo-server/refs/heads/main/llm.txt) - A node server with file-based routing and robust configution options, this is used to run the docs servers.
 
@@ -104,7 +107,7 @@ Applies to every control in `src/components/controls/` and to any new one: toolb
 ### Height: 40px, unless told otherwise
  - Every control is **40px tall** by default. This comes from the `--control_height` custom property (`var(--control_height, 40px)`), already applied by the `Control` base class, so a control that extends `Control` or `ButtonControl` gets it for free.
  - Do not hard-code a different height (`2rem`, `1.5rem`, `24px`, ...) on a control, and do not add a smaller `min-height`. Size any inner part from the same variable so the visible element fills the control: an input or select stretches (the base already does this), and a trigger button inside a bordered host is `calc(var(--control_height, 40px) - 2px)`.
- - Only deviate when the user explicitly says so for that control (for example a list such as `kc-audio-playlist`, or the big play overlay `kc-vid-play-big`). When you do, set `height: auto` on its `:host` and say why in the reply.
+ - Only deviate when the user explicitly says so for that control (for example a list such as `kc-audio-playlist`, the canvas `kc-audio-visualizer` sized by `--visualizer_height`, or the big play overlay `kc-vid-play-big`). When you do, set `height: auto` on its `:host` and say why in the reply.
  - The `--control_height` variable is also how consumers resize every control at once, so never replace it with a fixed value.
  - Verify a new control on the docs page: its host, and any input, select or button inside it, should measure 40px.
  - Rows inside a menu (`in-menu`) are the exception to the 40px rule; the base class handles their height.

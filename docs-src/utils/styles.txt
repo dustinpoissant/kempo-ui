@@ -1,0 +1,21 @@
+styles (utility)
+Import: import { styleClasses, styleCss, styleId, decorate, supportsStyles, shownStyles, cleanSides, STYLE_PARTS, SIDES, SIZES, BACKGROUNDS, TEXT_COLOURS, ALIGNS, CORNERS } from 'kempo-ui/src/utils/styles.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/styles.html
+
+The styles a Page Builder widget has beyond its own settings, kept on the widget as `styles`: almost all kempo-css classes (margin, padding, background, text colour, alignment, rounded corners, borders), the background's opacity as the one style value, an id and extra classes. The page and the builder write them the same way, on the widget's first element. No DOM, so a server can use it.
+
+Details:
+- the styles object: { margin: { top, right, bottom, left }, padding: { ... }, background, alpha, textColour, align, corners: [], sides: [], id, classes }. A size is '' (none), 'q' (quarter), 'h' (half) or 'f' (a whole space); alpha is a percentage held between 0 and 100 (100 when missing)
+- constants: SIDES ['top','right','bottom','left'], SIZES ['','q','h','f'], BACKGROUNDS and TEXT_COLOURS (default, alt or muted, inv, primary, secondary, success, warning, danger), ALIGNS ['left','center','right'], CORNERS ['tl','tr','bl','br']. STYLE_PARTS: the parts of the Styles tab a widget can hide with hideStyles (box: margin, padding, corners, sides; background: background, alpha; textColour; align; id; classes)
+- styleClasses(styles): the kempo-css classes, shortest names: all four sides the same is one class (m, mh, mq), top and bottom the same is my, left and right the same is mx, else one per side (mt, mbq); padding uses p; bg-*, tc-*, ta-*; all four corners is r and all four sides is b, else one class each (rtl, rtr, rbl, rbr, bt, br, bb, bl); extra classes that are plain names. A see-through background has no class
+- styleCss(styles): the opacity of a background as an inline style (the kempo-css variable with the alpha, plus a readable text colour unless a text colour is chosen), '' otherwise
+- styleId(styles): the id when it is valid (starts with a letter, letters digits _ -), else ''
+- cleanSides(value): a size for every side, '' for a side that is missing or not a size
+- shownStyles(styles, hidden = []): the styles without the hidden parts (names from STYLE_PARTS)
+- supportsStyles(definition): false for a section (a column, a tab), whose parent lays it out
+- decorate(html, styles, display = ''): adds the display class and the styles' classes to the first element's class (no repeats), the inline style to its style, and the id unless it has one
+
+Example:
+import { styleClasses, decorate } from 'kempo-ui/src/utils/styles.js';
+styleClasses({ margin: { top: 'f', right: '', bottom: 'f', left: '' }, background: 'primary', align: 'center' }); // ['my', 'bg-primary', 'ta-center']
+decorate('<div class="x">Hi</div>', { margin: { bottom: 'f' }, id: 'box' }, 'd-b'); // '<div class="x d-b mb" id="box">Hi</div>'

@@ -942,5 +942,31 @@ export default {
 		}
 
 		pass('overlayRoot ancestor gets no-scroll class when opened');
+	},
+
+	'should not go fullscreen with no-fullscreen, from a click, Enter, open() or toggle()': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-photo-viewer no-fullscreen src="https://picsum.photos/200/300" alt="x"></k-photo-viewer>';
+		document.body.appendChild(container);
+		const viewer = container.querySelector('k-photo-viewer');
+		await viewer.updateComplete;
+		const img = viewer.shadowRoot.querySelector('#img');
+		img.click();
+		img.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+		viewer.open();
+		viewer.toggle();
+		await viewer.updateComplete;
+		const stayed = !viewer.fullscreen && !document.body.classList.contains('no-scroll');
+		const cursor = getComputedStyle(img).cursor;
+		viewer.noFullscreen = false;
+		img.click();
+		await viewer.updateComplete;
+		const opened = viewer.fullscreen;
+		viewer.close();
+		container.remove();
+		if(!stayed) return fail('A viewer with no-fullscreen must stay in its place');
+		if(cursor !== 'default') return fail(`The cursor should not be a pointer, got ${cursor}`);
+		if(!opened) return fail('Turning no-fullscreen off should let it open again');
+		pass('no-fullscreen keeps the viewer from opening');
 	}
 };

@@ -17,6 +17,10 @@ import e from"./Control.js";import{css as t,html as o}from"../../lit-all.min.js"
         margin: var(--spacer_q);
       }
 
+      :host([collapsed]) {
+        display: none !important;
+      }
+
       k-dropdown {
         display: inline-flex;
       }

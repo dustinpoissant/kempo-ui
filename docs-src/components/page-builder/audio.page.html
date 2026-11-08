@@ -1,0 +1,38 @@
+<page pageName="Page Builder Audio" title="Page Builder: Audio - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <div class="container">
+      <p class="tc-muted"><a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> &rsaquo; Pickers</p>
+      <h1>Audio picker</h1>
+      <p>The Audio widget plays an audio file with a player. Its <strong>Audio URL</strong> setting is drawn by a picker, kept at <code>PageBuilderFields.pickers.audio</code>. By default it is a text box for the address. A site with a media library replaces it with a chooser that lists its audio files, and the builder uses that chooser for every Audio widget.</p>
+
+      <h2 id="settings">The Audio widget's settings</h2>
+      <table>
+        <thead><tr><th>Setting</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>Audio URL</td><td>The address of an audio file. Uses the picker.</td></tr>
+          <tr><td>Controls, Play automatically, Loop, Muted, Loading</td><td>How the audio plays.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="contract">The picker</h2>
+      <p>A picker is a function that takes one object and returns a Lit template (the <code>html</code> tag from <code>lit-all.min.js</code>):</p>
+      <ul>
+        <li><code>id</code>: give the element this id. The field's label points at it.</li>
+        <li><code>value</code>: the current address, or an empty string when there is none.</li>
+        <li><code>change(address, coalesce)</code>: sets the address. Pass <code>coalesce</code> as <code>true</code> while the person types, so that Undo does not record each key. Pass <code>false</code> (the default) for a choice, such as a file picked from a library.</li>
+      </ul>
+      <p>Set the picker before the builder is opened.</p>
+
+      <h2 id="replace">Replacing it</h2>
+      <p><code>mediaLibrary</code> stands for the site's module, and its <code>choose</code> function calls back with the address of the audio file the person picked.</p>
+      <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">PageBuilderFields</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/components/pagebuilder/PageBuilderFields.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  html<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/kempo-ui/src/lit-all.min.js&#x27;</span>;<br><span class="hljs-keyword">import</span> mediaLibrary <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/my-site/js/media-library.js&#x27;</span>;<br><span class="hljs-title class_">PageBuilderFields</span>.<span class="hljs-property">pickers</span>.<span class="hljs-property">audio</span> = <span class="hljs-function">(<span class="hljs-params">{<br>  id,<br>  value,<br>  change<br>}</span>) =&gt;</span> html`<span class="language-xml"><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${id}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;full&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;</span></span></span><span class="hljs-subst">${() =&gt; mediaLibrary.choose(url =&gt; change(url, <span class="hljs-literal">false</span>))}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span></span><span class="hljs-subst">${value || <span class="hljs-string">&#x27;Choose an audio file&#x27;</span>}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>`</span>;</code></pre>
+
+      <h2 id="others">The other pickers</h2>
+      <ul>
+        <li><a href="{{pathToRoot}}components/page-builder/image.html">Image picker</a> for pictures.</li>
+        <li><a href="{{pathToRoot}}components/page-builder/video.html">Video picker</a> for the Video widget's address.</li>
+        <li><a href="{{pathToRoot}}components/page-builder/icon.html">Icon picker</a> for the icons on buttons, links and sections.</li>
+      </ul>
+    </div>
+  </content>
+</page>

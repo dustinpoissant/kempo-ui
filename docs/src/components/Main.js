@@ -1,4 +1,4 @@
-import t from"./ShadowComponent.js";import{html as e,css as a}from"../lit-all.min.js";const i=(t,e)=>"offscreen"!==t&&("push"===e||"collapsed"===t);export default class s extends t{constructor(){super(),this.widthMap=new Map}connectedCallback(){super.connectedCallback(),window.addEventListener("aside_state_change",this.handleAsideChange),document.querySelectorAll("k-aside").forEach(t=>{if(i(t.state,t.currentMain)&&"function"==typeof t.getTargetWidth){const e=t.getTargetWidth(t.state);e>0&&this.widthMap.set(t,{side:t.side||"left",width:e})}}),this.recalculate()}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("aside_state_change",this.handleAsideChange)}handleAsideChange=t=>{const{aside:e,state:a,main:s,width:n}=t.detail;i(a,s)?this.widthMap.set(e,{side:e.side||"left",width:n}):this.widthMap.delete(e),this.recalculate()};recalculate=()=>{let t=0,e=0;for(const[,{side:a,width:i}]of this.widthMap)"right"===a?e=Math.max(e,i):t=Math.max(t,i);this.style.setProperty("--left-panel-width",`${t}px`),this.style.setProperty("--right-panel-width",`${e}px`)};render(){return e`
+import t from"./ShadowComponent.js";import{html as e,css as a}from"../lit-all.min.js";const i=(t,e)=>"offscreen"!==t&&("push"===e||"collapsed"===t);export default class n extends t{constructor(){super(),this.widthMap=new Map}connectedCallback(){super.connectedCallback(),window.addEventListener("aside_state_change",this.handleAsideChange),document.querySelectorAll("k-aside").forEach(t=>{if(i(t.state,t.currentMain)&&"function"==typeof t.getTargetWidth){const e=t.getTargetWidth(t.state);e>0&&this.widthMap.set(t,{side:t.side||"left",width:e})}}),this.recalculate()}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("aside_state_change",this.handleAsideChange)}handleAsideChange=t=>{const{aside:e,state:a,main:n,width:s}=t.detail;i(a,n)?this.widthMap.set(e,{side:e.side||"left",width:s}):this.widthMap.delete(e),this.recalculate()};recalculate=()=>{let t=0,e=0;for(const[,{side:a,width:i}]of this.widthMap)"right"===a?e=Math.max(e,i):t=Math.max(t,i);this.style.setProperty("--left-panel-width",`${t}px`),this.style.setProperty("--right-panel-width",`${e}px`)};render(){return e`
 			<main>
 				<slot></slot>
 			</main>
@@ -7,6 +7,7 @@ import t from"./ShadowComponent.js";import{html as e,css as a}from"../lit-all.mi
 			display: block;
 			margin-left: var(--left-panel-width, 0px);
 			margin-right: var(--right-panel-width, 0px);
+			overflow-x: clip;
 			transition: margin-left var(--animation_ms, 256ms), margin-right var(--animation_ms, 256ms);
 		}
 		main {
@@ -17,4 +18,9 @@ import t from"./ShadowComponent.js";import{html as e,css as a}from"../lit-all.mi
 			padding-left: var(--spacer);
 			padding-right: var(--spacer);
 		}
-	`}window.customElements.define("k-main",s);
+		:host([full-width]) main {
+			max-width: none;
+			padding-left: 0;
+			padding-right: 0;
+		}
+	`}window.customElements.define("k-main",n);

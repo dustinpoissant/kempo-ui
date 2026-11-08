@@ -1,0 +1,107 @@
+<page pageName="Render Page" title="Render Page Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Render Page</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API</a><br />
+          <a href="#context">The Render Context</a><br />
+          <a href="#server">Rendering on a Server</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>Turns a page's widget nodes into an HTML string. It has no DOM and no Lit, so the same code writes a page on a server (server-side rendering) and draws the <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a>'s preview in the browser. <a href="{{pathToRoot}}components/page-renderer.html">PageRenderer</a> uses it too.</p>
+    <p>A node whose type is not registered is left out of the page. In the builder it is shown as not available, so nothing is lost from view.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  renderPage<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/renderPage.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> html = <span class="hljs-title function_">renderPage</span>(page.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>, <span class="hljs-title function_">registryOf</span>(widgets));</code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API</a></h3>
+
+    <h4><code>renderPage(nodes, registry, options = {})</code></h4>
+    <h5><code>nodes<i>: Array</i></code></h5>
+    <p>A list of widget nodes: a page's <code>slots.default</code>. A node is <code>{ id, type, attrs, slots }</code>.</p>
+    <h5><code>registry<i>: Map</i></code></h5>
+    <p>The widget definitions by name: <code>registryOf(widgets)</code> from <a href="{{pathToRoot}}utils/pageWidgets.html">pageWidgets</a>.</p>
+    <h5><code>options<i>: Object</i></code> (optional)</h5>
+    <ul>
+      <li><code>editor</code> &mdash; <code>true</code> for the builder's version. Every widget's first element gets <code>data-pb-id</code>, <code>data-pb-title</code> and <code>tabindex="0"</code>, containers are marked as places widgets can be dropped (<code>data-pb-slot="default"</code>), and a widget with an <code>editorTag</code> uses that tag. Default <code>false</code>.</li>
+      <li><code>sanitize</code> &mdash; <code>function(html)</code> applied to content in mode <code>'html'</code> (a text widget) and to every table cell. The default does nothing. See <a href="#server">Rendering on a Server</a>.</li>
+    </ul>
+    <h5>Returns: <code>string</code></h5>
+    <p>The HTML of the widgets, one after the other. The <a href="{{pathToRoot}}utils/styles.html">styles</a> of each widget that takes them (margin, padding, background and the rest, not a section) and its display class are added to its first element. A widget is a block (<code>d-b</code>), or inline-block (<code>d-ib</code>) when its definition has <code>inline</code>, unless its definition gives <code>display</code>.</p>
+
+    <h4><code>collectModules(nodes, registry, options = {})</code></h4>
+    <h5><code>options.editor<i>: boolean</i></code> (optional)</h5>
+    <p>Also include each widget's <code>editor</code> module. Default <code>false</code>.</p>
+    <h5>Returns: <code>Array&lt;string&gt;</code></h5>
+    <p>The module URLs the page's widgets need (the <code>page</code> URLs of their definitions), each once. They are made from <code>import.meta.url</code>, so they are absolute: <code>file:</code> URLs in Node. See <a href="#server">Rendering on a Server</a>.</p>
+
+    <h4><code>createRenderer(registry, options = {})</code></h4>
+    <p>Makes the render context (<code>ctx</code>) that <code>renderPage</code> uses, with the same <code>editor</code> and <code>sanitize</code> options. A widget's <code>render</code> function receives it. See <a href="#context">The Render Context</a>.</p>
+    <h5>Returns: <code>Object</code></h5>
+
+    <h4><code>attributeString(definition, node, skip = [])</code></h4>
+    <h5><code>definition<i>: Object</i></code></h5>
+    <p>The widget's definition.</p>
+    <h5><code>node<i>: Object</i></code></h5>
+    <p>The widget's node.</p>
+    <h5><code>skip<i>: Array&lt;string&gt;</i></code> (optional)</h5>
+    <p>Setting names to leave out.</p>
+    <h5>Returns: <code>string</code></h5>
+    <p>The widget's attributes as a string that starts with a space, or <code>''</code>. Only settings that are set and differ from their default are written. Settings marked <code>virtual</code> stay in the tree and are never written. The attribute is named by the setting's <code>attr</code>, or its <code>name</code>. A boolean with <code>format: 'text'</code> is written as <code>name="value"</code>; any other boolean is written as the bare name when it is <code>true</code>. Arrays and objects are written as JSON. Values are escaped.</p>
+
+    <h4><code>escapeText(value)</code></h4>
+    <p>Escapes <code>&amp;</code>, <code>&lt;</code> and <code>&gt;</code>. <code>null</code> and <code>undefined</code> become <code>''</code>.</p>
+    <h5>Returns: <code>string</code></h5>
+
+    <h4><code>escapeAttribute(value)</code></h4>
+    <p>Does what <code>escapeText</code> does, and also escapes <code>"</code> and <code>'</code>, so the value is safe inside a quoted attribute.</p>
+    <h5>Returns: <code>string</code></h5>
+
+    <h3 id="context"><a href="#context" class="no-link">The Render Context</a></h3>
+    <p>A widget definition may give <code>tag</code>, <code>editorTag</code>, <code>classes(attrs)</code>, <code>style(attrs)</code>, <code>content</code> and <code>render</code>. With none of them, the widget is drawn as its <code>tag</code> element. A <code>render(node, ctx, info, definition)</code> function returns the widget's whole HTML. <code>info</code> is <code>{ index, parent, slot }</code>: where the widget is. <code>ctx</code> has:</p>
+    <ul>
+      <li><code>ctx.standard(node, info, options)</code> &mdash; the widget's own element, built from its definition. <code>options</code> is <code>{ tag, classes, style, content, skip, extra }</code>: a different tag, more classes, more inline style, the element's content in place of the one from <code>content</code>, setting names to leave out of the attributes, and extra attributes as a string. A container (a widget with slots) gets <code>data-pb-slot="default"</code> in the builder, and its children inside it. Void elements such as <code>hr</code> have no content or closing tag.</li>
+      <li><code>ctx.children(node, slot = 'default')</code> &mdash; the HTML of the widgets in one of the node's slots. In a slot that is not <code>default</code>, the first tag of each child gets a <code>slot</code> attribute.</li>
+      <li><code>ctx.mark(node, definition, extra = '')</code> &mdash; the builder's marks for the widget's element (<code>data-pb-id</code>, <code>data-pb-title</code>, <code>extra</code>, <code>tabindex</code>), or <code>''</code> on the page.</li>
+      <li><code>ctx.attributes(definition, node, skip)</code> &mdash; the same as <code>attributeString</code>.</li>
+      <li><code>ctx.node(node, info)</code> &mdash; the HTML of any node, with its styles added.</li>
+      <li><code>ctx.escapeText</code>, <code>ctx.escapeAttribute</code> &mdash; the escape functions above.</li>
+      <li><code>ctx.editor</code>, <code>ctx.sanitize</code>, <code>ctx.registry</code> &mdash; what the context was made with.</li>
+    </ul>
+    <p>A definition's <code>content</code> is <code>{ name, mode }</code>: the setting <code>name</code> is the element's text, and <code>mode</code> is <code>'html'</code> (passed through <code>sanitize</code>), <code>'raw'</code> (written as it is) or anything else (escaped as text).</p>
+
+    <h3 id="server"><a href="#server" class="no-link">Rendering on a Server</a></h3>
+    <p>This file has no DOM, so a server can import it to prerender a page. Import it with <a href="{{pathToRoot}}utils/pageWidgets.html">pageWidgets</a> rather than the <code>k-page-renderer</code> element, which defines custom elements.</p>
+    <div class="callout warning b r p mb">
+      <strong>Pass a <code>sanitize</code> function on a server.</strong>
+      The default does nothing, and kempo-ui's <code>sanitizeHtml</code> needs a browser DOM. Without one, the HTML of text widgets and table cells is written exactly as it was saved. Markdown text is escaped, and the HTML widget is written raw on purpose, so neither goes through <code>sanitize</code>: only let people you trust edit an HTML widget.
+    </div>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> html = <span class="hljs-title function_">renderPage</span>(page.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>, <span class="hljs-title function_">registryOf</span>(widgets), {<br>  <span class="hljs-attr">sanitize</span>: <span class="hljs-function"><span class="hljs-params">html</span> =&gt;</span> <span class="hljs-title function_">mySanitizer</span>(html)<br>});</code></pre>
+    <p><code>collectModules</code> gives <code>file:</code> URLs in Node. Map them to the URLs your site serves the files from before you put them in a page:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> scripts = <span class="hljs-title function_">collectModules</span>(page.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>, <span class="hljs-title function_">registryOf</span>(widgets)).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">url</span> =&gt;</span> url.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^.*\/src\//</span>, <span class="hljs-string">&#x27;/kempo-ui/src/&#x27;</span>));</code></pre>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>A Page and the Builder's Version</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> nodes = [{<br>  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;a&#x27;</span>,<br>  <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text&#x27;</span>,<br>  <span class="hljs-attr">attrs</span>: {<br>    <span class="hljs-attr">html</span>: <span class="hljs-string">&#x27;&lt;p&gt;Hello&lt;/p&gt;&#x27;</span>,<br>    <span class="hljs-attr">styles</span>: {<br>      <span class="hljs-attr">margin</span>: {<br>        <span class="hljs-attr">bottom</span>: <span class="hljs-string">&#x27;f&#x27;</span><br>      },<br>      <span class="hljs-attr">align</span>: <span class="hljs-string">&#x27;center&#x27;</span><br>    }<br>  },<br>  <span class="hljs-attr">slots</span>: {}<br>}];<br><span class="hljs-title function_">renderPage</span>(nodes, registry);<br><span class="hljs-comment">// &lt;div class=&quot;d-b mb ta-center&quot;&gt;&lt;p&gt;Hello&lt;/p&gt;&lt;/div&gt;</span><br><span class="hljs-title function_">renderPage</span>(nodes, registry, {<br>  <span class="hljs-attr">editor</span>: <span class="hljs-literal">true</span><br>});<br><span class="hljs-comment">// &lt;div contenteditable=&quot;true&quot; data-pb-id=&quot;a&quot; data-pb-title=&quot;Text&quot; tabindex=&quot;0&quot; class=&quot;d-b mb ta-center&quot;&gt;&lt;p&gt;Hello&lt;/p&gt;&lt;/div&gt;</span></code></pre>
+
+    <h4>Only the Settings That Differ</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">attributeString</span>(registry.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;tabs&#x27;</span>), {<br>  <span class="hljs-attr">attrs</span>: {<br>    <span class="hljs-attr">hashRouting</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">persistentId</span>: <span class="hljs-string">&#x27;main&#x27;</span>,<br>    <span class="hljs-attr">fixedHeight</span>: <span class="hljs-literal">false</span><br>  }<br>});<br><span class="hljs-comment">// &#x27; hash-routing persistent-id=&quot;main&quot;&#x27;</span></code></pre>
+
+    <h4>Modules a Page Needs</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">collectModules</span>([{<br>  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;x&#x27;</span>,<br>  <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;button&#x27;</span>,<br>  <span class="hljs-attr">attrs</span>: {},<br>  <span class="hljs-attr">slots</span>: {}<br>}], registry);<br><span class="hljs-comment">// [&#x27;file:///.../src/components/Icon.js&#x27;]</span></code></pre>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

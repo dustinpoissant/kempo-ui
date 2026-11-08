@@ -1,0 +1,37 @@
+<page pageName="Page Width" title="Page Width Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Page Width</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#howItWorks">How It Works</a><br />
+          <a href="#usedBy">Where It Is Used</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>Sets the custom property <code>--page-width</code> on the root element to the width of the page without its vertical scrollbar, and keeps it up to date. It exports nothing: import it for its effect.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Import the file once, then use the property in CSS. <code>100vw</code> is the fallback for a page where the file has not loaded:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidth.js&#x27;</span>;</code></pre>
+    <pre><code class="hljs css"><span class="hljs-selector-class">.full-bleed</span> {<br>  <span class="hljs-attribute">width</span>: <span class="hljs-built_in">var</span>(--page-width, <span class="hljs-number">100vw</span>);<br>}</code></pre>
+
+    <h3 id="howItWorks"><a href="#howItWorks" class="no-link">How It Works</a></h3>
+    <p><code>--page-width</code> is <code>document.documentElement.clientWidth</code> in <code>px</code>. A <code>ResizeObserver</code> on the root element updates it, so it follows the window being resized and the scrollbar appearing or going away.</p>
+    <p>Most browsers include the vertical scrollbar in <code>100vw</code>, so a full-width element sized with <code>100vw</code> makes the page scroll sideways. <code>--page-width</code> does not include it.</p>
+    <p>It needs a browser: it reads <code>document</code> and uses <code>ResizeObserver</code> when it loads.</p>
+
+    <h3 id="usedBy"><a href="#usedBy" class="no-link">Where It Is Used</a></h3>
+    <p>The Page Builder's Fullscreen breakout widget and the Hero widget's breakout size themselves from <code>--page-width</code>. The widgets' <code>page</code> modules load this file, both on the page and in the builder's frame.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

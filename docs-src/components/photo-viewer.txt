@@ -3,3 +3,7 @@ Import: import 'kempo-ui/src/components/PhotoViewer.js';
 Docs: https://dustinpoissant.github.io/kempo-ui/components/photo-viewer.html
 
 Lightbox/gallery viewer
+
+Details:
+- `no-fullscreen` turns the fullscreen view off: clicks do nothing and `open()`/`toggle()` have no effect (the page builder draws its photos this way)
+- (More on the full docs page.)

@@ -1,0 +1,442 @@
+<page pageName="MediaGallery" title="MediaGallery - Components - Kempo Docs - A Web Components Solution">
+  <content location="header"></content>
+  <content>
+    <h1 class="ta-center">MediaGallery</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#thumbsTop">Thumbnails on Top</a><br />
+          <a href="#thumbsRight">Thumbnails on the Right</a><br />
+          <a href="#thumbsBottom">Thumbnails on the Bottom</a><br />
+          <a href="#ratio">Ratio and Video Controls</a><br />
+          <a href="#thumbnails">Custom Thumbnails</a><br />
+          <a href="#audio">Audio</a><br />
+          <a href="#customTypes">Custom Types</a><br />
+          <a href="#customRender">Render Function</a><br />
+          <a href="#programmatic">Programmatic Control</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#staticMethods">Static Methods</a><br />
+          <a href="#typeDefinition">Type Definition</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#itemAttributes">Item Attributes</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#events">Events</a><br />
+          <a href="#parts">Parts</a><br />
+          <a href="#cssVariables">CSS Variables</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The <code>k-media-gallery</code> component shows a mix of images, videos and audio (and anything else you register, see <a href="#customTypes">Custom Types</a>) the way an online store does: a large stage, a strip of thumbnails, and arrows to move between items. Each item is a <code>k-media-gallery-item</code> child. Each item is shown by the type that matches its file extension, images by default, videos with <a href="./video.html">Video</a> and audio with <a href="./audio.html">Audio</a>. Set <code>type</code> on an item to choose the type yourself. Click an image to open it fullscreen (videos keep their own click-to-play and fullscreen control, and you can reach them in the fullscreen viewer with the arrows or thumbnails). Use the arrows, the thumbnails, the arrow keys, or swipe on a touch screen to move between items.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Chevrolet Corvette C8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mitsubishi Lancer Evolution&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery>
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/corvette.jpg" alt="Chevrolet Corvette C8"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo.jpg" alt="Mitsubishi Lancer Evolution"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3 id="thumbsTop"><a href="#thumbsTop" class="no-link">Thumbnails on Top</a></h3>
+    <p>The <code>thumbs-position</code> attribute places the thumbnails on the <code>left</code> (default), <code>top</code>, <code>right</code> or <code>bottom</code> of the stage.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">thumbs-position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Chevrolet Corvette C8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery thumbs-position="top">
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/corvette.jpg" alt="Chevrolet Corvette C8"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3 id="thumbsRight"><a href="#thumbsRight" class="no-link">Thumbnails on the Right</a></h3>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">thumbs-position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Chevrolet Corvette C8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery thumbs-position="right">
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/corvette.jpg" alt="Chevrolet Corvette C8"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3 id="thumbsBottom"><a href="#thumbsBottom" class="no-link">Thumbnails on the Bottom</a></h3>
+    
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">thumbs-position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Chevrolet Corvette C8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery thumbs-position="bottom">
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/corvette.jpg" alt="Chevrolet Corvette C8"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3 id="ratio"><a href="#ratio" class="no-link">Ratio and Video Controls</a></h3>
+    <p>Every item is fitted inside the stage, so items of different shapes come out the same size. Set the shape with <code>ratio</code> (any CSS aspect ratio, <code>1/1</code> by default). The <code>controls</code> attribute is passed to inline videos (<code>minimal</code> by default, see <a href="./video.html">Video</a>). In fullscreen, videos always use the <code>normal</code> controls.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;16/9&quot;</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">&quot;normal&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Chevrolet Corvette C8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mitsubishi Lancer Evolution&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 700px;">
+<k-media-gallery ratio="16/9" controls="normal">
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/corvette.jpg" alt="Chevrolet Corvette C8"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/evo.mp4" poster="{{pathToRoot}}media/evo.jpg" alt="Mitsubishi Lancer Evolution"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3 id="thumbnails"><a href="#thumbnails" class="no-link">Custom Thumbnails</a></h3>
+    <p>An image's thumbnail is the image itself and a video's thumbnail is its <code>poster</code>. Use <code>thumb</code> to choose a different thumbnail. Videos get a play badge on their thumbnail.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.mp4&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/evo.jpg&quot;</span> <span class="hljs-attr">thumb</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mitsubishi Lancer Evolution&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo-tagged.mp4&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Tagged video&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery>
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item
+    src="{{pathToRoot}}media/evo.mp4"
+    poster="{{pathToRoot}}media/evo.jpg"
+    thumb="{{pathToRoot}}media/corvette.jpg"
+    alt="Mitsubishi Lancer Evolution"
+  ></k-media-gallery-item>
+  <k-media-gallery-item
+    type="video"
+    src="{{pathToRoot}}media/evo-tagged.mp4"
+    alt="Tagged video"
+  ></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h3 id="audio"><a href="#audio" class="no-link">Audio</a></h3>
+    <p>Audio files (mp3, wav, flac, aac, m4a, ogg, opus) are played with <a href="./audio.html">Audio</a>, with a <a href="./audio.html#visualizer">visualizer</a> that draws the sound as it plays. An item with a <code>poster</code> shows it as cover art above the player, and one without lets the visualizer fill the stage. The <code>controls</code> attribute is passed to the player like it is to videos. The visualizer needs a readable file, see <a href="./audio.html#visualizer">Audio</a>. A sound that is playing carries on when it goes fullscreen, on the same player, which is shown as a square that fits the screen. <code>ogg</code> is treated as audio, use <code>type="video"</code> for a video in that format.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/evo.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mitsubishi Lancer Evolution&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/vibedepot-tagged.mp3&quot;</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Cover art&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/vibedepot-sweet.mp3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery>
+  <k-media-gallery-item src="{{pathToRoot}}media/evo.jpg" alt="Mitsubishi Lancer Evolution"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/vibedepot-tagged.mp3" poster="{{pathToRoot}}media/corvette.jpg" alt="Cover art"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/vibedepot-sweet.mp3"></k-media-gallery-item>
+</k-media-gallery>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customTypes"><a href="#customTypes" class="no-link">Custom Types</a></h3>
+    <p>Teach the gallery new kinds of media with <code>MediaGallery.register()</code>. Give it the file extensions to handle and a custom element <code>tag</code> to show them, a 3D model viewer for <code>.stl</code>, a PDF viewer for <code>.pdf</code>, and so on. The gallery creates one of your elements for each item and copies the item's attributes onto it, so it gets <code>src</code> and anything else you put on the item. It also gets a <code>fullscreen</code> attribute while it is in the fullscreen viewer. Fit the element to the stage, it is sized to fill it.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;docsGallery&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/kempo-helper.md&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> <span class="hljs-title class_">MediaGallery</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../src/components/MediaGallery.js&#x27;</span>;<br>  <span class="hljs-keyword">class</span> <span class="hljs-title class_">TextViewer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">HTMLElement</span> {<br>    <span class="hljs-keyword">static</span> observedAttributes = [<span class="hljs-string">&#x27;src&#x27;</span>];<br>    <span class="hljs-title function_">connectedCallback</span>(<span class="hljs-params"></span>) {<br>      <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">style</span>, {<br>        <span class="hljs-attr">overflow</span>: <span class="hljs-string">&#x27;auto&#x27;</span>,<br>        <span class="hljs-attr">padding</span>: <span class="hljs-string">&#x27;1rem&#x27;</span>,<br>        <span class="hljs-attr">boxSizing</span>: <span class="hljs-string">&#x27;border-box&#x27;</span>,<br>        <span class="hljs-attr">whiteSpace</span>: <span class="hljs-string">&#x27;pre-wrap&#x27;</span><br>      });<br>    }<br>    <span class="hljs-keyword">async</span> <span class="hljs-title function_">attributeChangedCallback</span>(<span class="hljs-params">name, oldValue, src</span>) {<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">textContent</span> = <span class="hljs-keyword">await</span> (<span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(src)).<span class="hljs-title function_">text</span>();<br>    }<br>  }<br>  customElements.<span class="hljs-title function_">define</span>(<span class="hljs-string">&#x27;text-viewer&#x27;</span>, <span class="hljs-title class_">TextViewer</span>);<br>  <span class="hljs-title class_">MediaGallery</span>.<span class="hljs-title function_">register</span>(<span class="hljs-string">&#x27;text&#x27;</span>, {<br>    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&#x27;txt&#x27;</span>, <span class="hljs-string">&#x27;md&#x27;</span>],<br>    <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;text-viewer&#x27;</span>,<br>    <span class="hljs-attr">icon</span>: <span class="hljs-string">&#x27;file-text&#x27;</span>,<br>    <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;document&#x27;</span><br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery id="docsGallery">
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/kempo-helper.md"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+<script type="module">
+  import MediaGallery from '{{pathToRoot}}src/components/MediaGallery.js';
+
+  class TextViewer extends HTMLElement {
+    static observedAttributes = ['src'];
+    connectedCallback() {
+      Object.assign(this.style, { overflow: 'auto', padding: '1rem', boxSizing: 'border-box', whiteSpace: 'pre-wrap' });
+    }
+    async attributeChangedCallback(name, oldValue, src) {
+      this.textContent = await (await fetch(src)).text();
+    }
+  }
+  customElements.define('text-viewer', TextViewer);
+
+  MediaGallery.register('text', {
+    extensions: ['txt', 'md'],
+    tag: 'text-viewer',
+    icon: 'file-text',
+    label: 'document'
+  });
+</script>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customRender"><a href="#customRender" class="no-link">Render Function</a></h3>
+    <p>For full control pass a <code>render</code> function instead of a <code>tag</code>. It is given the item and returns a lit template (or a DOM node). A node you return is reused as is, so create it once and keep it if it holds state. An item with no <code>src</code>, or an unknown extension, needs <code>type</code> set to pick the type.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;swatchGallery&quot;</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;4/3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;swatch&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;#c0392b&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Red&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;swatch&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;#2980b9&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Blue&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> <span class="hljs-title class_">MediaGallery</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../src/components/MediaGallery.js&#x27;</span>;<br>  <span class="hljs-keyword">import</span> {<br>    html<br>  } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../src/lit-all.min.js&#x27;</span>;<br>  <span class="hljs-title class_">MediaGallery</span>.<span class="hljs-title function_">register</span>(<span class="hljs-string">&#x27;swatch&#x27;</span>, {<br>    <span class="hljs-attr">icon</span>: <span class="hljs-string">&#x27;dot&#x27;</span>,<br>    <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;color&#x27;</span>,<br>    <span class="hljs-attr">render</span>: <span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> html`<span class="language-xml"><br>      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 100%; height: 100%; min-height: 12rem; display: flex; align-items: center; justify-content: center; background: </span></span></span><span class="hljs-subst">${item.getAttribute(<span class="hljs-string">&#x27;color&#x27;</span>)}</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">; color: #fff; font-size: 2rem;&quot;</span>&gt;</span><br>        </span><span class="hljs-subst">${item.alt}</span><span class="language-xml"><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    `</span><br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery id="swatchGallery" ratio="4/3">
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item type="swatch" color="#c0392b" alt="Red"></k-media-gallery-item>
+  <k-media-gallery-item type="swatch" color="#2980b9" alt="Blue"></k-media-gallery-item>
+</k-media-gallery>
+<script type="module">
+  import MediaGallery from '{{pathToRoot}}src/components/MediaGallery.js';
+  import { html } from '{{pathToRoot}}src/lit-all.min.js';
+
+  MediaGallery.register('swatch', {
+    icon: 'dot',
+    label: 'color',
+    render: item => html`
+      <div style="width: 100%; height: 100%; min-height: 12rem; display: flex; align-items: center; justify-content: center; background: ${item.getAttribute('color')}; color: #fff; font-size: 2rem;">
+        ${item.alt}
+      </div>
+    `
+  });
+</script>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="programmatic"><a href="#programmatic" class="no-link">Programmatic Control</a></h3>
+    <p>Use the <code>index</code> property or the <code>goTo()</code>, <code>next()</code>, <code>previous()</code>, <code>open()</code> and <code>close()</code> methods, and listen to <code>change</code> events.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;productGallery&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda Civic Type R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/corvette.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Chevrolet Corvette C8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/gtr.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Nissan GT-R&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-media-gallery-item</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/nsx.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Honda NSX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery-item</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-media-gallery</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;goLast&quot;</span>&gt;</span>Last<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;openBtn&quot;</span>&gt;</span>Open Fullscreen<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;status&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">const</span> gallery = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;productGallery&#x27;</span>);<br>  <span class="hljs-keyword">const</span> status = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;status&#x27;</span>);<br>  gallery.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>    status.<span class="hljs-property">textContent</span> = <span class="hljs-string">`Showing <span class="hljs-subst">${e.detail.index + <span class="hljs-number">1</span>}</span>`</span>;<br>  });<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;goLast&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> gallery.<span class="hljs-title function_">goTo</span>(<span class="hljs-number">3</span>));<br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;openBtn&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> gallery.<span class="hljs-title function_">open</span>());<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <div class="mb" style="max-width: 500px;">
+<k-media-gallery id="productGallery">
+  <k-media-gallery-item src="{{pathToRoot}}media/civic.jpg" alt="Honda Civic Type R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/corvette.jpg" alt="Chevrolet Corvette C8"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/gtr.jpg" alt="Nissan GT-R"></k-media-gallery-item>
+  <k-media-gallery-item src="{{pathToRoot}}media/nsx.jpg" alt="Honda NSX"></k-media-gallery-item>
+</k-media-gallery>
+<div class="mt">
+  <button id="goLast">Last</button>
+  <button id="openBtn">Open Fullscreen</button>
+  <span id="status" class="ml"></span>
+</div>
+<script type="module">
+  const gallery = document.getElementById('productGallery');
+  const status = document.getElementById('status');
+  gallery.addEventListener('change', e => {
+    status.textContent = `Showing ${e.detail.index + 1}`;
+  });
+  document.getElementById('goLast').addEventListener('click', () => gallery.goTo(3));
+  document.getElementById('openBtn').addEventListener('click', () => gallery.open());
+</script>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5>
+      <code>new MediaGallery()</code>
+    </h5>
+    <p>Creates a new MediaGallery instance. Configuration is done through attributes or properties. Items are <code>k-media-gallery-item</code> children, add or remove them (or change their attributes) and the gallery updates.</p>
+
+    <h3 id="staticMethods"><a href="#staticMethods" class="no-link">Static Methods</a></h3>
+    <h5><code>MediaGallery.register(name<i>: string</i>, definition<i>: object</i>)<i>: MediaGallery</i></code></h5>
+    <p>Registers a media type, or replaces one (so you can swap the built-in video or audio player). <code>definition</code> is described in <a href="#typeDefinition">Type Definition</a>. It needs a <code>tag</code> or a <code>render</code> function. A later registration wins when two types claim the same extension. Galleries already on the page update.</p>
+    <h5><code>MediaGallery.unregister(name<i>: string</i>)<i>: MediaGallery</i></code></h5>
+    <p>Removes a type and its extensions.</p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">const</span> gallery = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;k-media-gallery&#x27;</span>);<br><span class="hljs-comment">// add (optionally at an index) and remove items</span><br><span class="hljs-keyword">const</span> item = gallery.<span class="hljs-title function_">addItem</span>({<br>  <span class="hljs-attr">src</span>: <span class="hljs-string">&#x27;shirt-back.jpg&#x27;</span>,<br>  <span class="hljs-attr">alt</span>: <span class="hljs-string">&#x27;Back of the shirt&#x27;</span><br>});<br>gallery.<span class="hljs-title function_">addItem</span>({<br>  <span class="hljs-attr">src</span>: <span class="hljs-string">&#x27;shirt.mp4&#x27;</span>,<br>  <span class="hljs-attr">poster</span>: <span class="hljs-string">&#x27;shirt-poster.jpg&#x27;</span><br>}, <span class="hljs-number">0</span>);<br>gallery.<span class="hljs-title function_">removeItem</span>(<span class="hljs-number">2</span>);<br><span class="hljs-comment">// or use the DOM</span><br>item.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;src&#x27;</span>, <span class="hljs-string">&#x27;shirt-side.jpg&#x27;</span>);<br><span class="hljs-comment">// swap a built-in</span><br><span class="hljs-title class_">MediaGallery</span>.<span class="hljs-title function_">register</span>(<span class="hljs-string">&#x27;video&#x27;</span>, {<br>  <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&#x27;mp4&#x27;</span>, <span class="hljs-string">&#x27;webm&#x27;</span>],<br>  <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;my-video-player&#x27;</span><br>});<br><span class="hljs-title class_">MediaGallery</span>.<span class="hljs-title function_">unregister</span>(<span class="hljs-string">&#x27;text&#x27;</span>);</code></pre>
+
+    <h3 id="typeDefinition"><a href="#typeDefinition" class="no-link">Type Definition</a></h3>
+    <p>The built-in types are <code>image</code> (jpg, jpeg, png, gif, webp, avif, svg, bmp), <code>video</code> (mp4, webm, ogv, mov, m4v) and <code>audio</code> (mp3, wav, flac, aac, m4a, oga, ogg, opus), registered the same way you register your own.</p>
+    <h5><code>extensions<i>: Array&lt;string&gt;</i></code></h5>
+    <p>File extensions, with or without the dot, any case. Defaults to the type name, so <code>register('stl', ...)</code> handles <code>.stl</code>.</p>
+    <h5><code>tag<i>: string</i></code></h5>
+    <p>The custom element that shows the media. One is created for each item, and one more for the fullscreen viewer. It gets all of the item's attributes (except <code>type</code>, <code>thumb</code>, <code>class</code> and <code>style</code>) and a <code>fullscreen</code> attribute in the viewer.</p>
+    <h5><code>render<i>: (item, context) =&gt; TemplateResult | Node</i></code></h5>
+    <p>Shows the media, instead of <code>tag</code>. <code>item</code> is the <code>k-media-gallery-item</code>. <code>context</code> is <code>{ gallery, fullscreen, active }</code>: the gallery, whether this is for the fullscreen viewer, and whether this item is the one being shown.</p>
+    <h5><code>shared<i>: boolean</i></code></h5>
+    <p>By default the fullscreen viewer gets its own copy of the media, which starts over. With <code>shared: true</code> there is one element, and it is moved between the slide and the fullscreen viewer, so playback, scroll position or a 3D camera carry on where they were. The element has to survive being removed from the page and added again. Audio is shared, so a sound that is playing carries on when it goes fullscreen and when it comes back. A <code>render</code> function of a shared type is called with <code>fullscreen</code> set for each place and has to return the same element every time.</p>
+    <h5><code>icon<i>: string</i></code></h5>
+    <p>The name of a <a href="./icon.html">Icon</a> shown on the thumbnail. It marks the type (the play button on a video), and fills the thumbnail when there is no image.</p>
+    <h5><code>label<i>: string</i></code></h5>
+    <p>The word used in the thumbnail's accessible name, "Show <i>label</i> 2". Defaults to the type name.</p>
+    <h5><code>thumb<i>: (item) =&gt; string</i></code></h5>
+    <p>Returns the default thumbnail URL of an item, used when it has no <code>thumb</code> attribute.</p>
+    <h5><code>load<i>: () =&gt; Promise</i></code></h5>
+    <p>Called before the type is rendered. Use it to <code>import()</code> your component only when a gallery needs it. It is called every time, so rely on the module cache.</p>
+    <h5><code>pause<i>: (element) =&gt; void</i></code></h5>
+    <p>Called with the element of an item the gallery moves away from, to stop it playing. Defaults to calling <code>element.pause()</code> when it has one.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./icon.html">Icon</a></li>
+      <li><a href="./video.html">Video</a> (loaded when a video is shown)</li>
+      <li><a href="./audio.html">Audio</a> and its <a href="./audio.html#visualizer">visualizer</a> (loaded when audio is shown)</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>index<i>: number</i></code></h5>
+    <p>The index of the item being shown. Starts at <code>0</code>. Syncs with the <code>index</code> attribute.</p>
+    <h5><code>thumbsPosition<i>: string</i></code></h5>
+    <p>Where the thumbnails go: <code>left</code> (default), <code>top</code>, <code>right</code> or <code>bottom</code>. Syncs with the <code>thumbs-position</code> attribute.</p>
+    <h5><code>ratio<i>: string</i></code></h5>
+    <p>The shape of the stage as a CSS aspect ratio such as <code>4/3</code>. Defaults to <code>1/1</code>. Syncs with the <code>ratio</code> attribute.</p>
+    <h5><code>controls<i>: string</i></code></h5>
+    <p>The <a href="./video.html">Video</a> control set for inline videos: <code>minimal</code> (default), <code>normal</code>, <code>full</code> or <code>none</code>. Syncs with the <code>controls</code> attribute.</p>
+    <h5><code>visualizer<i>: string</i></code></h5>
+    <p>The visualizer shown with audio: <code>bars</code> (default), <code>wave</code> or <code>none</code> (the cover art, or an icon, above the player). Syncs with the <code>visualizer</code> attribute.</p>
+    <h5><code>fullscreen<i>: boolean</i></code></h5>
+    <p>Whether the fullscreen viewer is open. Syncs with the <code>fullscreen</code> attribute.</p>
+    <h5><code>noFullscreen<i>: boolean</i></code></h5>
+    <p>Turns the fullscreen viewer off: clicking an image does nothing and <code>open()</code> has no effect. The page builder draws its gallery this way, so clicking it only selects it. Syncs with the <code>no-fullscreen</code> attribute.</p>
+    <h5><code>keyboardControls<i>: boolean</i></code></h5>
+    <p>Whether the arrow keys move between items and Escape closes the fullscreen viewer (default: true). Arrow keys work while focus is inside the gallery, or anywhere while fullscreen. Syncs with the <code>keyboard-controls</code> attribute.</p>
+    <h5><code>items<i>: Array&lt;MediaGalleryItem&gt;</i></code></h5>
+    <p>Read-only. The <code>k-media-gallery-item</code> children.</p>
+
+    <h3 id="itemAttributes"><a href="#itemAttributes" class="no-link">Item Attributes</a></h3>
+    <p>Attributes of <code>k-media-gallery-item</code>. An item draws nothing itself, the gallery reads it.</p>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The URL of the image or video.</p>
+        <h5><code>type<i>: string</i></code></h5>
+    <p>The name of a registered type (<code>image</code>, <code>video</code>, <code>audio</code> or your own). If omitted it comes from the extension of <code>src</code>, and an unknown extension is an image.</p>
+        <h5><code>poster<i>: string</i></code></h5>
+    <p>Video and audio. The image shown before the video plays, or the cover art of the audio. Also the default thumbnail.</p>
+        <h5><code>thumb<i>: string</i></code></h5>
+    <p>The thumbnail image. Defaults to the image itself, or the poster for video and audio.</p>
+    <p>Any other attribute is passed along to the element of a <code>tag</code> type, and is readable by a <code>render</code> function with <code>item.getAttribute()</code>.</p>
+    <h5><code>alt<i>: string</i></code></h5>
+    <p>Alternative text for the image.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <h5><code>addItem(attributes<i>?: object</i>, index<i>?: number</i>)<i>: MediaGalleryItem</i></code></h5>
+    <p>Creates a <code>k-media-gallery-item</code> with the given attributes and adds it at <code>index</code> (the end by default). Returns the item.</p>
+    <h5><code>removeItem(index<i>: number</i>)<i>: MediaGallery</i></code></h5>
+    <p>Removes the item at <code>index</code>.</p>
+    <h5><code>goTo(index<i>: number</i>)<i>: MediaGallery</i></code></h5>
+    <p>Shows the item at <code>index</code>. Wraps around at either end.</p>
+    <h5><code>next()<i>: MediaGallery</i></code></h5>
+    <p>Shows the next item, wrapping to the first after the last.</p>
+    <h5><code>previous()<i>: MediaGallery</i></code></h5>
+    <p>Shows the previous item, wrapping to the last before the first.</p>
+    <h5><code>open()<i>: MediaGallery</i></code></h5>
+    <p>Opens the fullscreen viewer.</p>
+    <h5><code>close()<i>: MediaGallery</i></code></h5>
+    <p>Closes the fullscreen viewer.</p>
+    <h5><code>toggle()<i>: MediaGallery</i></code></h5>
+    <p>Opens the fullscreen viewer if it is closed, closes it if it is open.</p>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <h5><code>change</code></h5>
+    <p>Fired when the item shown changes. Event detail contains <code>{ index: number }</code>.</p>
+    <h5><code>fullscreenchange</code></h5>
+    <p>Fired when the fullscreen viewer opens or closes. Event detail contains <code>{ fullscreen: boolean }</code>.</p>
+
+    <h3 id="parts"><a href="#parts" class="no-link">Parts</a></h3>
+    <h5><code>gallery</code></h5>
+    <p>The wrapper around the thumbnails and the stage.</p>
+    <h5><code>stage</code></h5>
+    <p>The large area showing the current item.</p>
+    <h5><code>thumbs</code></h5>
+    <p>The thumbnail strip.</p>
+
+    <h3 id="cssVariables"><a href="#cssVariables" class="no-link">CSS Variables</a></h3>
+    <h5><code>--thumb_size</code></h5>
+    <p>The width and height of a thumbnail. Defaults to <code>4rem</code> (<code>3.5rem</code> in the fullscreen viewer).</p>
+    <h5><code>--thumb_gap</code></h5>
+    <p>The space between thumbnails, and between the thumbnails and the stage. Defaults to <code>0.5rem</code>.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/MediaGallery.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

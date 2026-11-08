@@ -1,0 +1,15 @@
+Media Gallery (<k-media-gallery>)
+Import: import 'kempo-ui/src/components/MediaGallery.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/media-gallery.html
+
+Product-style gallery of images, videos, audio and any media type you register: a large stage, a thumbnail strip, arrows, swipe, and a fullscreen viewer when an image is clicked (like an online store listing)
+
+Details:
+- Items are `<k-media-gallery-item src alt>` children (also `type`, `poster`, `thumb`). The type comes from the file extension (image by default, `video` played by `<k-video>`, `audio` by `<k-audio>`), or set `type` to a registered type name. Other attributes are passed to the type
+- `thumbs-position` (`left` default, `top`, `right`, `bottom`), `ratio` (CSS aspect ratio of the stage, `1/1` default), `controls` (`<k-video>`/`<k-audio>` control set for inline playback, `minimal` default; fullscreen always uses `normal`), `visualizer` (audio: `bars` default, `wave`, `none`), `index`, `fullscreen`, `no-fullscreen` (no fullscreen viewer: clicks do nothing and `open()` has no effect), `keyboard-controls`
+- Methods `goTo(index)`, `next()`, `previous()`, `open()`, `close()`, `toggle()`, `addItem(attributes, index?)`, `removeItem(index)`; events `change` (`detail.index`), `fullscreenchange` (`detail.fullscreen`)
+- `MediaGallery.register(name, { extensions, tag | render, icon, label, thumb, load, pause, shared })` adds a media type (a 3D model viewer for .stl, a PDF viewer for .pdf); `tag` is a custom element that gets the item's attributes, `render(item, { gallery, fullscreen, active })` returns a lit template or node. `MediaGallery.unregister(name)` removes one. The built-in image, video and audio types use the same API
+- `shared: true` on a type moves one element between the slide and the fullscreen viewer instead of giving the viewer a copy that starts over (audio is shared: a playing sound carries on, fullscreen shows it as a `90vmin` square); the element must survive being removed and added again
+- Wraps around at both ends
+- `--thumb_size` and `--thumb_gap` CSS variables; parts `gallery`, `stage`, `thumbs`
+- (More on the full docs page.)

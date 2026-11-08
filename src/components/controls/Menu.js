@@ -66,6 +66,10 @@ export default class ControlMenu extends Control {
         margin: var(--spacer_q);
       }
 
+      :host([collapsed]) {
+        display: none !important;
+      }
+
       k-dropdown {
         display: inline-flex;
       }

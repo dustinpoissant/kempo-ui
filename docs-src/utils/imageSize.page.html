@@ -1,0 +1,32 @@
+<page pageName="Image Size" title="Image Size Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Image Size</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#parameters">Parameters</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>Loads an image in the browser and resolves its natural size, or <code>null</code> when it cannot be loaded. The <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> uses it to measure the photos of a Photo viewer widget: in the widget's settings when a photo's address is set, and when a saved page is shown, for photos that have no stored size. The size is kept on the photo, and a grid of photos takes its <code>ratio</code> from the one closest to square. It needs a browser, because it uses <code>Image</code>.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> imageSize <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/imageSize.js&#x27;</span>;<br><span class="hljs-keyword">const</span> size = <span class="hljs-keyword">await</span> <span class="hljs-title function_">imageSize</span>(<span class="hljs-string">&#x27;/media/photo.jpg&#x27;</span>);<br><span class="hljs-keyword">if</span> (size) {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${size.width}</span> x <span class="hljs-subst">${size.height}</span>`</span>);<br>}</code></pre>
+
+    <h3 id="parameters"><a href="#parameters" class="no-link">Parameters</a></h3>
+    <h5><code>src<i>: string</i></code></h5>
+    <p>The address of the image.</p>
+    <h5>Returns: <code>Promise&lt;{ width: number, height: number } | null&gt;</code></h5>
+    <p>The image's <code>naturalWidth</code> and <code>naturalHeight</code> once it has loaded, or <code>null</code> when it fails to load. The promise never rejects.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

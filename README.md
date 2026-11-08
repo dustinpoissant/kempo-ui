@@ -32,6 +32,8 @@ npm install kempo-ui
 </html>
 ```
 
+kempo-css is a development dependency of kempo-ui, so installing kempo-ui does not install it. Without `pathToStylesheet`, components load kempo-css from `https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css`. To serve your own copy, `npm install kempo-css` and point `pathToStylesheet` at its `dist/kempo.min.css`.
+
 ## Quick Start
 
 Import and use components in your HTML:
@@ -147,6 +149,23 @@ Tell kempo-ui where to look for icons in your page config. It checks directories
 
 `<k-aside>` changes layout by width: `main="push"` with `mobile-main="overlay"` pushes the content above 768px and overlays it at or below. `<k-aside-btn for="id">` is a floating button that opens the aside it is linked to. Show or hide content by breakpoint with the kempo-css classes, such as `class="d-n m-d-b"` (mobile only) or `class="d-d-n"` (hidden on desktop). See the [Aside](https://dustinpoissant.github.io/kempo-ui/components/aside.html) and [Aside Button](https://dustinpoissant.github.io/kempo-ui/components/aside-btn.html) docs.
 
+### Page Builder
+
+`<k-page-builder>` is a page editor. Add widgets (text, images, columns, tabs, tables, a media gallery and more) from the Add list, arrange them in the tree or on the page, and change the settings of each. The page is kept as JSON, and the element only shows the `value` it is given, so your app stores it.
+
+```html
+<k-page-builder id="builder" style="height: 80vh"></k-page-builder>
+<script type="module">
+  import '/node_modules/kempo-ui/src/components/PageBuilder.js';
+  const builder = document.getElementById('builder');
+  builder.value = savedPage; // { attrs: {}, slots: { default: [] } }
+  builder.addEventListener('change', event => { savedPage = event.detail.value; });
+  builder.addEventListener('save', event => store(event.detail.value));
+</script>
+```
+
+Show the saved page with `<k-page-renderer>`, or on a server with `renderPage` from `src/utils/renderPage.js`: it has no DOM, so it runs in Node and in the browser. A server has to pass its own `sanitize` function, because `sanitizeHtml` needs a browser. Add your own widgets with `PageBuilder.addWidget`. See the [Page Builder](https://dustinpoissant.github.io/kempo-ui/components/page-builder.html) and [Page Renderer](https://dustinpoissant.github.io/kempo-ui/components/page-renderer.html) docs.
+
 ---
 
 ## Documentation
@@ -170,7 +189,10 @@ cd kempo-ui
 # Install dependencies
 npm install
 
-# Start development server
+# Start the development server (the docs source, on port 8083)
+npm run dev
+
+# Serve the built docs (on port 8084)
 npm run docs
 
 # Run tests

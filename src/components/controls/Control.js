@@ -1,6 +1,9 @@
 import ShadowComponent from '../ShadowComponent.js';
 import { css } from '../../lit-all.min.js';
 
+/* Whether the control is disabled only because its host lacks the methods it requires. */
+const unsupported = Symbol('unsupported');
+
 /*
   Base class for all controls (kc-*). A control finds its host via
   closest('[controlled]') and disables itself if the host does not
@@ -97,8 +100,14 @@ export default class Control extends ShadowComponent {
     const host = this.host;
     const required = this.constructor.requires || [];
     const supported = host && required.every(m => typeof host[m] === 'function');
-    const shouldDisable = !supported;
-    if(this.disabled !== shouldDisable) this.disabled = shouldDisable;
+    /* Only a disabled state this check set is cleared again, so a control the page disables (in its template, say) stays disabled. */
+    if(!supported){
+      this[unsupported] = true;
+      this.disabled = true;
+    } else if(this[unsupported]){
+      this[unsupported] = false;
+      this.disabled = false;
+    }
   }
 
   updateModeVisibility() {

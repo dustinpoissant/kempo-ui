@@ -1,0 +1,119 @@
+<page pageName="Page Frame" title="Page Frame Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Page Frame</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#constructor">Constructor</a><br />
+          <a href="#handlers">Handlers</a><br />
+          <a href="#properties">Properties</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#behaviour">What It Does</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>The page as the <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> shows it: an <code>iframe</code> holding the site's own stylesheets, with the page rendered into it in editor mode (every widget's element carries <code>data-pb-id</code>). This class owns that iframe. The builder gives it the tree and the ids to mark as selected, and it reports what the person did through the handlers.</p>
+    <p>The builder uses it. It is documented here so a site that extends the builder knows what the frame does, and it is not meant to be used on its own. It needs a browser.</p>
+    <p>The iframe is on the same origin, so the builder reads and writes its document directly. The widgets' modules are loaded by the iframe's own window (a script tag inside it), so their elements are defined there and upgrade.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">PageFrame</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageFrame.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> frame = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PageFrame</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>), {<br>  <span class="hljs-attr">onSelect</span>: <span class="hljs-function">(<span class="hljs-params">id, {<br>    additive<br>  }</span>) =&gt;</span> frame.<span class="hljs-title function_">setSelection</span>([id]),<br>  <span class="hljs-attr">onBlank</span>: <span class="hljs-function">() =&gt;</span> frame.<span class="hljs-title function_">setSelection</span>([]),<br>  <span class="hljs-attr">onChange</span>: <span class="hljs-function">(<span class="hljs-params">id, changes</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(id, changes),<br>  <span class="hljs-attr">onDrop</span>: <span class="hljs-function">(<span class="hljs-params">id, place</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(id, place),<br>  <span class="hljs-attr">canDrop</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">restricted</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">false</span>,<br>  <span class="hljs-attr">onKeyDown</span>: <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">key</span>),<br>  <span class="hljs-attr">locate</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">null</span>,<br>  <span class="hljs-attr">nameOf</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;a widget&#x27;</span><br>});<br><span class="hljs-keyword">await</span> frame.<span class="hljs-property">ready</span>;<br><span class="hljs-keyword">await</span> frame.<span class="hljs-title function_">render</span>(page.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>, <span class="hljs-title function_">registryOf</span>(widgets), []);</code></pre>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h4><code>new PageFrame(iframe, handlers)</code></h4>
+    <h5><code>iframe<i>: HTMLIFrameElement</i></code></h5>
+    <p>The iframe to draw the page in. The constructor gives it a document with the stylesheets of the page it is on, the editor's marks, and an empty root.</p>
+    <h5><code>handlers<i>: Object</i></code></h5>
+    <p>See <a href="#handlers">Handlers</a>.</p>
+
+    <h3 id="handlers"><a href="#handlers" class="no-link">Handlers</a></h3>
+    <ul>
+      <li><code>onSelect(id, { additive })</code> &mdash; a widget was clicked. <code>additive</code> is <code>true</code> with Ctrl, Cmd or Shift held.</li>
+      <li><code>onBlank()</code> &mdash; the page itself was clicked.</li>
+      <li><code>onChange(id, changes)</code> &mdash; a widget's editor changed its settings (a <code>pb-change</code> event from the widget, or text edited on the page when it loses focus).</li>
+      <li><code>onDrop(id, place)</code> &mdash; a widget was dropped. <code>place</code> is <code>{ parentId, slot, index }</code>.</li>
+      <li><code>canDrop(id, parentId, slot)</code> &mdash; whether the dragged widget may go in that list.</li>
+      <li><code>restricted(id)</code> &mdash; whether the widget is moved from its parent's settings, not on the page (a section).</li>
+      <li><code>onKeyDown(event)</code> &mdash; a key was pressed inside the page.</li>
+      <li><code>locate(id)</code> &mdash; where a widget is: <code>{ parentId, slot, index }</code>, or <code>null</code>.</li>
+      <li><code>nameOf(id)</code> &mdash; what a widget is called in a drop label.</li>
+    </ul>
+
+    <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
+    <h5><code>ready<i>: Promise</i></code></h5>
+    <p>Resolves once the iframe's document has loaded and the frame is listening to it. <code>render</code> waits for it too.</p>
+    <h5><code>document<i>: Document</i></code></h5>
+    <p>The iframe's document.</p>
+    <h5><code>window<i>: Window</i></code></h5>
+    <p>The iframe's window.</p>
+    <h5><code>root<i>: HTMLElement</i></code></h5>
+    <p>The element the page is drawn in (<code>#pb-root</code>).</p>
+    <h5><code>selection<i>: Array&lt;string&gt;</i></code></h5>
+    <p>The ids last given to <code>setSelection</code>.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+
+    <h4><code>render(nodes, registry, selection)</code></h4>
+    <h5>Returns: <code>Promise</code></h5>
+    <p>Draws the nodes (the page's list of widgets) with the registry they use, and marks the selection. It loads the modules the widgets need into the frame (once each) before it draws, writes the page with <code>renderPage</code> in editor mode, with <code>sanitizeHtml</code> as <code>sanitize</code>, and keeps the page where it was scrolled to. See <a href="#behaviour">What It Does</a> for what it keeps from the page it replaces.</p>
+
+    <h4><code>setSelection(ids)</code></h4>
+    <p>Marks the widgets with these ids as selected: they get the class <code>pb-selected</code>, and the class is taken off the others. Each element gets a <code>pb-selected</code> event with <code>detail.selected</code> (<code>true</code> only when one widget is selected). A focused element that is not inside a selected widget is blurred, and the drag handle moves to the first selected widget.</p>
+
+    <h4><code>showDropTarget(id, zone)</code></h4>
+    <p>Shows where a widget being dragged somewhere else (in the tree) would go: the widget with that id gets the class <code>pb-drop-before</code>, <code>pb-drop-after</code> or <code>pb-drop-inside</code> to match <code>zone</code> (<code>'before'</code>, <code>'after'</code> or <code>'inside'</code>). Any earlier target is cleared. Pass no <code>id</code> to clear them.</p>
+
+    <h4><code>blurFocus()</code></h4>
+    <p>Blurs the focused element in the frame, even when it is inside a shadow root.</p>
+
+    <h4><code>scrollTo(id)</code></h4>
+    <p>Scrolls the frame's page, up or down only, to bring the widget with that id into view. It does not scroll the page around the frame, which would push the left of the page out of view.</p>
+
+    <h4><code>focusAfterRender(id, path)</code></h4>
+    <p>Once the page has been drawn again, puts the caret at the end of the part of widget <code>id</code> marked <code>data-pb-edit="path"</code>.</p>
+
+    <h4><code>placeHandle()</code></h4>
+    <p>Puts the drag handle above the first selected widget. It is hidden when nothing is selected, or the widget is <code>restricted</code>. The frame calls it itself when the selection changes and the page or the frame scrolls or resizes.</p>
+
+    <h3 id="behaviour"><a href="#behaviour" class="no-link">What It Does</a></h3>
+
+    <h4>Clicking</h4>
+    <ul>
+      <li>The first click selects the outermost widget under it. A click inside the selected widget selects the next one down towards what was clicked, so each click goes one level deeper. With Ctrl, Cmd or Shift it is the widget beside the selected ones (the same parent). Sections are not selected on their own: the widget they are part of is.</li>
+      <li>An accordion's heading, a tab and a content slider's arrow select the widget they belong to, and still work: that click is not cancelled.</li>
+      <li>A click on the page itself is cancelled and calls <code>onBlank</code>, so the browser does not put a caret in the nearest text.</li>
+      <li>A link or a form in the page cannot take the builder somewhere else: its click is cancelled.</li>
+    </ul>
+
+    <h4>Editing on the Page</h4>
+    <ul>
+      <li>An editable part of a widget (<code>contenteditable</code>, with <code>data-pb-edit</code> naming what it edits, or the widget's own element for a text widget) sends its HTML to <code>onChange</code> when it loses focus, sanitized with <code>sanitizeHtml</code>: <code>{ html }</code> for a text widget's own element, and <code>{ [path]: html }</code> for a part named by <code>data-pb-edit</code>. An emptied <code>data-pb-edit</code> part sends <code>''</code>, not the <code>&lt;br&gt;</code> the browser leaves behind.</li>
+      <li>Keys pressed in the page go to <code>onKeyDown</code>. Escape cancels a drag.</li>
+    </ul>
+
+    <h4>Keeping the Page's State Between Draws</h4>
+    <p>Every change draws the page again. So that this does not close what the person opened, the frame remembers and restores:</p>
+    <ul>
+      <li>The open sections of each accordion.</li>
+      <li>The active tab of each tabs widget.</li>
+      <li>The slide being shown in each content slider.</li>
+    </ul>
+    <p>They are found by the widget's id, so a renamed tab stays open. If the setting for what starts open (a section's open by default, the default tab, the start slide) is what changed, the new default is shown instead.</p>
+
+    <h4>Empty Places</h4>
+    <p>A container with nothing in it says it is empty, with the widget's name. A closed accordion section and a tab that is not active are not shown when empty.</p>
+
+    <h4>Dragging</h4>
+    <p>The handle above the selected widget is dragged with the pointer. While it is, every place the widget may go (<code>canDrop</code>) is shown as an outlined box: a zone between the widgets of each list (the page and every container), and each empty container. The box under the pointer fills in, the page scrolls when the pointer is near its top or bottom edge, and letting go on a box calls <code>onDrop</code>. Letting go anywhere else cancels.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

@@ -6,12 +6,14 @@ Sound player with no native controls, the sound-only sibling of `<k-video>`
 
 Details:
 - `src`, `preload`, `autoplay`/`loop`/`muted`, `volume`, `playback-rate`, `crossorigin`, `persistent-id` (resumes the position in the session), `skip-duration`, `download-name`, `artist`/`track-title`/`album`/`year` (shown by `kc-media-metadata`), `playlist-loop` (loop the whole playlist; off by default, so playback stops at the end), `exclusive` (pauses every other playing media on the page when this one plays)
-- `controls` (`minimal`/`normal`/`full`/`none`) or slotted controls
+- `controls` (`minimal`/`normal`/`full`/`playlist`/`none`) or slotted controls; `playlist` lists the `k-audio-track` children above the bar, with previous and next in place of skip, loop and shuffle
+- slots: default (controls), `top` and `bottom` around them, and `visualizer` above the whole toolbar for `kc-audio-visualizer` (not counted as slotted content, so the `controls` preset still draws)
 - (More on the full docs page.)
 
 Related controls:
-- <kc-audio-track> (controls/AudioTrack.js): One playlist entry, a child of `<k-audio>`; `src`, `artist`, `track-title`, `album`, `year`, `download-name` attributes. Hidden; not rendered.
+- <k-audio-track> (AudioTrack.js): One playlist entry, a child of `<k-audio>`; `src`, `artist`, `track-title`, `album`, `year`, `download-name` attributes. Hidden; not rendered.
 - <kc-audio-playlist> (controls/AudioPlaylist.js): Drag-to-reorder list of the `<k-audio>` tracks (uses `k-sortable`), current track highlighted, clicking a track plays it. Usually `slot="top"`.
+- <kc-audio-visualizer> (controls/AudioVisualizer.js): Canvas that draws the playing sound, `type="bars"` (default, with `bars` count) or `type="wave"`. Goes in the `visualizer` slot, above the toolbar, so it works alongside a playlist in `top`. `--visualizer_height` (8rem) sets its size; `--visualizer_color` (primary by default) fills the middle third of its width and `--visualizer_color_2` (secondary by default) the outer edges, with a gradient across each outer third. Reads the sound with the Web Audio API, which needs a same-origin file or `crossorigin` plus CORS headers on the server; otherwise it stays flat and gets `unavailable`.
 - <kc-audio-previous> <kc-audio-next> (controls/AudioPrevious.js, controls/AudioNext.js): Buttons that move to the previous or next track of an `<k-audio>` playlist.
 - <kc-audio-loop> (controls/AudioLoop.js): Button that loops the whole playlist (`active` while on).
 - <kc-audio-shuffle> (controls/AudioShuffle.js): Toggle that shuffles the playlist and restores the saved order when turned off (`active` while on). Moving a track by hand turns it off.

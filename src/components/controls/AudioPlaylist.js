@@ -2,6 +2,11 @@ import Control from './Control.js';
 import '../Sortable.js';
 import { html, css, nothing, repeat } from '../../lit-all.min.js';
 
+/*
+  Utility Functions
+*/
+const fileName = src => decodeURIComponent(new URL(src, document.baseURI).pathname.split('/').pop());
+
 export default class AudioPlaylist extends Control {
   static requires = ['playTrack', 'reorderTracks'];
   static hostEvents = ['playlist-changed', 'track-changed'];
@@ -77,7 +82,7 @@ export default class AudioPlaylist extends Control {
             @pointerdown=${this.handlePointerDown}
             @click=${event => this.handleRowClick(event, track)}
           >
-            <span class="title">${track.trackTitle}</span>
+            <span class="title">${track.trackTitle || fileName(track.src)}</span>
             <span class="artist">${track.artist}</span>
           </k-sortable-item>
         `)}

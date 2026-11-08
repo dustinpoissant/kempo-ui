@@ -170,5 +170,31 @@ export default {
 		if(border !== 'rgb(7, 8, 9)') return fail(`border from the outer array's own rule did not apply, got ${border}`);
 		log('✓ all three rules across the nesting boundary applied');
 		pass('nested styles array flattened and applied correctly');
+	},
+
+	'should load kempo-css from the CDN, as the major version, when no stylesheet path is set': async ({pass, fail}) => {
+		const previous = window.kempo;
+		window.kempo = { ...previous, pathToStylesheet: undefined };
+		const component = new TestShadowComponent();
+		document.body.appendChild(component);
+		await new Promise(resolve => setTimeout(resolve, 0));
+		const href = component.shadowRoot.querySelector('link[rel="stylesheet"]').href;
+		document.body.removeChild(component);
+		window.kempo = previous;
+		if(href !== 'https://cdn.jsdelivr.net/npm/kempo-css@2/dist/kempo.min.css') return fail(`Expected the CDN kempo-css@2 so it gets patches and minors, got ${href}`);
+		pass('The CDN is the fallback');
+	},
+
+	'should load the stylesheet a site sets with pathToStylesheet, instead of the CDN': async ({pass, fail}) => {
+		const previous = window.kempo;
+		window.kempo = { ...previous, pathToStylesheet: '/local/kempo.min.css' };
+		const component = new TestShadowComponent();
+		document.body.appendChild(component);
+		await new Promise(resolve => setTimeout(resolve, 0));
+		const href = component.shadowRoot.querySelector('link[rel="stylesheet"]').getAttribute('href');
+		document.body.removeChild(component);
+		window.kempo = previous;
+		if(href !== '/local/kempo.min.css') return fail(`Expected the path that was set, got ${href}`);
+		pass('A site can use its own copy of kempo-css');
 	}
 };

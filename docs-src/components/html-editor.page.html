@@ -252,6 +252,9 @@
       is no room above the editor (it is at the top of the page or of a scrolling area) the bar appears below it
       instead. It applies to the top toolbar and the bottom toolbar, at any <code>controls</code> level, and is ignored
       in fullscreen.</p>
+    <p>A page that holds the editor can leave room for the bars, so they are not cut off at the top or bottom of the page.
+      The read-only <code>floatingRoom</code> is <code>{ above, below }</code>: the pixels the top and bottom toolbars
+      need above and below the editor (0 for a toolbar the editor does not have, or when the layout is not floating).</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">

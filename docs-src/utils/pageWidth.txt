@@ -1,0 +1,9 @@
+pageWidth (utility)
+Import: import 'kempo-ui/src/utils/pageWidth.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/pageWidth.html
+
+Sets --page-width on the root element to the page's width without its vertical scrollbar, and keeps it up to date. Import it for its effect; it has no exports.
+
+Details:
+- --page-width is `document.documentElement.clientWidth` in px, updated by a ResizeObserver on the root element, so it follows window resizes and the scrollbar appearing or going away
+- the Page Builder's Fullscreen breakout and the Hero's breakout size themselves from it (`var(--page-width, 100vw)`): `100vw` includes the scrollbar in most browsers, so a full-width element sized with it makes the page scroll sideways. The widgets' `page` modules load this file, in the page and in the builder's frame

@@ -690,4 +690,18 @@ export default {
 		cleanup(container);
 		pass('Proxy methods return this for chaining');
 	},
+
+	'should report the room its floating toolbars need above and below': async ({pass, fail}) => {
+		const container = document.createElement('div');
+		container.innerHTML = '<k-html-editor layout="floating" controls="full"></k-html-editor><k-html-editor controls="full"></k-html-editor>';
+		document.body.appendChild(container);
+		const [floating, normal] = container.querySelectorAll('k-html-editor');
+		await Promise.all([floating, normal].map(editor => new Promise(r => editor.addEventListener('ready', r, { once: true }))));
+		const room = floating.floatingRoom;
+		const none = normal.floatingRoom;
+		cleanup(container);
+		if(room.above <= 0 || room.below <= 0) return fail(`A floating editor should need room for both toolbars, got ${JSON.stringify(room)}`);
+		if(none.above !== 0 || none.below !== 0) return fail(`An editor that is not floating needs no room, got ${JSON.stringify(none)}`);
+		pass('The room for the floating toolbars is reported');
+	},
 };

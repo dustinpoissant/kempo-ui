@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.2.0] - 2026-11-07
+### Added
+
+- **`<k-page-builder>`:** a controlled page editor. Pick from 26 widgets (text, markdown, images, video, audio, files, a photo viewer, a media gallery, a hero, embeds, groups, columns, a fullscreen breakout, tables, buttons, icons, accordions, tabs, a content slider and more) in the Add list, arrange them in the widget tree or on the page, and change the settings of each. The page is kept as JSON: `value` in, a `change` event out, `save` on Ctrl+S, with undo and redo, templates, a device preview and keyboard shortcuts. The toolbar is a `<k-control-bar>` of new `kc-pb-*` controls, and `PageBuilder.addWidget` adds your own widgets.
+- **`<k-page-renderer>`:** shows the page JSON from `<k-page-builder>` as a page in the browser. `PageRenderer.toHTML(value)` gives the HTML as a string.
+- **Rendering pages on a server:** `renderPage`, `pageWidgets` and `pageTree` have no DOM and no Lit, so they run in Node and in the browser. A server has to pass its own `sanitize` function (used for the text widget and table cells), because `sanitizeHtml` needs a browser DOM. The html widget always writes its HTML as given, so only trusted editors should use it.
+- **`<k-media-gallery>`:** a product-style gallery of images, videos, audio and any media type you register, with a thumbnail strip, arrows, swipe and a fullscreen viewer.
+- **`<k-icon-selector>`:** a form-associated icon picker that opens a searchable grid of icons.
+- **`<k-audio controls="playlist">`:** lists the `<k-audio-track>` children above the bar, with previous and next in place of skip, loop and shuffle. `<k-audio>` also has `top`, `bottom` and `visualizer` slots.
+- **`<kc-audio-visualizer>`:** a canvas that draws the playing sound as bars or a wave.
+- **`<k-control-group split>` and `<k-menu split>`:** inside a `<k-control-bar>`, their controls move into the "more" menu one at a time, each by its own `priority`, instead of the whole group moving as one unit.
+- **`<k-main full-width>`:** removes the width limit and the side padding of the content.
+- **`<k-photo-viewer no-fullscreen>`:** turns the fullscreen view off.
+- **`<k-content-slider min-height>`:** a minimum height for the slide area, as any CSS length.
+- **`<k-html-editor>`:** the read-only `floatingRoom` property gives the pixels of room the floating toolbars need above and below.
+- **New icons** used by the page builder.
+
+### Changed
+
+- **BREAKING: `kc-audio-track` is now `<k-audio-track>`.** It is a component of its own, in `AudioTrack.js`, and not a control.
+- **`kempo-css` is now a dev dependency.** Installing kempo-ui no longer installs it. Without `pathToStylesheet`, components load kempo-css from the jsdelivr CDN (`kempo-css@2`), and `pathToStylesheet` can point at your own copy. The docs use the installed copy, which `npm run build` copies to `docs/kempo.min.css`.
+- **`<k-main>`:** the content is clipped at the sides (`overflow-x: clip`), so a fullscreen breakout, which is as wide as the page, cannot give the page a horizontal scrollbar.
+- **`<k-content-slider>`:** the previous and next buttons are disabled on the first and last slide unless `loop` is on, and `previous()` and `next()` do nothing there, with no events.
+- **`<k-control-bar>`:** a `<k-menu>` moves as one unit, a split group or menu hides once it is empty, and the play and skip controls of `<k-video>` and `<k-audio>` have priorities, with play/pause never collapsing.
+- **`<k-audio>` and `<k-video>`:** the artist shown is the album artist when the file has one.
+- **Controls disabled by the page:** a control that the page disables stays disabled, and only a disabled state set because its host lacks the methods it needs is cleared again.
+
 ## [1.1.0] - 2026-11-03
 ### Added
 

@@ -1,0 +1,186 @@
+<page pageName="Page Tree" title="Page Tree Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Page Tree</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#nodes">Nodes</a><br />
+          <a href="#reading">Reading the Tree</a><br />
+          <a href="#adding">Adding Widgets</a><br />
+          <a href="#changing">Changing the Tree</a><br />
+          <a href="#copying">Copying</a><br />
+          <a href="#sections">Sections</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>The functions that work on a page's tree of widgets. They take a list of nodes (the page's default slot, or any slot) and a registry (a <code>Map</code> of widget definitions by name, from <code>registryOf</code> in <a href="{{pathToRoot}}utils/pageWidgets.html">pageWidgets</a>). Nothing here touches the DOM, so the <a href="{{pathToRoot}}components/page-builder.html">Page Builder</a> and a server can share it. It uses the global <code>crypto</code> and <code>structuredClone</code>, which browsers and current versions of Node have.</p>
+    <p>Functions that change the tree change the list they are given, in place. Those that can fail return the reason as a string or an <code>{ error }</code> object, and leave the tree as it was.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  addWidget,<br>  findNode<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageTree.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> registry = <span class="hljs-title function_">registryOf</span>(widgets);<br><span class="hljs-keyword">const</span> nodes = [];<br><span class="hljs-keyword">const</span> columns = <span class="hljs-title function_">addWidget</span>(nodes, registry, <span class="hljs-string">&#x27;columns&#x27;</span>);<br><span class="hljs-keyword">const</span> found = <span class="hljs-title function_">findNode</span>(nodes, columns.<span class="hljs-property">id</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(found.<span class="hljs-property">node</span>.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>.<span class="hljs-property">length</span>);</code></pre>
+
+    <h3 id="nodes"><a href="#nodes" class="no-link">Nodes</a></h3>
+    <p>A page is <code>{ attrs, slots: { default: [nodes] } }</code>, and each widget on it is a node: <code>{ id, type, attrs, slots: { [slotName]: [node, ...] } }</code>. <code>type</code> is the widget's <code>name</code>.</p>
+
+    <h4><code>MAX_DEPTH</code></h4>
+    <p><code>100</code>: how many levels deep widgets may be nested. <code>place</code> refuses a move or an add that would go deeper.</p>
+
+    <h4><code>newId()</code></h4>
+    <h5>Returns: <code>string</code></h5>
+    <p>A new id: 12 random hex characters.</p>
+
+    <h4><code>createNode(type, attrs = {}, slots = {})</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p><code>{ id, type, attrs, slots }</code> with a new id. It does not look at the registry, so it has no default settings or children. Use <code>defaultNode</code> for those.</p>
+
+    <h4><code>defaultNode(registry, type)</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p>A new widget at its defaults: each setting that has a default other than <code>''</code> or <code>false</code> is set, and the children its definition's <code>children</code> lists are made the same way (a Columns widget starts with two columns).</p>
+
+    <h4><code>attributeDefault(attribute)</code></h4>
+    <h5>Returns: <code>any</code></h5>
+    <p>A copy of the setting's <code>default</code>, or <code>false</code> for a boolean and <code>''</code> for anything else when it has none.</p>
+
+    <h4><code>valueAt(attrs, path)</code></h4>
+    <h5>Returns: <code>any</code></h5>
+    <p>A value inside a widget's <code>attrs</code> by path: <code>'html'</code> is <code>attrs.html</code>, <code>'rows.1.0'</code> is <code>attrs.rows[1][0]</code>. A widget marks a part of itself that can be edited on the page with the path of what it edits (<code>data-pb-edit</code>). A path that is not there reads as <code>undefined</code>.</p>
+
+    <h4><code>setValueAt(attrs, path, value)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Sets the value at a path. The place must exist already (an array position, or an object to put a name on); if it does not, nothing changes and it returns <code>false</code>.</p>
+
+    <h3 id="reading"><a href="#reading" class="no-link">Reading the Tree</a></h3>
+
+    <h4><code>walk(nodes, fn)</code></h4>
+    <p>Calls <code>fn(node, { parent, slot, list, index, depth })</code> for every node, parents before children. <code>parent</code> is the parent node (<code>null</code> at the top), <code>slot</code> is the name of the slot the node is in (<code>''</code> at the top), <code>list</code> is the array it is in, and <code>depth</code> is <code>1</code> at the top. Return <code>false</code> from <code>fn</code> to skip a node's children.</p>
+
+    <h4><code>findNode(nodes, id)</code></h4>
+    <h5>Returns: <code>Object | null</code></h5>
+    <p><code>{ node, parent, slot, list, index, depth }</code> for the node with that id, or <code>null</code>.</p>
+
+    <h4><code>findSlot(nodes, parentId, slot)</code></h4>
+    <h5>Returns: <code>Array | null</code></h5>
+    <p>The list a slot of a parent holds, creating the slot if it is not there. With no <code>parentId</code> it is <code>nodes</code> itself. <code>null</code> when the parent is not found.</p>
+
+    <h4><code>countNodes(nodes)</code></h4>
+    <h5>Returns: <code>number</code></h5>
+    <p>How many nodes there are, with their children.</p>
+
+    <h4><code>maxDepth(nodes)</code></h4>
+    <h5>Returns: <code>number</code></h5>
+    <p>The depth of the deepest node. A list of top-level nodes is depth <code>1</code>.</p>
+
+    <h4><code>firstSlotOf(registry, node)</code></h4>
+    <h5>Returns: <code>string | null</code></h5>
+    <p>The slot a widget's children go into by default (its first), or <code>null</code> for a widget with no slot.</p>
+
+    <h4><code>canContain(registry, parentNode, slotName, childType)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether a widget may be put in this slot of this parent (<code>parentNode</code> is <code>null</code> at the top level). Anything can go in anything: the only requirements are that <code>childType</code> is registered and that the parent has the slot.</p>
+
+    <h4><code>isInside(nodes, ancestorId, id)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether the node <code>id</code> is the node <code>ancestorId</code> or somewhere inside it. Moving a node there would put it inside itself.</p>
+
+    <h4><code>sharePlace(nodes, ids)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether every node in <code>ids</code> exists and they all share one list. This is what selecting several widgets allows.</p>
+
+    <h4><code>neighbour(nodes, id)</code></h4>
+    <h5>Returns: <code>string | null</code></h5>
+    <p>The id to select after a node is removed: its next sibling, else the previous one, else its parent, else <code>null</code>.</p>
+
+    <h4><code>sectionOpen(node, parent)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether an accordion section starts open: what its <code>open</code> setting says. Until any section of the accordion has an <code>open</code> setting, the first section is open.</p>
+
+    <h3 id="adding"><a href="#adding" class="no-link">Adding Widgets</a></h3>
+
+    <h4><code>place(nodes, registry, node, parentId, slot, index)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Puts an existing node in a parent's slot at an index (<code>parentId</code> <code>null</code> for the top level). It returns <code>true</code>, or the reason it was refused: the parent no longer exists, the widget cannot go in that slot, or it would be nested deeper than <code>MAX_DEPTH</code>.</p>
+
+    <h4><code>addWidget(nodes, registry, type, options = {})</code></h4>
+    <h5><code>options<i>: Object</i></code> (optional)</h5>
+    <ul>
+      <li><code>targetId</code> &mdash; the widget to add near. Without it, or when no widget has that id, the new widget goes at the end of <code>nodes</code>.</li>
+      <li><code>inside</code> &mdash; <code>true</code> to put it inside the target, at the end of its <code>slot</code> (its first slot by default). It is refused, with an error, when the target has no slot.</li>
+      <li><code>slot</code> &mdash; the name of the target's slot, with <code>inside</code>.</li>
+    </ul>
+    <h5>Returns: <code>{ id } | { error }</code></h5>
+    <p>Adds a new widget at its defaults (<code>defaultNode</code>). Without <code>inside</code> it goes after the target. If the target has a slot with nothing in it and the new widget is not a section, it goes inside the target. If the target's own list will not take it, it goes after the target's parent, and so on up.</p>
+
+    <h4><code>insertNodes(nodes, registry, list, options = {})</code></h4>
+    <h5>Returns: <code>{ ids } | { error }</code></h5>
+    <p>Adds nodes that already exist (a saved template's copies), one after the other, the first placed by <code>options</code> as in <code>addWidget</code>. If one cannot be placed, the ones already placed are removed and the error is returned.</p>
+
+    <h3 id="changing"><a href="#changing" class="no-link">Changing the Tree</a></h3>
+
+    <h4><code>removeNode(nodes, id)</code></h4>
+    <h5>Returns: <code>Object | null</code></h5>
+    <p>Takes the node out of its list and returns it, or returns <code>null</code> when it is not found.</p>
+
+    <h4><code>removeWidgets(nodes, ids)</code></h4>
+    <h5>Returns: <code>true</code></h5>
+    <p>Removes each node in <code>ids</code>.</p>
+
+    <h4><code>moveWidget(nodes, registry, id, parentId, slot, index)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves one node to a parent's slot at an index. It returns <code>true</code>, or the reason it was refused: the node is gone, it is a section (see <a href="#sections">Sections</a>), it would go inside itself, or <code>place</code> refused it. A refused move leaves the node where it was.</p>
+
+    <h4><code>moveBy(nodes, registry, ids, step)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves nodes that share a list, together, by <code>step</code> places (<code>-1</code> is up, <code>1</code> is down). The refusals are <code>'Nothing is selected'</code>, a section, <code>'Already first'</code> and <code>'Already last'</code>.</p>
+
+    <h4><code>moveOut(nodes, registry, id)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves a node out of its parent, to sit just after it. <code>'Already at the top'</code> for a node with no parent.</p>
+
+    <h4><code>moveIn(nodes, registry, id)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves a node into the closest widget before it that has a slot, at the end of that widget's first slot. <code>'There is nothing before it to move into'</code> when there is none.</p>
+
+    <h3 id="copying"><a href="#copying" class="no-link">Copying</a></h3>
+
+    <h4><code>cloneNode(node, freshIds = false)</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p>A deep copy of a node and its children. With <code>freshIds</code> every copy has a new id.</p>
+
+    <h4><code>cloneNodes(nodes, freshIds = false)</code></h4>
+    <h5>Returns: <code>Array</code></h5>
+    <p>A copy of each node in the list.</p>
+
+    <h4><code>freshCopies(nodes)</code></h4>
+    <h5>Returns: <code>Array</code></h5>
+    <p>A copy of the nodes with fresh ids, for inserting a saved template.</p>
+
+    <h4><code>duplicateWidgets(nodes, ids)</code></h4>
+    <h5>Returns: <code>{ ids } | { error }</code></h5>
+    <p>Copies the nodes (with their children, and fresh ids) to sit just after the last of them. <code>ids</code> in the result are the ids of the copies. <code>{ error: 'Nothing is selected' }</code> when none of the ids is found.</p>
+
+    <h3 id="sections"><a href="#sections" class="no-link">Sections</a></h3>
+    <p>A widget whose definition has <code>section: true</code> is a part of another widget (a column, an accordion section, a tab, a slide). It is added, ordered and removed from its parent's settings, never moved on the page, so <code>moveWidget</code> and <code>moveBy</code> refuse it.</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Add a Widget Inside Another</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> nodes = [];<br><span class="hljs-keyword">const</span> columns = <span class="hljs-title function_">addWidget</span>(nodes, registry, <span class="hljs-string">&#x27;columns&#x27;</span>);<br><span class="hljs-keyword">const</span> first = <span class="hljs-title function_">findNode</span>(nodes, columns.<span class="hljs-property">id</span>).<span class="hljs-property">node</span>.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>[<span class="hljs-number">0</span>];<br><span class="hljs-keyword">const</span> text = <span class="hljs-title function_">addWidget</span>(nodes, registry, <span class="hljs-string">&#x27;text&#x27;</span>, {<br>  <span class="hljs-attr">targetId</span>: first.<span class="hljs-property">id</span>,<br>  <span class="hljs-attr">inside</span>: <span class="hljs-literal">true</span><br>});<br><span class="hljs-title function_">findNode</span>(nodes, text.<span class="hljs-property">id</span>).<span class="hljs-property">depth</span>;<br><span class="hljs-comment">// 3</span></code></pre>
+
+    <h4>A Refused Move</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">moveWidget</span>(nodes, registry, first.<span class="hljs-property">id</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>);<br><span class="hljs-comment">// &#x27;Sections are moved from their parent\&#x27;s settings&#x27;</span><br><span class="hljs-title function_">moveWidget</span>(nodes, registry, text.<span class="hljs-property">id</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>);<br><span class="hljs-comment">// true</span></code></pre>
+
+    <h4>Read and Set a Value by Path</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> attrs = {<br>  <span class="hljs-attr">rows</span>: [<br>    [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>],<br>    [<span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>]<br>  ]<br>};<br><span class="hljs-title function_">valueAt</span>(attrs, <span class="hljs-string">&#x27;rows.1.0&#x27;</span>);<br><span class="hljs-comment">// &#x27;c&#x27;</span><br><span class="hljs-title function_">setValueAt</span>(attrs, <span class="hljs-string">&#x27;rows.1.0&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>);<br><span class="hljs-comment">// true</span></code></pre>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

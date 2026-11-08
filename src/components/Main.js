@@ -80,6 +80,7 @@ export default class Main extends ShadowComponent {
 			display: block;
 			margin-left: var(--left-panel-width, 0px);
 			margin-right: var(--right-panel-width, 0px);
+			overflow-x: clip;
 			transition: margin-left var(--animation_ms, 256ms), margin-right var(--animation_ms, 256ms);
 		}
 		main {
@@ -89,6 +90,11 @@ export default class Main extends ShadowComponent {
 			padding-top: var(--spacer);
 			padding-left: var(--spacer);
 			padding-right: var(--spacer);
+		}
+		:host([full-width]) main {
+			max-width: none;
+			padding-left: 0;
+			padding-right: 0;
 		}
 	`;
 }

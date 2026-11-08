@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Page Tree Utility - Kempo UI</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <script src="../init.js"></script>
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+      no-collapse
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      <span class="nav-brand-text">Kempo UI</span>
+    </a>
+    <div
+      class="nav-search"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+      />
+      <div
+        id="navSearchDropdown"
+        class="nav-search-dropdown"
+        hidden
+        theme="light"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside button fab floating menu sidebar toggle components"><a
+              href="../components/aside-btn.html">Aside Button<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="audio player play pause seek volume speed loop sound music podcast components"><a
+              href="../components/audio.html">Audio<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card grid tile layout gallery selection components"><a
+              href="../components/card-grid.html">CardGrid<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="image crop cropper upload photo avatar profile canvas resize components"><a
+              href="../components/image-crop.html"
+            >Image Crop<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon selector iconselector picker choose dialog filter components"><a
+              href="../components/icon-selector.html">Icon Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="media gallery mediagallery product images video photos thumbnails carousel slider lightbox ecommerce etsy components"><a
+              href="../components/media-gallery.html"
+            >Media Gallery<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder editor widgets json controlled components"><a
+              href="../components/page-builder.html">Page Builder<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder image picker media library pictures"><a
+              href="../components/page-builder/image.html">Page Builder Image Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder video picker media library"><a
+              href="../components/page-builder/video.html">Page Builder Video Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder audio picker media library sound"><a
+              href="../components/page-builder/audio.html">Page Builder Audio Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder icon picker icons search"><a
+              href="../components/page-builder/icon.html">Page Builder Icon Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page renderer render json server components"><a
+              href="../components/page-renderer.html">Page Renderer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="rating star stars review score components"><a
+              href="../components/rating.html"
+            >Rating<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record links url open click advanced example"><a
+              href="../components/tableRecordLinks.html"
+            >Table &mdash; Record Links<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="imagesize image size natural width height measure utils utility"><a
+              href="../utils/imageSize.html">imageSize<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pageframe page frame iframe preview page builder utils utility"><a
+              href="../utils/pageFrame.html">pageFrame<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagehistory page history undo redo page builder utils utility"><a
+              href="../utils/pageHistory.html">pageHistory<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagelabels page labels title icon hint page builder utils utility"><a
+              href="../utils/pageLabels.html">pageLabels<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagetree page tree widgets nodes slots add move remove page builder utils utility"><a
+              href="../utils/pageTree.html">pageTree<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidgets page widgets registry addwidget definitions page builder utils utility"><a
+              href="../utils/pageWidgets.html">pageWidgets<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidth page width css variable breakout utils utility"><a
+              href="../utils/pageWidth.html">pageWidth<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="renderpage render page html server prerender ssr page builder utils utility"><a
+              href="../utils/renderPage.html">renderPage<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="styles style classes margin padding background page builder utils utility"><a
+              href="../utils/styles.html">styles<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/aside-btn.html">Aside Button</a>
+        <a href="../components/audio.html">Audio</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/card-grid.html">CardGrid</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/icon-selector.html">Icon Selector</a>
+        <a href="../components/image-crop.html">Image Crop</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/media-gallery.html">Media Gallery</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/page-builder.html">Page Builder</a>
+        <a href="../components/page-builder/image.html">Page Builder: Image Picker</a>
+        <a href="../components/page-builder/video.html">Page Builder: Video Picker</a>
+        <a href="../components/page-builder/audio.html">Page Builder: Audio Picker</a>
+        <a href="../components/page-builder/icon.html">Page Builder: Icon Picker</a>
+        <a href="../components/page-renderer.html">Page Renderer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/rating.html">Rating</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/imageSize.html">imageSize</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/pageFrame.html">pageFrame</a>
+        <a href="../utils/pageHistory.html">pageHistory</a>
+        <a href="../utils/pageLabels.html">pageLabels</a>
+        <a href="../utils/pageTree.html">pageTree</a>
+        <a href="../utils/pageWidgets.html">pageWidgets</a>
+        <a href="../utils/pageWidth.html">pageWidth</a>
+        <a href="../utils/promptApi.html">promptApi</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/renderPage.html">renderPage</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/styles.html">styles</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+  <k-main >
+    
+    <h1>Page Tree</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#nodes">Nodes</a><br />
+          <a href="#reading">Reading the Tree</a><br />
+          <a href="#adding">Adding Widgets</a><br />
+          <a href="#changing">Changing the Tree</a><br />
+          <a href="#copying">Copying</a><br />
+          <a href="#sections">Sections</a><br />
+          <a href="#examples">Examples</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>The functions that work on a page's tree of widgets. They take a list of nodes (the page's default slot, or any slot) and a registry (a <code>Map</code> of widget definitions by name, from <code>registryOf</code> in <a href="../utils/pageWidgets.html">pageWidgets</a>). Nothing here touches the DOM, so the <a href="../components/page-builder.html">Page Builder</a> and a server can share it. It uses the global <code>crypto</code> and <code>structuredClone</code>, which browsers and current versions of Node have.</p>
+    <p>Functions that change the tree change the list they are given, in place. Those that can fail return the reason as a string or an <code>{ error }</code> object, and leave the tree as it was.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  addWidget,<br>  findNode<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageTree.js&#x27;</span>;<br><span class="hljs-keyword">import</span> {<br>  widgets,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-keyword">const</span> registry = <span class="hljs-title function_">registryOf</span>(widgets);<br><span class="hljs-keyword">const</span> nodes = [];<br><span class="hljs-keyword">const</span> columns = <span class="hljs-title function_">addWidget</span>(nodes, registry, <span class="hljs-string">&#x27;columns&#x27;</span>);<br><span class="hljs-keyword">const</span> found = <span class="hljs-title function_">findNode</span>(nodes, columns.<span class="hljs-property">id</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(found.<span class="hljs-property">node</span>.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>.<span class="hljs-property">length</span>);</code></pre>
+
+    <h3 id="nodes"><a href="#nodes" class="no-link">Nodes</a></h3>
+    <p>A page is <code>{ attrs, slots: { default: [nodes] } }</code>, and each widget on it is a node: <code>{ id, type, attrs, slots: { [slotName]: [node, ...] } }</code>. <code>type</code> is the widget's <code>name</code>.</p>
+
+    <h4><code>MAX_DEPTH</code></h4>
+    <p><code>100</code>: how many levels deep widgets may be nested. <code>place</code> refuses a move or an add that would go deeper.</p>
+
+    <h4><code>newId()</code></h4>
+    <h5>Returns: <code>string</code></h5>
+    <p>A new id: 12 random hex characters.</p>
+
+    <h4><code>createNode(type, attrs = {}, slots = {})</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p><code>{ id, type, attrs, slots }</code> with a new id. It does not look at the registry, so it has no default settings or children. Use <code>defaultNode</code> for those.</p>
+
+    <h4><code>defaultNode(registry, type)</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p>A new widget at its defaults: each setting that has a default other than <code>''</code> or <code>false</code> is set, and the children its definition's <code>children</code> lists are made the same way (a Columns widget starts with two columns).</p>
+
+    <h4><code>attributeDefault(attribute)</code></h4>
+    <h5>Returns: <code>any</code></h5>
+    <p>A copy of the setting's <code>default</code>, or <code>false</code> for a boolean and <code>''</code> for anything else when it has none.</p>
+
+    <h4><code>valueAt(attrs, path)</code></h4>
+    <h5>Returns: <code>any</code></h5>
+    <p>A value inside a widget's <code>attrs</code> by path: <code>'html'</code> is <code>attrs.html</code>, <code>'rows.1.0'</code> is <code>attrs.rows[1][0]</code>. A widget marks a part of itself that can be edited on the page with the path of what it edits (<code>data-pb-edit</code>). A path that is not there reads as <code>undefined</code>.</p>
+
+    <h4><code>setValueAt(attrs, path, value)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Sets the value at a path. The place must exist already (an array position, or an object to put a name on); if it does not, nothing changes and it returns <code>false</code>.</p>
+
+    <h3 id="reading"><a href="#reading" class="no-link">Reading the Tree</a></h3>
+
+    <h4><code>walk(nodes, fn)</code></h4>
+    <p>Calls <code>fn(node, { parent, slot, list, index, depth })</code> for every node, parents before children. <code>parent</code> is the parent node (<code>null</code> at the top), <code>slot</code> is the name of the slot the node is in (<code>''</code> at the top), <code>list</code> is the array it is in, and <code>depth</code> is <code>1</code> at the top. Return <code>false</code> from <code>fn</code> to skip a node's children.</p>
+
+    <h4><code>findNode(nodes, id)</code></h4>
+    <h5>Returns: <code>Object | null</code></h5>
+    <p><code>{ node, parent, slot, list, index, depth }</code> for the node with that id, or <code>null</code>.</p>
+
+    <h4><code>findSlot(nodes, parentId, slot)</code></h4>
+    <h5>Returns: <code>Array | null</code></h5>
+    <p>The list a slot of a parent holds, creating the slot if it is not there. With no <code>parentId</code> it is <code>nodes</code> itself. <code>null</code> when the parent is not found.</p>
+
+    <h4><code>countNodes(nodes)</code></h4>
+    <h5>Returns: <code>number</code></h5>
+    <p>How many nodes there are, with their children.</p>
+
+    <h4><code>maxDepth(nodes)</code></h4>
+    <h5>Returns: <code>number</code></h5>
+    <p>The depth of the deepest node. A list of top-level nodes is depth <code>1</code>.</p>
+
+    <h4><code>firstSlotOf(registry, node)</code></h4>
+    <h5>Returns: <code>string | null</code></h5>
+    <p>The slot a widget's children go into by default (its first), or <code>null</code> for a widget with no slot.</p>
+
+    <h4><code>canContain(registry, parentNode, slotName, childType)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether a widget may be put in this slot of this parent (<code>parentNode</code> is <code>null</code> at the top level). Anything can go in anything: the only requirements are that <code>childType</code> is registered and that the parent has the slot.</p>
+
+    <h4><code>isInside(nodes, ancestorId, id)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether the node <code>id</code> is the node <code>ancestorId</code> or somewhere inside it. Moving a node there would put it inside itself.</p>
+
+    <h4><code>sharePlace(nodes, ids)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether every node in <code>ids</code> exists and they all share one list. This is what selecting several widgets allows.</p>
+
+    <h4><code>neighbour(nodes, id)</code></h4>
+    <h5>Returns: <code>string | null</code></h5>
+    <p>The id to select after a node is removed: its next sibling, else the previous one, else its parent, else <code>null</code>.</p>
+
+    <h4><code>sectionOpen(node, parent)</code></h4>
+    <h5>Returns: <code>boolean</code></h5>
+    <p>Whether an accordion section starts open: what its <code>open</code> setting says. Until any section of the accordion has an <code>open</code> setting, the first section is open.</p>
+
+    <h3 id="adding"><a href="#adding" class="no-link">Adding Widgets</a></h3>
+
+    <h4><code>place(nodes, registry, node, parentId, slot, index)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Puts an existing node in a parent's slot at an index (<code>parentId</code> <code>null</code> for the top level). It returns <code>true</code>, or the reason it was refused: the parent no longer exists, the widget cannot go in that slot, or it would be nested deeper than <code>MAX_DEPTH</code>.</p>
+
+    <h4><code>addWidget(nodes, registry, type, options = {})</code></h4>
+    <h5><code>options<i>: Object</i></code> (optional)</h5>
+    <ul>
+      <li><code>targetId</code> &mdash; the widget to add near. Without it, or when no widget has that id, the new widget goes at the end of <code>nodes</code>.</li>
+      <li><code>inside</code> &mdash; <code>true</code> to put it inside the target, at the end of its <code>slot</code> (its first slot by default). It is refused, with an error, when the target has no slot.</li>
+      <li><code>slot</code> &mdash; the name of the target's slot, with <code>inside</code>.</li>
+    </ul>
+    <h5>Returns: <code>{ id } | { error }</code></h5>
+    <p>Adds a new widget at its defaults (<code>defaultNode</code>). Without <code>inside</code> it goes after the target. If the target has a slot with nothing in it and the new widget is not a section, it goes inside the target. If the target's own list will not take it, it goes after the target's parent, and so on up.</p>
+
+    <h4><code>insertNodes(nodes, registry, list, options = {})</code></h4>
+    <h5>Returns: <code>{ ids } | { error }</code></h5>
+    <p>Adds nodes that already exist (a saved template's copies), one after the other, the first placed by <code>options</code> as in <code>addWidget</code>. If one cannot be placed, the ones already placed are removed and the error is returned.</p>
+
+    <h3 id="changing"><a href="#changing" class="no-link">Changing the Tree</a></h3>
+
+    <h4><code>removeNode(nodes, id)</code></h4>
+    <h5>Returns: <code>Object | null</code></h5>
+    <p>Takes the node out of its list and returns it, or returns <code>null</code> when it is not found.</p>
+
+    <h4><code>removeWidgets(nodes, ids)</code></h4>
+    <h5>Returns: <code>true</code></h5>
+    <p>Removes each node in <code>ids</code>.</p>
+
+    <h4><code>moveWidget(nodes, registry, id, parentId, slot, index)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves one node to a parent's slot at an index. It returns <code>true</code>, or the reason it was refused: the node is gone, it is a section (see <a href="#sections">Sections</a>), it would go inside itself, or <code>place</code> refused it. A refused move leaves the node where it was.</p>
+
+    <h4><code>moveBy(nodes, registry, ids, step)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves nodes that share a list, together, by <code>step</code> places (<code>-1</code> is up, <code>1</code> is down). The refusals are <code>'Nothing is selected'</code>, a section, <code>'Already first'</code> and <code>'Already last'</code>.</p>
+
+    <h4><code>moveOut(nodes, registry, id)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves a node out of its parent, to sit just after it. <code>'Already at the top'</code> for a node with no parent.</p>
+
+    <h4><code>moveIn(nodes, registry, id)</code></h4>
+    <h5>Returns: <code>true | string</code></h5>
+    <p>Moves a node into the closest widget before it that has a slot, at the end of that widget's first slot. <code>'There is nothing before it to move into'</code> when there is none.</p>
+
+    <h3 id="copying"><a href="#copying" class="no-link">Copying</a></h3>
+
+    <h4><code>cloneNode(node, freshIds = false)</code></h4>
+    <h5>Returns: <code>Object</code></h5>
+    <p>A deep copy of a node and its children. With <code>freshIds</code> every copy has a new id.</p>
+
+    <h4><code>cloneNodes(nodes, freshIds = false)</code></h4>
+    <h5>Returns: <code>Array</code></h5>
+    <p>A copy of each node in the list.</p>
+
+    <h4><code>freshCopies(nodes)</code></h4>
+    <h5>Returns: <code>Array</code></h5>
+    <p>A copy of the nodes with fresh ids, for inserting a saved template.</p>
+
+    <h4><code>duplicateWidgets(nodes, ids)</code></h4>
+    <h5>Returns: <code>{ ids } | { error }</code></h5>
+    <p>Copies the nodes (with their children, and fresh ids) to sit just after the last of them. <code>ids</code> in the result are the ids of the copies. <code>{ error: 'Nothing is selected' }</code> when none of the ids is found.</p>
+
+    <h3 id="sections"><a href="#sections" class="no-link">Sections</a></h3>
+    <p>A widget whose definition has <code>section: true</code> is a part of another widget (a column, an accordion section, a tab, a slide). It is added, ordered and removed from its parent's settings, never moved on the page, so <code>moveWidget</code> and <code>moveBy</code> refuse it.</p>
+
+    <h3 id="examples"><a href="#examples" class="no-link">Examples</a></h3>
+
+    <h4>Add a Widget Inside Another</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> nodes = [];<br><span class="hljs-keyword">const</span> columns = <span class="hljs-title function_">addWidget</span>(nodes, registry, <span class="hljs-string">&#x27;columns&#x27;</span>);<br><span class="hljs-keyword">const</span> first = <span class="hljs-title function_">findNode</span>(nodes, columns.<span class="hljs-property">id</span>).<span class="hljs-property">node</span>.<span class="hljs-property">slots</span>.<span class="hljs-property">default</span>[<span class="hljs-number">0</span>];<br><span class="hljs-keyword">const</span> text = <span class="hljs-title function_">addWidget</span>(nodes, registry, <span class="hljs-string">&#x27;text&#x27;</span>, {<br>  <span class="hljs-attr">targetId</span>: first.<span class="hljs-property">id</span>,<br>  <span class="hljs-attr">inside</span>: <span class="hljs-literal">true</span><br>});<br><span class="hljs-title function_">findNode</span>(nodes, text.<span class="hljs-property">id</span>).<span class="hljs-property">depth</span>;<br><span class="hljs-comment">// 3</span></code></pre>
+
+    <h4>A Refused Move</h4>
+    <pre><code class="hljs javascript"><span class="hljs-title function_">moveWidget</span>(nodes, registry, first.<span class="hljs-property">id</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>);<br><span class="hljs-comment">// &#x27;Sections are moved from their parent\&#x27;s settings&#x27;</span><br><span class="hljs-title function_">moveWidget</span>(nodes, registry, text.<span class="hljs-property">id</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>);<br><span class="hljs-comment">// true</span></code></pre>
+
+    <h4>Read and Set a Value by Path</h4>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> attrs = {<br>  <span class="hljs-attr">rows</span>: [<br>    [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>],<br>    [<span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>]<br>  ]<br>};<br><span class="hljs-title function_">valueAt</span>(attrs, <span class="hljs-string">&#x27;rows.1.0&#x27;</span>);<br><span class="hljs-comment">// &#x27;c&#x27;</span><br><span class="hljs-title function_">setValueAt</span>(attrs, <span class="hljs-string">&#x27;rows.1.0&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>);<br><span class="hljs-comment">// true</span></code></pre>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/Accordion.js"></script>
+  
+</body>
+</html>

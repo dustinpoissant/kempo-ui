@@ -21,6 +21,7 @@
         <a href="#noCollapse">Controls That Stay</a><br />
         <a href="#priority">Priority</a><br />
         <a href="#groups">Control Groups</a><br />
+        <a href="#split">Splitting a Group</a><br />
         <a href="#linksButtons">Links and Buttons</a><br />
         <a href="#hosts">With Each Host</a><br />
 
@@ -138,7 +139,7 @@
     </div>
 
     <h3 id="groups"><a href="#groups" class="no-link">Control Groups</a></h3>
-    <p>Wrap controls in a <code>&lt;k-control-group&gt;</code> to move them into the &ldquo;more&rdquo; menu all at once. The group counts as a single control, so it is moved whole and kept together.</p>
+    <p>Wrap controls in a <code>&lt;k-control-group&gt;</code> to move them into the &ldquo;more&rdquo; menu all at once. The group counts as a single control, so it is moved whole and kept together. To move its controls one at a time instead, see <a href="#split">Splitting a Group</a>.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">
@@ -153,6 +154,32 @@
     <kc-tc-search></kc-tc-search>
     <k-control-group slot="right">
       <kc-tc-export-csv></kc-tc-export-csv>
+      <kc-tc-export-json></kc-tc-export-json>
+    </k-control-group>
+    <kc-tc-page-size slot="right"></kc-tc-page-size>
+  </k-control-bar>
+</k-table>
+          </k-resize>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="split"><a href="#split" class="no-link">Splitting a Group</a></h3>
+    <p>Add <code>split</code> to a <code>&lt;k-control-group&gt;</code> to move its controls into the &ldquo;more&rdquo; menu one at a time instead of together. Each control is ranked by its own <code>priority</code>, or by the group&rsquo;s when it has none, and a control marked <code>no-collapse</code> stays in the bar. A control that moves leaves its group and is listed in the menu in the order it had in the group. It goes back when there is room, and the group disappears when nothing is left in it. In this example Export CSV never moves, while Export JSON does.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-table</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-control-bar</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-search</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-search</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">k-control-group</span> <span class="hljs-attr">split</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-csv</span> <span class="hljs-attr">no-collapse</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-csv</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-export-json</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-export-json</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">kc-tc-page-size</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">kc-tc-page-size</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">k-control-bar</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-table</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-resize dimension="width" style="width:100%;">
+<k-table id="table6">
+  <k-control-bar slot="top">
+    <kc-tc-search></kc-tc-search>
+    <k-control-group split slot="right">
+      <kc-tc-export-csv no-collapse></kc-tc-export-csv>
       <kc-tc-export-json></kc-tc-export-json>
     </k-control-group>
     <kc-tc-page-size slot="right"></kc-tc-page-size>
@@ -542,7 +569,7 @@
     <script type="module" src="{{pathToRoot}}src/components/controls/PgItemsPerPage.js"></script>
     <script type="module">
       await window.customElements.whenDefined('k-table');
-      ['table1', 'table2', 'table3', 'table4', 'table5'].forEach(id => document.getElementById(id).setRecords(contacts));
+      ['table1', 'table2', 'table3', 'table4', 'table5', 'table6'].forEach(id => document.getElementById(id).setRecords(contacts));
     </script>
     <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
     <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>

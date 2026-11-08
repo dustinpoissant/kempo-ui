@@ -1,0 +1,4 @@
+import e from"./CodeSettings.js";import{html as t}from"../../lit-all.min.js";export default class r extends e{get codeSetting(){return"code"}get codeLanguage(){return"javascript"}get codeTitle(){return"Edit JavaScript"}get codeSaveText(){return"Save JavaScript"}render(){if(!this.node)return"";const e=!!this.node.attrs?.src;return t`
+      ${this.renderFields(["code"])}
+      ${this.renderCode({disabled:e,note:e?"There is a script file, so the JavaScript written here is not used. Clear the file to write it.":"Used when there is no script file. Its code runs on the page."})}
+    `}}customElements.define("k-page-builder-script-settings",r);

@@ -1,0 +1,338 @@
+<page pageName="Icon Selector" title="Icon Selector - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m pl">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#valueByDefault">Value By Default</a><br />
+          <a href="#dialogTitle">Dialog Title</a><br />
+          <a href="#placeholder">Placeholder</a><br />
+          <a href="#iconOnly">Icon Only</a><br />
+          <a href="#limitedIcons">Limiting the Icons</a><br />
+          <a href="#customIcons">Custom Icons</a><br />
+          <a href="#formUsage">Form Integration</a><br />
+          <a href="#changeEvent">Listening for Changes</a><br />
+          <a href="#autoChoose">Auto Choose</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes</a><br />
+          <a href="#events">Events</a><br />
+          <a href="#statics">Static Members</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>The field looks like an input: the icon is on the left and its name is on the right. Clicking it opens a dialog with every icon. Click an icon to select it, then choose <em>Choose Icon</em> to keep it, or <em>Cancel</em> to leave the value as it was.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="valueByDefault"><a href="#valueByDefault" class="no-link">Value By Default</a></h3>
+    <p>Set the <code>value</code> attribute to the icon's name, without the <code>.svg</code> extension. That icon is shown and highlighted when the dialog opens.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;star&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector value="star"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="dialogTitle"><a href="#dialogTitle" class="no-link">Dialog Title</a></h3>
+    <p>The <code>dialog-title</code> attribute sets the heading of the dialog. It defaults to <code>Choose an Icon</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;star&quot;</span> <span class="hljs-attr">dialog-title</span>=<span class="hljs-string">&quot;Pick a Status Icon&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector value="star" dialog-title="Pick a Status Icon"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="placeholder"><a href="#placeholder" class="no-link">Placeholder</a></h3>
+    <p>The <code>placeholder</code> attribute is the text shown in the field when no icon is selected. It defaults to <code>Choose an Icon</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Pick a menu icon&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector placeholder="Pick a menu icon"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="iconOnly"><a href="#iconOnly" class="no-link">Icon Only</a></h3>
+    <p>The <code>icon-only</code> attribute shows just the icon, without its name. The field is inline, so it sits in a line of text or a toolbar. The name stays available to screen readers and as the tooltip.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">icon-only</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;star&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector icon-only value="star"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="limitedIcons"><a href="#limitedIcons" class="no-link">Limiting the Icons</a></h3>
+    <p>The <code>icons</code> attribute is a comma-separated list of the icon names the person can choose from. Spaces around each name are trimmed. Without it, the dialog offers every icon in <code>IconSelector.icons</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;save&quot;</span> <span class="hljs-attr">icons</span>=<span class="hljs-string">&quot;save, check, close, star, warning&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector value="save" icons="save, check, close, star, warning"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="customIcons"><a href="#customIcons" class="no-link">Custom Icons</a></h3>
+    <p>Icons outside the standard icons directory are added with <code>IconSelector.add(name, src)</code>. The <code>src</code> is the path to the SVG file. It is optional: without it, <code>name</code> is treated as a standard icon. An added icon is offered in every Icon Selector, in addition to the <code>icons</code> attribute or the default list. Its value is <code>src:</code> followed by the path, so a custom icon submits as, for example, <code>src:/media/hexagon.svg</code>. Values starting with <code>src:</code> always mean a path, which lets the server tell a path from a name.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">IconSelector</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/components/IconSelector.js&#x27;</span>;<br><span class="hljs-title class_">IconSelector</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;hexagon&#x27;</span>, <span class="hljs-string">&#x27;/media/hexagon.svg&#x27;</span>);</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;src:/media/hexagon.svg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector value="src:{{pathToRoot}}media/hexagon.svg"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>Icon Selector is form-associated. Set a <code>name</code> attribute and the icon's name submits with the rest of the form. A custom icon submits <code>src:</code> followed by its path, as the second example shows.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;iconForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;menuIcon&quot;</span>&gt;</span>Menu icon<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;menuIcon&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;menuIcon&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;menu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt primary&quot;</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Submitted: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;result&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;iconForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> formData = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;result&#x27;</span>).<span class="hljs-property">textContent</span> = formData.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;menuIcon&#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="iconForm">
+            <label for="menuIcon">Menu icon</label>
+            <k-icon-selector id="menuIcon" name="menuIcon" value="menu"></k-icon-selector>
+            <button type="submit" class="mt primary">Save</button>
+          </form>
+          <p>Submitted: <span id="result"></span></p>
+          <script>
+            document.getElementById('iconForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              document.getElementById('result').textContent = formData.get('menuIcon');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;customIconForm&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;customIcon&quot;</span>&gt;</span>Custom icon<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;customIcon&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;customIcon&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;src:/media/hexagon.svg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt primary&quot;</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Submitted: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;customResult&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;customIconForm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {<br>    e.<span class="hljs-title function_">preventDefault</span>();<br>    <span class="hljs-keyword">const</span> formData = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span>);<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;customResult&#x27;</span>).<span class="hljs-property">textContent</span> = formData.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;customIcon&#x27;</span>);<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="customIconForm">
+            <label for="customIcon">Custom icon</label>
+            <k-icon-selector id="customIcon" name="customIcon" value="src:{{pathToRoot}}media/hexagon.svg"></k-icon-selector>
+            <button type="submit" class="mt primary">Save</button>
+          </form>
+          <p>Submitted: <span id="customResult"></span></p>
+          <script>
+            document.getElementById('customIconForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              document.getElementById('customResult').textContent = formData.get('customIcon');
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="changeEvent"><a href="#changeEvent" class="no-link">Listening for Changes</a></h3>
+    <p>The <code>change</code> event fires when the person chooses an icon with <em>Choose Icon</em>. Cancelling does not fire it. The detail holds the new value.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;picker&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;star&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Chosen: <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;chosen&quot;</span>&gt;</span>star<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;picker&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;chosen&#x27;</span>).<span class="hljs-property">textContent</span> = event.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>;<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector id="picker" value="star"></k-icon-selector>
+          <p>Chosen: <span id="chosen">star</span></p>
+          <script>
+            document.getElementById('picker').addEventListener('change', (event) => {
+              document.getElementById('chosen').textContent = event.detail.value;
+            });
+          </script>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="autoChoose"><a href="#autoChoose" class="no-link">Auto Choose</a></h3>
+    <p>The <code>auto-choose</code> attribute chooses an icon as soon as it is clicked. The dialog closes, <code>change</code> fires, and there is no <em>Choose Icon</em> button. <em>Cancel</em> stays and leaves the value as it was.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">auto-choose</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;star&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector auto-choose value="star"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <h6>Extends <a href="./shadow-component.html">ShadowComponent</a></h6>
+    <h5><code>new IconSelector()</code></h5>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./shadow-component.html">ShadowComponent</a></li>
+      <li><a href="./dialog.html">Dialog</a>, <a href="./filter-list.html">Filter List</a> and <a href="./icon.html">Icon</a>, which are imported by the component.</li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h3>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td>String</td>
+            <td><code>""</code></td>
+            <td>The chosen icon's name, without the extension. For a custom icon, <code>src:</code> followed by the path to its SVG. Reflects to the attribute.</td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>String</td>
+            <td><code>""</code></td>
+            <td>The field name used when the surrounding form submits. Reflects to the attribute.</td>
+          </tr>
+          <tr>
+            <td><code>icons</code></td>
+            <td>String</td>
+            <td>All icons in <code>IconSelector.icons</code></td>
+            <td>A comma-separated list of the icon names to choose from. Each name is trimmed of spaces.</td>
+          </tr>
+          <tr>
+            <td><code>dialog-title</code></td>
+            <td>String</td>
+            <td><code>Choose an Icon</code></td>
+            <td>The heading of the dialog.</td>
+          </tr>
+          <tr>
+            <td><code>placeholder</code></td>
+            <td>String</td>
+            <td><code>Choose an Icon</code></td>
+            <td>The text shown in the field when no icon is selected.</td>
+          </tr>
+          <tr>
+            <td><code>icon-only</code></td>
+            <td>Boolean</td>
+            <td>Off</td>
+            <td>Shows only the icon, not its name, and makes the field inline. The name is kept as its label and tooltip.</td>
+          </tr>
+          <tr>
+            <td><code>allow-clear</code></td>
+            <td>Boolean</td>
+            <td>Off</td>
+            <td>Changes the dialog's Cancel button to <em>Clear</em>. Clicking it empties the value and fires <code>change</code>.</td>
+          </tr>
+          <tr>
+            <td><code>auto-choose</code></td>
+            <td>Boolean</td>
+            <td>Off</td>
+            <td>Chooses an icon as soon as it is clicked, closing the dialog. The <em>Choose Icon</em> button is removed; <em>Cancel</em> stays.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
+    <div class="table-wrapper mb">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Detail</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>change</code></td>
+            <td><code>{ value: String }</code></td>
+            <td>Fired when the person chooses an icon with <em>Choose Icon</em>. Not fired when the dialog is cancelled or when the value is set in code.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="statics"><a href="#statics" class="no-link">Static Members</a></h3>
+    <h5><code>IconSelector.icons<i>: string[]</i></code></h5>
+    <p>The default list of icon names, used when the <code>icons</code> attribute is not set. It holds every icon in the standard icons directory. Change the array to change the default list for every Icon Selector.</p>
+    <h5><code>IconSelector.add(name<i>: string</i>, src<i>: string</i>)<i>: void</i></code></h5>
+    <p>Adds an icon that every Icon Selector offers, in addition to its <code>icons</code> attribute or the default list. Pass <code>src</code> for an SVG outside the standard icons directory. An icon added with the same name as an existing one replaces it.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/IconSelector.js"></script>
+    <script type="module">
+      import IconSelector from '{{pathToRoot}}src/components/IconSelector.js';
+      IconSelector.add('hexagon', '{{pathToRoot}}media/hexagon.svg');
+    </script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+  </content>
+</page>

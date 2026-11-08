@@ -1,0 +1,22 @@
+pageHistory (utility)
+Import: import PageHistory from 'kempo-ui/src/utils/pageHistory.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/pageHistory.html
+
+Undo and redo for the Page Builder: two stacks of earlier and later pages, at most `limit` steps back. Each step is a copy of the page as it was before a change. Kept in memory only, so a reload clears it. The builder uses it.
+
+Details:
+- new PageHistory(limit = 50)
+- properties: limit, past (earlier pages, most recent last), future (undone pages, next to redo last), canUndo, canRedo
+- push(snapshot): records the page as it was before a change; clears the redo steps and drops the oldest step past the limit
+- undo(current): keeps `current` for redo and returns the page to go back to, or null
+- redo(current): keeps `current` for undo and returns the page to go forward to, or null
+- clear(): forgets every step
+
+Example:
+import PageHistory from 'kempo-ui/src/utils/pageHistory.js';
+const history = new PageHistory();
+let page = { title: 'One' };
+history.push(structuredClone(page));
+page = { title: 'Two' };
+page = history.undo(structuredClone(page)); // { title: 'One' }
+page = history.redo(structuredClone(page)); // { title: 'Two' }

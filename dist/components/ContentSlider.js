@@ -1,4 +1,4 @@
-import t from"./ShadowComponent.js";import{html as e,css as n}from"../lit-all.min.js";import{boolTrueFalse as o}from"../utils/propConverters.js";import"./Icon.js";import{bound as s}from"../utils/number.js";export default class i extends t{static properties={index:{type:Number,reflect:!0},controls:{type:Boolean,reflect:!0,converter:o},globalControls:{type:Boolean,reflect:!0,attribute:"global-controls",converter:o},keyboardControls:{type:Boolean,reflect:!0,attribute:"keyboard-controls",converter:o},loop:{type:Boolean,reflect:!0,converter:o}};constructor(){super(),this.index=0,this.controls=!0,this.globalControls=!1,this.keyboardControls=!0,this.loop=!1,this.content=[],this.tabIndex=0}handlePrevClick=()=>{this.previous()};handleNextClick=()=>{this.next()};handleKeydown=t=>{"ArrowLeft"===t.code?(t.preventDefault(),this.dispatchEvent(new CustomEvent("keyleft")),this.previous()):"ArrowRight"===t.code&&(t.preventDefault(),this.dispatchEvent(new CustomEvent("keyright")),this.next())};connectedCallback(){super.connectedCallback(),this.updateContent(),this.setupKeyboardControls()}disconnectedCallback(){super.disconnectedCallback(),this.removeKeyboardControls()}updated(t){super.updated(t),t.has("index")&&(this.validateAndSetIndex(),this.renderContent(),this.dispatchEvent(new CustomEvent("change",{detail:{index:this.index}}))),(t.has("keyboardControls")||t.has("globalControls"))&&(this.removeKeyboardControls(),this.setupKeyboardControls())}updateContent(){this.content=[...this.querySelectorAll(":scope > *")],this.validateAndSetIndex(),this.renderContent()}validateAndSetIndex(){if(0===this.content.length)return;const t=s(this.index,0,this.content.length-1);this.index!==t&&(this.index=t)}renderContent(){0!==this.content.length&&(this.innerHTML="",this.content[this.index]&&this.appendChild(this.content[this.index]))}setupKeyboardControls(){this.keyboardControls&&(this.globalControls?window.addEventListener("keydown",this.handleKeydown):this.addEventListener("keydown",this.handleKeydown))}removeKeyboardControls(){window.removeEventListener("keydown",this.handleKeydown),this.removeEventListener("keydown",this.handleKeydown)}previous(){let t=this.index-1;this.loop&&t<0&&(t=this.content.length-1),this.dispatchEvent(new CustomEvent("previous",{detail:{index:t}})),this.index=t}next(){let t=this.index+1;this.loop&&t>=this.content.length&&(t=0),this.dispatchEvent(new CustomEvent("next",{detail:{index:t}})),this.index=t}goto(t){this.dispatchEvent(new CustomEvent("goto",{detail:{index:t}})),this.index=t}static styles=n`
+import t from"./ShadowComponent.js";import{html as e,css as n,styleMap as o}from"../lit-all.min.js";import{boolTrueFalse as i}from"../utils/propConverters.js";import"./Icon.js";import{bound as s}from"../utils/number.js";export default class r extends t{static properties={index:{type:Number,reflect:!0},controls:{type:Boolean,reflect:!0,converter:i},globalControls:{type:Boolean,reflect:!0,attribute:"global-controls",converter:i},keyboardControls:{type:Boolean,reflect:!0,attribute:"keyboard-controls",converter:i},loop:{type:Boolean,reflect:!0,converter:i},minHeight:{type:String,attribute:"min-height"}};constructor(){super(),this.index=0,this.controls=!0,this.globalControls=!1,this.keyboardControls=!0,this.loop=!1,this.minHeight="",this.content=[],this.tabIndex=0}handlePrevClick=()=>{this.previous()};handleNextClick=()=>{this.next()};handleKeydown=t=>{"ArrowLeft"===t.code?(t.preventDefault(),this.dispatchEvent(new CustomEvent("keyleft")),this.previous()):"ArrowRight"===t.code&&(t.preventDefault(),this.dispatchEvent(new CustomEvent("keyright")),this.next())};connectedCallback(){super.connectedCallback(),this.updateContent(),this.setupKeyboardControls()}disconnectedCallback(){super.disconnectedCallback(),this.removeKeyboardControls()}updated(t){super.updated(t),t.has("index")&&(this.validateAndSetIndex(),this.renderContent(),this.dispatchEvent(new CustomEvent("change",{detail:{index:this.index}}))),(t.has("keyboardControls")||t.has("globalControls"))&&(this.removeKeyboardControls(),this.setupKeyboardControls())}updateContent(){this.content=[...this.querySelectorAll(":scope > *")],this.validateAndSetIndex(),this.renderContent()}validateAndSetIndex(){if(0===this.content.length)return;const t=s(this.index,0,this.content.length-1);this.index!==t&&(this.index=t)}renderContent(){0!==this.content.length&&(this.innerHTML="",this.content[this.index]&&this.appendChild(this.content[this.index]))}setupKeyboardControls(){this.keyboardControls&&(this.globalControls?window.addEventListener("keydown",this.handleKeydown):this.addEventListener("keydown",this.handleKeydown))}removeKeyboardControls(){window.removeEventListener("keydown",this.handleKeydown),this.removeEventListener("keydown",this.handleKeydown)}get canPrevious(){return this.loop||this.index>0}get canNext(){return this.loop||this.index<this.content.length-1}previous(){if(!this.canPrevious)return;let t=this.index-1;this.loop&&t<0&&(t=this.content.length-1),this.dispatchEvent(new CustomEvent("previous",{detail:{index:t}})),this.index=t}next(){if(!this.canNext)return;let t=this.index+1;this.loop&&t>=this.content.length&&(t=0),this.dispatchEvent(new CustomEvent("next",{detail:{index:t}})),this.index=t}goto(t){this.dispatchEvent(new CustomEvent("goto",{detail:{index:t}})),this.index=t}static styles=n`
 		:host {
 			display: block;
 			position: relative;
@@ -14,17 +14,23 @@ import t from"./ShadowComponent.js";import{html as e,css as n}from"../lit-all.mi
 		#next {
 			right: 0;
 		}
+		#prev:disabled,
+		#next:disabled {
+			opacity: 0.3;
+			cursor: default;
+		}
 		:host(:not([controls="true"])) #controls {
 			display: none;
 		}
 	`;render(){return e`
-			<div id="content">
+			<div id="content" style=${o({minHeight:this.minHeight})}>
 				<slot></slot>
 			</div>
 			<div id="controls">
 				<button
 					id="prev"
 					class="no-btn"
+					?disabled=${!this.canPrevious}
 					@click=${this.handlePrevClick}
 				>
 					<slot name="prev">
@@ -34,6 +40,7 @@ import t from"./ShadowComponent.js";import{html as e,css as n}from"../lit-all.mi
 				<button
 					id="next"
 					class="no-btn"
+					?disabled=${!this.canNext}
 					@click=${this.handleNextClick}
 				>
 					<slot name="next">
@@ -41,4 +48,4 @@ import t from"./ShadowComponent.js";import{html as e,css as n}from"../lit-all.mi
 					</slot>
 				</button>
 			</div>
-		`}}customElements.define("k-content-slider",i);
+		`}}customElements.define("k-content-slider",r);

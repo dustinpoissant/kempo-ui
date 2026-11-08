@@ -1,0 +1,13 @@
+imageSize (utility)
+Import: import imageSize from 'kempo-ui/src/utils/imageSize.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/imageSize.html
+
+Loads an image in the browser and resolves its natural size, or null when it cannot be loaded. The Page Builder uses it to measure the photos of a Photo viewer widget. Needs a browser (it uses Image).
+
+Details:
+- imageSize(src): Promise of { width, height } (naturalWidth and naturalHeight) once loaded, or null when it fails; the promise never rejects
+
+Example:
+import imageSize from 'kempo-ui/src/utils/imageSize.js';
+const size = await imageSize('/media/photo.jpg');
+if(size) console.log(`${size.width} x ${size.height}`);

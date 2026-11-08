@@ -1,0 +1,17 @@
+pageLabels (utility)
+Import: import { widgetIcon, titleOf, hintOf, sectionLabelOf } from 'kempo-ui/src/utils/pageLabels.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/utils/pageLabels.html
+
+How the Page Builder names a widget: its icon, its title, a short hint of what it says or points to, and the label of a section. The builder uses it. It imports Lit and Icon.js, so it needs a browser.
+
+Details:
+- widgetIcon(definition): a Lit template for a <k-icon> from the definition's iconSrc (a file path), else its icon name ('help' when it has none or the definition is missing); iconRotation is passed to the icon as rotation, in degrees
+- titleOf(registry, node): the widget's title, or the node's type when it is not registered
+- hintOf(node): at most 40 characters: a text widget's text with its tags and extra spaces removed, otherwise the first of label, title, name, condition, src and href that has a value, else ''
+- sectionLabelOf(node, index): 'Column n' for a column, 'Slide n' for a slide, 'Tab spacer' for a tab spacer, otherwise its label or title setting, else 'Section n' (n is index + 1)
+
+Example:
+import { titleOf, hintOf } from 'kempo-ui/src/utils/pageLabels.js';
+import { widgets, registryOf } from 'kempo-ui/src/utils/pageWidgets.js';
+const node = { id: 'a', type: 'button', attrs: { label: 'Buy now' }, slots: {} };
+`${titleOf(registryOf(widgets), node)}: ${hintOf(node)}`; // 'Button: Buy now'

@@ -1,0 +1,90 @@
+<page pageName="Page Widgets" title="Page Widgets Utility - Kempo UI">
+  <content location="header"></content>
+  <content>
+    <h1>Page Widgets</h1>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m ">
+          <h6>Usage</h6>
+          <a href="#description">Description</a><br />
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#api">API</a><br />
+          <a href="#definition">The Widget Definition</a><br />
+          <a href="#rules">Rules</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="description"><a href="#description" class="no-link">Description</a></h3>
+    <p>The list of widgets a page can use. <code>PageBuilder.widgets</code> is this list, and <code>PageBuilder.addWidget</code> adds to it. <a href="{{pathToRoot}}components/page-renderer.html">PageRenderer</a> and a server read the same list, so a page that only renders a builder's JSON has to register the same widgets. It has no DOM, so it can be imported on a server.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Register a widget of your own, then look the widgets up by name:</p>
+    <pre><code class="hljs javascript"><span class="hljs-keyword">import</span> {<br>  addWidget,<br>  registryOf<br>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;kempo-ui/src/utils/pageWidgets.js&#x27;</span>;<br><span class="hljs-title function_">addWidget</span>({<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;quote&#x27;</span>,<br>  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Quote&#x27;</span>,<br>  <span class="hljs-attr">category</span>: <span class="hljs-string">&#x27;content&#x27;</span>,<br>  <span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;blockquote&#x27;</span>,<br>  <span class="hljs-attr">content</span>: {<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;text&#x27;</span>,<br>    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;text&#x27;</span><br>  },<br>  <span class="hljs-attr">attributes</span>: [{<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;text&#x27;</span>,<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;string&#x27;</span>,<br>    <span class="hljs-attr">virtual</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;Quote&#x27;</span><br>  }]<br>});<br><span class="hljs-keyword">const</span> registry = <span class="hljs-title function_">registryOf</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(registry.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;quote&#x27;</span>).<span class="hljs-property">title</span>);</code></pre>
+
+    <h3 id="api"><a href="#api" class="no-link">API</a></h3>
+
+    <h4><code>widgets</code></h4>
+    <p>The array of widget definitions, in the order they are listed in the Add list. It starts with the widgets kempo-ui ships. Each definition has been through the same checks as <code>addWidget</code>, so it has every field below, with defaults for the ones that were not given.</p>
+
+    <h4><code>addWidget(config)</code></h4>
+    <h5><code>config<i>: Object</i></code></h5>
+    <p>The widget definition. See <a href="#definition">The Widget Definition</a>.</p>
+    <h5>Returns: <code>Object</code></h5>
+    <p>The definition as it is stored. A widget with the same <code>name</code> is replaced; otherwise the new one goes at the end of <code>widgets</code>. It throws an <code>Error</code> that says what is wrong when a rule is broken (see <a href="#rules">Rules</a>).</p>
+    <p>The stored definition has these defaults for what was not given: <code>category</code> is <code>'content'</code>, <code>icon</code> is <code>'help'</code>, <code>description</code> is <code>''</code>, <code>keywords</code> is <code>[]</code>, <code>slots</code> is <code>[]</code> and <code>children</code> is <code>{}</code>. <code>page</code> becomes an array (one URL, a list of URLs, or empty), and each attribute without a <code>type</code> is a <code>'string'</code>.</p>
+
+    <h4><code>registryOf(list = widgets)</code></h4>
+    <h5><code>list<i>: Array</i></code> (optional)</h5>
+    <p>The definitions to look up. Defaults to <code>widgets</code>.</p>
+    <h5>Returns: <code>Map</code></h5>
+    <p>The definitions by <code>name</code>. This is the registry that <a href="{{pathToRoot}}utils/renderPage.html">renderPage</a>, <a href="{{pathToRoot}}utils/pageTree.html">pageTree</a> and the builder use.</p>
+
+    <h3 id="definition"><a href="#definition" class="no-link">The Widget Definition</a></h3>
+    <p>A widget is <code>{ name, title, tag, ... }</code>. These are its fields:</p>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>The type stored in the page's JSON. Lowercase letters, digits and hyphens, starting with a letter.</td></tr>
+        <tr><td><code>title</code></td><td>The name shown in the Add list, the tree and the settings.</td></tr>
+        <tr><td><code>category</code>, <code>categoryTitle</code></td><td>The group in the Add list (<code>content</code>, <code>media</code>, <code>layout</code>, <code>interactive</code>, or any name). <code>categoryTitle</code> is the heading of a new category.</td></tr>
+        <tr><td><code>icon</code>, <code>iconSrc</code></td><td>A kempo-ui icon name, or the path of an icon file.</td></tr>
+        <tr><td><code>iconRotation</code></td><td>Degrees to turn the icon clockwise. A right facing icon with <code>90</code> points down.</td></tr>
+        <tr><td><code>description</code>, <code>keywords</code></td><td>Shown in the Add list, and matched by its search.</td></tr>
+        <tr><td><code>tag</code></td><td>The element the page uses for it. Lowercase letters, digits and hyphens, starting with a letter.</td></tr>
+        <tr><td><code>page</code></td><td>Module URL(s) the page needs, for the elements the widget's markup uses. They are loaded on the page.</td></tr>
+        <tr><td><code>editor</code>, <code>editorTag</code></td><td>A module URL for the element the builder shows the widget with, and that element's tag.</td></tr>
+        <tr><td><code>settings</code>, <code>settingsTag</code></td><td>A module URL for the element the settings panel shows, and that element's tag.</td></tr>
+        <tr><td><code>attributes</code></td><td>The settings. A select with <code>beside: 'name'</code> is drawn on the same line as the number setting of that name, with no label of its own (a value and its unit).</td></tr>
+        <tr><td><code>slots</code></td><td>Where other widgets go: <code>[{ name, label }]</code>.</td></tr>
+        <tr><td><code>children</code></td><td>Widgets a new one starts with: <code>{ slotName: ['type', ...] }</code>.</td></tr>
+        <tr><td><code>section</code></td><td><code>true</code> for a part of another widget (a column, a tab). It is added from its parent's settings.</td></tr>
+        <tr><td><code>inline</code></td><td><code>true</code> for a widget that sits in a line with others (a button, an icon). It is drawn <code>inline-block</code>; any other widget is a block, so its margin, padding and border apply.</td></tr>
+        <tr><td><code>hideStyles</code></td><td>Parts of the Styles tab the widget does not have, because it has its own setting for them: <code>'box'</code> (margin, padding, corners, sides), <code>'background'</code>, <code>'textColour'</code>, <code>'align'</code>, <code>'id'</code>, <code>'classes'</code>. They are left out of the tab, and anything stored for them is not written on the page.</td></tr>
+        <tr><td><code>keydown</code></td><td>Optional <code>function(event, { node, path, html })</code> for a key pressed in an editable part of the widget (<code>data-pb-edit</code>). <code>path</code> names the part and <code>html</code> is what is typed in it now, not stored yet. It returns <code>null</code> to leave the key alone, or <code>{ attrs, focus }</code> to store those settings, draw the page again, and put the caret in the part at the <code>focus</code> path. The key's default is cancelled when it does.</td></tr>
+        <tr><td><code>display</code></td><td>The display class the widget's first element gets, instead of <code>d-b</code> (or <code>d-ib</code> with <code>inline</code>). <code>''</code> for none, for a widget that sets its own display, which <code>d-b</code> would override.</td></tr>
+        <tr><td><code>content</code></td><td><code>{ name, mode }</code>: the attribute that is the element's text, as <code>'html'</code> (sanitized), <code>'text'</code> (escaped) or <code>'raw'</code> (as it is).</td></tr>
+        <tr><td><code>classes</code>, <code>style</code></td><td>Functions of the attributes, returning kempo-css classes (an array) and an inline style (a string).</td></tr>
+        <tr><td><code>prepare</code></td><td>Optional async <code>function(node)</code> run when a page is shown in the builder, for data that comes from outside the page (a picture's size, say). It resolves to <code>null</code>, or to a <code>function(liveNode)</code> that changes the live widget and returns <code>true</code> when it did. The builder then publishes the change.</td></tr>
+        <tr><td><code>render</code></td><td><code>function(node, ctx, info, definition)</code> returning the widget's whole HTML. See <a href="{{pathToRoot}}utils/renderPage.html">renderPage</a> for <code>ctx</code>.</td></tr>
+      </tbody>
+    </table>
+    <p>The Page Builder docs describe the settings (<code>attributes</code>) and how the builder uses these fields.</p>
+
+    <h3 id="rules"><a href="#rules" class="no-link">Rules</a></h3>
+    <p><code>addWidget</code> throws an <code>Error</code> when:</p>
+    <ul>
+      <li><code>name</code> is not lowercase letters, digits and hyphens starting with a letter.</li>
+      <li>There is no <code>title</code>.</li>
+      <li><code>tag</code> is not a valid name in the same form as <code>name</code>.</li>
+      <li>There is an <code>editor</code> module but no <code>editorTag</code>.</li>
+      <li>There is a <code>settings</code> module but no <code>settingsTag</code>.</li>
+    </ul>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+  </content>
+</page>

@@ -10,6 +10,7 @@ import Control from './controls/Control.js';
 	Default CDN URLs
 */
 const LEXICAL_VERSION = '0.43.0';
+
 const MONACO_VERSION = '0.52.2';
 const DEFAULT_LEXICAL_BASE = 'https://esm.sh';
 const DEFAULT_MONACO_SRC = `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min`;
@@ -89,13 +90,31 @@ export default class HtmlEditor extends ShadowComponent {
 	}
 
 	/*
-		A floating toolbar sits above the editor. With no room above it (the editor is at the top of the page or of its
-		scroll area) it goes below instead.
+		The room, in pixels, that the floating toolbars need above and below the editor to show whole (0 for a toolbar the
+		editor does not have, or when the layout is not floating). A page that holds the editor can leave that much space
+		around it, so the toolbars are not cut off at the top or the bottom of the page.
 	*/
-	handleFocusIn = () => {
+	get floatingRoom() {
+		const room = selector => {
+			const bar = this.layout === 'floating' ? this.shadowRoot?.querySelector(selector) : null;
+			return bar ? bar.offsetHeight + 8 : 0;
+		};
+		return { above: room('.toolbar-top'), below: room('.toolbar-bottom') };
+	}
+
+	/*
+		A floating toolbar sits above the editor. With no room above it (the editor is at the top of the page or of its
+		scroll area) it goes below instead, and then it is scrolled into view, which scrolls every box it is inside: a tab,
+		a panel, the page, and the builder's canvas around the page.
+	*/
+	handleFocusIn = async () => {
 		if(this.layout !== 'floating') return;
 		const bar = this.shadowRoot?.querySelector('.toolbar-top');
-		if(bar) this.floatBelow = this.getBoundingClientRect().top < bar.offsetHeight + 8;
+		if(!bar) return;
+		this.floatBelow = this.getBoundingClientRect().top < this.floatingRoom.above;
+		if(!this.floatBelow) return;
+		await this.updateComplete;
+		bar.scrollIntoView({ block: 'nearest' });
 	};
 
 	disconnectedCallback() {
