@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [1.2.0] - 2026-11-07
+## [1.3.0] - 2026-11-08
+
+Versions 1.1.0 and 1.2.0 were never published to npm (npm reserves version numbers used by an earlier, unpublished package of the same name), so this release also includes the 1.1.0 changes below.
+
 ### Added
 
 - **`<k-page-builder>`:** a controlled page editor. Pick from 26 widgets (text, markdown, images, video, audio, files, a photo viewer, a media gallery, a hero, embeds, groups, columns, a fullscreen breakout, tables, buttons, icons, accordions, tabs, a content slider and more) in the Add list, arrange them in the widget tree or on the page, and change the settings of each. The page is kept as JSON: `value` in, a `change` event out, `save` on Ctrl+S, with undo and redo, templates, a device preview and keyboard shortcuts. The toolbar is a `<k-control-bar>` of new `kc-pb-*` controls, and `PageBuilder.addWidget` adds your own widgets.
