@@ -13,7 +13,7 @@
 
     <div class="container">
     <h2 id="using">Using it</h2>
-    <p>Import the element and give it a page. The builder keeps the page you are editing until you save it: it emits <code>save</code> with the page, and that is where you store it. Give it back a page as <code>value</code> whenever it should show something else.</p>
+    <p>Import the element and give it a page. The builder keeps the page you are editing until you save it: it emits <code>saverequest</code> with the page, and that is where you store it, and then tell the builder with <code>markSaved</code>. Give it back a page as <code>value</code> whenever it should show something else.</p>
     <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-page-builder</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;builder&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 80vh&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-page-builder</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;/kempo-ui/src/components/PageBuilder.js&#x27;</span>;<br>  <span class="hljs-keyword">const</span> builder = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;builder&#x27;</span>);<br>  builder.<span class="hljs-property">value</span> = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&#x27;my-page&#x27;</span>) || <span class="hljs-string">&#x27;null&#x27;</span>);<br>  builder.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;save&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {<br>    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&#x27;my-page&#x27;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(event.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));<br>  });<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 
     <h2 id="page">The page</h2>
@@ -35,8 +35,10 @@
         <tr><td><code>device</code></td><td><code>desktop</code> (the default), <code>tablet</code> or <code>phone</code>: the width the page is shown at.</td></tr>
         <tr><td><code>mobileWidth</code></td><td>The width in pixels at or below which the builder is narrow (the attribute is <code>mobile-width</code>, and the default is 768). It is the builder's own width, not the window's, so a builder in a narrow box is narrow too.</td></tr>
         <tr><td><code>mobile</code>, <code>view</code></td><td>Read only. <code>mobile</code> is true while the builder is narrow, and <code>view</code> is the view it shows then: <code>tree</code>, <code>page</code> (the default) or <code>settings</code>.</td></tr>
+        <tr><td><code>stylesheets</code></td><td>Addresses of stylesheets the page is drawn with, besides the ones of the page the builder is in (which are always used). For a builder in an admin whose own stylesheets are not the site's. Set it before the builder is added to the page: the frame is built once.</td></tr>
         <tr><td><code>dirty</code></td><td>Read only. True while there are changes that have not been saved or given back as <code>value</code>.</td></tr>
-        <tr><td><code>save()</code></td><td>Saves: emits <code>save</code>, counts the page as saved, and shows a message.</td></tr>
+        <tr><td><code>requestSave()</code></td><td>Asks the parent to save: emits <code>saverequest</code>. That is all it does, so it never stores the page, says anything or counts it as saved.</td></tr>
+        <tr><td><code>markSaved(page)</code></td><td>Counts a page as saved: the one given (<code>detail.value</code> of a <code>saverequest</code> event), or the one shown now. Changes made since stay unsaved. Call it once the page is stored, so the builder can keep track of unsaved changes: it warns before the page is left, and turns the save button green while there are any.</td></tr>
         <tr><td><code>reset()</code></td><td>Puts the page back to how it was last saved.</td></tr>
         <tr><td><code>undo()</code>, <code>redo()</code></td><td>Steps back and forward through the changes (up to 50, kept in the browser).</td></tr>
         <tr><td><code>insert(name)</code>, <code>canAdd(name)</code></td><td>Adds a widget after the selection, or checks whether it can go there.</td></tr>
@@ -49,7 +51,7 @@
       <thead><tr><th>Event</th><th>When, and what <code>detail</code> holds</th></tr></thead>
       <tbody>
         <tr><td><code>change</code></td><td>Every change. <code>detail.value</code> is the page.</td></tr>
-        <tr><td><code>save</code></td><td>The person saved (Ctrl+S, or the save button). <code>detail.value</code> is the page.</td></tr>
+        <tr><td><code>saverequest</code></td><td>The person asked to save (Ctrl+S, or the save button). <code>detail.value</code> is the page. The builder does nothing else: store the page, tell the person how it went (<code>Toast.success</code> or <code>Toast.error</code>), and call <code>markSaved(event.detail.value)</code> once it is stored.</td></tr>
         <tr><td><code>template-save</code></td><td>A selection was named as a template. <code>detail</code> is <code>{ name, nodes }</code>.</td></tr>
         <tr><td><code>template-remove</code></td><td>A template was deleted from the list. <code>detail</code> is <code>{ index }</code>.</td></tr>
       </tbody>
@@ -105,9 +107,18 @@
     <p>A page has one <code>&lt;main&gt;</code>, and it belongs to the template the page is drawn in, so the <strong>Group</strong> widget's HTML element list does not offer <code>main</code>. <strong>Container</strong> does the opposite: a box with the <code>container</code> class, a centred column no wider than the page column. Use it to narrow content on a page whose template is full width (a <code>k-main</code> with <code>full-width</code>, for example).</p>
 
     <h2 id="extra-controls">Adding controls to the bar</h2>
-    <p>A site can add its own controls, such as a delete-page or a publish button, to the toolbar. Put them inside the builder with a <code>slot</code> that names their place: <code>left-end</code> (after the left controls), <code>center-start</code> and <code>center-end</code> (either side of the centre controls), or <code>right-start</code> (before the right controls). A place only appears while it has a control, and it collapses into the "more" menu with its controls when the toolbar is narrow.</p>
+    <p>A site can add its own controls, such as a delete-page or a publish button, to the toolbar. Put them inside the builder with a <code>slot</code> that names their place: <code>left-end</code> (after the left controls), <code>center-start</code> and <code>center-end</code> (either side of the centre controls), or <code>right-start</code> (before the right controls). A place only appears while it has a control, and it collapses into the "more" menu with its controls when the toolbar is narrow. A place is one group, so its controls collapse together. It stays as long as its most important control: give a control a <code>priority</code> (a bare <code>priority</code> counts as 1) and the place has the highest one among its controls. A control with none counts as 0, like the builder's own unranked controls, which then go in order from the right; a negative <code>priority</code> collapses before all of them. Controls that extend <code>ButtonControl</code> look like the rest of the bar, and show their <code>menu-text</code> slot as a row in the menu.</p>
     <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-page-builder</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;builder&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 80vh&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;right-start&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;copy-json&quot;</span>&gt;</span>Copy JSON<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-page-builder</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"><br>  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;copy-json&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> navigator.<span class="hljs-property">clipboard</span>.<span class="hljs-title function_">writeText</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(builder.<span class="hljs-property">value</span>)));<br></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
     <p>The Copy JSON button in the demo above is added this way.</p>
+
+    <h2 id="page-settings">Adding fields to the page settings</h2>
+    <p>With nothing selected, the right panel shows the page's own settings: its title and description. A site adds its own fields there (a name, a template, who made the page) by putting them inside the builder with <code>slot="page-settings"</code>. They are shown below the description, only while nothing is selected, and are the site's to read and save.</p>
+    <pre><code class="hljs html">&lt;k-page-builder&gt;
+  &lt;div slot="page-settings"&gt;
+    &lt;label for="name"&gt;Name&lt;/label&gt;
+    &lt;input id="name" type="text"&gt;
+  &lt;/div&gt;
+&lt;/k-page-builder&gt;</code></pre>
 
     <h2 id="pickers">Pickers</h2>
     <p>Some settings choose a file rather than take typed text: a picture, a video, an audio file or an icon. Each is drawn by a picker, and a site replaces a picker with its own (a media library, say) by setting it on <code>PageBuilderFields</code>: <code>pickers.image</code>, <code>pickers.video</code>, <code>pickers.audio</code> or <code>pickers.icon</code>. Each page below has the widget's settings, the picker's contract and an example.</p>
@@ -129,15 +140,15 @@
 
     <h2 id="not-ported">What is not here yet</h2>
     <ul>
-      <li>Saving, storing templates, copying or moving pages, and the head and scripts code areas belong to the backend, which is not part of this library.</li>
-      <li>Content areas (a template with several) and kempo's margin box are not ported yet.</li>
-      <li>kempo (cms)'s server widgets (fragment, location, conditional, repeat) are not part of this library. kempo can add its own with <code>addWidget</code>.</li>
+      <li>Storing the page, saved templates and anything else that needs a server belong to the site the builder is used in: it listens to <code>saverequest</code>, <code>template-save</code> and <code>template-remove</code>, and adds its own controls to the bar (the extra slots above).</li>
+      <li>Widgets that need a server are the site's to add, with <code>addWidget</code>.</li>
     </ul>
 
     </div>
 
     <script type="module">
       import '{{pathToRoot}}src/components/PageBuilder.js';
+      import Toast from '{{pathToRoot}}src/components/Toast.js';
 
       const key = 'kempo-ui:page';
       const builder = document.getElementById('builder');
@@ -149,10 +160,14 @@
         if(saved) builder.value = saved;
       } catch {}
 
-      builder.addEventListener('save', event => {
+      builder.addEventListener('saverequest', event => {
         try {
           localStorage.setItem(key, JSON.stringify(event.detail.value));
-        } catch {}
+          builder.markSaved(event.detail.value);
+          Toast.success('Page saved');
+        } catch {
+          Toast.error('The page could not be saved');
+        }
       });
     </script>
   </content>

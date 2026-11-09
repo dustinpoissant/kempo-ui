@@ -20,7 +20,10 @@ const createBuilder = async value => {
   return builder;
 };
 
-const cleanup = builder => builder?.remove();
+const cleanup = builder => {
+  builder?.remove();
+  document.querySelectorAll('k-dialog').forEach(dialog => dialog.remove());
+};
 
 /* Finds an element in a root or in any shadow root under it, for the settings that sit inside other components. */
 const deepQuery = (root, selector) => {
@@ -67,12 +70,14 @@ export default {
     const { builder, settings } = await openSettings('<div class="x">Before</div>');
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(500);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-code-editor');
     const language = editor?.language;
     const controls = editor?.controls;
     const value = editor?.value;
     const size = dialog ? getComputedStyle(dialog) : null;
+    const onThePage = dialog?.parentElement === document.body;
+    const parent = dialog?.parentElement;
     const width = size?.getPropertyValue('--width').trim();
     const height = size?.getPropertyValue('--height').trim();
     cleanup(builder);
@@ -81,14 +86,15 @@ export default {
     if(controls !== 'full') return fail(`The editor should have all its controls, got ${controls}`);
     if(value !== '<div class="x">Before</div>') return fail(`The editor should start with the markup, got ${value}`);
     if(width !== '96vw' || height !== '94vh') return fail(`The dialog should nearly fill the screen, got ${width} by ${height}`);
-    pass('The code editor opens in a large dialog');
+    if(!onThePage) return fail('The dialog should be opened on the page, not inside the settings panel, so the side navigation of a site cannot cover it');
+    pass('The code editor opens in a large dialog, on the page');
   },
 
   'should store the markup exactly as written when saved, with nothing cleaned': async ({ pass, fail }) => {
     const { builder, settings } = await openSettings('<p>Before</p>');
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(500);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-code-editor');
     if(!editor){ cleanup(builder); return fail('Open code editor should open a dialog with the code editor in it'); }
     const written = '<script>window.x = 1;</script><div onclick="go()" style="color: red">After</div>';
@@ -107,7 +113,7 @@ export default {
     const { builder, settings } = await openSettings('<p>Keep me</p>');
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(500);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-code-editor');
     if(!editor){ cleanup(builder); return fail('Open code editor should open a dialog with the code editor in it'); }
     editor.value = '<p>Discarded</p>';

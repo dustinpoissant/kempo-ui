@@ -20,7 +20,10 @@ const createBuilder = async value => {
   return builder;
 };
 
-const cleanup = builder => builder?.remove();
+const cleanup = builder => {
+  builder?.remove();
+  document.querySelectorAll('k-dialog').forEach(dialog => dialog.remove());
+};
 
 /* Finds an element in a root or in any shadow root under it, for the settings that sit inside other components. */
 const deepQuery = (root, selector) => {
@@ -82,7 +85,7 @@ export default {
     const { builder, settings } = await openSettings({ code: 'console.log("before");' });
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(500);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-code-editor');
     const { language, controls, value } = editor ?? {};
     const size = dialog ? getComputedStyle(dialog) : null;
@@ -103,7 +106,7 @@ export default {
     const { builder, settings } = await openSettings({ code: 'old();' });
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(500);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-code-editor');
     if(!editor){ cleanup(builder); return fail('Open code editor should open a dialog with the code editor in it'); }
     const written = 'document.title = "x < y && z";\nfetch("/api").then(r => r.json());';
@@ -122,7 +125,7 @@ export default {
     const { builder, settings } = await openSettings({ code: 'keep();' });
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(500);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-code-editor');
     if(!editor){ cleanup(builder); return fail('Open code editor should open a dialog with the code editor in it'); }
     editor.value = 'discarded();';

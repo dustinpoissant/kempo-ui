@@ -83,8 +83,12 @@ export class MediaGalleryItem extends HTMLElement {
     return types.get(this.type);
   }
 
+  /* A thumbnail is a picture: the item's own file is never one, so a sound with that as its thumbnail shows its icon. */
   get thumb() {
-    return this.getAttribute('thumb') || this.definition.thumb?.(this) || '';
+    const own = this.getAttribute('thumb');
+    const bare = address => address.replace(/\.[a-z0-9]{1,10}$/i, '');
+    if(own && bare(own) !== bare(this.src)) return own;
+    return this.definition.thumb?.(this) || '';
   }
 }
 

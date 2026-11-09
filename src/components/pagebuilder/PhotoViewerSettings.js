@@ -7,7 +7,8 @@ import imageSize from '../../utils/imageSize.js';
 
 /*
   The settings of a Photo viewer: its own settings (photos per row), then each photo listed in an accordion with its
-  address and alternative text, buttons to move it or remove it, and an Add photo button. A photo with no address is
+  address and alternative text, buttons to move it or remove it, and an Add photos button, which opens the media library
+  with several pictures selectable (Add photo, one empty photo to fill in, when there is no media library). A photo with no address is
   left out of the page.
 */
 export default class PhotoViewerSettings extends WidgetSettings {
@@ -32,6 +33,15 @@ export default class PhotoViewerSettings extends WidgetSettings {
   addPhoto() {
     this.editPhotos(photos => [...photos, { src: '', alt: '' }]);
   }
+
+  /* Opens the media library with several pictures selectable, and adds each one chosen, in order, in one step. */
+  choosePhotos = async () => {
+    const picked = await window.kempo?.openAssetPicker?.({ multiple: true });
+    if(!picked?.length) return;
+    const start = this.photos.length;
+    this.editPhotos(photos => [...photos, ...picked.map(({ url, alt }) => ({ src: url, alt }))]);
+    picked.forEach(({ url }, offset) => this.measurePhoto(start + offset, url));
+  };
 
   movePhoto(index, step) {
     this.editPhotos(photos => {
@@ -106,7 +116,9 @@ export default class PhotoViewerSettings extends WidgetSettings {
     return html`
       ${this.renderFields()}
       <div class="mb">
-        <button class="primary full" @click="${this.addPhoto}">Add photo</button>
+        ${window.kempo?.openAssetPicker
+          ? html`<button class="primary full" @click="${this.choosePhotos}"><k-icon name="image"></k-icon> Add photos</button>`
+          : html`<button class="primary full" @click="${this.addPhoto}">Add photo</button>`}
       </div>
       <k-accordion>
         ${this.photos.map((photo, index) => this.renderPhoto(photo, index))}

@@ -11,7 +11,7 @@ Details:
 - menus (`kc-menu`, `kc-vid-menu`, `k-dropdown`), `kc-spacer` and anything with `no-collapse` are never moved
 - a `k-menu` (`kc-menu`) moves as one unit too, unless it has `split`: then its items (not its icon) move one at a time, and the menu hides once it is empty
 - a `k-control-group` moves as one unit, unless it has `split`: then its controls move one at a time, each by its own `priority` (or the group's, when it has none), and `no-collapse` ones stay; a control that moves leaves its group, is listed in the menu in the order it had in the group, and goes back when there is room; a group with nothing left gets `collapsed` and is hidden
-- `priority` on a control (number, default 0, bare = 1) moves it into the menu later than lower-priority ones (unlike `no-collapse`, high priorities still move once the bar is small enough)
+- `priority` on a control (number, default 0, bare = 1, negative moves before the ones that have none) moves it into the menu later than lower-priority ones (unlike `no-collapse`, high priorities still move once the bar is small enough)
 - plain `<a>` and `<button>` children (a navbar, say) collapse too, shown as full-width rows in the menu, and the "more" menu works without a controlled host
 - `soft-min-width` on a control (`8rem`, `120px`, or bare px) keeps it at least that wide while others are moved into the menu, then lets it shrink below that when nothing is left to move (the Audio/Video seek bar uses `8rem`)
 - sets `has-control-bar` on the closest `[controlled]` host so HtmlEditor, CodeEditor, MarkdownEditor and Pagination let the toolbar fill the width

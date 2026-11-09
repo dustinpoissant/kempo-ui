@@ -20,7 +20,10 @@ const createBuilder = async value => {
   return builder;
 };
 
-const cleanup = builder => builder?.remove();
+const cleanup = builder => {
+  builder?.remove();
+  document.querySelectorAll('k-dialog').forEach(dialog => dialog.remove());
+};
 
 /* Finds an element in a root or in any shadow root under it, for the settings that sit inside other components. */
 const deepQuery = (root, selector) => {
@@ -75,7 +78,7 @@ export default {
     const { builder, settings } = await openSettings('<p>Before</p>');
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(400);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-html-editor');
     if(!editor) { cleanup(builder); return fail('Edit should open a dialog with the rich text editor in it'); }
     editor.value = '<p>After</p>';
@@ -94,7 +97,7 @@ export default {
     const { builder, settings } = await openSettings('<p>Keep me</p>');
     settings.shadowRoot.querySelector('button.primary').click();
     await wait(400);
-    const dialog = settings.shadowRoot.querySelector('k-dialog');
+    const dialog = document.querySelector('k-dialog[opened]');
     const editor = dialog?.querySelector('k-html-editor');
     if(!editor) { cleanup(builder); return fail('Edit should open a dialog with the rich text editor in it'); }
     editor.value = '<p>Discarded</p>';

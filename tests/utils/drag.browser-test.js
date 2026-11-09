@@ -281,5 +281,56 @@ export default {
     } else {
       fail(`Expected x=-50, y=-70. Got ${JSON.stringify(endDiff)}`);
     }
+  },
+
+  'should not start until the pointer has moved the threshold, and report nothing for a click': async ({pass, fail}) => {
+    const el = document.createElement('div');
+    document.body.appendChild(el);
+    const seen = { started: 0, ended: 0 };
+    const stop = drag({ element: el, threshold: 5, startCallback: () => seen.started++, endCallback: () => seen.ended++ });
+    el.dispatchEvent(createMouseEvent('mousedown', 10, 10));
+    window.dispatchEvent(createMouseEvent('mousemove', 12, 10));
+    window.dispatchEvent(createMouseEvent('mouseup', 12, 10));
+    const afterClick = { ...seen };
+    el.dispatchEvent(createMouseEvent('mousedown', 10, 10));
+    window.dispatchEvent(createMouseEvent('mousemove', 30, 10));
+    window.dispatchEvent(createMouseEvent('mouseup', 30, 10));
+    stop();
+    el.remove();
+    if(afterClick.started || afterClick.ended) return fail(`A click should not start or end a drag: ${JSON.stringify(afterClick)}`);
+    if(seen.started !== 1 || seen.ended !== 1) return fail(`A real drag should start and end once: ${JSON.stringify(seen)}`);
+    pass('The threshold separates a click from a drag');
+  },
+
+  'should ignore a press on something inside that matches ignore': async ({pass, fail}) => {
+    const el = document.createElement('div');
+    el.innerHTML = '<button>Go</button><span>Drag me</span>';
+    document.body.appendChild(el);
+    let started = 0;
+    const stop = drag({ element: el, ignore: 'button', startCallback: () => started++ });
+    el.querySelector('button').dispatchEvent(createMouseEvent('mousedown', 5, 5));
+    window.dispatchEvent(createMouseEvent('mouseup', 5, 5));
+    const fromButton = started;
+    el.querySelector('span').dispatchEvent(createMouseEvent('mousedown', 5, 5));
+    window.dispatchEvent(createMouseEvent('mouseup', 5, 5));
+    stop();
+    el.remove();
+    if(fromButton) return fail('A press on the button should not start a drag');
+    if(started !== 1) return fail('A press on the rest of the element should start one');
+    pass('ignore leaves the inner controls alone');
+  },
+
+  'should pass the pointer position in the viewport': async ({pass, fail}) => {
+    const el = document.createElement('div');
+    document.body.appendChild(el);
+    let moved;
+    const stop = drag({ element: el, moveCallback: diff => { moved = diff; } });
+    el.dispatchEvent(createMouseEvent('mousedown', 10, 10));
+    window.dispatchEvent(createMouseEvent('mousemove', 40, 60));
+    window.dispatchEvent(createMouseEvent('mouseup', 40, 60));
+    stop();
+    el.remove();
+    if(moved?.clientX !== 40 || moved?.clientY !== 60) return fail(`Got ${JSON.stringify({ clientX: moved?.clientX, clientY: moved?.clientY })}`);
+    pass('clientX and clientY are passed');
   }
 };

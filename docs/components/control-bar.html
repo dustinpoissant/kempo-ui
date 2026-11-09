@@ -138,6 +138,8 @@
               href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="icon selector iconselector picker choose dialog filter components"><a
               href="../components/icon-selector.html">Icon Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropzone drop zone drag and drop file files upload picker input components"><a
+              href="../components/dropzone.html">Dropzone<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="import components"><a
               href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
           <k-filter-item filter-keywords="media gallery mediagallery product images video photos thumbnails carousel slider lightbox ecommerce etsy components"><a
@@ -410,6 +412,7 @@
         <a href="../components/markdown-editor.html">Markdown Editor</a>
         <a href="../components/icon.html">Icon</a>
         <a href="../components/icon-selector.html">Icon Selector</a>
+        <a href="../components/dropzone.html">Dropzone</a>
         <a href="../components/image-crop.html">Image Crop</a>
         <a href="../components/import.html">Import</a>
         <a href="../components/media-gallery.html">Media Gallery</a>
@@ -777,7 +780,7 @@
     </div>
 
     <h3 id="priority"><a href="#priority" class="no-link">Priority</a></h3>
-    <p>Give a control a <code>priority</code> to keep it in the bar longer. The bar moves controls with the lowest priority into the &ldquo;more&rdquo; menu first (default <code>0</code>, a bare <code>priority</code> means <code>1</code>), following <code>collapse-order</code> within each priority. As the bar keeps shrinking, even the high-priority controls are moved. Unlike <code>no-collapse</code>, they are not kept forever. Here the search stays the longest, then the page size.</p>
+    <p>Give a control a <code>priority</code> to keep it in the bar longer. The bar moves controls with the lowest priority into the &ldquo;more&rdquo; menu first (default <code>0</code>, a bare <code>priority</code> means <code>1</code>, and a negative one moves before the controls that have none), following <code>collapse-order</code> within each priority. As the bar keeps shrinking, even the high-priority controls are moved. Unlike <code>no-collapse</code>, they are not kept forever. Here the search stays the longest, then the page size.</p>
     <div class="row -mx">
       <div class="col m-span-12 px">
         <k-card label="HTML">

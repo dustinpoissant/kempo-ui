@@ -42,6 +42,39 @@ const createSortableItem = async (options = {}) => {
 	return { container, sortable, item };
 };
 
+/* A wrapping row of bare 50px items in a grid sortable, which is how a gallery of tiles uses it. */
+const createGrid = async ({ itemCount = 4, controlled = false, inner = '' } = {}) => {
+	const container = document.createElement('div');
+	let itemsHtml = '';
+	for(let i = 1; i <= itemCount; i++){
+		itemsHtml += `<k-sortable-item bare style="width: 50px; height: 50px;">Item ${i}${inner}</k-sortable-item>`;
+	}
+	container.innerHTML = `<k-sortable grid ${controlled ? 'controlled' : ''} style="display: flex; flex-wrap: wrap; gap: 10px; width: 400px;">${itemsHtml}</k-sortable>`;
+	document.body.appendChild(container);
+	const sortable = container.querySelector('k-sortable');
+	await sortable.updateComplete;
+	const items = Array.from(sortable.querySelectorAll('k-sortable-item'));
+	await Promise.all(items.map(item => item.updateComplete));
+	return { container, sortable, items };
+};
+
+/* A point a fraction of the way across an item (0 is its left edge), halfway down. */
+const pointAt = (item, fraction) => {
+	const rect = item.getBoundingClientRect();
+	return { clientX: rect.left + rect.width * fraction, clientY: rect.top + rect.height / 2 };
+};
+
+const mouse = (type, { clientX, clientY }) => new MouseEvent(type, { bubbles: true, composed: true, cancelable: true, clientX, clientY, button: 0, view: window });
+
+/* Presses on an item (in the middle, or where `from` says, on `target`), moves to a point and lets go. */
+const dragItem = async (item, to, { from = pointAt(item, 0.5), target = item } = {}) => {
+	target.dispatchEvent(mouse('mousedown', from));
+	window.dispatchEvent(mouse('mousemove', to));
+	await new Promise(resolve => setTimeout(resolve, 20));
+	window.dispatchEvent(mouse('mouseup', to));
+	await new Promise(resolve => setTimeout(resolve, 20));
+};
+
 const cleanup = container => {
 	if(container && container.parentNode){
 		container.parentNode.removeChild(container);
@@ -663,5 +696,74 @@ export default {
 		}
 		cleanup(container);
 		pass('Moved items keep a working drag handle');
+	},
+
+	/*
+		Grid, Controlled and Bare Tests
+	*/
+	'should find the nearest item and its side in a grid': async ({pass, fail}) => {
+		const { container, sortable, items } = await createGrid({ itemCount: 5 });
+		const second = items[1].getBoundingClientRect();
+		const inLeftHalf = sortable.getCursorElement({ clientX: second.left + 5, clientY: second.top + 5 });
+		const inRightHalf = sortable.getCursorElement({ clientX: second.right - 5, clientY: second.bottom - 5 });
+		const inGap = sortable.getCursorElement({ clientX: second.right + 3, clientY: second.top + 10 });
+		const below = sortable.getCursorElement({ clientX: items[0].getBoundingClientRect().left + 5, clientY: items[0].getBoundingClientRect().bottom + 200 });
+		cleanup(container);
+		if(inLeftHalf[0] !== items[1] || inLeftHalf[1] !== 'before') return fail('The left half of an item should be before it');
+		if(inRightHalf[0] !== items[1] || inRightHalf[1] !== 'after') return fail('The right half of an item should be after it');
+		if(!inGap || ![items[1], items[2]].includes(inGap[0])) return fail('A point in the gap should find a neighbour');
+		if(!below) return fail('A point away from every item should still find the nearest');
+		pass('The grid finds the nearest item and its side');
+	},
+
+	'should say where a bare item was dropped and move it in the DOM': async ({pass, fail}) => {
+		const { container, sortable, items } = await createGrid({ itemCount: 4 });
+		const heard = [];
+		sortable.addEventListener('sort', event => heard.push(event.detail));
+		await dragItem(items[0], pointAt(items[2], 0.75));
+		const order = Array.from(sortable.querySelectorAll('k-sortable-item')).map(item => item.textContent.trim());
+		cleanup(container);
+		if(heard.length !== 1 || heard[0].from !== 0 || heard[0].to !== 2 || heard[0].item !== items[0]) return fail(`Event was ${JSON.stringify(heard.map(({ from, to }) => ({ from, to })))}`);
+		if(order.join() !== 'Item 2,Item 3,Item 1,Item 4') return fail(`Order is ${order}`);
+		pass('The drop is reported and the item moved');
+	},
+
+	'should leave the DOM alone when controlled and still say where it was dropped': async ({pass, fail}) => {
+		const { container, sortable, items } = await createGrid({ itemCount: 4, controlled: true });
+		const heard = [];
+		sortable.addEventListener('sort', event => heard.push(event.detail));
+		await dragItem(items[3], pointAt(items[0], 0.25));
+		const order = Array.from(sortable.querySelectorAll('k-sortable-item')).map(item => item.textContent.trim());
+		cleanup(container);
+		if(heard.length !== 1 || heard[0].from !== 3 || heard[0].to !== 0) return fail(`Event was ${JSON.stringify(heard.map(({ from, to }) => ({ from, to })))}`);
+		if(order.join() !== 'Item 1,Item 2,Item 3,Item 4') return fail(`A controlled list must not be moved by the component, got ${order}`);
+		pass('Controlled lists are left to their owner');
+	},
+
+	'should not start a drag from a button inside a bare item, nor from a click': async ({pass, fail}) => {
+		const { container, sortable, items } = await createGrid({ itemCount: 3, inner: '<button>Remove</button>' });
+		const heard = [];
+		sortable.addEventListener('sort', event => heard.push(event.detail));
+		const button = items[0].querySelector('button');
+		const pressed = button.getBoundingClientRect();
+		await dragItem(items[0], pointAt(items[2], 0.75), { from: { clientX: pressed.left + 2, clientY: pressed.top + 2 }, target: button });
+		const afterButton = heard.length;
+		const centre = pointAt(items[1], 0.5);
+		await dragItem(items[1], { clientX: centre.clientX + 1, clientY: centre.clientY });
+		cleanup(container);
+		if(afterButton) return fail('Dragging from a button inside the item should not sort');
+		if(heard.length) return fail('A click, or a move of a pixel, should not sort');
+		pass('Buttons and clicks are not drags');
+	},
+
+	'should hide the handle and the border of a bare item': async ({pass, fail}) => {
+		const { container, items } = await createGrid({ itemCount: 1 });
+		const handle = items[0].shadowRoot.getElementById('handle');
+		const handleShown = getComputedStyle(handle).display !== 'none';
+		const border = getComputedStyle(items[0]).borderTopWidth;
+		cleanup(container);
+		if(handleShown) return fail('A bare item has no handle');
+		if(border !== '0px') return fail(`A bare item has no border, got ${border}`);
+		pass('Bare items are plain');
 	}
 };

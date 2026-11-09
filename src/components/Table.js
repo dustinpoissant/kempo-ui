@@ -7,6 +7,8 @@ import Control from './controls/Control.js';
 
 const selected = Symbol('selected');
 const hidden = Symbol('hidden');
+/* Whether the last search hid a record. Kept apart from `hidden` so a search is worked out again from every record each time, and a broader search brings back what a narrower one hid. */
+const searchHidden = Symbol('searchHidden');
 const index = Symbol('index');
 const editing = Symbol('editing');
 
@@ -863,7 +865,8 @@ export default class Table extends ShadowComponent {
 
   showAllRecords() {
     this.records.forEach(record => {
-      record[hidden] = false; 
+      record[hidden] = false;
+      record[searchHidden] = false;
     });
     if (this.filters.length) {
       this.filters = [];
@@ -940,25 +943,19 @@ export default class Table extends ShadowComponent {
 
   search(term) {
     const t = term.trim().toLowerCase();
-    let changed = false;
+    let hiddenMore = false;
+    let shownMore = false;
     this.records.forEach(record => {
-      if (record[hidden]) return;
-      let match = false;
-      this.fields.forEach(({ name }) => {
-        const val = record[name]?.toString().toLowerCase() || '';
-        if (val.includes(t)) {
-          match = true;
-        }
-      });
-      if (record[hidden] !== !match) {
-        record[hidden] = !match;
-        changed = true;
-      }
+      if(!record) return;
+      const match = this.fields.some(({ name }) => (record[name]?.toString().toLowerCase() || '').includes(t));
+      if(!!record[searchHidden] === !match) return;
+      record[searchHidden] = !match;
+      if(match) shownMore = true;
+      else hiddenMore = true;
     });
-    if (changed) {
-      this.dispatchEvent(new CustomEvent('recordHidden', { bubbles: true }));
-      this.requestUpdate();
-    }
+    if(hiddenMore) this.dispatchEvent(new CustomEvent('recordHidden', { bubbles: true }));
+    if(shownMore) this.dispatchEvent(new CustomEvent('recordShown', { bubbles: true }));
+    if(hiddenMore || shownMore) this.requestUpdate();
     this.dispatchEvent(new CustomEvent('search', { 
       detail: { term },
       bubbles: true 
@@ -975,7 +972,7 @@ export default class Table extends ShadowComponent {
       });
     });
 
-    let displayedRecords = this.records.filter(record => record === null || !record[hidden]);
+    let displayedRecords = this.records.filter(record => record === null || (!record[hidden] && !record[searchHidden]));
 
     this.sort.forEach(({ name, asc }) => {
       displayedRecords.sort((a, b) => {
@@ -990,7 +987,7 @@ export default class Table extends ShadowComponent {
   }
 
   getHiddenRecords() {
-    return this.records.filter(record => record[hidden]);
+    return this.records.filter(record => record[hidden] || record[searchHidden]);
   }
 
   calculateColumnSizes() {

@@ -262,7 +262,7 @@ export default [
     inline: true,
     page: componentUrl('../components/Icon.js'),
     attributes: [
-      { name: 'href', type: 'url', label: 'File address' },
+      { name: 'href', type: 'file', label: 'File address' },
       { name: 'label', type: 'string', virtual: true, label: 'Link text', default: 'Download' },
       { name: 'icon', type: 'icon', virtual: true, label: 'Icon', hint: 'Shown in front of the link text. Leave it empty for no icon.', default: 'download' },
       { name: 'look', type: 'select', virtual: true, label: 'Shows as', default: 'link', options: [{ value: 'link', label: 'Link' }, { value: 'button', label: 'Button' }] },

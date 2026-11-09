@@ -843,6 +843,28 @@ export default {
 	},
 
 	/*
+		Clipping
+	*/
+	'should show the list above an ancestor that clips its content': async ({pass, fail}) => {
+		const { container, el } = await createCombobox({}, fruitOptions);
+		container.style.cssText = 'height: 3rem; overflow: hidden;';
+		el.opened = true;
+		await el.updateComplete;
+		const menu = el.shadowRoot.querySelector('#menu');
+		if(!menu || !menu.matches(':popover-open')) {
+			cleanup(container);
+			return fail('The list should be a popover in the top layer, so no ancestor can clip it');
+		}
+		const clip = container.getBoundingClientRect();
+		const rect = menu.getBoundingClientRect();
+		const inputRect = el.shadowRoot.querySelector('input').getBoundingClientRect();
+		cleanup(container);
+		if(rect.bottom <= clip.bottom) return fail('The list should reach below the clipping ancestor');
+		if(Math.abs(rect.width - inputRect.width) > 1 || Math.abs(rect.left - inputRect.left) > 1) return fail(`The list should be as wide as the input and start at its left edge (list ${rect.left},${rect.width}; input ${inputRect.left},${inputRect.width})`);
+		pass();
+	},
+
+	/*
 		Disabled
 	*/
 	'should render disabled input when disabled': async ({pass, fail}) => {

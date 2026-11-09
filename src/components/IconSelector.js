@@ -282,7 +282,7 @@ export default class IconSelector extends ShadowComponent {
 		'panorama', 'pause', 'photo_library', 'pip', 'play', 'public', 'public_off', 'queue_music', 'record_voice_over', 'redo', 'repeat', 'repeat_one',
 		'replay', 'restore_page', 'save', 'search', 'send', 'settings', 'show', 'shuffle', 'skip_next', 'skip_previous',
 		'smartphone', 'star', 'star_filled', 'stop', 'strikethrough_s', 'tab', 'table', 'table-visibility', 'tablet',
-		'text_decrease', 'text_fields', 'text_increase', 'undo', 'unfold_less', 'unfold_more', 'view_column', 'visibility',
+		'text_decrease', 'text_fields', 'text_increase', 'undo', 'unfold_less', 'unfold_more', 'upload', 'view_column', 'visibility',
 		'volume_off', 'volume_up', 'warning', 'width_full', 'wrap_text', 'wysiwyg'
 	];
 }

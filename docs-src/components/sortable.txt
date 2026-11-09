@@ -2,4 +2,18 @@ Sortable (<k-sortable> <k-sortable-item>)
 Import: import 'kempo-ui/src/components/Sortable.js';
 Docs: https://dustinpoissant.github.io/kempo-ui/components/sortable.html
 
-Drag-to-reorder list
+Drag-to-reorder list. A vertical list by default (each item has a drag handle and a border and is moved in the DOM when dropped); `grid` and `controlled` on the container and `bare` on the items make it work for a wrapping grid of tiles that your own code renders.
+
+Example:
+<k-sortable grid controlled class="d-f" style="flex-wrap: wrap">
+  <k-sortable-item bare><img src="a.jpg"></k-sortable-item>
+  <k-sortable-item bare><img src="b.jpg"></k-sortable-item>
+</k-sortable>
+
+Details:
+- k-sortable `grid` (Boolean): items are in a row or wrapping grid, laid out by you. The drop place is the nearest item and its side (before when the pointer is left of its middle).
+- k-sortable `controlled` (Boolean): do not move the dropped item in the DOM, only report where it was dropped. Use when your own code (Lit, say) renders the list.
+- k-sortable-item `bare` (Boolean): no handle, border or padding; the whole item is dragged, once the pointer has moved a few pixels. A press on a button, link, input, select or textarea inside it, or on anything with `data-no-drag`, is not a drag.
+- k-sortable-item `sorting` (Boolean, set by the component): while it is dragged.
+- Event `sort` on k-sortable (bubbles): detail { item, from, to }, indexes among the items before and after the move. In a controlled list render the new order from it.
+- Method getCursorElement({ clientX, clientY }) on k-sortable: [item, 'before' | 'after'] for a pointer position, or null.

@@ -5,4 +5,5 @@ Docs: https://dustinpoissant.github.io/kempo-ui/utils/drag.html
 `drag(options)` — attach mouse/touch drag listeners to an element
 
 Details:
-- options: `element`, `callback`, `startCallback`, `moveCallback`, `endCallback`, `preventScroll`
+- options: `element`, `callback`, `startCallback`, `moveCallback`, `endCallback`, `preventScroll`, `threshold` (pixels to move before the drag starts; a press that does not move that far calls nothing), `ignore` (selector: a press on a matching element inside `element` is not a drag)
+- the callbacks get `{ x, y, clientX, clientY, ...options }`: `x`, `y` how far the pointer has moved since the press (page coordinates), `clientX`, `clientY` where it is in the viewport

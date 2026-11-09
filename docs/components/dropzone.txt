@@ -1,0 +1,21 @@
+Dropzone (<k-dropzone>)
+Import: import 'kempo-ui/src/components/Dropzone.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/dropzone.html
+
+An area with a dashed border to drop files on, or to click (or press Enter or Space) to open the file picker. It only collects files and reports them in a `files` event; what to do with them (upload, read, preview) is up to the listener.
+
+Example:
+<k-dropzone multiple accept="image/*,video/*"></k-dropzone>
+<script type="module">
+  document.querySelector('k-dropzone').addEventListener('files', ({ detail }) => console.log(detail.files, detail.rejected));
+</script>
+
+Details:
+- accept (String): what it takes, like a file input's accept: extensions (.pdf), types (video/mp4) and families (image/*). It limits the picker, and dropped files are checked against it too. Default: everything.
+- multiple (Boolean, written without a value): take more than one file. By default one is taken and the rest of a drop are rejected.
+- disabled (Boolean, written without a value): dimmed, and ignores clicks, keys and drops.
+- label (String): the text shown with the upload icon. Default: a sentence that follows `multiple`.
+- dragging (Boolean, set by the component): present while files are dragged over it.
+- Event `files`: detail { files, rejected }. `files` are the ones it takes, `rejected` the ones it does not (wrong type, or more than one without `multiple`). Bubbles and is composed.
+- Method open(): opens the file picker. Does nothing while disabled.
+- The default slot replaces the icon and the text. Part `zone` is the dashed area.

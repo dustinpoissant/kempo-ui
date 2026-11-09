@@ -1,6 +1,7 @@
 import PageBuilder from '../../src/components/PageBuilder.js';
 import PageBuilderFields from '../../src/components/pagebuilder/PageBuilderFields.js';
 import { html } from '../../src/lit-all.min.js';
+import Toast from '../../src/components/Toast.js';
 
 /*
   Utility Functions
@@ -129,26 +130,144 @@ export default {
     pass('undo and redo move through the history');
   },
 
-  'should emit save and count the page as saved': async ({ pass, fail }) => {
+  'should only ask the parent to save: it emits saverequest with the page and leaves the page unsaved and silent': async ({ pass, fail }) => {
     const builder = await createBuilder(page(text('t1', '<p>One</p>')));
-    let saved = null;
-    builder.addEventListener('save', event => { saved = event.detail.value; });
+    let requested = null;
+    let events = 0;
+    builder.addEventListener('saverequest', event => {
+      requested = event.detail.value;
+      events++;
+    });
+    const messages = [];
+    const success = Toast.success;
+    Toast.success = message => messages.push(message);
     builder.setWidgetAttribute('t1', 'html', '<p>Two</p>', true);
     if(!builder.dirty){
+      Toast.success = success;
       cleanup(builder);
       return fail('a change did not make the page dirty');
     }
-    builder.save();
-    if(!saved || saved.slots.default[0].attrs.html !== '<p>Two</p>'){
+    builder.requestSave();
+    Toast.success = success;
+    if(events !== 1 || !requested || requested.slots.default[0].attrs.html !== '<p>Two</p>'){
       cleanup(builder);
-      return fail('save did not carry the page');
+      return fail('saverequest did not carry the page');
     }
-    if(builder.dirty){
+    if(!builder.dirty){
       cleanup(builder);
-      return fail('the page is still dirty after saving');
+      return fail('asking to save counted the page as saved');
+    }
+    if(messages.length){
+      cleanup(builder);
+      return fail('asking to save showed a message');
     }
     cleanup(builder);
-    pass('save emits and clears dirty');
+    pass('saverequest is all the builder does');
+  },
+
+  'should count the page it is told is saved, and keep changes made since unsaved': async ({ pass, fail }) => {
+    const builder = await createBuilder(page(text('t1', '<p>One</p>')));
+    let sent = null;
+    builder.addEventListener('saverequest', event => { sent = event.detail.value; });
+    builder.setWidgetAttribute('t1', 'html', '<p>Two</p>', true);
+    builder.requestSave();
+    builder.setWidgetAttribute('t1', 'html', '<p>Three</p>', true);
+    builder.markSaved(sent);
+    if(!builder.dirty){
+      cleanup(builder);
+      return fail('a change made after the save was sent should stay unsaved');
+    }
+    builder.markSaved();
+    if(builder.dirty){
+      cleanup(builder);
+      return fail('markSaved with no page should count the page shown as saved');
+    }
+    cleanup(builder);
+    pass('markSaved counts the page it is given');
+  },
+
+  'should ask to save on Ctrl+S': async ({ pass, fail }) => {
+    const builder = await createBuilder(page(text('t1', '<p>One</p>')));
+    let events = 0;
+    builder.addEventListener('saverequest', () => { events++; });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', ctrlKey: true, bubbles: true, cancelable: true }));
+    cleanup(builder);
+    if(events !== 1) return fail(`Ctrl+S sent ${events} save requests`);
+    pass('Ctrl+S sends one save request');
+  },
+
+  'should not let a click on a link inside a widget\'s shadow DOM take the frame somewhere else': async ({ pass, fail }) => {
+    const builder = await createBuilder(page());
+    const frame = builder.renderRoot.querySelector('iframe').contentWindow;
+    const host = frame.document.createElement('div');
+    frame.document.getElementById('pb-root').append(host);
+    host.attachShadow({ mode: 'open' }).innerHTML = '<a href="/somewhere-else/">Go</a>';
+    const link = host.shadowRoot.querySelector('a');
+    const event = new frame.MouseEvent('click', { bubbles: true, composed: true, cancelable: true, button: 0 });
+    link.dispatchEvent(event);
+    cleanup(builder);
+    if(!event.defaultPrevented) return fail('The click on the link in the shadow DOM was not cancelled, so the frame would follow it');
+    pass('A link in a widget\'s shadow DOM does not take the frame away');
+  },
+
+  'should keep the settings panel\'s heading in place and scroll the tab content, not the whole side': async ({ pass, fail }) => {
+    const builder = await createBuilder(page(text('t1', '<p>One</p>')));
+    builder.style.height = '30rem';
+    builder.select('t1');
+    await builder.updateComplete;
+    await wait(300);
+    const aside = builder.renderRoot.querySelector('aside.attrs');
+    const settings = builder.renderRoot.querySelector('k-page-builder-settings');
+    const tabs = settings.shadowRoot.querySelector('k-tabs');
+    tabs.active = 'pb-styles';
+    await tabs.updateComplete;
+    await wait(300);
+    const content = tabs.querySelector('k-tab-content[name="pb-styles"]');
+    const heading = settings.shadowRoot.querySelector('h5');
+    const headingTop = () => heading.getBoundingClientRect().top - aside.getBoundingClientRect().top;
+    const before = headingTop();
+    content.scrollTop = 150;
+    await wait(100);
+    const result = { settings: settings.getBoundingClientRect().height, aside: aside.clientHeight, asideScrolls: aside.scrollHeight > aside.clientHeight + 1, scrollable: content.scrollHeight > content.clientHeight + 1, scrolled: content.scrollTop, before, after: headingTop() };
+    cleanup(builder);
+    if(Math.abs(result.settings - result.aside) > 1) return fail(`The settings should fill the side panel: ${JSON.stringify(result)}`);
+    if(result.asideScrolls) return fail(`The whole side panel scrolls: ${JSON.stringify(result)}`);
+    if(!result.scrollable || result.scrolled === 0) return fail(`The tab content should scroll: ${JSON.stringify(result)}`);
+    if(Math.abs(result.before - result.after) > 1) return fail(`The heading moved when the tab content scrolled: ${JSON.stringify(result)}`);
+    pass('The tab content scrolls and the heading stays');
+  },
+
+  'should start the frame in the theme of the page, so a dark page has no flash of white': async ({ pass, fail }) => {
+    const root = document.documentElement;
+    const before = { theme: root.getAttribute('theme'), auto: root.getAttribute('auto-theme') };
+    root.setAttribute('theme', 'dark');
+    root.setAttribute('auto-theme', 'dark');
+    const builder = await createBuilder(page());
+    const markup = builder.frame().documentHtml();
+    const frameRoot = builder.renderRoot.querySelector('iframe').contentDocument.documentElement;
+    const inFrame = { theme: frameRoot.getAttribute('theme'), auto: frameRoot.getAttribute('auto-theme') };
+    cleanup(builder);
+    ['theme', 'auto-theme'].forEach((name, index) => {
+      const value = [before.theme, before.auto][index];
+      if(value === null) root.removeAttribute(name);
+      else root.setAttribute(name, value);
+    });
+    if(!markup.includes('<html lang="en" theme="dark" auto-theme="dark">')) return fail(`The frame's root should start with the page's theme, got: ${markup.slice(0, 120)}`);
+    if(!markup.includes('<meta name="color-scheme" content="light dark">')) return fail('The frame should say it can be light or dark');
+    if(inFrame.theme !== 'dark' || inFrame.auto !== 'dark') return fail(`The frame is in ${JSON.stringify(inFrame)}`);
+    pass('The frame starts in the theme of the page');
+  },
+
+  'should draw the page with the stylesheets it is given, besides the host page\'s': async ({ pass, fail }) => {
+    const builder = document.createElement('k-page-builder');
+    builder.stylesheets = ['/extra-theme.css', '/other/extra-theme.css'];
+    document.body.appendChild(builder);
+    await builder.updateComplete;
+    await builder.frame().ready;
+    const links = [...builder.renderRoot.querySelector('iframe').contentDocument.querySelectorAll('link[rel="stylesheet"]')].map(link => new URL(link.href).pathname);
+    cleanup(builder);
+    if(!links.includes('/extra-theme.css') || !links.includes('/other/extra-theme.css')) return fail(`the frame has ${links.join(', ')}`);
+    pass('the frame has the stylesheets it was given');
   },
 
   'should not emit change for a value it is given': async ({ pass, fail }) => {
@@ -347,7 +466,7 @@ export default {
     pass('Columns have no preconfigured layouts');
   },
 
-  'should mark the save button while there are changes to save, and clear it on save': async ({ pass, fail }) => {
+  'should mark the save button while there are changes to save, and clear it when the page is marked saved': async ({ pass, fail }) => {
     const builder = await createBuilder(page(text('t1', '<p>One</p>')));
     const control = () => builder.renderRoot.querySelector('kc-pb-save');
     const before = control().hasAttribute('dirty');
@@ -355,7 +474,7 @@ export default {
     await builder.updateComplete;
     const changed = control().hasAttribute('dirty');
     const title = control().getAttribute('title');
-    builder.save();
+    builder.markSaved();
     await builder.updateComplete;
     const saved = control().hasAttribute('dirty');
     const shadow = [...control().shadowRoot.querySelectorAll('style')].map(style => style.textContent).join('');
@@ -363,7 +482,7 @@ export default {
     if(before) return fail('A page that was just given should not have changes to save');
     if(!changed) return fail('A change should mark the save button');
     if(!/unsaved changes/.test(title)) return fail(`The save button should say there are unsaved changes, said "${title}"`);
-    if(saved) return fail('Saving should clear the mark');
+    if(saved) return fail('Marking the page saved should clear the mark');
     if(!shadow.includes(':host([dirty])') || !shadow.includes('--c_success')) return fail('The save button has no green style for the mark');
     pass('The save button shows unsaved changes in green');
   },
@@ -428,6 +547,82 @@ export default {
     if(inSlots.some(ok => !ok)) return fail(`Each control should be in its slot, got ${inSlots.join(', ')}`);
     if(!leftAfterMove) return fail('The left end control should come after the move controls');
     pass('Extra controls are placed at each slot, and the slots only appear when used');
+  },
+
+  'should show what a site puts in the page-settings slot in the page settings, and only while nothing is selected': async ({ pass, fail }) => {
+    const builder = document.createElement('div');
+    const mine = document.createElement('div');
+    mine.slot = 'page-settings';
+    mine.textContent = 'Name and template';
+    const element = document.createElement('k-page-builder');
+    element.value = page(text('t1', '<p>One</p>'));
+    element.appendChild(mine);
+    document.body.appendChild(element);
+    await element.updateComplete;
+    await element.frame().ready;
+    await wait(200);
+    const settings = element.renderRoot.querySelector('k-page-builder-settings');
+    await settings.updateComplete;
+    const slot = () => settings.shadowRoot.querySelector('slot[name="page-settings"]');
+    const whileNothing = !!slot() && slot().assignedElements({ flatten: true }).includes(mine);
+    element.select('t1');
+    await element.updateComplete;
+    await settings.updateComplete;
+    const whileSelected = !!slot();
+    cleanup(element);
+    builder.remove();
+    if(!whileNothing) return fail('What the site puts in the page-settings slot should show in the page settings');
+    if(whileSelected) return fail('The page-settings slot should not show while a widget is selected');
+    pass('The page-settings slot is in the page settings');
+  },
+
+  'should draw the controls of an extra spot like a group of the builder\'s own: no border of their own, a line between them, none after the last': async ({ pass, fail }) => {
+    const builder = await createBuilder(page());
+    const add = name => {
+      const control = document.createElement('kc-button');
+      control.slot = name;
+      builder.appendChild(control);
+      return control;
+    };
+    const [first, second, third] = [add('left-end'), add('left-end'), add('left-end')];
+    await builder.updateComplete;
+    await wait(200);
+    const look = control => {
+      const style = getComputedStyle(control);
+      return { right: style.borderRightWidth, left: style.borderLeftWidth, top: style.borderTopWidth, margin: style.marginLeft, last: control.hasAttribute('data-pb-last') };
+    };
+    const [a, b, c] = [look(first), look(second), look(third)];
+    cleanup(builder);
+    if([a, b, c].some(control => control.left !== '0px' || control.top !== '0px' || control.margin !== '0px')) return fail(`The controls keep a border or margin of their own: ${JSON.stringify([a, b, c])}`);
+    if(a.right !== '1px' || b.right !== '1px') return fail(`The controls should have a line between them: ${JSON.stringify([a, b])}`);
+    if(c.right !== '0px' || !c.last || a.last || b.last) return fail(`Only the last control should be marked, and have no line after it: ${JSON.stringify([a, b, c])}`);
+    pass('Extra controls look like the rest of a group');
+  },
+
+  'should rank an extra spot by the highest priority of its controls, and move a spot with none first': async ({ pass, fail }) => {
+    const builder = await createBuilder(page());
+    const add = (name, priority) => {
+      const button = document.createElement('button');
+      button.slot = name;
+      if(priority !== undefined) button.setAttribute('priority', priority);
+      builder.appendChild(button);
+    };
+    add('left-end', '3');
+    add('left-end', '7');
+    add('left-end');
+    add('right-start');
+    add('center-end', '');
+    add('center-start', '-1');
+    await builder.updateComplete;
+    await wait(100);
+    const groupOf = name => builder.renderRoot.querySelector(`slot[name="${name}"]`)?.parentElement;
+    const priorities = ['left-end', 'right-start', 'center-end', 'center-start'].map(name => groupOf(name)?.getAttribute('priority'));
+    cleanup(builder);
+    if(priorities[0] !== '7') return fail(`A spot should have its highest priority, 7, but has ${priorities[0]}`);
+    if(priorities[1] !== null) return fail(`A spot whose controls have no priority should have none, but has ${priorities[1]}`);
+    if(priorities[2] !== '1') return fail(`A bare priority counts as 1, but the spot has ${priorities[2]}`);
+    if(priorities[3] !== '-1') return fail(`A negative priority should be kept so the spot moves before one with none, but the spot has ${priorities[3]}`);
+    pass('An extra spot is ranked by its most important control');
   },
 
   'should move a site\'s extra controls into the more menu when the bar is narrow': async ({ pass, fail }) => {

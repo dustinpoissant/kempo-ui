@@ -3,6 +3,12 @@ import ShadowComponent from './ShadowComponent.js';
 import debounce from '../utils/debounce.js';
 import './Option.js';
 
+/*
+	The list is a top-layer popover anchored to the input, so it is never clipped by an ancestor's overflow (a settings panel,
+	a dialog). Popovers flatten anchor-name across the document, so each instance needs its own.
+*/
+let anchorNameCounter = 0;
+
 export default class Combobox extends ShadowComponent {
 	static formAssociated = true;
 
@@ -23,6 +29,7 @@ export default class Combobox extends ShadowComponent {
 
 	#focusedIndex = -1;
 	#options = [];
+	#anchorName = `--combobox-${anchorNameCounter++}`;
 
 	/*
 		Lifecycle Callbacks
@@ -62,6 +69,8 @@ export default class Combobox extends ShadowComponent {
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
+		const menu = this.shadowRoot?.querySelector('#menu');
+		if(menu && !menu.matches(':popover-open')) menu.showPopover();
 		if(changedProperties.has('debounceMs')) {
 			this.#setupDebounce(this.debounceMs);
 		}
@@ -245,9 +254,10 @@ export default class Combobox extends ShadowComponent {
 				@keydown=${this.handleKeydown}
 				@focus=${this.handleFocus}
 				autocomplete="off"
+				style="anchor-name: ${this.#anchorName}"
 			/>
 			${this.opened ? html`
-				<div id="menu">
+				<div id="menu" popover="manual" style="position-anchor: ${this.#anchorName}">
 					${visible.map((opt, i) => html`
 						<div
 							class="option ${i === this.#focusedIndex ? 'focused' : ''}"
@@ -300,19 +310,20 @@ export default class Combobox extends ShadowComponent {
 			border-color: var(--c_primary);
 		}
 		#menu {
-			position: absolute;
-			top: 100%;
-			left: 0;
-			right: 0;
-			z-index: 30;
-			max-height: 20rem;
+			position: fixed;
+			position-area: bottom span-right;
+			position-try-fallbacks: flip-block;
+			width: anchor-size(width);
 			min-width: var(--min-width, 8rem);
+			max-height: 20rem;
+			margin: 0.25rem 0;
+			padding: 0;
 			overflow-y: auto;
+			color: inherit;
 			background: var(--c_bg);
 			border: 1px solid var(--c_border);
 			border-radius: var(--radius);
 			box-shadow: var(--drop_shadow);
-			margin-top: 0.25rem;
 		}
 		.option {
 			padding: var(--spacer_h) var(--spacer);

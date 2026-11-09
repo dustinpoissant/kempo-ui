@@ -791,6 +791,47 @@ export default {
 		pass('search correctly filters records');
 	},
 
+	'should match a search anywhere in a value, and bring records back when the search gets broader': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setRecords([{ name: 'kempo-products' }, { name: 'kempo-forms' }, { name: 'kempo-payments' }]);
+		table.enablePages = false;
+		await table.updateComplete;
+		const names = () => table.getDisplayedRecords().map(record => record.name).join();
+		table.search('products');
+		const end = names();
+		table.search('kempo-p');
+		const narrower = names();
+		table.search('kempo');
+		const broader = names();
+		table.search('forms');
+		table.search('kempo-');
+		const backspaced = names();
+		table.search('');
+		const cleared = names();
+		cleanup(table);
+		if(end !== 'kempo-products') return fail(`A search for the end of a value should match it, got "${end}"`);
+		if(narrower !== 'kempo-products,kempo-payments') return fail(`got "${narrower}"`);
+		if(broader !== 'kempo-products,kempo-forms,kempo-payments') return fail(`A broader search should bring records back, got "${broader}"`);
+		if(backspaced !== 'kempo-products,kempo-forms,kempo-payments') return fail(`Backspacing should bring records back, got "${backspaced}"`);
+		if(cleared !== 'kempo-products,kempo-forms,kempo-payments') return fail(`An empty search should show every record, got "${cleared}"`);
+		pass('A search is matched anywhere and worked out again each time');
+	},
+
+	'should keep a record hidden by hideRecord hidden through a search': async ({pass, fail}) => {
+		const table = await createTable();
+		table.setRecords([{ name: 'Alice' }, { name: 'Alicia' }]);
+		table.enablePages = false;
+		await table.updateComplete;
+		table.hideRecord(table.records[1]);
+		table.search('Ali');
+		const during = table.getDisplayedRecords().map(record => record.name).join();
+		table.search('');
+		const after = table.getDisplayedRecords().map(record => record.name).join();
+		cleanup(table);
+		if(during !== 'Alice' || after !== 'Alice') return fail(`A hidden record should stay hidden: "${during}" then "${after}"`);
+		pass('Hidden records stay hidden through a search');
+	},
+
 	/*
 		Record Visibility Tests
 	*/

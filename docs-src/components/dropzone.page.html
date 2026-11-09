@@ -1,0 +1,154 @@
+<page pageName="Dropzone" title="Dropzone - Components - Kempo Docs - A Web Components Solution">
+  <content>
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m pl">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#multiple">Several Files</a><br />
+          <a href="#accept">Limiting the Types</a><br />
+          <a href="#label">Label and Custom Content</a><br />
+          <a href="#disabled">Disabled</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes</a><br />
+          <a href="#events">Events</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#slots">Slots and Parts</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>An area with a dashed border to drop files on. Clicking it, or pressing Enter or Space while it has focus, opens the file picker. The dropzone only collects files: it reports them in a <code>files</code> event and leaves what to do with them (upload them, read them, show a preview) to your code.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-dropzone id="example1"&gt;&lt;/k-dropzone&gt;
+&lt;p id="result1" class="tc-muted"&gt;Nothing dropped yet.&lt;/p&gt;
+&lt;script type="module"&gt;
+  import '/src/components/Dropzone.js';
+  document.getElementById('example1').addEventListener('files', ({ detail }) =&gt; {
+    document.getElementById('result1').textContent = detail.files.map(file =&gt; file.name).join(', ') || 'Nothing accepted.';
+  });
+&lt;/script&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropzone id="example1"></k-dropzone>
+          <p id="result1" class="tc-muted">Nothing dropped yet.</p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="multiple"><a href="#multiple" class="no-link">Several Files</a></h3>
+    <p>It takes one file by default: if several are dropped, the first is kept and the rest are reported as rejected. Add <code>multiple</code> to take them all.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-dropzone multiple&gt;&lt;/k-dropzone&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropzone multiple></k-dropzone>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="accept"><a href="#accept" class="no-link">Limiting the Types</a></h3>
+    <p><code>accept</code> works like the attribute of a file input: a comma separated list of extensions (<code>.pdf</code>), types (<code>video/mp4</code>) and families (<code>image/*</code>). It limits what the picker shows, and files dropped on the area are checked against it too, so a file of another type is not reported in <code>files</code> but in <code>rejected</code>.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-dropzone multiple accept="image/*,video/*"&gt;&lt;/k-dropzone&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropzone multiple accept="image/*,video/*" label="Drop pictures or videos here, or click to choose them"></k-dropzone>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="label"><a href="#label" class="no-link">Label and Custom Content</a></h3>
+    <p>The text defaults to a sentence that follows <code>multiple</code>. Set <code>label</code> to say something else, or put your own content inside to replace the icon and the text.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-dropzone label="Drop your logo here"&gt;&lt;/k-dropzone&gt;
+
+&lt;k-dropzone&gt;
+  &lt;k-icon name="image"&gt;&lt;/k-icon&gt;
+  &lt;strong&gt;Add a cover photo&lt;/strong&gt;
+&lt;/k-dropzone&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropzone label="Drop your logo here" class="mb"></k-dropzone>
+          <k-dropzone>
+            <k-icon name="image"></k-icon>
+            <strong>Add a cover photo</strong>
+          </k-dropzone>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>A disabled dropzone is dimmed and does nothing: it does not open the picker, show a drag, or report files.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-dropzone disabled&gt;&lt;/k-dropzone&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropzone disabled></k-dropzone>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h3>
+
+    <h5 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h5>
+    <pre><code class="hljs js">import 'kempo-ui/src/components/Dropzone.js';</code></pre>
+
+    <h5 id="attributes"><a href="#attributes" class="no-link">Attributes</a></h5>
+    <ul>
+      <li><code>accept</code> (String): what it takes, as a file input's <code>accept</code>. Default: everything.</li>
+      <li><code>multiple</code> (Boolean, written without a value): take more than one file. Default: one.</li>
+      <li><code>disabled</code> (Boolean, written without a value): dim it and ignore clicks, keys and drops.</li>
+      <li><code>label</code> (String): the text shown with the icon. Default: a sentence that follows <code>multiple</code>.</li>
+      <li><code>dragging</code> (Boolean, set by the component): present while files are being dragged over it, for your own styling.</li>
+    </ul>
+
+    <h5 id="events"><a href="#events" class="no-link">Events</a></h5>
+    <ul>
+      <li><code>files</code>: files were dropped or picked. <code>detail.files</code> are the ones it takes and <code>detail.rejected</code> the ones it does not (they do not match <code>accept</code>, or are more than one when <code>multiple</code> is off). It bubbles and is composed.</li>
+    </ul>
+
+    <h5 id="methods"><a href="#methods" class="no-link">Methods</a></h5>
+    <ul>
+      <li><code>open()</code>: opens the file picker, as a click does. Nothing happens while disabled.</li>
+    </ul>
+
+    <h5 id="slots"><a href="#slots" class="no-link">Slots and Parts</a></h5>
+    <ul>
+      <li>The default slot replaces the icon and the text.</li>
+      <li>Part <code>zone</code>: the dashed area, to restyle from outside.</li>
+    </ul>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/Dropzone.js"></script>
+    <script type="module">
+      document.getElementById('example1').addEventListener('files', ({ detail }) => {
+        document.getElementById('result1').textContent = detail.files.map(file => file.name).join(', ') || 'Nothing accepted.';
+      });
+    </script>
+  </content>
+</page>

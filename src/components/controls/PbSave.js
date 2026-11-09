@@ -2,16 +2,16 @@ import ButtonControl from './ButtonControl.js';
 import { html, css } from '../../lit-all.min.js';
 import '../Icon.js';
 
-/* Saves the page. While there are changes that have not been saved (`dirty`), it is green, so it is clear what to press. */
+/* Asks the parent to save the page. While there are changes that have not been saved (`dirty`), it is green, so it is clear what to press. */
 export default class PbSave extends ButtonControl {
-  static requires = ['save'];
+  static requires = ['requestSave'];
 
   connectedCallback() {
     super.connectedCallback();
     if(!this.hasAttribute('title')) this.title = 'Save the page (Ctrl+S)';
   }
 
-  handleAction() { this.host?.save?.(); }
+  handleAction() { this.host?.requestSave?.(); }
 
   render() { return html`<slot><k-icon name="save"></k-icon></slot><slot name="menu-text">Save</slot>`; }
 

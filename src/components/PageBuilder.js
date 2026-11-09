@@ -1,5 +1,5 @@
 import ShadowComponent from './ShadowComponent.js';
-import { html, css, render } from '../lit-all.min.js';
+import { html, css, render, nothing } from '../lit-all.min.js';
 import Dialog from './Dialog.js';
 import Toast from './Toast.js';
 import './ControlBar.js';
@@ -67,6 +67,9 @@ const coalesceTimeKey = Symbol('coalesceTime');
 const resizeKey = Symbol('resize');
 const extrasKey = Symbol('extras');
 
+/* The places a site can add controls to the bar (the names of their slots). */
+const EXTRA_SPOTS = ['left-end', 'center-start', 'center-end', 'right-start'];
+
 /*
   The page builder: a control bar, the widget tree on the left, the page in the middle and the selected widget's settings
   on the right. It is controlled. `value` is the page (the JSON it emits: { attrs, slots: { default: [widgets] } }) and
@@ -90,6 +93,7 @@ export default class PageBuilder extends ShadowComponent {
   static properties = {
     mobile: { type: Boolean, reflect: true },
     mobileWidth: { type: Number, attribute: 'mobile-width' },
+    stylesheets: { attribute: false },
     view: { state: true },
     treeOpen: { state: true },
     settingsOpen: { state: true },
@@ -113,6 +117,7 @@ export default class PageBuilder extends ShadowComponent {
     this.selection = [];
     this.mobile = false;
     this.mobileWidth = 768;
+    this.stylesheets = [];
     this.view = 'page';
     this.treeOpen = true;
     this.settingsOpen = true;
@@ -148,14 +153,23 @@ export default class PageBuilder extends ShadowComponent {
     if(changed.has('mobileWidth')) this.updateMobile();
   }
 
-  /* The page's handle is placed from the page's size, so it is placed again when the page is shown again. */
+  /*
+    The page's handle is placed from the page's size, so it is placed again when the page is shown again. The last control of
+    each extra spot is marked (`data-pb-last`), because the styles that make a spot look like a group of the builder's own
+    controls need to know which one is last.
+  */
   updated(changed) {
     super.updated(changed);
     if(changed.has('mobile') || changed.has('view')) requestAnimationFrame(() => this.frame()?.placeHandle());
+    EXTRA_SPOTS.forEach(name => {
+      const controls = [...this.querySelectorAll(`:scope > [slot="${name}"]`)];
+      controls.forEach((control, index) => control.toggleAttribute('data-pb-last', index === controls.length - 1));
+    });
   }
 
   firstUpdated() {
     this[frameKey] = new PageFrame(this.renderRoot.querySelector('iframe'), {
+      stylesheets: () => this.stylesheets,
       onSelect: (id, options) => this.select(id, options),
       onBlank: () => this.setSelection([]),
       onChange: (id, changes) => {
@@ -343,12 +357,19 @@ export default class PageBuilder extends ShadowComponent {
     this.publish();
   };
 
-  /* Saves: the page is what the parent is given (the save event), and it counts as saved from now on. */
-  save = () => {
-    this[savedKey] = JSON.stringify(this[treeKey]);
-    this.dispatchEvent(new CustomEvent('save', { detail: { value: structuredClone(this[treeKey]) } }));
+  /*
+    Asks the parent to save the page, which it is given as `detail.value` of the `saverequest` event. That is all it does:
+    it does not store the page, count it as saved or say anything. The parent stores it wherever it belongs, tells the person
+    how it went, and calls markSaved(detail.value) once the page is stored.
+  */
+  requestSave = () => {
+    this.dispatchEvent(new CustomEvent('saverequest', { detail: { value: structuredClone(this[treeKey]) } }));
+  };
+
+  /* Counts a page as saved: the one given (what saverequest carried), or the one shown now. Changes made since stay unsaved. */
+  markSaved = page => {
+    this[savedKey] = JSON.stringify(page ?? this[treeKey]);
     this.requestUpdate();
-    Toast.success('Page saved');
   };
 
   undo = () => {
@@ -691,7 +712,7 @@ export default class PageBuilder extends ShadowComponent {
     if(mod && key === 's'){
       event.preventDefault();
       this.frame()?.blurFocus();
-      this.save();
+      this.requestSave();
       return;
     }
     if(mod && !event.altKey && !event.shiftKey && key === 'k'){
@@ -753,6 +774,16 @@ export default class PageBuilder extends ShadowComponent {
   hasExtra = name => !!this.querySelector(`:scope > [slot="${name}"]`);
 
   /*
+    A spot is one group, so its controls move into the "more" menu together, and it stays as long as its most important
+    control: the highest `priority` among them (a bare `priority` counts as 1, a control with none counts as 0, and a
+    negative one moves before the controls that have none). A spot with no priority at all is not given one.
+  */
+  extraPriority = name => {
+    const priorities = [...this.querySelectorAll(`:scope > [slot="${name}"]`)].map(el => (el.hasAttribute('priority') ? Number(el.getAttribute('priority')) || 1 : 0));
+    return (priorities.length ? Math.max(...priorities) : 0) || nothing;
+  };
+
+  /*
     Rendering
   */
   renderBar() {
@@ -781,14 +812,14 @@ export default class PageBuilder extends ShadowComponent {
           <kc-pb-move-in ?disabled="${!single}"></kc-pb-move-in>
           <kc-pb-move-out ?disabled="${!single}"></kc-pb-move-out>
         </k-control-group>
-        ${this.hasExtra('left-end') ? html`<k-control-group priority="2"><slot name="left-end"></slot></k-control-group>` : ''}
-        ${this.hasExtra('center-start') ? html`<k-control-group slot="center" priority="2"><slot name="center-start"></slot></k-control-group>` : ''}
+        ${this.hasExtra('left-end') ? html`<k-control-group priority="${this.extraPriority('left-end')}"><slot name="left-end"></slot></k-control-group>` : ''}
+        ${this.hasExtra('center-start') ? html`<k-control-group slot="center" priority="${this.extraPriority('center-start')}"><slot name="center-start"></slot></k-control-group>` : ''}
         ${this.mobile ? '' : html`
           <k-control-group slot="center" priority="10">
             ${DEVICES.map(([device]) => html`<kc-pb-device device="${device}" ?active="${this.device === device}"></kc-pb-device>`)}
           </k-control-group>`}
-        ${this.hasExtra('center-end') ? html`<k-control-group slot="center" priority="2"><slot name="center-end"></slot></k-control-group>` : ''}
-        ${this.hasExtra('right-start') ? html`<k-control-group slot="right" priority="2"><slot name="right-start"></slot></k-control-group>` : ''}
+        ${this.hasExtra('center-end') ? html`<k-control-group slot="center" priority="${this.extraPriority('center-end')}"><slot name="center-end"></slot></k-control-group>` : ''}
+        ${this.hasExtra('right-start') ? html`<k-control-group slot="right" priority="${this.extraPriority('right-start')}"><slot name="right-start"></slot></k-control-group>` : ''}
         <kc-menu slot="right" title="Templates" split>
           <k-icon slot="icon" name="dashboard_customize"></k-icon>
           <kc-pb-template-save ?disabled="${!any}"></kc-pb-template-save>
@@ -824,7 +855,7 @@ export default class PageBuilder extends ShadowComponent {
           </div>
           ${showSettings ? html`
             <aside class="attrs ${full}">
-              <k-page-builder-settings .node="${single}" .widget="${definition}" .count="${this.selection.length}" .page="${this[treeKey]}" .editorSettings="${this.settings}" .registry="${this.registry}" .host="${this}" .version="${this.version}"></k-page-builder-settings>
+              <k-page-builder-settings .node="${single}" .widget="${definition}" .count="${this.selection.length}" .page="${this[treeKey]}" .editorSettings="${this.settings}" .registry="${this.registry}" .host="${this}" .version="${this.version}"><slot name="page-settings" slot="page-settings"></slot></k-page-builder-settings>
             </aside>` : ''}
         </div>
       </div>
@@ -839,6 +870,19 @@ export default class PageBuilder extends ShadowComponent {
       display: block;
       height: 80vh;
       min-height: 30rem;
+    }
+    /* The controls of an extra spot look like the builder's own in a group: no border or margin of their own, a line between them. */
+    slot[name="left-end"]::slotted(*), slot[name="center-start"]::slotted(*), slot[name="center-end"]::slotted(*), slot[name="right-start"]::slotted(*) {
+      border: 0;
+      border-right: 1px solid var(--c_border, #8884);
+      border-radius: 0;
+      margin: 0;
+    }
+    slot[name="left-end"]::slotted([data-pb-last]), slot[name="center-start"]::slotted([data-pb-last]), slot[name="center-end"]::slotted([data-pb-last]), slot[name="right-start"]::slotted([data-pb-last]) {
+      border-right: 0;
+    }
+    slot[name="left-end"]::slotted([in-menu]), slot[name="center-start"]::slotted([in-menu]), slot[name="center-end"]::slotted([in-menu]), slot[name="right-start"]::slotted([in-menu]) {
+      border: 0 !important;
     }
     .pb {
       display: flex;
@@ -863,9 +907,13 @@ export default class PageBuilder extends ShadowComponent {
       width: 18rem;
       border-right: 1px solid var(--c_border, #8884);
     }
+    /* The settings panel fills the side and scrolls its own content (the tabs' contents, or the page settings), not the whole side. */
     aside.attrs {
+      display: flex;
+      flex-direction: column;
       width: 22rem;
       border-left: 1px solid var(--c_border, #8884);
+      overflow: hidden;
     }
     aside.full {
       flex: 1 1 auto;

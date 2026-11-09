@@ -197,6 +197,17 @@ export default {
     pass('Lower priority moves first');
   },
 
+  'should move a control with a negative priority before the ones that have none': async ({pass, fail}) => {
+    const { container, el } = await createBar(1400);
+    el.querySelector('#search').setAttribute('priority', '-1');
+    await resizeTo(container, naturalWidth(el) - 5);
+    el.arrange();
+    const moved = movedIds(el);
+    cleanup(container);
+    if(!moved.includes('search')) return fail(`The negative priority control should move first, moved: ${moved}`);
+    pass('A negative priority moves before priority 0');
+  },
+
   'should never move no-collapse controls': async ({pass, fail}) => {
     const { container, el } = await createBar(1400, '', 'no-collapse');
     await resizeTo(container, 60);

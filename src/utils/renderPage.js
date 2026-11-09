@@ -66,6 +66,13 @@ export const createRenderer = (registry, { editor = false, sanitize = html => ht
     mark: (node, definition, extra = '') => (editor
       ? ` data-pb-id="${escapeAttribute(node.id)}" data-pb-title="${escapeAttribute(definition.title)}"${extra} tabindex="0"`
       : ''),
+    /*
+      A named slot (not the default) in the builder is a drop place of its own, so a widget can be dragged into it, even
+      while it is empty. The widgets sit in one element that is itself slotted, instead of each carrying `slot`.
+    */
+    zone: (node, slot) => `<div slot="${escapeAttribute(slot.name)}" data-pb-id="${escapeAttribute(node.id)}" data-pb-slot="${escapeAttribute(slot.name)}" data-pb-title="${escapeAttribute(slot.label || slot.name)}">`
+      + (node.slots?.[slot.name] || []).map((child, index) => ctx.node(child, { index, parent: node, slot: slot.name })).join('\n')
+      + '</div>',
     /* The HTML of the widgets in one of a widget's slots. */
     children: (node, slot = 'default') => (node.slots?.[slot] || [])
       .map((child, index) => withSlot(ctx.node(child, { index, parent: node, slot }), slot))
@@ -78,7 +85,7 @@ export const createRenderer = (registry, { editor = false, sanitize = html => ht
       const classes = [...(definition.classes?.(attrs) || []), ...(options.classes || [])].filter(Boolean);
       const style = [definition.style?.(attrs), options.style].filter(Boolean).join('; ');
       const container = definition.slots?.length > 0;
-      const slotMark = editor && container ? ' data-pb-slot="default"' : '';
+      const slotMark = editor && definition.slots?.some(slot => slot.name === 'default') ? ' data-pb-slot="default"' : '';
       const attributes = ctx.attributes(definition, node, options.skip)
         + (classes.length ? ` class="${escapeAttribute(classes.join(' '))}"` : '')
         + (style ? ` style="${escapeAttribute(style)}"` : '')
@@ -86,7 +93,7 @@ export const createRenderer = (registry, { editor = false, sanitize = html => ht
         + ctx.mark(node, definition, slotMark);
       if(VOID_TAGS.has(tag)) return `<${tag}${attributes}>`;
       const content = options.content ?? contentOf(definition, attrs, ctx);
-      const children = container ? definition.slots.map(slot => ctx.children(node, slot.name)).filter(Boolean).join('\n') : '';
+      const children = container ? definition.slots.map(slot => (editor && slot.name !== 'default' ? ctx.zone(node, slot) : ctx.children(node, slot.name))).filter(Boolean).join('\n') : '';
       return `<${tag}${attributes}>${content}${children}</${tag}>`;
     },
     node: (node, info = {}) => {

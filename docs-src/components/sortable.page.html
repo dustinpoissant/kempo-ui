@@ -67,6 +67,42 @@
       </div>
     </div>
 
+    <h3 id="grid"><a href="#grid" class="no-link">A Grid of Tiles</a></h3>
+    <p>For items laid out in a row or a wrapping grid, such as a gallery of pictures, add <code>grid</code> to the container and <code>bare</code> to the items. You lay the container out yourself (here a wrapping flex row). A <code>bare</code> item has no handle, border or padding: the whole tile is what is dragged, a press on a button, link or field inside it is left alone, and a drag only starts once the pointer has moved a few pixels, so a click is still a click. The drop place is the nearest item and its side, shown as a bar.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml">&lt;k-sortable grid class="d-f" style="flex-wrap: wrap; gap: var(--spacer_h)"&gt;
+  &lt;k-sortable-item bare&gt;&lt;div class="tile"&gt;1&lt;/div&gt;&lt;/k-sortable-item&gt;
+  &lt;k-sortable-item bare&gt;&lt;div class="tile"&gt;2&lt;/div&gt;&lt;/k-sortable-item&gt;
+  &lt;k-sortable-item bare&gt;&lt;div class="tile"&gt;3&lt;/div&gt;&lt;/k-sortable-item&gt;
+  &lt;k-sortable-item bare&gt;&lt;div class="tile"&gt;4&lt;/div&gt;&lt;/k-sortable-item&gt;
+&lt;/k-sortable&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-sortable grid class="d-f" style="flex-wrap: wrap; gap: var(--spacer_h)">
+            <k-sortable-item bare><div class="b r p ta-center" style="width: 4rem">1</div></k-sortable-item>
+            <k-sortable-item bare><div class="b r p ta-center" style="width: 4rem">2</div></k-sortable-item>
+            <k-sortable-item bare><div class="b r p ta-center" style="width: 4rem">3</div></k-sortable-item>
+            <k-sortable-item bare><div class="b r p ta-center" style="width: 4rem">4</div></k-sortable-item>
+          </k-sortable>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="controlled"><a href="#controlled" class="no-link">Controlled</a></h3>
+    <p>By default the container moves the dropped item in the DOM. When your own code renders the list (Lit, for example), moving its nodes behind its back confuses it, so add <code>controlled</code>: nothing is moved, and the <code>sort</code> event says where the item was dropped (<code>detail.from</code> and <code>detail.to</code> are indexes among the items, <code>to</code> being the index in the new order). Reorder your data and render it again.</p>
+    <pre><code class="hljs xml">&lt;k-sortable grid controlled&gt;...&lt;/k-sortable&gt;
+&lt;script type="module"&gt;
+  document.querySelector('k-sortable').addEventListener('sort', ({ detail: { from, to } }) =&gt; {
+    const [moved] = list.splice(from, 1);
+    list.splice(to, 0, moved);
+    render();
+  });
+&lt;/script&gt;</code></pre>
+
     <h2 id="jsRef">JavaScript Reference</h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -89,17 +125,22 @@
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     
     <h4>Sortable</h4>
-    <p>The Sortable container has no public properties.</p>
+    <h5><code>grid<i>: boolean</i></code></h5>
+    <p>Items are in a row or a wrapping grid, not a vertical list. The drop place is the nearest item and its side. Reflected as an attribute.</p>
+    <h5><code>controlled<i>: boolean</i></code></h5>
+    <p>Do not move the dropped item in the DOM; only report where it was dropped. Reflected as an attribute.</p>
 
     <h4>SortableItem</h4>
+    <h5><code>bare<i>: boolean</i></code></h5>
+    <p>No handle, border or padding: the whole item is dragged, after the pointer has moved a few pixels, and a press on a button, link, input, select or textarea inside it (or anything with <code>data-no-drag</code>) is not a drag. Reflected as an attribute.</p>
     <h5><code>sorting<i>: boolean</i></code></h5>
     <p>A boolean indicating if the item is currently being dragged. This property is reflected as an attribute and automatically set by the drag handlers. When <code>true</code>, the item has reduced opacity.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     
     <h4>Sortable</h4>
-    <h5><code>getCursorElement()<i>: [Element, string] | null</i></code></h5>
-    <p>Returns the element and position ('before' or 'after') where the dragged item should be inserted based on the current cursor position. Returns <code>null</code> if no valid target is found.</p>
+    <h5><code>getCursorElement(point)<i>: [Element, string] | null</i></code></h5>
+    <p>Returns the element and position ('before' or 'after') where the dragged item should be inserted for a pointer position, <code>point</code> being an object with <code>clientX</code> and <code>clientY</code> (an event works). In a <code>grid</code> it is the nearest item, and before it when the pointer is left of its middle. Returns <code>null</code> if there is no valid target.</p>
 
     <h4>SortableItem</h4>
     <h5><code>sortable<i>: Sortable</i></code></h5>
@@ -107,7 +148,7 @@
 
     <h3 id="events"><a href="#events" class="no-link">Events</a></h3>
     <h5><code>sort</code></h5>
-    <p>Dispatched by the <code>k-sortable</code> container when an item is dropped in a new position. The event bubbles. Use this event to save the new order or update your application state.</p>
+    <p>Dispatched by the <code>k-sortable</code> container when an item is dropped in a new position. The event bubbles. Use this event to save the new order or update your application state. <code>detail</code> is <code>{ item, from, to }</code>: the dragged item and its index among the items before and after the move.</p>
   </content>
   <content location="scripts">
     <script type="module" src="{{pathToRoot}}src/components/Sortable.js"></script>

@@ -6,6 +6,7 @@ import sanitizeHtml from './sanitizeHtml.js';
   editor mode (every widget's element carries data-pb-id). This class owns that iframe. The builder hands it the tree
   and the ids to mark as selected, and it reports what the person did through the handlers:
 
+    stylesheets()                     more stylesheet addresses for the frame, besides the page the builder is in
     onSelect(id, { additive })        a widget was clicked
     onBlank()                         the page itself was clicked
     onChange(id, changes)             a widget's editor changed its settings (a pb-change event from the widget)
@@ -90,12 +91,18 @@ export default class PageFrame {
   }
 
   /*
-    The frame's document: the page's own stylesheets (so the site's theme shows), the editor's marks, and the root.
+    The frame's document: the stylesheets of the page the builder is in (so the site's theme shows) and any more it was
+    given (`stylesheets`, for a builder in an admin whose own stylesheets are not the site's), the editor's marks, and the root.
+    It starts in the theme the page is in (the `theme` and `auto-theme` attributes, written on its root), and says it can be
+    light or dark, so it is never drawn in the wrong one before the theme module has run (that is a flash of white in a dark page).
   */
   documentHtml(){
-    const links = [...document.querySelectorAll('link[rel="stylesheet"]')].map(link => `<link rel="stylesheet" href="${escapeAttribute(link.href)}">`).join('\n');
+    const hrefs = [...document.querySelectorAll('link[rel="stylesheet"]')].map(link => link.href);
+    const extra = (this.handlers.stylesheets?.() || []).map(href => new URL(href, document.baseURI).href);
+    const links = [...new Set([...hrefs, ...extra])].map(href => `<link rel="stylesheet" href="${escapeAttribute(href)}">`).join('\n');
     const theme = `<script type="module">import theme from "${escapeAttribute(THEME_MODULE)}"; theme.init();</script>`;
-    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page content</title>${links}${theme}<style>${EDITOR_CSS}</style></head>`
+    const attributes = ['theme', 'auto-theme'].filter(name => document.documentElement.hasAttribute(name)).map(name => ` ${name}="${escapeAttribute(document.documentElement.getAttribute(name))}"`).join('');
+    return `<!DOCTYPE html><html lang="en"${attributes}><head><meta charset="UTF-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page content</title>${links}${theme}<style>${EDITOR_CSS}</style></head>`
       + '<body><main id="pb-root"></main><div id="pb-handle" title="Drag to move"></div></body></html>';
   }
 
@@ -174,10 +181,12 @@ export default class PageFrame {
     return chain[depth === -1 ? 0 : Math.min(depth + 1, chain.length - 1)];
   }
 
-  /* A link or a button in the page must not take the builder somewhere else. */
+  /*
+    A link or a form in the page must not take the builder somewhere else. The whole path of the click is looked at, because
+    `event.target` is the widget for a click on a link inside the widget's shadow DOM (a cart button, say).
+  */
   handleClick = event => {
-    const link = event.target.closest?.('a[href], form');
-    if(link) event.preventDefault();
+    if(event.composedPath().some(element => element.matches?.('a[href], form'))) event.preventDefault();
   };
 
   handleChange = event => {

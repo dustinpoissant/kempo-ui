@@ -44,6 +44,7 @@ calendar: pick a date or a date range
 time: pick a time of day
 color-picker: pick a color
 icon-selector: pick an icon from a searchable grid, submits its name
+dropzone: a dashed area to drop files on or click to pick files, reports them in a files event
 combobox: dropdown input with search and suggestions
 tags: input for a list of tags
 segmented-control: row of buttons where one is selected

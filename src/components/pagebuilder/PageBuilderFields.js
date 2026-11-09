@@ -41,6 +41,7 @@ export default class PageBuilderFields extends ShadowComponent {
     image: urlPicker,
     video: urlPicker,
     audio: urlPicker,
+    file: urlPicker,
     icon: ({ id, value, change }) => html`<k-icon-selector id="${id}" class="full" placeholder="No icon" allow-clear .value="${value}" @change="${event => change(event.detail.value)}"></k-icon-selector>`
   };
 

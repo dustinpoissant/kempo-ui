@@ -1,5 +1,5 @@
 import ShadowComponent from '../ShadowComponent.js';
-import { html } from '../../lit-all.min.js';
+import { html, css } from '../../lit-all.min.js';
 import { titleOf, widgetIcon } from '../../utils/pageLabels.js';
 import { supportsStyles } from '../../utils/styles.js';
 import './PageBuilderFields.js';
@@ -11,7 +11,8 @@ import '../Icon.js';
 /*
   The right panel. With a widget selected it shows the widget's name and description, then its settings: the generic
   fields of its declared settings, or, when the widget has a settings element (`settings` and `settingsTag`), that
-  element instead. With nothing selected it is the page's own settings (title and description). Several selected: a note.
+  element instead. With nothing selected it is the page's own settings (title and description, then anything the site puts in the
+  `page-settings` slot of the builder, such as its own fields). Several selected: a note.
 */
 export default class PageBuilderSettings extends ShadowComponent {
   static properties = {
@@ -49,7 +50,7 @@ export default class PageBuilderSettings extends ShadowComponent {
     const title = this.page?.attrs?.title ?? '';
     const description = this.page?.attrs?.description ?? '';
     return html`
-      <div class="p">
+      <div class="p scroll">
         <h5 class="mb"><k-icon name="settings"></k-icon> Page settings</h5>
         <p class="tc-muted">Select a widget on the page to edit its settings.</p>
         <div class="mb">
@@ -60,6 +61,7 @@ export default class PageBuilderSettings extends ShadowComponent {
           <label class="d-b mbq" for="pb-page-description">Description</label>
           <textarea id="pb-page-description" class="full" rows="3" .value="${description}" @input="${event => this.host.setPageAttr('description', event.target.value)}"></textarea>
         </div>
+        <slot name="page-settings"></slot>
         <k-toggle id="pb-setting-confirm" .value="${!!this.editorSettings?.confirmDeletion}" @change="${event => event.detail.value !== !!this.editorSettings?.confirmDeletion && this.host.setEditorSetting('confirmDeletion', event.detail.value)}">Confirm deletion<small class="d-b tc-muted">Ask before the Delete key or the delete button removes a widget. Kept in this browser, not in the page.</small></k-toggle>
       </div>
     `;
@@ -73,19 +75,46 @@ export default class PageBuilderSettings extends ShadowComponent {
       ? html`<div class="custom"></div>`
       : html`<k-page-builder-fields .node="${this.node}" .widget="${definition}" .host="${this.host}" .version="${this.version}"></k-page-builder-fields>`;
     return html`
-      <div class="p">
+      <div class="p panel">
         <h5 class="mb">${widgetIcon(definition)} ${titleOf(this.registry, this.node)}</h5>
         ${definition?.description ? html`<p class="tc-muted">${definition.description}</p>` : ''}
         ${supportsStyles(definition) ? html`
-          <k-tabs>
+          <k-tabs fixed-height>
             <k-tab for="pb-widget">Widget</k-tab>
             <k-tab for="pb-styles">Styles</k-tab>
             <k-tab-content name="pb-widget">${widgetSettings}</k-tab-content>
             <k-tab-content name="pb-styles"><k-page-builder-styles .node="${this.node}" .host="${this.host}" .hide="${definition.hideStyles}" .version="${this.version}"></k-page-builder-styles></k-tab-content>
-          </k-tabs>` : widgetSettings}
+          </k-tabs>` : html`<div class="scroll">${widgetSettings}</div>`}
       </div>
     `;
   }
+
+  /*
+    Styles
+  */
+  static styles = css`
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    .scroll {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+    }
+    k-tabs {
+      flex: 1;
+      min-height: 0;
+    }
+  `;
 }
 
 customElements.define('k-page-builder-settings', PageBuilderSettings);

@@ -1,5 +1,6 @@
 import WidgetSettings from './WidgetSettings.js';
 import PageBuilderFields from './PageBuilderFields.js';
+import Toast from '../Toast.js';
 import { html, nothing } from '../../lit-all.min.js';
 import { resolveType } from '../MediaGallery.js';
 import '../Accordion.js';
@@ -18,7 +19,8 @@ const typeOptions = [
 /*
   The settings of a Media gallery: its own settings (thumbnail position, shape, controls, visualizer), then each item
   listed in an accordion with its address, type, poster or cover art, thumbnail and alternative text, buttons to move it
-  or remove it, and an Add item button. An item with no address is left out of the page.
+  or remove it, and an Add media button, which opens the media library with several items selectable (Add item, one empty
+  item to fill in, when there is no media library). An item with no address is left out of the page.
 */
 export default class MediaGallerySettings extends WidgetSettings {
   /*
@@ -43,6 +45,24 @@ export default class MediaGallerySettings extends WidgetSettings {
     this.editItems(items => [...items, { src: '' }]);
   }
 
+  /*
+    Opens the media library with pictures, videos and sounds selectable together, and adds each one chosen, in order, in one
+    step. A kempo-files address has no extension, so the type is written from what the library says the file is. A sound's
+    thumbnail is its album cover, unless the item is given one of its own later.
+  */
+  chooseItems = async () => {
+    const picked = await window.kempo?.openAssetPicker?.({ kind: '', multiple: true });
+    if(!picked?.length) return;
+    const items = await Promise.all(picked.map(async ({ url, alt, kind, thumbnail }) => ({
+      src: url,
+      ...(['image', 'video', 'audio'].includes(kind) ? { type: kind } : {}),
+      ...(alt ? { alt } : {}),
+      ...(kind === 'audio' && thumbnail ? { thumb: thumbnail } : {}),
+      ...(kind === 'video' ? await this.frameOf(url) : {})
+    })));
+    this.editItems(existing => [...existing, ...items]);
+  };
+
   moveItem(index, step) {
     this.editItems(items => {
       const target = index + step;
@@ -53,6 +73,32 @@ export default class MediaGallerySettings extends WidgetSettings {
 
   removeItem(index) {
     this.editItems(items => items.filter((_, position) => position !== index));
+  }
+
+  /* A video's poster: a frame of it, as the library made it, if there is one yet. */
+  async frameOf(src) {
+    const frame = await window.kempo?.coverFor?.(src, 'md');
+    return frame ? { poster: frame } : {};
+  }
+
+  /* Sets a video's poster to a frame of it. */
+  async useFrame(index, src) {
+    const frame = await window.kempo?.coverFor?.(src, 'md');
+    if(!frame){
+      Toast.error('This video has no frame yet');
+      return;
+    }
+    this.setItem(index, 'poster', frame);
+  }
+
+  /* Sets a sound's thumbnail to the album cover its file carries (asked of the library), if it has one. */
+  async useCover(index, src) {
+    const cover = await window.kempo?.coverFor?.(src);
+    if(!cover){
+      Toast.error('This sound has no album cover');
+      return;
+    }
+    this.setItem(index, 'thumb', cover);
   }
 
   setItem(index, name, value) {
@@ -92,6 +138,14 @@ export default class MediaGallerySettings extends WidgetSettings {
           </div>
           ${type === 'video' || type === 'audio' ? this.renderPicker(`${id}-poster`, type === 'video' ? 'Poster' : 'Cover art', type === 'video' ? 'The picture shown before the video plays.' : 'The picture shown above the player. Without one the visualizer fills the space.', 'image', item, index, 'poster') : nothing}
           ${this.renderPicker(`${id}-thumb`, 'Thumbnail', 'The small picture in the strip. Leave it empty to use the picture or poster.', 'image', item, index, 'thumb')}
+          ${type === 'audio' && window.kempo?.coverFor ? html`
+            <div class="mb">
+              <button class="full" @click="${() => this.useCover(index, item.src)}"><k-icon name="image"></k-icon> Use album cover</button>
+            </div>` : nothing}
+          ${type === 'video' && window.kempo?.coverFor ? html`
+            <div class="mb">
+              <button class="full" @click="${() => this.useFrame(index, item.src)}"><k-icon name="image"></k-icon> Use a frame of the video</button>
+            </div>` : nothing}
           <div class="mb">
             <label class="d-b mbq" for="${id}-alt">Alternative text<small class="d-b tc-muted">Describes the item for people who cannot see it.</small></label>
             <input id="${id}-alt" type="text" class="full" .value="${item.alt ?? ''}" @input="${event => this.setItem(index, 'alt', event.target.value)}">
@@ -111,7 +165,9 @@ export default class MediaGallerySettings extends WidgetSettings {
     return html`
       ${this.renderFields()}
       <div class="mb">
-        <button class="primary full" @click="${this.addItem}">Add item</button>
+        ${window.kempo?.openAssetPicker
+          ? html`<button class="primary full" @click="${this.chooseItems}"><k-icon name="image"></k-icon> Add media</button>`
+          : html`<button class="primary full" @click="${this.addItem}">Add item</button>`}
       </div>
       <k-accordion>
         ${this.items.map((item, index) => this.renderItem(item, index))}

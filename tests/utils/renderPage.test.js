@@ -270,6 +270,27 @@ export default {
     pass('a footer child is slotted');
   },
 
+  'in the builder a named slot is a drop place of its own, even when empty, and the page writes the children with the slot attribute': async ({ pass, fail }) => {
+    const custom = addWidget({ name: 'zone-box', title: 'Zone box', tag: 'pb-zone-box', editorTag: 'pb-zone-box-editor', slots: [{ name: 'default', label: 'Content' }, { name: 'footer', label: 'Under it' }, { name: 'aside', label: 'Beside it' }], attributes: [] });
+    const local = registryOf([...widgets.filter(definition => definition.name !== 'zone-box'), custom]);
+    const nodes = [node('zone-box', {}, { footer: [node('text', { html: '<p>f</p>' })] })];
+    const builder = renderPage(nodes, local, { editor: true });
+    if(!builder.includes('<div slot="footer" data-pb-id="zone-box-id" data-pb-slot="footer" data-pb-title="Under it"><div')) return fail(`the footer is not a zone holding its widget: ${builder}`);
+    if(!builder.includes('<div slot="aside" data-pb-id="zone-box-id" data-pb-slot="aside" data-pb-title="Beside it"></div>')) return fail(`an empty slot is not a zone: ${builder}`);
+    if(!builder.includes('data-pb-slot="default"')) return fail('the default slot lost its drop place');
+    const page = renderPage(nodes, local);
+    if(page.includes('data-pb') || !page.includes('slot="footer"')) return fail(`the page was changed: ${page}`);
+    pass('named slots are zones in the builder only');
+  },
+
+  'a widget with no default slot does not mark itself as a default drop place': async ({ pass, fail }) => {
+    const custom = addWidget({ name: 'footer-only', title: 'Footer only', tag: 'pb-footer-only', slots: [{ name: 'footer', label: 'Footer' }], attributes: [] });
+    const local = registryOf([...widgets.filter(definition => definition.name !== 'footer-only'), custom]);
+    const builder = renderPage([node('footer-only')], local, { editor: true });
+    if(builder.includes('data-pb-slot="default"')) return fail(builder);
+    pass('only declared slots are drop places');
+  },
+
   'a node whose type is not registered is left off the page, and shown as unavailable in the builder': async ({ pass, fail }) => {
     const nodes = [node('fragment', { name: 'nav' })];
     if(renderPage(nodes, registry).trim() !== '') return fail('an unknown widget was written to the page');

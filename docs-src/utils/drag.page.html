@@ -31,9 +31,14 @@
     <h5><code>preventScroll<i>: boolean</i></code> (optional)</h5>
     <p>Whether to prevent scroll behavior during drag. Defaults to false.</p>
 
+    <h5><code>threshold<i>: number</i></code> (optional)</h5>
+    <p>Pixels the pointer must move before the drag starts. Defaults to 0, which starts it on the press. With a threshold, a press and release that does not move that far calls no callback at all, so a click stays a click.</p>
+    <h5><code>ignore<i>: string</i></code> (optional)</h5>
+    <p>A selector. A press on something inside <code>element</code> that matches it (a button, a link) is not a drag.</p>
+
     <h3 id="callbacks"><a href="#callbacks" class="no-link">Callbacks</a></h3>
     <h5><code>callback<i>: Function</i></code> (optional)</h5>
-    <p>Called on every drag move. Receives a diff object with x, y coordinates and original options.</p>
+    <p>Called on every drag move. Receives a diff object with x, y (how far the pointer has moved since the press, in page coordinates), clientX, clientY (where it is in the viewport) and the original options.</p>
     <h5><code>startCallback<i>: Function</i></code> (optional)</h5>
     <p>Called when drag starts. Receives a diff object with x: 0, y: 0 and original options.</p>
     <h5><code>moveCallback<i>: Function</i></code> (optional)</h5>
