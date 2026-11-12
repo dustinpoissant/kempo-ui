@@ -678,6 +678,8 @@
         <a href="#customStyles">Custom Styles</a><br />
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         <a href="#disabled">Disabled</a><br />
+        <a href="#formUsage">Form Integration</a><br />
+        <a href="#readonly">Read-only</a><br />
         
         <h6 class="mt"><a href="jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -805,6 +807,40 @@
       </div>
     </div>
 
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>The toggle is form-associated. With a <code>name</code>, it submits <code>on</code> when it is on and nothing when it is off, like a checkbox. <code>required</code> blocks submission until it is on, for example for a terms agreement. Resetting the form returns the toggle to the state it had when it was added to the page.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;newsletter&quot;</span> <span class="hljs-attr">value</span>&gt;</span>Email me updates<span class="hljs-tag">&lt;/<span class="hljs-name">k-toggle</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;terms&quot;</span> <span class="hljs-attr">required</span>&gt;</span>I agree to the terms<span class="hljs-tag">&lt;/<span class="hljs-name">k-toggle</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form>
+            <k-toggle name="newsletter" value class="mb">Email me updates</k-toggle>
+            <k-toggle name="terms" required>I agree to the terms</k-toggle>
+            <button type="reset" class="btn mt">Reset</button>
+          </form>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the toggle's state and keeps it in the form, but the user cannot change it. The toggle appears at 75% opacity and stays in the tab order.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-toggle</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>&gt;</span>Read-only On<span class="hljs-tag">&lt;/<span class="hljs-name">k-toggle</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-toggle readonly value>Read-only On</k-toggle>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -825,6 +861,15 @@
 
     <h5><code>disabled<i>: boolean</i></code></h5>
     <p>When <code>true</code>, the toggle cannot be changed by user interaction. The current state is still displayed. The element will appear at 50% opacity. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>readonly<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the toggle cannot be changed by user interaction, but its state is still submitted with the form. The element appears at 75% opacity. Syncs to <code>readonly</code> attribute.</p>
+
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The form field name. When the toggle is on, the form submits <code>on</code> under this name. Syncs to <code>name</code> attribute.</p>
+
+    <h5><code>required<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the toggle must be on before the form can be submitted. Syncs to <code>required</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>on()<i>: this</i></code></h5>

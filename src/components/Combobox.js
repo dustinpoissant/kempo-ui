@@ -21,6 +21,7 @@ export default class Combobox extends ShadowComponent {
 		required: { type: Boolean, reflect: true },
 		requireMatch: { type: Boolean, reflect: true, attribute: 'require-match' },
 		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
 		debounceMs: { type: Number, attribute: 'debounce-ms' },
 		maxVisible: { type: Number, attribute: 'max-visible' },
 		noResultsMessage: { type: String, attribute: 'no-results-message' },
@@ -45,6 +46,7 @@ export default class Combobox extends ShadowComponent {
 		this.required = false;
 		this.requireMatch = false;
 		this.disabled = false;
+		this.readonly = false;
 		this.debounceMs = 300;
 		this.maxVisible = 8;
 		this.noResultsMessage = 'No Matches';
@@ -88,6 +90,10 @@ export default class Combobox extends ShadowComponent {
 		this.value = state;
 	}
 
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
+	}
+
 	/*
 		Event Handlers
 	*/
@@ -99,6 +105,7 @@ export default class Combobox extends ShadowComponent {
 	};
 
 	handleKeydown = e => {
+		if(this.readonly) return;
 		const items = this.#visibleOptions;
 		if(e.key === 'ArrowDown') {
 			e.preventDefault();
@@ -137,6 +144,7 @@ export default class Combobox extends ShadowComponent {
 	};
 
 	handleFocus = () => {
+		if(this.readonly) return;
 		this.opened = true;
 	};
 
@@ -250,6 +258,7 @@ export default class Combobox extends ShadowComponent {
 				.value=${this.value}
 				placeholder=${this.placeholder}
 				?disabled=${this.disabled}
+				?readonly=${this.readonly}
 				@input=${this.handleInput}
 				@keydown=${this.handleKeydown}
 				@focus=${this.handleFocus}

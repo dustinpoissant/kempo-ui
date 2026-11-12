@@ -1,5 +1,15 @@
 import HtmlEditor from '../../src/components/HtmlEditor.js';
 
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
 const createEditor = async (options = {}) => {
@@ -704,4 +714,11 @@ export default {
 		if(none.above !== 0 || none.below !== 0) return fail(`An editor that is not floating needs no room, got ${JSON.stringify(none)}`);
 		pass('The room for the floating toolbars is reported');
 	},
+
+	'readonly html editor has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-html-editor name="html" readonly></k-html-editor>');
+		const ok = el.readonly === true && el.hasAttribute('readonly');
+		form.remove();
+		ok ? pass('readonly is reflected') : fail('readonly should be true and reflected');
+	}
 };

@@ -10,3 +10,4 @@ Details:
 - `military` attr forces 24-hour display via `lang="en-GB"`
 - form-associated
 - fires `change`
+- `readonly` (Boolean): shows the time and still submits it; the native input is read-only

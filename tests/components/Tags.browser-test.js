@@ -1,5 +1,25 @@
 import Tags from '../../src/components/Tags.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createTags = async (options = {}) => {
 	const container = document.createElement('div');
 	container.innerHTML = `
@@ -877,5 +897,85 @@ export default {
 		}
 		cleanup(container);
 		pass('Very long tag wraps onto multiple lines');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		Tags.formAssociated === true ? pass('Tags is form-associated') : fail('Tags should be form-associated');
+	},
+
+	'readonly tags has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-tags name="skills" readonly value="design,ui"></k-tags>');
+		const readonly = el.readonly === true;
+		form.remove();
+		readonly ? pass('readonly is true') : fail('readonly should be true');
+	},
+
+	'readonly tags ignore typed input': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-tags name="skills" readonly value="design,ui"></k-tags>');
+		const input = el.shadowRoot.getElementById('tagsInput');
+		input.value = 'new';
+		input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+		await el.updateComplete;
+		const value = el.value;
+		form.remove();
+		value === 'design,ui' ? pass('Readonly tags did not add a tag') : fail(`value is ${value}`);
+	},
+
+	'readonly tags cannot be removed by a click': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-tags name="skills" readonly value="design,ui"></k-tags>');
+		await new Promise(resolve => setTimeout(resolve, 20));
+		const tag = el.shadowRoot.querySelector('#tags k-tag');
+		if(!tag){
+			form.remove();
+			return fail('No tag was rendered');
+		}
+		await tag.updateComplete;
+		tag.shadowRoot.querySelector('span').click();
+		await el.updateComplete;
+		const value = el.value;
+		form.remove();
+		value === 'design,ui' ? pass('Readonly tag stayed') : fail(`value is ${value}`);
+	},
+
+	'readonly tags are still submitted': async ({pass, fail}) => {
+		const { form } = await mountField('<k-tags name="skills" readonly value="design,ui"></k-tags>');
+		const submitted = new FormData(form).get('skills');
+		form.remove();
+		submitted === 'design,ui' ? pass('Readonly tags submitted') : fail(`Expected design,ui, got ${submitted}`);
+	},
+
+	'tags submit their comma-separated value': async ({pass, fail}) => {
+		const { form } = await mountField('<k-tags name="skills" value="design,ui"></k-tags>');
+		const submitted = new FormData(form).get('skills');
+		form.remove();
+		submitted === 'design,ui' ? pass('Comma-separated value submitted') : fail(`Got ${submitted}`);
+	},
+
+	'required tags block submission until a tag is added': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-tags name="skills" required></k-tags>');
+		const blocked = !form.checkValidity();
+		el.value = 'design';
+		await el.updateComplete;
+		const allowed = form.checkValidity();
+		form.remove();
+		blocked && allowed ? pass('Required tags gate the form') : fail(`blocked=${blocked} allowed=${allowed}`);
+	},
+
+	'tags reset to their starting value': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-tags name="skills" value="design"></k-tags>');
+		el.value = 'design,ui';
+		await el.updateComplete;
+		form.reset();
+		await el.updateComplete;
+		const restored = el.value === 'design';
+		form.remove();
+		restored ? pass('Reset restored the starting tags') : fail(`value is ${el.value}`);
+	},
+
+	'disabled fieldset disables the tags': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-tags name="s" value="a"></k-tags>', 'k-tags');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Tags are disabled by their fieldset') : fail('A disabled fieldset should disable the tags');
 	}
 };

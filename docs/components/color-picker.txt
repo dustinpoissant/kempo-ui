@@ -6,3 +6,5 @@ Full color picker (hex, rgb, hsl, hsv, alpha)
 
 Details:
 - `value` property
+- `readonly` (Boolean): shows the color and still submits it; the text field is read-only, and the format select and swatch are disabled
+- `disabled` (Boolean): the color cannot be changed and is left out of the form; a disabled fieldset disables it too

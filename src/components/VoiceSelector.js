@@ -73,10 +73,15 @@ const displayVoiceName = (name) => {
 };
 
 export default class VoiceSelector extends ShadowComponent {
+  static formAssociated = true;
+
   static properties = {
     language: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
+    name: { type: String, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    readonly: { type: Boolean, reflect: true },
+    required: { type: Boolean, reflect: true },
     voices: { state: true },
     selected: { state: true },
     currentLang: { state: true }
@@ -92,9 +97,14 @@ export default class VoiceSelector extends ShadowComponent {
   */
   constructor() {
     super();
+    this.internals = this.attachInternals();
     this.language = '';
     this.placeholder = 'Browser default';
+    this.name = '';
     this.disabled = false;
+    this.readonly = false;
+    this.required = false;
+    this.initialValue = '';
     this.voices = [];
     this.selected = '';
     this.currentLang = '';
@@ -102,6 +112,7 @@ export default class VoiceSelector extends ShadowComponent {
 
   connectedCallback() {
     super.connectedCallback();
+    this.initialValue = getVoice() || '';
     if(typeof window === 'undefined' || !window.speechSynthesis){
       this.#unsupported = true;
       return;
@@ -170,11 +181,36 @@ export default class VoiceSelector extends ShadowComponent {
     return this.voices.filter(v => primaryLang(v.lang) === this.currentLang);
   }
 
+  updated(changedProperties) {
+    super.updated(changedProperties);
+    this.internals.setFormValue(this.selected || null);
+    this.internals.setValidity(
+      this.required && !this.selected ? { valueMissing: true } : {},
+      'Please choose a voice.',
+      this.renderRoot.querySelector('.voice')
+    );
+  }
+
+  /*
+    Form Callbacks
+  */
+  formResetCallback() {
+    setVoice(this.initialValue);
+  }
+
+  formStateRestoreCallback(state) {
+    setVoice(state || '');
+  }
+
+  formDisabledCallback(disabled) {
+    this.disabled = disabled;
+  }
+
   /*
     Event Handlers
   */
   handleLanguageChange = (e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     this.currentLang = e.target.value;
     // If the saved voice no longer exists in this language, clear it
     const stillValid = this.voicesForCurrentLanguage.some(v => v.name === this.selected);
@@ -184,7 +220,7 @@ export default class VoiceSelector extends ShadowComponent {
   };
 
   handleVoiceChange = (e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     const value = e.target.value;
     setVoice(value);
     this.dispatchEvent(new CustomEvent('change', {
@@ -221,7 +257,8 @@ export default class VoiceSelector extends ShadowComponent {
           <select
             class="lang"
             aria-label="Language"
-            ?disabled=${this.disabled || langs.length === 0}
+            ?disabled=${this.disabled || this.readonly || langs.length === 0}
+            ?readonly=${this.readonly}
             .value=${this.currentLang}
             @change=${this.handleLanguageChange}
           >
@@ -234,7 +271,8 @@ export default class VoiceSelector extends ShadowComponent {
           <select
             class="voice"
             aria-label="Voice"
-            ?disabled=${this.disabled}
+            ?disabled=${this.disabled || this.readonly}
+            ?readonly=${this.readonly}
             .value=${this.selected}
             @change=${this.handleVoiceChange}
           >

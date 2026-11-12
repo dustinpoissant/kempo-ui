@@ -678,6 +678,7 @@
           <a href="#requireMatch">Require Match</a><br />
           <a href="#maxVisible">Max Visible</a><br />
           <a href="#noResultsMessage">No Results Message &amp; Empty Message</a><br />
+          <a href="#readonly">Read-only</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -823,6 +824,24 @@
       </div>
     </div>
 
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the selected value and keeps it in the form, but the user cannot type, open the list or pick another option. The field stays in the tab order and its text can still be selected and copied.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-combobox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&#x27;fruit&#x27;</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;Banana&#x27;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;apple&#x27;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&#x27;banana&#x27;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">k-option</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-combobox</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-combobox name="fruit" readonly value="Banana">
+            <k-option value="apple">Apple</k-option>
+            <k-option value="banana">Banana</k-option>
+          </k-combobox>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -902,6 +921,13 @@
           <td><code>Boolean</code></td>
           <td><code>false</code></td>
           <td>Disables the combobox.</td>
+        </tr>
+        <tr>
+          <td><code>readonly</code></td>
+          <td><code>readonly</code></td>
+          <td><code>Boolean</code></td>
+          <td><code>false</code></td>
+          <td>The value is shown and still submitted, but the user cannot type or pick an option. Syncs to the <code>readonly</code> attribute.</td>
         </tr>
         <tr>
           <td><code>debounce-ms</code></td>

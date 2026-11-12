@@ -21,6 +21,14 @@ export default class ColorPicker extends ShadowComponent {
 			reflect: true,
 			attribute: 'value'
 		},
+		readonly: {
+			type: Boolean,
+			reflect: true
+		},
+		disabled: {
+			type: Boolean,
+			reflect: true
+		},
 		red: {
 			type: Number
 		},
@@ -38,6 +46,8 @@ export default class ColorPicker extends ShadowComponent {
 		super();
 		this.internals = this.attachInternals();
 		this.format = "hex";
+		this.readonly = false;
+		this.disabled = false;
 		this.red = 0;
 		this.green = 0;
 		this.blue = 0;
@@ -50,6 +60,15 @@ export default class ColorPicker extends ShadowComponent {
 		// Capture original attributes BEFORE Lit processes them
 		this.originalHadFormat = this.hasAttribute('format');
 		this.originalValue = this.getAttribute('value');
+		this.initialValue = this.value;
+	}
+
+	formResetCallback(){
+		this.value = this.initialValue;
+	}
+
+	formDisabledCallback(disabled){
+		this.disabled = disabled;
 	}
 	
 	firstUpdated(changedProperties){
@@ -203,6 +222,8 @@ export default class ColorPicker extends ShadowComponent {
 				<select
 					id="format"
 					value="${this.format}"
+					?disabled=${this.disabled || this.readonly}
+					?readonly=${this.readonly}
 					@change=${this.onFormatChange}
 					@input=${this.onFormatInput}
 					@focus=${this.forwardEvent}
@@ -214,6 +235,8 @@ export default class ColorPicker extends ShadowComponent {
 					id="text"
 					type="text"
 					value="${this.value}"
+					?disabled=${this.disabled}
+					?readonly=${this.readonly}
 					@change=${this.onTextInputChange}
 					@input=${this.onTextInput}
 					@focus=${this.forwardEvent}
@@ -224,6 +247,7 @@ export default class ColorPicker extends ShadowComponent {
 						id="color"
 						type="color"
 						value="${this.constructor.formats.hex.toString(this.red || 0, this.green || 0, this.blue || 0, 1)}"
+						?disabled=${this.disabled || this.readonly}
 						@change=${this.onColorInputChange}
 						@input=${this.onColorInput}
 						@focus=${this.forwardEvent}
@@ -236,6 +260,10 @@ export default class ColorPicker extends ShadowComponent {
 	static styles = css`
 		:host {
 			display: block;
+		}
+		:host([disabled]) {
+			opacity: 0.5;
+			pointer-events: none;
 		}
 		#container {
 			display: grid;

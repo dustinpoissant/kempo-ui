@@ -6,6 +6,7 @@ A modern, lightweight web component library built with Lit, providing accessible
 
 - **Web Components**: Standards-based, framework-agnostic components
 - **Accessible**: Built with accessibility best practices
+- **Form ready**: Inputs submit with their form, and support `required`, `readonly`, `disabled` and form reset
 - **Customizable**: Easy theming and styling
 - **Lightweight**: Minimal bundle size with minimal dependencies
 

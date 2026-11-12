@@ -36,7 +36,7 @@ progress: progress bar
 focus-capture: keeps keyboard focus inside an element
 photo-viewer: lightbox / gallery for images
 
-Form inputs:
+Form inputs (all form-associated: `name` submits the value with the form, `required`, `readonly` keeps the value but blocks changes, a form reset restores the starting value):
 toggle: on/off switch
 slider: pick a number or a range by dragging
 rating: star rating

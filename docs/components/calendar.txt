@@ -10,3 +10,4 @@ Details:
 - `min`/`max` bounds
 - form-associated
 - fires `change`
+- `readonly` (Boolean): shows the selected date and still submits it; days cannot be picked, but month and year navigation still works

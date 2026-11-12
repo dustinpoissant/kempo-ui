@@ -1,5 +1,25 @@
 import Rating from '../../src/components/Rating.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createRating = async (options = {}) => {
 	const container = document.createElement('div');
 	const value = options.value !== undefined ? `value="${options.value}"` : '';
@@ -354,5 +374,35 @@ export default {
 		}
 		cleanup(container);
 		pass('Rating resets to initial value on form reset');
+	},
+
+	'readonly rating has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-rating name="r" readonly value="2"></k-rating>');
+		const readonly = el.readonly === true;
+		form.remove();
+		readonly ? pass('readonly is true') : fail('readonly should be true');
+	},
+
+	'readonly rating ignores star clicks': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-rating name="r" readonly value="2"></k-rating>');
+		el.shadowRoot.querySelectorAll('.star')[4].click();
+		await el.updateComplete;
+		const value = el.value;
+		form.remove();
+		value === 2 ? pass('Readonly rating kept its value') : fail(`value is ${value}`);
+	},
+
+	'readonly rating submits its value': async ({pass, fail}) => {
+		const { form } = await mountField('<k-rating name="r" readonly value="2"></k-rating>');
+		const submitted = new FormData(form).get('r');
+		form.remove();
+		submitted === '2' ? pass('Submits 2') : fail(`Submitted ${submitted}`);
+	},
+
+	'disabled fieldset disables the rating': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-rating name="r" value="2"></k-rating>', 'k-rating');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Rating is disabled by its fieldset') : fail('A disabled fieldset should disable the rating');
 	}
 };

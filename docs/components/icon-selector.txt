@@ -20,3 +20,5 @@ Details:
 - placeholder (String, default "Choose an Icon"): the text shown in the field when no icon is selected.
 - icon-only (Boolean): shows only the icon, not its name, and the field is inline-block. The name is kept as the button's label and tooltip.
 - allow-clear (Boolean): the dialog's Cancel button becomes "Clear", which empties the value and fires change.
+- readonly (Boolean): shows the chosen icon and still submits it; the dialog cannot be opened to change it
+- `disabled` (Boolean): the dialog cannot be opened and the value is left out of the form; a disabled fieldset disables it too

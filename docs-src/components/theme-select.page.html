@@ -7,6 +7,8 @@
         <h6>Examples</h6>
         <a href="#basicUsage">Basic Usage</a><br />
         <a href="#withLabel">With Label</a><br />
+        <a href="#formUsage">Form Integration</a><br />
+        <a href="#readonly">Read-only</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -55,6 +57,39 @@
       </div>
     </div>
 
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>The theme select is form-associated. With a <code>name</code>, the chosen theme is submitted with the form. The theme is the site-wide setting, so a form reset restores the theme that was set when the element was added to the page.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-select</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <form>
+            <k-theme-select name="theme">Theme</k-theme-select>
+            <button type="reset" class="btn mt">Reset</button>
+          </form>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the current theme and keeps it in the form, but the user cannot change it. The select appears at 75% opacity.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-theme-select</span> <span class="hljs-attr">readonly</span>&gt;</span>Theme<span class="hljs-tag">&lt;/<span class="hljs-name">k-theme-select</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Output">
+          <k-theme-select readonly>Theme</k-theme-select>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -72,6 +107,15 @@
     <h3 id="properties"><a href="#properties" class="no-link">Properties</a></h3>
     <h5><code>currentTheme<i>: string</i></code></h5>
     <p>Gets or sets the current theme. Possible values are <code>"auto"</code>, <code>"light"</code>, or <code>"dark"</code>. This property is reactive and will trigger a re-render when changed. Syncs to <code>current-theme</code> attribute.</p>
+
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The form field name. The current theme is submitted under it. Syncs to <code>name</code> attribute.</p>
+
+    <h5><code>disabled<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the select cannot be changed and is dimmed to 50% opacity. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>readonly<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the select cannot be changed, but the current theme is still submitted with the form. Syncs to <code>readonly</code> attribute.</p>
 
     <h3 id="slots"><a href="#slots" class="no-link">Slots</a></h3>
     <h5><code>default</code></h5>

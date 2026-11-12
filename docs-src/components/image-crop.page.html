@@ -12,6 +12,7 @@
         <a href="#formUsage">Form Integration</a><br />
         <a href="#outputFormat">Output Format</a><br />
         <a href="#disabled">Disabled</a><br />
+        <a href="#readonly">Read-only</a><br />
         <a href="#customStyles">Custom Styles</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -179,6 +180,21 @@
       </div>
     </div>
 
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>A read-only cropper shows the image and its crop, and it is still submitted with the form, but the user cannot pick a new image, move or resize the crop, or remove the image. The cropper appears at 75% opacity, and its buttons are unavailable.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-image-crop</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;../media/civic.jpg&quot;</span> <span class="hljs-attr">aspect-ratio</span>=<span class="hljs-string">&quot;4/3&quot;</span> <span class="hljs-attr">readonly</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-image-crop</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-image-crop src="{{pathToRoot}}media/civic.jpg" aspect-ratio="4/3" readonly></k-image-crop>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="customStyles"><a href="#customStyles" class="no-link">Custom Styles</a></h3>
     <p>Override <code>--crop_color</code> (crop box and drop zone highlight), <code>--crop_handle_size</code> and <code>--crop_max_height</code> (maximum displayed image height, in pixels, unitless) to restyle the widget. <code>--crop_max_height</code> only affects the on-screen editor, never the output size.</p>
     <div class="row -mx">
@@ -282,6 +298,12 @@
             <td>Boolean</td>
             <td><code>false</code></td>
             <td>Prevents changing the image or crop. Also set automatically by a disabled <code>&lt;fieldset&gt;</code>.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td>Boolean</td>
+            <td><code>false</code></td>
+            <td>Shows the image and crop and still submits them, but prevents changing the image or crop. The cropper appears at 75% opacity.</td>
           </tr>
           <tr>
             <td><code>required</code></td>

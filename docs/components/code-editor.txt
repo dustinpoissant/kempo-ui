@@ -9,3 +9,4 @@ Details:
 - form-associated (full validity + reset/restore/disabled callbacks)
 - theme-aware
 - toolbar button controls use the unified `kc-*` prefix and extend `ButtonControl` from `controls/Button.js`
+- `readonly` (Boolean): the editor stays selectable and copyable but cannot be edited; the value is still submitted

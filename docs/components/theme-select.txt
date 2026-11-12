@@ -3,3 +3,5 @@ Import: import 'kempo-ui/src/components/ThemeSelect.js';
 Docs: https://dustinpoissant.github.io/kempo-ui/components/theme-select.html
 
 Dropdown to pick a theme
+- form-associated via `name`: submits the current theme; a form reset restores the theme from when the element was added
+- `disabled`/`readonly` (Boolean): the select cannot be changed; readonly still submits the theme

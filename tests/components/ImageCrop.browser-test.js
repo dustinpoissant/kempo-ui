@@ -1,5 +1,15 @@
 import ImageCrop from '../../src/components/ImageCrop.js';
 
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const makeImageBlob = (width = 400, height = 200, type = 'image/png') => new Promise(resolve => {
 	const canvas = document.createElement('canvas');
 	canvas.width = width;
@@ -391,5 +401,17 @@ export default {
 		const buttonsDisabled = [...crop.shadowRoot.querySelectorAll('button')].every(b => b.disabled);
 		cleanup(container);
 		same && buttonsDisabled ? pass('Disabled respected') : fail(`same=${same} buttonsDisabled=${buttonsDisabled}`);
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		ImageCrop.formAssociated === true ? pass('ImageCrop is form-associated') : fail('ImageCrop should be form-associated');
+	},
+
+	'readonly image crop disables its upload button': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-image-crop name="img" readonly></k-image-crop>');
+		const upload = el.shadowRoot.getElementById('upload');
+		const ok = el.readonly === true && upload && upload.disabled === true;
+		form.remove();
+		ok ? pass('Upload is unavailable while readonly') : fail('Readonly should disable the upload button');
 	}
 };

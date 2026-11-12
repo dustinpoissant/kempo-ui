@@ -680,6 +680,7 @@
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         <a href="#formUsage">Form Usage</a><br />
         <a href="#disabled">Disabled</a><br />
+        <a href="#readonly">Read-only</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -850,6 +851,21 @@
       </div>
     </div>
 
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the selected date and keeps it in the form, but the user cannot pick another one. Days do not respond to clicks or range hover previews. The month and year dropdowns still work, so the user can look around the calendar. The calendar appears at 75% opacity.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-calendar</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-04-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-calendar</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-calendar readonly value="2026-04-15"></k-calendar>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -879,6 +895,9 @@
 
     <h5><code>disabled<i>: Boolean</i></code></h5>
     <p>When <code>true</code>, the calendar cannot be changed by user interaction. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>readonly<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the selected date is shown and still submitted with the form, but the user cannot pick a date. Month and year navigation still works. Syncs to <code>readonly</code> attribute.</p>
 
     <h5><code>required<i>: Boolean</i></code></h5>
     <p>When <code>true</code> and no date is set, the element reports a <code>valueMissing</code> validity error for form validation. Syncs to <code>required</code> attribute.</p>

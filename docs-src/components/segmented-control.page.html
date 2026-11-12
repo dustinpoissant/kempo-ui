@@ -10,6 +10,8 @@
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         <a href="#customComponents">Icon Options</a><br />
         <a href="#formUsage">Form Integration</a><br />
+        <a href="#disabled">Disabled</a><br />
+        <a href="#readonly">Read-only</a><br />
         
         <h6 class="mt"><a href="jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -143,6 +145,44 @@
 
     <hr class="mt" />
 
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute stops the user from picking an option, and leaves the value out of the form. A segmented control inside a disabled <code>&lt;fieldset&gt;</code> is disabled too. It appears at 50% opacity.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"size"</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"small"</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-segmented-control name="size" disabled value="medium">
+            <k-sc-option value="small">Small</k-sc-option>
+            <k-sc-option value="medium">Medium</k-sc-option>
+            <k-sc-option value="large">Large</k-sc-option>
+          </k-segmented-control>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the selected option and keeps it in the form, but the user cannot pick another one. The control appears at 75% opacity.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-segmented-control</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"size"</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"small"</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"medium"</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br />  <span class="hljs-tag">&lt;<span class="hljs-name">k-sc-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"large"</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">k-sc-option</span>&gt;</span><br /><span class="hljs-tag">&lt;/<span class="hljs-name">k-segmented-control</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-segmented-control name="size" readonly value="medium">
+            <k-sc-option value="small">Small</k-sc-option>
+            <k-sc-option value="medium">Medium</k-sc-option>
+            <k-sc-option value="large">Large</k-sc-option>
+          </k-segmented-control>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -174,6 +214,18 @@
             <td>String</td>
             <td><code>''</code></td>
             <td>The name attribute for form submission. When used in a form, this is the key under which the selected value is submitted.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td>Boolean</td>
+            <td><code>false</code></td>
+            <td>Stops the user from picking an option. The value is left out of the form. Also set automatically by a disabled <code>&lt;fieldset&gt;</code>. The control appears at 50% opacity.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td>Boolean</td>
+            <td><code>false</code></td>
+            <td>The selected option is shown and still submitted with the form, but clicking an option does nothing. The control appears at 75% opacity.</td>
           </tr>
         </tbody>
       </table>

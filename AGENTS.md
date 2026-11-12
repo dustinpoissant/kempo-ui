@@ -10,6 +10,17 @@
  - Each component and utility has a small plain-text doc (`docs-src/components/<name>.txt`, `docs-src/utils/<name>.txt`) next to its docs page, and `docs-src/overview.txt` lists what each is for. The build copies them to `docs/` so an LLM can read just the one it needs. **Keep them up to date** when a component or utility changes.
  - `llms.txt` in the root is the consumer-facing LLM reference for this library. **Keep it up to date**: when adding a new component or utility, add a row to the relevant table in `llms.txt`.
  
+## Form Components
+
+Any component that holds a value the user enters (an input, select, toggle, picker, list, editor) is form-associated and supports `readonly`.
+
+ - `static formAssociated = true`, `this.internals = this.attachInternals()`, and `setFormValue` whenever the value changes (`null` for no value, a `FormData` for several values).
+ - `name` (reflected) submits the value. `required` reports `valueMissing` through `setValidity`, anchored to a focusable element.
+ - `formResetCallback` restores the value from when the element was added, `formStateRestoreCallback` restores a saved state, and `formDisabledCallback` mirrors a disabled `<fieldset>`.
+ - `readonly` (reflected) blocks every user path (clicks, keys, drops, typing, change events) but keeps the value in the form and in the tab order. Programmatic changes are not blocked, the same as `disabled`.
+ - Native `select`, `checkbox`, `radio` and `color` inputs ignore `readonly`. Give a select or checkbox both `disabled` and `readonly` (kempo-css styles that pair as read only), and disable a color input while readonly.
+ - Test the readonly and form behaviour in `tests/components/<Name>.browser-test.js`, and document it in the component's page, its `.txt`, its `llms.txt` row and `docs-src/overview.txt`.
+
 ## Dependencies
 
  - [Kempo-CSS](https://raw.githubusercontent.com/dustinpoissant/kempo-css/refs/heads/main/llms.txt) - Injected into the shadow root of all components extending ShadowCompoentn or Hybrid Component. Do not assume bootstrap styles, some may be similar, but these are not compatible with bootstrap, read the docs.

@@ -680,6 +680,8 @@
           <a href="#alphaHandling">Alpha Transparency</a><br />
           <a href="#formatSelection">Format Selection</a><br />
           <a href="#formUsage">Form Integration</a><br />
+          <a href="#disabled">Disabled</a><br />
+          <a href="#readonly">Read-only</a><br />
           <a href="#javascriptUsage">JavaScript Usage</a><br />
           <a href="#eventHandling">Event Handling</a><br />
 
@@ -1144,6 +1146,36 @@
       </div>
     </div>
 
+    <h2 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h2>
+    <p>The <code>disabled</code> attribute stops the user from changing the color and leaves the value out of the form. A color picker inside a disabled <code>&lt;fieldset&gt;</code> is disabled too. The picker appears at 50% opacity.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-color-picker</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"brand"</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"#3366cc"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-color-picker</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-color-picker name="brand" disabled value="#3366cc"></k-color-picker>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h2>
+    <p>The <code>readonly</code> attribute shows the color and keeps it in the form, but the user cannot change it. The text field and the format dropdown use the read-only style, but the color swatch is disabled, because browsers have no read-only state for color inputs and the dropdown is disabled to block changes.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-color-picker</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"brand"</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"#3366cc"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-color-picker</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-color-picker name="brand" readonly value="#3366cc"></k-color-picker>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -1184,6 +1216,12 @@
 
     <h5><code>alpha<i>: number</i></code></h5>
     <p>The alpha transparency component (0-1).</p>
+
+    <h5><code>disabled<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the color cannot be changed and is left out of the form. The picker appears at 50% opacity. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>readonly<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, the color is shown and still submitted with the form, but the user cannot change it. Syncs to the <code>readonly</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>toHexColor(red, green, blue)<i>: string</i></code></h5>

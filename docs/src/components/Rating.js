@@ -1,14 +1,14 @@
-import{html as e,css as t}from"../lit-all.min.js";import s from"./ShadowComponent.js";import{bound as a}from"../utils/number.js";import"./Icon.js";export default class i extends s{static formAssociated=!0;static properties={value:{type:Number,reflect:!0},name:{type:String,reflect:!0},disabled:{type:Boolean,reflect:!0},hoverValue:{type:Number,state:!0}};constructor(){super(),this.internals=this.attachInternals(),this.value=0,this.name="",this.disabled=!1,this.hoverValue=null,this.initialValue=0}connectedCallback(){super.connectedCallback(),this.initialValue=this.value;const e=this.closest("form");e&&e.addEventListener("reset",this.handleReset)}disconnectedCallback(){super.disconnectedCallback();const e=this.closest("form");e&&e.removeEventListener("reset",this.handleReset)}updated(e){super.updated(e),e.has("value")&&(this.internals.setFormValue(String(this.value)),this.dispatchEvent(new CustomEvent("change",{detail:{value:this.value},bubbles:!0})))}handleReset=()=>{this.value=this.initialValue};handleStarClick=e=>{this.disabled||(this.value=a(e,0,5))};handleStarEnter=e=>{this.disabled||(this.hoverValue=e)};handleMouseLeave=()=>{this.hoverValue=null};render(){const t=this.hoverValue??this.value;return e`
+import{html as e,css as t}from"../lit-all.min.js";import s from"./ShadowComponent.js";import{bound as a}from"../utils/number.js";import"./Icon.js";export default class l extends s{static formAssociated=!0;static properties={value:{type:Number,reflect:!0},name:{type:String,reflect:!0},disabled:{type:Boolean,reflect:!0},readonly:{type:Boolean,reflect:!0},hoverValue:{type:Number,state:!0}};constructor(){super(),this.internals=this.attachInternals(),this.value=0,this.name="",this.disabled=!1,this.readonly=!1,this.hoverValue=null,this.initialValue=0}connectedCallback(){super.connectedCallback(),this.initialValue=this.value;const e=this.closest("form");e&&e.addEventListener("reset",this.handleReset)}disconnectedCallback(){super.disconnectedCallback();const e=this.closest("form");e&&e.removeEventListener("reset",this.handleReset)}updated(e){super.updated(e),e.has("value")&&(this.internals.setFormValue(String(this.value)),this.dispatchEvent(new CustomEvent("change",{detail:{value:this.value},bubbles:!0})))}handleReset=()=>{this.value=this.initialValue};formDisabledCallback(e){this.disabled=e}handleStarClick=e=>{this.disabled||this.readonly||(this.value=a(e,0,5))};handleStarEnter=e=>{this.disabled||this.readonly||(this.hoverValue=e)};handleMouseLeave=()=>{this.hoverValue=null};render(){const t=this.hoverValue??this.value;return e`
 			<div id="stars" @mouseleave=${this.handleMouseLeave}>
-				${Array.from({length:5},(s,a)=>{const i=a+1,r=i<=t;return e`
+				${Array.from({length:5},(s,a)=>{const l=a+1,r=l<=t;return e`
 						<button
 							type="button"
 							class="no-btn star${r?" filled":""}"
 							?disabled=${this.disabled}
-							aria-label="Rate ${i} of ${5}"
+							aria-label="Rate ${l} of ${5}"
 							?aria-pressed=${r}
-							@click=${()=>this.handleStarClick(i)}
-							@mouseenter=${()=>this.handleStarEnter(i)}
+							@click=${()=>this.handleStarClick(l)}
+							@mouseenter=${()=>this.handleStarEnter(l)}
 						><k-icon name=${r?"star_filled":"star"}></k-icon></button>
 					`})}
 			</div>
@@ -23,6 +23,12 @@ import{html as e,css as t}from"../lit-all.min.js";import s from"./ShadowComponen
 		}
 		:host([disabled]) {
 			opacity: 0.5;
+			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) .star {
 			pointer-events: none;
 		}
 		#stars {
@@ -51,4 +57,4 @@ import{html as e,css as t}from"../lit-all.min.js";import s from"./ShadowComponen
 		.star.filled {
 			color: var(--star_color__filled);
 		}
-	`}window.customElements.define("k-rating",i);
+	`}window.customElements.define("k-rating",l);

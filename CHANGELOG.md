@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-12
+
+### Added
+
+- **`readonly` on every form input.** A read-only input shows its value, keeps it in the form and in the tab order, but the user cannot change it. Calendar, Combobox, ColorPicker, IconSelector, ImageCrop, Rating, SegmentedControl, Slider, Time, Toggle, Tags, Dropzone, VoiceSelector, ThemeSelect and ThemeSwitcher support it. CodeEditor, HtmlEditor and MarkdownEditor already did, and CodeEditor's docs now say so.
+- **`<k-toggle>`, `<k-tags>`, `<k-dropzone>`, `<k-voice-selector>`, `<k-theme-select>` and `<k-theme-switcher>` are form-associated.** Each submits its value under `name`, and a form reset restores its starting value. Toggle, Tags, Dropzone and VoiceSelector support `required`.
+- **`<k-dropzone>` holds the files it accepts as its form value**, submitted under `name` like a file input. A new accepted drop replaces the files, and a drop with no accepted files keeps them. Reset clears them, and the new `files` getter returns a copy of them.
+- **`disabled` on `<k-color-picker>`, `<k-icon-selector>` and `<k-segmented-control>`.** A disabled one cannot be changed and is left out of the form.
+- **A disabled `<fieldset>` disables every form component inside it**, including the ones that had no form callback before. Calendar, Slider, Time and ColorPicker also restore their starting value on a form reset.
+- **Tests for the readonly and form behaviour** of every form-associated component, and new test files for `<k-calendar>` and `<k-time>`.
+
+### Changed
+
+- **`<k-theme-select>` and `<k-theme-switcher>` gained `disabled`.** A form reset restores the theme from when the element was added. Because the theme is site-wide, a reset changes it for the whole page.
+- **`<k-voice-selector>` form reset restores the voice saved when the element was added.** The voice is site-wide too, so a reset changes it for the whole page.
+- **`<k-dropzone>` is described as a form-associated input** rather than a file collector. Its `files` event is unchanged.
+- **`llms.txt` has a *Forms* section** listing the form-associated components and what `name`, `required`, `readonly`, `disabled` and a form reset do. `AGENTS.md` has a *Form Components* section with the rules for new ones.
+
 ## [1.4.0] - 2026-11-09
 
 ### Added

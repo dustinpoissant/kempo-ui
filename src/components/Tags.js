@@ -9,21 +9,31 @@ const suggestionSuppressed = Symbol('suggestionSuppressed');
 	Tags Component
 */
 export default class Tags extends ShadowComponent {
+	static formAssociated = true;
+
 	static properties = {
 		value: { type: String, reflect: true },
+		name: { type: String, reflect: true },
 		allowedTags: { type: String, reflect: true, attribute: 'allowed-tags' },
 		disallowedTags: { type: String, reflect: true, attribute: 'disallowed-tags' },
 		suggestionDebounce: { type: Number, reflect: true, attribute: 'suggestion-debounce' },
-		disabled: { type: Boolean, reflect: true }
+		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
+		required: { type: Boolean, reflect: true }
 	};
 
 	constructor() {
 		super();
+		this.internals = this.attachInternals();
 		this.value = '';
+		this.name = '';
 		this.allowedTags = '';
 		this.disallowedTags = '';
 		this.suggestionDebounce = 300;
 		this.disabled = false;
+		this.readonly = false;
+		this.required = false;
+		this.initialValue = '';
 		// A user-provided function called as getSuggestions(query, callback).
 		// It may either invoke the callback with an array of suggestions, or
 		// return an array / a Promise that resolves to an array.
@@ -42,12 +52,20 @@ export default class Tags extends ShadowComponent {
 	*/
 	firstUpdated() {
 		super.firstUpdated();
+		this.initialValue = this.value;
 		this.renderTags();
 	}
 
 	updated(changedProperties) {
 		super.updated(changedProperties);
-		
+
+		this.internals.setFormValue(this.value || null);
+		this.internals.setValidity(
+			this.required && !this.value ? { valueMissing: true } : {},
+			'Please add a tag.',
+			this.shadowRoot?.getElementById('tagsInput')
+		);
+
 		if(changedProperties.has('value')) {
 			const oldValue = changedProperties.get('value');
 			const validTags = this.validateTags();
@@ -80,10 +98,25 @@ export default class Tags extends ShadowComponent {
 	}
 
 	/*
+		Form Callbacks
+	*/
+	formResetCallback() {
+		this.value = this.initialValue;
+	}
+
+	formStateRestoreCallback(state) {
+		this.value = state || '';
+	}
+
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
+	}
+
+	/*
 		Event Handlers
 	*/
 	handleInputChange = () => {
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		const tagsInput = this.shadowRoot.getElementById('tagsInput');
 		const tag = tagsInput.value.trim();
 		if(tag) {
@@ -93,7 +126,7 @@ export default class Tags extends ShadowComponent {
 	};
 
 	handleInputInput = (event) => {
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		const tagsInput = this.shadowRoot.getElementById('tagsInput');
 		if(event.data === ',' || event.inputType === 'insertFromPaste') {
 			const tags = tagsInput.value.split(',').filter(tag => !!tag.trim());
@@ -112,7 +145,7 @@ export default class Tags extends ShadowComponent {
 	};
 
 	handleInputKeydown = (event) => {
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		const tagsInput = this.shadowRoot.getElementById('tagsInput');
 		const hasSuggestion = !!this[suggestion];
 		if(event.key === 'Enter' || event.key === 'Tab') {
@@ -237,6 +270,15 @@ export default class Tags extends ShadowComponent {
 			cursor: not-allowed;
 			pointer-events: none;
 		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) #tagsInput {
+			opacity: 1;
+		}
+		:host([readonly]) k-tag {
+			pointer-events: none;
+		}
 		#tagsHolder {
 			display: flex;
 			flex-wrap: wrap;
@@ -319,6 +361,7 @@ export default class Tags extends ShadowComponent {
 						<input
 							id="tagsInput"
 							?disabled=${this.disabled}
+							?readonly=${this.readonly}
 							@change=${this.handleInputChange}
 							@input=${this.handleInputInput}
 							@keydown=${this.handleInputKeydown}
@@ -345,7 +388,7 @@ class Tag extends ShadowComponent {
 		Event Handlers
 	*/
 	handleClick = () => {
-		if(this.tagsComponent.disabled) return;
+		if(this.tagsComponent.disabled || this.tagsComponent.readonly) return;
 		this.tagsComponent.removeTag(this.tag);
 	};
 

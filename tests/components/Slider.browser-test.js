@@ -1,5 +1,25 @@
 import Slider from '../../src/components/Slider.js';
 
+const mountFieldset = async (markup, tag) => {
+  const form = document.createElement('form');
+  form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+  document.body.appendChild(form);
+  const el = form.querySelector(tag);
+  await el.updateComplete;
+  await new Promise(resolve => setTimeout(resolve));
+  return { form, el };
+};
+
+const mountField = async markup => {
+  const form = document.createElement('form');
+  form.innerHTML = markup;
+  document.body.appendChild(form);
+  const el = form.firstElementChild;
+  await el.updateComplete;
+  await new Promise(resolve => setTimeout(resolve));
+  return { form, el };
+};
+
 const createSlider = async (attrs = {}) => {
   const container = document.createElement('div');
   const parts = [];
@@ -835,4 +855,54 @@ export default {
     cleanup(container);
     pass('Default tooltip is false');
   },
+
+  'readonly slider has the readonly property': async ({pass, fail}) => {
+    const { form, el } = await mountField('<k-slider name="vol" readonly value="40"></k-slider>');
+    const readonly = el.readonly === true;
+    form.remove();
+    readonly ? pass('readonly is true') : fail('readonly should be true');
+  },
+
+  'readonly slider ignores arrow keys': async ({pass, fail}) => {
+    const { form, el } = await mountField('<k-slider name="vol" readonly value="40"></k-slider>');
+    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    await el.updateComplete;
+    const value = el.value;
+    form.remove();
+    value === '40' ? pass('Arrow key did not change the value') : fail(`value is ${value}`);
+  },
+
+  'readonly slider ignores track clicks': async ({pass, fail}) => {
+    const { form, el } = await mountField('<k-slider name="vol" readonly value="40"></k-slider>');
+    el.shadowRoot.querySelector('#track').click();
+    await el.updateComplete;
+    const value = el.value;
+    form.remove();
+    value === '40' ? pass('Track click did not change the value') : fail(`value is ${value}`);
+  },
+
+  'readonly slider submits its value': async ({pass, fail}) => {
+    const { form } = await mountField('<k-slider name="vol" readonly value="40"></k-slider>');
+    const submitted = new FormData(form).get('vol');
+    form.remove();
+    submitted === '40' ? pass('Submits 40') : fail(`Submitted ${submitted}`);
+  },
+
+  'disabled fieldset disables the slider': async ({pass, fail}) => {
+    const { form, el } = await mountFieldset('<k-slider name="vol" value="40"></k-slider>', 'k-slider');
+    const disabled = el.disabled === true;
+    form.remove();
+    disabled ? pass('Slider is disabled by its fieldset') : fail('A disabled fieldset should disable the slider');
+  },
+
+  'form reset restores the value it was added with': async ({pass, fail}) => {
+    const { form, el } = await mountField('<k-slider name="vol" value="40"></k-slider>');
+    el.value = '70';
+    await el.updateComplete;
+    form.reset();
+    await el.updateComplete;
+    const restored = el.value === '40';
+    form.remove();
+    restored ? pass('Reset restored 40') : fail(`value is ${el.value}`);
+  }
 };

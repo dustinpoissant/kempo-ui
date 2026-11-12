@@ -14,7 +14,8 @@ export default class Slider extends ShadowComponent {
     format: { type: String, reflect: true },
     tooltip: { type: Boolean, reflect: true },
     vertical: { type: Boolean, reflect: true },
-    disabled: { type: Boolean, reflect: true }
+    disabled: { type: Boolean, reflect: true },
+    readonly: { type: Boolean, reflect: true }
   };
 
   #activeThumb = null;
@@ -34,11 +35,13 @@ export default class Slider extends ShadowComponent {
     this.tooltip = false;
     this.vertical = false;
     this.disabled = false;
+    this.readonly = false;
     this.tabIndex = 0;
   }
 
   connectedCallback() {
     super.connectedCallback();
+    this.initialValue = this.value;
     this.addEventListener('keydown', this.handleKeyDown);
   }
 
@@ -60,6 +63,14 @@ export default class Slider extends ShadowComponent {
   updated(changedProperties) {
     super.updated(changedProperties);
     this.internals.setFormValue(this.formattedValue);
+  }
+
+  formResetCallback() {
+    this.value = this.initialValue;
+  }
+
+  formDisabledCallback(disabled) {
+    this.disabled = disabled;
   }
 
   /*
@@ -144,7 +155,7 @@ export default class Slider extends ShadowComponent {
   };
 
   setValue = (newValue) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     const clamped = bound(newValue, this.min, this.max);
     const snapped = this.snapToNearest(clamped);
     if(this.isRange) {
@@ -162,7 +173,7 @@ export default class Slider extends ShadowComponent {
   };
 
   setUpper = (newValue) => {
-    if(this.disabled || !this.isRange) return;
+    if(this.disabled || this.readonly || !this.isRange) return;
     const clamped = bound(newValue, this.min, this.max);
     const snapped = this.snapToNearest(clamped);
     if(snapped < this.lower) return;
@@ -199,7 +210,7 @@ export default class Slider extends ShadowComponent {
     Event Handlers
   */
   handleTrackClick = (e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     const val = this.valueFromEvent(e);
     if(this.isRange) {
       if(this.closestThumb(val) === 'upper') this.setUpper(val);
@@ -210,7 +221,7 @@ export default class Slider extends ShadowComponent {
   };
 
   handleThumbDown = (which, e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     e.preventDefault();
     e.stopPropagation();
     this.#activeThumb = which;
@@ -236,7 +247,7 @@ export default class Slider extends ShadowComponent {
   };
 
   handleKeyDown = (e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     const sv = this.stepValues;
     const isIncrease = e.key === 'ArrowRight' || e.key === 'ArrowUp';
     const isDecrease = e.key === 'ArrowLeft' || e.key === 'ArrowDown';
@@ -382,6 +393,10 @@ export default class Slider extends ShadowComponent {
     }
     :host([disabled]) {
       opacity: 0.5;
+      pointer-events: none;
+    }
+    :host([readonly]) {
+      opacity: 0.75;
       pointer-events: none;
     }
     :host([vertical]) {

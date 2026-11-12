@@ -1,5 +1,25 @@
 import Combobox from '../../src/components/Combobox.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createCombobox = async (attrs = {}, children = '') => {
 	const container = document.createElement('div');
 	container.innerHTML = `
@@ -876,4 +896,48 @@ export default {
 		cleanup(container);
 		pass();
 	},
+
+	'is form-associated': async ({pass, fail}) => {
+		Combobox.formAssociated === true ? pass('Combobox is form-associated') : fail('Combobox should be form-associated');
+	},
+
+	'readonly combobox has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-combobox name="fruit" readonly value="Banana"><k-option value="apple">Apple</k-option><k-option value="banana">Banana</k-option></k-combobox>');
+		const readonly = el.readonly === true;
+		form.remove();
+		readonly ? pass('readonly is true') : fail('readonly should be true');
+	},
+
+	'readonly combobox input cannot be typed in': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-combobox name="fruit" readonly value="Banana"><k-option value="apple">Apple</k-option><k-option value="banana">Banana</k-option></k-combobox>');
+		const input = el.shadowRoot.querySelector('input');
+		const ok = input.readOnly === true;
+		form.remove();
+		ok ? pass('Input is read only') : fail('Input should be read only');
+	},
+
+	'readonly combobox does not open its list': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-combobox name="fruit" readonly value="Banana"><k-option value="apple">Apple</k-option><k-option value="banana">Banana</k-option></k-combobox>');
+		const input = el.shadowRoot.querySelector('input');
+		input.focus();
+		input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+		await el.updateComplete;
+		const opened = el.opened;
+		form.remove();
+		opened === false ? pass('List stayed closed') : fail('Readonly combobox opened its list');
+	},
+
+	'readonly combobox submits the matched option value': async ({pass, fail}) => {
+		const { form } = await mountField('<k-combobox name="fruit" readonly value="Banana"><k-option value="apple">Apple</k-option><k-option value="banana">Banana</k-option></k-combobox>');
+		const submitted = new FormData(form).get('fruit');
+		form.remove();
+		submitted === 'banana' ? pass('Submits banana') : fail(`Submitted ${submitted}`);
+	},
+
+	'disabled fieldset disables the combobox': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-combobox name="f"><k-option value="a">A</k-option></k-combobox>', 'k-combobox');
+		const disabled = el.disabled === true && el.shadowRoot.querySelector('input').disabled === true;
+		form.remove();
+		disabled ? pass('Combobox and its input are disabled') : fail('A disabled fieldset should disable the combobox');
+	}
 };

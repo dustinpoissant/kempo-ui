@@ -677,6 +677,8 @@
           <a href="#disallowedTags">Disallowed Tags</a><br />
           <a href="#suggestions">Suggestions</a><br />
           <a href="#disabled">Disabled</a><br />
+          <a href="#formUsage">Form Integration</a><br />
+          <a href="#readonly">Read-only</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#constructor">Constructor</a><br />
@@ -804,6 +806,43 @@
       </div>
     </div>
 
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>The tags component is form-associated. With a <code>name</code>, the comma-separated tags are submitted with the form. <code>required</code> blocks submission until at least one tag is added. Resetting the form restores the tags the component had when it was added to the page.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tags</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;skills&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;design,ui&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Skills<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-tags</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <form>
+            <k-tags name="skills" required value="design,ui">
+              <label>Skills</label>
+            </k-tags>
+            <button type="reset" class="btn mt">Reset</button>
+          </form>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute keeps the tags visible and submitted with the form, but the user cannot add or remove them. Tags appear at 75% opacity and do not respond to clicks.</p>
+    <div class="row -mx mb">
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-tags</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;design,ui&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>Tags<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-tags</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col d-span-6 m-span-12 px">
+        <k-card label="Results">
+          <k-tags readonly value="design,ui">
+            <label>Tags</label>
+          </k-tags>
+        </k-card>
+      </div>
+    </div>
+
 
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
@@ -837,6 +876,12 @@
       and has no corresponding attribute.</p>
     <h5><code>disabled<i>: boolean</i></code></h5>
     <p>When <code>true</code>, prevents the user from adding or removing tags. The current value is still displayed. The element appears at 50% opacity. Syncs with the <code>disabled</code> attribute.</p>
+    <h5><code>readonly<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, prevents the user from adding or removing tags, but the value is still submitted with the form. The element appears at 75% opacity. Syncs with the <code>readonly</code> attribute.</p>
+    <h5><code>name<i>: string</i></code></h5>
+    <p>The form field name. The comma-separated tags are submitted under this name. Syncs with the <code>name</code> attribute.</p>
+    <h5><code>required<i>: boolean</i></code></h5>
+    <p>When <code>true</code>, at least one tag is required before the form can be submitted. Syncs with the <code>required</code> attribute.</p>
 
     <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
     <h5><code>addTag(tag)<i>: void</i></code></h5>

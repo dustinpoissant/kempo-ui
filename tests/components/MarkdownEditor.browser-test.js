@@ -1,5 +1,15 @@
 import MarkdownEditor from '../../src/components/MarkdownEditor.js';
 
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createMarkdownEditor = async (attrs = {}) => {
 	const container = document.createElement('div');
 	const parts = [];
@@ -459,4 +469,11 @@ export default {
 		cleanup(container);
 		pass('Component has shadow DOM for accessibility');
 	},
+
+	'readonly markdown editor still submits its value': async ({pass, fail}) => {
+		const { form } = await mountField('<k-markdown-editor name="m" readonly value="Hi"></k-markdown-editor>');
+		const submitted = new FormData(form).get('m');
+		form.remove();
+		submitted === 'Hi' ? pass('Submits Hi') : fail(`Submitted ${submitted}`);
+	}
 };

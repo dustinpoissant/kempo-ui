@@ -1,5 +1,25 @@
 import IconSelector from '../../src/components/IconSelector.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const tick = () => new Promise(resolve => setTimeout(resolve));
 
 const createIconSelector = async (attributes = '') => {
@@ -941,5 +961,41 @@ export default {
 			return fail(`Expected form value "check" after change, got "${submitted}"`);
 		}
 		pass('Form value follows the value property');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		IconSelector.formAssociated === true ? pass('IconSelector is form-associated') : fail('IconSelector should be form-associated');
+	},
+
+	'readonly icon selector does not open its dialog': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-icon-selector name="icon" readonly value="star"></k-icon-selector>');
+		el.shadowRoot.querySelector('#trigger').click();
+		await el.updateComplete;
+		const open = el.dialogOpen;
+		form.remove();
+		open === false ? pass('Dialog stayed closed') : fail('Readonly icon selector opened its dialog');
+	},
+
+	'readonly icon selector submits its icon': async ({pass, fail}) => {
+		const { form } = await mountField('<k-icon-selector name="icon" readonly value="star"></k-icon-selector>');
+		const submitted = new FormData(form).get('icon');
+		form.remove();
+		submitted === 'star' ? pass('Submits star') : fail(`Submitted ${submitted}`);
+	},
+
+	'disabled icon selector does not open its dialog': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-icon-selector name="icon" disabled value="star"></k-icon-selector>');
+		el.shadowRoot.querySelector('#trigger').click();
+		await el.updateComplete;
+		const open = el.dialogOpen;
+		form.remove();
+		open === false ? pass('Dialog stayed closed') : fail('A disabled icon selector opened its dialog');
+	},
+
+	'disabled fieldset disables the icon selector': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-icon-selector name="icon" value="star"></k-icon-selector>', 'k-icon-selector');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Icon selector is disabled by its fieldset') : fail('A disabled fieldset should disable the icon selector');
 	}
 };

@@ -1,5 +1,25 @@
 import ColorPicker from '../../src/components/ColorPicker.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createColorPicker = async (options = {}) => {
 	const picker = document.createElement('k-color-picker');
 	if(options.value){
@@ -654,5 +674,42 @@ export default {
 
 		cleanup(picker);
 		pass('Black color converted correctly');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		ColorPicker.formAssociated === true ? pass('ColorPicker is form-associated') : fail('ColorPicker should be form-associated');
+	},
+
+	'readonly color picker locks its inputs': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-color-picker name="c" readonly value="#3366cc"></k-color-picker>');
+		const root = el.shadowRoot;
+		const ok = root.querySelector('#text').readOnly === true && root.querySelector('#format').disabled === true && root.querySelector('#color').disabled === true;
+		form.remove();
+		ok ? pass('Text is read only, format and swatch are disabled') : fail('Readonly should lock every input');
+	},
+
+	'readonly color picker submits its color': async ({pass, fail}) => {
+		const { form } = await mountField('<k-color-picker name="c" readonly value="#3366cc"></k-color-picker>');
+		const submitted = new FormData(form).get('c');
+		form.remove();
+		submitted === '#3366cc' ? pass('Submits the color') : fail(`Submitted ${submitted}`);
+	},
+
+	'disabled fieldset disables the color picker': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-color-picker name="c" value="#3366cc"></k-color-picker>', 'k-color-picker');
+		const disabled = el.disabled === true && el.shadowRoot.querySelector('#text').disabled === true;
+		form.remove();
+		disabled ? pass('Color picker is disabled by its fieldset') : fail('A disabled fieldset should disable the color picker');
+	},
+
+	'form reset restores the color it was added with': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-color-picker name="c" value="#3366cc"></k-color-picker>');
+		el.value = '#ff0000';
+		await el.updateComplete;
+		form.reset();
+		await el.updateComplete;
+		const restored = el.value === '#3366cc';
+		form.remove();
+		restored ? pass('Reset restored the color') : fail(`value is ${el.value}`);
 	}
 };

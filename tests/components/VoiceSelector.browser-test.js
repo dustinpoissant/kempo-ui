@@ -1,6 +1,28 @@
 import VoiceSelector from '../../src/components/VoiceSelector.js';
 import { setVoice } from '../../src/utils/voice.js';
 
+import { waitForVoices } from '../../src/utils/voice.js';
+
+const mountFieldset = async (markup, tag) => {
+  const form = document.createElement('form');
+  form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+  document.body.appendChild(form);
+  const el = form.querySelector(tag);
+  await el.updateComplete;
+  await new Promise(resolve => setTimeout(resolve));
+  return { form, el };
+};
+
+const mountField = async markup => {
+  const form = document.createElement('form');
+  form.innerHTML = markup;
+  document.body.appendChild(form);
+  const el = form.firstElementChild;
+  await el.updateComplete;
+  await new Promise(resolve => setTimeout(resolve));
+  return { form, el };
+};
+
 const FAKE_VOICES = [
   { name: 'Samantha', lang: 'en-US' },
   { name: 'Alex', lang: 'en-US' },
@@ -370,5 +392,44 @@ export default {
     stub.restore();
     cleanup(container);
     pass('Both selects honor disabled attribute');
+  },
+
+  'is form-associated': async ({pass, fail}) => {
+    VoiceSelector.formAssociated === true ? pass('VoiceSelector is form-associated') : fail('VoiceSelector should be form-associated');
+  },
+
+  'readonly voice selector disables both dropdowns': async ({pass, fail}) => {
+    const { form, el } = await mountField('<k-voice-selector readonly></k-voice-selector>');
+    const lang = el.shadowRoot.querySelector('select.lang');
+    const voice = el.shadowRoot.querySelector('select.voice');
+    form.remove();
+    lang && voice && lang.disabled && voice.disabled ? pass('Both dropdowns are disabled') : fail('Readonly should disable both dropdowns');
+  },
+
+  'voice selector submits the voice it is set to': async ({pass, fail}) => {
+    await waitForVoices();
+    const voices = window.speechSynthesis.getVoices();
+    if(!voices.length) return pass('No speech voices in this browser, nothing to submit');
+    setVoice(voices[0].name);
+    const { form } = await mountField('<k-voice-selector name="voice"></k-voice-selector>');
+    const submitted = new FormData(form).get('voice');
+    setVoice('');
+    form.remove();
+    submitted === voices[0].name ? pass('Submits the selected voice') : fail(`Submitted ${submitted}`);
+  },
+
+  'required voice selector blocks submission without a voice': async ({pass, fail}) => {
+    setVoice('');
+    const { form } = await mountField('<k-voice-selector name="voice" required></k-voice-selector>');
+    const blocked = !form.checkValidity();
+    form.remove();
+    blocked ? pass('Required voice selector gates the form') : fail('Required voice selector should block an empty form');
+  },
+
+  'disabled fieldset disables the voice selector': async ({pass, fail}) => {
+    const { form, el } = await mountFieldset('<k-voice-selector name="v"></k-voice-selector>', 'k-voice-selector');
+    const disabled = el.disabled === true;
+    form.remove();
+    disabled ? pass('Voice selector is disabled by its fieldset') : fail('A disabled fieldset should disable the voice selector');
   }
 };

@@ -21,6 +21,8 @@ export default class IconSelector extends ShadowComponent {
 		iconOnly: { type: Boolean, reflect: true, attribute: 'icon-only', converter: boolExists },
 		allowClear: { type: Boolean, reflect: true, attribute: 'allow-clear', converter: boolExists },
 		autoChoose: { type: Boolean, reflect: true, attribute: 'auto-choose', converter: boolExists },
+		readonly: { type: Boolean, reflect: true },
+		disabled: { type: Boolean, reflect: true },
 		dialogOpen: { type: Boolean, state: true },
 		pendingValue: { type: String, state: true }
 	};
@@ -53,6 +55,8 @@ export default class IconSelector extends ShadowComponent {
 		this.dialogOpen = false;
 		this.pendingValue = '';
 		this.autoChoose = false;
+		this.readonly = false;
+		this.disabled = false;
 	}
 
 	/*
@@ -78,10 +82,15 @@ export default class IconSelector extends ShadowComponent {
 		this.value = state;
 	}
 
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
+	}
+
 	/*
 		Event Handlers
 	*/
 	#handleTriggerClick = async () => {
+		if(this.disabled || this.readonly) return;
 		this.pendingValue = this.value;
 		this.dialogOpen = true;
 		await this.updateComplete;
@@ -156,6 +165,7 @@ export default class IconSelector extends ShadowComponent {
 			<button
 				id="trigger"
 				type="button"
+				?disabled=${this.disabled}
 				title=${this.iconOnly ? (current.name || this.placeholder) : nothing}
 				aria-label=${this.iconOnly ? (current.name || this.placeholder) : nothing}
 				@click=${this.#handleTriggerClick}
@@ -213,6 +223,16 @@ export default class IconSelector extends ShadowComponent {
 		}
 		:host([icon-only]) #trigger {
 			width: auto;
+		}
+		:host([disabled]) {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) #trigger {
+			pointer-events: none;
 		}
 		#trigger {
 			display: flex;

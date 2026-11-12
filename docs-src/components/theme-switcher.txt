@@ -3,3 +3,5 @@ Import: import 'kempo-ui/src/components/ThemeSwitcher.js';
 Docs: https://dustinpoissant.github.io/kempo-ui/components/theme-switcher.html
 
 Theme switcher with segmented and toggle display modes
+- form-associated via `name`: submits the current theme; a form reset restores the theme from when the element was added
+- `disabled`/`readonly` (Boolean): clicks have no effect; readonly still submits the theme

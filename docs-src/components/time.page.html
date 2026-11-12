@@ -12,6 +12,7 @@
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         <a href="#formUsage">Form Usage</a><br />
         <a href="#disabled">Disabled</a><br />
+        <a href="#readonly">Read-only</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
         <a href="#constructor">Constructor</a><br />
@@ -162,6 +163,21 @@
       </div>
     </div>
 
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the time and keeps it in the form, but the user cannot change it. The time input is styled as a read-only input and stays in the tab order.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-time</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;12:00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-time</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-time readonly value="12:00"></k-time>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -188,6 +204,9 @@
 
     <h5><code>disabled<i>: Boolean</i></code></h5>
     <p>When <code>true</code>, the component cannot be changed by user interaction. The element appears at 50% opacity. Syncs to <code>disabled</code> attribute.</p>
+
+    <h5><code>readonly<i>: Boolean</i></code></h5>
+    <p>When <code>true</code>, the time is shown and still submitted with the form, but the user cannot change it. Syncs to <code>readonly</code> attribute.</p>
 
     <h5><code>required<i>: Boolean</i></code></h5>
     <p>When <code>true</code> and no time is set, the element reports a <code>valueMissing</code> validity error for form validation. Syncs to <code>required</code> attribute.</p>

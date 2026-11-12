@@ -2,15 +2,25 @@ import { html, css } from '../lit-all.min.js';
 import ShadowComponent from './ShadowComponent.js';
 
 export default class Toggle extends ShadowComponent {
+  static formAssociated = true;
+
   static properties = {
     value: { type: Boolean, reflect: true },
-    disabled: { type: Boolean, reflect: true }
+    name: { type: String, reflect: true },
+    disabled: { type: Boolean, reflect: true },
+    readonly: { type: Boolean, reflect: true },
+    required: { type: Boolean, reflect: true }
   };
 
   constructor() {
     super();
+    this.internals = this.attachInternals();
     this.value = false;
+    this.name = '';
     this.disabled = false;
+    this.readonly = false;
+    this.required = false;
+    this.initialValue = false;
     this.tabIndex = 0;
   }
 
@@ -19,7 +29,13 @@ export default class Toggle extends ShadowComponent {
   */
   updated(changedProperties) {
     super.updated(changedProperties);
-    
+
+    this.internals.setFormValue(this.value ? 'on' : null);
+    this.internals.setValidity(
+      this.required && !this.value ? { valueMissing: true } : {},
+      'Please turn this on.'
+    );
+
     if (changedProperties.has('value')) {
       this.dispatchEvent(new CustomEvent('change', { 
         detail: { value: this.value },
@@ -30,6 +46,7 @@ export default class Toggle extends ShadowComponent {
 
   connectedCallback() {
     super.connectedCallback();
+    this.initialValue = this.value;
     this.addEventListener('click', this.handleClick);
     this.addEventListener('keydown', this.handleKeyDown);
   }
@@ -41,15 +58,30 @@ export default class Toggle extends ShadowComponent {
   }
 
   /*
+    Form Callbacks
+  */
+  formResetCallback() {
+    this.value = this.initialValue;
+  }
+
+  formStateRestoreCallback(state) {
+    this.value = state === 'on';
+  }
+
+  formDisabledCallback(disabled) {
+    this.disabled = disabled;
+  }
+
+  /*
     Event Handlers
   */
   handleClick = () => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     this.toggle();
   };
 
   handleKeyDown = (event) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     if (['Space', 'Enter'].includes(event.code)) {
       event.preventDefault();
       this.toggle();
@@ -128,6 +160,10 @@ export default class Toggle extends ShadowComponent {
       opacity: 0.5;
       cursor: not-allowed;
       pointer-events: none;
+    }
+    :host([readonly]) {
+      opacity: 0.75;
+      cursor: default;
     }
     #switch {
       display: flex;

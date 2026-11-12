@@ -6,3 +6,4 @@ Searchable dropdown with debounced `search` event, dynamic `setOptions()`, `sear
 
 Details:
 - options are strings or `{label, value}` objects
+- `readonly` (Boolean): shows the value and still submits it; the field cannot be typed in and the option list does not open

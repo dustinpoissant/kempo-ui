@@ -10,6 +10,8 @@
           <a href="#accept">Limiting the Types</a><br />
           <a href="#label">Label and Custom Content</a><br />
           <a href="#disabled">Disabled</a><br />
+          <a href="#formUsage">Form Integration</a><br />
+          <a href="#readonly">Read-only</a><br />
 
           <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
           <a href="#requirements">Requirements</a><br />
@@ -113,6 +115,42 @@
       </div>
     </div>
 
+    <h3 id="formUsage"><a href="#formUsage" class="no-link">Form Integration</a></h3>
+    <p>The dropzone is form-associated. With a <code>name</code>, the files it accepts are submitted with the form, as a file input's are. A new accepted drop replaces the previous files, and a drop with no accepted files keeps them. <code>required</code> blocks submission until a file is chosen. Resetting the form clears the files.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;form&gt;
+  &lt;k-dropzone name="attachments" multiple required&gt;&lt;/k-dropzone&gt;
+  &lt;button type="reset"&gt;Reset&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form>
+            <k-dropzone name="attachments" multiple required></k-dropzone>
+            <button type="reset" class="btn mt">Reset</button>
+          </form>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>A read-only dropzone keeps the files it holds and still submits them, but it does not open the picker, show a drag, or take new files. It appears at 75% opacity.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html">&lt;k-dropzone readonly&gt;&lt;/k-dropzone&gt;</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-dropzone readonly></k-dropzone>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h3>
 
     <h5 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h5>
@@ -123,6 +161,9 @@
       <li><code>accept</code> (String): what it takes, as a file input's <code>accept</code>. Default: everything.</li>
       <li><code>multiple</code> (Boolean, written without a value): take more than one file. Default: one.</li>
       <li><code>disabled</code> (Boolean, written without a value): dim it and ignore clicks, keys and drops.</li>
+      <li><code>readonly</code> (Boolean, written without a value): keep the files it holds and submit them, but ignore clicks, keys and drops. Dimmed to 75%.</li>
+      <li><code>name</code> (String): the form field name. The accepted files are submitted under it.</li>
+      <li><code>required</code> (Boolean, written without a value): at least one file must be chosen before the form can be submitted.</li>
       <li><code>label</code> (String): the text shown with the icon. Default: a sentence that follows <code>multiple</code>.</li>
       <li><code>dragging</code> (Boolean, set by the component): present while files are being dragged over it, for your own styling.</li>
     </ul>
@@ -134,7 +175,8 @@
 
     <h5 id="methods"><a href="#methods" class="no-link">Methods</a></h5>
     <ul>
-      <li><code>open()</code>: opens the file picker, as a click does. Nothing happens while disabled.</li>
+      <li><code>open()</code>: opens the file picker, as a click does. Nothing happens while disabled or read-only.</li>
+      <li><code>files</code> (read-only getter): a copy of the accepted files the dropzone holds as its form value.</li>
     </ul>
 
     <h5 id="slots"><a href="#slots" class="no-link">Slots and Parts</a></h5>

@@ -1,5 +1,25 @@
 import Toggle from '../../src/components/Toggle.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createToggle = async (options = {}) => {
 	const container = document.createElement('div');
 	container.innerHTML = `
@@ -646,5 +666,85 @@ export default {
 		}
 		cleanup(container);
 		pass('Keydown does not change value when disabled');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		Toggle.formAssociated === true ? pass('Toggle is form-associated') : fail('Toggle should be form-associated');
+	},
+
+	'readonly toggle has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-toggle name="news" readonly></k-toggle>');
+		const readonly = el.readonly === true;
+		form.remove();
+		readonly ? pass('readonly is true') : fail('readonly should be true');
+	},
+
+	'readonly toggle ignores clicks': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-toggle name="news" readonly></k-toggle>');
+		el.click();
+		await el.updateComplete;
+		const stayedOff = el.value === false;
+		form.remove();
+		stayedOff ? pass('Readonly toggle stayed off') : fail('Readonly toggle changed on click');
+	},
+
+	'readonly toggle ignores Space': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-toggle name="news" readonly></k-toggle>');
+		el.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', bubbles: true }));
+		await el.updateComplete;
+		const stayedOff = el.value === false;
+		form.remove();
+		stayedOff ? pass('Readonly toggle ignored Space') : fail('Readonly toggle changed on Space');
+	},
+
+	'readonly toggle still submits its state': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-toggle name="news" readonly value></k-toggle>');
+		const submitted = new FormData(form).get('news');
+		form.remove();
+		submitted === 'on' ? pass('Readonly toggle submitted on') : fail(`Expected on, got ${submitted}`);
+	},
+
+	'toggle submits on when it is on': async ({pass, fail}) => {
+		const { form } = await mountField('<k-toggle name="news" value></k-toggle>');
+		const submitted = new FormData(form).get('news');
+		form.remove();
+		submitted === 'on' ? pass('Submits on') : fail(`Expected on, got ${submitted}`);
+	},
+
+	'toggle submits nothing when it is off': async ({pass, fail}) => {
+		const { form } = await mountField('<k-toggle name="news"></k-toggle>');
+		const has = new FormData(form).has('news');
+		form.remove();
+		!has ? pass('Submits nothing when off') : fail('An off toggle should submit nothing');
+	},
+
+	'required toggle blocks submission until it is on': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-toggle name="terms" required></k-toggle>');
+		const blocked = !form.checkValidity();
+		el.on();
+		await el.updateComplete;
+		const allowed = form.checkValidity();
+		form.remove();
+		blocked && allowed ? pass('Required toggle gates the form') : fail(`blocked=${blocked} allowed=${allowed}`);
+	},
+
+	'toggle resets to its starting state': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-toggle name="news" value></k-toggle>');
+		el.off();
+		await el.updateComplete;
+		form.reset();
+		await el.updateComplete;
+		const restored = el.value === true;
+		form.remove();
+		restored ? pass('Reset restored on') : fail('Form reset should restore the starting state');
+	},
+
+	'disabled fieldset disables the toggle': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-toggle name="news"></k-toggle>', 'k-toggle');
+		el.click();
+		await el.updateComplete;
+		const ok = el.disabled === true && el.value === false;
+		form.remove();
+		ok ? pass('Toggle is disabled by its fieldset') : fail('A disabled fieldset should disable the toggle');
 	}
 };

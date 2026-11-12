@@ -19,36 +19,71 @@ const accepts = (file, accept) => {
 };
 
 /*
-	An area to drop files on, or to click to open the file picker. It only collects files: it reports them in a `files` event
-	and leaves what to do with them (upload, read, preview) to whoever listens.
+	An area to drop files on, or to click to open the file picker. It reports the accepted files in a `files` event and keeps
+	them as its form value (a file input's behaviour: a new accepted drop replaces the previous files).
 */
 export default class Dropzone extends ShadowComponent {
+	static formAssociated = true;
+
 	static properties = {
 		accept: { type: String, reflect: true },
 		multiple: { type: Boolean, reflect: true, converter: boolExists },
 		disabled: { type: Boolean, reflect: true, converter: boolExists },
+		readonly: { type: Boolean, reflect: true, converter: boolExists },
+		required: { type: Boolean, reflect: true, converter: boolExists },
+		name: { type: String, reflect: true },
 		label: { type: String },
 		dragging: { type: Boolean, reflect: true, converter: boolExists }
 	};
+
+	#files = [];
 
 	/*
 		Constructor
 	*/
 	constructor() {
 		super();
+		this.internals = this.attachInternals();
 		this.accept = '';
 		this.multiple = false;
 		this.disabled = false;
+		this.readonly = false;
+		this.required = false;
+		this.name = '';
 		this.label = '';
 		this.dragging = false;
 		this.dragDepth = 0;
 	}
 
 	/*
+		Lifecycle Callbacks
+	*/
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if(changedProperties.has('name') || changedProperties.has('required')) this.updateFormValue();
+	}
+
+	/*
+		Form Callbacks
+	*/
+	formResetCallback() {
+		this.#files = [];
+		this.updateFormValue();
+	}
+
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
+	}
+
+	/*
 		Public Methods
 	*/
+	get files() {
+		return [...this.#files];
+	}
+
 	open() {
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		this.renderRoot.querySelector('#input')?.click();
 	}
 
@@ -63,14 +98,14 @@ export default class Dropzone extends ShadowComponent {
 
 	handleDragEnter = event => {
 		event.preventDefault();
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		this.dragDepth++;
 		this.dragging = true;
 	};
 
 	handleDragOver = event => {
 		event.preventDefault();
-		if(event.dataTransfer) event.dataTransfer.dropEffect = this.disabled ? 'none' : 'copy';
+		if(event.dataTransfer) event.dataTransfer.dropEffect = this.disabled || this.readonly ? 'none' : 'copy';
 	};
 
 	handleDragLeave = () => {
@@ -82,7 +117,7 @@ export default class Dropzone extends ShadowComponent {
 		event.preventDefault();
 		this.dragDepth = 0;
 		this.dragging = false;
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		this.collect([...(event.dataTransfer?.files ?? [])]);
 	};
 
@@ -101,11 +136,26 @@ export default class Dropzone extends ShadowComponent {
 			if(accepts(file, this.accept) && (this.multiple || !files.length)) files.push(file);
 			else rejected.push(file);
 		});
+		if(files.length) {
+			this.#files = files;
+			this.updateFormValue();
+		}
 		this.dispatchEvent(new CustomEvent('files', {
 			detail: { files, rejected },
 			bubbles: true,
 			composed: true
 		}));
+	}
+
+	updateFormValue() {
+		const data = new FormData();
+		this.#files.forEach(file => data.append(this.name, file));
+		this.internals.setFormValue(this.name && this.#files.length ? data : null);
+		this.internals.setValidity(
+			this.required && !this.#files.length ? { valueMissing: true } : {},
+			'Please choose a file.',
+			this.renderRoot.querySelector('#zone')
+		);
 	}
 
 	get defaultLabel() {
@@ -145,6 +195,12 @@ export default class Dropzone extends ShadowComponent {
 		}
 		:host([disabled]) {
 			opacity: 0.5;
+			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) #zone {
 			pointer-events: none;
 		}
 		#zone {

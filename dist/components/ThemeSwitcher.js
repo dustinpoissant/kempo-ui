@@ -1,4 +1,4 @@
-import e from"./ShadowComponent.js";import{html as t,css as s,nothing as r}from"../lit-all.min.js";import i from"../utils/theme.js";import"./Icon.js";const a={auto:"mode-auto",light:"mode-light",dark:"mode-dark"},o=e=>e.split(",").map(e=>e.trim()).filter(Boolean),n=e=>e.charAt(0).toUpperCase()+e.slice(1);export default class d extends e{static properties={currentTheme:{type:String,reflect:!0,attribute:"current-theme"},mode:{type:String,reflect:!0},options:{type:String,reflect:!0},labels:{type:String,reflect:!0},resolvedMode:{type:String,state:!0},resolvedLabels:{type:Array,state:!0}};constructor(){super(),this.currentTheme=i.get(),this.mode="auto",this.options="light, auto, dark",this.labels=null,this.resolvedMode="segmented",this.resolvedLabels=null}#e=null;handleAsideStateChange=e=>{"auto"===this.mode&&(this.resolvedMode="collapsed"===e.detail.state?"toggle":"segmented"),this.resolveLabels()};resolveMode=()=>{"toggle"!==this.mode&&"segmented"!==this.mode?this.#e?this.resolvedMode="collapsed"===this.#e.state?"toggle":"segmented":this.resolvedMode="segmented":this.resolvedMode=this.mode};resolveLabels=()=>{if(null===this.labels||void 0===this.labels||this.#e&&"collapsed"===this.#e.state)return void(this.resolvedLabels=null);const e=o(this.options);if(""===this.labels)this.resolvedLabels=e.map(n);else{const t=o(this.labels);this.resolvedLabels=e.map((e,s)=>t[s]??n(e))}};handleClick=()=>{const e=o(this.options);if(0===e.length)return;const t=e.indexOf(i.get());i.set(e[(t+1)%e.length])};handleSegmentClick=e=>{i.set(e)};connectedCallback(){super.connectedCallback(),this.unsubscribe=i.subscribe(e=>{this.currentTheme=e}),this.#e=this.closest("k-aside"),this.#e&&this.#e.addEventListener("aside_state_change",this.handleAsideStateChange),this.resolveMode(),this.resolveLabels()}disconnectedCallback(){super.disconnectedCallback(),this.unsubscribe&&this.unsubscribe(),this.#e&&(this.#e.removeEventListener("aside_state_change",this.handleAsideStateChange),this.#e=null)}updated(e){super.updated(e),e.has("mode")&&this.resolveMode(),(e.has("labels")||e.has("options"))&&this.resolveLabels()}static styles=s`
+import e from"./ShadowComponent.js";import{html as t,css as s,nothing as i}from"../lit-all.min.js";import a from"../utils/theme.js";import"./Icon.js";const r={auto:"mode-auto",light:"mode-light",dark:"mode-dark"},o=e=>e.split(",").map(e=>e.trim()).filter(Boolean),n=e=>e.charAt(0).toUpperCase()+e.slice(1);export default class l extends e{static formAssociated=!0;static properties={currentTheme:{type:String,reflect:!0,attribute:"current-theme"},name:{type:String,reflect:!0},disabled:{type:Boolean,reflect:!0},readonly:{type:Boolean,reflect:!0},mode:{type:String,reflect:!0},options:{type:String,reflect:!0},labels:{type:String,reflect:!0},resolvedMode:{type:String,state:!0},resolvedLabels:{type:Array,state:!0}};constructor(){super(),this.internals=this.attachInternals(),this.currentTheme=a.get(),this.name="",this.disabled=!1,this.readonly=!1,this.initialValue="",this.mode="auto",this.options="light, auto, dark",this.labels=null,this.resolvedMode="segmented",this.resolvedLabels=null}#e=null;handleAsideStateChange=e=>{"auto"===this.mode&&(this.resolvedMode="collapsed"===e.detail.state?"toggle":"segmented"),this.resolveLabels()};resolveMode=()=>{"toggle"!==this.mode&&"segmented"!==this.mode?this.#e?this.resolvedMode="collapsed"===this.#e.state?"toggle":"segmented":this.resolvedMode="segmented":this.resolvedMode=this.mode};resolveLabels=()=>{if(null===this.labels||void 0===this.labels||this.#e&&"collapsed"===this.#e.state)return void(this.resolvedLabels=null);const e=o(this.options);if(""===this.labels)this.resolvedLabels=e.map(n);else{const t=o(this.labels);this.resolvedLabels=e.map((e,s)=>t[s]??n(e))}};handleClick=()=>{if(this.disabled||this.readonly)return;const e=o(this.options);if(0===e.length)return;const t=e.indexOf(a.get());a.set(e[(t+1)%e.length])};handleSegmentClick=e=>{this.disabled||this.readonly||a.set(e)};formResetCallback(){a.set(this.initialValue)}formStateRestoreCallback(e){a.set(e||this.initialValue)}formDisabledCallback(e){this.disabled=e}connectedCallback(){super.connectedCallback(),this.initialValue=a.get(),this.unsubscribe=a.subscribe(e=>{this.currentTheme=e}),this.#e=this.closest("k-aside"),this.#e&&this.#e.addEventListener("aside_state_change",this.handleAsideStateChange),this.resolveMode(),this.resolveLabels()}disconnectedCallback(){super.disconnectedCallback(),this.unsubscribe&&this.unsubscribe(),this.#e&&(this.#e.removeEventListener("aside_state_change",this.handleAsideStateChange),this.#e=null)}updated(e){super.updated(e),this.internals.setFormValue(this.currentTheme||null),e.has("mode")&&this.resolveMode(),(e.has("labels")||e.has("options"))&&this.resolveLabels()}static styles=s`
 		:host {
 			--padding: var(--spacer, 1rem);
 			--c_inactive: transparent;
@@ -10,6 +10,16 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as r}from"
 			--c_active__hover: var(--c_active);
 			--tc_active__hover: var(--tc_active);
 			--border: 1px solid var(--c_border);
+		}
+		:host([disabled]) {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) button {
+			pointer-events: none;
 		}
 		button.no-btn {
 			padding: var(--padding);
@@ -66,22 +76,24 @@ import e from"./ShadowComponent.js";import{html as t,css as s,nothing as r}from"
 	`;renderToggle(){return t`
 			<button
 				class="no-btn"
+				?disabled=${this.disabled}
 				@click=${this.handleClick}
 			>
-				<k-icon name=${a[this.currentTheme]||"mode-auto"}></k-icon>
-				${this.resolvedLabels?t`<span>${this.resolvedLabels[o(this.options).indexOf(this.currentTheme)]??n(this.currentTheme)}</span>`:r}
+				<k-icon name=${r[this.currentTheme]||"mode-auto"}></k-icon>
+				${this.resolvedLabels?t`<span>${this.resolvedLabels[o(this.options).indexOf(this.currentTheme)]??n(this.currentTheme)}</span>`:i}
 			</button>
 		`}renderSegmented(){const e=o(this.options);return t`
 			<div class="segmented">
 				${e.map((e,s)=>t`
 					<button
 						class="no-style ${e===this.currentTheme?"active":""}"
+						?disabled=${this.disabled}
 						@click=${()=>this.handleSegmentClick(e)}
 						title=${e}
 					>
-						<k-icon name=${a[e]||"mode-auto"}></k-icon>
-					${this.resolvedLabels?t`<span>${this.resolvedLabels[s]}</span>`:r}
+						<k-icon name=${r[e]||"mode-auto"}></k-icon>
+					${this.resolvedLabels?t`<span>${this.resolvedLabels[s]}</span>`:i}
 					</button>
 				`)}
 			</div>
-		`}render(){return"toggle"===this.resolvedMode?this.renderToggle():this.renderSegmented()}static setTheme(e){i.set(e)}static getCurrentTheme(){return i.get()}static getCalculatedCurrentTheme(){return i.getCalculated()}}customElements.define("k-theme-switcher",d);
+		`}render(){return"toggle"===this.resolvedMode?this.renderToggle():this.renderSegmented()}static setTheme(e){a.set(e)}static getCurrentTheme(){return a.get()}static getCalculatedCurrentTheme(){return a.getCalculated()}}customElements.define("k-theme-switcher",l);

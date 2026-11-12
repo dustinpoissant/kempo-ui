@@ -31,6 +31,7 @@ export default class ImageCrop extends ShadowComponent {
 		label: { type: String, reflect: true },
 		placeholder: { type: String, reflect: true },
 		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
 		required: { type: Boolean, reflect: true },
 		image: { state: true },
 		cropRect: { state: true },
@@ -57,6 +58,7 @@ export default class ImageCrop extends ShadowComponent {
 		this.label = 'Upload Image';
 		this.placeholder = 'or drop an image here';
 		this.disabled = false;
+		this.readonly = false;
 		this.required = false;
 		this.image = null;
 		this.cropRect = null;
@@ -190,7 +192,7 @@ export default class ImageCrop extends ShadowComponent {
 	};
 
 	openFilePicker = () => {
-		if(!this.disabled) this.shadowRoot.getElementById('file').click();
+		if(!this.disabled && !this.readonly) this.shadowRoot.getElementById('file').click();
 	};
 
 	getCroppedCanvas = () => {
@@ -332,7 +334,7 @@ export default class ImageCrop extends ShadowComponent {
 	};
 
 	handleDragOver = (e) => {
-		if(this.disabled || !e.dataTransfer?.types.includes('Files')) return;
+		if(this.disabled || this.readonly || !e.dataTransfer?.types.includes('Files')) return;
 		e.preventDefault();
 		this.setAttribute('dragover', '');
 	};
@@ -341,13 +343,13 @@ export default class ImageCrop extends ShadowComponent {
 
 	handleDrop = (e) => {
 		this.removeAttribute('dragover');
-		if(this.disabled || !e.dataTransfer?.files.length) return;
+		if(this.disabled || this.readonly || !e.dataTransfer?.files.length) return;
 		e.preventDefault();
 		this.acceptFile(e.dataTransfer.files[0]);
 	};
 
 	handlePointerDown = (e) => {
-		if(this.disabled || e.button > 0) return;
+		if(this.disabled || this.readonly || e.button > 0) return;
 		e.preventDefault();
 		e.currentTarget.setPointerCapture(e.pointerId);
 		this.#drag = { handle: e.target.dataset.handle || 'move', startX: e.clientX, startY: e.clientY, rect: { ...this.cropRect } };
@@ -377,7 +379,7 @@ export default class ImageCrop extends ShadowComponent {
 
 	handleKeyDown = (e) => {
 		const delta = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
-		if(!delta || this.disabled) return;
+		if(!delta || this.disabled || this.readonly) return;
 		e.preventDefault();
 		const step = (e.ctrlKey || e.metaKey ? 10 : 1) / this.scale;
 		const { x, y, width, height } = this.cropRect;
@@ -440,7 +442,7 @@ export default class ImageCrop extends ShadowComponent {
 		return html`
 			<div id="dropzone">
 				<k-icon name="image" class="dropzone-icon"></k-icon>
-				<button id="upload" type="button" ?disabled=${this.disabled} @click=${this.openFilePicker}>${this.label}</button>
+				<button id="upload" type="button" ?disabled=${this.disabled || this.readonly} @click=${this.openFilePicker}>${this.label}</button>
 				<span class="placeholder">${this.placeholder}</span>
 			</div>
 		`;
@@ -455,7 +457,7 @@ export default class ImageCrop extends ShadowComponent {
 				<div
 					id="box"
 					class=${this.dragging ? 'dragging' : ''}
-					tabindex=${this.disabled ? -1 : 0}
+					tabindex=${this.disabled || this.readonly ? -1 : 0}
 					role="group"
 					aria-label="Crop area"
 					style="left:${x * s}px;top:${y * s}px;width:${width * s}px;height:${height * s}px"
@@ -471,8 +473,8 @@ export default class ImageCrop extends ShadowComponent {
 			<div id="bar">
 				<span id="size">${this.outputSize.width} &times; ${this.outputSize.height}</span>
 				<span class="spacer"></span>
-				<button type="button" class="mr" ?disabled=${this.disabled} @click=${this.openFilePicker}>Change</button>
-				<button type="button" class="danger" ?disabled=${this.disabled} @click=${this.clear}>Remove</button>
+				<button type="button" class="mr" ?disabled=${this.disabled || this.readonly} @click=${this.openFilePicker}>Change</button>
+				<button type="button" class="danger" ?disabled=${this.disabled || this.readonly} @click=${this.clear}>Remove</button>
 			</div>
 		`;
 	}
@@ -501,6 +503,13 @@ export default class ImageCrop extends ShadowComponent {
 		:host([disabled]) {
 			opacity: 0.5;
 			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) #box,
+		:host([readonly]) .handle {
+			cursor: default;
 		}
 		#file {
 			display: none;

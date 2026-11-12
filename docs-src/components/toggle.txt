@@ -8,3 +8,5 @@ Details:
 - `value` (Boolean, reflects)
 - methods: `on()`, `off()`, `toggle()`
 - fires `change`, `on`, `off`
+- form-associated via `name`: submits `on` when on and nothing when off; `required` must be on; a form reset returns it to its starting state
+- `readonly` (Boolean): state shown and submitted, but it cannot be changed

@@ -680,6 +680,8 @@
           <a href="#limitedIcons">Limiting the Icons</a><br />
           <a href="#customIcons">Custom Icons</a><br />
           <a href="#formUsage">Form Integration</a><br />
+          <a href="#disabled">Disabled</a><br />
+          <a href="#readonly">Read-only</a><br />
           <a href="#changeEvent">Listening for Changes</a><br />
           <a href="#autoChoose">Auto Choose</a><br />
 
@@ -891,6 +893,36 @@
       </div>
     </div>
 
+    <h3 id="disabled"><a href="#disabled" class="no-link">Disabled</a></h3>
+    <p>The <code>disabled</code> attribute stops the dialog from opening, so the icon cannot be changed, and leaves the value out of the form. An icon selector inside a disabled <code>&lt;fieldset&gt;</code> is disabled too. It appears at 50% opacity.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"star"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector name="icon" disabled value="star"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the chosen icon and keeps it in the form, but the user cannot open the dialog to change it.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-icon-selector</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"icon"</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"star"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-icon-selector</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-icon-selector name="icon" readonly value="star"></k-icon-selector>
+        </k-card>
+      </div>
+    </div>
+
     <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
 
     <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
@@ -962,6 +994,18 @@
             <td>Boolean</td>
             <td>Off</td>
             <td>Chooses an icon as soon as it is clicked, closing the dialog. The <em>Choose Icon</em> button is removed; <em>Cancel</em> stays.</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td>Boolean</td>
+            <td>Off</td>
+            <td>Stops the dialog from opening, so the icon cannot be changed. The value is left out of the form. Also set automatically by a disabled <code>&lt;fieldset&gt;</code>. The selector appears at 50% opacity.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td>Boolean</td>
+            <td>Off</td>
+            <td>Shows the chosen icon and still submits it with the form, but the dialog cannot be opened to change it. The selector appears at 75% opacity.</td>
           </tr>
         </tbody>
       </table>

@@ -1,6 +1,26 @@
 import ThemeSelect from '../../src/components/ThemeSelect.js';
 import theme from '../../src/utils/theme.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createThemeSelect = async (innerHTML = '') => {
 	const container = document.createElement('div');
 	container.innerHTML = `<k-theme-select>${innerHTML}</k-theme-select>`;
@@ -404,5 +424,46 @@ export default {
 
 		cleanup(container);
 		pass('ThemeSelect syncs with external theme changes');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		ThemeSelect.formAssociated === true ? pass('ThemeSelect is form-associated') : fail('ThemeSelect should be form-associated');
+	},
+
+	'readonly theme select disables its select': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-theme-select readonly></k-theme-select>');
+		const select = el.shadowRoot.querySelector('select');
+		const ok = el.readonly === true && select.disabled === true;
+		form.remove();
+		ok ? pass('Readonly disables the select') : fail('Readonly should disable the select');
+	},
+
+	'theme select submits the current theme': async ({pass, fail}) => {
+		const before = theme.get();
+		theme.set('dark');
+		const { form } = await mountField('<k-theme-select name="t"></k-theme-select>');
+		const submitted = new FormData(form).get('t');
+		theme.set(before);
+		form.remove();
+		submitted === 'dark' ? pass('Submits the current theme') : fail(`Submitted ${submitted}`);
+	},
+
+	'theme select reset restores the theme it was added with': async ({pass, fail}) => {
+		const before = theme.get();
+		theme.set('light');
+		const { form } = await mountField('<k-theme-select name="t"></k-theme-select>');
+		theme.set('dark');
+		form.reset();
+		const restored = theme.get();
+		theme.set(before);
+		form.remove();
+		restored === 'light' ? pass('Reset restored the theme') : fail(`Theme is ${restored}`);
+	},
+
+	'disabled fieldset disables the theme select': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-theme-select name="t"></k-theme-select>', 'k-theme-select');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Theme select is disabled by its fieldset') : fail('A disabled fieldset should disable the theme select');
 	}
 };

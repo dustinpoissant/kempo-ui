@@ -8,3 +8,4 @@ Details:
 - `format` attribute for value formatting (e.g. `"$0.00"`) applied to change events, form submission, and optional drag `tooltip`
 - form-associated
 - fires `change`
+- `readonly` (Boolean): shows the value and still submits it, but clicks, drags and arrow keys do nothing

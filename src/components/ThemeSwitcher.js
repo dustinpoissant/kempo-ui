@@ -13,10 +13,14 @@ const parseOptions = str => str.split(',').map(s => s.trim()).filter(Boolean);
 const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default class ThemeSwitcher extends ShadowComponent {
+	static formAssociated = true;
 
 	/* Properties */
 	static properties = {
 		currentTheme: { type: String, reflect: true, attribute: 'current-theme' },
+		name: { type: String, reflect: true },
+		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
 		mode: { type: String, reflect: true },
 		options: { type: String, reflect: true },
 		labels: { type: String, reflect: true },
@@ -26,7 +30,12 @@ export default class ThemeSwitcher extends ShadowComponent {
 
 	constructor() {
 		super();
+		this.internals = this.attachInternals();
 		this.currentTheme = theme.get();
+		this.name = '';
+		this.disabled = false;
+		this.readonly = false;
+		this.initialValue = '';
 		this.mode = 'auto';
 		this.options = 'light, auto, dark';
 		this.labels = null;
@@ -76,6 +85,7 @@ export default class ThemeSwitcher extends ShadowComponent {
 		Event Handlers
 	*/
 	handleClick = () => {
+		if(this.disabled || this.readonly) return;
 		const opts = parseOptions(this.options);
 		if(opts.length === 0) return;
 		const idx = opts.indexOf(theme.get());
@@ -83,14 +93,31 @@ export default class ThemeSwitcher extends ShadowComponent {
 	};
 
 	handleSegmentClick = value => {
+		if(this.disabled || this.readonly) return;
 		theme.set(value);
 	};
+
+	/*
+		Form Callbacks
+	*/
+	formResetCallback() {
+		theme.set(this.initialValue);
+	}
+
+	formStateRestoreCallback(state) {
+		theme.set(state || this.initialValue);
+	}
+
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
+	}
 
 	/*
 		Lifecycle Callbacks
 	*/
 	connectedCallback() {
 		super.connectedCallback();
+		this.initialValue = theme.get();
 		this.unsubscribe = theme.subscribe(t => {
 			this.currentTheme = t;
 		});
@@ -113,6 +140,7 @@ export default class ThemeSwitcher extends ShadowComponent {
 
 	updated(changed) {
 		super.updated(changed);
+		this.internals.setFormValue(this.currentTheme || null);
 		if(changed.has('mode')) this.resolveMode();
 		if(changed.has('labels') || changed.has('options')) this.resolveLabels();
 	}
@@ -132,6 +160,16 @@ export default class ThemeSwitcher extends ShadowComponent {
 			--c_active__hover: var(--c_active);
 			--tc_active__hover: var(--tc_active);
 			--border: 1px solid var(--c_border);
+		}
+		:host([disabled]) {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) button {
+			pointer-events: none;
 		}
 		button.no-btn {
 			padding: var(--padding);
@@ -194,6 +232,7 @@ export default class ThemeSwitcher extends ShadowComponent {
 		return html`
 			<button
 				class="no-btn"
+				?disabled=${this.disabled}
 				@click=${this.handleClick}
 			>
 				<k-icon name=${ICON_MAP[this.currentTheme] || 'mode-auto'}></k-icon>
@@ -209,6 +248,7 @@ export default class ThemeSwitcher extends ShadowComponent {
 				${opts.map((opt, i) => html`
 					<button
 						class="no-style ${opt === this.currentTheme ? 'active' : ''}"
+						?disabled=${this.disabled}
 						@click=${() => this.handleSegmentClick(opt)}
 						title=${opt}
 					>

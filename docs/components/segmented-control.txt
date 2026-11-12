@@ -8,3 +8,5 @@ Details:
 - accepts custom sub-components as options
 - `value` property reflects the selected option's value
 - fires `change` event
+- `readonly` (Boolean): shows the selected option and still submits it; clicking an option does nothing
+- `disabled` (Boolean): options cannot be picked and the value is left out of the form; a disabled fieldset disables it too

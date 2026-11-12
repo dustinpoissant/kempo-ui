@@ -14,6 +14,7 @@ export default class Calendar extends ShadowComponent {
     min: { type: String, reflect: true },
     max: { type: String, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    readonly: { type: Boolean, reflect: true },
     required: { type: Boolean, reflect: true },
     view: { state: true },
     hoverDate: { state: true }
@@ -31,6 +32,7 @@ export default class Calendar extends ShadowComponent {
     this.min = '';
     this.max = '';
     this.disabled = false;
+    this.readonly = false;
     this.required = false;
     const today = new Date();
     this.view = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
@@ -38,6 +40,19 @@ export default class Calendar extends ShadowComponent {
   }
 
   #skipViewSync = false;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.initialValue = this.value;
+  }
+
+  formResetCallback() {
+    this.value = this.initialValue;
+  }
+
+  formDisabledCallback(disabled) {
+    this.disabled = disabled;
+  }
 
   updated(changedProperties) {
     super.updated(changedProperties);
@@ -222,7 +237,7 @@ export default class Calendar extends ShadowComponent {
     Event Handlers
   */
   handleDayClick = (date) => {
-    if(this.disabled || this.isDisabledDate(date)) return;
+    if(this.disabled || this.readonly || this.isDisabledDate(date)) return;
     this.#skipViewSync = true;
     if(this.isRange){
       const { start, end } = this.parsed;
@@ -239,7 +254,7 @@ export default class Calendar extends ShadowComponent {
   };
 
   handleDayHover = (date) => {
-    if(this.isRange){
+    if(this.isRange && !this.readonly){
       this.hoverDate = date;
     }
   };
@@ -362,6 +377,12 @@ export default class Calendar extends ShadowComponent {
     }
     :host([disabled]) {
       opacity: 0.5;
+      pointer-events: none;
+    }
+    :host([readonly]) {
+      opacity: 0.75;
+    }
+    :host([readonly]) .day {
       pointer-events: none;
     }
     .header {

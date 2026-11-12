@@ -8,3 +8,5 @@ Details:
 - add/remove tags
 - inline autocomplete via `getSuggestions`
 - fires `change`
+- form-associated via `name`: submits the comma-separated tags; `required` needs at least one tag; a form reset returns to the starting tags
+- `readonly` (Boolean): tags are shown and submitted; tags cannot be added or removed

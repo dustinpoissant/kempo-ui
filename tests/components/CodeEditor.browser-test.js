@@ -1,5 +1,15 @@
 import CodeEditor from '../../src/components/CodeEditor.js';
 
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createEditor = async (attrs = '') => {
 	const container = document.createElement('div');
 	container.innerHTML = `<k-code-editor language="javascript" ${attrs} style="height:200px"></k-code-editor>`;
@@ -313,4 +323,11 @@ export default {
 		if(width > 400) return fail(`The editor stayed ${width}px wide in a 400px container`);
 		pass();
 	},
+
+	'readonly code editor has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-code-editor name="code" readonly></k-code-editor>');
+		const ok = el.readonly === true && el.hasAttribute('readonly');
+		form.remove();
+		ok ? pass('readonly is reflected') : fail('readonly should be true and reflected');
+	}
 };

@@ -19,3 +19,6 @@ Details:
 - Event `files`: detail { files, rejected }. `files` are the ones it takes, `rejected` the ones it does not (wrong type, or more than one without `multiple`). Bubbles and is composed.
 - Method open(): opens the file picker. Does nothing while disabled.
 - The default slot replaces the icon and the text. Part `zone` is the dashed area.
+- form-associated via `name`: submits the accepted files like a file input; a new accepted drop replaces them; `required`; a form reset clears them
+- `readonly` (Boolean): keeps its files and submits them; ignores clicks, keys and drops
+- `files` (read-only getter): a copy of the accepted files it holds

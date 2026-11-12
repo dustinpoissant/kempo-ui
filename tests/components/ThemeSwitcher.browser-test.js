@@ -1,6 +1,26 @@
 import ThemeSwitcher from '../../src/components/ThemeSwitcher.js';
 import theme from '../../src/utils/theme.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createThemeSwitcher = async (attrs = '') => {
 	const container = document.createElement('div');
 	container.innerHTML = `<k-theme-switcher ${attrs}></k-theme-switcher>`;
@@ -737,5 +757,48 @@ export default {
 
 		cleanup(container);
 		pass('No label spans without labels attribute');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		ThemeSwitcher.formAssociated === true ? pass('ThemeSwitcher is form-associated') : fail('ThemeSwitcher should be form-associated');
+	},
+
+	'readonly theme switcher ignores clicks': async ({pass, fail}) => {
+		const before = theme.get();
+		const { form, el } = await mountField('<k-theme-switcher readonly></k-theme-switcher>');
+		el.shadowRoot.querySelectorAll('button').forEach(button => button.click());
+		const after = theme.get();
+		theme.set(before);
+		form.remove();
+		after === before ? pass('Readonly switcher kept the theme') : fail(`Theme changed to ${after}`);
+	},
+
+	'theme switcher submits the current theme': async ({pass, fail}) => {
+		const before = theme.get();
+		theme.set('light');
+		const { form } = await mountField('<k-theme-switcher name="t"></k-theme-switcher>');
+		const submitted = new FormData(form).get('t');
+		theme.set(before);
+		form.remove();
+		submitted === 'light' ? pass('Submits the current theme') : fail(`Submitted ${submitted}`);
+	},
+
+	'theme switcher reset restores the theme it was added with': async ({pass, fail}) => {
+		const before = theme.get();
+		theme.set('light');
+		const { form } = await mountField('<k-theme-switcher name="t"></k-theme-switcher>');
+		theme.set('dark');
+		form.reset();
+		const restored = theme.get();
+		theme.set(before);
+		form.remove();
+		restored === 'light' ? pass('Reset restored the theme') : fail(`Theme is ${restored}`);
+	},
+
+	'disabled fieldset disables the theme switcher': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-theme-switcher name="t"></k-theme-switcher>', 'k-theme-switcher');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Theme switcher is disabled by its fieldset') : fail('A disabled fieldset should disable the theme switcher');
 	}
 };

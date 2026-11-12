@@ -9,3 +9,4 @@ Details:
 - click a star to set, hover previews without changing value
 - form-associated via `name`
 - fires `change`
+- `readonly` (Boolean): shows the rating and still submits it; clicks and hover previews do nothing

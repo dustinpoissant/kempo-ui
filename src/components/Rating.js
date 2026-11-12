@@ -12,6 +12,7 @@ export default class Rating extends ShadowComponent {
 		value: { type: Number, reflect: true },
 		name: { type: String, reflect: true },
 		disabled: { type: Boolean, reflect: true },
+		readonly: { type: Boolean, reflect: true },
 		hoverValue: { type: Number, state: true }
 	};
 
@@ -21,6 +22,7 @@ export default class Rating extends ShadowComponent {
 		this.value = 0;
 		this.name = '';
 		this.disabled = false;
+		this.readonly = false;
 		this.hoverValue = null;
 		this.initialValue = 0;
 	}
@@ -63,13 +65,17 @@ export default class Rating extends ShadowComponent {
 		this.value = this.initialValue;
 	};
 
+	formDisabledCallback(disabled) {
+		this.disabled = disabled;
+	}
+
 	handleStarClick = (rank) => {
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		this.value = bound(rank, 0, STAR_COUNT);
 	};
 
 	handleStarEnter = (rank) => {
-		if(this.disabled) return;
+		if(this.disabled || this.readonly) return;
 		this.hoverValue = rank;
 	};
 
@@ -114,6 +120,12 @@ export default class Rating extends ShadowComponent {
 		}
 		:host([disabled]) {
 			opacity: 0.5;
+			pointer-events: none;
+		}
+		:host([readonly]) {
+			opacity: 0.75;
+		}
+		:host([readonly]) .star {
 			pointer-events: none;
 		}
 		#stars {

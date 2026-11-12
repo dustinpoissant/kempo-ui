@@ -14,3 +14,4 @@ Details:
 - fires `change` (`{crop,width,height}`), `load`, `error`
 - cross-origin `src` needs CORS
 - CSS `--crop_color`, `--crop_handle_size`, `--crop_max_height`
+- `readonly` (Boolean): shows the image and crop and still submits them; the image, crop and buttons cannot be changed

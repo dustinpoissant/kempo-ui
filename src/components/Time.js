@@ -10,6 +10,7 @@ export default class Time extends ShadowComponent {
     increment: { type: Number, reflect: true },
     military: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    readonly: { type: Boolean, reflect: true },
     required: { type: Boolean, reflect: true }
   };
 
@@ -24,7 +25,21 @@ export default class Time extends ShadowComponent {
     this.increment = 1;
     this.military = false;
     this.disabled = false;
+    this.readonly = false;
     this.required = false;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.initialValue = this.value;
+  }
+
+  formResetCallback() {
+    this.value = this.initialValue;
+  }
+
+  formDisabledCallback(disabled) {
+    this.disabled = disabled;
   }
 
   updated(changedProperties) {
@@ -73,12 +88,12 @@ export default class Time extends ShadowComponent {
     Event Handlers
   */
   handleNativeChange = (e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     this.value = e.target.value || '';
   };
 
   handleBlur = (e) => {
-    if(this.disabled) return;
+    if(this.disabled || this.readonly) return;
     const rounded = this.roundToIncrement(e.target.value);
     if(rounded !== this.value){
       this.value = rounded;
@@ -96,6 +111,7 @@ export default class Time extends ShadowComponent {
         step=${this.stepSeconds}
         lang=${this.military ? 'en-GB' : 'en-US'}
         ?disabled=${this.disabled}
+        ?readonly=${this.readonly}
         ?required=${this.required}
         @change=${this.handleNativeChange}
         @blur=${this.handleBlur}

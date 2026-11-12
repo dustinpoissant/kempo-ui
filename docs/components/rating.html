@@ -677,6 +677,7 @@
         <a href="#javascriptUsage">JavaScript Usage</a><br />
         <a href="#formUsage">Form Integration</a><br />
         <a href="#disabled">Disabled</a><br />
+        <a href="#readonly">Read-only</a><br />
         <a href="#customStyles">Custom Styles</a><br />
 
         <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
@@ -794,6 +795,21 @@
       </div>
     </div>
 
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the rating and keeps it in the form, but the user cannot change it. The stars appear at 75% opacity, clicks and hover previews have no effect.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">k-rating</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-rating</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-rating readonly value="4"></k-rating>
+        </k-card>
+      </div>
+    </div>
+
     <h3 id="customStyles"><a href="#customStyles" class="no-link">Custom Styles</a></h3>
     <p>Override the <code>--star_size</code>, <code>--star_color</code>, <code>--star_color__filled</code>, and <code>--star_gap</code> custom properties to restyle the widget.</p>
     <div class="row -mx">
@@ -856,6 +872,12 @@
             <td>Boolean</td>
             <td><code>false</code></td>
             <td>When <code>true</code>, the stars cannot be changed by user interaction. The current value is still displayed at 50% opacity. Syncs to the <code>disabled</code> attribute.</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td>Boolean</td>
+            <td><code>false</code></td>
+            <td>When <code>true</code>, the stars cannot be changed, and the value is still submitted with the form. The current value is displayed at 75% opacity. Syncs to the <code>readonly</code> attribute.</td>
           </tr>
         </tbody>
       </table>

@@ -7,7 +7,9 @@ class SegmentedControl extends ShadowComponent {
   static properties = {
     value: { type: String, reflect: true },
     name: { type: String },
-    persistentId: { type: String, reflect: true, attribute: 'persistent-id' }
+    persistentId: { type: String, reflect: true, attribute: 'persistent-id' },
+    disabled: { type: Boolean, reflect: true },
+    readonly: { type: Boolean, reflect: true }
   };
 
   constructor() {
@@ -15,6 +17,8 @@ class SegmentedControl extends ShadowComponent {
     this.value = '';
     this.name = '';
     this.persistentId = null;
+    this.disabled = false;
+    this.readonly = false;
     this.initialValue = '';
     if(typeof this.attachInternals === 'function') {
       try {
@@ -80,7 +84,12 @@ class SegmentedControl extends ShadowComponent {
     this.value = this.initialValue;
   };
 
+  formDisabledCallback(disabled) {
+    this.disabled = disabled;
+  }
+
   handleButtonClick = (value) => {
+    if(this.disabled || this.readonly) return;
     this.value = value;
   };
 
@@ -98,6 +107,7 @@ class SegmentedControl extends ShadowComponent {
           return html`
             <button
               class="${isSelected ? 'primary' : ''}"
+              ?disabled=${this.disabled}
               @click=${() => this.handleButtonClick(optValue)}
               ?aria-pressed=${isSelected}
             >${unsafeHTML(option.innerHTML)}</button>
@@ -111,6 +121,16 @@ class SegmentedControl extends ShadowComponent {
   static styles = css`
     :host {
       display: block;
+    }
+    :host([disabled]) {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    :host([readonly]) {
+      opacity: 0.75;
+    }
+    :host([readonly]) button {
+      pointer-events: none;
     }
   `;
 }

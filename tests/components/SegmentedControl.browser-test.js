@@ -1,5 +1,25 @@
 import SegmentedControl from '../../src/components/SegmentedControl.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
 const createSegmentedControl = async (options = {}) => {
 	const container = document.createElement('div');
 	const value = options.value ? `value="${options.value}"` : '';
@@ -296,6 +316,44 @@ export default {
 		await control.updateComplete;
 		cleanup(container);
 		pass('No persistent-id means no localStorage interaction, nothing to assert beyond not throwing');
+	},
+
+	'readonly segmented control has the readonly property': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-segmented-control name="s" readonly value="a"><k-sc-option value="a">A</k-sc-option><k-sc-option value="b">B</k-sc-option></k-segmented-control>');
+		const readonly = el.readonly === true;
+		form.remove();
+		readonly ? pass('readonly is true') : fail('readonly should be true');
+	},
+
+	'readonly segmented control ignores option clicks': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-segmented-control name="s" readonly value="a"><k-sc-option value="a">A</k-sc-option><k-sc-option value="b">B</k-sc-option></k-segmented-control>');
+		el.shadowRoot.querySelectorAll('button')[1].click();
+		await el.updateComplete;
+		const value = el.value;
+		form.remove();
+		value === 'a' ? pass('Readonly control kept its option') : fail(`value is ${value}`);
+	},
+
+	'readonly segmented control submits its value': async ({pass, fail}) => {
+		const { form } = await mountField('<k-segmented-control name="s" readonly value="a"><k-sc-option value="a">A</k-sc-option><k-sc-option value="b">B</k-sc-option></k-segmented-control>');
+		const submitted = new FormData(form).get('s');
+		form.remove();
+		submitted === 'a' ? pass('Submits a') : fail(`Submitted ${submitted}`);
+	},
+
+	'disabled segmented control ignores option clicks': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-segmented-control name="s" disabled value="a"><k-sc-option value="a">A</k-sc-option><k-sc-option value="b">B</k-sc-option></k-segmented-control>');
+		el.shadowRoot.querySelectorAll('button')[1].click();
+		await el.updateComplete;
+		const value = el.value;
+		form.remove();
+		value === 'a' ? pass('Disabled control kept its option') : fail(`value is ${value}`);
+	},
+
+	'disabled fieldset disables the segmented control': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-segmented-control name="s" value="a"><k-sc-option value="a">A</k-sc-option></k-segmented-control>', 'k-segmented-control');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Segmented control is disabled by its fieldset') : fail('A disabled fieldset should disable the segmented control');
 	}
 };
-

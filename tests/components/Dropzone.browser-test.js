@@ -1,5 +1,31 @@
 import Dropzone from '../../src/components/Dropzone.js';
 
+const mountFieldset = async (markup, tag) => {
+	const form = document.createElement('form');
+	form.innerHTML = `<fieldset disabled>${markup}</fieldset>`;
+	document.body.appendChild(form);
+	const el = form.querySelector(tag);
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const mountField = async markup => {
+	const form = document.createElement('form');
+	form.innerHTML = markup;
+	document.body.appendChild(form);
+	const el = form.firstElementChild;
+	await el.updateComplete;
+	await new Promise(resolve => setTimeout(resolve));
+	return { form, el };
+};
+
+const dropFiles = (zone, files) => {
+	const dataTransfer = new DataTransfer();
+	files.forEach(file => dataTransfer.items.add(file));
+	zone.dispatchEvent(new DragEvent('drop', { dataTransfer, bubbles: true, cancelable: true }));
+};
+
 const createDropzone = async (attrs = '') => {
 	const container = document.createElement('div');
 	container.innerHTML = `<k-dropzone ${attrs}></k-dropzone>`;
@@ -148,5 +174,68 @@ export default {
 		if(events.length) return fail('A disabled dropzone should not report files');
 		if(dragging) return fail('A disabled dropzone should not show a drag');
 		pass('Disabled does nothing');
+	},
+
+	'is form-associated': async ({pass, fail}) => {
+		Dropzone.formAssociated === true ? pass('Dropzone is form-associated') : fail('Dropzone should be form-associated');
+	},
+
+	'readonly dropzone ignores dropped files': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-dropzone name="f" readonly></k-dropzone>');
+		let reported = false;
+		el.addEventListener('files', () => { reported = true; });
+		dropFiles(el.renderRoot.querySelector('#zone'), [new File(['x'], 'a.txt', { type: 'text/plain' })]);
+		const held = el.files.length;
+		form.remove();
+		!reported && held === 0 ? pass('Readonly dropzone took no files') : fail('Readonly dropzone should ignore drops');
+	},
+
+	'dropped files are submitted under the field name': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-dropzone name="f" multiple></k-dropzone>');
+		dropFiles(el.renderRoot.querySelector('#zone'), [
+			new File(['a'], 'a.txt', { type: 'text/plain' }),
+			new File(['b'], 'b.txt', { type: 'text/plain' })
+		]);
+		await el.updateComplete;
+		const names = new FormData(form).getAll('f').map(file => file.name).join(',');
+		form.remove();
+		names === 'a.txt,b.txt' ? pass('Both files submitted') : fail(`Submitted ${names}`);
+	},
+
+	'a drop with no accepted files keeps the files already held': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-dropzone name="f" accept=".txt"></k-dropzone>');
+		const zone = el.renderRoot.querySelector('#zone');
+		dropFiles(zone, [new File(['a'], 'a.txt', { type: 'text/plain' })]);
+		dropFiles(zone, [new File(['p'], 'pic.png', { type: 'image/png' })]);
+		await el.updateComplete;
+		const held = el.files.map(file => file.name).join(',');
+		form.remove();
+		held === 'a.txt' ? pass('Rejected drop kept the accepted file') : fail(`Held ${held}`);
+	},
+
+	'form reset clears the dropped files': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-dropzone name="f"></k-dropzone>');
+		dropFiles(el.renderRoot.querySelector('#zone'), [new File(['a'], 'a.txt', { type: 'text/plain' })]);
+		form.reset();
+		const has = new FormData(form).has('f');
+		form.remove();
+		!has ? pass('Reset cleared the files') : fail('Reset should clear the files');
+	},
+
+	'required dropzone blocks submission until a file is dropped': async ({pass, fail}) => {
+		const { form, el } = await mountField('<k-dropzone name="f" required></k-dropzone>');
+		const blocked = !form.checkValidity();
+		dropFiles(el.renderRoot.querySelector('#zone'), [new File(['a'], 'a.txt', { type: 'text/plain' })]);
+		await el.updateComplete;
+		const allowed = form.checkValidity();
+		form.remove();
+		blocked && allowed ? pass('Required dropzone gates the form') : fail(`blocked=${blocked} allowed=${allowed}`);
+	},
+
+	'disabled fieldset disables the dropzone': async ({pass, fail}) => {
+		const { form, el } = await mountFieldset('<k-dropzone name="f"></k-dropzone>', 'k-dropzone');
+		const disabled = el.disabled === true;
+		form.remove();
+		disabled ? pass('Dropzone is disabled by its fieldset') : fail('A disabled fieldset should disable the dropzone');
 	}
 };

@@ -8,3 +8,5 @@ Details:
 - persists choice via the `voice` utility so any `<k-text-to-speech>` without an explicit `voice` attr uses the saved preference
 - `language` (BCP-47 prefix) attr filters the list
 - fires `change`
+- form-associated via `name`: submits the selected voice name; `required`; a form reset restores the voice saved when the element was added
+- `readonly` (Boolean): both dropdowns are disabled and the voice is still submitted
