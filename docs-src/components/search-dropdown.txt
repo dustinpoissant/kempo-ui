@@ -1,0 +1,14 @@
+SearchDropdown (<k-search-dropdown>)
+Import: import 'kempo-ui/src/components/SearchDropdown.js';
+Docs: https://dustinpoissant.github.io/kempo-ui/components/search-dropdown.html
+
+A search box that shows results in a popover under it as you type. It does not fetch anything: when typing pauses it fires `search`, and you answer with `setResults()`.
+
+Details:
+- `search` event `{ value }` after `debounce-ms` (300) once `min-length` (2) characters are typed; answer with `setResults(results)` or `setError(message)`. `searching` is true (spinner) until you do
+- a result is `{ title, url?, description?, group? }`: with a `url` it is a link (followed on Enter unless `select` is cancelled), `group` draws a heading where it changes
+- `select` event `{ result }`, cancelable, on a click or Enter on a result
+- arrow keys move through the results, Escape closes, Enter with no result chosen submits the form it is in
+- form-associated: submits its text under `name`; `required`, form reset and a disabled `<fieldset>` work
+- `readonly` (Boolean): shows the text and still submits it; it cannot be typed in and the results do not open
+- methods `setResults()`, `setError()`, `clear()`, `focus()`; the list is a top-layer popover at least `--min-width` (22rem) wide

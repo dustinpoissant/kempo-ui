@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-12
+
+### Added
+
+- **`<k-search-dropdown>`.** A search box that shows its results in a popover under it as you type. It fetches nothing itself: it fires a debounced `search` event and you answer with `setResults()` (results are `{ title, url, description, group }`; a `url` makes a result a link, and `group` draws a heading) or `setError()`. A `select` event (cancelable) fires on a click or Enter on a result. It is form-associated, and pressing Enter with no result chosen submits the form it is in, so the same box can go to a full results page. Use it where the result is somewhere to go; `<k-combobox>` is for choosing a value.
+
 ## [1.5.0] - 2026-11-12
 
 ### Added

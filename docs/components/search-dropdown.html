@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Search Dropdown - Components - Kempo Docs - A Web Components Solution</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../media/icon48.png">
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../kempo-vars.css" />
+  <link rel="stylesheet" href="../kempo.min.css" />
+  <script src="../init.js"></script>
+  <link rel="stylesheet" href="../kempo-hljs.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.litDisableBundleWarning = true;
+    try{ document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'auto'); }catch(e){}
+  </script>
+  
+</head>
+<body>
+  
+  <k-nav
+    fixed
+    class="bg-primary"
+  >
+    <button
+      id="toggleNavSideMenu"
+      class="link"
+      no-collapse
+    >
+      <k-icon name="menu"></k-icon>
+    </button>
+    <a
+      href="../"
+      class="d-if ph"
+      style="align-items: center; white-space: nowrap"
+      no-collapse
+    >
+      <img
+        src="../media/icon32.png"
+        alt="Kempo UI Icon"
+        class="pr"
+      />
+      <span class="nav-brand-text">Kempo UI</span>
+    </a>
+    <div
+      class="nav-search"
+      theme="light"
+    >
+      <input
+        id="navSearchInput"
+        type="search"
+        placeholder="Search docs..."
+        autocomplete="off"
+      />
+      <div
+        id="navSearchDropdown"
+        class="nav-search-dropdown"
+        hidden
+        theme="light"
+      >
+        <k-filter-list
+          id="navSearchList"
+          style="display:block;padding:.25rem 0;"
+        >
+          <k-filter-item filter-keywords="accordion components"><a
+              href="../components/accordion.html">Accordion<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside sidebar components"><a
+              href="../components/aside.html">Aside<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="aside button fab floating menu sidebar toggle components"><a
+              href="../components/aside-btn.html">Aside Button<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="audio player play pause seek volume speed loop sound music podcast components"><a
+              href="../components/audio.html">Audio<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="calendar date picker range month day components"><a
+              href="../components/calendar.html"
+            >Calendar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card components"><a
+              href="../components/card.html">Card<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="card grid tile layout gallery selection components"><a
+              href="../components/card-grid.html">CardGrid<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat message conversation messaging components"><a
+              href="../components/chat.html"
+            >Chat<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="chat bubble fab floating button support assistant widget messaging components"><a
+              href="../components/chat-bubble.html"
+            >Chat Bubble<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="code editor codeeditor monaco components"><a
+              href="../components/code-editor.html"
+            >Code Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="combobox combo box search autocomplete components"><a
+              href="../components/combobox.html"
+            >Combobox<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="color picker colorpicker components"><a
+              href="../components/color-picker.html"
+            >Color Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="content slider components"><a
+              href="../components/content-slider.html"
+            >Content Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context state global components"><a
+              href="../components/context.html"
+            >Context<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="control bar toolbar responsive overflow more menu components"><a
+              href="../components/control-bar.html">Control Bar<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dialog modal popup components"><a
+              href="../components/dialog.html">Dialog<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropdown select components"><a
+              href="../components/dropdown.html">Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="filter list filterlist components"><a
+              href="../components/filter-list.html"
+            >Filter List<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="focus capture focuscapture components"><a
+              href="../components/focus-capture.html"
+            >Focus Capture<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="html editor components"><a
+              href="../components/html-editor.html">HTML
+              Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="image crop cropper upload photo avatar profile canvas resize components"><a
+              href="../components/image-crop.html"
+            >Image Crop<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown render parser marked gfm components"><a
+              href="../components/markdown.html"
+            >Markdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="markdown editor markdowneditor write preview marked gfm tables components"><a
+              href="../components/markdown-editor.html"
+            >Markdown Editor<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon components"><a
+              href="../components/icon.html">Icon<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="icon selector iconselector picker choose dialog filter components"><a
+              href="../components/icon-selector.html">Icon Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="dropzone drop zone drag and drop file files upload picker input components"><a
+              href="../components/dropzone.html">Dropzone<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="import components"><a
+              href="../components/import.html">Import<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="media gallery mediagallery product images video photos thumbnails carousel slider lightbox ecommerce etsy components"><a
+              href="../components/media-gallery.html"
+            >Media Gallery<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav navbar navigation components"><a
+              href="../components/nav.html">Nav<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="nav spacer navbar spacer navspacer components"><a
+              href="../components/nav-spacer.html"
+            >Nav Spacer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="photo viewer photoviewer components"><a
+              href="../components/photo-viewer.html"
+            >Photo Viewer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder editor widgets json controlled components"><a
+              href="../components/page-builder.html">Page Builder<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder image picker media library pictures"><a
+              href="../components/page-builder/image.html">Page Builder Image Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder video picker media library"><a
+              href="../components/page-builder/video.html">Page Builder Video Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder audio picker media library sound"><a
+              href="../components/page-builder/audio.html">Page Builder Audio Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page builder icon picker icons search"><a
+              href="../components/page-builder/icon.html">Page Builder Icon Picker<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="page renderer render json server components"><a
+              href="../components/page-renderer.html">Page Renderer<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagination pager page components"><a
+              href="../components/pagination.html"
+            >Pagination<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="progress loading components"><a
+            href="../components/progress.html">Progress<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="rating star stars review score components"><a
+              href="../components/rating.html"
+            >Rating<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="resize components"><a
+              href="../components/resize.html">Resize<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="search dropdown popover results find autocomplete nav components"><a
+              href="../components/search-dropdown.html"
+            >Search Dropdown<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="segmented control segment option button group components"><a
+              href="../components/segmented-control.html"
+            >Segmented Control<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="show more showmore components"><a
+              href="../components/show-more.html"
+            >Show More<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="slider range input step components"><a
+              href="../components/slider.html"
+            >Slider<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sortable drag drop sort components"><a
+              href="../components/sortable.html"
+            >Sortable<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="speech to text speechtotext microphone voice recognition transcription components"><a
+              href="../components/speech-to-text.html"
+            >Speech To Text<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="spinner loading components"><a
+              href="../components/spinner.html">Spinner<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="split pane components"><a
+              href="../components/split.html">Split<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table data grid components"><a
+              href="../components/table.html">Table<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table preconfigured controls toolbar minimal normal full advanced example"><a
+              href="../components/tablePreconfigured.html"
+            >Table &mdash; Preconfigured Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table controls advanced example"><a
+              href="../components/tableControls.html"
+            >Table &mdash; Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table custom fields advanced example"><a
+              href="../components/tableCustomFields.html"
+            >Table &mdash; Custom Fields<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table fetch records advanced example"><a
+              href="../components/tableFetchRecords.html"
+            >Table &mdash; Fetch Records<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table field sort hide advanced example"><a
+              href="../components/tableFieldSortHide.html"
+            >Table &mdash; Field Sort &amp; Hide<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table pagination advanced example"><a
+              href="../components/tablePagination.html"
+            >Table &mdash; Pagination<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record editing advanced example"><a
+              href="../components/tableRecordEditing.html"
+            >Table &mdash; Record Editing<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record filtering advanced example"><a
+              href="../components/tableRecordFiltering.html"
+            >Table &mdash; Record Filtering<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record hiding advanced example"><a
+              href="../components/tableRecordHiding.html"
+            >Table &mdash; Record Hiding<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record searching advanced example"><a
+              href="../components/tableRecordSearching.html"
+            >Table &mdash; Record Searching<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record selection advanced example"><a
+              href="../components/tableRecordSelection.html"
+            >Table &mdash; Record Selection<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table row controls advanced example"><a
+              href="../components/tableRowControls.html"
+            >Table &mdash; Row Controls<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table record links url open click advanced example"><a
+              href="../components/tableRecordLinks.html"
+            >Table &mdash; Record Links<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table server sync advanced example"><a
+              href="../components/tableServerSync.html"
+            >Table &mdash; Server Sync<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table sorting advanced example"><a
+              href="../components/tableSorting.html"
+            >Table &mdash; Sorting<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="table placeholder advanced example"><a
+              href="../components/tablePlaceholder.html"
+            >Table &mdash; Placeholder<br><small>Advanced Example</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tabs tab panel components"><a
+              href="../components/tabs.html">Tabs<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tags tag input components"><a
+              href="../components/tags.html">Tags<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="text to speech texttospeech tts speak voice synthesis components"><a
+              href="../components/text-to-speech.html"
+            >Text To Speech<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme select dropdown dark light components"><a
+              href="../components/theme-select.html"
+            >Theme Select<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme switcher dark light components"><a
+              href="../components/theme-switcher.html"
+            >Theme Switcher<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="time picker clock hour minute form components"><a
+              href="../components/time.html"
+            >Time<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="timestamp date time components"><a
+              href="../components/timestamp.html"
+            >Timestamp<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toast notification alert components"><a
+              href="../components/toast.html"
+            >Toast<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="toggle switch checkbox components"><a
+              href="../components/toggle.html"
+            >Toggle<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="tree treeview components"><a
+              href="../components/tree.html">Tree<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="video player play pause seek volume fullscreen download speed loop media components"><a
+              href="../components/video.html">Video<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice selector dropdown speech synthesis preference components"><a
+              href="../components/voice-selector.html"
+            >Voice Selector<br><small>Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="shadow component base"><a
+              href="../components/shadow-component.html"
+            >Shadow Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="light component base"><a
+              href="../components/light-component.html">Light Component<br><small>Base
+                Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="hybrid component base"><a
+              href="../components/hybrid-component.html"
+            >Hybrid Component<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="button base component keyboard disabled accessibility"><a
+              href="../components/button.html"
+            >Button<br><small>Base Component</small></a></k-filter-item>
+          <k-filter-item filter-keywords="closestAcrossShadow closest shadow dom utils utility"><a
+              href="../utils/closestAcrossShadow.html">closestAcrossShadow<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="conversations conversation history save indexeddb storage chat persist utils utility"><a
+              href="../utils/conversations.html"
+            >conversations<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="cookie utils utility"><a
+              href="../utils/cookie.html">cookie<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="context utils utility"><a
+              href="../utils/context.html">context<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="debounce utils utility"><a
+              href="../utils/debounce.html">debounce<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="drag utils utility"><a
+              href="../utils/drag.html">drag<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="elevation z-index stacking utils"><a
+              href="../utils/elevation.html">elevation<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="formattimestamp timestamp format date time utils utility"><a
+              href="../utils/formatTimestamp.html"
+            >formatTimestamp<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="imagesize image size natural width height measure utils utility"><a
+              href="../utils/imageSize.html">imageSize<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="object utils utility"><a
+              href="../utils/object.html">object<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pageframe page frame iframe preview page builder utils utility"><a
+              href="../utils/pageFrame.html">pageFrame<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagehistory page history undo redo page builder utils utility"><a
+              href="../utils/pageHistory.html">pageHistory<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagelabels page labels title icon hint page builder utils utility"><a
+              href="../utils/pageLabels.html">pageLabels<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagetree page tree widgets nodes slots add move remove page builder utils utility"><a
+              href="../utils/pageTree.html">pageTree<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidgets page widgets registry addwidget definitions page builder utils utility"><a
+              href="../utils/pageWidgets.html">pageWidgets<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="pagewidth page width css variable breakout utils utility"><a
+              href="../utils/pageWidth.html">pageWidth<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="promptapi prompt api ai llm language model nano gemini chrome system prompt utils utility"><a
+              href="../utils/promptApi.html"
+            >promptApi<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="propconverters prop converters utils utility"><a
+              href="../utils/propConverters.html"
+            >propConverters<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="renderpage render page html server prerender ssr page builder utils utility"><a
+              href="../utils/renderPage.html">renderPage<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="sanitizehtml sanitize html xss security utils utility"><a
+              href="../utils/sanitizeHtml.html"
+            >sanitizeHtml<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="string utils utility"><a
+              href="../utils/string.html">string<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="styles style classes margin padding background page builder utils utility"><a
+              href="../utils/styles.html">styles<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="theme utils utility"><a
+              href="../utils/theme.html">theme<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="type utils utility"><a
+              href="../utils/type.html">type<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="voice speech synthesis preference utils utility"><a
+              href="../utils/voice.html">voice<br><small>Utility</small></a></k-filter-item>
+          <k-filter-item filter-keywords="wait async utils utility"><a
+              href="../utils/wait.html">wait<br><small>Utility</small></a></k-filter-item>
+        </k-filter-list>
+      </div>
+    </div>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui?tab=License-1-ov-file#creative-commons-attribution-noncommercial-sharealike-20"
+      target="_blank"
+      title="License"
+    ><k-icon name="license"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://www.npmjs.com/package/kempo-ui"
+      target="_blank"
+      title="npm"
+    ><k-icon name="npm"></k-icon></kc-nav-link>
+    <kc-nav-link
+      slot="right"
+      href="https://github.com/dustinpoissant/kempo-ui"
+      target="_blank"
+      title="GitHub"
+    ><k-icon name="github-mark"></k-icon></kc-nav-link>
+    <k-theme-switcher slot="right"></k-theme-switcher>
+  </k-nav>
+  <div style="width: 100%; height: 4rem;"></div>
+  <k-aside
+    id="navSideMenu"
+    main="overlay"
+    state="offscreen"
+  >
+    <menu>
+      <a
+        href="../"
+        class="ta-center bb mb r0"
+      >
+        <h1 class="tc-primary">Kempo UI</h1>
+        <img
+          src="../media/icon128.png"
+          alt="Kempo UI Icon"
+        />
+      </a>
+
+      <div class="pl mb">
+        <h3>Components</h3>
+        <a href="../components/accordion.html">Accordion</a>
+        <a href="../components/aside.html">Aside</a>
+        <a href="../components/aside-btn.html">Aside Button</a>
+        <a href="../components/audio.html">Audio</a>
+        <a href="../components/calendar.html">Calendar</a>
+        <a href="../components/card.html">Card</a>
+        <a href="../components/card-grid.html">CardGrid</a>
+        <a href="../components/chat.html">Chat</a>
+        <a href="../components/chat-bubble.html">Chat Bubble</a>
+        <a href="../components/code-editor.html">Code Editor</a>
+        <a href="../components/combobox.html">Combobox</a>
+        <a href="../components/color-picker.html">ColorPicker</a>
+        <a href="../components/content-slider.html">Content Slider</a>
+        <a href="../components/context.html">Context</a>
+        <a href="../components/control-bar.html">Control Bar</a>
+        <a href="../components/dialog.html">Dialog</a>
+        <a href="../components/dropdown.html">Dropdown</a>
+        <a href="../components/filter-list.html">Filter List</a>
+        <a href="../components/focus-capture.html">FocusCapture</a>
+        <a href="../components/html-editor.html">HTML Editor</a>
+        <a href="../components/markdown.html">Markdown</a>
+        <a href="../components/markdown-editor.html">Markdown Editor</a>
+        <a href="../components/icon.html">Icon</a>
+        <a href="../components/icon-selector.html">Icon Selector</a>
+        <a href="../components/dropzone.html">Dropzone</a>
+        <a href="../components/image-crop.html">Image Crop</a>
+        <a href="../components/import.html">Import</a>
+        <a href="../components/media-gallery.html">Media Gallery</a>
+        <a href="../components/nav.html">Nav</a>
+        <a href="../components/nav-spacer.html">Nav Spacer</a>
+        <a href="../components/photo-viewer.html">Photo Viewer</a>
+        <a href="../components/page-builder.html">Page Builder</a>
+        <a href="../components/page-builder/image.html">Page Builder: Image Picker</a>
+        <a href="../components/page-builder/video.html">Page Builder: Video Picker</a>
+        <a href="../components/page-builder/audio.html">Page Builder: Audio Picker</a>
+        <a href="../components/page-builder/icon.html">Page Builder: Icon Picker</a>
+        <a href="../components/page-renderer.html">Page Renderer</a>
+        <a href="../components/pagination.html">Pagination</a>
+        <a href="../components/progress.html">Progress</a>
+        <a href="../components/rating.html">Rating</a>
+        <a href="../components/resize.html">Resize</a>
+        <a href="../components/search-dropdown.html">Search Dropdown</a>
+        <a href="../components/show-more.html">Show More</a>
+        <a href="../components/slider.html">Slider</a>
+        <a href="../components/sortable.html">Sortable</a>
+        <a href="../components/speech-to-text.html">Speech To Text</a>
+        <a href="../components/spinner.html">Spinner</a>
+        <a href="../components/split.html">Split</a>
+        <a href="../components/table.html">Table</a>
+        <a href="../components/tabs.html">Tabs</a>
+        <a href="../components/tags.html">Tags</a>
+        <a href="../components/text-to-speech.html">Text To Speech</a>
+        <a href="../components/theme-select.html">Theme Select</a>
+        <a href="../components/theme-switcher.html">Theme Switcher</a>
+        <a href="../components/time.html">Time</a>
+        <a href="../components/timestamp.html">Timestamp</a>
+        <a href="../components/toast.html">Toast</a>
+        <a href="../components/toggle.html">Toggle</a>
+        <a href="../components/tree.html">Tree</a>
+        <a href="../components/video.html">Video</a>
+        <a href="../components/voice-selector.html">Voice Selector</a>
+      </div>
+
+      <h5 class="mb0">Base Components</h5>
+      <div class="pl mb">
+        <a href="../components/shadow-component.html">Shadow Component</a>
+        <a href="../components/light-component.html">Light Component</a>
+        <a href="../components/hybrid-component.html">Hybrid Component</a>
+        <a href="../components/button.html">Button</a>
+      </div>
+
+      <h5 class="mb0">Utils</h5>
+      <div class="pl mb">
+        <a href="../utils/closestAcrossShadow.html">closestAcrossShadow</a>
+        <a href="../utils/conversations.html">conversations</a>
+        <a href="../utils/cookie.html">cookie</a>
+        <a href="../utils/context.html">context</a>
+        <a href="../utils/debounce.html">debounce</a>
+        <a href="../utils/drag.html">drag</a>
+        <a href="../utils/elevation.html">elevation</a>
+        <a href="../utils/formatTimestamp.html">formatTimestamp</a>
+        <a href="../utils/imageSize.html">imageSize</a>
+        <a href="../utils/object.html">object</a>
+        <a href="../utils/pageFrame.html">pageFrame</a>
+        <a href="../utils/pageHistory.html">pageHistory</a>
+        <a href="../utils/pageLabels.html">pageLabels</a>
+        <a href="../utils/pageTree.html">pageTree</a>
+        <a href="../utils/pageWidgets.html">pageWidgets</a>
+        <a href="../utils/pageWidth.html">pageWidth</a>
+        <a href="../utils/promptApi.html">promptApi</a>
+        <a href="../utils/propConverters.html">propConverters</a>
+        <a href="../utils/renderPage.html">renderPage</a>
+        <a href="../utils/sanitizeHtml.html">sanitizeHtml</a>
+        <a href="../utils/string.html">string</a>
+        <a href="../utils/styles.html">styles</a>
+        <a href="../utils/theme.html">theme</a>
+        <a href="../utils/type.html">type</a>
+        <a href="../utils/voice.html">voice</a>
+        <a href="../utils/wait.html">wait</a>
+      </div>
+    </menu>
+  </k-aside>
+  <style>
+    #navSearchList a {
+      display: block;
+      padding: .25rem .5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--tc);
+    }
+
+    #navSearchList a:hover {
+      background: rgba(128, 128, 128, .15);
+    }
+
+    /* The search box and theme switcher collapse into the nav's "more" menu (the nav sets in-menu on what it moves). */
+    .nav-search {
+      position: relative;
+      margin: 0 .25rem;
+      align-self: center;
+      flex: 1 1 auto;
+      width: 4rem;
+      min-width: 4rem;
+      max-width: 11rem;
+    }
+
+    .nav-search input {
+      width: 100%;
+    }
+
+    .nav-search-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: min(480px, 90vw);
+      max-height: 70vh;
+      background: var(--c_bg);
+      border: 1px solid var(--c_border);
+      border-radius: var(--radius);
+      overflow: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search[in-menu] {
+      width: auto;
+      max-width: none;
+      flex: none;
+      margin: .25rem;
+    }
+
+    .nav-search[in-menu] .nav-search-dropdown {
+      position: static;
+      width: auto;
+      max-height: 50vh;
+      margin-top: .25rem;
+      box-shadow: none;
+    }
+
+    k-theme-switcher {
+      --padding: 0.5rem;
+      margin-right: var(--spacer);
+    }
+
+    k-theme-switcher:not([in-menu]) {
+      --c_active: var(--tc_on_primary);
+      --tc_active: var(--c_primary);
+      --c_inactive__hover: rgba(255, 255, 255, 0.1);
+    }
+
+    k-theme-switcher[in-menu] {
+      margin: .25rem;
+    }
+
+    @media (max-width: 560px) {
+      .nav-brand-text {
+        display: none;
+      }
+    }
+
+    #navSearchList a small {
+      display: block;
+      color: var(--tc_muted);
+    }
+  </style>
+  <script
+    src="../src/components/Nav.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/controls/NavLink.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterList.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/FilterItem.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Aside.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/Icon.js"
+    type="module"
+  ></script>
+  <script
+    src="../src/components/ThemeSwitcher.js"
+    type="module"
+  ></script>
+  <script type="module">
+    import debounce from '../src/utils/debounce.js';
+
+    document.getElementById('toggleNavSideMenu').addEventListener('click', async () => {
+      await window.customElements.whenDefined('k-aside');
+      document.getElementById('navSideMenu').toggle();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          const url = window.location.pathname + window.location.search + '#' + targetId;
+          history.replaceState(null, '', url);
+        }
+      }
+    });
+
+    /*
+      Nav Search
+    */
+    const searchInput = document.getElementById('navSearchInput');
+    const searchDropdown = document.getElementById('navSearchDropdown');
+    let navSearchList = null;
+
+    const openSearch = async () => {
+      await customElements.whenDefined('k-filter-list');
+      if (!navSearchList) navSearchList = document.getElementById('navSearchList');
+      navSearchList.filter(searchInput.value);
+      searchDropdown.hidden = false;
+    };
+
+    const closeSearch = () => {
+      searchDropdown.hidden = true;
+      navSearchList?.clearFocus();
+    };
+
+    searchInput.addEventListener('focus', openSearch);
+
+    searchInput.addEventListener('input', debounce(e => {
+      navSearchList?.filter(e.target.value);
+    }, 150));
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        closeSearch();
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        navSearchList?.handleKeydown(e);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(closeSearch, 150);
+    });
+
+    document.addEventListener('keydown', e => {
+      let active = document.activeElement;
+      while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+      const tag = active?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || active?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.length === 1) {
+        searchInput.focus();
+      }
+    });
+  </script>
+
+  
+  <k-main >
+    
+    <h1 class="ta-center">Search Dropdown</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m pl">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#groups">Groups</a><br />
+          <a href="#inAForm">In a Form</a><br />
+          <a href="#inANav">In a Nav</a><br />
+          <a href="#readonly">Read-only</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes / Properties</a><br />
+          <a href="#resultsRef">Results</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#eventsRef">Events</a><br />
+          <a href="#cssVars">CSS Custom Properties</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p>A search box that shows what was found in a popover under it, as the person types. It does not know where results come from: when typing pauses it fires <code>search</code>, and you answer with <code>setResults()</code>. That is what makes it work with any search, such as a site's own search API. Use it where the result is somewhere to go (a page, a record); to pick a value for a form field use <a href="./combobox.html">Combobox</a>, which keeps the option chosen.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Listen for <code>search</code> and call <code>setResults()</code> with a list of results. Each result has a <code>title</code> and, usually, a <code>url</code> (it is drawn as a link, so it can be opened in a new tab) and a <code>description</code>. The box shows a spinner from the moment typing pauses until you answer, and <code>setError()</code> shows a message instead. Nothing is searched until <code>min-length</code> characters (2) are typed.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;basicDropdown&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search the docs...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> dropdown = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#basicDropdown&#x27;</span>);<br>dropdown.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;search&#x27;</span>, <span class="hljs-keyword">async</span> e =&gt; {<br>  <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/search?q=&#x27;</span> + <span class="hljs-built_in">encodeURIComponent</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));<br>  <span class="hljs-keyword">if</span>(!response.<span class="hljs-property">ok</span>) <span class="hljs-keyword">return</span> dropdown.<span class="hljs-title function_">setError</span>(<span class="hljs-string">&#x27;The search failed.&#x27;</span>);<br>  dropdown.<span class="hljs-title function_">setResults</span>(<span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>());<br>});<br>dropdown.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;select&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Chose&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">result</span>.<span class="hljs-property">title</span>);<br>});</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-search-dropdown id="basicDropdown" placeholder="Search the docs..."></k-search-dropdown>
+          <p class="mt" id="basicResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="groups"><a href="#groups" class="no-link">Groups</a></h3>
+    <p>Results that share a <code>group</code> are listed under a heading. A heading is drawn where the group changes from one result to the next, so send the results grouped.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;groupDropdown&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search pages and people...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript">dropdown.<span class="hljs-title function_">setResults</span>([<br>  { <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;Pages&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Pricing&#x27;</span>, <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/pricing&#x27;</span>, <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;What our plans cost&#x27;</span> },<br>  { <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;Pages&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;About us&#x27;</span>, <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/about&#x27;</span> },<br>  { <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;People&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Ada Lovelace&#x27;</span>, <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;ada@example.com&#x27;</span> }<br>]);</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-search-dropdown id="groupDropdown" placeholder="Search pages and people..."></k-search-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="inAForm"><a href="#inAForm" class="no-link">In a Form</a></h3>
+    <p>The search dropdown is form-associated: its text is submitted under <code>name</code>. Pressing <kbd>Enter</kbd> with no result chosen submits the form it is in, so the same box can go straight to a full results page (<code>&lt;form action="/search"&gt;</code>), and still show a quick preview as you type. <code>required</code>, a form reset and a disabled <code>&lt;fieldset&gt;</code> work as for the other form components.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;searchForm&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/search&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;q&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Press Enter for all results...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="searchForm" action="/search">
+            <k-search-dropdown name="q" placeholder="Press Enter for all results..."></k-search-dropdown>
+          </form>
+          <p class="mt" id="formResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="inANav"><a href="#inANav" class="no-link">In a Nav</a></h3>
+    <p>It sizes to the width you give it, and the popover is at least <code>22rem</code> wide (<code>--min-width</code>) and opens in the top layer, so a narrow box in a <a href="./nav.html">nav</a> still shows full results and is never clipped by the nav. It flips to stay on screen near the edge of the window.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">no-collapse</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;navDropdown&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 10rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="b r p">
+            <k-search-dropdown id="navDropdown" placeholder="Search" style="width: 10rem"></k-search-dropdown>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the text and keeps it in the form, but the person cannot type or open the results. It stays in the tab order.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;q&quot;</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pricing&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-search-dropdown name="q" readonly value="pricing"></k-search-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;path/to/kempo-ui/components/SearchDropdown.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p><code>SearchDropdown.js</code> imports <code>Spinner.js</code> itself.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./spinner.html"><code>k-spinner</code></a> &mdash; the searching indicator (imported by the component)</li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes / Properties</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Attribute</th><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>value</code></td><td><code>value</code></td><td><code>String</code></td><td><code>''</code></td><td>The text in the box.</td></tr>
+        <tr><td><code>name</code></td><td><code>name</code></td><td><code>String</code></td><td><code>''</code></td><td>Form field name: the text is submitted under it.</td></tr>
+        <tr><td><code>placeholder</code></td><td><code>placeholder</code></td><td><code>String</code></td><td><code>''</code></td><td>Placeholder text for the box.</td></tr>
+        <tr><td><code>opened</code></td><td><code>opened</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>Whether the results are showing.</td></tr>
+        <tr><td><code>searching</code></td><td><code>searching</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>True from when typing pauses until <code>setResults()</code> or <code>setError()</code> is called. Shows the spinner.</td></tr>
+        <tr><td><code>min-length</code></td><td><code>minLength</code></td><td><code>Number</code></td><td><code>2</code></td><td>How many characters (not counting spaces at either end) must be typed before anything is searched.</td></tr>
+        <tr><td><code>debounce-ms</code></td><td><code>debounceMs</code></td><td><code>Number</code></td><td><code>300</code></td><td>Milliseconds to wait after typing before firing <code>search</code>.</td></tr>
+        <tr><td><code>no-results-message</code></td><td><code>noResultsMessage</code></td><td><code>String</code></td><td><code>'No results'</code></td><td>Shown when <code>setResults()</code> was given an empty list.</td></tr>
+        <tr><td><code>required</code></td><td><code>required</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>The form cannot be submitted while the box is empty.</td></tr>
+        <tr><td><code>disabled</code></td><td><code>disabled</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>Disables the box and leaves it out of the form. A disabled fieldset sets it too.</td></tr>
+        <tr><td><code>readonly</code></td><td><code>readonly</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>The text is shown and still submitted, but cannot be changed and the results do not open.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="resultsRef"><a href="#resultsRef" class="no-link">Results</a></h3>
+    <p><code>setResults()</code> takes a list of objects. Anything else in the list is ignored.</p>
+    <table class="b r">
+      <thead>
+        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>title</code></td><td><code>String</code></td><td>The main text. Falls back to <code>url</code>, then &ldquo;Untitled&rdquo;.</td></tr>
+        <tr><td><code>url</code></td><td><code>String</code></td><td>Where the result goes. It is drawn as a link and followed on <kbd>Enter</kbd> unless <code>select</code> is cancelled. Without one the result is only reported through <code>select</code>. <strong>Only pass addresses you trust</strong>: the value is used as a link as it is.</td></tr>
+        <tr><td><code>description</code></td><td><code>String</code></td><td>A line of secondary text under the title.</td></tr>
+        <tr><td><code>group</code></td><td><code>String</code></td><td>A heading drawn where it changes from the result before.</td></tr>
+      </tbody>
+    </table>
+    <p>Your own fields can ride along; <code>select</code> gives the whole object back.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Method</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>setResults(results)</code></td><td>Shows the results, ends <code>searching</code> and opens the list if it is closed. An empty list shows <code>no-results-message</code>. Returns <code>this</code>.</td></tr>
+        <tr><td><code>setError(message)</code></td><td>Shows an error line instead of results and ends <code>searching</code>. Returns <code>this</code>.</td></tr>
+        <tr><td><code>clear()</code></td><td>Empties the box and the results and closes the list. Returns <code>this</code>.</td></tr>
+        <tr><td><code>focus()</code></td><td>Focuses the box.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="eventsRef"><a href="#eventsRef" class="no-link">Events</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Event</th><th>Detail</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>search</code></td><td><code>{ value: String }</code></td><td>Typing paused for <code>debounce-ms</code> and at least <code>min-length</code> characters are typed. <code>value</code> is the trimmed text. Answer it with <code>setResults()</code> or <code>setError()</code>. Only the last text typed fires, so an earlier search never needs cancelling here, but your own request for an earlier text can still arrive late: ignore it if the text has changed.</td></tr>
+        <tr><td><code>select</code></td><td><code>{ result: Object }</code></td><td>A result was clicked or chosen with <kbd>Enter</kbd>. Cancelable: <code>preventDefault()</code> stops the link or navigation, for a result you open yourself.</td></tr>
+      </tbody>
+    </table>
+    <p>The native <code>input</code> event from the box also bubbles out, so you can follow every keystroke.</p>
+
+    <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Property</th><th>Default</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>--min-width</code></td><td><code>22rem</code></td><td>The least width of the results list, which is otherwise as wide as the box.</td></tr>
+      </tbody>
+    </table>
+    <p>Colors, borders, spacing and animation timing come from kempo-css.</p>
+  
+  </k-main>
+  <div style="height:33vh"></div>
+  <script type="module" src="../src/components/Main.js"></script>
+  
+    <script type="module" src="../src/components/SearchDropdown.js"></script>
+    <script type="module" src="../src/components/Accordion.js"></script>
+    <script type="module" src="../src/components/Card.js"></script>
+    <script type="module">
+      const pages = [
+        { group: 'Pages', title: 'Pricing', url: '#pricing', description: 'What our plans cost' },
+        { group: 'Pages', title: 'About us', url: '#about', description: 'Who we are' },
+        { group: 'Pages', title: 'Contact', url: '#contact', description: 'How to reach us' },
+        { group: 'People', title: 'Ada Lovelace', description: 'ada@example.com' },
+        { group: 'People', title: 'Grace Hopper', description: 'grace@example.com' }
+      ];
+
+      const fake = (dropdown, source) => dropdown.addEventListener('search', e => {
+        setTimeout(() => dropdown.setResults(source.filter(item => (item.title + ' ' + (item.description || '')).toLowerCase().includes(e.detail.value.toLowerCase()))), 500);
+      });
+
+      const basic = document.querySelector('#basicDropdown');
+      fake(basic, pages.map(({ group, ...item }) => item).filter(item => item.url));
+      basic.addEventListener('select', e => {
+        e.preventDefault();
+        document.querySelector('#basicResult').textContent = 'Chose: ' + e.detail.result.title;
+      });
+
+      fake(document.querySelector('#groupDropdown'), pages);
+      fake(document.querySelector('#navDropdown'), pages.filter(item => item.url));
+
+      document.querySelector('#searchForm').addEventListener('submit', e => {
+        e.preventDefault();
+        document.querySelector('#formResult').textContent = 'Submitted: q=' + new FormData(e.target).get('q');
+      });
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,237 @@
+<page pageName="Search Dropdown" title="Search Dropdown - Components - Kempo Docs - A Web Components Solution">
+  <content location="header"></content>
+  <content>
+    <h1 class="ta-center">Search Dropdown</h1>
+
+    <k-accordion persistent-id="toc" class="b r mb">
+      <k-accordion-header for-panel="toc-panel">Table of Contents</k-accordion-header>
+      <k-accordion-panel name="toc-panel">
+        <div class="m pl">
+          <h6>Examples</h6>
+          <a href="#basicUsage">Basic Usage</a><br />
+          <a href="#groups">Groups</a><br />
+          <a href="#inAForm">In a Form</a><br />
+          <a href="#inANav">In a Nav</a><br />
+          <a href="#readonly">Read-only</a><br />
+
+          <h6 class="mt"><a href="#jsRef" class="no-link">JavaScript Reference</a></h6>
+          <a href="#constructor">Constructor</a><br />
+          <a href="#requirements">Requirements</a><br />
+          <a href="#attributes">Attributes / Properties</a><br />
+          <a href="#resultsRef">Results</a><br />
+          <a href="#methods">Methods</a><br />
+          <a href="#eventsRef">Events</a><br />
+          <a href="#cssVars">CSS Custom Properties</a><br />
+        </div>
+      </k-accordion-panel>
+    </k-accordion>
+
+    <p>A search box that shows what was found in a popover under it, as the person types. It does not know where results come from: when typing pauses it fires <code>search</code>, and you answer with <code>setResults()</code>. That is what makes it work with any search, such as a site's own search API. Use it where the result is somewhere to go (a page, a record); to pick a value for a form field use <a href="./combobox.html">Combobox</a>, which keeps the option chosen.</p>
+
+    <h3 id="basicUsage"><a href="#basicUsage" class="no-link">Basic Usage</a></h3>
+    <p>Listen for <code>search</code> and call <code>setResults()</code> with a list of results. Each result has a <code>title</code> and, usually, a <code>url</code> (it is drawn as a link, so it can be opened in a new tab) and a <code>description</code>. The box shows a spinner from the moment typing pauses until you answer, and <code>setError()</code> shows a message instead. Nothing is searched until <code>min-length</code> characters (2) are typed.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;basicDropdown&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search the docs...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript"><span class="hljs-keyword">const</span> dropdown = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#basicDropdown&#x27;</span>);<br>dropdown.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;search&#x27;</span>, <span class="hljs-keyword">async</span> e =&gt; {<br>  <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/search?q=&#x27;</span> + <span class="hljs-built_in">encodeURIComponent</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));<br>  <span class="hljs-keyword">if</span>(!response.<span class="hljs-property">ok</span>) <span class="hljs-keyword">return</span> dropdown.<span class="hljs-title function_">setError</span>(<span class="hljs-string">&#x27;The search failed.&#x27;</span>);<br>  dropdown.<span class="hljs-title function_">setResults</span>(<span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>());<br>});<br>dropdown.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;select&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Chose&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">result</span>.<span class="hljs-property">title</span>);<br>});</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-search-dropdown id="basicDropdown" placeholder="Search the docs..."></k-search-dropdown>
+          <p class="mt" id="basicResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="groups"><a href="#groups" class="no-link">Groups</a></h3>
+    <p>Results that share a <code>group</code> are listed under a heading. A heading is drawn where the group changes from one result to the next, so send the results grouped.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;groupDropdown&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search pages and people...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="JavaScript">
+          <pre><code class="hljs javascript">dropdown.<span class="hljs-title function_">setResults</span>([<br>  { <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;Pages&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Pricing&#x27;</span>, <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/pricing&#x27;</span>, <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;What our plans cost&#x27;</span> },<br>  { <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;Pages&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;About us&#x27;</span>, <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/about&#x27;</span> },<br>  { <span class="hljs-attr">group</span>: <span class="hljs-string">&#x27;People&#x27;</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Ada Lovelace&#x27;</span>, <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;ada@example.com&#x27;</span> }<br>]);</code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-search-dropdown id="groupDropdown" placeholder="Search pages and people..."></k-search-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="inAForm"><a href="#inAForm" class="no-link">In a Form</a></h3>
+    <p>The search dropdown is form-associated: its text is submitted under <code>name</code>. Pressing <kbd>Enter</kbd> with no result chosen submits the form it is in, so the same box can go straight to a full results page (<code>&lt;form action="/search"&gt;</code>), and still show a quick preview as you type. <code>required</code>, a form reset and a disabled <code>&lt;fieldset&gt;</code> work as for the other form components.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;searchForm&quot;</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/search&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;q&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Press Enter for all results...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <form id="searchForm" action="/search">
+            <k-search-dropdown name="q" placeholder="Press Enter for all results..."></k-search-dropdown>
+          </form>
+          <p class="mt" id="formResult"></p>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="inANav"><a href="#inANav" class="no-link">In a Nav</a></h3>
+    <p>It sizes to the width you give it, and the popover is at least <code>22rem</code> wide (<code>--min-width</code>) and opens in the top layer, so a narrow box in a <a href="./nav.html">nav</a> still shows full results and is never clipped by the nav. It flips to stay on screen near the edge of the window.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-nav</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">no-collapse</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;navDropdown&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 10rem&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">k-nav</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <div class="b r p">
+            <k-search-dropdown id="navDropdown" placeholder="Search" style="width: 10rem"></k-search-dropdown>
+          </div>
+        </k-card>
+      </div>
+    </div>
+
+    <h3 id="readonly"><a href="#readonly" class="no-link">Read-only</a></h3>
+    <p>The <code>readonly</code> attribute shows the text and keeps it in the form, but the person cannot type or open the results. It stays in the tab order.</p>
+    <div class="row -mx">
+      <div class="col m-span-12 px">
+        <k-card label="HTML">
+          <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">k-search-dropdown</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;q&quot;</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pricing&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">k-search-dropdown</span>&gt;</span></code></pre>
+        </k-card>
+      </div>
+      <div class="col m-span-12 px">
+        <k-card label="Output">
+          <k-search-dropdown name="q" readonly value="pricing"></k-search-dropdown>
+        </k-card>
+      </div>
+    </div>
+
+    <h2 id="jsRef"><a href="#jsRef" class="no-link">JavaScript Reference</a></h2>
+
+    <h3 id="constructor"><a href="#constructor" class="no-link">Constructor</a></h3>
+    <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;path/to/kempo-ui/components/SearchDropdown.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+    <p><code>SearchDropdown.js</code> imports <code>Spinner.js</code> itself.</p>
+
+    <h3 id="requirements"><a href="#requirements" class="no-link">Requirements</a></h3>
+    <ul>
+      <li><a href="./spinner.html"><code>k-spinner</code></a> &mdash; the searching indicator (imported by the component)</li>
+    </ul>
+
+    <h3 id="attributes"><a href="#attributes" class="no-link">Attributes / Properties</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Attribute</th><th>Property</th><th>Type</th><th>Default</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>value</code></td><td><code>value</code></td><td><code>String</code></td><td><code>''</code></td><td>The text in the box.</td></tr>
+        <tr><td><code>name</code></td><td><code>name</code></td><td><code>String</code></td><td><code>''</code></td><td>Form field name: the text is submitted under it.</td></tr>
+        <tr><td><code>placeholder</code></td><td><code>placeholder</code></td><td><code>String</code></td><td><code>''</code></td><td>Placeholder text for the box.</td></tr>
+        <tr><td><code>opened</code></td><td><code>opened</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>Whether the results are showing.</td></tr>
+        <tr><td><code>searching</code></td><td><code>searching</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>True from when typing pauses until <code>setResults()</code> or <code>setError()</code> is called. Shows the spinner.</td></tr>
+        <tr><td><code>min-length</code></td><td><code>minLength</code></td><td><code>Number</code></td><td><code>2</code></td><td>How many characters (not counting spaces at either end) must be typed before anything is searched.</td></tr>
+        <tr><td><code>debounce-ms</code></td><td><code>debounceMs</code></td><td><code>Number</code></td><td><code>300</code></td><td>Milliseconds to wait after typing before firing <code>search</code>.</td></tr>
+        <tr><td><code>no-results-message</code></td><td><code>noResultsMessage</code></td><td><code>String</code></td><td><code>'No results'</code></td><td>Shown when <code>setResults()</code> was given an empty list.</td></tr>
+        <tr><td><code>required</code></td><td><code>required</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>The form cannot be submitted while the box is empty.</td></tr>
+        <tr><td><code>disabled</code></td><td><code>disabled</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>Disables the box and leaves it out of the form. A disabled fieldset sets it too.</td></tr>
+        <tr><td><code>readonly</code></td><td><code>readonly</code></td><td><code>Boolean</code></td><td><code>false</code></td><td>The text is shown and still submitted, but cannot be changed and the results do not open.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="resultsRef"><a href="#resultsRef" class="no-link">Results</a></h3>
+    <p><code>setResults()</code> takes a list of objects. Anything else in the list is ignored.</p>
+    <table class="b r">
+      <thead>
+        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>title</code></td><td><code>String</code></td><td>The main text. Falls back to <code>url</code>, then &ldquo;Untitled&rdquo;.</td></tr>
+        <tr><td><code>url</code></td><td><code>String</code></td><td>Where the result goes. It is drawn as a link and followed on <kbd>Enter</kbd> unless <code>select</code> is cancelled. Without one the result is only reported through <code>select</code>. <strong>Only pass addresses you trust</strong>: the value is used as a link as it is.</td></tr>
+        <tr><td><code>description</code></td><td><code>String</code></td><td>A line of secondary text under the title.</td></tr>
+        <tr><td><code>group</code></td><td><code>String</code></td><td>A heading drawn where it changes from the result before.</td></tr>
+      </tbody>
+    </table>
+    <p>Your own fields can ride along; <code>select</code> gives the whole object back.</p>
+
+    <h3 id="methods"><a href="#methods" class="no-link">Methods</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Method</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>setResults(results)</code></td><td>Shows the results, ends <code>searching</code> and opens the list if it is closed. An empty list shows <code>no-results-message</code>. Returns <code>this</code>.</td></tr>
+        <tr><td><code>setError(message)</code></td><td>Shows an error line instead of results and ends <code>searching</code>. Returns <code>this</code>.</td></tr>
+        <tr><td><code>clear()</code></td><td>Empties the box and the results and closes the list. Returns <code>this</code>.</td></tr>
+        <tr><td><code>focus()</code></td><td>Focuses the box.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="eventsRef"><a href="#eventsRef" class="no-link">Events</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Event</th><th>Detail</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>search</code></td><td><code>{ value: String }</code></td><td>Typing paused for <code>debounce-ms</code> and at least <code>min-length</code> characters are typed. <code>value</code> is the trimmed text. Answer it with <code>setResults()</code> or <code>setError()</code>. Only the last text typed fires, so an earlier search never needs cancelling here, but your own request for an earlier text can still arrive late: ignore it if the text has changed.</td></tr>
+        <tr><td><code>select</code></td><td><code>{ result: Object }</code></td><td>A result was clicked or chosen with <kbd>Enter</kbd>. Cancelable: <code>preventDefault()</code> stops the link or navigation, for a result you open yourself.</td></tr>
+      </tbody>
+    </table>
+    <p>The native <code>input</code> event from the box also bubbles out, so you can follow every keystroke.</p>
+
+    <h3 id="cssVars"><a href="#cssVars" class="no-link">CSS Custom Properties</a></h3>
+    <table class="b r">
+      <thead>
+        <tr><th>Property</th><th>Default</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>--min-width</code></td><td><code>22rem</code></td><td>The least width of the results list, which is otherwise as wide as the box.</td></tr>
+      </tbody>
+    </table>
+    <p>Colors, borders, spacing and animation timing come from kempo-css.</p>
+  </content>
+  <content location="scripts">
+    <script type="module" src="{{pathToRoot}}src/components/SearchDropdown.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Accordion.js"></script>
+    <script type="module" src="{{pathToRoot}}src/components/Card.js"></script>
+    <script type="module">
+      const pages = [
+        { group: 'Pages', title: 'Pricing', url: '#pricing', description: 'What our plans cost' },
+        { group: 'Pages', title: 'About us', url: '#about', description: 'Who we are' },
+        { group: 'Pages', title: 'Contact', url: '#contact', description: 'How to reach us' },
+        { group: 'People', title: 'Ada Lovelace', description: 'ada@example.com' },
+        { group: 'People', title: 'Grace Hopper', description: 'grace@example.com' }
+      ];
+
+      const fake = (dropdown, source) => dropdown.addEventListener('search', e => {
+        setTimeout(() => dropdown.setResults(source.filter(item => (item.title + ' ' + (item.description || '')).toLowerCase().includes(e.detail.value.toLowerCase()))), 500);
+      });
+
+      const basic = document.querySelector('#basicDropdown');
+      fake(basic, pages.map(({ group, ...item }) => item).filter(item => item.url));
+      basic.addEventListener('select', e => {
+        e.preventDefault();
+        document.querySelector('#basicResult').textContent = 'Chose: ' + e.detail.result.title;
+      });
+
+      fake(document.querySelector('#groupDropdown'), pages);
+      fake(document.querySelector('#navDropdown'), pages.filter(item => item.url));
+
+      document.querySelector('#searchForm').addEventListener('submit', e => {
+        e.preventDefault();
+        document.querySelector('#formResult').textContent = 'Submitted: q=' + new FormData(e.target).get('q');
+      });
+    </script>
+  </content>
+</page>

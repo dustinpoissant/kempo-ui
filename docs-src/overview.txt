@@ -46,6 +46,7 @@ color-picker: pick a color
 icon-selector: pick an icon from a searchable grid, submits its name
 dropzone: a dashed area to drop files on or click to pick files, reports them in a files event
 combobox: dropdown input with search and suggestions
+search-dropdown: search box that shows results (links) in a popover as you type, you supply the results
 tags: input for a list of tags
 segmented-control: row of buttons where one is selected
 image-crop: upload an image and crop it
